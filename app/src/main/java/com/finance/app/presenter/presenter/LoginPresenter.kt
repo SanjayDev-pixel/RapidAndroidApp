@@ -1,0 +1,56 @@
+package com.finance.app.presenter.presenter
+
+import com.finance.app.presenter.connector.LoginConnector
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.ConstantsApi
+import motobeans.architecture.development.interfaces.ApiProject
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.response.Response
+import javax.inject.Inject
+
+/**
+ * Created by munishkumarthakur on 31/12/17.
+ */
+class LoginPresenter(private val viewOpt: LoginConnector.ViewOpt) : LoginConnector.PresenterOpt {
+
+    @Inject
+    lateinit var apiProject: ApiProject
+    @Inject
+    lateinit var sharedPreferencesUtil: SharedPreferencesUtil
+
+    init {
+        ArchitectureApp.instance.component.inject(this)
+    }
+
+    override fun callNetwork(type: ConstantsApi) {
+        when (type) {
+            ConstantsApi.CALL_LOGIN -> {
+                callLoginApi()
+            }
+        }
+    }
+
+    private fun callLoginApi() {
+        val requestApi = apiProject.api.loginUser(viewOpt.loginRequest)
+
+        requestApi
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
+                .doFinally { viewOpt.hideProgressDialog() }
+                .subscribe({ resposne -> onNextLogin(resposne) },
+                        { e -> viewOpt.getLoginFailure(e?.message ?: "") })
+    }
+
+    private fun onNextLogin(response: Response.ResponseLogin) {
+        val msg = "Unable to get User"
+        if (response.responseCode == "200") {
+            sharedPreferencesUtil.saveLoginData(response = response)
+            viewOpt.getLoginSuccess(response)
+        } else {
+            viewOpt.getLoginFailure(response.responseMsg)
+        }
+    }
+}

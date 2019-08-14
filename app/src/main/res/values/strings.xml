@@ -1,0 +1,20 @@
+<resources>
+  <string name="app_name">DMI</string>
+
+  <string name="action_sync">Sync</string>
+  <string name="action_search">Search</string>
+  <string name="user_name">User Name</string>
+  <string name="password">Password</string>
+  <string name="login">Login</string>
+  <string name="forgot_password">Forgot Password?</string>
+  <string name="select_company">Select Company</string>
+  <string name="shortfall">Shortfall</string>
+  <string name="achieved">Achieved</string>
+  <string name="login_overview">Login Overview</string>
+  <string name="files">Files</string>
+  <string name="volume">Volume</string>
+  <string name="volume_in_lakh">Volume (In Lakh)</string>
+  <string name="target">Target</string>
+    <string name="shortage">% Shortage</string>
+  <string name="percent_achieved">% Achieved</string>
+</resources>

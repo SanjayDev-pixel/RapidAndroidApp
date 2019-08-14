@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/main_page_padding">
+
+            <RelativeLayout
+                android:padding="0sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingStart="@dimen/main_page_padding"
+                android:paddingEnd="@dimen/main_page_padding">
+
+                <Spinner
+                    android:id="@+id/spinnerModule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Spinner
+                    android:id="@+id/spinnerSlot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/main_page_padding">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_overview" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutShortfall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/layoutAchieved"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="12sp"
+                            android:layout_height="12sp"
+                            android:layout_marginEnd="@dimen/layout_margin_10"
+                            android:src="@drawable/circle_drawable"
+                            android:tint="@color/md_blue_grey_100" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/shortfall" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/layoutAchieved"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="15sp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="12sp"
+                            android:layout_height="12sp"
+                            android:layout_marginEnd="@dimen/layout_margin_10"
+                            android:src="@drawable/circle_drawable"
+                            android:tint="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/achieved" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin_20">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/files"
+                        android:textSize="20sp" />
+
+                    <include
+                        android:id="@+id/progressFiles"
+                        layout="@layout/progress_chart" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layoutVolume"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin_20">
+
+                    <TextView
+                        android:id="@+id/tvVolume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/volume"
+                        android:textSize="20sp" />
+
+                    <include
+                        android:id="@+id/progressVolume"
+                        layout="@layout/progress_chart" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/layout_margin_20"
+                    android:background="@color/md_grey_200"
+                    android:padding="@dimen/layout_margin_10">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:gravity="end"
+                        android:text="@string/files" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="end"
+                        android:text="@string/volume_in_lakh" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutChartData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_10">
+
+                        <TextView
+                            android:id="@+id/tvTarget"
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:text="@string/target" />
+
+                        <TextView
+                            android:id="@+id/tvTargetFiles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvTargetVolume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+
+                    <include layout="@layout/line_seperator" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_10">
+
+                        <TextView
+                            android:id="@+id/tvAchieved"
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:text="@string/achieved" />
+
+                        <TextView
+                            android:id="@+id/tvAchievedFiles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvAchievedVolume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+
+                    <include layout="@layout/line_seperator" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_10">
+
+                        <TextView
+                            android:id="@+id/tvPercentAchieved"
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:text="@string/percent_achieved" />
+
+                        <TextView
+                            android:id="@+id/tvPercentAchievedFiles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvPercentAchievedVolume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+
+                    <include layout="@layout/line_seperator" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_10">
+
+                        <TextView
+                            android:id="@+id/tvPercentShortfall"
+                            android:layout_width="0sp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:text="@string/shortage" />
+
+                        <TextView
+                            android:id="@+id/tvPercentShortfallFiles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvPercentShortfallVolume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

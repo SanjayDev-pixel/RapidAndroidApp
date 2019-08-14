@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="colorPrimaryDark">#0d2335</color>
+  <color name="colorPrimary">#13334C</color>
+  <color name="colorPrimaryLight">#425b6f</color>
+  <color name="colorAccent">#13334C</color>
+
+  <color name="gradientColorPrimary">#9013334C</color>
+
+  <color name="black">#000000</color>
+  <color name="white">#ffffff</color>
+  <color name="bottom_sheet_background">#ffffff</color>
+  <color name="card_background">#a3e9a4</color>
+  <color name="card_upper_background">#0a8f08</color>
+
+  <color name="toolbar_background_color">#FAFAFA</color>
+
+  <color name="divider">#acacac</color>
+  <color name="divider_light">@color/md_grey_300</color>
+
+  <color name="theme_text_color">#6d6d6d</color>
+  <color name="record_activity">#26444B</color>
+  <color name="theme_color_error_text">@color/md_red_800</color>
+  <color name="theme_color_cards">#F7EFE4</color>
+  <color name="theme_text_heading">#424243</color>
+  <color name="foreground_material_light">#cfa6a6</color>
+  <color name="primary_material_light">#4caf50</color>
+  <color name="primary_dark_material_light">#28782c</color>
+  <color name="gradient_black">#85000000</color>
+
+  <color name="error_text">#c41411</color>
+
+  <color name="download_color_failure">@color/divider</color>
+  <color name="download_color_success">@color/md_green_800</color>
+
+
+  <color name="web_link">@color/md_blue_500</color>
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:orientation="vertical"
+      android:background="?attr/colorPrimary"
+      >
+
+    <LinearLayout
+        android:id="@+id/llToolbarBack"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+
+      <ImageView
+          android:id="@+id/ivToolbarBack"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="@dimen/_10sdp"
+          android:src="@drawable/ic_vector_back"
+          android:tint="@color/white"
+          android:alpha="0.81"
+          />
+
+      <TextView
+          android:id="@+id/tvToolbarTitle"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:maxLines="1"
+          android:textColor="@color/white"
+          android:alpha="0.81"
+          android:textSize="18dp"
+          android:ellipsize="end"
+          android:text=""
+          android:paddingRight="@dimen/_30sdp"
+          />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorPrimary"
+        />
+  </LinearLayout>
+</layout>
