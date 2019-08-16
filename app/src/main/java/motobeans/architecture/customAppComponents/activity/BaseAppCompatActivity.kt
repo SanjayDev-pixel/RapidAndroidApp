@@ -3,6 +3,7 @@ package motobeans.architecture.customAppComponents.activity
 import android.app.ProgressDialog
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.v4.app.FragmentActivity
 import android.view.MenuItem
 import android.view.View
@@ -17,7 +18,7 @@ import motobeans.architecture.util.exShowToast
 /**
  * Created by munishkumarthakur on 04/11/17.
  */
-abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
+abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView, NavigationView.OnNavigationItemSelectedListener {
 
   abstract fun init()
 
@@ -25,7 +26,6 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   private var view: View? = null
   private lateinit var bindingParent: CustomActionbaractivityWithBackBinding
 
-  val fragmentActivity: FragmentActivity = this
   /**
    * View Binding setContentView(id)
    */
@@ -39,34 +39,30 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
     ArchitectureApp.instance.component.inject(this)
 
+    hideToolbar()
     setContentBindingTemp()
     initializeViewBindingTemp()
 
   }
 
   private fun initializeViewBindingTemp() {
-    view = bindingParent?.root
+    view = bindingParent.root
 
     initializeOtherViews()
 
     setToolbar()
     showToolbar()
-    showBack()
     applyDefaultFont()
 
     init()
   }
 
   private fun initializeOtherViews() {
-    bindingParent.includeToolbar!!.llToolbarBack.setOnClickListener { _ -> onBackPressed() }
+//    bindingParent.includeToolbar.llToolbarBack.setOnClickListener { onBackPressed() }
   }
 
   fun getParentBinding(): CustomActionbaractivityWithBackBinding {
     return bindingParent
-  }
-
-  fun getView(): View? {
-    return view
   }
 
   fun applyDefaultFont() {
@@ -77,29 +73,12 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     setSupportActionBar(bindingParent.toolbarMain)
   }
 
-  fun showBack() {
-    showToolbar()
-    bindingParent.includeToolbar!!.ivToolbarBack.visibility = View.VISIBLE
-  }
-
-  fun hideBack() {
-    bindingParent.includeToolbar!!.ivToolbarBack.visibility = View.GONE
-  }
-
   fun showToolbar() {
     supportActionBar?.show()
   }
 
   fun hideToolbar() {
     supportActionBar?.hide()
-  }
-
-  fun setTitleCustom(title: String?) {
-    bindingParent.includeToolbar?.tvToolbarTitle?.text = title ?: ""
-  }
-
-  fun setIsBackPressDialogToShow(isBackPressDialogToShow: Boolean){
-    this.isBackPressDialogToShow = isBackPressDialogToShow
   }
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -134,8 +113,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   override fun onBackPressed() {
     when(isBackPressDialogToShow){
       true -> {
-        var msg = "You really want to exit?"
-        var fragment = CommonDialogFragment.newInstance(msg)
+        val msg = "You really want to exit?"
+        val fragment = CommonDialogFragment.newInstance(msg)
         fragment.show(supportFragmentManager, "")
         fragment.setListener({ fragment.dismiss() }, { super.onBackPressed() })
       }
@@ -143,6 +122,9 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         super.onBackPressed()
       }
     }
+  }
 
+  override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 }

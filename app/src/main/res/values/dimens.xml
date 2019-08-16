@@ -15,7 +15,8 @@
   <dimen name="card_default_size">@dimen/_70sdp</dimen>
   <dimen name="multiline_edit_text_min_height">@dimen/_100sdp</dimen>
     <dimen name="main_page_padding">15sp</dimen>
-    <dimen name="layout_margin_10">10sp</dimen>
-    <dimen name="layout_margin_20">20sp</dimen>
+    <dimen name="margin_10">10sp</dimen>
+    <dimen name="margin_20">20sp</dimen>
     <dimen name="padding_10">10sp</dimen>
+    <dimen name="profile_page_padding">40sp</dimen>
 </resources>

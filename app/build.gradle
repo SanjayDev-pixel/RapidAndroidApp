@@ -164,6 +164,9 @@ dependencies {
   // Text Drawable
   implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
+  //Circle Image View
+  implementation 'de.hdodenhof:circleimageview:3.0.0'
+
   implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
     transitive = true
   }

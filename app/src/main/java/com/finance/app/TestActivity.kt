@@ -54,18 +54,9 @@ class TestActivity : BaseAppCompatActivity(), TestConnector.ViewOpt {
   private val bundleString1: String? by BundleValueProvider(this,
       KEY_TEMP_STRING_1)
 
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-  }
-
   override fun init() {
 
-    setTitleCustom("Feedback")
-    hideBack()
-
     ArchitectureApp.instance.component.inject(this)
-
     presenter = TestPresenter(viewOpt = this)
     binding.btnCreatePin.setOnClickListener {
       hitTempApi()

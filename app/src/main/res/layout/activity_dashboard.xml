@@ -35,7 +35,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginTop="@dimen/margin_10"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="@dimen/main_page_padding">
@@ -59,7 +59,7 @@
                         <ImageView
                             android:layout_width="12sp"
                             android:layout_height="12sp"
-                            android:layout_marginEnd="@dimen/layout_margin_10"
+                            android:layout_marginEnd="@dimen/margin_10"
                             android:src="@drawable/circle_drawable"
                             android:tint="@color/md_blue_grey_100" />
 
@@ -82,7 +82,7 @@
                         <ImageView
                             android:layout_width="12sp"
                             android:layout_height="12sp"
-                            android:layout_marginEnd="@dimen/layout_margin_10"
+                            android:layout_marginEnd="@dimen/margin_10"
                             android:src="@drawable/circle_drawable"
                             android:tint="@color/colorPrimary" />
 
@@ -98,7 +98,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_20">
+                    android:layout_marginTop="@dimen/margin_20">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
                     android:id="@+id/layoutVolume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_20">
+                    android:layout_marginTop="@dimen/margin_20">
 
                     <TextView
                         android:id="@+id/tvVolume"
@@ -133,9 +133,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="@dimen/layout_margin_20"
+                    android:layout_marginTop="@dimen/margin_20"
                     android:background="@color/md_grey_200"
-                    android:padding="@dimen/layout_margin_10">
+                    android:padding="@dimen/margin_10">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
                     android:id="@+id/layoutChartData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:orientation="vertical">
 
                     <LinearLayout

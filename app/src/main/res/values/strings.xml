@@ -17,4 +17,13 @@
   <string name="target">Target</string>
     <string name="shortage">% Shortage</string>
   <string name="percent_achieved">% Achieved</string>
+  <string name="send_notification">Send Notification</string>
+  <string name="send_sms">Send Sms</string>
+  <string name="send_whatsapp">Send Whatsapp</string>
+  <string name="call_to_customer">Call To Customer</string>
+  <string name="designation">Designation :</string>
+    <string name="assingments">Assingments</string>
+  <string name="tasks">Tasks</string>
+    <string name="total_tasks">Total Tasks</string>
+    <string name="branch">Branch :</string>
 </resources>
