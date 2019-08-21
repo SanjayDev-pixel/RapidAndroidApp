@@ -5,7 +5,8 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.CoordinatorLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -18,6 +19,7 @@
                 <android.support.design.widget.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/collapsingToolbar"
                     android:fitsSystemWindows="true"
                     app:layout_scrollFlags="snap">
                     <FrameLayout
@@ -44,6 +46,41 @@
                 </android.support.design.widget.CollapsingToolbarLayout>
             </android.support.design.widget.AppBarLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_vector_back"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="Back"
+                    android:textSize="20sp" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/tvLeadNumber"
+                    android:drawablePadding="20dp"
+                    android:text="Lead Number : " />
+
+                <TextView
+                    android:id="@+id/tvLeadNumber"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:drawablePadding="20dp"
+                    android:text="12345" />
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/llInflatorContainer"
                 android:layout_width="match_parent"
@@ -51,6 +88,6 @@
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        </android.support.design.widget.CoordinatorLayout>
+        </LinearLayout>
     </FrameLayout>
 </layout>

@@ -15,7 +15,7 @@
                 android:padding="0sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorAccent"
                 android:paddingStart="@dimen/main_page_padding"
                 android:paddingEnd="@dimen/main_page_padding">
 
@@ -84,7 +84,7 @@
                             android:layout_height="12sp"
                             android:layout_marginEnd="@dimen/margin_10"
                             android:src="@drawable/circle_drawable"
-                            android:tint="@color/colorPrimary" />
+                            android:tint="@color/colorPrimaryDark" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
                     android:id="@+id/layoutVolume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_20">
+                    android:layout_marginTop="50sp">
 
                     <TextView
                         android:id="@+id/tvVolume"
@@ -133,7 +133,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="@dimen/margin_20"
+                    android:layout_marginTop="50sp"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:background="@color/md_grey_200"
                     android:padding="@dimen/margin_10">
 
@@ -147,14 +148,14 @@
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
-                        android:gravity="end"
+                        android:gravity="center"
                         android:text="@string/files" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:gravity="end"
+                        android:gravity="center"
                         android:text="@string/volume_in_lakh" />
 
                 </LinearLayout>
@@ -176,14 +177,14 @@
                             android:id="@+id/tvTarget"
                             android:layout_width="0sp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="4"
+                            android:layout_weight="3"
                             android:text="@string/target" />
 
                         <TextView
                             android:id="@+id/tvTargetFiles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="2"
                             android:gravity="center" />
 
                         <TextView
@@ -197,6 +198,7 @@
 
                     <include layout="@layout/line_seperator" />
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -207,14 +209,14 @@
                             android:id="@+id/tvAchieved"
                             android:layout_width="0sp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="4"
+                            android:layout_weight="3"
                             android:text="@string/achieved" />
 
                         <TextView
                             android:id="@+id/tvAchievedFiles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="2"
                             android:gravity="center" />
 
                         <TextView
@@ -238,14 +240,14 @@
                             android:id="@+id/tvPercentAchieved"
                             android:layout_width="0sp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="4"
+                            android:layout_weight="3"
                             android:text="@string/percent_achieved" />
 
                         <TextView
                             android:id="@+id/tvPercentAchievedFiles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="2"
                             android:gravity="center" />
 
                         <TextView
@@ -269,14 +271,14 @@
                             android:id="@+id/tvPercentShortfall"
                             android:layout_width="0sp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="4"
+                            android:layout_weight="3"
                             android:text="@string/shortage" />
 
                         <TextView
                             android:id="@+id/tvPercentShortfallFiles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="2"
                             android:gravity="center" />
 
                         <TextView

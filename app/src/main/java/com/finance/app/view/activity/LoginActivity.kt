@@ -2,12 +2,10 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.presenter.connector.LoginConnector
 import com.finance.app.presenter.presenter.LoginPresenter
-import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
@@ -29,11 +27,12 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
     }
 
     override fun init() {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        actionBar?.hide()
+        hideToolbar()
 
+//        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            presenterOpt.callNetwork(ConstantsApi.CALL_LOGIN)
+            DashboardActivity.start(this)
+//            presenterOpt.callNetwork(ConstantsApi.CALL_LOGIN)
         }
     }
 
@@ -47,15 +46,16 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
     override val loginRequest: Requests.RequestLogin
         get() = mLoginRequestLogin
 
+    //    Handle success of api
     override fun getLoginSuccess(value: Response.ResponseLogin) {
         saveResponseToDB(value)
         DashboardActivity.start(this)
     }
 
     private fun saveResponseToDB(response: Response.ResponseLogin) {
-
     }
 
+    //    Handle failure of api
     override fun getLoginFailure(msg: String) {
         showToast(msg)
     }

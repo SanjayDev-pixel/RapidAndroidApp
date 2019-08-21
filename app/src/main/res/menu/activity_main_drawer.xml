@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/send_notification"
+            android:title="@string/send_notification" />
+        <item
+            android:id="@+id/send_sms"
+            android:title="@string/send_sms" />
+        <item
+            android:id="@+id/send_whatsapps"
+            android:title="@string/send_whatsapp" />
+
+        <item
+            android:id="@+id/call_to_customers"
+            android:title="@string/call_to_customer" />
+    </group>
+</menu>

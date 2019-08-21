@@ -5,8 +5,8 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
+import com.finance.app.databinding.ActivityBaseBinding
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import com.finance.app.databinding.CustomActionbaractivityWithBackBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -23,9 +23,8 @@ class ActivityBindingProviderDelegate<out T : ViewDataBinding>(
             baseAppCompatActivity.getParentBinding()).also { binding = it }
     }
 
-    private fun createBinding(bindingParent: CustomActionbaractivityWithBackBinding): T {
-
-        val inflator = LayoutInflater.from(bindingParent.llInflatorContainer?.context)
-        return DataBindingUtil.inflate(inflator, layoutRes, bindingParent.llInflatorContainer, true)
+    private fun createBinding(bindingParent: ActivityBaseBinding): T {
+        val inflater = LayoutInflater.from(bindingParent.appBarWithLayout.llInflatorContainer.context)
+        return DataBindingUtil.inflate(inflater, layoutRes, bindingParent.appBarWithLayout.llInflatorContainer, true)
     }
 }

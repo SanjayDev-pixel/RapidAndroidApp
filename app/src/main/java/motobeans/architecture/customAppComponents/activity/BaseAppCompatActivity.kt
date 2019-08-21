@@ -1,15 +1,18 @@
 package motobeans.architecture.customAppComponents.activity
 
 import android.app.ProgressDialog
+import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentActivity
+import android.support.v4.view.GravityCompat
+import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
 import com.finance.app.R
+import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.presenter.connector.ReusableView
-import com.finance.app.databinding.CustomActionbaractivityWithBackBinding
+import com.finance.app.view.activity.DashboardActivity
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.util.DialogFactory
@@ -18,85 +21,117 @@ import motobeans.architecture.util.exShowToast
 /**
  * Created by munishkumarthakur on 04/11/17.
  */
-abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView, NavigationView.OnNavigationItemSelectedListener {
+abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   abstract fun init()
+  private lateinit var toggle: ActionBarDrawerToggle
 
   private var isBackPressDialogToShow = false
   private var view: View? = null
-  private lateinit var bindingParent: CustomActionbaractivityWithBackBinding
+  private lateinit var bindingParent: ActivityBaseBinding
 
   /**
    * View Binding setContentView(id)
    */
-  fun setContentBindingTemp() {
+
+  companion object {
+    internal var progressDialog: ProgressDialog? = null
+  }
+
+  private fun setContentBindingTemp() {
     bindingParent = DataBindingUtil.setContentView(getActivity(),
-        R.layout.custom_actionbaractivity_with_back)
+            R.layout.activity_base)
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
     ArchitectureApp.instance.component.inject(this)
-
     hideToolbar()
     setContentBindingTemp()
     initializeViewBindingTemp()
-
   }
 
   private fun initializeViewBindingTemp() {
     view = bindingParent.root
 
     initializeOtherViews()
-
     setToolbar()
     showToolbar()
     applyDefaultFont()
-
     init()
   }
 
   private fun initializeOtherViews() {
-//    bindingParent.includeToolbar.llToolbarBack.setOnClickListener { onBackPressed() }
+    setSupportActionBar(bindingParent.appBarWithLayout.toolbarMain)
+    toggle = ActionBarDrawerToggle(this, bindingParent.drawerLayout,
+            bindingParent.appBarWithLayout.toolbarMain, R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close)
+    bindingParent.drawerLayout.addDrawerListener(toggle)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    supportActionBar?.setHomeButtonEnabled(true)
+    setupDrawerContent(bindingParent.navView)
   }
 
-  fun getParentBinding(): CustomActionbaractivityWithBackBinding {
-    return bindingParent
+  private fun setupDrawerContent(navView: NavigationView) {
+    navView.setNavigationItemSelectedListener {
+      selectDrawerItem(it)
+      return@setNavigationItemSelectedListener true
+    }
   }
 
-  fun applyDefaultFont() {
-    //ArchitectureApp.instance.settingFontToViewGroup(UBUNTU_REGULAR, view)
+  private fun selectDrawerItem(menuItem: MenuItem) {
+    when (menuItem.itemId) {
+      R.id.notification -> {
+      }
+      R.id.dashboard -> {
+        DashboardActivity.start(this)
+      }
+
+      R.id.logout -> {
+
+      }
+      R.id.assignedLeads -> {
+
+      }
+    }
+    bindingParent.drawerLayout.closeDrawer(GravityCompat.START)
   }
 
-  fun setToolbar() {
-    setSupportActionBar(bindingParent.toolbarMain)
+  override fun onPostCreate(savedInstanceState: Bundle?) {
+    super.onPostCreate(savedInstanceState)
+    toggle.syncState()
   }
 
-  fun showToolbar() {
-    supportActionBar?.show()
-  }
-
-  fun hideToolbar() {
-    supportActionBar?.hide()
+  override fun onConfigurationChanged(newConfig: Configuration?) {
+    super.onConfigurationChanged(newConfig)
+    toggle.onConfigurationChanged(newConfig)
   }
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-    when (item?.getItemId()) {
-      android.R.id.home -> {
-        finish()
+    when (item?.itemId) {
+      R.id.notification -> {
         return true
       }
-      else -> return super.onOptionsItemSelected(item)
+      R.id.dashboard -> {
+
+        return true
+      }
+
+      R.id.logout -> {
+
+        return true
+      }
+      R.id.assignedLeads -> {
+
+        return true
+      }
     }
+    return super.onOptionsItemSelected(item)
   }
 
   override fun showToast(msg: String) {
     msg.exShowToast(getContext())
-  }
-
-  companion object {
-    internal var progressDialog: ProgressDialog? = null
   }
 
   override fun showProgressDialog() {
@@ -124,7 +159,23 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView, Navi
     }
   }
 
-  override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+  private fun applyDefaultFont() {
+    //ArchitectureApp.instance.settingFontToViewGroup(UBUNTU_REGULAR, view)
+  }
+
+  private fun setToolbar() {
+//    setSupportActionBar(bindingParent.toolbarMain)
+  }
+
+  private fun showToolbar() {
+    supportActionBar?.show()
+  }
+
+  fun hideToolbar() {
+    supportActionBar?.hide()
+  }
+
+  fun getParentBinding(): ActivityBaseBinding {
+    return bindingParent
   }
 }

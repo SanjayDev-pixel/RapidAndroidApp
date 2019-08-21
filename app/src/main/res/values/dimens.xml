@@ -1,22 +1,23 @@
 <resources>
-  <!-- Default screen margins, per the Android Design guidelines. -->
-  <dimen name="activity_horizontal_margin">16dp</dimen>
-  <dimen name="activity_vertical_margin">16dp</dimen>
-  <dimen name="nav_header_vertical_spacing">8dp</dimen>
-  <dimen name="nav_header_height">100dp</dimen>
-
-  <dimen name="activity_half_horizontal_margin">8dp</dimen>
-  <dimen name="activity_half_vertical_margin">8dp</dimen>
-
-  <dimen name="fab_margin">16dp</dimen>
-  <dimen name="fab_height">48dp</dimen>
-  <dimen name="fab_width">48dp</dimen>
-
-  <dimen name="card_default_size">@dimen/_70sdp</dimen>
-  <dimen name="multiline_edit_text_min_height">@dimen/_100sdp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">100dp</dimen>
+    <dimen name="activity_half_horizontal_margin">8dp</dimen>
+    <dimen name="activity_half_vertical_margin">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_height">48dp</dimen>
+    <dimen name="fab_width">48dp</dimen>
+    <dimen name="card_default_size">@dimen/_70sdp</dimen>
+    <dimen name="multiline_edit_text_min_height">@dimen/_100sdp</dimen>
     <dimen name="main_page_padding">15sp</dimen>
     <dimen name="margin_10">10sp</dimen>
     <dimen name="margin_20">20sp</dimen>
     <dimen name="padding_10">10sp</dimen>
+    <dimen name="text_applicant_size">16sp</dimen>
     <dimen name="profile_page_padding">40sp</dimen>
+    <dimen name="lead_card_height">150sp</dimen>
+    <dimen name="text_menu_size">18sp</dimen>
+    <dimen name="text_min_width">150sp</dimen>
 </resources>

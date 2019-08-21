@@ -15,7 +15,5 @@ interface LoginConnector {
         fun getLoginFailure(msg: String)
 
     }
-
     interface PresenterOpt : ReusableNetworkConnector
-
 }

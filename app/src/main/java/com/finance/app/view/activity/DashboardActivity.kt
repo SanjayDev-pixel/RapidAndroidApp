@@ -17,7 +17,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     private val binding: ActivityDashboardBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_dashboard)
 
-    private val moduleValues = listOf("Login", "X", "Y")
+    private val moduleValues = listOf("Login", "Loan Sanction", "Technical")
     private val slotValues = listOf("MTD", "YTD")
 
     companion object {
@@ -43,15 +43,14 @@ class DashboardActivity : BaseAppCompatActivity() {
     }
 
     private fun provideDropdownValue() {
-
         val moduleAdapter = ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, moduleValues)
-        moduleAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
+                R.layout.spinner_item, moduleValues)
+        moduleAdapter.setDropDownViewResource(R.layout.spinner_item)
         binding.spinnerModule.adapter = moduleAdapter
 
         val slotAdapter = ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, slotValues)
-        moduleAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
+                R.layout.spinner_item, slotValues)
+        slotAdapter.setDropDownViewResource(R.layout.spinner_item)
         binding.spinnerSlot.adapter = slotAdapter
     }
 
@@ -81,7 +80,7 @@ class DashboardActivity : BaseAppCompatActivity() {
         }
     }
 
-    private fun updateData(value: String) {
+    private fun updateData(value: Any) {
         when (value) {
             moduleValues[0] -> {
                 achievedFiles = 4
@@ -100,8 +99,7 @@ class DashboardActivity : BaseAppCompatActivity() {
                 achievedVolume = 650000
             }
             slotValues[1] -> {
-                achievedFiles = 1
-                achievedVolume = 50000
+                LeadManagementActivity.start(this)
             }
         }
 

@@ -35,7 +35,7 @@ class Constants {
         object URL {
 
             //const val URL_DEVELOPMENT = "http://optcrm.info/OptCrmApi/api/"
-            const val URL_DEVELOPMENT = "http://optsfa.in/OptCrmApi/api/"
+            const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmihfc/"
             const val URL_TESTING = ""
             const val URL_LIVE = ""
             const val URL_PRODUCTION = ""

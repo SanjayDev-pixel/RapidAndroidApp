@@ -1,7 +1,7 @@
 <resources>
 
   <!-- Base application theme. -->
-  <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
+  <style name="AppThemeBase" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
     <!-- Customize your theme here. -->
     <item name="colorPrimary">@color/colorPrimary</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,16 +10,22 @@
     <item name="android:textColor">@color/theme_text_color</item>
     <item name="android:buttonStyle">@style/appStyleButton</item>
     <item name="android:textViewStyle">@style/appDefaultTextView</item>
-    <item name="android:textColorHint">@color/colorPrimary</item>
+    <item name="android:textColorHint">@color/gradient_black</item>
     <item name="android:colorBackground">@color/md_grey_200</item>
-    <item name="colorButtonNormal">@color/colorPrimary</item>
+    <item name="colorButtonNormal">@color/colorPrimaryDark</item>
     <item name="android:textAppearanceButton">@style/appStyleButton</item>
   </style>
 
   <style name="AppTheme" parent="AppThemeBase">
     <item name="android:fontFamily">@font/halmet_regulat</item>
     <item name="android:typeface">monospace</item>
+  </style>
 
+  <style name="Spinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+    <item name="android:paddingStart">0dp</item>
+    <item name="android:paddingEnd">0dp</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:textSize">14sp</item>
   </style>
 
   <style name="appStyleButton">
@@ -66,7 +72,7 @@
   <style name="appDefaultTextView">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">match_parent</item>
-    <item name="android:textSize">13sp</item>
+    <item name="android:textSize">16sp</item>
     <item name="android:fontFamily">@font/halmet_regulat</item>
     <item name="android:typeface">monospace</item>
     <item name="android:drawablePadding">8dp</item>
@@ -185,7 +191,6 @@
   </style>
 
   <style name="SearchViewTheme" parent="Base.Widget.AppCompat.SearchView">
-    <item name="android:iconTint">@color/white</item>
     <item name="android:textColorHint">@color/white</item>
     <item name="android:editTextColor">@color/white</item>
   </style>
