@@ -10,6 +10,7 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentNavMenuBinding
 import com.finance.app.model.Modals
 import com.finance.app.view.adapters.Recycler.Adapter.NavMenuAdapter
+import kotlinx.android.synthetic.main.nav_item.view.*
 
 class NavMenuFragment : Fragment() {
     private lateinit var binding: FragmentNavMenuBinding
@@ -54,8 +55,8 @@ class NavMenuFragment : Fragment() {
         navItemCopy = ArrayList()
         navItemCopy.addAll(navItem)
         navMenuAdapter = NavMenuAdapter(requireContext(), navItem)
-        binding.menuRecycle.layoutManager = LinearLayoutManager(requireContext())
-        binding.menuRecycle.adapter = navMenuAdapter
+        binding.rcNavMenu.layoutManager = LinearLayoutManager(requireContext())
+        binding.rcNavMenu.adapter = navMenuAdapter
     }
 
     fun notifyMenu(isExpand: Boolean) {
@@ -69,4 +70,5 @@ class NavMenuFragment : Fragment() {
             navMenuAdapter.notifyDataSetChanged()
         }
     }
+
 }

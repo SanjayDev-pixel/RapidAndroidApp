@@ -11,35 +11,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#014689"
-            android:gravity="center|left"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <ImageView
                 android:id="@+id/collapseImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
                 android:src="@drawable/collapse_icon" />
 
-            <TextView
-                android:id="@+id/applicent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="130dp"
-                android:drawablePadding="10dp"
-                android:text="Applicant  ->"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/text_applicant_size" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center|end"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:drawablePadding="10dp"
-                android:text="Co Applicant"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/text_applicant_size" />
+                <TextView
+                    android:id="@+id/tvApplicant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Applicant ->"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvCoApplicant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:text="Co Applicant"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <include

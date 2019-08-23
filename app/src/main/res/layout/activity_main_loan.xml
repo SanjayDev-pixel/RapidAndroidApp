@@ -9,17 +9,16 @@
 
         <FrameLayout
             android:id="@+id/navMenuContainer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="0sp"
             android:layout_weight="1"
+            android:layout_height="match_parent"
             android:background="#003E82"
             android:minWidth="100dp" />
 
         <FrameLayout
             android:id="@+id/secondaryFragmentContainer"
-            android:layout_width="0dp"
+            android:layout_width="0sp"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
             android:layout_weight="2" />
     </LinearLayout>
 </layout>
