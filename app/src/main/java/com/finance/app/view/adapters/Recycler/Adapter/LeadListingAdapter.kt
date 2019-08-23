@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.finance.app.R
 import com.finance.app.databinding.LeadsCardViewBinding
+import com.finance.app.view.activity.LeadDetailActivity
 import java.util.*
 
 class LeadListingAdapter(private val c: Context) : RecyclerView.Adapter<LeadListingAdapter.LeadManagementViewHolder>() {
@@ -33,6 +34,9 @@ class LeadListingAdapter(private val c: Context) : RecyclerView.Adapter<LeadList
         fun bindItems(name: Array<String>, position: Int, timeStamp: Array<Long>) {
             binding.tvLeadName.text = name[position]
             convertToHumanFormat(timeStamp)
+            binding.leadCard.setOnClickListener {
+                LeadDetailActivity.start(c)
+            }
         }
 
         private fun convertToHumanFormat(timeStamp: Array<Long>) {

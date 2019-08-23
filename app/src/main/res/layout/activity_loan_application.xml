@@ -17,8 +17,8 @@
 
             <ImageView
                 android:id="@+id/collapseImageView"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:src="@drawable/collapse_icon" />
 
@@ -26,7 +26,7 @@
                 android:id="@+id/applicent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="130dp"
+                android:layout_marginStart="130dp"
                 android:drawablePadding="10dp"
                 android:text="Applicant  ->"
                 android:textColor="#ffffff"
@@ -35,13 +35,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:drawablePadding="10dp"
                 android:text="Co Applicant"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/text_applicant_size" />
         </LinearLayout>
 
-        <include layout="@layout/activity_main_loan" />
+        <include
+            android:id="@+id/mainLoanLayout"
+            layout="@layout/activity_main_loan" />
     </LinearLayout>
 </layout>

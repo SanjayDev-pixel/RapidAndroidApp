@@ -6,6 +6,7 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.presenter.connector.LoginConnector
 import com.finance.app.presenter.presenter.LoginPresenter
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
@@ -28,18 +29,22 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
 
     override fun init() {
         hideToolbar()
-
+        hideSecondaryToolbar()
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            DashboardActivity.start(this)
-//            presenterOpt.callNetwork(ConstantsApi.CALL_LOGIN)
+//            DashboardActivity.start(this)
+            presenterOpt.callNetwork(ConstantsApi.CALL_LOGIN)
         }
     }
 
     private val mLoginRequestLogin: Requests.RequestLogin
         get() {
-            val username = binding.etUserName.text.toString()
-            val password = binding.etPassword.text.toString()
+
+            val username = "kuldeep.saini@gmail.com"
+            val password = "Default@123"
+
+//            val username = binding.etUserName.text.toString()
+//            val password = binding.etPassword.text.toString()
             return Requests.RequestLogin(username = username, password = password)
         }
 

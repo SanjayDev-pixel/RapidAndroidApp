@@ -17,8 +17,6 @@
             android:id="@+id/ivProfile"
             android:layout_width="150sp"
             android:layout_height="150sp"
-            android:layout_below="@id/llDesignation"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_20"
             android:background="@drawable/circle_drawable"
             android:padding="@dimen/margin_10"
@@ -39,7 +37,6 @@
             android:id="@+id/llDesignation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvProfileName"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -110,7 +107,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
-            android:layout_marginBottom="@dimen/margin_20"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
@@ -191,8 +187,6 @@
                     android:textSize="14sp" />
 
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 </layout>

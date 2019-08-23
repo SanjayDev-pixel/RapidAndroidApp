@@ -13,6 +13,8 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.presenter.connector.ReusableView
 import com.finance.app.view.activity.DashboardActivity
+import com.finance.app.view.activity.ProfileActivity
+import kotlinx.android.synthetic.main.drawer_header.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.util.DialogFactory
@@ -25,7 +27,6 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   abstract fun init()
   private lateinit var toggle: ActionBarDrawerToggle
-
   private var isBackPressDialogToShow = false
   private var view: View? = null
   private lateinit var bindingParent: ActivityBaseBinding
@@ -45,31 +46,27 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
     ArchitectureApp.instance.component.inject(this)
-    hideToolbar()
     setContentBindingTemp()
+    hideToolbar()
+    setToolbar()
+    showToolbar()
+    setUpHeaderView()
     initializeViewBindingTemp()
   }
 
   private fun initializeViewBindingTemp() {
     view = bindingParent.root
-
     initializeOtherViews()
-    setToolbar()
-    showToolbar()
     applyDefaultFont()
     init()
   }
 
   private fun initializeOtherViews() {
-    setSupportActionBar(bindingParent.appBarWithLayout.toolbarMain)
     toggle = ActionBarDrawerToggle(this, bindingParent.drawerLayout,
             bindingParent.appBarWithLayout.toolbarMain, R.string.navigation_drawer_open,
             R.string.navigation_drawer_close)
     bindingParent.drawerLayout.addDrawerListener(toggle)
-    supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    supportActionBar?.setHomeButtonEnabled(true)
     setupDrawerContent(bindingParent.navView)
   }
 
@@ -87,12 +84,9 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
       R.id.dashboard -> {
         DashboardActivity.start(this)
       }
-
       R.id.logout -> {
-
       }
       R.id.assignedLeads -> {
-
       }
     }
     bindingParent.drawerLayout.closeDrawer(GravityCompat.START)
@@ -164,7 +158,21 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   }
 
   private fun setToolbar() {
-//    setSupportActionBar(bindingParent.toolbarMain)
+    setSupportActionBar(bindingParent.appBarWithLayout.toolbarMain)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    supportActionBar?.setHomeButtonEnabled(true)
+    bindingParent.appBarWithLayout.tvBackSecondary.setOnClickListener {
+      onBackPressed()
+    }
+  }
+
+  private fun setUpHeaderView() {
+    val headerLayout = bindingParent.navView.inflateHeaderView(R.layout.drawer_header)
+    val ivPhoto = headerLayout.ivProfile
+    ivPhoto.setImageResource(R.drawable.ic_bell)
+    headerLayout.setOnClickListener {
+      ProfileActivity.start(this)
+    }
   }
 
   private fun showToolbar() {
@@ -173,6 +181,10 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   fun hideToolbar() {
     supportActionBar?.hide()
+  }
+
+  fun hideSecondaryToolbar() {
+    bindingParent.appBarWithLayout.secondaryToolbar.visibility = View.GONE
   }
 
   fun getParentBinding(): ActivityBaseBinding {

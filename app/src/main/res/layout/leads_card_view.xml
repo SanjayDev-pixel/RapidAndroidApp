@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/lead_card_height"
         android:layout_margin="@dimen/margin_20"
+        android:id="@+id/leadCard"
         android:background="@drawable/layout_border_left">
 
         <LinearLayout

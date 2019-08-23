@@ -22,9 +22,7 @@ class AddNewLeadActivity : BaseAppCompatActivity() {
 
     override fun init() {
         hideToolbar()
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        actionBar?.hide()
-
+        hideSecondaryToolbar()
         binding.btnAddLead.setOnClickListener {
             LeadManagementActivity.start(this)
         }

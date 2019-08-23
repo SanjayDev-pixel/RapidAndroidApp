@@ -25,7 +25,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.rcActivities.layoutManager = LinearLayoutManager(this)
         binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
 
+        binding.btnUpdateApplication.setOnClickListener {
+            LoanApplicationActivity.start(this)
+        }
+
         binding.btnCallToCustomer.setOnClickListener {
-             }
+        }
     }
 }

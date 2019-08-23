@@ -5,10 +5,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.finance.app.R
+import com.finance.app.databinding.FragmentLoanInformationBinding
 
-class NavBottomFragment : Fragment() {
+class LoanInformationFragment : Fragment() {
+    private lateinit var binding: FragmentLoanInformationBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.drawer_bottom, container, false)
+        binding = FragmentLoanInformationBinding.inflate(inflater, container, false)
+        return binding.root
     }
 }

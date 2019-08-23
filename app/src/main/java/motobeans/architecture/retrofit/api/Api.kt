@@ -26,7 +26,7 @@ interface Api {
     @POST
     fun dummyApi(@Url url: String): Observable<JSONObject>
 
-    @POST("login/authenticate")
+    @POST("api/v1/auth/")
     fun loginUser(@Body request: Requests.RequestLogin): Observable<Response.ResponseLogin>
 
 }

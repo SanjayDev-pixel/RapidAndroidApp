@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.databinding.FragmentAllLeadsBinding
+import com.finance.app.view.activity.AddNewLeadActivity
 import com.finance.app.view.adapters.Recycler.Adapter.LeadListingAdapter
 
 class AllLeadsFragment : Fragment() {
@@ -18,6 +19,9 @@ class AllLeadsFragment : Fragment() {
         binding.rcAllLeads.layoutManager = LinearLayoutManager(this.activity)
         binding.rcAllLeads.adapter = LeadListingAdapter(this.requireActivity())
 
+        binding.fabAddLead.setOnClickListener {
+            AddNewLeadActivity.start(requireContext())
+        }
         return binding.root
     }
 }
