@@ -1,9 +1,9 @@
 package motobeans.architecture.util.delegates
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import kotlin.properties.ReadOnlyProperty
@@ -14,15 +14,15 @@ import kotlin.reflect.KProperty
  */
 class FragmentBindingProviderDelegate<out T : ViewDataBinding>(private val inflater: LayoutInflater,
     private val container: ViewGroup,
-    @LayoutRes private val layoutRes: Int) : ReadOnlyProperty<Fragment, T> {
+    @LayoutRes private val layoutRes: Int) : ReadOnlyProperty<androidx.fragment.app.Fragment, T> {
 
     private var binding: T? = null
 
-    override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
+    override fun getValue(thisRef: androidx.fragment.app.Fragment, property: KProperty<*>): T {
         return binding ?: createBinding(thisRef).also { binding = it }
     }
 
-    private fun createBinding(thisRef: Fragment): T {
+    private fun createBinding(thisRef: androidx.fragment.app.Fragment): T {
         return DataBindingUtil.inflate(inflater, layoutRes, container, false)
     }
 }

@@ -1,7 +1,7 @@
 package motobeans.architecture.development.implementation
 
 import android.content.Context
-import android.support.design.widget.TextInputLayout
+import com.google.android.material.textfield.TextInputLayout
 import android.widget.EditText
 import com.finance.app.databinding.TempActivityBinding
 import motobeans.architecture.development.interfaces.FormValidation
@@ -20,7 +20,7 @@ class FormValidationImpl(private val context: Context) : FormValidation {
     }
 
     private fun checkAndSetError(etToCheck: EditText, tilToSet: TextInputLayout,
-        errorText: String): Int {
+                                 errorText: String): Int {
         var errorCount = 0
         val valToCheck = etToCheck.text.toString().trim { it <= ' ' }
         if (valToCheck.exIsNotEmptyOrNullOrBlank()) {

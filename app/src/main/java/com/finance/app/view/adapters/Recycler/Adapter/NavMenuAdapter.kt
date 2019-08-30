@@ -1,23 +1,24 @@
 package com.finance.app.view.adapters.Recycler.Adapter
 
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.NavItemBinding
 import com.finance.app.model.Modals
+import com.finance.app.view.activity.LoanApplicationActivity
 import com.finance.app.view.fragment.*
 
-class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Modals.NavItems>) : RecyclerView.Adapter<NavMenuAdapter.NavDrawerViewHolder>() {
+class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Modals.NavItems>) : androidx.recyclerview.widget.RecyclerView.Adapter<NavMenuAdapter.NavDrawerViewHolder>() {
 
     private lateinit var binding: NavItemBinding
 
     companion object {
+//        val activity = LoanApplicationActivity()
         var selectedPos = 0
     }
 
@@ -33,7 +34,7 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
         holder.bindItems(navItem[position], position)
     }
 
-    inner class NavDrawerViewHolder(val binding: NavItemBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
+    inner class NavDrawerViewHolder(val binding: NavItemBinding, val c: Context) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
         fun bindItems(navItem: Modals.NavItems, position: Int) {
             binding.tvNavItem.text = navItem.title
@@ -41,6 +42,7 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
             changeColorBasedOnSelection(position)
             binding.tvNavItem.setOnClickListener {
                 navigateToAnotherFragment(navItem.title)
+                (c as LoanApplicationActivity).handleCollapseScreen(false)
                 selectedPos = adapterPosition
                 notifyDataSetChanged()
             }
@@ -60,6 +62,13 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
             }
         }
 
+        private fun updateSecondaryFragment(fragment: Fragment) {
+            val ft = (c as AppCompatActivity).supportFragmentManager.beginTransaction()
+            ft.replace(R.id.secondaryFragmentContainer, fragment)
+            ft.addToBackStack(null)
+            ft.commit()
+        }
+
         private fun changeColorBasedOnSelection(position: Int) {
             if (selectedPos == position) {
                 binding.iconNavItem.setColorFilter(ContextCompat.getColor(c, R.color.colorPrimary),
@@ -73,13 +82,6 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
                 binding.parent.setBackgroundColor(ContextCompat.getColor(c, R.color.colorPrimary))
                 binding.tvNavItem.setTextColor(ContextCompat.getColor(c, R.color.white))
             }
-        }
-
-        private fun updateSecondaryFragment(fragment: Fragment) {
-            val ft = (c as AppCompatActivity).supportFragmentManager.beginTransaction()
-            ft.add(R.id.secondaryFragmentContainer, fragment)
-            ft.addToBackStack(null)
-            ft.commit()
         }
     }
 }

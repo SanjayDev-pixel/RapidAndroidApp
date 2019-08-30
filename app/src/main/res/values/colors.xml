@@ -3,7 +3,7 @@
   <color name="colorPrimaryDark">#003E82</color>
   <color name="colorPrimary">#003E82</color>
   <color name="colorPrimaryLight">#425b6f</color>
-  <color name="colorAccent">#3E04FD</color>
+  <color name="colorAccent">#003E82</color>
   <color name="spinner_hint_text_color">#ffffcc</color>
   <color name="hint_color">#05396c</color>
   <color name="text_color">#495057</color>
@@ -32,7 +32,7 @@
   <color name="gradient_black">#85000000</color>
 
   <color name="error_text">#c41411</color>
-
+  <color name="heading_background">#D6EAF8</color>
   <color name="download_color_failure">@color/divider</color>
   <color name="download_color_success">@color/md_green_800</color>
 

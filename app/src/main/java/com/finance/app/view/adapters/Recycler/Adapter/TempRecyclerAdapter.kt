@@ -1,10 +1,10 @@
 package com.finance.app.view.adapters.Recycler.Adapter
 
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.ViewHolder
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.finance.app.R
@@ -19,8 +19,8 @@ import javax.inject.Inject
 /**
  * Created by motobeans on 1/3/2018.
  */
-class TempRecyclerAdapter(val activity: FragmentActivity, val items: List<String>?, val isCountToShow: Boolean = false) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TempRecyclerAdapter(val activity: androidx.fragment.app.FragmentActivity, val items: List<String>?, val isCountToShow: Boolean = false) :
+    androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
 
     @Inject
     lateinit var dataBase: DataBaseUtil
@@ -50,8 +50,8 @@ class TempRecyclerAdapter(val activity: FragmentActivity, val items: List<String
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var viewHolder: RecyclerView.ViewHolder? = null
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+        var viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder? = null
         when (viewType) {
             EMPTY_VIEW -> {
                 val binding: EmptyCommonListBinding = DataBindingUtil.inflate(

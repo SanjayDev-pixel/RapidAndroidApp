@@ -1,7 +1,7 @@
 package motobeans.architecture.util
 
 import android.content.Context
-import android.support.design.widget.TextInputLayout
+import com.google.android.material.textfield.TextInputLayout
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -135,7 +135,7 @@ fun <T : View> Array<T>.exInvisible() {
 }
 
 fun EditText.isValid(tilToSet: TextInputLayout,
-    errorText: String, isMandatory: Boolean = true): Boolean {
+                     errorText: String, isMandatory: Boolean = true): Boolean {
   var isValid: Boolean
   val valToCheck = this.text.toString().trim { it <= ' ' }
   if (valToCheck.exIsNotEmptyOrNullOrBlank()) {

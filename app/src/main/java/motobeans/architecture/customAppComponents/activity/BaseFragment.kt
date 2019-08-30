@@ -1,10 +1,10 @@
 package motobeans.architecture.customAppComponents.activity
 
 import android.app.ProgressDialog
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.annotation.CallSuper
-import android.support.v4.app.Fragment
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.annotation.CallSuper
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +17,7 @@ import motobeans.architecture.util.exShowToast
 /**
  * Created by munishkumarthakur on 04/11/17.
  */
-abstract class BaseFragment : Fragment(), ReusableView {
+abstract class BaseFragment : androidx.fragment.app.Fragment(), ReusableView {
 
   abstract fun init()
 

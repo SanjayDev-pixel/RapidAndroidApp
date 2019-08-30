@@ -45,13 +45,13 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     private fun provideDropdownValue() {
         val moduleAdapter = ArrayAdapter(this,
-                R.layout.spinner_item, moduleValues)
-        moduleAdapter.setDropDownViewResource(R.layout.spinner_item)
+                android.R.layout.simple_spinner_item, moduleValues)
+        moduleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerModule.adapter = moduleAdapter
 
         val slotAdapter = ArrayAdapter(this,
-                R.layout.spinner_item, slotValues)
-        slotAdapter.setDropDownViewResource(R.layout.spinner_item)
+                android.R.layout.simple_spinner_item, slotValues)
+        slotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerSlot.adapter = slotAdapter
     }
 

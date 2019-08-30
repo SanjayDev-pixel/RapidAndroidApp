@@ -1,225 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff"
             android:fillViewport="true"
             android:paddingBottom="50dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffff"
                 android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Loan Information"
-                    android:textAppearance="?android:textAppearanceLarge"
+                    android:background="@color/heading_background"
+                    android:text="@string/loan_information"
                     android:textColor="#000000"
-                    android:textSize="18sp"
+                    android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold" />
 
                 <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/loanProductSpin"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/spinnerLoanProduct"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="#000000"
+                    android:textSize="24sp"
+                    app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
                     app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Loan Product   "
+                    app:ms_floatingLabelText="Loan Product "
                     app:ms_hint="Loan Product"
                     app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
                 <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/loanPurposeSpin"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/spinnerLoanPurpose"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="#000000"
+                    android:textSize="16sp"
+                    app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
                     app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Loan Purpose  "
-                    app:ms_hint="Loan Purpose  "
+                    app:ms_floatingLabelText="Loan Purpose "
+                    app:ms_hint="Loan Purpose "
                     app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
                 <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/loanSchemeSpin"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/spinnerLoanScheme"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="#000000"
+                    app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
                     app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="Loan Scheme "
                     app:ms_hint="Loan Scheme"
                     app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_amount"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    app:boxBackgroundMode="outline">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/input_amount"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_amount"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="Loan Amount Request"
-                        android:minWidth="200dp" />
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/hint_color">
 
-                </android.support.design.widget.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Loan Amount Request"
+                            android:minWidth="200dp"
+                            android:textSize="@dimen/text_size" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_tenure"
-                    android:layout_width="wrap_content"
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_tenure"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_tenure"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/tenure_months"
+                            android:minWidth="150dp"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    app:boxBackgroundMode="outline">
+                    android:baselineAligned="true"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/input_tenure"
-                        android:layout_width="wrap_content"
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerInterestType"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="Tenor(Months)"
-                        android:minWidth="150dp" />
+                        android:layout_weight="1"
+                        android:minWidth="@dimen/text_min_width"
+                        app:ms_arrowColor="@color/black"
+                        app:ms_arrowSize="16dp"
+                        app:ms_floatingLabelColor="@color/hint_color"
+                        app:ms_floatingLabelText="Interest Type  "
+                        app:ms_hint="Interest Type "
+                        app:ms_hintColor="@color/hint_color"
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        app:ms_multiline="false" />
 
-                </android.support.design.widget.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_emi"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="8sp"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_emi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Affordable EMI"
+                            android:minWidth="@dimen/text_min_width"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
 
                 <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/loaninterestSpin"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/spinnerSourcingChannelPartner"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="#000000"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Interest Type  "
-                    app:ms_hint="Interest Type "
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_multiline="false" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_emi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:textColorHint="@color/hint_color"
-                    app:boxBackgroundMode="outline">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/input_emi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Affordable EMI"
-                        android:minWidth="150dp" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/loansourcingSpin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="#000000"
+                    app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_floatingLabelText="Sourcing Channel Partner  "
                     app:ms_hint="Sourcing Channel Partner  "
                     app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
                 <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/loanpartnerSpin"
+                    android:id="@+id/spinnerPartnerName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="#000000"
+                    app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_floatingLabelText="Channel Partner Name  "
                     app:ms_hint="Channel Partner Name  "
                     app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_id"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/ivUploadForm"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    app:boxBackgroundMode="outline"
-                    app:ms_hintColor="@color/hint_color">
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/md_grey_400"
+                    android:drawableTop="@drawable/ic_camera"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:text="Application Form Upload"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="16sp" />
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/input_sales_emp_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Sales Officer Emp ID"
-                        android:minWidth="200dp" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    app:boxBackgroundMode="outline"
-                    app:ms_hintColor="@color/hint_color">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/input_sales_off_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Sales Officer Emp Name" />
-
-                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
+
         </ScrollView>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/llBtn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:padding="10dp"
-            android:text="Continue"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:gravity="end">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:padding="10dp"
-            android:text="Save Draft"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
+            <Button
+                android:id="@+id/btnContinue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:padding="5sp"
+                android:text="Continue"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_size" />
+
+            <Button
+                android:id="@+id/btnSaveDraft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:background="@color/colorPrimary"
+                android:padding="5sp"
+                android:text="Save Draft"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_size" />
+        </LinearLayout>
     </RelativeLayout>
 </layout>

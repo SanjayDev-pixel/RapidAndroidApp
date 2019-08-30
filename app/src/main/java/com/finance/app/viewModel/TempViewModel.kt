@@ -15,14 +15,14 @@
 */
 package com.finance.app.viewModel
 
-import android.arch.lifecycle.MutableLiveData
-import android.support.v4.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.fragment.app.FragmentActivity
 import com.finance.app.persistence.db.MasterDB
 
 /**
  * Created by munishkumarthakur on 09/12/17.
  */
-class TempViewModel(private val activity: FragmentActivity, private val database: MasterDB)
+class TempViewModel(private val activity: androidx.fragment.app.FragmentActivity, private val database: MasterDB)
     : BaseViewModel(activity){
 
 

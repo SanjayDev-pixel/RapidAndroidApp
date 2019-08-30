@@ -16,7 +16,7 @@
 package com.finance.app.others
 
 import android.content.Context
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import com.finance.app.persistence.db.MasterDB
 
 /**
@@ -40,7 +40,7 @@ object Injection {
      * @param context Application Context
      * @return ViewModelFactory
      */
-    fun provideViewModelFactory(activity: FragmentActivity): ViewModelFactory {
+    fun provideViewModelFactory(activity: androidx.fragment.app.FragmentActivity): ViewModelFactory {
         val dataSource = provideDataBaseSource(activity)
         return ViewModelFactory(activity, dataSource)
     }

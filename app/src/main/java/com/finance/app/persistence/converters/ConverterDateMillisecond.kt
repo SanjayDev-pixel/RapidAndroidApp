@@ -1,6 +1,6 @@
 package com.finance.app.persistence.converters
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import java.util.Date
 
 class ConverterDateMillisecond {

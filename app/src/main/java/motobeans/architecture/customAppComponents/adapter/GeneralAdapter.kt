@@ -1,9 +1,9 @@
 package motobeans.architecture.customAppComponents.adapter
 
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,7 @@ import java.util.ArrayList
 open abstract class GeneralAdapter<T : ViewDataBinding, L>(
     private val mContext: Context,
     private val mList: ArrayList<L>?,
-    private val mLayout: Int) : RecyclerView.Adapter<GeneralAdapter<T, L>.MyHolder>() {
+    private val mLayout: Int) : androidx.recyclerview.widget.RecyclerView.Adapter<GeneralAdapter<T, L>.MyHolder>() {
     private val mFullList = ArrayList<L>()
 
     private var isMultiSelAllowed = false
@@ -52,7 +52,7 @@ open abstract class GeneralAdapter<T : ViewDataBinding, L>(
         }
     }
 
-    inner class MyHolder(itemView: View, var binding: T) : RecyclerView.ViewHolder(itemView)
+    inner class MyHolder(itemView: View, var binding: T) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 
     fun filter(done: (L) -> Boolean/*FilterFunction<L, Boolean>*/) {
         if (mFullList.size == 0) {

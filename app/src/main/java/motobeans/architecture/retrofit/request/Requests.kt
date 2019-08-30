@@ -5,5 +5,6 @@ package motobeans.architecture.retrofit.request
  */
 object Requests {
     data class RequestSample(var param1: String? = null, var param2: String? = null)
-    data class RequestLogin(val password: String, val username: String)
+    data class RequestLogin(val company: Company, val password: String, val username: String)
+    data class Company(val companyId: Int, val companySlug: String)
 }

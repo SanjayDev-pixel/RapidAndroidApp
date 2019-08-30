@@ -113,7 +113,7 @@
                         android:id="@+id/tvAssignment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/assingments" />
+                        android:text="@string/assignments" />
 
                     <TextView
                         android:id="@+id/tvTaskStatus"

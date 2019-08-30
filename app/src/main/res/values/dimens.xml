@@ -15,9 +15,14 @@
     <dimen name="margin_10">10sp</dimen>
     <dimen name="margin_20">20sp</dimen>
     <dimen name="padding_10">10sp</dimen>
+    <dimen name="hint_size">16sp</dimen>
+    <dimen name="text_size">16sp</dimen>
     <dimen name="text_applicant_size">16sp</dimen>
     <dimen name="profile_page_padding">40sp</dimen>
     <dimen name="lead_card_height">150sp</dimen>
     <dimen name="text_menu_size">18sp</dimen>
     <dimen name="text_min_width">150sp</dimen>
+    <dimen name="button_size">18sp</dimen>
+    <dimen name="arrow_size">16dp</dimen>
+    <dimen name="fields_margin">15dp</dimen>
 </resources>

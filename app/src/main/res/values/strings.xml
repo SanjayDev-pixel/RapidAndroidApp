@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DMI</string>
+    <string name="app_name">DMI Finance</string>
     <string name="action_sync">Sync</string>
     <string name="action_search">Search</string>
     <string name="user_name">User Name</string>
@@ -21,8 +21,9 @@
     <string name="send_whatsapp">Send Whatsapp</string>
     <string name="call_to_customer">Call To Customer</string>
     <string name="designation">Designation :</string>
-    <string name="assingments">Assingments</string>
+    <string name="assignments">Assignments</string>
     <string name="tasks">Tasks</string>
+    <string name="required_asterisk"><![CDATA[<font color=\'#cc0029\'>&nbsp*</font>]]></string>
     <string name="total_tasks">Total Tasks</string>
     <string name="branch">Branch :</string>
     <string name="add_lead">Add Lead</string>
@@ -38,4 +39,6 @@
     <string name="activities">Activities</string>
     <string name="you_have_no_pending_activities">You have no pending activities</string>
     <string name="add_task">Add Task</string>
+    <string name="loan_information">Loan Information</string>
+    <string name="tenure_months">Tenure(Months)</string>
 </resources>

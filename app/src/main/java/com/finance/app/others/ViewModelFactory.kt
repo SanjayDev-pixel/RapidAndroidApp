@@ -15,9 +15,9 @@
 */
 package com.finance.app.others
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.support.v4.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.FragmentActivity
 import com.finance.app.persistence.db.MasterDB
 import com.finance.app.viewModel.TempStaticViewModel
 import com.finance.app.viewModel.TempViewModel
@@ -27,8 +27,8 @@ import com.finance.app.viewModel.TempViewModel
  *
  * @constructor dataSource: ProductDao
  */
-class ViewModelFactory(private val activity: FragmentActivity,
-    private val dataSource: MasterDB) : ViewModelProvider.Factory {
+class ViewModelFactory(private val activity: androidx.fragment.app.FragmentActivity,
+                       private val dataSource: MasterDB) : ViewModelProvider.Factory {
 
     /**
      * Get DAO of Product Entity

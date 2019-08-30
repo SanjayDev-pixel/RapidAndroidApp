@@ -1,9 +1,9 @@
 package com.finance.app.view.adapters.Recycler.Adapter
 
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import com.finance.app.view.adapters.Recycler.Adapter.GenericAdapter.Companion.M
 abstract class GenericAdapter<T : ViewDataBinding, L>(
     private val mContext: Context, private val mList: ArrayList<L>,
     private val mLayout: Int)//        SocietyApplication.getInstance().getAppComponent().inject(this);
-    : RecyclerView.Adapter<MyHolder<T>>() {
+    : androidx.recyclerview.widget.RecyclerView.Adapter<MyHolder<T>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder<T> {
         val inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -37,7 +37,7 @@ abstract class GenericAdapter<T : ViewDataBinding, L>(
     companion object {
 
         class MyHolder<T : ViewDataBinding>(itemView: View,
-            var binding: T) : RecyclerView.ViewHolder(itemView)
+            var binding: T) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
     }
 
     @FunctionalInterface

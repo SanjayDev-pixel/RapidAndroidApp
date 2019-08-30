@@ -15,7 +15,7 @@
                 android:padding="0sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
+                android:background="@color/colorPrimary"
                 android:paddingStart="@dimen/main_page_padding"
                 android:paddingEnd="@dimen/main_page_padding">
 

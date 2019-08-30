@@ -1,8 +1,8 @@
 package motobeans.architecture.util.delegates
 
 import android.app.Activity
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

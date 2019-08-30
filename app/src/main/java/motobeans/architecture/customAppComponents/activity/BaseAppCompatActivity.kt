@@ -2,19 +2,19 @@ package motobeans.architecture.customAppComponents.activity
 
 import android.app.ProgressDialog
 import android.content.res.Configuration
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import com.finance.app.R
 import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.presenter.connector.ReusableView
 import com.finance.app.view.activity.DashboardActivity
+import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.ProfileActivity
-import kotlinx.android.synthetic.main.drawer_header.view.*
+import com.google.android.material.navigation.NavigationView
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.util.DialogFactory
@@ -85,6 +85,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         DashboardActivity.start(this)
       }
       R.id.logout -> {
+        LoginActivity.start(this)
       }
       R.id.assignedLeads -> {
       }
@@ -167,12 +168,13 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   }
 
   private fun setUpHeaderView() {
-    val headerLayout = bindingParent.navView.inflateHeaderView(R.layout.drawer_header)
-    val ivPhoto = headerLayout.ivProfile
-    ivPhoto.setImageResource(R.drawable.ic_bell)
-    headerLayout.setOnClickListener {
-      ProfileActivity.start(this)
-    }
+//    val headerLayout = bindingParent.navView.inflateHeaderView(R.layout.drawer_header)
+//    val ivPhoto = headerLayout.ivProfile
+//    ivPhoto.setImageResource(R.drawable.ic_bell)
+//    val headerLayout = bindingParent.navView.getHeaderView(0)
+//    headerLayout.setOnClickListener {
+//      ProfileActivity.start(this)
+//    }
   }
 
   private fun showToolbar() {

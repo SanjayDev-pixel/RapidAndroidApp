@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:paddingBottom="50dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/heading_background"
+                    android:text="KYC"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llKYC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_10">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/spinnerIdentificationType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:minWidth="@dimen/text_min_width"
+                            app:ms_arrowColor="#000000"
+                            app:ms_arrowSize="16dp"
+                            app:ms_floatingLabelColor="@color/hint_color"
+                            app:ms_floatingLabelText="Identification Type"
+                            app:ms_hint="Identification Type"
+                            app:ms_hintColor="@color/hint_color"
+                            app:ms_hintTextSize="@dimen/hint_size"
+                            app:ms_multiline="false" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/input_id_num"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5sp"
+                            android:layout_weight="1"
+                            android:textColorHint="@color/hint_color">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etIdNum"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Identification Number"
+                                android:minWidth="200dp"
+                                app:ms_hintTextSize="@dimen/hint_size" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:baselineAligned="true"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/input_issue_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColorHint="@color/hint_color">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etIssueDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableEnd="@drawable/ic_calender"
+                                android:hint="Issue Date"
+                                android:minWidth="200dp"
+                                app:ms_hintTextSize="@dimen/hint_size" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/input_expiry_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColorHint="@color/hint_color">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etExpiryDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableEnd="@drawable/ic_calender"
+                                android:hint="Expiry Date"
+                                android:minWidth="200dp"
+                                app:ms_hintTextSize="@dimen/hint_size" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:baselineAligned="true"
+                        android:orientation="horizontal">
+
+                        <fr.ganfra.materialspinner.MaterialSpinner
+                            android:id="@+id/spinnerVerifiedStatus"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:minWidth="@dimen/text_min_width"
+                            app:ms_arrowColor="@color/black"
+                            app:ms_arrowSize="@dimen/arrow_size"
+                            app:ms_floatingLabelColor="@color/hint_color"
+                            app:ms_floatingLabelText="Verified Status"
+                            app:ms_hint="Verified Status"
+                            app:ms_hintColor="@color/hint_color"
+                            app:ms_hintTextSize="@dimen/hint_size"
+                            app:ms_multiline="false" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivUploadKyc"
+                                android:layout_width="50sp"
+                                android:layout_height="50sp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/upload_icon" />
+
+                            <Button
+                                android:id="@+id/btnAddKYC"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10sp"
+                                android:background="@color/colorPrimary"
+                                android:padding="5sp"
+                                android:text="Add KYC"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/button_size"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:baselineAligned="true"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/input_mobile"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColorHint="@color/hint_color">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etMobile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Mobile"
+                                android:minWidth="200dp"
+                                app:ms_hintTextSize="@dimen/hint_size" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/btnGetOTP"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/fields_margin"
+                            android:layout_weight="1"
+                            android:background="@color/colorPrimary"
+                            android:padding="5sp"
+                            android:text="Get OTP"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/button_size" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:baselineAligned="true"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <HorizontalScrollView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.mukesh.OtpView
+                                android:id="@+id/otp_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:itemBackground="@color/white"
+                                android:textColor="@color/colorPrimary"
+                                app:itemCount="4"
+                                app:itemHeight="35sp"
+                                app:itemWidth="35sp"
+                                app:lineColor="@color/colorPrimary"
+                                app:viewType="rectangle" />
+                        </HorizontalScrollView>
+
+                        <Button
+                            android:id="@+id/btnVerifyOTP"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/fields_margin"
+                            android:layout_weight="1"
+                            android:background="@color/colorPrimary"
+                            android:padding="5sp"
+                            android:text="Verify OTP"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/button_size" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Email ID"
+                            android:minWidth="200dp"
+                            app:ms_hintTextSize="@dimen/hint_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/basicInfoLayout"
+                    layout="@layout/layout_basic_detail" />
+
+                <include
+                    android:id="@+id/addressLayout"
+                    layout="@layout/layout_address" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>

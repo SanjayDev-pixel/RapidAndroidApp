@@ -1,9 +1,9 @@
 package motobeans.architecture.customAppComponents.fragment
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import android.view.ViewGroup
 /**
  * Created by munishkumarthakur on 04/11/17.
  */
-abstract class CustomFragment<T : ViewDataBinding> : Fragment() {
+abstract class CustomFragment<T : ViewDataBinding> : androidx.fragment.app.Fragment() {
 
     abstract fun getView(binding: T)
     abstract fun setView(): Int

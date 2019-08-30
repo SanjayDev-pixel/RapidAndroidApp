@@ -14,6 +14,7 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 
 class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
 
+    // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_login)
 
@@ -32,26 +33,31 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
         hideSecondaryToolbar()
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-//            DashboardActivity.start(this)
             presenterOpt.callNetwork(ConstantsApi.CALL_LOGIN)
         }
     }
 
+    private val mCompany: Requests.Company
+        get() {
+            return Requests.Company(1, "comp1")
+        }
+
     private val mLoginRequestLogin: Requests.RequestLogin
         get() {
 
-            val username = "kuldeep.saini@gmail.com"
-            val password = "Default@123"
+            binding.etUserName.setText("kuldeep.saini@gmail.com")
+            binding.etPassword.setText("Default@123")
 
-//            val username = binding.etUserName.text.toString()
-//            val password = binding.etPassword.text.toString()
-            return Requests.RequestLogin(username = username, password = password)
+            val username = binding.etUserName.text.toString()
+            val password = binding.etPassword.text.toString()
+            val company = mCompany
+            return Requests.RequestLogin(username = username, password = password, company = company)
         }
 
     override val loginRequest: Requests.RequestLogin
         get() = mLoginRequestLogin
 
-    //    Handle success of api
+    //    Handle success of the api
     override fun getLoginSuccess(value: Response.ResponseLogin) {
         saveResponseToDB(value)
         DashboardActivity.start(this)
@@ -60,7 +66,7 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
     private fun saveResponseToDB(response: Response.ResponseLogin) {
     }
 
-    //    Handle failure of api
+    //    Handle failure of the api
     override fun getLoginFailure(msg: String) {
         showToast(msg)
     }

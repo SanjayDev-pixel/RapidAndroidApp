@@ -15,7 +15,7 @@
                 android:layout_height="150sp"
                 android:src="@drawable/app_logo" />
 
-            <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30sp">
@@ -27,9 +27,9 @@
                     android:hint="@string/user_name"
                     android:singleLine="true"
                     android:textColorHint="#000000" />
-            </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp">
@@ -41,9 +41,9 @@
                     android:hint="@string/password"
                     android:singleLine="true"
                     android:textColorHint="#000000" />
-            </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="wrap_content"
@@ -55,13 +55,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20sp" />
 
-            </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="200sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
                 android:layout_marginTop="50dp"
                 android:text="@string/login" />
 

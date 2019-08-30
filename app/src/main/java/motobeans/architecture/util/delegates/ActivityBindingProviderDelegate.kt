@@ -1,9 +1,9 @@
 package motobeans.architecture.util.delegates
 
 import android.app.Activity
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.annotation.LayoutRes
 import android.view.LayoutInflater
 import com.finance.app.databinding.ActivityBaseBinding
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity

@@ -1,7 +1,7 @@
 package motobeans.architecture.util.delegates
 
 import android.app.Activity
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Size
 import android.util.SizeF
 import java.io.Serializable
@@ -10,7 +10,7 @@ import java.util.ArrayList
 /**
  * Created by munishkumarthakur on 29/12/17.
  */
-inline fun <reified T : Any> Fragment.BundleValueProvider(activity: Fragment, key: String) = lazy {
+inline fun <reified T : Any> androidx.fragment.app.Fragment.BundleValueProvider(activity: androidx.fragment.app.Fragment, key: String) = lazy {
 
     var value: T? = null
 

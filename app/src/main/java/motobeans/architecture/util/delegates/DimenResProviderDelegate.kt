@@ -1,7 +1,7 @@
 package motobeans.architecture.util.delegates
 
 import android.app.Activity
-import android.support.annotation.DimenRes
+import androidx.annotation.DimenRes
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
