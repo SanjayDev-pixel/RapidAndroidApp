@@ -41,4 +41,5 @@
     <string name="add_task">Add Task</string>
     <string name="loan_information">Loan Information</string>
     <string name="tenure_months">Tenure(Months)</string>
+    <string name="create_task">Create Task</string>
 </resources>

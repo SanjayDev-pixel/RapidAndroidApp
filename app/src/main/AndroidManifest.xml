@@ -33,10 +33,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.ProfileActivity" />
+        <activity android:name=".view.activity.AddNewLeadActivity" />
         <activity android:name=".view.activity.LeadManagementActivity" />
         <activity android:name=".view.activity.LoginActivity" />
         <activity android:name=".view.activity.DashboardActivity" />
-        <activity android:name=".view.activity.AddNewLeadActivity" />
+        <activity android:name=".view.activity.AddNewTaskActivity" />
         <activity android:name=".view.activity.LeadDetailActivity" />
     </application>
 
