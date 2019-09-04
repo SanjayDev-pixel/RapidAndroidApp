@@ -1,10 +1,5 @@
-<layout>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -30,16 +25,8 @@
                             android:id="@+id/toolbarMain"
                             android:layout_width="match_parent"
                             android:layout_height="?attr/actionBarSize"
-                            app:elevation="0dp"
-                            app:contentInsetLeft="0dp"
-                            app:contentInsetStart="0dp"
-                            app:contentInsetRight="0dp"
-                            app:contentInsetEnd="0dp"
-                            android:background="?attr/colorPrimary"
+                            app:elevation="4dp"
                             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-                            <include
-                                android:id="@+id/includeToolbar"
-                                layout="@layout/custom_toolbar"/>
                         </androidx.appcompat.widget.Toolbar>
 
                     </FrameLayout>
@@ -82,14 +69,11 @@
                     android:text="12345" />
 
             </RelativeLayout>
-
             <LinearLayout
                 android:id="@+id/llInflatorContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
         </LinearLayout>
-    </FrameLayout>
 </layout>

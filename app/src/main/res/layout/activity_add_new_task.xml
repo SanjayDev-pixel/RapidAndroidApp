@@ -37,7 +37,7 @@
                     android:layout_marginBottom="@dimen/margin_10"
                     android:textStyle="bold" />
 
-                <include layout="@layout/line_seperator" />
+                <include layout="@layout/line_seprator" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_task_subject"

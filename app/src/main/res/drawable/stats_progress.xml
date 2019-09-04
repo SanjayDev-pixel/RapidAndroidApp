@@ -7,6 +7,6 @@
         android:shape="ring"
         android:thickness="50sp"
         android:useLevel="true">
-        <solid android:color="@color/colorPrimaryDark" />
+        <solid android:color="@color/theme_light_blue" />
     </shape>
 </rotate>

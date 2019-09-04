@@ -77,7 +77,7 @@
                     android:layout_marginTop="@dimen/margin_20"
                     android:background="@drawable/circle_drawable"
                     android:padding="@dimen/margin_10"
-                    android:src="@color/blue_spinner" />
+                    android:src="@drawable/dmi_logo" />
 
                 <ImageView
                     android:id="@+id/icChangePhoto"
@@ -97,13 +97,15 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/profile_page_padding"
+                android:layout_marginTop="@dimen/margin_20"
                 android:paddingEnd="@dimen/profile_page_padding">
 
                 <ProgressBar
                     android:id="@+id/progressBar"
+                    android:progress="45"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="12sp" />
+                    android:layout_height="15sp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -153,13 +155,15 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="15"
-                            android:textSize="24sp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvTotalTask"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5sp"
+                            android:textColor="@color/gradient_black"
                             android:gravity="center"
                             android:hint="@string/total_tasks"
                             android:textSize="14sp" />
@@ -177,15 +181,17 @@
                             android:id="@+id/tvNumOfCompletedTask"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="20sp"
                             android:gravity="center"
                             android:text="10"
-                            android:textSize="24sp" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvCompletedTask"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5sp"
+                            android:textColor="@color/gradient_black"
                             android:gravity="center"
                             android:hint="@string/total_tasks"
                             android:textSize="14sp" />
@@ -205,13 +211,15 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="05"
-                            android:textSize="24sp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvPendingTask"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5sp"
+                            android:textColor="@color/gradient_black"
                             android:gravity="center"
                             android:hint="@string/total_tasks"
                             android:textSize="14sp" />
@@ -219,8 +227,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <include layout="@layout/line_seperator" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -230,6 +236,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_marginBottom="@dimen/margin_10"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -237,106 +244,124 @@
                             android:layout_width="0sp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textSize="@dimen/text_size"
                             android:text="@string/branch" />
 
-                        <EditText
+                        <TextView
                             android:id="@+id/etBranchName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_10"
+                            android:layout_width="0dp"
                             android:layout_weight="2"
-                            android:clickable="false"
-                            android:inputType="text" />
+                            android:layout_height="wrap_content"
+                            android:text="South Delhi"
+                            android:layout_marginStart="@dimen/margin_10"
+                            android:textSize="@dimen/text_size" />
                     </LinearLayout>
 
-                    <include layout="@layout/line_seperator" />
+                    <include layout="@layout/line_seprator" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:layout_marginBottom="@dimen/margin_10"
                         android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/tvBrithday"
-                            android:layout_width="0sp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:text="Birthday :"
                             android:layout_weight="1"
-                            android:text="@string/branch" />
+                            android:textSize="@dimen/text_size" />
 
-                        <EditText
+                        <TextView
                             android:id="@+id/etBirthday"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:text="06th June 1989"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10"
-                            android:layout_weight="2"
-                            android:clickable="false" />
+                            android:textSize="@dimen/text_size" />
                     </LinearLayout>
 
-                    <include layout="@layout/line_seperator" />
+                    <include layout="@layout/line_seprator" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:layout_marginBottom="@dimen/margin_10"
                         android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Gender : "
+                            android:layout_weight="1"
+                            android:textSize="@dimen/text_size" />
 
                         <TextView
                             android:id="@+id/tvGender"
-                            android:layout_width="0sp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/branch" />
-
-                        <TextView
-                            android:id="@+id/etGender"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:text="Male"
+                            android:textSize="@dimen/text_size"
                             android:layout_marginStart="@dimen/margin_10"
                             android:layout_weight="2" />
 
                     </LinearLayout>
 
-                    <include layout="@layout/line_seperator" />
+                    <include layout="@layout/line_seprator" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:layout_marginBottom="@dimen/margin_10"
                         android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Email : "
+                            android:textSize="@dimen/text_size" />
 
                         <TextView
                             android:id="@+id/tvEmail"
-                            android:layout_width="0sp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/branch" />
-
-                        <TextView
-                            android:id="@+id/etEmail"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
+                            android:text="ssaurabh@dmi.in"
+                            android:textSize="@dimen/text_size"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10"
                             android:layout_weight="2" />
                     </LinearLayout>
 
-                    <include layout="@layout/line_seperator" />
+                    <include layout="@layout/line_seprator" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:layout_marginBottom="@dimen/margin_10"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tvAddress"
                             android:layout_width="0sp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/branch" />
+                            android:text="Address : "
+                            android:textSize="@dimen/text_size" />
 
-                        <EditText
-                            android:id="@+id/etAddress"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/tvAddress"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_10"
                             android:layout_weight="2"
-                            android:clickable="false" />
+                            android:text="Kalkaji, South Delhi, Delhi, 110028"
+                            android:layout_marginStart="@dimen/margin_10"
+                            android:textSize="@dimen/text_size" />
                     </LinearLayout>
-
                 </LinearLayout>
+
+                <include layout="@layout/line_seprator" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

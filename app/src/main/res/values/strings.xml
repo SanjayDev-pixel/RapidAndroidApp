@@ -42,4 +42,8 @@
     <string name="loan_information">Loan Information</string>
     <string name="tenure_months">Tenure(Months)</string>
     <string name="create_task">Create Task</string>
+    <string name="pending_task">Pending Task</string>
+    <string name="completed_task">Completed Task</string>
+    <string name="update_call">Update Call</string>
+    <string name="close_lead">Close Lead</string>
 </resources>

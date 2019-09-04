@@ -3,11 +3,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/dashboard"
-            android:icon="@drawable/notification_bell"
+            android:icon="@drawable/dashboard_icon_black"
             android:title="@string/dashboard" />
         <item
             android:id="@+id/assignedLeads"
-            android:icon="@drawable/notification_bell"
+            android:icon="@drawable/asigned_lead_black"
             android:title="@string/assigned_leads" />
         <item
             android:id="@+id/notification"

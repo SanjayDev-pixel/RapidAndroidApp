@@ -3,6 +3,7 @@ package motobeans.architecture.customAppComponents.activity
 import android.app.ProgressDialog
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -20,9 +21,6 @@ import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
 
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
 abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   abstract fun init()
@@ -30,10 +28,6 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   private var isBackPressDialogToShow = false
   private var view: View? = null
   private lateinit var bindingParent: ActivityBaseBinding
-
-  /**
-   * View Binding setContentView(id)
-   */
 
   companion object {
     internal var progressDialog: ProgressDialog? = null
@@ -48,17 +42,16 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     super.onCreate(savedInstanceState)
     ArchitectureApp.instance.component.inject(this)
     setContentBindingTemp()
-    hideToolbar()
     setToolbar()
     showToolbar()
     setUpHeaderView()
     initializeViewBindingTemp()
   }
 
+
   private fun initializeViewBindingTemp() {
     view = bindingParent.root
     initializeOtherViews()
-    applyDefaultFont()
     init()
   }
 
@@ -103,24 +96,17 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     toggle.onConfigurationChanged(newConfig)
   }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_lead_action, menu)
+        return true
+    }
+
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
     when (item?.itemId) {
-      R.id.notification -> {
-        return true
-      }
-      R.id.dashboard -> {
-
-        return true
-      }
-
-      R.id.logout -> {
-
-        return true
-      }
-      R.id.assignedLeads -> {
-
-        return true
-      }
+        R.id.send_notification -> showToast("Notification")
+        R.id.send_sms -> showToast("SMS")
+        R.id.send_whatsapp -> showToast("Whats App")
+        R.id.search -> showToast("Searching")
     }
     return super.onOptionsItemSelected(item)
   }
@@ -154,12 +140,10 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     }
   }
 
-  private fun applyDefaultFont() {
-    //ArchitectureApp.instance.settingFontToViewGroup(UBUNTU_REGULAR, view)
-  }
-
   private fun setToolbar() {
     setSupportActionBar(bindingParent.appBarWithLayout.toolbarMain)
+      supportActionBar?.setLogo(R.drawable.dmi_logo)
+      bindingParent.navView.inflateMenu(R.menu.menu_lead_action)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     supportActionBar?.setHomeButtonEnabled(true)
     bindingParent.appBarWithLayout.tvBackSecondary.setOnClickListener {
@@ -168,13 +152,11 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   }
 
   private fun setUpHeaderView() {
-//    val headerLayout = bindingParent.navView.inflateHeaderView(R.layout.drawer_header)
-//    val ivPhoto = headerLayout.ivProfile
-//    ivPhoto.setImageResource(R.drawable.ic_bell)
-//    val headerLayout = bindingParent.navView.getHeaderView(0)
-//    headerLayout.setOnClickListener {
-//      ProfileActivity.start(this)
-//    }
+      bindingParent.navView.inflateHeaderView(R.layout.drawer_header)
+      val headerLayout = bindingParent.navView.getHeaderView(0)
+      headerLayout.setOnClickListener {
+          ProfileActivity.start(this)
+      }
   }
 
   private fun showToolbar() {
@@ -183,6 +165,11 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   fun hideToolbar() {
     supportActionBar?.hide()
+  }
+
+  fun showLeadOptionsMenu() {
+    val menuOption = bindingParent.appBarWithLayout.toolbarMain.menu
+//    menuOption.findItem(R.id.group_lead_action).isVisible = true
   }
 
   fun hideSecondaryToolbar() {

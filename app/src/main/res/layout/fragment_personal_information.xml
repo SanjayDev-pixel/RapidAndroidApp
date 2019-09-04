@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/fields_margin"
-                        android:baselineAligned="true"
+                        android:baselineAligned="false"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -203,15 +203,14 @@
                             android:id="@+id/btnGetOTP"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/fields_margin"
+                            android:layout_marginStart="@dimen/fields_margin"
                             android:layout_weight="1"
-                            android:background="@color/colorPrimary"
+                            android:background="@drawable/button_theme_style"
                             android:padding="5sp"
                             android:text="Get OTP"
                             android:textColor="@color/white"
                             android:textSize="@dimen/button_size" />
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -244,9 +243,9 @@
                             android:id="@+id/btnVerifyOTP"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/fields_margin"
+                            android:layout_marginStart="@dimen/fields_margin"
                             android:layout_weight="1"
-                            android:background="@color/colorPrimary"
+                            android:background="@drawable/button_theme_style"
                             android:padding="5sp"
                             android:text="Verify OTP"
                             android:textColor="@color/white"

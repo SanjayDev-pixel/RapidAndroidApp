@@ -8,14 +8,14 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.finance.app.R
-import com.finance.app.databinding.NavItemBinding
+import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.model.Modals
 import com.finance.app.view.activity.LoanApplicationActivity
 import com.finance.app.view.fragment.*
 
 class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Modals.NavItems>) : androidx.recyclerview.widget.RecyclerView.Adapter<NavMenuAdapter.NavDrawerViewHolder>() {
 
-    private lateinit var binding: NavItemBinding
+    private lateinit var binding: ItemNavBinding
 
     companion object {
 //        val activity = LoanApplicationActivity()
@@ -24,7 +24,7 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NavDrawerViewHolder {
         val layoutInflater = LayoutInflater.from(c)
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.nav_item, parent, false)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_nav, parent, false)
         return NavDrawerViewHolder(binding, c)
     }
 
@@ -34,7 +34,7 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
         holder.bindItems(navItem[position], position)
     }
 
-    inner class NavDrawerViewHolder(val binding: NavItemBinding, val c: Context) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+    inner class NavDrawerViewHolder(val binding: ItemNavBinding, val c: Context) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
         fun bindItems(navItem: Modals.NavItems, position: Int) {
             binding.tvNavItem.text = navItem.title

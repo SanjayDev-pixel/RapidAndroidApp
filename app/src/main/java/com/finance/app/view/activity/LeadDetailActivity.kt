@@ -2,6 +2,7 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import android.view.Menu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
@@ -22,7 +23,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
-        binding.rcActivities.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        showLeadOptionsMenu()
+        binding.rcActivities.layoutManager = LinearLayoutManager(this)
         binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
 
         binding.btnUpdateApplication.setOnClickListener {

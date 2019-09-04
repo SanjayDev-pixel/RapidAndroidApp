@@ -58,8 +58,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Virendra Sehwag "
-                    android:textSize="24sp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="Virendra Sehwag"
+                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,8 +78,9 @@
                         <ImageView
                             android:id="@+id/ivLocation"
                             android:layout_width="30sp"
+                            android:layout_gravity="center"
                             android:layout_height="30sp"
-                            android:src="@drawable/notification_bell" />
+                            android:src="@drawable/ic_location" />
 
                         <TextView
                             android:id="@+id/tvLocation"
@@ -93,7 +96,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/fields_margin"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -101,7 +104,7 @@
                             android:id="@+id/ivPhone"
                             android:layout_width="30sp"
                             android:layout_height="30sp"
-                            android:src="@drawable/notification_bell" />
+                            android:src="@drawable/call_icon" />
 
                         <TextView
                             android:id="@+id/tvPhone"
@@ -117,20 +120,21 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/fields_margin"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/email"
-                            android:textSize="18sp" />
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size" />
 
                         <TextView
                             android:id="@+id/tvEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5sp"
+                            android:layout_marginStart="@dimen/margin_10"
                             android:text="aljbvak@gmial.com"
                             android:textSize="18sp" />
 
@@ -139,14 +143,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/fields_margin"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/type_of_loan"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/black"/>
 
                         <TextView
                             android:id="@+id/tvTypeOfLoan"
@@ -170,7 +175,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Lead Status : "
-                            android:textSize="18sp" />
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size" />
 
                         <TextView
                             android:id="@+id/tvLeadStatus"
@@ -192,32 +198,35 @@
 
                     <Button
                         android:id="@+id/btnUpdateApplication"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/margin_10"
+                        android:layout_weight="1"
                         android:background="@color/colorAccent"
                         android:padding="5sp"
-                        android:text="Update Application"
+                        android:text="Application"
                         android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/btnCallToCustomer"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10"
                         android:layout_marginEnd="@dimen/margin_10"
                         android:background="@color/md_red_400"
                         android:padding="5sp"
-                        android:text="Call TO Customer"
+                        android:layout_weight="1"
+                        android:text="Call"
                         android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/btnCallUpdates"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10"
                         android:padding="5sp"
-                        android:text="Call Updates"
+                        android:layout_weight="1"
+                        android:text="Call Update"
                         android:textSize="20sp" />
 
                 </LinearLayout>
@@ -246,7 +255,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/activities"
-                        android:textSize="20sp" />
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size" />
 
                     <Button
                         android:id="@+id/btnAddTask"

@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:background="#003E82"
+        android:background="@color/colorPrimary"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

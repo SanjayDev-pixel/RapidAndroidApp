@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            xmlns:app="http://schemas.android.com/tools"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="2dp"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/margin_20">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Update Call Record"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textSize="@dimen/text_size"
+                        android:textStyle="bold" />
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerCustomerStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minWidth="@dimen/text_min_width"
+                        app:ms_arrowColor="@color/black"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        app:ms_arrowSize="@dimen/arrow_size"
+                        app:ms_floatingLabelColor="@color/hint_color"
+                        app:ms_floatingLabelText="Customer Status "
+                        app:ms_hint="Customer Status "
+                        app:ms_hintColor="@color/hint_color"
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        app:ms_multiline="false" />
+
+                    <include
+                        android:id="@+id/layoutFixedMeeting"
+                        android:visibility="gone"
+                        layout="@layout/layout_fixed_meeting"/>
+
+                    <include
+                        android:visibility="gone"
+                        android:id="@+id/layoutNotInterested"
+                        layout="@layout/layout_not_interested"/>
+
+                    <include
+                        android:id="@+id/layoutFollowUp"
+                        layout="@layout/layout_follow_up"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </ScrollView>
+</layout>
