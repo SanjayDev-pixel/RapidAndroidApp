@@ -14,14 +14,14 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.finance.app.databinding.FragmentPersonalInformationBinding
+import com.finance.app.databinding.FragmentPersonalBinding
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
 
 @Suppress("NAME_SHADOWING")
 class PersonalInfoFragment : androidx.fragment.app.Fragment() {
-    private lateinit var binding: FragmentPersonalInformationBinding
+    private lateinit var binding: FragmentPersonalBinding
 
     companion object {
         private const val GALLERY = 1
@@ -29,7 +29,7 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentPersonalInformationBinding.inflate(inflater, container, false)
+        binding = FragmentPersonalBinding.inflate(inflater, container, false)
         return binding.root
     }
 

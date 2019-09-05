@@ -31,7 +31,6 @@ object Response {
             val userId: Int,
             val view: Boolean
     )
-
     data class Role(
             val roleId: Int,
             val roleName: String,

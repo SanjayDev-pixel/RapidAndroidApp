@@ -22,11 +22,11 @@
 
                 <include
                     android:id="@+id/layoutFinancialYear"
-                    android:visibility="gone"
                     layout="@layout/layout_financial_year" />
 
                 <include
                     android:id="@+id/layoutIncome"
+                    android:visibility="gone"
                     layout="@layout/layout_income" />
 
             </LinearLayout>

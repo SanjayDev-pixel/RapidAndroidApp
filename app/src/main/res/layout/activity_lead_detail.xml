@@ -194,6 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_20"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <Button
@@ -202,10 +203,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/margin_10"
                         android:layout_weight="1"
-                        android:background="@color/colorAccent"
+                        android:background="@drawable/button_theme_style"
                         android:padding="5sp"
                         android:text="Application"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/button_size"
+                        />
 
                     <Button
                         android:id="@+id/btnCallToCustomer"
@@ -213,11 +215,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10"
                         android:layout_marginEnd="@dimen/margin_10"
-                        android:background="@color/md_red_400"
+                        android:background="@drawable/button_theme_style"
+                        android:backgroundTint="@color/md_red_400"
                         android:padding="5sp"
                         android:layout_weight="1"
                         android:text="Call"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/button_size" />
 
                     <Button
                         android:id="@+id/btnCallUpdates"
@@ -225,9 +228,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10"
                         android:padding="5sp"
+                        android:background="@drawable/button_theme_style"
+                        android:backgroundTint="@color/md_grey_300"
                         android:layout_weight="1"
-                        android:text="Call Update"
-                        android:textSize="20sp" />
+                        android:text="Call Update" />
 
                 </LinearLayout>
 

@@ -8,9 +8,9 @@ import motobeans.architecture.retrofit.response.Response.ResponseSample
  */
 interface SharedPreferencesUtil {
     fun saveLoginData(response: Response.ResponseLogin?): Boolean
-    fun getLoginData(): ResponseSample?
+    fun getLoginData(): Response.ResponseLogin?
     fun isLogin(): Boolean
-    fun getUserId(): String?
+    fun getUserToken(): String?
     fun getUserName(): String?
 
     // Clear All saved data from Shared Presence

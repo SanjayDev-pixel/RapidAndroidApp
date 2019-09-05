@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.databinding.FragmentLoanInformationBinding
+import com.finance.app.databinding.FragmentPropertyBinding
 
 class PropertyFragment : androidx.fragment.app.Fragment() {
-    private lateinit var binding: FragmentLoanInformationBinding
+    private lateinit var binding: FragmentPropertyBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentLoanInformationBinding.inflate(inflater, container, false)
+        binding = FragmentPropertyBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

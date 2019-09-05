@@ -26,4 +26,5 @@
     <dimen name="arrow_size">16dp</dimen>
     <dimen name="fields_margin">15dp</dimen>
     <dimen name="small_text_size">13sp</dimen>
+    <dimen name="spinner_edittext_margin">8sp</dimen>
 </resources>

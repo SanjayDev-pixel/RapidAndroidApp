@@ -7,6 +7,7 @@ import com.finance.app.presenter.presenter.TestPresenter
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.LoginPresenter
 import com.finance.app.view.activity.LoginActivity
+import com.finance.app.view.activity.SplashScreen
 import com.finance.app.view.adapters.Recycler.Adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.Recycler.Holder.TempHolder
 import com.finance.app.view.fragment.TestFragment
@@ -37,6 +38,7 @@ interface ApplicationComponent {
     fun inject(activity: TestActivity)
     fun inject(activity: BaseAppCompatActivity)
     fun inject(activity: LoginActivity)
+    fun inject(activity: SplashScreen)
 
     /**
      * Fragment

@@ -28,7 +28,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_first_name"
+                    android:id="@+id/input_layout_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -45,7 +45,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_middle_name"
+                    android:id="@+id/input_layout_middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -62,7 +62,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_last_name"
+                    android:id="@+id/input_layout_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -86,7 +86,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_dob"
+                        android:id="@+id/input_layout_dob"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -104,7 +104,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_age"
+                        android:id="@+id/input_layout_age"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -162,7 +162,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_father_first_name"
+                    android:id="@+id/input_layout_father_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -179,7 +179,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_father_middle_name"
+                    android:id="@+id/input_layout_father_middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -196,7 +196,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_father_last_name"
+                    android:id="@+id/input_layout_father_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -346,7 +346,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_spouse__first_name"
+                    android:id="@+id/input_layout_spouse__first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -363,7 +363,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_spouse__middle_name"
+                    android:id="@+id/input_layout_spouse__middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -380,7 +380,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_spouse__last_name"
+                    android:id="@+id/input_layout__last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
@@ -404,7 +404,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_alternate_num"
+                        android:id="@+id/input_layout_alternate_num"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -421,7 +421,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_no_of_dependent"
+                        android:id="@+id/input_layout_no_of_dependent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

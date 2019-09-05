@@ -5,13 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.databinding.FragmentLoanInformationBinding
 
-class LiabilityAndAssetFragment : androidx.fragment.app.Fragment() {
-    private lateinit var binding: FragmentLoanInformationBinding
+class AssetLiablityFragment : androidx.fragment.app.Fragment() {
+    private lateinit var binding: FragmentAssetLiablityBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentLoanInformationBinding.inflate(inflater, container, false)
+        binding = FragmentAssetLiablityBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

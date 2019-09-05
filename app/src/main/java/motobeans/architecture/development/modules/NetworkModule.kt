@@ -134,7 +134,7 @@ class NetworkModule {
       val original = chain.request()
 
       val builder = original.newBuilder()
-      builder.header("Authorization", "basic ${sharedPreferencesUtil.getUserId()}")
+      builder.header("Authorization", "basic ${sharedPreferencesUtil.getUserToken()}")
       builder.header("Content-Type", "application/json").method(original.method(), original.body())
       builder.header("platform", "Android")
 

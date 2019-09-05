@@ -59,7 +59,7 @@
                             app:ms_multiline="false" />
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/input_id_num"
+                            android:id="@+id/input_layout_id_num"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5sp"
@@ -85,7 +85,7 @@
                         android:orientation="horizontal">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/input_issue_date"
+                            android:id="@+id/input_layout_issue_date"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -103,7 +103,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/input_expiry_date"
+                            android:id="@+id/input_layout_expiry_date"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -183,7 +183,7 @@
                         android:orientation="horizontal">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/input_mobile"
+                            android:id="@+id/input__layout_mobile"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -254,7 +254,7 @@
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_email"
+                        android:id="@+id/input_layout_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/fields_margin"

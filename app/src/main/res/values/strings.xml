@@ -46,4 +46,16 @@
     <string name="completed_task">Completed Task</string>
     <string name="update_call">Update Call</string>
     <string name="close_lead">Close Lead</string>
+    <string name="upload_bank_statement">Upload Bank Statement</string>
+    <string name="reference_detail">Reference Detail</string>
+    <string name="name">Name</string>
+    <string name="property_details">Property Details</string>
+    <string name="property_address">Property Address</string>
+    <string name="landmark">Landmark</string>
+    <string name="pin_code">Pin Code</string>
+    <string name="city">City</string>
+    <string name="district">District</string>
+    <string name="property_area_in_sq_ft">Property Area(In Sq ft)</string>
+    <string name="distance_from_branch">Distance From Branch</string>
+    <string name="employment">Employment</string>
 </resources>
