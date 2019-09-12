@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
-
+/d
     <application
         android:name="motobeans.architecture.application.ArchitectureApp"
         android:allowBackup="false"
@@ -42,6 +42,10 @@
         <activity android:name=".view.activity.LeadDetailActivity" />
         <activity android:name=".view.activity.UpdateCallActivity" />
         <activity android:name=".view.activity.TaskDetailActivity" />
+        <activity android:name=".view.activity.ForgetPasswordActivity"></activity>
+        <activity android:name=".view.activity.OtpVerifyActivity"></activity>
+        <activity android:name=".view.activity.resetPasswordActivity"></activity>
+
 
     </application>
 

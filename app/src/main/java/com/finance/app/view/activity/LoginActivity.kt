@@ -35,6 +35,9 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
         binding.btnLogin.setOnClickListener {
             presenterOpt.callNetwork(ConstantsApi.CALL_LOGIN)
         }
+        binding.tvForgotPassword.setOnClickListener {
+            ForgetPasswordActivity.start(context = getContext())
+        }
     }
 
     private val mCompany: Requests.Company

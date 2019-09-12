@@ -20,6 +20,7 @@ class AddNewLeadActivity : BaseAppCompatActivity() {
         }
     }
 
+
     override fun init() {
         hideToolbar()
         hideSecondaryToolbar()
