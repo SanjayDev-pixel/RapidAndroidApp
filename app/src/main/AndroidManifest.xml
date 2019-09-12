@@ -10,21 +10,22 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
-/d
+
     <application
         android:name="motobeans.architecture.application.ArchitectureApp"
         android:allowBackup="false"
         android:fullBackupOnly="false"
-        android:hardwareAccelerated="true"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
         tools:targetApi="lollipop">
         <activity
             android:name=".view.activity.SplashScreen"
-            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,20 +33,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.ProfileActivity" />
-        <activity android:name=".view.activity.AddNewLeadActivity" />
-        <activity android:name=".view.activity.LeadManagementActivity" />
-        <activity android:name=".view.activity.LoginActivity" />
-        <activity android:name=".view.activity.LoanApplicationActivity" />
-        <activity android:name=".view.activity.AddNewTaskActivity" />
-        <activity android:name=".view.activity.DashboardActivity" />
-        <activity android:name=".view.activity.LeadDetailActivity" />
-        <activity android:name=".view.activity.UpdateCallActivity" />
-        <activity android:name=".view.activity.TaskDetailActivity" />
         <activity android:name=".view.activity.ForgetPasswordActivity"></activity>
         <activity android:name=".view.activity.OtpVerifyActivity"></activity>
         <activity android:name=".view.activity.resetPasswordActivity"></activity>
-
+        <activity
+            android:name=".view.activity.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.AddNewLeadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.LeadManagementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.LoanApplicationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.AddNewTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.DashboardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.LeadDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.UpdateCallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.TaskDetailActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
