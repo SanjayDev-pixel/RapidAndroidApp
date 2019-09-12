@@ -60,6 +60,7 @@
                     <include
                         android:id="@+id/layoutFollowUp"
                         layout="@layout/layout_follow_up"/>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </ScrollView>

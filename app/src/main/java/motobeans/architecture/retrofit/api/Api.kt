@@ -29,4 +29,7 @@ interface Api {
     @POST("api/v1/auth/")
     fun loginUser(@Body request: Requests.RequestLogin): Observable<Response.ResponseLogin>
 
+    @POST("api/v1/lead/")
+    fun addLead(@Body request: Requests.RequestAddLead): Observable<Response.ResponseAddLead>
+
 }

@@ -1,14 +1,12 @@
 package motobeans.architecture.retrofit.response
 
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
 object Response {
 
     data class ResponseSample(var isSuccess: Boolean, var status: Int, var message: String)
     data class ResponseLogin(val responseCode: String, val responseMsg: String, val responseObj: ResponseObj, val timeStamp: Long)
     data class ResponseObj(val token: String, val userDetails: UserDetails)
-    data class UserDetails(val roleList: List<Role>, val rolePrivilegesList: List<RolePrivileges>, val userBasicDetails: UserBasicDetails)    data class UserBasicDetails(val neverPasswordExpired: Boolean, val password: Any,
+    data class UserDetails(val roleList: List<Role>, val rolePrivilegesList: List<RolePrivileges>, val userBasicDetails: UserBasicDetails)
+    data class UserBasicDetails(val neverPasswordExpired: Boolean, val password: Any,
             val passwordChangeRequired: Boolean, val roleEdited: Boolean, val secuirtyAnswer1: String, val secuirtyAnswer2: String, val secuirtyQuestionId1: Int,
             val secuirtyQuestionId2: Int, val userId: Int, val userName: String)
     data class RolePrivileges(
@@ -31,11 +29,6 @@ object Response {
             val userId: Int,
             val view: Boolean
     )
-    data class Role(
-            val roleId: Int,
-            val roleName: String,
-            val rolePrivilegesCollection: Any,
-            val rolePrivilegesList: Any,
-            val userRoleCollection: Any
-    )
+    data class Role(val roleId: Int, val roleName: String, val rolePrivilegesCollection: Any, val rolePrivilegesList: Any, val userRoleCollection: Any)
+    data class ResponseAddLead(val error: Any, val responseCode: String, val responseMsg: String, val responseObj: Any, val timeStamp: Int)
 }

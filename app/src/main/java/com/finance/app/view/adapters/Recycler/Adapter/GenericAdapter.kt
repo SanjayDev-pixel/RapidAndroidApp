@@ -9,9 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.finance.app.view.adapters.Recycler.Adapter.GenericAdapter.Companion.MyHolder
 
-/**
- * Created by abul on 14/4/18.
- */
 abstract class GenericAdapter<T : ViewDataBinding, L>(
     private val mContext: Context, private val mList: ArrayList<L>,
     private val mLayout: Int)//        SocietyApplication.getInstance().getAppComponent().inject(this);

@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
+import androidx.fragment.app.Fragment
+import com.example.motobeans.educationapp.app.view.adapter.arrayadapter.GenericSpinnerAdapter
 import com.finance.app.databinding.FragmentLoanInformationBinding
+import com.finance.app.model.Modals
 import com.google.android.material.textfield.TextInputLayout
 
-class LoanInformationFragment : androidx.fragment.app.Fragment() {
+class LoanInformationFragment : Fragment() {
     private lateinit var binding: FragmentLoanInformationBinding
 
     companion object {
@@ -65,13 +68,24 @@ class LoanInformationFragment : androidx.fragment.app.Fragment() {
         val adapterPartnerName = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, partnerName)
         adapterPartnerName.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        binding.spinnerLoanProduct.adapter = loanProductAdapter
+        val lists :ArrayList<Modals.SpinnerValue> = ArrayList()
+        lists.add(mCompany)
+        lists.add(mCompany)
+        lists.add(mCompany)
+
+        binding.spinnerLoanProduct.adapter = GenericSpinnerAdapter(context!!, lists)
         binding.spinnerLoanScheme.adapter = adapterLoanScheme
         binding.spinnerLoanPurpose.adapter = adapterLoanPurpose
         binding.spinnerInterestType.adapter = adapterInterestType
         binding.spinnerPartnerName.adapter = adapterPartnerName
         binding.spinnerSourcingChannelPartner.adapter = adapterSourcingChannelPartner
     }
+
+    private val mCompany: Modals.SpinnerValue
+        get() {
+            return Modals.SpinnerValue("lajv", 1)
+        }
+
 
     private fun setMandatoryField() {
         binding.inputLayoutAmount.isMandatory()
@@ -86,4 +100,3 @@ class LoanInformationFragment : androidx.fragment.app.Fragment() {
         }
     }
 }
-

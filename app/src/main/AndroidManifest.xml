@@ -35,12 +35,12 @@
         </activity>
         <activity android:name=".view.activity.ForgetPasswordActivity"></activity>
         <activity android:name=".view.activity.OtpVerifyActivity"></activity>
-        <activity android:name=".view.activity.resetPasswordActivity"></activity>
+        <activity android:name=".view.activity.ResetPasswordActivity"></activity>
         <activity
             android:name=".view.activity.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.AddNewLeadActivity"
+            android:name=".view.activity.AddLeadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.LeadManagementActivity"
@@ -52,7 +52,7 @@
             android:name=".view.activity.LoanApplicationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.AddNewTaskActivity"
+            android:name=".view.activity.AddTaskActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.DashboardActivity"

@@ -16,10 +16,8 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 
 class ForgetPasswordActivity : BaseAppCompatActivity() {
 
-    // used to bind element of layout to activity
     private val binding: ActivityForgetPasswordBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_forget_password)
-
 
     companion object {
         fun start(context: Context) {
@@ -36,14 +34,5 @@ class ForgetPasswordActivity : BaseAppCompatActivity() {
             OtpVerifyActivity.start(context = getContext())
 
         }
-//        Call login api on login button
-
     }
-
-
-
-
-    private fun saveResponseToDB(response: Response.ResponseLogin) {
-    }
-
 }

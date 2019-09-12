@@ -9,23 +9,11 @@
         android:orientation="vertical"
         android:padding="60sp">
 
-
-
         <ImageView
             android:id="@+id/ivAppLogo"
             android:layout_width="wrap_content"
             android:layout_height="150sp"
             android:src="@drawable/app_logo" />
-
-        <TextView
-            android:id="@+id/tvForgotPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40sp"
-            android:gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:hint="@string/forgot_password"
-            android:singleLine="true" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -68,14 +56,26 @@
                 android:singleLine="true"
                 android:textColorHint="#000000" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btnLogin"
-            android:layout_width="200sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:background="@color/colorPrimary"
+            android:layout_marginTop="@dimen/margin_20"
+            android:background="@drawable/button_theme_style"
+            android:padding="5sp"
             android:text="@string/login"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/button_size" />
+
+        <TextView
+            android:id="@+id/tvForgotPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:hint="@string/forgot_password" />
+
     </LinearLayout>
 </layout>

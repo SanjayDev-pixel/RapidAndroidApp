@@ -37,7 +37,7 @@
                 android:id="@+id/secondaryToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="#ffffff"
+                android:background="@color/white"
                 android:gravity="center"
                 android:padding="10dp">
 

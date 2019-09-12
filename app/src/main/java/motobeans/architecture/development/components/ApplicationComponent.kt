@@ -5,6 +5,7 @@ import com.optcrm.optreporting.AppModule
 import com.finance.app.presenter.presenter.TempSyncPresenter
 import com.finance.app.presenter.presenter.TestPresenter
 import com.finance.app.TestActivity
+import com.finance.app.presenter.presenter.AddLeadPresenter
 import com.finance.app.presenter.presenter.LoginPresenter
 import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.SplashScreen
@@ -51,6 +52,7 @@ interface ApplicationComponent {
     fun inject(presenter: TestPresenter)
     fun inject(presenter: TempSyncPresenter)
     fun inject(loginPresenter: LoginPresenter)
+    fun inject(addLeadPresenter: AddLeadPresenter)
 
     /**
      * View Model

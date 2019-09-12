@@ -3,7 +3,6 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import com.finance.app.R
-import com.finance.app.databinding.ActivityForgetPasswordBinding
 import com.finance.app.databinding.ActivityOtpVerifyBinding
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.retrofit.response.Response
@@ -28,7 +27,7 @@ class OtpVerifyActivity : BaseAppCompatActivity() {
         hideToolbar()
         hideSecondaryToolbar()
         binding.btnProceed.setOnClickListener {
-            resetPasswordActivity.start(context = getContext())
+            ResetPasswordActivity.start(context = getContext())
 
         }
 //        Call login api on login button

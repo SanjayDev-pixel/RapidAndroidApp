@@ -36,7 +36,7 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
             presenterOpt.callNetwork(ConstantsApi.CALL_LOGIN)
         }
         binding.tvForgotPassword.setOnClickListener {
-            ForgetPasswordActivity.start(context = getContext())
+            ForgetPasswordActivity.start(this)
         }
     }
 
@@ -47,7 +47,6 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
 
     private val mLoginRequestLogin: Requests.RequestLogin
         get() {
-
             binding.etUserName.setText("kuldeep.saini@gmail.com")
             binding.etPassword.setText("Default@123")
 
