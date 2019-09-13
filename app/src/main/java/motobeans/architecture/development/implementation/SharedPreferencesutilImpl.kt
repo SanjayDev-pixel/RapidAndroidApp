@@ -30,9 +30,7 @@ class SharedPreferencesutilImpl(context: Context) : SharedPreferencesUtil {
 
     override fun getLoginData(): Response.ResponseLogin? {
         val obj_sp_login = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOGIN_DETAILS)
-
         val loginJson = obj_sp_login.getString(SharedPreferencesBean.KEY_LOGIN_DETAILS)
-
         return Gson().fromJson(loginJson, Response.ResponseLogin::class.java)
     }
 
@@ -51,14 +49,11 @@ class SharedPreferencesutilImpl(context: Context) : SharedPreferencesUtil {
     override fun clearAll() {
         try {
             for (element in SharedPreferencesBean.Array_KEY_SHARED_PREFERENCES) {
-                val obj_sp = SharedPreferencesCustom(context,
-                        element)
+                val obj_sp = SharedPreferencesCustom(context, element)
                 obj_sp.clearSharedPreferences()
             }
         } catch (e: Exception) {
 
         }
-
     }
-
 }

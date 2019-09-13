@@ -30,8 +30,8 @@
                     android:id="@+id/tvApplicant"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Applicant ->"
-                    android:textColor="#ffffff"
+                    android:text="Applicant "
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <TextView
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20sp"
                     android:text="Co Applicant"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
 

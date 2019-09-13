@@ -9,13 +9,6 @@
         android:orientation="vertical"
         android:padding="60sp">
 
-<<<<<<< HEAD
-        <ImageView
-            android:id="@+id/ivAppLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="150sp"
-            android:src="@drawable/app_logo" />
-=======
             <ImageView
                 android:id="@+id/ivAppLogo"
                 android:layout_width="wrap_content"
@@ -25,64 +18,28 @@
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30sp">
+                android:layout_marginTop="@dimen/margin_20">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/user_name"
-                    android:singleLine="true"
-                    android:textColorHint="#000000" />
+                    android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
->>>>>>> parent of c44e187... Commit in Login Flow.
 
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20sp">
+                android:layout_marginTop="@dimen/margin_20">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
                     android:singleLine="true"
-                    android:textColorHint="#000000" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp">
-
-                <Spinner
-                    android:id="@+id/spnCompanyName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="200sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/white"
-                android:layout_marginTop="50dp"
-                android:text="@string/login" />
-
-            <TextView
-                android:id="@+id/tvForgotPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:hint="@string/password"
-                android:singleLine="true"
-                android:textColorHint="#000000" />
+                    />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -97,21 +54,11 @@
             android:textSize="@dimen/button_size" />
 
         <TextView
-            android:id="@+id/tvForgotPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_20"
-            android:gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:hint="@string/forgot_password" />
+                android:id="@+id/tvForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/forgot_password"
+                android:layout_marginTop="@dimen/margin_20" />
 
     </LinearLayout>
-=======
-                android:layout_marginTop="40sp"
-                android:gravity="center"
-                android:hint="@string/forgot_password"
-                android:singleLine="true" />
-
-        </LinearLayout>
->>>>>>> parent of c44e187... Commit in Login Flow.
 </layout>

@@ -58,7 +58,6 @@ class SharedPreferencesCustom {
         val SP = context!!.getSharedPreferences(KEY_PREFERENCE, Context.MODE_PRIVATE)
         val editor = SP.edit()
         editor.clear()
-        editor.commit()
-
+        editor.apply()
     }
 }

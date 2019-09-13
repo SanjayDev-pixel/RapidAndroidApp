@@ -14,7 +14,6 @@ class OtpVerifyActivity : BaseAppCompatActivity() {
     private val binding: ActivityOtpVerifyBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_otp_verify)
 
-
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, OtpVerifyActivity::class.java)
@@ -30,12 +29,5 @@ class OtpVerifyActivity : BaseAppCompatActivity() {
             ResetPasswordActivity.start(context = getContext())
 
         }
-//        Call login api on login button
-
     }
-
-
-    private fun saveResponseToDB(response: Response.ResponseLogin) {
-    }
-
 }

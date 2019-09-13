@@ -18,8 +18,10 @@ import com.finance.app.view.activity.ProfileActivity
 import com.google.android.material.navigation.NavigationView
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
+import javax.inject.Inject
 
 abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
@@ -28,6 +30,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   private var isBackPressDialogToShow = false
   private var view: View? = null
   private lateinit var bindingParent: ActivityBaseBinding
+  @Inject
+  lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
   companion object {
     internal var progressDialog: ProgressDialog? = null
@@ -78,6 +82,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         DashboardActivity.start(this)
       }
       R.id.logout -> {
+        sharedPreferencesUtil.clearAll()
         LoginActivity.start(this)
       }
       R.id.assignedLeads -> {
@@ -142,8 +147,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   private fun setToolbar() {
     setSupportActionBar(bindingParent.appBarWithLayout.toolbarMain)
-      supportActionBar?.setLogo(R.drawable.dmi_logo)
-      bindingParent.navView.inflateMenu(R.menu.menu_lead_action)
+    supportActionBar?.setLogo(R.drawable.dmi_logo)
+    bindingParent.navView.inflateMenu(R.menu.menu_lead_action)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     supportActionBar?.setHomeButtonEnabled(true)
     bindingParent.appBarWithLayout.tvBackSecondary.setOnClickListener {

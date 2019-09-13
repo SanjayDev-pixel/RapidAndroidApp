@@ -1,26 +1,35 @@
 package com.finance.app.view.fragment
 
+import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
-import com.example.motobeans.educationapp.app.view.adapter.arrayadapter.GenericSpinnerAdapter
 import com.finance.app.databinding.FragmentLoanInformationBinding
-import com.finance.app.model.Modals
+import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.utility.UploadData
+import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
 import com.google.android.material.textfield.TextInputLayout
 
 class LoanInformationFragment : Fragment() {
     private lateinit var binding: FragmentLoanInformationBinding
+    private val frag: Fragment = this
 
     companion object {
-        private const val PICK_FILE_RESULT_CODE = 1
-        private const val CLICK_IMAGE_RESULT_CODE = 2
+        private const val SELECT_PDF_CODE = 1
+        private const val CLICK_IMAGE_CODE = 2
+        private const val SELECT_IMAGE_CODE = 3
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,10 +42,9 @@ class LoanInformationFragment : Fragment() {
         setDropDownValue()
         setMandatoryField()
         binding.ivUploadForm.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "file/*"
-            startActivityForResult(intent, PICK_FILE_RESULT_CODE)
+            UploadData(frag, context!!)
         }
+
     }
 
     private fun setDropDownValue() {
@@ -68,10 +76,10 @@ class LoanInformationFragment : Fragment() {
         val adapterPartnerName = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, partnerName)
         adapterPartnerName.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        val lists :ArrayList<Modals.SpinnerValue> = ArrayList()
-        lists.add(mCompany)
-        lists.add(mCompany)
-        lists.add(mCompany)
+        val lists: ArrayList<DropdownMaster> = ArrayList()
+        lists.add(DropdownMaster())
+        lists.add(DropdownMaster())
+        lists.add(DropdownMaster())
 
         binding.spinnerLoanProduct.adapter = GenericSpinnerAdapter(context!!, lists)
         binding.spinnerLoanScheme.adapter = adapterLoanScheme
@@ -80,12 +88,6 @@ class LoanInformationFragment : Fragment() {
         binding.spinnerPartnerName.adapter = adapterPartnerName
         binding.spinnerSourcingChannelPartner.adapter = adapterSourcingChannelPartner
     }
-
-    private val mCompany: Modals.SpinnerValue
-        get() {
-            return Modals.SpinnerValue("lajv", 1)
-        }
-
 
     private fun setMandatoryField() {
         binding.inputLayoutAmount.isMandatory()
@@ -97,6 +99,28 @@ class LoanInformationFragment : Fragment() {
         hint = buildSpannedString {
             append(hint)
             color(Color.RED) { append(" *") } // Mind the space prefix.
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            val returnUri = data!!.data
+            when (requestCode) {
+                SELECT_PDF_CODE -> {
+                    Log.i("URI: ", returnUri?.toString())
+                    binding.ivThumbnail.visibility = View.GONE
+                    binding.ivPdf.visibility = View.VISIBLE
+                }
+                SELECT_IMAGE_CODE -> {
+                    val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, returnUri)
+                    binding.ivThumbnail.setImageBitmap(bitmap)
+                }
+                CLICK_IMAGE_CODE -> {
+                    val thumbnail = data.extras!!.get("data") as Bitmap
+                    binding.ivThumbnail.setImageBitmap(thumbnail)
+                }
+            }
         }
     }
 }

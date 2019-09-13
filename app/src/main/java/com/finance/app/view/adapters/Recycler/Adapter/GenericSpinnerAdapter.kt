@@ -1,4 +1,4 @@
-package com.example.motobeans.educationapp.app.view.adapter.arrayadapter
+package com.finance.app.view.adapters.Recycler.Adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
+import com.finance.app.persistence.model.DropdownMaster
 
-class GenericSpinnerAdapter<T>(private val context1: Context, val value: ArrayList<T>) :
+class GenericSpinnerAdapter(private val context1: Context, val value: ArrayList<DropdownMaster>) :
         BaseAdapter() {
 
     private var inflater: LayoutInflater = context1.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+    private lateinit var spinnerValue: DropdownMaster
 
     override fun getItem(position: Int): Any? {
         return value[position]
@@ -33,10 +36,12 @@ class GenericSpinnerAdapter<T>(private val context1: Context, val value: ArrayLi
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
+        spinnerValue = value[position]
+
         if (convertView == null) {
             view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.dropdown) as TextView
-            textView.text = value[position].toString()
+            textView.text = spinnerValue.localId
         } else {
             view = convertView
         }

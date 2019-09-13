@@ -19,7 +19,6 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
 
-@Suppress("NAME_SHADOWING")
 class PersonalInfoFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentPersonalBinding
 

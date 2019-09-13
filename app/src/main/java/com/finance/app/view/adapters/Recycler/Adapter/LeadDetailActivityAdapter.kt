@@ -10,7 +10,7 @@ import com.finance.app.R
 import com.finance.app.databinding.LeadDetailActivitiesItemBinding
 import java.util.*
 
-class LeadDetailActivityAdapter(private val c: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<LeadDetailActivityAdapter.LeadDetailActivityHolder>() {
+class LeadDetailActivityAdapter(private val c: Context) : RecyclerView.Adapter<LeadDetailActivityAdapter.LeadDetailActivityHolder>() {
     private lateinit var binding: LeadDetailActivitiesItemBinding
 
     private val name = arrayOf("ChamanLal", "Sanat bhagel", " bhagel", "Sanat ")
