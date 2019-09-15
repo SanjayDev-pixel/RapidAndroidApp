@@ -28,11 +28,12 @@ class LeadManagementActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
+        hideSecondaryToolbar()
         pagerAdapter = LeadPagerAdapter(supportFragmentManager)
-        pagerAdapter!!.addFragment(AllLeadsFragment(), "All Leads")
-        pagerAdapter!!.addFragment(CompletedLeadFragment(), "Completed")
         pagerAdapter!!.addFragment(PendingLeadsFragment(), "Pending")
+        pagerAdapter!!.addFragment(CompletedLeadFragment(), "Completed")
         pagerAdapter!!.addFragment(RejectedLeadFragment(), "Rejected")
+        pagerAdapter!!.addFragment(AllLeadsFragment(), "All Leads")
         binding.viewPager.adapter = pagerAdapter
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }

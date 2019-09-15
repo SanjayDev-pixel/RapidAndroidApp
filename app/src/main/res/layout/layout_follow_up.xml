@@ -17,6 +17,7 @@
             android:minWidth="@dimen/text_min_width"
             app:ms_arrowColor="@color/black"
             android:layout_marginTop="@dimen/fields_margin"
+            android:textSize="@dimen/text_size"
             app:ms_arrowSize="@dimen/arrow_size"
             app:ms_floatingLabelColor="@color/hint_color"
             app:ms_floatingLabelText="Lead Type "

@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -49,8 +49,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:minWidth="@dimen/text_min_width"
-                            app:ms_arrowColor="#000000"
+                            app:ms_arrowColor="@color/black"
                             app:ms_arrowSize="16dp"
+                            android:textSize="@dimen/text_size"
                             app:ms_floatingLabelColor="@color/hint_color"
                             app:ms_floatingLabelText="Identification Type"
                             app:ms_hint="Identification Type"
@@ -136,6 +137,7 @@
                             android:layout_weight="1"
                             android:minWidth="@dimen/text_min_width"
                             app:ms_arrowColor="@color/black"
+                            android:textSize="@dimen/text_size"
                             app:ms_arrowSize="@dimen/arrow_size"
                             app:ms_floatingLabelColor="@color/hint_color"
                             app:ms_floatingLabelText="Verified Status"

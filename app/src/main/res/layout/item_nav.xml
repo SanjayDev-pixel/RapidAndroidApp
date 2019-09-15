@@ -5,8 +5,8 @@
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@color/colorPrimary"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:background="@drawable/drawer_gradient_color"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -22,8 +22,7 @@
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="Personal info"
+            android:background="@drawable/drawer_gradient_color"
             android:textColor="@drawable/button_select"
             android:textSize="@dimen/text_menu_size" />
     </LinearLayout>

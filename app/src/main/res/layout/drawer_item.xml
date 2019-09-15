@@ -29,6 +29,6 @@
                 android:textSize="24sp" />
         </LinearLayout>
 
-        <include layout="@layout/line_seprator" />
+        <include layout="@layout/line_seperator" />
     </LinearLayout>
 </layout>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -12,23 +14,43 @@
             android:padding="@dimen/main_page_padding">
 
             <RelativeLayout
-                android:padding="0sp"
+                android:paddingTop="5sp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30sp"
                 android:background="@color/colorPrimary"
                 android:paddingStart="@dimen/main_page_padding"
                 android:paddingEnd="@dimen/main_page_padding">
 
-                <Spinner
+                <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerModule"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/white"
+                    app:ms_arrowSize="16dp"
+                    android:layout_centerVertical="true"
+                    app:ms_floatingLabelColor="@color/white"
+                    app:ms_floatingLabelText="Module  "
+                    app:ms_hint="Module "
+                    app:ms_hintColor="@color/white"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
 
-                <Spinner
+                <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerSlot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true" />
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/white"
+                    android:layout_centerVertical="true"
+                    app:ms_arrowSize="16dp"
+                    android:layout_alignParentEnd="true"
+                    app:ms_floatingLabelColor="@color/white"
+                    app:ms_floatingLabelText="Slot  "
+                    app:ms_hint="Slot "
+                    app:ms_hintColor="@color/white"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
 
             </RelativeLayout>
 
@@ -47,6 +69,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/button_size"
                         android:text="@string/login_overview" />
 
                     <LinearLayout
@@ -65,11 +89,11 @@
 
                         <TextView
                             android:layout_width="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_height="wrap_content"
                             android:text="@string/shortfall" />
 
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:id="@+id/layoutAchieved"
@@ -89,6 +113,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:text="@string/achieved" />
 
                     </LinearLayout>
@@ -98,31 +123,35 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_20"
                     android:layout_marginTop="@dimen/margin_20">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/files"
-                        android:textSize="20sp" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size" />
 
                     <include
                         android:id="@+id/progressFiles"
                         layout="@layout/progress_chart" />
                 </RelativeLayout>
 
+                <include layout="@layout/line_seperator"/>
                 <RelativeLayout
                     android:id="@+id/layoutVolume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50sp">
+                    android:layout_marginTop="@dimen/margin_20">
 
                     <TextView
                         android:id="@+id/tvVolume"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:text="@string/volume"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/text_size" />
 
                     <include
                         android:id="@+id/progressVolume"
@@ -133,27 +162,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="50sp"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:background="@color/md_grey_200"
+                    android:layout_marginTop="@dimen/margin_50"
+                    android:background="@color/md_grey_700"
                     android:padding="@dimen/margin_10">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
+                        android:layout_marginStart="@dimen/margin_10"
                         android:text="" />
 
                     <TextView
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="5"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/white"
                         android:gravity="center"
                         android:text="@string/files" />
 
                     <TextView
                         android:layout_width="wrap_content"
+                        android:textSize="@dimen/text_size"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         android:layout_weight="3"
                         android:gravity="center"
                         android:text="@string/volume_in_lakh" />
@@ -177,13 +210,17 @@
                             android:id="@+id/tvTarget"
                             android:layout_width="0sp"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size"
                             android:layout_weight="3"
                             android:text="@string/target" />
 
                         <TextView
                             android:id="@+id/tvTargetFiles"
                             android:layout_width="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size"
                             android:layout_weight="2"
                             android:gravity="center" />
 
@@ -191,12 +228,14 @@
                             android:id="@+id/tvTargetVolume"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_weight="3"
+                            android:textSize="@dimen/text_size"
                             android:gravity="center" />
 
                     </LinearLayout>
 
-                    <include layout="@layout/line_seprator" />
+                    <include layout="@layout/line_seperator" />
 
 
                     <LinearLayout
@@ -209,12 +248,16 @@
                             android:id="@+id/tvAchieved"
                             android:layout_width="0sp"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size"
                             android:layout_weight="3"
                             android:text="@string/achieved" />
 
                         <TextView
                             android:id="@+id/tvAchievedFiles"
+                            android:textSize="@dimen/text_size"
                             android:layout_width="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:gravity="center" />
@@ -222,13 +265,15 @@
                         <TextView
                             android:id="@+id/tvAchievedVolume"
                             android:layout_width="wrap_content"
+                            android:textSize="@dimen/text_size"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_weight="3"
                             android:gravity="center" />
 
                     </LinearLayout>
 
-                    <include layout="@layout/line_seprator" />
+                    <include layout="@layout/line_seperator" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -239,7 +284,9 @@
                         <TextView
                             android:id="@+id/tvPercentAchieved"
                             android:layout_width="0sp"
+                            android:textSize="@dimen/text_size"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_weight="3"
                             android:text="@string/percent_achieved" />
 
@@ -247,19 +294,23 @@
                             android:id="@+id/tvPercentAchievedFiles"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size"
                             android:layout_weight="2"
+                            android:textColor="@color/black"
                             android:gravity="center" />
 
                         <TextView
                             android:id="@+id/tvPercentAchievedVolume"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/black"
                             android:layout_weight="3"
                             android:gravity="center" />
 
                     </LinearLayout>
 
-                    <include layout="@layout/line_seprator" />
+                    <include layout="@layout/line_seperator" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -270,21 +321,27 @@
                         <TextView
                             android:id="@+id/tvPercentShortfall"
                             android:layout_width="0sp"
+                            android:textSize="@dimen/text_size"
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
+                            android:textColor="@color/black"
                             android:text="@string/shortage" />
 
                         <TextView
                             android:id="@+id/tvPercentShortfallFiles"
+                            android:textSize="@dimen/text_size"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_weight="2"
                             android:gravity="center" />
 
                         <TextView
                             android:id="@+id/tvPercentShortfallVolume"
                             android:layout_width="wrap_content"
+                            android:textSize="@dimen/text_size"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_weight="3"
                             android:gravity="center" />
 

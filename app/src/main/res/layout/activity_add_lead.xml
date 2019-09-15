@@ -60,22 +60,21 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_loan_type"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerTypeOfLoan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etLoanType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Type of Loan"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="16dp"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="Type Of Loan  "
+                    android:textSize="@dimen/text_size"
+                    app:ms_hint="Type Of Loan  "
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_location"

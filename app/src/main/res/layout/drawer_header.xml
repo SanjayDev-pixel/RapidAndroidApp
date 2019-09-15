@@ -30,7 +30,7 @@
             android:layout_marginTop="@dimen/margin_10"
             android:gravity="center"
             android:text="Erik"
-            android:textSize="20sp" />
+            android:textSize="@dimen/button_size" />
 
         <LinearLayout
             android:id="@+id/llDesignation"
@@ -45,7 +45,7 @@
                 android:layout_gravity="center"
                 android:text="@string/designation"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="@dimen/button_size" />
 
             <TextView
                 android:id="@+id/tvDesignation"
@@ -55,7 +55,7 @@
                 android:gravity="center"
                 android:text="RM"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="@dimen/button_size" />
 
         </LinearLayout>
 
@@ -78,7 +78,7 @@
 
                 <TextView
                     android:id="@+id/tvAssignment"
-                    android:textColor="@color/gradient_black"
+                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/assignments" />
@@ -86,7 +86,7 @@
                 <TextView
                     android:id="@+id/tvTaskStatus"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/gradient_black"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5sp"
                     android:layout_toStartOf="@id/tvTasks"
@@ -95,7 +95,7 @@
                 <TextView
                     android:id="@+id/tvTasks"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/gradient_black"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="@string/tasks" />
@@ -103,7 +103,7 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <include layout="@layout/line_seprator" />
+        <include layout="@layout/line_seperator" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                     android:text="15"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/button_size" />
 
                 <TextView
                     android:id="@+id/tvTotalTask"
@@ -135,9 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5sp"
                     android:gravity="center"
-                    android:textColor="@color/gradient_black"
-                    android:hint="@string/total_tasks"
-                    android:textSize="14sp" />
+                    android:text="@string/total_tasks"
+                    android:textSize="@dimen/small_text_size" />
 
             </LinearLayout>
 
@@ -156,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="10"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/button_size" />
 
                 <TextView
                     android:id="@+id/tvCompletedTask"
@@ -164,9 +163,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5sp"
                     android:gravity="center"
-                    android:textColor="@color/gradient_black"
-                    android:hint="@string/completed_task"
-                    android:textSize="14sp" />
+                    android:text="@string/completed_task"
+                    android:textSize="@dimen/small_text_size" />
 
             </LinearLayout>
 
@@ -185,17 +183,16 @@
                     android:text="05"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/button_size" />
 
                 <TextView
                     android:id="@+id/tvPendingTask"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gradient_black"
                     android:layout_marginEnd="5sp"
                     android:gravity="center"
-                    android:hint="@string/pending_task"
-                    android:textSize="14sp" />
+                    android:text="@string/pending_task"
+                    android:textSize="@dimen/small_text_size" />
 
             </LinearLayout>
         </LinearLayout>

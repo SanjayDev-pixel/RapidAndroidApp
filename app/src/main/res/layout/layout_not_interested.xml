@@ -18,6 +18,7 @@
             app:ms_arrowColor="@color/black"
             android:layout_marginTop="@dimen/fields_margin"
             app:ms_arrowSize="@dimen/arrow_size"
+            android:textSize="@dimen/text_size"
             app:ms_floatingLabelColor="@color/hint_color"
             app:ms_floatingLabelText="Lead Close Reason"
             app:ms_hint="Lead Close Reason "

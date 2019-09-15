@@ -32,7 +32,30 @@
                     android:textSize="@dimen/text_size"
                     android:textStyle="bold" />
 
-                <include layout="@layout/line_seprator" />
+                <include layout="@layout/line_seperator" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:text="Created By : " />
+
+                        <TextView
+                            android:id="@+id/tvCreatedBy"
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gaman Walia " />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -41,41 +64,19 @@
                     android:baselineAligned="false"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:gravity="start"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Created By : " />
-
-                        <TextView
-                            android:id="@+id/tvCreatedBy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Gaman Walia " />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:gravity="end"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
                         android:text="Updated On : " />
 
                     <TextView
                         android:id="@+id/tvUpdatedOn"
                         android:layout_width="wrap_content"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:text="25-8-19" />
-                    </LinearLayout>
                 </LinearLayout>
 
                 <TextView
@@ -84,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:text="Actual Task Detail kabjvkbajdv kadhfkjhdfk akjdfhkda k  bjfbajlfb b fjkaf jh fkjavkfva kvc akv cakv."
                     android:layout_marginTop="@dimen/fields_margin"
+                    android:textColor="@color/black"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textSize="@dimen/text_size" />
 
@@ -111,6 +113,7 @@
                         <TextView
                             android:id="@+id/tvTaskStatus"
                             android:layout_width="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_height="wrap_content"
                             android:text="Pending" />
                     </LinearLayout>
@@ -133,6 +136,7 @@
                         <TextView
                             android:id="@+id/tvTaskType"
                             android:layout_width="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_height="wrap_content"
                             android:text="Document Missing" />
                     </LinearLayout>
@@ -164,6 +168,7 @@
                         <TextView
                             android:id="@+id/tvAssignee"
                             android:layout_width="wrap_content"
+                            android:textColor="@color/black"
                             android:layout_height="wrap_content"
                             android:text="Ankit Shah" />
                     </LinearLayout>
@@ -185,6 +190,7 @@
 
                         <TextView
                             android:id="@+id/tvAccountable"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Gaman Walia" />
@@ -192,7 +198,7 @@
 
                 </LinearLayout>
 
-                <include layout="@layout/line_seprator" />
+                <include layout="@layout/line_seperator" />
 
                 <TextView
                     android:layout_width="match_parent"

@@ -52,6 +52,7 @@
                     android:layout_weight="1"
                     android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
+                    android:textSize="@dimen/text_size"
                     app:ms_arrowSize="@dimen/arrow_size"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_floatingLabelText="Sector"
@@ -161,6 +162,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/black"
                     android:text="Document Upload"
                     android:textSize="@dimen/text_size" />
 

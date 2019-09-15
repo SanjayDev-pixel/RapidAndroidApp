@@ -33,5 +33,9 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
         binding.btnCallToCustomer.setOnClickListener {
         }
+
+        binding.btnAddTask.setOnClickListener{
+            AddTaskActivity.start(this)
+        }
     }
 }

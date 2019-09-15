@@ -36,6 +36,7 @@
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="@dimen/arrow_size"
                     app:ms_floatingLabelColor="@color/hint_color"
+                    android:textSize="@dimen/text_size"
                     app:ms_floatingLabelText="Sector"
                     app:ms_hint="Sector"
                     app:ms_hintColor="@color/hint_color"
@@ -49,6 +50,7 @@
                     android:layout_marginStart="@dimen/margin_10"
                     android:layout_weight="1"
                     android:minWidth="@dimen/text_min_width"
+                    android:textSize="@dimen/text_size"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="@dimen/arrow_size"
                     app:ms_floatingLabelColor="@color/hint_color"
@@ -218,6 +220,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:layout_weight="1"
                     android:text="Document Upload"
                     android:textSize="@dimen/text_size" />

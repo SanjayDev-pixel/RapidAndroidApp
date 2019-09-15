@@ -40,7 +40,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     override fun init() {
         hideSecondaryToolbar()
         provideDropdownValue()
-        setListenersOnDropdown()
+//        setListenersOnDropdown()
     }
 
     private fun provideDropdownValue() {
