@@ -83,7 +83,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_amount"
+                        android:id="@+id/input_layout_amount_request"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/fields_margin"
@@ -91,7 +91,7 @@
                         android:textColorHint="@color/hint_color">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etAmount"
+                            android:id="@+id/etAmountRequest"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Loan Amount Request"

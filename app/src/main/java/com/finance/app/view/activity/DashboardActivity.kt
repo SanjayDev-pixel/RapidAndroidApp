@@ -83,23 +83,23 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     private fun updateData(value: Any) {
         when (value) {
-            moduleValues[0] -> {
+            moduleValues[1] -> {
                 achievedFiles = 4
                 achievedVolume = 650000
             }
-            moduleValues[1] -> {
+            moduleValues[2] -> {
                 achievedFiles = 2
                 achievedVolume = 350000
             }
-            moduleValues[2] -> {
+            moduleValues[3] -> {
                 achievedFiles = 5
                 achievedVolume = 450000
             }
-            slotValues[0] -> {
+            slotValues[1] -> {
                 achievedFiles = 4
                 achievedVolume = 650000
             }
-            slotValues[1] -> {
+            slotValues[2] -> {
                 LeadManagementActivity.start(this)
             }
         }
