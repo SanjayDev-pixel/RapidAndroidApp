@@ -17,9 +17,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
                 android:background="@color/heading_background"
-                android:text="BASIC DETAILS"
+                android:text="@string/basic_details"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textSize="20sp"
+                android:textSize="@dimen/margin_20"
                 android:textStyle="bold" />
 
             <LinearLayout

@@ -55,7 +55,7 @@ class CustomTempAdapter(val context1: Context, val resourceId: Int,
         /***** Get each Model object from Arraylist  */
         val tempValue = data.get(position)
 
-        val tvTitle = row.findViewById(R.id.tvTitle) as TextView
+        val tvTitle = row.findViewById(R.id.tvSpinnerValue) as TextView
 
         // Set values for spinner each row
         tvTitle.text = tempValue

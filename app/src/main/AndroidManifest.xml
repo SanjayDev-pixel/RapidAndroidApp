@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="lollipop">
         <activity
-            android:name=".view.activity.LeadManagementActivity"
+            android:name=".view.activity.DashboardActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
@@ -43,10 +43,13 @@
             android:name=".view.activity.AddLeadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.DashboardActivity"
+            android:name=".view.activity.UploadedFormDataActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.LeadManagementActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.SplashScreen"

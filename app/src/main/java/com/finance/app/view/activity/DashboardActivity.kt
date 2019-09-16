@@ -40,17 +40,17 @@ class DashboardActivity : BaseAppCompatActivity() {
     override fun init() {
         hideSecondaryToolbar()
         provideDropdownValue()
-//        setListenersOnDropdown()
+        setListenersOnDropdown()
     }
 
     private fun provideDropdownValue() {
         val moduleAdapter = ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, moduleValues)
+                R.layout.spinner_item, moduleValues)
         moduleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerModule.adapter = moduleAdapter
 
         val slotAdapter = ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, slotValues)
+                R.layout.spinner_item, slotValues)
         slotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerSlot.adapter = slotAdapter
     }

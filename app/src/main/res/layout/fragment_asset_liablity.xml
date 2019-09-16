@@ -12,24 +12,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:paddingBottom="70sp">
+            android:paddingBottom="@dimen/margin_50">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/heading_background"
-                    android:text="Asset Detail"
+                    android:text="@string/asset_detail"
                     android:textColor="@color/black"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold" />
 
-                <LinearLayout
+            <LinearLayout
+                android:id="@+id/llAssetDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_10">
+
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="true"
@@ -142,6 +149,14 @@
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_size" />
+
+            </LinearLayout>
+
+                <include android:id="@+id/layoutCreditCard"
+                    layout="@layout/layout_credit_card_details"/>
+
+                <include android:id="@+id/layoutObligations"
+                    layout="@layout/layout_obligation"/>
 
             </LinearLayout>
 

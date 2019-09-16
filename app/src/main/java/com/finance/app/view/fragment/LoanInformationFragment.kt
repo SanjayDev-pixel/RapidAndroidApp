@@ -16,6 +16,7 @@ import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import com.finance.app.databinding.FragmentLoanInformationBinding
 import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.utility.Mandatory
 import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
 import com.google.android.material.textfield.TextInputLayout
@@ -25,6 +26,7 @@ class LoanInformationFragment : Fragment() {
     private val frag: Fragment = this
 
     companion object {
+        private const val isMandatory = true
         private const val SELECT_PDF_CODE = 1
         private const val CLICK_IMAGE_CODE = 2
         private const val SELECT_IMAGE_CODE = 3
@@ -87,17 +89,18 @@ class LoanInformationFragment : Fragment() {
     }
 
     private fun setMandatoryField() {
-        binding.inputLayoutAmount.isMandatory()
-        binding.inputLayoutTenure.isMandatory()
-        binding.inputLayoutEmi.isMandatory()
+        Mandatory(binding.inputLayoutAmount)
+//        binding.inputLayoutAmount.isMandatory()
+//        binding.inputLayoutTenure.isMandatory()
+//        binding.inputLayoutEmi.isMandatory()
     }
 
-    private fun TextInputLayout.isMandatory() {
-        hint = buildSpannedString {
-            append(hint)
-            color(Color.RED) { append(" *") } // Mind the space prefix.
-        }
-    }
+//    private fun TextInputLayout.isMandatory() {
+//        hint = buildSpannedString {
+//            append(hint)
+//            color(Color.RED) { append(" *") } // Mind the space prefix.
+//        }
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -16,41 +16,33 @@
             <RelativeLayout
                 android:paddingTop="5sp"
                 android:layout_width="match_parent"
-                android:layout_height="30sp"
+                android:layout_height="40sp"
                 android:background="@color/colorPrimary"
                 android:paddingStart="@dimen/main_page_padding"
                 android:paddingEnd="@dimen/main_page_padding">
 
-                <fr.ganfra.materialspinner.MaterialSpinner
+                <Spinner
                     android:id="@+id/spinnerModule"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/white"
-                    app:ms_arrowSize="16dp"
                     android:layout_centerVertical="true"
-                    app:ms_floatingLabelColor="@color/white"
-                    app:ms_floatingLabelText="Module  "
-                    app:ms_hint="Module "
-                    app:ms_hintColor="@color/white"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginStart="@dimen/margin_10"
+                    android:spinnerMode="dropdown" />
 
-                <fr.ganfra.materialspinner.MaterialSpinner
+                <Spinner
                     android:id="@+id/spinnerSlot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/white"
                     android:layout_centerVertical="true"
-                    app:ms_arrowSize="16dp"
+                    android:layout_gravity="center"
                     android:layout_alignParentEnd="true"
-                    app:ms_floatingLabelColor="@color/white"
-                    app:ms_floatingLabelText="Slot  "
-                    app:ms_hint="Slot "
-                    app:ms_hintColor="@color/white"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginEnd="@dimen/margin_10"
+                    android:spinnerMode="dropdown" />
 
             </RelativeLayout>
 
