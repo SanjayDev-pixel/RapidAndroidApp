@@ -17,8 +17,8 @@ class DashboardActivity : BaseAppCompatActivity() {
     private val binding: ActivityDashboardBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_dashboard)
 
-    private val moduleValues = listOf("Login", "Loan Sanction", "Technical")
-    private val slotValues = listOf("MTD", "YTD")
+    private val moduleValues = listOf("Select Module","Login", "Loan Sanction", "Technical")
+    private val slotValues = listOf("Select Slot","MTD", "YTD")
 
     companion object {
         private var filesPercent = 0.0

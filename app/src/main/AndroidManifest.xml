@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="lollipop">
         <activity
-            android:name=".view.activity.DashboardActivity"
+            android:name=".view.activity.LoanApplicationActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
@@ -52,13 +52,13 @@
             android:name=".view.activity.LeadManagementActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.SplashScreen"
+            android:name=".view.activity.DashboardActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.AddTaskActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.LoanApplicationActivity"
+            android:name=".view.activity.SplashScreen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.LeadDetailActivity"

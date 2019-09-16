@@ -79,7 +79,7 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
             } else {
                 binding.iconNavItem.setColorFilter(ContextCompat.getColor(c, R.color.white),
                         android.graphics.PorterDuff.Mode.MULTIPLY)
-                binding.parent.setBackgroundColor(ContextCompat.getColor(c, R.color.colorPrimary))
+                binding.parent.setBackgroundResource(R.drawable.drawer_gradient_color)
                 binding.tvNavItem.setTextColor(ContextCompat.getColor(c, R.color.white))
             }
         }

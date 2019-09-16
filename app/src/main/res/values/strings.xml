@@ -71,4 +71,6 @@
     <string name="asset_detail">Asset Detail</string>
     <string name="basic_details">BASIC DETAILS</string>
     <string name="search">Search</string>
+    <string name="back">Back</string>
+    <string name="lead_number">Lead Number :</string>
 </resources>

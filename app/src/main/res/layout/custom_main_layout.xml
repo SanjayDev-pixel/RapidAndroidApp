@@ -36,36 +36,41 @@
             <RelativeLayout
                 android:id="@+id/secondaryToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center"
-                android:padding="10dp">
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:id="@+id/tvBackSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_vector_back"
-                    android:drawablePadding="5dp"
+                    android:drawablePadding="5sp"
                     android:gravity="center"
-                    android:text="Back"
-                    android:textSize="20sp" />
+                    android:text="@string/back"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size" />
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/tvLeadNumber"
-                    android:drawablePadding="20dp"
-                    android:text="Lead Number : " />
+                    android:drawablePadding="@dimen/margin_20"
+                    android:text="@string/lead_number" />
 
                 <TextView
                     android:id="@+id/tvLeadNumber"
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:drawablePadding="20dp"
+                    android:drawablePadding="@dimen/margin_20"
                     android:text="12345" />
 
             </RelativeLayout>
