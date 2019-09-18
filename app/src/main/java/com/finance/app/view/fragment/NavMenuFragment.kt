@@ -37,8 +37,7 @@ class NavMenuFragment : Fragment() {
                 Modals.NavItems(R.drawable.bank_icon_white, "Bank Details"),
                 Modals.NavItems(R.drawable.assest_details_white, "Liability & Asset"),
                 Modals.NavItems(R.drawable.reffrence_white, "Reference"),
-                Modals.NavItems(R.drawable.property_icon_white, "Property"),
-                Modals.NavItems(R.drawable.personal_info_white, "Login Fee")
+                Modals.NavItems(R.drawable.property_icon_white, "Property")
         )
         emptyNavItem = arrayListOf(
                 Modals.NavItems(R.drawable.loan_info_white, ""),
@@ -48,8 +47,7 @@ class NavMenuFragment : Fragment() {
                 Modals.NavItems(R.drawable.bank_icon_white, ""),
                 Modals.NavItems(R.drawable.assest_details_white, ""),
                 Modals.NavItems(R.drawable.reffrence_white, ""),
-                Modals.NavItems(R.drawable.property_icon_white, ""),
-                Modals.NavItems(R.drawable.personal_info_white, "")
+                Modals.NavItems(R.drawable.property_icon_white, "")
         )
         navItemCopy = ArrayList()
         navItemCopy.addAll(navItem)

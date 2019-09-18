@@ -1,7 +1,7 @@
 package com.finance.app.view.fragment
 
 import android.app.Activity
-import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,110 +11,101 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentPersonalBinding
+import com.finance.app.model.Modals
+import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.utility.SelectDate
+import com.finance.app.utility.UploadData
+import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.util.*
 
 class PersonalInfoFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentPersonalBinding
+    private val frag = this
+    private lateinit var mContext: Context
+    private var kycAdapter: AddKycAdapter? = null
 
     companion object {
         private const val GALLERY = 1
         private const val CAMERA = 2
+        private lateinit var kycList: ArrayList<Modals.AddKyc>
+        private var image: Bitmap? = null
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPersonalBinding.inflate(inflater, container, false)
+        mContext = requireContext()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        kycList = ArrayList()
+        checkKycDataList()
         setDatePicker()
         setDropDownValue()
         setClickListeners()
     }
 
+    private fun checkKycDataList() {
+        if (kycList.isNullOrEmpty()) {
+            binding.rcKYC.visibility = View.GONE
+        }
+    }
+
     private fun setClickListeners() {
         binding.ivUploadKyc.setOnClickListener {
-            getPicture()
+            UploadData(frag, mContext)
         }
-        binding.btnVerifyOTP.setOnClickListener {
-            Toast.makeText(requireContext(), binding.otpView.text, Toast.LENGTH_SHORT).show()
+        binding.basicInfoLayout.btnVerifyOTP.setOnClickListener {
+            Toast.makeText(mContext, binding.basicInfoLayout.otpView.text, Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun getPicture() {
-        val items = arrayOf<CharSequence>("Take Photo", "Choose from Library", "Cancel")
-        val pictureDialog = AlertDialog.Builder(
-                requireContext())
-        pictureDialog.setTitle("Select Action")
-        pictureDialog.setItems(items) { dialog, item ->
-            when (item) {
-                0 -> takePicture()
-                1 -> choosePicture()
-                2 -> dialog.dismiss()
+        binding.btnAddKYC.setOnClickListener {
+            getKycData()
+        }
+        binding.addressLayout.cbSameAsCurrent.setOnClickListener {
+            if (binding.addressLayout.cbSameAsCurrent.isChecked) {
+                binding.addressLayout.llPermanentAddress.visibility = View.GONE
+            } else {
+                binding.addressLayout.llPermanentAddress.visibility = View.VISIBLE
             }
         }
-        pictureDialog.show()
     }
 
-    private fun takePicture() {
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (cameraIntent.resolveActivity(activity!!.packageManager) != null) {
-            this.startActivityForResult(cameraIntent, CAMERA)
+    private val kyc: Modals.AddKyc
+        get() {
+            return Modals.AddKyc(expiryDate = binding.etExpiryDate.text.toString(),
+                    idNum = binding.etIdNum.text.toString(), kycImage = image,
+                    issueDate = binding.etIssueDate.text.toString(),
+                    verifiedStatus = binding.spinnerVerifiedStatus.selectedItem.toString(),
+                    idType = binding.spinnerIdentificationType.selectedItem.toString())
         }
+
+    private fun getKycData() {
+        kycList.add(kyc)
+        showKycGrid()
     }
 
-    private fun choosePicture() {
-        val galleryIntent = Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleryIntent.type = "image/*"
-        if (galleryIntent.resolveActivity(activity!!.packageManager) != null) {
-            startActivityForResult(galleryIntent, GALLERY)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GALLERY) {
-                if (data != null) {
-                    val contentURI = data.data
-                    try {
-                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
-                        binding.ivUploadKyc.setImageBitmap(bitmap)
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                        Toast.makeText(requireContext(), "Failed!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else if (requestCode == CAMERA) {
-                val bitmap = data!!.extras!!.get("data") as Bitmap
-                val stream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
-                val byteArray = stream.toByteArray()
-                val thumbnail = BitmapFactory.decodeByteArray(byteArray, 0,
-                        byteArray.size)
-                binding.ivUploadKyc.setImageBitmap(thumbnail)
-                Toast.makeText(requireContext(), "Image Saved!", Toast.LENGTH_SHORT).show()
-            }
-        }
+    private fun showKycGrid() {
+        binding.rcKYC.layoutManager = LinearLayoutManager(context)
+        kycAdapter = AddKycAdapter(context!!, kycList)
+        binding.rcKYC.adapter = kycAdapter
+        binding.rcKYC.visibility = View.VISIBLE
     }
 
     private fun setDatePicker() {
         binding.basicInfoLayout.etDOB.setOnClickListener {
-            clickDatePicker(binding.basicInfoLayout.etDOB)
+            SelectDate(binding.basicInfoLayout.etDOB, mContext)
         }
         binding.etIssueDate.setOnClickListener {
-            clickDatePicker(binding.etIssueDate)
+            SelectDate(binding.etIssueDate, mContext)
         }
         binding.etExpiryDate.setOnClickListener {
-            clickDatePicker(binding.etExpiryDate)
+            SelectDate(binding.etExpiryDate, mContext)
         }
     }
 
@@ -165,6 +156,11 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
         val adapterMaritalStatus = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, maritalStatus)
         adapterMaritalStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
+        val lists: ArrayList<DropdownMaster> = ArrayList()
+        lists.add(DropdownMaster())
+        lists.add(DropdownMaster())
+        lists.add(DropdownMaster())
+
         binding.spinnerIdentificationType.adapter = adapterIdentificationType
         binding.basicInfoLayout.spinnerDobProof.adapter = adapterDobProof
         binding.spinnerVerifiedStatus.adapter = adapterVerifiedStatus
@@ -175,18 +171,45 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
         binding.basicInfoLayout.spinnerQualification.adapter = adapterQualification
         binding.basicInfoLayout.spinnerDetailQualification.adapter = adapterDetailQualification
         binding.basicInfoLayout.spinnerMaritalStatus.adapter = adapterMaritalStatus
+        binding.addressLayout.spinnerCurrentAddressProof.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerCurrentDistrict.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerCurrentResidenceType.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerCurrentState.adapter = GenericSpinnerAdapter(mContext, lists)
+
+        binding.addressLayout.spinnerPermanentAddressProof.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerPermanentDistrict.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerPermanentState.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerPermanentResidenceType.adapter = GenericSpinnerAdapter(mContext, lists)
 
     }
 
-    private fun clickDatePicker(et: TextView) {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        val dialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            et.setText("$day/ ${month + 1}/ $year")
-        }, year, month, day)
-        dialog.show()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == GALLERY) {
+                if (data != null) {
+                    val contentURI = data.data
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
+                        image = bitmap
+                        binding.ivUploadKyc.setImageBitmap(bitmap)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(requireContext(), "Failed!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else if (requestCode == CAMERA) {
+                val bitmap = data!!.extras!!.get("data") as Bitmap
+                val stream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
+                val byteArray = stream.toByteArray()
+                val thumbnail = BitmapFactory.decodeByteArray(byteArray, 0,
+                        byteArray.size)
+                binding.ivUploadKyc.setImageBitmap(thumbnail)
+                image = thumbnail
+                Toast.makeText(requireContext(), "Image Saved!", Toast.LENGTH_SHORT).show()
+            }
+//            binding.rcKYC.adapter!!.notifyDataSetChanged()
+        }
     }
 }

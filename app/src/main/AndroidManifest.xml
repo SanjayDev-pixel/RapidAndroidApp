@@ -49,7 +49,7 @@
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.LeadManagementActivity"
+            android:name=".view.activity.AssignedLeadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.DashboardActivity"

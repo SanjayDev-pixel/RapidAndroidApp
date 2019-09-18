@@ -31,7 +31,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         hideSecondaryToolbar()
         binding.btnAddLead.setOnClickListener {
             presenterOpt.callNetwork(ConstantsApi.CALL_ADD_LEAD)
-            LeadManagementActivity.start(this)
+            AssignedLeadActivity.start(this)
         }
     }
 

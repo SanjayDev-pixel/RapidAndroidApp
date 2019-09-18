@@ -2,9 +2,8 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.text.format.DateFormat
 import com.finance.app.R
-import com.finance.app.databinding.ActivityLeadManagementBinding
+import com.finance.app.databinding.ActivityAssignedLeadsBinding
 import com.finance.app.view.adapters.Recycler.Adapter.LeadPagerAdapter
 import com.finance.app.view.fragment.AllLeadsFragment
 import com.finance.app.view.fragment.CompletedLeadFragment
@@ -13,16 +12,16 @@ import com.finance.app.view.fragment.RejectedLeadFragment
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 
-class LeadManagementActivity : BaseAppCompatActivity() {
+class AssignedLeadActivity : BaseAppCompatActivity() {
 
-    private val binding: ActivityLeadManagementBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_lead_management)
+    private val binding: ActivityAssignedLeadsBinding by ActivityBindingProviderDelegate(
+            this, R.layout.activity_assigned_leads)
 
     private var pagerAdapter: LeadPagerAdapter? = null
 
     companion object {
         fun start(context: Context) {
-            val intent = Intent(context, LeadManagementActivity::class.java)
+            val intent = Intent(context, AssignedLeadActivity::class.java)
             context.startActivity(intent)
         }
     }

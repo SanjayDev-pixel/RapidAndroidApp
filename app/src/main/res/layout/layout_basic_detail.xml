@@ -97,8 +97,10 @@
                             android:id="@+id/etDOB"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:editable="false"
                             android:drawableEnd="@drawable/ic_calender"
-                            android:hint="DOB"
+                            android:hint="@string/dob"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -126,6 +128,102 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:baselineAligned="false"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input__layout_mobile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etMobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Mobile"
+                            android:minWidth="200dp"
+                            app:ms_hintTextSize="@dimen/hint_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnGetOTP"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fields_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_theme_style"
+                        android:padding="5sp"
+                        android:text="Get OTP"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/button_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:baselineAligned="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <HorizontalScrollView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <com.mukesh.OtpView
+                            android:id="@+id/otp_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:itemBackground="@color/white"
+                            android:textColor="@color/colorPrimary"
+                            app:itemCount="4"
+                            app:itemHeight="35sp"
+                            app:itemWidth="35sp"
+                            app:lineColor="@color/colorPrimary"
+                            app:viewType="rectangle" />
+                    </HorizontalScrollView>
+
+                    <Button
+                        android:id="@+id/btnVerifyOTP"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/fields_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_theme_style"
+                        android:padding="5sp"
+                        android:text="Verify OTP"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/button_size" />
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email ID"
+                        android:minWidth="200dp"
+                        app:ms_hintTextSize="@dimen/hint_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:baselineAligned="true"
@@ -148,19 +246,23 @@
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
 
-                    <TextView
-                        android:id="@+id/tvDobProofImage"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/margin_10"
                         android:layout_weight="1"
-                        android:background="@color/md_grey_400"
-                        android:drawableTop="@drawable/ic_camera"
                         android:gravity="center"
-                        android:text="DOB Proof Image"
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivUploadDobProof"
+                            android:layout_width="50sp"
+                            android:layout_height="50sp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/upload_icon" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

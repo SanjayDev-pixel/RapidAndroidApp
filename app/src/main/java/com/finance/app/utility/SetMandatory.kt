@@ -5,7 +5,7 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import com.google.android.material.textfield.TextInputLayout
 
-class Mandatory(field: TextInputLayout) {
+class SetMandatory(field: TextInputLayout) {
 
     init {
         field.hint = buildSpannedString {

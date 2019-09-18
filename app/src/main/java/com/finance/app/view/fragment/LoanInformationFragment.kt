@@ -14,11 +14,10 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.finance.app.databinding.FragmentLoanInformationBinding
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.utility.Mandatory
+import com.finance.app.utility.SetMandatory
 import com.finance.app.utility.UploadData
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
-import java.net.URI
 
 class LoanInformationFragment : Fragment() {
     private lateinit var binding: FragmentLoanInformationBinding
@@ -97,9 +96,9 @@ class LoanInformationFragment : Fragment() {
     }
 
     private fun setMandatoryField() {
-        Mandatory(binding.inputLayoutAmountRequest)
-        Mandatory(binding.inputLayoutTenure)
-        Mandatory(binding.inputLayoutEmi)
+        SetMandatory(binding.inputLayoutAmountRequest)
+        SetMandatory(binding.inputLayoutTenure)
+        SetMandatory(binding.inputLayoutEmi)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

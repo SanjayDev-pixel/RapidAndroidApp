@@ -73,4 +73,10 @@
     <string name="search">Search</string>
     <string name="back">Back</string>
     <string name="lead_number">Lead Number :</string>
+    <string name="kyc">KYC</string>
+    <string name="issue_date">Issue Date</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="dob">DOB</string>
+    <string name="verified_status">Verified Status:</string>
+    <string name="loan_amount_request">Loan Amount Request</string>
 </resources>

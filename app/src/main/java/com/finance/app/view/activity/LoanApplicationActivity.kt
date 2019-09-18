@@ -25,6 +25,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         private var isExpand = false
         fun start(context: Context) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }

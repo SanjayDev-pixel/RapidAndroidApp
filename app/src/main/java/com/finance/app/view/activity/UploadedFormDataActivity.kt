@@ -10,13 +10,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityUploadedFormDataBinding
-import com.finance.app.view.adapters.Recycler.Adapter.SetMultipleImagesAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.UploadFormDataAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import java.io.IOException
-import java.net.URI
 
 class UploadedFormDataActivity : BaseAppCompatActivity() {
 
@@ -24,7 +22,7 @@ class UploadedFormDataActivity : BaseAppCompatActivity() {
     private val binding: ActivityUploadedFormDataBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_uploaded_form_data)
     private var bundle: Bundle? = null
-    private lateinit var imageAdapter: SetMultipleImagesAdapter
+    private lateinit var imageAdapter: UploadFormDataAdapter
 
     companion object {
         private const val KEY_IMAGE = "image"
@@ -72,7 +70,7 @@ class UploadedFormDataActivity : BaseAppCompatActivity() {
 
     private fun showImages() {
         binding.rcView.layoutManager = LinearLayoutManager(this)
-        imageAdapter = SetMultipleImagesAdapter(this, imageBitmap)
+        imageAdapter = UploadFormDataAdapter(this, imageBitmap)
         binding.rcView.adapter = imageAdapter
     }
 

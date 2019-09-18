@@ -80,6 +80,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -94,7 +96,7 @@
                             android:id="@+id/etAmountRequest"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Loan Amount Request"
+                            android:hint="@string/loan_amount_request"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -111,6 +113,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etTenure"
                             android:layout_width="match_parent"
+                            android:focusableInTouchMode="true"
                             android:layout_height="wrap_content"
                             android:hint="@string/tenure_months"
                             android:minWidth="150dp"
@@ -190,6 +193,7 @@
                     app:ms_floatingLabelText="Channel Partner Name  "
                     android:textSize="@dimen/text_size"
                     app:ms_hint="Channel Partner Name  "
+                    android:focusable="false"
                     app:ms_hintColor="@color/hint_color"
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />

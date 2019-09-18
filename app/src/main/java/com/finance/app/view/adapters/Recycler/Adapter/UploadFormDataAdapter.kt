@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemUploadFormBinding
 
-class SetMultipleImagesAdapter(private val c: Context, private val imageList: ArrayList<Bitmap>) : RecyclerView.Adapter<SetMultipleImagesAdapter.MultipleImageViewHolder>() {
+class UploadFormDataAdapter(private val c: Context, private val imageList: ArrayList<Bitmap>) : RecyclerView.Adapter<UploadFormDataAdapter.MultipleImageViewHolder>() {
     private lateinit var binding: ItemUploadFormBinding
 
     override fun onBindViewHolder(holder: MultipleImageViewHolder, position: Int) {

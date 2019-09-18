@@ -100,7 +100,7 @@ class DashboardActivity : BaseAppCompatActivity() {
                 achievedVolume = 650000
             }
             slotValues[2] -> {
-                LeadManagementActivity.start(this)
+                AssignedLeadActivity.start(this)
             }
         }
 

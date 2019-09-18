@@ -13,6 +13,7 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.presenter.connector.ReusableView
 import com.finance.app.view.activity.DashboardActivity
+import com.finance.app.view.activity.AssignedLeadActivity
 import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.ProfileActivity
 import com.google.android.material.navigation.NavigationView
@@ -86,6 +87,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         LoginActivity.start(this)
       }
       R.id.assignedLeads -> {
+        AssignedLeadActivity.start(this)
       }
     }
     bindingParent.drawerLayout.closeDrawer(GravityCompat.START)

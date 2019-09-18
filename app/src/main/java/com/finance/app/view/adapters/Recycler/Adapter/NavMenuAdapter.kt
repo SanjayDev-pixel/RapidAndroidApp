@@ -1,6 +1,7 @@
 package com.finance.app.view.adapters.Recycler.Adapter
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -40,11 +41,40 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
             binding.tvNavItem.text = navItem.title
             binding.iconNavItem.setImageResource(navItem.images)
             changeColorBasedOnSelection(position)
+
+            binding.iconNavItem.setOnClickListener {
+                changeFragmentOnIconClick(navItem.images)
+            }
+
             binding.tvNavItem.setOnClickListener {
-                navigateToAnotherFragment(navItem.title)
+                changeFragment(navItem.title)
+            }
+        }
+
+        private fun changeFragment(title: String) {
+                navigateToAnotherFragment(title)
                 (c as LoanApplicationActivity).handleCollapseScreen(false)
                 selectedPos = adapterPosition
                 notifyDataSetChanged()
+        }
+
+        private fun changeFragmentOnIconClick(icon: Int) {
+            navigateToAnotherFragmentOnIconCLick(icon)
+            (c as LoanApplicationActivity).handleCollapseScreen(false)
+            selectedPos = adapterPosition
+            notifyDataSetChanged()
+        }
+
+        private fun navigateToAnotherFragmentOnIconCLick(icon: Int) {
+            when (icon) {
+                R.drawable.loan_info_white -> updateSecondaryFragment(LoanInformationFragment())
+                R.drawable.personal_info_white -> updateSecondaryFragment(PersonalInfoFragment())
+                R.drawable.employment_icon_white -> updateSecondaryFragment(EmploymentFragment())
+                R.drawable.income_icon_white -> updateSecondaryFragment(IncomeFragment())
+                R.drawable.bank_icon_white -> updateSecondaryFragment(BankDetailFragment())
+                R.drawable.assest_details_white -> updateSecondaryFragment(AssetLiablityFragment())
+                R.drawable.reffrence_white -> updateSecondaryFragment(ReferenceFragment())
+                R.drawable.property_icon_white -> updateSecondaryFragment(PropertyFragment())
             }
         }
 
@@ -58,14 +88,12 @@ class NavMenuAdapter(private val c: Context, private val navItem: ArrayList<Moda
                 "Liability & Asset" -> updateSecondaryFragment(AssetLiablityFragment())
                 "Reference" -> updateSecondaryFragment(ReferenceFragment())
                 "Property" -> updateSecondaryFragment(PropertyFragment())
-                "Login Fee" -> updateSecondaryFragment(LoginFeeFragment())
             }
         }
 
         private fun updateSecondaryFragment(fragment: Fragment) {
             val ft = (c as AppCompatActivity).supportFragmentManager.beginTransaction()
             ft.replace(R.id.secondaryFragmentContainer, fragment)
-            ft.addToBackStack(null)
             ft.commit()
         }
 
