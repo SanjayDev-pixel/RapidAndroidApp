@@ -212,7 +212,7 @@
                         android:padding="5sp"
                         android:textColor="@color/white"
                         android:text="Application"
-                        android:textSize="@dimen/button_size"
+                        android:textSize="@dimen/button_text_size"
                         />
 
                     <Button
@@ -227,7 +227,7 @@
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:text="Call"
-                        android:textSize="@dimen/button_size" />
+                        android:textSize="@dimen/button_text_size" />
 
                     <Button
                         android:id="@+id/btnCallUpdates"
@@ -235,7 +235,7 @@
                         android:textColor="@color/white"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10"
-                        android:textSize="@dimen/button_size"
+                        android:textSize="@dimen/button_text_size"
                         android:padding="5sp"
                         android:background="@drawable/button_theme_style"
                         android:backgroundTint="@color/md_grey_800"

@@ -33,6 +33,7 @@
                         android:id="@+id/etBorrowerName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Borrower Name "
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -116,6 +117,8 @@
                             android:id="@+id/etLoanAmount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:inputType="number"
                             android:hint="Loan Amount"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
@@ -136,6 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Financier Name "
+                        android:singleLine="true"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
 
@@ -158,6 +162,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etTenure"
                             android:layout_width="match_parent"
+                            android:singleLine="true"
+                            android:inputType="number"
                             android:layout_height="wrap_content"
                             android:hint="Tenure"
                             android:minWidth="200dp"
@@ -176,6 +182,8 @@
                             android:id="@+id/etBalanceTenure"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:inputType="number"
                             android:hint="Balance Tenure"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
@@ -218,6 +226,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etEmiAmount"
                             android:layout_width="match_parent"
+                            android:singleLine="true"
+                            android:inputType="number"
                             android:layout_height="wrap_content"
                             android:hint="EMI Amount"
                             android:minWidth="200dp"
@@ -238,6 +248,8 @@
                         android:id="@+id/etBouncesInLastSixMonths"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:inputType="number"
                         android:hint="Num of check bounces in last 6 months "
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -255,7 +267,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/button_size" />
+                    android:textSize="@dimen/button_text_size" />
 
             </LinearLayout>
         </ScrollView>

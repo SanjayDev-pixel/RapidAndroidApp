@@ -32,6 +32,7 @@
                     android:id="@+id/etBusinessName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:hint="Business Name"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
@@ -89,6 +90,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etGstRegistration"
                     android:layout_width="match_parent"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="GST/VAT Registration "
                     android:minWidth="200dp"
@@ -107,6 +109,8 @@
                     android:id="@+id/input_layout_business_vintage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="number"
                     android:layout_marginTop="2sp"
                     android:layout_weight="1"
                     android:textColorHint="@color/hint_color">
@@ -133,6 +137,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_calender"
+                        android:editable="false"
+                        android:focusable="false"
                         android:hint="Incorporation Date"
                         android:minWidth="150dp"
                         android:textSize="@dimen/text_size" />
@@ -203,6 +209,7 @@
                         android:id="@+id/etLandmark"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Landmark"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -220,6 +227,8 @@
                         android:id="@+id/etPinCode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:inputType="number"
                         android:hint="Pin Code"
                         android:minWidth="150dp"
                         android:textSize="@dimen/text_size" />
@@ -237,8 +246,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLandLine"
                     android:layout_width="match_parent"
+                    android:inputType="number"
+                    android:hint="Pin Code"
                     android:layout_height="wrap_content"
-                    android:hint="Landline No."
+                    android:singleLine="true"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
 

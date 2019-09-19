@@ -24,6 +24,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:gravity="center|end"
+                android:id="@+id/llApplicants"
                 android:layout_height="wrap_content">
 
                 <TextView

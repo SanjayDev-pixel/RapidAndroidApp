@@ -1,6 +1,7 @@
 package com.finance.app.presenter.presenter
 
 import com.finance.app.presenter.connector.AddLeadConnector
+import com.finance.app.presenter.connector.AllSpinnerValueConnector
 import com.finance.app.presenter.connector.LoginConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -14,7 +15,7 @@ import javax.inject.Inject
 /**
  * Created by munishkumarthakur on 31/12/17.
  */
-class AddLeadPresenter(private val viewOpt: AddLeadConnector.ViewOpt) : AddLeadConnector.PresenterOpt {
+class AllSpinnerValuePresenter(private val viewOpt: AllSpinnerValueConnector.ViewOpt) : AllSpinnerValueConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -26,28 +27,28 @@ class AddLeadPresenter(private val viewOpt: AddLeadConnector.ViewOpt) : AddLeadC
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_ADD_TASK) {
-                callAddLeadApi()
+        if (type == ConstantsApi.CALL_ALL_SPINNER_VALUE) {
+                callAllSpinnerApi()
         }
     }
 
-    private fun callAddLeadApi() {
-        val requestApi = apiProject.api.addLead(viewOpt.addLeadRequest)
+    private fun callAllSpinnerApi() {
+        val requestApi = apiProject.api.getAllSpinnerValue()
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
                 .doFinally { viewOpt.hideProgressDialog() }
-                .subscribe({ response -> onLeadAdd(response) },
-                        { e -> viewOpt.getAddLeadFailure(e?.message ?: "") })
+                .subscribe({ response -> onAllSpinnerValue(response) },
+                        { e -> viewOpt.getAllSpinnerValueFailure(e?.message ?: "") })
     }
 
-    private fun onLeadAdd(response: Response.ResponseAddLead) {
+    private fun onAllSpinnerValue(response: Response.ResponseAllSpinnerValue) {
         if (response.responseCode == "200") {
-            viewOpt.getAddLeadSuccess(response)
+            viewOpt.getAllSpinnerValueSuccess(response)
         } else {
-            viewOpt.getAddLeadFailure(response.responseMsg)
+            viewOpt.getAllSpinnerValueFailure(response.responseMsg)
         }
     }
 }

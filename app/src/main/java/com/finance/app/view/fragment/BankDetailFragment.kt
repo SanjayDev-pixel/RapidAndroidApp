@@ -86,5 +86,4 @@ class BankDetailFragment : androidx.fragment.app.Fragment() {
             }
         }
     }
-
 }

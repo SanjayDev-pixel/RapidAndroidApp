@@ -17,7 +17,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     private val binding: ActivityDashboardBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_dashboard)
 
-    private val moduleValues = listOf("Select Module","Login", "Loan Sanction", "Technical")
+    private val moduleValues = listOf("Select Module","Disversal", "Loan Sanction", "Login")
     private val slotValues = listOf("Select Slot","MTD", "YTD")
 
     companion object {
@@ -100,7 +100,8 @@ class DashboardActivity : BaseAppCompatActivity() {
                 achievedVolume = 650000
             }
             slotValues[2] -> {
-                AssignedLeadActivity.start(this)
+                achievedFiles = 7
+                achievedVolume = 540000
             }
         }
 

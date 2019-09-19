@@ -25,10 +25,8 @@ class LoginPresenter(private val viewOpt: LoginConnector.ViewOpt) : LoginConnect
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        when (type) {
-            ConstantsApi.CALL_LOGIN -> {
-                callLoginApi()
-            }
+        if (type == ConstantsApi.CALL_LOGIN) {
+            callLoginApi()
         }
     }
 

@@ -21,6 +21,7 @@
             android:id="@+id/llCurrentAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10"
             android:orientation="vertical">
 
             <LinearLayout
@@ -75,6 +76,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCurrentLandmark"
                     android:layout_width="match_parent"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="Landmark"
                     android:minWidth="200dp"
@@ -101,6 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Rent Amount"
+                        android:singleLine="true"
                         android:inputType="number"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -117,6 +120,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etCurrentStaying"
                         android:layout_width="match_parent"
+                        android:singleLine="true"
                         android:layout_height="wrap_content"
                         android:hint="Staying(In Years)"
                         android:minWidth="200dp"
@@ -145,6 +149,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Pin Code"
+                        android:singleLine="true"
                         android:inputType="number"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -161,6 +166,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etCurrentCity"
                         android:layout_width="match_parent"
+                        android:singleLine="true"
                         android:layout_height="wrap_content"
                         android:hint="City"
                         android:minWidth="200dp"
@@ -216,14 +222,15 @@
             android:id="@+id/cbSameAsCurrent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fields_margin"
+            android:padding="@dimen/margin_10"
             android:text="Same as current address "
-            android:textSize="20sp" />
+            android:textSize="@dimen/button_text_size" />
 
         <LinearLayout
             android:id="@+id/llPermanentAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10"
             android:orientation="vertical">
 
             <LinearLayout
@@ -279,6 +286,7 @@
                     android:id="@+id/etPermanentLandmark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:hint="Landmark"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
@@ -303,6 +311,7 @@
                         android:id="@+id/etPermanentRentAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Rent Amount"
                         android:inputType="number"
                         android:minWidth="200dp"
@@ -322,6 +331,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Staying(In Years)"
+                        android:singleLine="true"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -347,6 +357,7 @@
                         android:id="@+id/etPermanentPinCode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Pin Code"
                         android:inputType="number"
                         android:minWidth="200dp"
@@ -365,6 +376,7 @@
                         android:id="@+id/etPermanentCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="City"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -392,7 +404,6 @@
                     android:id="@+id/spinnerPermanentDistrict"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
                     android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="@dimen/text_size"

@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
+import com.finance.app.view.fragment.BankDetailFragment
 import com.finance.app.view.fragment.LoanInformationFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -43,6 +44,16 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         binding.collapseImageView.setOnClickListener {
             handleCollapseScreen(isExpand)
         }
+        binding.mainLoanLayout.btnContinue.setOnClickListener {
+            gotoNextFragment()
+        }
+    }
+
+    private fun gotoNextFragment() {
+        val fragment = BankDetailFragment()
+        val ft = supportFragmentManager.beginTransaction()
+        ft.add(R.id.secondaryFragmentContainer, fragment)
+        ft.commit()
     }
 
     private fun setNavFragment() {

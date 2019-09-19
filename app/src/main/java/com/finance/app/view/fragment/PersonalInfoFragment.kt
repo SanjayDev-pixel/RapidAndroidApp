@@ -66,6 +66,10 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
         }
         binding.btnAddKYC.setOnClickListener {
             getKycData()
+            clearKycData()
+        }
+        binding.basicInfoLayout.ivUploadDobProof.setOnClickListener {
+            UploadData(frag, mContext)
         }
         binding.addressLayout.cbSameAsCurrent.setOnClickListener {
             if (binding.addressLayout.cbSameAsCurrent.isChecked) {
@@ -74,6 +78,13 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
                 binding.addressLayout.llPermanentAddress.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun clearKycData() {
+        binding.spinnerIdentificationType.isSelected = false
+        binding.etIdNum.text?.clear()
+        binding.etIssueDate.text?.clear()
+        binding.etExpiryDate.text?.clear()
     }
 
     private val kyc: Modals.AddKyc
@@ -87,12 +98,12 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
 
     private fun getKycData() {
         kycList.add(kyc)
-        showKycGrid()
+        showKycDetail()
     }
 
-    private fun showKycGrid() {
-        binding.rcKYC.layoutManager = LinearLayoutManager(context)
-        kycAdapter = AddKycAdapter(context!!, kycList)
+    private fun showKycDetail() {
+        binding.rcKYC.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
+        kycAdapter = AddKycAdapter(activity!!, kycList)
         binding.rcKYC.adapter = kycAdapter
         binding.rcKYC.visibility = View.VISIBLE
     }
@@ -110,7 +121,6 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun setDropDownValue() {
-
         val identificationType = arrayOf("PAN", "UID", "Passport")
         val verifiedStatus = arrayOf("Positive", "Negative", "CNV")
         val dobProof = arrayOf("PAN", "Aadhar", "10th Marksheet", "Passport")
@@ -121,10 +131,6 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
         val qualification = arrayOf("Graduate", "Post Graduate", "Illiterate", "Middle School")
         val detailQualification = arrayOf("Science", "Arts", "Commerce", "Medical")
         val maritalStatus = arrayOf("Married", "Single", "Divorced", "Widow")
-        val residenceType = arrayOf("Rent", "Owned", "Parental", "Employer")
-        val addressProof = arrayOf("Aadhar UID Card", "Bank Account Statement", "Driving License")
-        val districts = arrayOf("Haridwar", "Chamoli", "Roorkee")
-        val state = arrayOf("Uttrakhand", "Delhi", "UP")
 
         val adapterIdentificationType = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, identificationType)
         adapterIdentificationType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

@@ -32,4 +32,7 @@ interface Api {
     @POST("api/v1/lead/")
     fun addLead(@Body request: Requests.RequestAddLead): Observable<Response.ResponseAddLead>
 
+    @GET("api/v1/master/all/")
+    fun getAllSpinnerValue(): Observable<Response.ResponseAllSpinnerValue>
+
 }

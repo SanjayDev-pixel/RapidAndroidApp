@@ -314,40 +314,7 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-
             </LinearLayout>
-
         </ScrollView>
-
-        <LinearLayout
-            android:id="@+id/llBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="end">
-
-            <Button
-                android:id="@+id/btnSaveDraft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10sp"
-                android:background="@drawable/button_theme_style"
-                android:padding="5sp"
-                android:text="Save Draft"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_size" />
-
-            <Button
-                android:id="@+id/btnContinue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/button_theme_style"
-                android:padding="5sp"
-                android:text="Continue"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_size" />
-
-        </LinearLayout>
     </RelativeLayout>
 </layout>

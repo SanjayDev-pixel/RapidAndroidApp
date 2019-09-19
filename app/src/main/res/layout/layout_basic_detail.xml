@@ -25,6 +25,7 @@
             <LinearLayout
                 android:id="@+id/llBasicDetail"
                 android:layout_width="match_parent"
+                android:padding="@dimen/margin_10"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -39,6 +40,7 @@
                         android:id="@+id/etFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="First Name"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -57,6 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Middle Name"
+                        android:singleLine="true"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -74,6 +77,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Last Name"
+                        android:singleLine="true"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -118,6 +122,7 @@
                             tools:editable="false"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:clickable="false"
                             android:hint="Age"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
@@ -144,6 +149,8 @@
                             android:id="@+id/etMobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:singleLine="true"
                             android:hint="Mobile"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
@@ -160,7 +167,7 @@
                         android:padding="5sp"
                         android:text="Get OTP"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/button_size" />
+                        android:textSize="@dimen/button_text_size" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -200,7 +207,7 @@
                         android:padding="5sp"
                         android:text="Verify OTP"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/button_size" />
+                        android:textSize="@dimen/button_text_size" />
 
                 </LinearLayout>
 
@@ -216,6 +223,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Email ID"
+                        android:singleLine="true"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -276,6 +284,7 @@
                         android:id="@+id/etFatherFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Father's First Name"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -294,6 +303,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Father Middle Name"
+                        android:singleLine="true"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -310,6 +320,7 @@
                         android:id="@+id/etFatherLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Father Last Name"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -467,6 +478,7 @@
                         android:id="@+id/etSpouseFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Spouse First Name"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -484,6 +496,7 @@
                         android:id="@+id/etSpouseMiddleName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Spouse Middle Name"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -502,6 +515,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Spouse Last Name"
+                        android:singleLine="true"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -525,6 +539,8 @@
                             android:id="@+id/etAlternateNum"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:singleLine="true"
                             android:hint="Alternate Contact No."
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
@@ -544,6 +560,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Number of Dependent"
                             android:inputType="number"
+                            android:singleLine="true"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
 

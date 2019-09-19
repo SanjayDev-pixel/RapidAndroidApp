@@ -12,10 +12,7 @@ import androidx.databinding.DataBindingUtil
 import com.finance.app.R
 import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.presenter.connector.ReusableView
-import com.finance.app.view.activity.DashboardActivity
-import com.finance.app.view.activity.AssignedLeadActivity
-import com.finance.app.view.activity.LoginActivity
-import com.finance.app.view.activity.ProfileActivity
+import com.finance.app.view.activity.*
 import com.google.android.material.navigation.NavigationView
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
@@ -78,6 +75,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   private fun selectDrawerItem(menuItem: MenuItem) {
     when (menuItem.itemId) {
       R.id.notification -> {
+        NotificationActivity.start(this)
       }
       R.id.dashboard -> {
         DashboardActivity.start(this)

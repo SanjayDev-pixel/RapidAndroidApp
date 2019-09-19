@@ -14,7 +14,6 @@ import com.finance.app.view.adapters.Recycler.Adapter.NavMenuAdapter
 class NavMenuFragment : Fragment() {
     private lateinit var binding: FragmentNavMenuBinding
     private lateinit var navMenuAdapter: NavMenuAdapter
-
     companion object {
         private lateinit var navItem: ArrayList<Modals.NavItems>
         private lateinit var navItemCopy: ArrayList<Modals.NavItems>

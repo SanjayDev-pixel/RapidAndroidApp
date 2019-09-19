@@ -57,6 +57,8 @@
                             android:id="@+id/etCreditCardLimit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:inputType="number"
                             android:hint="Credit Card Limit"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
@@ -78,6 +80,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Current Utilization "
+                        android:singleLine="true"
+                        android:inputType="number"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
 
@@ -117,8 +121,10 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLastPaymentDate"
                             android:layout_width="match_parent"
+                            android:editable="false"
+                            android:drawableEnd="@drawable/ic_calender"
                             android:layout_height="wrap_content"
-                            android:hint="Last Payment Date"
+                            android:hint="@string/last_payment_date"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -133,11 +139,18 @@
                     android:layout_marginTop="@dimen/margin_20"
                     android:background="@drawable/button_theme_style"
                     android:padding="5sp"
-                    android:text="Add Credit Card"
+                    android:text="@string/add_credit_card"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/button_size" />
+                    android:textSize="@dimen/button_text_size" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rcCreditCard"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </ScrollView>

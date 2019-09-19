@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.view.adapters.Recycler.Adapter.AssetDetailAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.CreditCardAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
 
-class AssetLiablityFragment : androidx.fragment.app.Fragment() {
+class AssetLiabilityFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentAssetLiablityBinding
     private lateinit var mContext: Context
 
@@ -22,6 +25,30 @@ class AssetLiablityFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setDropDownValue()
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+
+        binding.btnAddAsset.setOnClickListener {
+            showAssetDetails()
+        }
+        binding.layoutCreditCard.btnAddCreditCard.setOnClickListener {
+            showCreditCardDetails()
+        }
+    }
+
+    private fun showCreditCardDetails() {
+        binding.layoutCreditCard.rcCreditCard.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
+        binding.layoutCreditCard.rcCreditCard.adapter = CreditCardAdapter(context!!)
+        binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
+
+    }
+
+    private fun showAssetDetails() {
+        binding.rcAsset.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
+        binding.rcAsset.adapter = AssetDetailAdapter(context!!)
+        binding.rcAsset.visibility = View.VISIBLE
     }
 
     private fun setDropDownValue() {

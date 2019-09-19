@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?actionBarSize"
             app:tabSelectedTextColor="@color/colorPrimary"
-            android:textSize="@dimen/button_size"
+            android:textSize="@dimen/button_text_size"
             app:tabBackground="@color/white"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorPrimary"

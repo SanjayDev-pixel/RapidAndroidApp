@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/md_grey_700"
+    android:padding="20sp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="@string/confirmation_delete_kyc_detail"
+        android:textSize="@dimen/button_text_size" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/tvDeleteConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20sp"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_weight="1"
+            app:backgroundTint="@color/md_red_500"
+            android:textColor="@color/white"
+            android:background="@drawable/button_theme_style"
+            android:text="@string/yes"
+            android:textSize="@dimen/button_text_size" />
+
+        <Button
+            android:id="@+id/tvDonotDelete"
+            android:layout_width="wrap_content"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="20sp"
+            android:layout_weight="1"
+            app:backgroundTint="@color/md_green_500"
+            android:textColor="@color/white"
+            android:background="@drawable/button_theme_style"
+            android:text="@string/no"
+            android:textSize="@dimen/button_text_size" />
+
+    </LinearLayout>
+</LinearLayout>

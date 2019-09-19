@@ -71,6 +71,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCompanyName"
                     android:layout_width="match_parent"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="Company Name"
                     android:minWidth="200dp"
@@ -88,6 +89,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDesignation"
                     android:layout_width="match_parent"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="Designation"
                     android:minWidth="200dp"
@@ -106,7 +108,8 @@
                     android:id="@+id/etOfficialMailId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Officaial Mail Id"
+                    android:singleLine="true"
+                    android:hint="Official Mail Id"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -132,6 +135,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Employee Id"
+                        android:inputType="number"
+                        android:singleLine="true"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
 
@@ -177,6 +182,7 @@
                         android:id="@+id/etTotalExperience"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Total Experience"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -195,6 +201,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Retirement Age"
+                        android:singleLine="true"
+                        android:inputType="number"
                         android:minWidth="150dp"
                         android:textSize="@dimen/text_size" />
 
@@ -219,12 +227,32 @@
                     android:src="@drawable/upload_icon" />
 
                 <TextView
+                    android:id="@+id/tvDocumentUpload"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:layout_weight="1"
-                    android:text="Document Upload"
+                    android:text="Upload Document"
                     android:textSize="@dimen/text_size" />
+
+                <ImageView
+                    android:id="@+id/ivThumbnail"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50sp"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:src="@drawable/upload_icon" />
+
+                <ImageView
+                    android:id="@+id/ivPdf"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_pdf_type"
+                    android:layout_height="50sp"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/fields_margin" />
 
             </LinearLayout>
 
@@ -263,6 +291,7 @@
                         android:id="@+id/etLandmark"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="Landmark"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -279,6 +308,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPinCode"
                         android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:inputType="number"
                         android:layout_height="wrap_content"
                         android:hint="Pin Code"
                         android:minWidth="150dp"
@@ -299,7 +330,9 @@
                     android:id="@+id/etLandLine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Landline No."
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:hint="LandLine No."
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
 

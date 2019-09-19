@@ -2,17 +2,16 @@ package com.finance.app.view.adapters.Recycler.Adapter
 
 import android.content.Context
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.finance.app.R
-import com.finance.app.databinding.LeadsCardViewBinding
+import com.finance.app.databinding.ItemLeadBinding
 import com.finance.app.view.activity.LeadDetailActivity
 import java.util.*
 
 class LeadListingAdapter(private val c: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<LeadListingAdapter.LeadManagementViewHolder>() {
-    private lateinit var binding: LeadsCardViewBinding
+    private lateinit var binding: ItemLeadBinding
 
     private val name = arrayOf("ChamanLal", "Sanat bhagel", " bhagel", "Sanat ")
     private val timeStamp = arrayOf(6541313L, 54684981L, 3216546L, 6461313L)
@@ -26,11 +25,11 @@ class LeadListingAdapter(private val c: Context) : androidx.recyclerview.widget.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeadManagementViewHolder {
 
         val layoutInflater = LayoutInflater.from(parent.context)
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.leads_card_view, parent, false)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_lead, parent, false)
         return LeadManagementViewHolder(binding, c)
     }
 
-    inner class LeadManagementViewHolder(val binding: LeadsCardViewBinding, val c: Context) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+    inner class LeadManagementViewHolder(val binding: ItemLeadBinding, val c: Context) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
         fun bindItems(name: Array<String>, position: Int, timeStamp: Array<Long>) {
             binding.tvLeadName.text = name[position]
             convertToHumanFormat(timeStamp)

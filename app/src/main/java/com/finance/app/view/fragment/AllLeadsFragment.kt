@@ -14,12 +14,19 @@ class AllLeadsFragment : androidx.fragment.app.Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentAllLeadsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpRecyclerView()
+    }
+
+    private fun setUpRecyclerView() {
         binding.rcAllLeads.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this.activity)
         binding.rcAllLeads.adapter = LeadListingAdapter(this.requireActivity())
-
         binding.fabAddLead.setOnClickListener {
             AddLeadActivity.start(requireContext())
         }
-        return binding.root
     }
 }

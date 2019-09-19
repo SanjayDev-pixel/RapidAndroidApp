@@ -2,11 +2,8 @@ package motobeans.architecture.development.components
 
 import android.app.Application
 import com.optcrm.optreporting.AppModule
-import com.finance.app.presenter.presenter.TempSyncPresenter
-import com.finance.app.presenter.presenter.TestPresenter
 import com.finance.app.TestActivity
-import com.finance.app.presenter.presenter.AddLeadPresenter
-import com.finance.app.presenter.presenter.LoginPresenter
+import com.finance.app.presenter.presenter.*
 import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.SplashScreen
 import com.finance.app.view.adapters.Recycler.Adapter.TempRecyclerAdapter
@@ -53,6 +50,7 @@ interface ApplicationComponent {
     fun inject(presenter: TempSyncPresenter)
     fun inject(loginPresenter: LoginPresenter)
     fun inject(addLeadPresenter: AddLeadPresenter)
+    fun inject(allSpinnerValuePresenter: AllSpinnerValuePresenter)
 
     /**
      * View Model

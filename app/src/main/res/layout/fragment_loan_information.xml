@@ -95,6 +95,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etAmountRequest"
                             android:layout_width="match_parent"
+                            android:inputType="number"
+                            android:singleLine="true"
                             android:layout_height="wrap_content"
                             android:hint="@string/loan_amount_request"
                             android:minWidth="200dp"
@@ -115,6 +117,8 @@
                             android:layout_width="match_parent"
                             android:focusableInTouchMode="true"
                             android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:singleLine="true"
                             android:hint="@string/tenure_months"
                             android:minWidth="150dp"
                             android:textSize="@dimen/text_size" />
@@ -157,6 +161,8 @@
                             android:id="@+id/etEmi"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:singleLine="true"
                             android:hint="Affordable EMI"
                             android:minWidth="@dimen/text_min_width"
                             android:textSize="@dimen/text_size" />
@@ -234,38 +240,6 @@
 
             </LinearLayout>
             </LinearLayout>
-
         </ScrollView>
-
-        <LinearLayout
-            android:id="@+id/llBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="end">
-
-            <Button
-                android:id="@+id/btnContinue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_10"
-                android:background="@drawable/button_theme_style"
-                android:padding="5sp"
-                android:text="Continue"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_size" />
-
-            <Button
-                android:id="@+id/btnSaveDraft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_10"
-                android:background="@drawable/button_theme_style"
-                android:padding="5sp"
-                android:text="Save Draft"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_size" />
-        </LinearLayout>
     </RelativeLayout>
-
 </layout>
