@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                     android:id="@+id/input_layout_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -80,7 +80,7 @@
                             android:id="@+id/etContactNum"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Contact No. "
+                            android:hint="@string/contact_no"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -97,7 +97,7 @@
                             android:id="@+id/etKnownSince"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Known Since (In Years)"
+                            android:hint="@string/known_since_in_years"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -139,14 +139,13 @@
                     android:layout_marginTop="@dimen/fields_margin"
                     android:background="@drawable/button_theme_style"
                     android:padding="5sp"
-                    android:text="Add Reference"
+                    android:text="@string/add_reference"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
 
             </LinearLayout>
-
         </ScrollView>
     </RelativeLayout>
 </layout>

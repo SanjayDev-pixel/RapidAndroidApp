@@ -2,7 +2,6 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.finance.app.R
@@ -29,16 +28,10 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            setNavFragment()
-            secondaryFragment = LoanInformationFragment()
-            setSecondaryFragment(secondaryFragment)
-        }
-    }
-
     override fun init() {
+        setNavFragment()
+        secondaryFragment = LoanInformationFragment()
+        setSecondaryFragment(secondaryFragment)
         binding.collapseImageView.setOnClickListener {
             handleCollapseScreen(isExpand)
         }
