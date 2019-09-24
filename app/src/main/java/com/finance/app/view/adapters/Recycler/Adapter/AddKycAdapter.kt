@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -19,16 +18,16 @@ import kotlinx.android.synthetic.main.delete_dialog.view.*
 class AddKycAdapter(private val mActivity: FragmentActivity, private val kycList: ArrayList<Modals.AddKyc>) : RecyclerView.Adapter<AddKycAdapter.KYCViewHolder>() {
     private lateinit var binding: ItemKycBinding
 
-    override fun onBindViewHolder(holder: KYCViewHolder, position: Int) {
-        holder.bindItems(kycList[position])
-    }
-
-    override fun getItemCount(): Int = kycList.size
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KYCViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_kyc, parent, false)
         return KYCViewHolder(binding)
+    }
+
+    override fun getItemCount(): Int = kycList.size
+
+    override fun onBindViewHolder(holder: KYCViewHolder, position: Int) {
+        holder.bindItems(kycList[position])
     }
 
     inner class KYCViewHolder(val binding: ItemKycBinding) : RecyclerView.ViewHolder(binding.root),

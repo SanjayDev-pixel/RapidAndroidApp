@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import motobeans.architecture.development.implementation.DaaBaseUtilImpl
 import motobeans.architecture.development.implementation.FormValidationImpl
-import motobeans.architecture.development.implementation.SharedPreferencesutilImpl
+import motobeans.architecture.development.implementation.SharedPreferencesUtilImpl
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -19,7 +19,7 @@ class UtilityModule {
     @Provides
     @Singleton
     fun provideSharePreference(app: Application): SharedPreferencesUtil {
-        return SharedPreferencesutilImpl(app)
+        return SharedPreferencesUtilImpl(app)
     }
 
     @Provides

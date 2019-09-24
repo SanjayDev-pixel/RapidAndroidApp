@@ -1,6 +1,5 @@
 package com.finance.app.persistence.model
 
-import java.io.Serializable
 import java.util.*
 
 class DropdownMaster {

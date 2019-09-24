@@ -1,15 +1,16 @@
 package motobeans.architecture.development.components
 
 import android.app.Application
-import com.optcrm.optreporting.AppModule
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
 import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.SplashScreen
 import com.finance.app.view.adapters.Recycler.Adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.Recycler.Holder.TempHolder
+import com.finance.app.view.fragment.PersonalInfoFragment
 import com.finance.app.view.fragment.TestFragment
 import com.finance.app.viewModel.TempViewModel
+import com.optcrm.optreporting.AppModule
 import com.optcrm.optreporting.app.workers.UtilWorkersTask
 import dagger.Component
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -42,7 +43,7 @@ interface ApplicationComponent {
      * Fragment
      */
     fun inject(fragment: TestFragment)
-
+    fun inject(fragment: PersonalInfoFragment)
     /**
      * Presenters
      */

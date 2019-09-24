@@ -1,6 +1,7 @@
 package motobeans.architecture.development.implementation
 
 import android.content.Context
+import com.finance.app.persistence.model.PersonalApplicants
 import com.google.gson.Gson
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
@@ -12,13 +13,7 @@ import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
  * Created by munishkumarthakur on 04/11/17.
  */
 
-class SharedPreferencesutilImpl(context: Context) : SharedPreferencesUtil {
-
-    private var context: Context
-
-    init {
-        this.context = context
-    }
+class SharedPreferencesUtilImpl(private var context: Context) : SharedPreferencesUtil {
 
     override fun saveLoginData(response: Response.ResponseLogin?): Boolean {
         val objLogin = Gson().toJson(response)
@@ -44,6 +39,18 @@ class SharedPreferencesutilImpl(context: Context) : SharedPreferencesUtil {
 
     override fun isLogin(): Boolean {
         return getUserToken()?.exIsNotEmptyOrNullOrBlank() ?: false
+    }
+
+    override fun savePersonalInfoForApplicants(applicants: ArrayList<PersonalApplicants>) {
+        val objPersonalApplicants = Gson().toJson(applicants)
+        val objSPPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
+        objSPPersonalApplicants.putString(SharedPreferencesBean.KEY_PERSONAL_APPLICANTS, objPersonalApplicants)
+    }
+
+    override fun getPersonalInfoForApplicants(applicantNum: Int): PersonalApplicants {
+        val objSpPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
+        val personalApplicantJson = objSpPersonalApplicants.getString(SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
+        return Gson().fromJson(personalApplicantJson, PersonalApplicants::class.java)
     }
 
     override fun clearAll() {

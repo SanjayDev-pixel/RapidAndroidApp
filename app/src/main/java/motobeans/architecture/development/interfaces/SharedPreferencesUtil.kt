@@ -1,5 +1,6 @@
 package motobeans.architecture.development.interfaces
 
+import com.finance.app.persistence.model.PersonalApplicants
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.retrofit.response.Response.ResponseSample
 
@@ -10,6 +11,8 @@ interface SharedPreferencesUtil {
     fun saveLoginData(response: Response.ResponseLogin?): Boolean
     fun getLoginData(): Response.ResponseLogin?
     fun isLogin(): Boolean
+    fun savePersonalInfoForApplicants(applicants:ArrayList<PersonalApplicants>)
+    fun getPersonalInfoForApplicants(applicantNum:Int):PersonalApplicants
     fun getUserToken(): String?
     fun getUserName(): String?
 

@@ -14,14 +14,55 @@
             android:background="@drawable/rectangular_curved_bg_blue"
             android:gravity="center_vertical">
 
-            <TextView
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="@string/credit_card_details"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="@dimen/text_size" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_10"
-                android:textColor="@color/black"
-                android:text="Credit Card Details"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textSize="@dimen/text_size" />
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5sp"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@drawable/button_theme_style"
+                android:text="@string/delete"
+                app:backgroundTint="@color/md_red_500"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
+
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5sp"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@drawable/button_theme_style"
+                android:text="Edit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llDetail"
@@ -45,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textColor="@color/white"
-                        android:text="Bank Name"
+                        android:text="@string/bank_name"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size" />
 
@@ -71,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="@color/white"
-                        android:text="Card Limit"
+                        android:text="@string/card_limit"
                         android:textStyle="bold"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size" />
@@ -150,15 +191,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
-                android:padding="@dimen/margin_10"
-                android:layout_marginTop="@dimen/fields_margin"
+                android:paddingStart="@dimen/margin_10"
+                android:paddingEnd="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Obligate"
+                    android:text="@string/obligate"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textSize="@dimen/text_size" />
 
@@ -170,24 +213,22 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_gravity="end"
-                    android:text="YES"
+                    android:text="@string/yes"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textSize="@dimen/text_size" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btnDelete"
+            <TextView
+                android:id="@+id/tvCurrentPosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_margin="@dimen/margin_10"
-                android:background="@drawable/button_theme_style"
-                android:text="@string/delete"
-                app:backgroundTint="@color/md_red_500"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_text_size" />
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:text="1"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textSize="@dimen/text_size" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

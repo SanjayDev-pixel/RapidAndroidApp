@@ -12,27 +12,50 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.model.Modals
+import com.finance.app.persistence.model.AddressDetail
+import com.finance.app.persistence.model.ContactDetail
 import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.persistence.model.PersonalApplicants
 import com.finance.app.utility.SelectDate
 import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
+import com.oneclickaway.opensource.validation.interfaces.OnResponseListener
+import com.oneclickaway.opensource.validation.model.FormValidator
+import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import javax.inject.Inject
 
-class PersonalInfoFragment : androidx.fragment.app.Fragment() {
+class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, OnResponseListener.OnFormValidationListener {
+
     private lateinit var binding: FragmentPersonalBinding
     private val frag = this
     private lateinit var mContext: Context
     private var kycAdapter: AddKycAdapter? = null
+    private var applicantAdapter: ApplicantsAdapter? = null
+    private var applicantsList: ArrayList<PersonalApplicants>? = null
+    private var personalAddressDetail: ArrayList<AddressDetail>? = null
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
+    private val optionalInput = intArrayOf(R.id.etIdNum, R.id.etLandmark, R.id.etMiddleName,
+            R.id.etEmail, R.id.etFatherMiddleName, R.id.etSpouseFirstName, R.id.etSpouseLastName,
+            R.id.etSpouseMiddleName, R.id.etCurrentRentAmount,
+            R.id.etPermanentRentAmount)
 
     companion object {
         private const val GALLERY = 1
         private const val CAMERA = 2
+        private var coApplicant = 1
         private lateinit var kycList: ArrayList<Modals.AddKyc>
+        private lateinit var applicantMenu: ArrayList<String>
         private var image: Bitmap? = null
     }
 
@@ -44,11 +67,24 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
         kycList = ArrayList()
+        applicantMenu = ArrayList()
         checkKycDataList()
+        setCoApplicants()
         setDatePicker()
         setDropDownValue()
         setClickListeners()
+    }
+
+    private fun setCoApplicants() {
+        applicantMenu.add(0, "Applicant")
+        applicantMenu.add(1, "Add Co-Applicant")
+        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                LinearLayoutManager.HORIZONTAL, false)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
+        applicantAdapter!!.setOnItemClickListener(this)
+        binding.rcApplicants.adapter = applicantAdapter
     }
 
     private fun checkKycDataList() {
@@ -102,7 +138,7 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun showKycDetail() {
-        binding.rcKYC.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
+        binding.rcKYC.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         kycAdapter = AddKycAdapter(activity!!, kycList)
         binding.rcKYC.adapter = kycAdapter
         binding.rcKYC.visibility = View.VISIBLE
@@ -118,6 +154,66 @@ class PersonalInfoFragment : androidx.fragment.app.Fragment() {
         binding.etExpiryDate.setOnClickListener {
             SelectDate(binding.etExpiryDate, mContext)
         }
+    }
+
+    override fun onAddApplicantClick() {
+        checkMandatoryField()
+    }
+
+    override fun onApplicantClick(position: Int) {
+//        saveCurrentApplicant(position)
+        changeCurrentApplicant()
+    }
+
+    private fun saveCurrentApplicant(position: Int) {
+        applicantsList!!.add(applicant)
+        sharedPreferences.savePersonalInfoForApplicants(applicantsList!!)
+    }
+
+    private fun checkMandatoryField() {
+        FormValidator.isFormFilled(binding.llPersonalFragment, this,
+                "Enter valid input", true, optionalInput)
+    }
+
+    override fun onFormValidationTaskSuccess(isFormFilled: Boolean) {
+        /*Here isFormFilled represents that weather the form is filled or not*/
+        if (isFormFilled) {
+            applicantMenu.add(applicantMenu.size - 1, "Co-Applicant:${coApplicant}")
+            applicantAdapter!!.notifyDataSetChanged()
+            saveCurrentApplicant(applicantMenu.size - 1)
+            coApplicant++
+        } else {
+            Toast.makeText(context, "Please Fill all the mandatory field first.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onFormValidationError(error: Throwable) {
+        /*this method gives you a way of handling error if there is any*/
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        /*Be sure to call this in your onDestroy method to unBind the validator*/
+        FormValidator.clearFormValidator()
+    }
+
+    private val applicant: PersonalApplicants
+        get() {
+            personalAddressDetail!!.add(AddressDetail())
+            return PersonalApplicants(personalAddressDetail!!)
+        }
+
+    private val addressDetail: AddressDetail
+        get() {
+            return AddressDetail()
+        }
+
+    private val contactDetail: ContactDetail
+        get() {
+            return ContactDetail()
+        }
+
+    private fun changeCurrentApplicant() {
     }
 
     private fun setDropDownValue() {

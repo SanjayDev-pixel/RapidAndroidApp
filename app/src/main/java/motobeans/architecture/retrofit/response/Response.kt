@@ -1,7 +1,6 @@
 package motobeans.architecture.retrofit.response
 
 object Response {
-
     data class ResponseSample(var isSuccess: Boolean, var status: Int, var message: String)
     data class ResponseLogin(val responseCode: String, val responseMsg: String, val responseObj: ResponseObj, val timeStamp: Long)
     data class ResponseObj(val token: String, val userDetails: UserDetails)
@@ -48,7 +47,6 @@ object Response {
             val SourcingChannelPartner: List<SourcingChannelPartner>,
             val TypeOfOrganisation: List<TypeOfOrganisation>
     )
-
     data class ApprovalStatu(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -61,7 +59,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class Branch(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -74,7 +71,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class ChannelPartnerName(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -87,7 +83,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class ChannelType(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -100,7 +95,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class EntityType(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -113,7 +107,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class Gender(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -126,7 +119,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class LoanInformationInterestType(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -139,7 +131,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class LoanScheme(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -152,7 +143,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class LoanType(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -165,7 +155,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class OfficeType(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -178,7 +167,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class ReferedBy(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -191,7 +179,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class Relationship(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -204,7 +191,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class SourcingChannelPartner(
             val refTypeDetailID: Int,
             val sequence: String,
@@ -217,7 +203,6 @@ object Response {
             val typeMasterLogicalCode: String,
             val typeMasterName: String
     )
-
     data class TypeOfOrganisation(
             val refTypeDetailID: Int,
             val sequence: String,

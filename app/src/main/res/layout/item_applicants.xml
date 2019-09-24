@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:id="@+id/tvApplicants"
+        android:layout_width="140sp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangular_curved_bg_blue"
+        android:padding="5sp"
+        android:layout_marginEnd="5sp"
+        android:text="@string/applicant"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textSize="@dimen/text_size" />
+</layout>

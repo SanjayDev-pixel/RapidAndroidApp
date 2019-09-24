@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -22,24 +23,6 @@
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_borrower_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etBorrowerName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:hint="Borrower Name "
-                        android:minWidth="200dp"
-                        android:textSize="@dimen/text_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,7 +31,7 @@
                     android:orientation="horizontal">
 
                     <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerLoanObservation"
+                        android:id="@+id/spinnerLoanOwnership"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -57,8 +40,8 @@
                         android:textSize="@dimen/text_size"
                         app:ms_arrowSize="16dp"
                         app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Loan Observation "
-                        app:ms_hint="Loan Observation "
+                        app:ms_floatingLabelText="Loan Ownership "
+                        app:ms_hint="Loan Ownership "
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
@@ -110,7 +93,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5sp"
+                        android:layout_marginTop="@dimen/edit_spinner_margin"
                         android:textColorHint="@color/hint_color">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -119,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:inputType="number"
-                            android:hint="Loan Amount"
+                            android:hint="@string/loan_amount"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -138,7 +121,7 @@
                         android:id="@+id/etFinancierName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Financier Name "
+                        android:hint="@string/financier_name"
                         android:singleLine="true"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -165,7 +148,7 @@
                             android:singleLine="true"
                             android:inputType="number"
                             android:layout_height="wrap_content"
-                            android:hint="Tenure"
+                            android:hint="@string/tenure"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -184,7 +167,7 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:inputType="number"
-                            android:hint="Balance Tenure"
+                            android:hint="@string/balance_tenure"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -220,7 +203,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5sp"
+                        android:layout_marginTop="@dimen/edit_spinner_margin"
                         android:textColorHint="@color/hint_color">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -229,7 +212,7 @@
                             android:singleLine="true"
                             android:inputType="number"
                             android:layout_height="wrap_content"
-                            android:hint="EMI Amount"
+                            android:hint="@string/emi_amount"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -241,7 +224,7 @@
                     android:id="@+id/input_layout_bounces_in_last_six_months"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -250,11 +233,76 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:inputType="number"
-                        android:hint="Num of check bounces in last 6 months "
+                        android:hint="@string/num_of_check_bounces_in_last_6_months"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_bounces_in_last_nine_months"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etBouncesInLastNineMonths"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:inputType="number"
+                        android:hint="@string/num_of_check_bounces_in_last_9_months"
+                        android:minWidth="200dp"
+                        android:textSize="@dimen/text_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerEmiPaidInSameMonth"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:minWidth="@dimen/text_min_width"
+                        app:ms_arrowColor="@color/black"
+                        app:ms_arrowSize="@dimen/fields_margin"
+                        app:ms_floatingLabelColor="@color/hint_color"
+                        app:ms_floatingLabelText="Emi paid in same month "
+                        android:textSize="@dimen/text_size"
+                        app:ms_hint="Emi paid in same month "
+                        app:ms_hintColor="@color/hint_color"
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        app:ms_multiline="false" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_disbursement_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/edit_spinner_margin"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDisbursementDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:editable="false"
+                            android:drawableEnd="@drawable/ic_calender"
+                            android:hint="@string/disbursement_date"
+                            android:minWidth="200dp"
+                            app:ms_hintTextSize="@dimen/hint_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/btnAddObligation"
@@ -263,11 +311,18 @@
                     android:layout_marginTop="@dimen/margin_20"
                     android:background="@drawable/button_theme_style"
                     android:padding="5sp"
-                    android:text="Add Obligation"
+                    android:text="@string/add_obligation"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rcObligation"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </ScrollView>
