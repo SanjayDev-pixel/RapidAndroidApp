@@ -327,58 +327,6 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textColor="@color/white"
-                        android:text="@string/loan_a_c_num"
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size" />
-
-                    <TextView
-                        android:id="@+id/tvLoanAcNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginStart="5sp"
-                        android:textColor="@color/white"
-                        android:text="3215461303126"
-                        android:textSize="@dimen/text_size" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:text="@string/loan_a_c_num"
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size" />
-
-                    <TextView
-                        android:id="@+id/tvRepaymentBank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5sp"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:text="Bank of India"
-                        android:textSize="@dimen/text_size" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
                         android:text="@string/num_of_check_bounces_in_last_6_months"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size" />
@@ -417,6 +365,58 @@
                         android:text="5"
                         android:layout_marginStart="5sp"
                         android:textColor="@color/white"
+                        android:textSize="@dimen/text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="@string/loan_a_c_num"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textSize="@dimen/text_size" />
+
+                    <TextView
+                        android:id="@+id/tvLoanAcNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginStart="5sp"
+                        android:textColor="@color/white"
+                        android:text="3215461303126"
+                        android:textSize="@dimen/text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="@string/loan_a_c_num"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textSize="@dimen/text_size" />
+
+                    <TextView
+                        android:id="@+id/tvRepaymentBank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5sp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="Bank of India"
                         android:textSize="@dimen/text_size" />
                 </LinearLayout>
 
@@ -471,19 +471,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvCurrentPosition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_margin="@dimen/margin_10"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:text="1"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textSize="@dimen/text_size" />
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

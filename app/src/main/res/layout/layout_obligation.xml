@@ -203,7 +203,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/edit_spinner_margin"
+                        android:layout_marginTop="8dp"
                         android:textColorHint="@color/hint_color">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -286,7 +286,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginTop="@dimen/edit_spinner_margin"
+                        android:layout_marginTop="@dimen/spinner_date_margin"
                         android:textColorHint="@color/hint_color">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -323,6 +323,13 @@
                     android:orientation="horizontal"
                     android:visibility="gone"
                     android:layout_height="wrap_content"/>
+
+                <com.chahinem.pageindicator.PageIndicator
+                    android:id="@+id/pageIndicatorObligation"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </ScrollView>

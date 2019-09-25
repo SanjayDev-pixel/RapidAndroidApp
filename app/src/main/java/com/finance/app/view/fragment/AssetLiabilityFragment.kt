@@ -45,12 +45,16 @@ class AssetLiabilityFragment : androidx.fragment.app.Fragment() {
     private fun showObligationDetail() {
         binding.layoutObligations.rcObligation.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.layoutObligations.rcObligation.adapter = ObligationAdapter(context!!)
+        binding.layoutObligations.pageIndicatorObligation.attachTo(binding.layoutObligations.rcObligation)
+        binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
         binding.layoutObligations.rcObligation.visibility = View.VISIBLE
     }
 
     private fun showCreditCardDetails() {
         binding.layoutCreditCard.rcCreditCard.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.layoutCreditCard.rcCreditCard.adapter = CreditCardAdapter(context!!)
+        binding.layoutCreditCard.pageIndicatorCreditCard.attachTo(binding.layoutCreditCard.rcCreditCard)
+        binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
         binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
 
     }
@@ -58,6 +62,8 @@ class AssetLiabilityFragment : androidx.fragment.app.Fragment() {
     private fun showAssetDetails() {
         binding.rcAsset.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rcAsset.adapter = AssetDetailAdapter(context!!)
+        binding.pageIndicatorAsset.attachTo(binding.rcAsset)
+        binding.pageIndicatorAsset.visibility = View.VISIBLE
         binding.rcAsset.visibility = View.VISIBLE
     }
 

@@ -6,19 +6,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
-        android:gravity="center"
+        android:gravity="start"
         android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/cbDocument"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="0sp"
-            android:paddingEnd="@dimen/margin_10"
+            android:padding="@dimen/margin_10"
             android:layoutDirection="rtl"
+            android:textSize="@dimen/button_text_size"
             android:text="Signed and Accepted Charges and Document List"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/black"
-            android:textSize="@dimen/button_text_size" />
+            android:textColor="@color/black" />
     </LinearLayout>
 </layout>

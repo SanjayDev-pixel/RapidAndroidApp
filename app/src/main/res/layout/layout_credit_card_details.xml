@@ -50,7 +50,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8sp"
+                        android:layout_marginTop="8dp"
                         android:textColorHint="@color/hint_color">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -59,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:inputType="number"
-                            android:hint="Credit Card Limit"
+                            android:hint="@string/credit_card_limit"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -79,7 +79,7 @@
                         android:id="@+id/etCurrentUtilization"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Current Utilization "
+                        android:hint="@string/current_utilization"
                         android:singleLine="true"
                         android:inputType="number"
                         android:minWidth="200dp"
@@ -115,13 +115,14 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8sp"
+                        android:layout_marginTop="5dp"
                         android:textColorHint="@color/hint_color">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLastPaymentDate"
                             android:layout_width="match_parent"
                             android:editable="false"
+                            android:focusable="false"
                             android:drawableEnd="@drawable/ic_calender"
                             android:layout_height="wrap_content"
                             android:hint="@string/last_payment_date"
@@ -151,6 +152,13 @@
                     android:orientation="horizontal"
                     android:visibility="gone"
                     android:layout_height="wrap_content"/>
+
+                <com.chahinem.pageindicator.PageIndicator
+                    android:id="@+id/pageIndicatorCreditCard"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </ScrollView>

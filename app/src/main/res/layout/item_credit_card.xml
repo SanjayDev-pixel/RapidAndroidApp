@@ -218,18 +218,6 @@
                     android:textSize="@dimen/text_size" />
 
             </LinearLayout>
-            <TextView
-                android:id="@+id/tvCurrentPosition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_margin="@dimen/margin_10"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:text="1"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textSize="@dimen/text_size" />
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

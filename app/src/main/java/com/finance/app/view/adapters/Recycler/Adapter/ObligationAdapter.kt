@@ -26,7 +26,6 @@ class ObligationAdapter(private val c: Context) : RecyclerView.Adapter<Obligatio
 
     inner class ObligationViewHolder(val binding: ItemObligationBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int) {
-            binding.tvCurrentPosition.text = position.toString()
         }
     }
 }
