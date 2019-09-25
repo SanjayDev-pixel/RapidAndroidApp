@@ -11,8 +11,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:paddingBottom="@dimen/margin_50">
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -21,11 +20,27 @@
                 android:orientation="vertical"
                 android:padding="@dimen/margin_10">
 
-                <androidx.recyclerview.widget.RecyclerView
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/rcApplicants"
-                    android:orientation="horizontal"
                     android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/btnAddApplicant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="+"
+                    android:textSize="@dimen/button_text_size"
+                    android:textColor="@color/black"
+                    android:background="@drawable/rectangular_curved_bg_blue" />
+
+            </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -207,20 +222,18 @@
                     android:id="@+id/addressLayout"
                     layout="@layout/layout_address" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSaveAndContinue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@drawable/button_theme_style"
+                android:gravity="center"
+                android:text="@string/save_and_continue"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
+
         </ScrollView>
-
-        <Button
-            android:id="@+id/btnSaveAndContinue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/margin_10"
-            android:background="@drawable/button_theme_style"
-            android:gravity="center"
-            android:text="@string/save_and_continue"
-            android:textColor="@color/white"
-            android:textSize="@dimen/button_text_size" />
-
     </RelativeLayout>
 </layout>

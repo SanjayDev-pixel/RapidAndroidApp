@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
             android:padding="@dimen/margin_10">
 
@@ -21,29 +21,13 @@
                 android:layout_height="30sp"
                 android:src="@drawable/collapse_icon" />
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:gravity="center|end"
-                android:id="@+id/llApplicants"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tvApplicant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Applicant "
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tvCoApplicant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20sp"
-                    android:text="Co Applicant"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="Laon Application "
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="@dimen/button_text_size" />
 
         </LinearLayout>
 

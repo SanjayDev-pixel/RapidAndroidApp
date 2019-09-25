@@ -86,7 +86,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: ArrayLi
                 R.drawable.assest_details_white -> updateSecondaryFragment(AssetLiabilityFragment())
                 R.drawable.reffrence_white -> updateSecondaryFragment(ReferenceFragment())
                 R.drawable.property_icon_white -> updateSecondaryFragment(PropertyFragment())
-                R.drawable.asigned_lead_black -> updateSecondaryFragment(DocumentCheckListFragment())
+                R.drawable.document_checklist -> updateSecondaryFragment(DocumentCheckListFragment())
             }
         }
 

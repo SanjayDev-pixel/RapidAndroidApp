@@ -126,6 +126,8 @@
                             android:layout_height="wrap_content"
                             android:clickable="false"
                             android:hint="Age"
+                            android:maxLength="2"
+                            android:inputType="number"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -153,6 +155,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:singleLine="true"
+                            android:maxLength="10"
                             android:hint="@string/mobile"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
@@ -549,6 +552,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:singleLine="true"
+                            android:maxLength="10"
                             android:hint="@string/alternate_contact_no"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
@@ -569,6 +573,7 @@
                             android:hint="@string/number_of_dependent"
                             android:inputType="number"
                             android:singleLine="true"
+                            android:maxLength="2"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
 

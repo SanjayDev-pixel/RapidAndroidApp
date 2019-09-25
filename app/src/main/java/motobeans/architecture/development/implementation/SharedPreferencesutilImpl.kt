@@ -53,6 +53,25 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return Gson().fromJson(personalApplicantJson, PersonalApplicants::class.java)
     }
 
+    override fun getLoginPrivilege(): Response.RolePrivileges? {
+        val privilegesList  = getLoginData()?.responseObj?.userDetails?.rolePrivilegesList
+        for (privilege in privilegesList!!){
+            if(privilege.moduleName == "Login"){
+                return privilege
+            }
+        }
+        return null
+    }
+
+    override fun getNavMenuItem(): HashSet<String>? {
+        val navItemList = hashSetOf<String>()
+        val loginSubModules = getLoginPrivilege()?.subModuleList
+        for (module in loginSubModules!!){
+            navItemList.add(module.screenName)
+        }
+        return navItemList
+    }
+
     override fun clearAll() {
         try {
             for (element in SharedPreferencesBean.Array_KEY_SHARED_PREFERENCES) {

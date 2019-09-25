@@ -21,6 +21,7 @@ import com.finance.app.persistence.model.AddressDetail
 import com.finance.app.persistence.model.ContactDetail
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.PersonalApplicants
+import com.finance.app.utility.ClearPersonalForm
 import com.finance.app.utility.SelectDate
 import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
@@ -78,8 +79,7 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, On
     }
 
     private fun setCoApplicants() {
-        applicantMenu.add(0, "Applicant")
-        applicantMenu.add(1, "Add Co-Applicant")
+        applicantMenu.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
         applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
@@ -106,6 +106,10 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, On
         }
         binding.basicInfoLayout.ivUploadDobProof.setOnClickListener {
             UploadData(frag, mContext)
+        }
+
+        binding.btnAddApplicant.setOnClickListener {
+            onAddApplicantClick()
         }
         binding.addressLayout.cbSameAsCurrent.setOnClickListener {
             if (binding.addressLayout.cbSameAsCurrent.isChecked) {
@@ -156,13 +160,19 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, On
         }
     }
 
-    override fun onAddApplicantClick() {
-        checkMandatoryField()
+    private fun onAddApplicantClick() {
+//        checkMandatoryField()
+        applicantMenu.add("Co- Applicant $coApplicant")
+        binding.rcApplicants.adapter!!.notifyDataSetChanged()
+        coApplicant++
+
     }
 
     override fun onApplicantClick(position: Int) {
 //        saveCurrentApplicant(position)
+        ClearPersonalForm(binding)
         changeCurrentApplicant()
+        setDropDownValue()
     }
 
     private fun saveCurrentApplicant(position: Int) {
@@ -172,7 +182,7 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, On
 
     private fun checkMandatoryField() {
         FormValidator.isFormFilled(binding.llPersonalFragment, this,
-                "Enter valid input", true, optionalInput)
+                "Enter valid input", true)
     }
 
     override fun onFormValidationTaskSuccess(isFormFilled: Boolean) {
@@ -181,6 +191,7 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, On
             applicantMenu.add(applicantMenu.size - 1, "Co-Applicant:${coApplicant}")
             applicantAdapter!!.notifyDataSetChanged()
             saveCurrentApplicant(applicantMenu.size - 1)
+            applicantMenu.add("Co- Applicant $coApplicant")
             coApplicant++
         } else {
             Toast.makeText(context, "Please Fill all the mandatory field first.", Toast.LENGTH_LONG).show()

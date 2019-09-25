@@ -34,7 +34,6 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
     }
 
     interface ItemClickListener {
-        fun onAddApplicantClick()
         fun onApplicantClick(position: Int)
     }
 
@@ -44,12 +43,8 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
             binding.tvApplicants.setOnClickListener {
                 if (mClickListener != null) {
                     selectedPosition = adapterPosition
-                    if (adapterPosition == applicants.size - 1) {
-                        mClickListener!!.onAddApplicantClick()
-                        notifyDataSetChanged()
-                    } else {
-                        mClickListener!!.onApplicantClick(position)
-                    }
+                    mClickListener!!.onApplicantClick(position)
+                    notifyDataSetChanged()
                 }
             }
 

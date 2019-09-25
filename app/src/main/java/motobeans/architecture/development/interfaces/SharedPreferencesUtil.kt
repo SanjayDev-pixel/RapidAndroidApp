@@ -2,7 +2,6 @@ package motobeans.architecture.development.interfaces
 
 import com.finance.app.persistence.model.PersonalApplicants
 import motobeans.architecture.retrofit.response.Response
-import motobeans.architecture.retrofit.response.Response.ResponseSample
 
 /**
  * Created by munishkumarthakur on 04/11/17.
@@ -15,7 +14,8 @@ interface SharedPreferencesUtil {
     fun getPersonalInfoForApplicants(applicantNum:Int):PersonalApplicants
     fun getUserToken(): String?
     fun getUserName(): String?
-
+    fun getLoginPrivilege():Response.RolePrivileges?
+    fun getNavMenuItem(): HashSet<String>?
     // Clear All saved data from Shared Presence
     fun clearAll()
 }

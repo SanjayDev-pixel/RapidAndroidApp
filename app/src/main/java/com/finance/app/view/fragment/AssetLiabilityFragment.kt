@@ -1,21 +1,33 @@
 package com.finance.app.view.fragment
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentAssetLiablityBinding
+import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.view.adapters.Recycler.Adapter.AssetDetailAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.CreditCardAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.ObligationAdapter
+import com.finance.app.persistence.model.PersonalApplicants
+import com.finance.app.utility.ClearPersonalForm
+import com.finance.app.view.adapters.Recycler.Adapter.*
 
-class AssetLiabilityFragment : androidx.fragment.app.Fragment() {
+class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
     private lateinit var binding: FragmentAssetLiablityBinding
     private lateinit var mContext: Context
+    private var applicantAdapter: ApplicantsAdapter? = null
+    private var applicantsList: ArrayList<PersonalApplicants>? = null
+
+    companion object {
+        private const val GALLERY = 1
+        private const val CAMERA = 2
+        private var coApplicant = 1
+        private lateinit var applicantMenu: ArrayList<String>
+        private var image: Bitmap? = null
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAssetLiablityBinding.inflate(inflater, container, false)
@@ -25,8 +37,26 @@ class AssetLiabilityFragment : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applicantMenu = ArrayList()
         setDropDownValue()
+        setCoApplicants()
         setClickListeners()
+    }
+
+    private fun setCoApplicants() {
+        applicantMenu.add("Applicant")
+        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                LinearLayoutManager.HORIZONTAL, false)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
+        applicantAdapter!!.setOnItemClickListener(this)
+        binding.rcApplicants.adapter = applicantAdapter
+    }
+
+    override fun onApplicantClick(position: Int) {
+//        saveCurrentApplicant(position)
+//        ClearPersonalForm(binding)
+        changeCurrentApplicant()
+        setDropDownValue()
     }
 
     private fun setClickListeners() {
@@ -39,6 +69,9 @@ class AssetLiabilityFragment : androidx.fragment.app.Fragment() {
         }
         binding.layoutObligations.btnAddObligation.setOnClickListener {
             showObligationDetail()
+        }
+        binding.btnAddApplicant.setOnClickListener {
+            onAddApplicantClick()
         }
     }
 
@@ -82,8 +115,20 @@ class AssetLiabilityFragment : androidx.fragment.app.Fragment() {
         binding.layoutObligations.spinnerLoanType.adapter = GenericSpinnerAdapter(mContext, lists)
         binding.layoutObligations.spinnerObligate.adapter = GenericSpinnerAdapter(mContext, lists)
         binding.layoutObligations.spinnerRepaymentBank.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.layoutObligations.spinnerEmiPaidInSameMonth.adapter = GenericSpinnerAdapter(mContext, lists)
 
         binding.layoutCreditCard.spinnerBankName.adapter = GenericSpinnerAdapter(mContext, lists)
         binding.layoutCreditCard.spinnerObligate.adapter = GenericSpinnerAdapter(mContext, lists)
     }
+
+    private fun onAddApplicantClick() {
+//        checkMandatoryField()
+        applicantMenu.add("Co- Applicant $coApplicant")
+        binding.rcApplicants.adapter!!.notifyDataSetChanged()
+        coApplicant++
+    }
+
+    private fun changeCurrentApplicant() {
+    }
+
 }

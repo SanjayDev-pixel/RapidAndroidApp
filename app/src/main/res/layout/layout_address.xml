@@ -151,6 +151,7 @@
                         android:hint="@string/pin_code"
                         android:singleLine="true"
                         android:inputType="number"
+                        android:maxLength="6"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -313,6 +314,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:maxLength="5"
                         android:hint="@string/rent_amount"
                         android:inputType="number"
                         android:minWidth="200dp"
@@ -334,6 +336,7 @@
                         android:hint="@string/staying_in_years"
                         android:singleLine="true"
                         android:inputType="number"
+                        android:maxLength="3"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -361,6 +364,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="@string/pin_code"
+                        android:maxLength="6"
                         android:inputType="number"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />

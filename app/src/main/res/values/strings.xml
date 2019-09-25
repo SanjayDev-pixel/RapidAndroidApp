@@ -134,4 +134,8 @@
     <string name="contact_no">Contact No.</string>
     <string name="add_reference">Add Reference</string>
     <string name="credit_card_limit">Credit Card Limit</string>
+    <string name="deduction">Deduction</string>
+    <string name="monthly_income">Monthly Income</string>
+    <string name="income_considered">Income Considered</string>
+    <string name="salaried">Salaried</string>
 </resources>
