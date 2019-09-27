@@ -7,10 +7,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
-import com.finance.app.databinding.ItemApplicantsBinding
+import com.finance.app.databinding.ItemApplicantBinding
 
 class ApplicantsAdapter(private val mContext: Context, private val applicants: ArrayList<String>) : RecyclerView.Adapter<ApplicantsAdapter.CreditCardViewHolder>() {
-    private lateinit var binding: ItemApplicantsBinding
+    private lateinit var binding: ItemApplicantBinding
     private var mClickListener: ItemClickListener? = null
 
     companion object {
@@ -23,7 +23,7 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CreditCardViewHolder {
         val layoutInflater = LayoutInflater.from(mContext)
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_applicants, parent, false)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_applicant, parent, false)
         return CreditCardViewHolder(binding, mContext)
     }
 
@@ -37,7 +37,7 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
         fun onApplicantClick(position: Int)
     }
 
-    inner class CreditCardViewHolder(val binding: ItemApplicantsBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
+    inner class CreditCardViewHolder(val binding: ItemApplicantBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int) {
             binding.tvApplicants.text = applicants[position]
             binding.tvApplicants.setOnClickListener {
@@ -49,11 +49,11 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
             }
 
             if (selectedPosition == adapterPosition) {
-                binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-                binding.tvApplicants.setBackgroundResource(R.drawable.button_theme_style)
-            } else {
                 binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.black))
-                binding.tvApplicants.setBackgroundResource(R.drawable.rectangular_curved_bg_blue)
+                binding.tvApplicants.setBackgroundResource(R.drawable.applicant_selected_tab)
+            } else {
+                binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.white))
+                binding.tvApplicants.setBackgroundResource(R.drawable.unselected_applicant_tab)
             }
         }
     }

@@ -27,15 +27,13 @@ import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
-import com.oneclickaway.opensource.validation.interfaces.OnResponseListener
-import com.oneclickaway.opensource.validation.model.FormValidator
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import javax.inject.Inject
 
-class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, OnResponseListener.OnFormValidationListener {
+class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
 
     private lateinit var binding: FragmentPersonalBinding
     private val frag = this
@@ -46,10 +44,6 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, On
     private var personalAddressDetail: ArrayList<AddressDetail>? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
-    private val optionalInput = intArrayOf(R.id.etIdNum, R.id.etLandmark, R.id.etMiddleName,
-            R.id.etEmail, R.id.etFatherMiddleName, R.id.etSpouseFirstName, R.id.etSpouseLastName,
-            R.id.etSpouseMiddleName, R.id.etCurrentRentAmount,
-            R.id.etPermanentRentAmount)
 
     companion object {
         private const val GALLERY = 1
@@ -181,31 +175,6 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, On
     }
 
     private fun checkMandatoryField() {
-        FormValidator.isFormFilled(binding.llPersonalFragment, this,
-                "Enter valid input", true)
-    }
-
-    override fun onFormValidationTaskSuccess(isFormFilled: Boolean) {
-        /*Here isFormFilled represents that weather the form is filled or not*/
-        if (isFormFilled) {
-            applicantMenu.add(applicantMenu.size - 1, "Co-Applicant:${coApplicant}")
-            applicantAdapter!!.notifyDataSetChanged()
-            saveCurrentApplicant(applicantMenu.size - 1)
-            applicantMenu.add("Co- Applicant $coApplicant")
-            coApplicant++
-        } else {
-            Toast.makeText(context, "Please Fill all the mandatory field first.", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    override fun onFormValidationError(error: Throwable) {
-        /*this method gives you a way of handling error if there is any*/
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        /*Be sure to call this in your onDestroy method to unBind the validator*/
-        FormValidator.clearFormValidator()
     }
 
     private val applicant: PersonalApplicants
@@ -221,6 +190,11 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener, On
 
     private val contactDetail: ContactDetail
         get() {
+                applicantMenu.add(applicantMenu.size - 1, "Co-Applicant:${coApplicant}")
+                applicantAdapter!!.notifyDataSetChanged()
+                saveCurrentApplicant(applicantMenu.size - 1)
+                applicantMenu.add("Co- Applicant $coApplicant")
+                coApplicant++
             return ContactDetail()
         }
 

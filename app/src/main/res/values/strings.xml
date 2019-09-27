@@ -138,4 +138,5 @@
     <string name="monthly_income">Monthly Income</string>
     <string name="income_considered">Income Considered</string>
     <string name="salaried">Salaried</string>
+    <string name="add_icon">+</string>
 </resources>

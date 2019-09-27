@@ -3,7 +3,7 @@ package motobeans.architecture.development.implementation
 import android.content.Context
 import com.google.android.material.textfield.TextInputLayout
 import android.widget.EditText
-import com.finance.app.databinding.TempActivityBinding
+import com.finance.app.databinding.*
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
@@ -12,6 +12,52 @@ import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
  */
 
 class FormValidationImpl(private val context: Context) : FormValidation {
+    override fun validatePersonalInfo(binding: FragmentPersonalBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun validateLoanInformation(binding: FragmentLoanInformationBinding): Boolean {
+        var errorCount = 0
+        val loanAmount = binding.etAmountRequest.text.toString()
+        if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etAmountRequest.error = "Amount can not be blank"
+        }
+
+        val tenure = binding.etTenure.text.toString()
+        if (!tenure.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etTenure.error = "Tenure can not be blank"
+        }
+
+        val emi = binding.etEmi.text.toString()
+        if (!emi.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etEmi.error = "EMI can not be blank"
+        }
+
+        return isValidForm(errorCount)
+    }
+
+    override fun validateEmployment(binding: FragmentEmploymentBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun validateBankDetail(binding: FragmentBankDetailBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun validateAssetLiability(binding: FragmentAssetLiablityBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun validateReference(binding: FragmentReferenceBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun validateProperty(binding: FragmentPropertyBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun validateTemp(binding: TempActivityBinding): Boolean {
         var errorCount = 0

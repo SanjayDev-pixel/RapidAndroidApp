@@ -13,9 +13,12 @@ import com.finance.app.model.Modals
 import com.finance.app.view.activity.LoanApplicationActivity
 import com.finance.app.view.fragment.*
 
-class NavMenuAdapter(private val mContext: Context, private val navItem: ArrayList<Modals.NavItems>) : RecyclerView.Adapter<NavMenuAdapter.NavDrawerViewHolder>() {
+class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap<String, Int>,
+                     private val expanded: Boolean) : RecyclerView.Adapter<NavMenuAdapter.NavDrawerViewHolder>() {
 
     private lateinit var binding: ItemNavBinding
+    private val mKeys = ArrayList<String>(navItem.keys)
+
     companion object {
         var selectedPos = 0
     }
@@ -30,7 +33,23 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: ArrayLi
 
     override fun onBindViewHolder(holder: NavDrawerViewHolder, position: Int) {
         changeColorBasedOnSelection(position)
-        holder.bindItems(navItem[position])
+        if (expanded) {
+            holder.bindItems(convertToNavObject(position))
+        } else {
+            holder.bindItems(convertToIconObject(position))
+        }
+    }
+
+    private fun convertToIconObject(position: Int): Modals.NavItems {
+        val key = navItem[mKeys[position]]
+        val value = ""
+        return Modals.NavItems(key!!, value)
+    }
+
+    private fun convertToNavObject(position: Int): Modals.NavItems {
+        val key = navItem[mKeys[position]]
+        val value = mKeys[position]
+        return Modals.NavItems(key!!, value)
     }
 
     private fun changeColorBasedOnSelection(position: Int) {
@@ -48,7 +67,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: ArrayLi
         }
     }
 
-    inner class NavDrawerViewHolder(val binding: ItemNavBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
+    inner class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindItems(navItem: Modals.NavItems) {
             binding.tvNavItem.text = navItem.title
@@ -64,14 +83,14 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: ArrayLi
 
         private fun changeFragment(title: String) {
             navigateToAnotherFragment(title)
-            (c as LoanApplicationActivity).handleCollapseScreen(false)
+            (mContext as LoanApplicationActivity).handleCollapseScreen(false)
             selectedPos = adapterPosition
             notifyDataSetChanged()
         }
 
         private fun changeFragmentOnIconClick(icon: Int) {
             navigateToAnotherFragmentOnIconCLick(icon)
-            (c as LoanApplicationActivity).handleCollapseScreen(false)
+            (mContext as LoanApplicationActivity).handleCollapseScreen(false)
             selectedPos = adapterPosition
             notifyDataSetChanged()
         }
@@ -81,7 +100,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: ArrayLi
                 R.drawable.loan_info_white -> updateSecondaryFragment(LoanInformationFragment())
                 R.drawable.personal_info_white -> updateSecondaryFragment(PersonalInfoFragment())
                 R.drawable.employment_icon_white -> updateSecondaryFragment(EmploymentFragment())
-                R.drawable.income_icon_white -> updateSecondaryFragment(IncomeFragment())
+//                R.drawable.income_icon_white -> updateSecondaryFragment(IncomeFragment())
                 R.drawable.bank_icon_white -> updateSecondaryFragment(BankDetailFragment())
                 R.drawable.assest_details_white -> updateSecondaryFragment(AssetLiabilityFragment())
                 R.drawable.reffrence_white -> updateSecondaryFragment(ReferenceFragment())
@@ -95,7 +114,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: ArrayLi
                 "Loan Information" -> updateSecondaryFragment(LoanInformationFragment())
                 "Personal" -> updateSecondaryFragment(PersonalInfoFragment())
                 "Employment" -> updateSecondaryFragment(EmploymentFragment())
-                "Income" -> updateSecondaryFragment(IncomeFragment())
+//                "Income" -> updateSecondaryFragment(IncomeFragment())
                 "Bank Details" -> updateSecondaryFragment(BankDetailFragment())
                 "Liability & Asset" -> updateSecondaryFragment(AssetLiabilityFragment())
                 "Reference" -> updateSecondaryFragment(ReferenceFragment())
@@ -105,7 +124,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: ArrayLi
         }
 
         private fun updateSecondaryFragment(fragment: Fragment) {
-            val ft = (c as AppCompatActivity).supportFragmentManager.beginTransaction()
+            val ft = (mContext as AppCompatActivity).supportFragmentManager.beginTransaction()
             ft.replace(R.id.secondaryFragmentContainer, fragment)
             ft.commit()
         }

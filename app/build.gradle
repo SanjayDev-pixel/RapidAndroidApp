@@ -179,9 +179,6 @@ dependencies {
     //otpLayout
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.3'
 
-    //formValidation
-    implementation 'com.oneclickaway.opensource.formvalidationsexample:validation:1.1.3'
-
     //pager Indicator
     implementation 'com.github.chahine:pageindicator:0.2.8'
 

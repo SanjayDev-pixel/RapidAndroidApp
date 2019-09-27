@@ -11,17 +11,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.finance.app.databinding.FragmentLoanInformationBinding
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.utility.SetMandatory
+import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.utility.UploadData
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
+import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.development.interfaces.FormValidation
+import javax.inject.Inject
 
 class LoanInformationFragment : Fragment() {
     private lateinit var binding: FragmentLoanInformationBinding
     private val frag: Fragment = this
+    @Inject
+    lateinit var formValidation: FormValidation
 
     companion object {
         private const val isMandatory = true
@@ -39,6 +45,7 @@ class LoanInformationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
         setDropDownValue()
         setMandatoryField()
         setClickListeners()
@@ -50,6 +57,11 @@ class LoanInformationFragment : Fragment() {
         }
         binding.ivThumbnail.setOnClickListener {
             UploadedFormDataActivity.start(context!!,image, pdf)
+        }
+        binding.btnSaveAndContinue.setOnClickListener {
+            if (formValidation.validateLoanInformation(binding = binding)) {
+                Toast.makeText(context, "Successfully Validated", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -96,9 +108,9 @@ class LoanInformationFragment : Fragment() {
     }
 
     private fun setMandatoryField() {
-        SetMandatory(binding.inputLayoutAmountRequest)
-        SetMandatory(binding.inputLayoutTenure)
-        SetMandatory(binding.inputLayoutEmi)
+        ShowAsMandatory(binding.inputLayoutAmountRequest)
+        ShowAsMandatory(binding.inputLayoutTenure)
+        ShowAsMandatory(binding.inputLayoutEmi)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

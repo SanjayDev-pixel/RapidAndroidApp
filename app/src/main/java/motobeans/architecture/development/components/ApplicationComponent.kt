@@ -7,6 +7,8 @@ import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.SplashScreen
 import com.finance.app.view.adapters.Recycler.Adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.Recycler.Holder.TempHolder
+import com.finance.app.view.fragment.LoanInformationFragment
+import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.PersonalInfoFragment
 import com.finance.app.view.fragment.TestFragment
 import com.finance.app.viewModel.TempViewModel
@@ -44,6 +46,9 @@ interface ApplicationComponent {
      */
     fun inject(fragment: TestFragment)
     fun inject(fragment: PersonalInfoFragment)
+    fun inject(fragment: NavMenuFragment)
+    fun inject(fragment: LoanInformationFragment)
+
     /**
      * Presenters
      */

@@ -10,7 +10,7 @@ import com.finance.app.databinding.ErrorCommonListBinding
 class ErrorCommonListHolder(val context: Context,
     val binding: ErrorCommonListBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
-    private var mandatoryText = "SetMandatory"
+    private var mandatoryText = "ShowAsMandatory"
 
     fun handleCard(position: Int, emptyText: String = mandatoryText) {
         binding.tvErrorText.text = emptyText

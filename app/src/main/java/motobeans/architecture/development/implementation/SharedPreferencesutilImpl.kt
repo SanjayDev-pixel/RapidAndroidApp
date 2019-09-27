@@ -1,6 +1,7 @@
 package motobeans.architecture.development.implementation
 
 import android.content.Context
+import com.finance.app.R
 import com.finance.app.persistence.model.PersonalApplicants
 import com.google.gson.Gson
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -63,11 +64,21 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return null
     }
 
-    override fun getNavMenuItem(): HashSet<String>? {
-        val navItemList = hashSetOf<String>()
+    override fun getNavMenuItem(): HashMap<String, Int>? {
+        val navItemList = hashMapOf<String, Int>()
         val loginSubModules = getLoginPrivilege()?.subModuleList
         for (module in loginSubModules!!){
-            navItemList.add(module.screenName)
+            when(module.screenName){
+                "Loan Information" -> navItemList[module.screenName] = R.drawable.loan_info_white
+                "Personal" -> navItemList[module.screenName] = R.drawable.personal_info_white
+                "Employment" -> navItemList[module.screenName] = R.drawable.employment_icon_white
+//                "Income" -> navItemList[module.screenName] = R.drawable.income_icon_white
+                "Bank Details" -> navItemList[module.screenName] = R.drawable.bank_icon_white
+                "Liability & Asset" -> navItemList[module.screenName] = R.drawable.assest_details_white
+                "Reference" -> navItemList[module.screenName] = R.drawable.reffrence_white
+                "Property" -> navItemList[module.screenName] = R.drawable.property_icon_white
+                "Document Checklist" -> navItemList[module.screenName] = R.drawable.document_checklist
+            }
         }
         return navItemList
     }
@@ -75,8 +86,8 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     override fun clearAll() {
         try {
             for (element in SharedPreferencesBean.Array_KEY_SHARED_PREFERENCES) {
-                val obj_sp = SharedPreferencesCustom(context, element)
-                obj_sp.clearSharedPreferences()
+                val objSp = SharedPreferencesCustom(context, element)
+                objSp.clearSharedPreferences()
             }
         } catch (e: Exception) {
 
