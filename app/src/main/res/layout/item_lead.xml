@@ -5,7 +5,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/lead_card_height"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_10"
         android:id="@+id/leadCard"
         card:cardCornerRadius="5dp"

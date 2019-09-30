@@ -3,6 +3,7 @@ package motobeans.architecture.development.components
 import android.app.Application
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
+import com.finance.app.view.activity.AddLeadActivity
 import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.SplashScreen
 import com.finance.app.view.adapters.Recycler.Adapter.TempRecyclerAdapter
@@ -40,6 +41,7 @@ interface ApplicationComponent {
     fun inject(activity: BaseAppCompatActivity)
     fun inject(activity: LoginActivity)
     fun inject(activity: SplashScreen)
+    fun inject(activity: AddLeadActivity)
 
     /**
      * Fragment

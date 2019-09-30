@@ -1,13 +1,16 @@
 package com.finance.app.persistence.model
 
-import java.util.*
-
 class DropdownMaster {
 
-    var localId = UUID.randomUUID().toString()
-    var accommodation_id: String = ""
-    var hotel_address: String? = null
-    var no_of_rooms: String? = null
-    var no_of_trainers: String? = null
-    var training_request_id: String? = null
+    var typeMasterID: Int? = null
+    var typeDetailID: Int? = null
+    var refTypeDetailID: Int? = null
+    var typeMasterName: String? = null
+    var typeMasterDisplayText: String? = null
+    var typeMasterLogicalCode: String? = null
+    var typeDetailCode: String? = null
+    var typeDetailLogicalCode: String? = null
+    var sequence: String? = null
+    var typeDetailDescription: String? = null
 }
+

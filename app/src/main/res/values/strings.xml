@@ -139,4 +139,8 @@
     <string name="income_considered">Income Considered</string>
     <string name="salaried">Salaried</string>
     <string name="add_icon">+</string>
+    <string name="address">Address</string>
+    <string name="applicant_first_name">Applicant First Name</string>
+    <string name="applicant_middle_name">Applicant Middle Name</string>
+    <string name="applicant_last_name">Applicant Last Name</string>
 </resources>

@@ -83,6 +83,10 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return navItemList
     }
 
+    override fun getUserBranches(): ArrayList<Response.UserBranches>? {
+        return getLoginData()?.responseObj?.userDetails?.userBranches
+    }
+
     override fun clearAll() {
         try {
             for (element in SharedPreferencesBean.Array_KEY_SHARED_PREFERENCES) {

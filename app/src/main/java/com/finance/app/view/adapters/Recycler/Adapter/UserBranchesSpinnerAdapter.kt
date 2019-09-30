@@ -8,14 +8,15 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
 import com.finance.app.persistence.model.DropdownMaster
+import motobeans.architecture.retrofit.response.Response
 
-class GenericSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMaster>,val isMandatory: Boolean = false) :
+class UserBranchesSpinnerAdapter(context1: Context, val value: ArrayList<Response.UserBranches>) :
         BaseAdapter() {
 
     private var inflater: LayoutInflater = context1.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: DropdownMaster
+    private lateinit var spinnerValue: Response.UserBranches
 
     override fun getItem(position: Int): Any? {
         return value[position]
@@ -41,7 +42,7 @@ class GenericSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMast
         if (convertView == null) {
             view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.dropdown) as TextView
-            textView.text = spinnerValue.typeDetailCode
+            textView.text = spinnerValue.branchId.toString()
         } else {
             view = convertView
         }

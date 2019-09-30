@@ -216,12 +216,10 @@
 
                 <include
                     android:id="@+id/basicInfoLayout"
-                    android:visibility="gone"
                     layout="@layout/layout_basic_detail" />
 
                 <include
                     android:id="@+id/addressLayout"
-                    android:visibility="gone"
                     layout="@layout/layout_address" />
 
                 <Button

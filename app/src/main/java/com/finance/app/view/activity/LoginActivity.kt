@@ -62,7 +62,7 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
     //    Handle success of the api
     override fun getLoginSuccess(value: Response.ResponseLogin) {
         saveResponseToDB(value)
-        DashboardActivity.start(this)
+        AddLeadActivity.start(this)
     }
 
     private fun saveResponseToDB(response: Response.ResponseLogin) {

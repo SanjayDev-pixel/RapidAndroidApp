@@ -12,6 +12,6 @@ object SharedPreferencesBean {
 
     const val KEY_PERSONAL_APPLICANTS = "personal_applicants"
 
-    const val KEY_NAV_MENU_ITEM = "nav_items"
+    const val KEY_USER_BRANCHES = "user_branches"
 
 }
