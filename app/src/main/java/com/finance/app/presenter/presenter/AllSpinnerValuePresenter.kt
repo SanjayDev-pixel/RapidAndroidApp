@@ -1,8 +1,6 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.AddLeadConnector
 import com.finance.app.presenter.connector.AllSpinnerValueConnector
-import com.finance.app.presenter.connector.LoginConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -44,7 +42,7 @@ class AllSpinnerValuePresenter(private val viewOpt: AllSpinnerValueConnector.Vie
                         { e -> viewOpt.getAllSpinnerValueFailure(e?.message ?: "") })
     }
 
-    private fun onAllSpinnerValue(response: Response.ResponseAllSpinnerValue) {
+    private fun onAllSpinnerValue(response: Response.ResponseAllMasterValue) {
         if (response.responseCode == "200") {
             viewOpt.getAllSpinnerValueSuccess(response)
         } else {

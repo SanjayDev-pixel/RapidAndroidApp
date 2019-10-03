@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.model.Modals
 import com.finance.app.persistence.model.AddressDetail
@@ -105,6 +104,11 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         binding.btnAddApplicant.setOnClickListener {
             onAddApplicantClick()
         }
+
+        binding.btnSaveAndContinue.setOnClickListener{
+
+        }
+
         binding.addressLayout.cbSameAsCurrent.setOnClickListener {
             if (binding.addressLayout.cbSameAsCurrent.isChecked) {
                 binding.addressLayout.llPermanentAddress.visibility = View.GONE
@@ -244,9 +248,6 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         adapterMaritalStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         val lists: ArrayList<DropdownMaster> = ArrayList()
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
 
         binding.spinnerIdentificationType.adapter = adapterIdentificationType
         binding.basicInfoLayout.spinnerDobProof.adapter = adapterDobProof
@@ -299,4 +300,5 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
 //            binding.rcKYC.adapter!!.notifyDataSetChanged()
         }
     }
+
 }

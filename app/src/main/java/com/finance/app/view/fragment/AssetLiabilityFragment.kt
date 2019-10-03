@@ -12,7 +12,6 @@ import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.PersonalApplicants
-import com.finance.app.utility.ClearPersonalForm
 import com.finance.app.view.adapters.Recycler.Adapter.*
 
 class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
@@ -102,9 +101,6 @@ class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
 
     private fun setDropDownValue() {
         val lists: ArrayList<DropdownMaster> = ArrayList()
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
 
         binding.spinnerAssetSubType.adapter = GenericSpinnerAdapter(mContext, lists)
         binding.spinnerAssetType.adapter = GenericSpinnerAdapter(mContext, lists)

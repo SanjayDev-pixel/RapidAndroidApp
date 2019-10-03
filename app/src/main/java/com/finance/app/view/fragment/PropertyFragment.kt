@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.databinding.FragmentPropertyBinding
+import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
 
@@ -26,9 +27,6 @@ class PropertyFragment : androidx.fragment.app.Fragment() {
 
     private fun setDropDownValue() {
         val lists: ArrayList<DropdownMaster> = ArrayList()
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
 
         binding.spinnerIsFirstProperty.adapter = GenericSpinnerAdapter(mContext, lists)
         binding.spinnerOwnedProperty.adapter = GenericSpinnerAdapter(mContext, lists)

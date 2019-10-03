@@ -1,5 +1,4 @@
 package motobeans.architecture.development.implementation
-
 import android.content.Context
 import com.finance.app.R
 import com.finance.app.persistence.model.PersonalApplicants
@@ -10,27 +9,22 @@ import motobeans.architecture.sharedPreferences.SharedPreferencesBean
 import motobeans.architecture.sharedPreferences.SharedPreferencesCustom
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
-
 class SharedPreferencesUtilImpl(private var context: Context) : SharedPreferencesUtil {
 
     override fun saveLoginData(response: Response.ResponseLogin?): Boolean {
         val objLogin = Gson().toJson(response)
         val objSPLogin = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOGIN_DETAILS)
         objSPLogin.putString(SharedPreferencesBean.KEY_LOGIN_DETAILS, objLogin)
-
         return true
     }
 
     override fun getLoginData(): Response.ResponseLogin? {
-        val obj_sp_login = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOGIN_DETAILS)
-        val loginJson = obj_sp_login.getString(SharedPreferencesBean.KEY_LOGIN_DETAILS)
+        val objSpLogin = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOGIN_DETAILS)
+        val loginJson = objSpLogin.getString(SharedPreferencesBean.KEY_LOGIN_DETAILS)
         return Gson().fromJson(loginJson, Response.ResponseLogin::class.java)
     }
 
-    override fun getUserToken(): String? {
+    override fun getUserToken(): String?{
         return getLoginData()?.responseObj?.token
     }
 
@@ -39,7 +33,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun isLogin(): Boolean {
-        return getUserToken()?.exIsNotEmptyOrNullOrBlank() ?: false
+        return getUserToken().exIsNotEmptyOrNullOrBlank()
     }
 
     override fun savePersonalInfoForApplicants(applicants: ArrayList<PersonalApplicants>) {
@@ -54,8 +48,9 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return Gson().fromJson(personalApplicantJson, PersonalApplicants::class.java)
     }
 
-    override fun getLoginPrivilege(): Response.RolePrivileges? {
-        val privilegesList  = getLoginData()?.responseObj?.userDetails?.rolePrivilegesList
+    override fun getRolePrivilege(): Response.RolePrivileges? {
+        val privilegesList = getLoginData()?.responseObj?.userDetails?.
+                rolePrivilegesList
         for (privilege in privilegesList!!){
             if(privilege.moduleName == "Login"){
                 return privilege
@@ -66,7 +61,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
 
     override fun getNavMenuItem(): HashMap<String, Int>? {
         val navItemList = hashMapOf<String, Int>()
-        val loginSubModules = getLoginPrivilege()?.subModuleList
+        val loginSubModules = getRolePrivilege()?.subModuleList
         for (module in loginSubModules!!){
             when(module.screenName){
                 "Loan Information" -> navItemList[module.screenName] = R.drawable.loan_info_white

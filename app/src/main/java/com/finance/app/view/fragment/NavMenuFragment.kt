@@ -1,5 +1,4 @@
 package com.finance.app.view.fragment
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +41,7 @@ class NavMenuFragment : Fragment() {
 
     fun notifyMenu(collapse: Boolean) {
         isExpanded = collapse
+        binding.rcNavMenu.adapter?.notifyDataSetChanged()
         callAdapter()
     }
 

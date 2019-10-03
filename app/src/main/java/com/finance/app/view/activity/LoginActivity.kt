@@ -1,24 +1,36 @@
 package com.finance.app.view.activity
-
 import android.content.Context
 import android.content.Intent
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
+import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.presenter.connector.AllSpinnerValueConnector
 import com.finance.app.presenter.connector.LoginConnector
+import com.finance.app.presenter.presenter.AllSpinnerValuePresenter
 import com.finance.app.presenter.presenter.LoginPresenter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import javax.inject.Inject
 
-class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
+class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinnerValueConnector.ViewOpt {
 
     // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_login)
-
-    private val presenterOpt = LoginPresenter(this)
+    @Inject
+    lateinit var dataBase: DataBaseUtil
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
+    private val loginPresenter = LoginPresenter(this)
+    private val spinnerPresenter = AllSpinnerValuePresenter(this)
 
     companion object {
         fun start(context: Context) {
@@ -29,11 +41,16 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
     }
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            presenterOpt.callNetwork(ConstantsApi.CALL_LOGIN)
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -61,15 +78,26 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt {
 
     //    Handle success of the api
     override fun getLoginSuccess(value: Response.ResponseLogin) {
-        saveResponseToDB(value)
+        spinnerPresenter.callNetwork(ConstantsApi.CALL_ALL_SPINNER_VALUE)
         AddLeadActivity.start(this)
-    }
-
-    private fun saveResponseToDB(response: Response.ResponseLogin) {
     }
 
     //    Handle failure of the api
     override fun getLoginFailure(msg: String) {
+        showToast(msg)
+    }
+
+    override fun getAllSpinnerValueSuccess(value: Response.ResponseAllMasterValue) {
+        saveDataToDB(value.responseObj)
+    }
+
+    private fun saveDataToDB(masterDropdownValue: AllMasterDropDownValue) {
+        GlobalScope.launch {
+            dataBase.provideDataBaseSource().allMasterDropDownDao().insertAllMasterDropDownValue(masterDropdownValue)
+        }
+    }
+
+    override fun getAllSpinnerValueFailure(msg: String) {
         showToast(msg)
     }
 }

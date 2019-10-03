@@ -1,6 +1,8 @@
 package com.finance.app.persistence.converters
 
 import androidx.room.TypeConverter
+import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.persistence.model.DropdownMaster
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import motobeans.architecture.util.DateUtil.dateFormattingType.TYPE_API_RESPONSE
@@ -9,14 +11,10 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 
-
 /**
  * Created by munishkumarthakur on 19/03/18.
  */
 class Converters {
-
-    var dfResponse: DateFormat = SimpleDateFormat(TYPE_API_RESPONSE.value)
-    val alDateFormats = arrayListOf(dfResponse)
 
     @TypeConverter
     fun fromTimestamp(value: String?): Date? {
@@ -32,25 +30,42 @@ class Converters {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): String? {
-        return (if (date == null) null else date.time)?.toString()
+        return (date?.time)?.toString()
     }
 
-    /**
-     * Converter AppMeetingTypeMaster
-     */
     @TypeConverter
-    fun fromStringToObject(value: String?): Object? {
+    fun fromStringToAllDropDownMaster(value: String?): AllMasterDropDownValue? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<Object>() {
+        val listType = object : TypeToken<AllMasterDropDownValue>() {
 
         }.type
-        return Gson().fromJson<Object>(value, listType)
+        return Gson().fromJson<AllMasterDropDownValue>(value, listType)
     }
 
     @TypeConverter
-    fun fromObjectToString(list: Object?): String? {
+    fun fromAllDropDownMasterToString(list: AllMasterDropDownValue?): String? {
+        list?.let {
+            val gson = Gson()
+            return gson.toJson(list)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToDropdownMaster(value: String?): DropdownMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<DropdownMaster>() {
+
+        }.type
+        return Gson().fromJson<DropdownMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromDropdownMasterToString(list: DropdownMaster?): String? {
         list?.let {
             val gson = Gson()
             return gson.toJson(list)

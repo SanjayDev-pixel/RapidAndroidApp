@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
-import com.finance.app.persistence.model.DropdownMaster
 import motobeans.architecture.retrofit.response.Response
 
 class UserBranchesSpinnerAdapter(context1: Context, val value: ArrayList<Response.UserBranches>) :

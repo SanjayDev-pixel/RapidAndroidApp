@@ -7,11 +7,9 @@ package motobeans.architecture.sharedPreferences
 object SharedPreferencesBean {
 
     const val KEY_LOGIN_DETAILS = "login_credentials"
-
-    val Array_KEY_SHARED_PREFERENCES = arrayOf(KEY_LOGIN_DETAILS)
-
     const val KEY_PERSONAL_APPLICANTS = "personal_applicants"
 
-    const val KEY_USER_BRANCHES = "user_branches"
+    val Array_KEY_SHARED_PREFERENCES = arrayOf(KEY_LOGIN_DETAILS, KEY_PERSONAL_APPLICANTS)
+
 
 }

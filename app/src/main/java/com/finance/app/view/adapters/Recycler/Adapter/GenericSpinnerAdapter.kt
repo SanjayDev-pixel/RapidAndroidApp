@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
+import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
 
-class GenericSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMaster>,val isMandatory: Boolean = false) :
-        BaseAdapter() {
+class GenericSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMaster>,
+                            val isMandatory: Boolean = false) : BaseAdapter() {
 
     private var inflater: LayoutInflater = context1.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

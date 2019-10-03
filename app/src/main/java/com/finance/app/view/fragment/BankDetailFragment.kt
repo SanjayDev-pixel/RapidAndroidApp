@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.finance.app.databinding.FragmentBankDetailBinding
+import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
@@ -50,9 +51,6 @@ class BankDetailFragment : androidx.fragment.app.Fragment() {
 
     private fun setDropDownValue() {
         val lists: ArrayList<DropdownMaster> = ArrayList()
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
 
         binding.spinnerAccountType.adapter = GenericSpinnerAdapter(mContext, lists)
         binding.spinnerBankName.adapter = GenericSpinnerAdapter(mContext, lists)

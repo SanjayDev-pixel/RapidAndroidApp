@@ -1,53 +1,66 @@
 package com.finance.app.persistence.converters
-
 import androidx.room.TypeConverter
+import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.persistence.model.DropdownMaster
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import java.util.ArrayList
-
 
 /**
  * The 'ConverterArrayList' is converting ArrayList of HashMap to String and vice-versa to make it store-able entity in Database
  */
 class ConverterArrayList {
 
-    /**
-     * Handle ArrayList of String
-     */
     @TypeConverter
-    fun fromStringToStringArrayList(value: String): ArrayList<String>? {
-        val listType = object : TypeToken<ArrayList<String>>() {
+    fun fromStringToStringArrayList(value: String): List<String>? {
+        val arrayListType = object : TypeToken<List<String>>() {
 
         }.type
-        return Gson().fromJson<ArrayList<String>>(value, listType)
+        return Gson().fromJson<List<String>>(value, arrayListType)
     }
 
     @TypeConverter
-    fun fromStringArrayListToString(list: ArrayList<String>): String {
+    fun fromStringArrayListToString(arrayList: List<String>): String {
         val gson = Gson()
-        return gson.toJson(list)
+        return gson.toJson(arrayList)
     }
 
-    /**
-     * Handle ArrayList of ResponseImageUrl
-     */
     @TypeConverter
-    fun fromStringToObjectArrayList(value: String?): ArrayList<Object>? {
+    fun fromStringToArrayListAllSpinnerMaster(value: String?): ArrayList<AllMasterDropDownValue>? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<ArrayList<Object>>() {
+        val arrayListType = object : TypeToken<ArrayList<AllMasterDropDownValue>>() {
 
         }.type
-        return Gson().fromJson<ArrayList<Object>>(value, listType)
+        return Gson().fromJson<ArrayList<AllMasterDropDownValue>>(value, arrayListType)
     }
 
     @TypeConverter
-    fun fromObjectArrayListToString(list: ArrayList<Object>?): String? {
-        list?.let {
+    fun fromAllSpinnerMasterArrayListToString(ArrayList: ArrayList<AllMasterDropDownValue>?): String? {
+        ArrayList?.let {
             val gson = Gson()
-            return gson.toJson(list)
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListDropdownMaster(value: String?): ArrayList<DropdownMaster>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<DropdownMaster>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<DropdownMaster>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromDropdownMasterArrayListToString(ArrayList: ArrayList<DropdownMaster>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
         }
         return null
     }

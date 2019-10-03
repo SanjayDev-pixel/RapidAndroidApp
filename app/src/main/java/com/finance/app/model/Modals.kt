@@ -4,8 +4,7 @@ import android.graphics.Bitmap
 
 class Modals {
     data class NavItems(val images: Int, val title: String)
-    data class Spinner(val value: SpinnerValue)
-    data class SpinnerValue(val name: String, val id: Int)
     data class AddKyc(val idType: String, val idNum: String, val kycImage: Bitmap?, val issueDate: String, val expiryDate: String, val verifiedStatus: String)
-
+    data class DropDownMaster(var typeMasterID: Int, var typeDetailID: Int, var refTypeDetailID: Int, var typeMasterName: String, var typeMasterDisplayText: String, var typeMasterLogicalCode: String,
+                              var typeDetailCode: String, var typeDetailLogicalCode: String, var sequence: String, var typeDetailDescription: String)
 }

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,14 +11,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.finance.app.databinding.FragmentEmploymentBinding
+import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.SelectDate
 import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
-import java.io.ByteArrayOutputStream
-import java.io.IOException
 
 class EmploymentFragment : androidx.fragment.app.Fragment(){
     private lateinit var binding: FragmentEmploymentBinding
@@ -63,9 +60,6 @@ class EmploymentFragment : androidx.fragment.app.Fragment(){
 
     private fun setDropDownValue() {
         val lists: ArrayList<DropdownMaster> = ArrayList()
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
-        lists.add(DropdownMaster())
 
         binding.spinnerProfileSegment.adapter = GenericSpinnerAdapter(mContext, lists)
         binding.spinnerSubProfile.adapter = GenericSpinnerAdapter(mContext, lists)

@@ -1,6 +1,6 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.LoginConnector
+import com.finance.app.presenter.connector.LoanApplicationConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -10,10 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-/**
- * Created by munishkumarthakur on 31/12/17.
- */
-class LoginPresenter(private val viewOpt: LoginConnector.ViewOpt) : LoginConnector.PresenterOpt {
+class LoanInfoPresenter(private val LoanInfo: LoanApplicationConnector.LoanInfo) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -25,29 +22,28 @@ class LoginPresenter(private val viewOpt: LoginConnector.ViewOpt) : LoginConnect
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_LOGIN) {
-            callLoginApi()
+        if (type == ConstantsApi.CALL_LOAN_INFO) {
+            callLoanInfoApi()
         }
     }
 
-    private fun callLoginApi() {
-        val requestApi = apiProject.api.loginUser(viewOpt.loginRequest)
+    private fun callLoanInfoApi() {
+        val requestApi = apiProject.api.loanInformation(LoanInfo.loanInfoRequest)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
-                .doFinally { viewOpt.hideProgressDialog() }
-                .subscribe({ resposne -> onNextLogin(resposne) },
-                        { e -> viewOpt.getLoginFailure(e?.message ?: "") })
+                .doOnSubscribe { _ -> LoanInfo.showProgressDialog() }
+                .doFinally { LoanInfo.hideProgressDialog() }
+                .subscribe({ response -> onLoanInfo(response) },
+                        { e -> LoanInfo.getLoanInfoFailure(e?.message ?: "") })
     }
 
-    private fun onNextLogin(response: Response.ResponseLogin) {
+    private fun onLoanInfo(response: Response.ResponseLoanInfo) {
         if (response.responseCode == "200") {
-            sharedPreferencesUtil.saveLoginData(response = response)
-            viewOpt.getLoginSuccess(response)
+            LoanInfo.getLoanInfoSuccess(response)
         } else {
-            viewOpt.getLoginFailure(response.responseMsg)
+            LoanInfo.getLoanInfoFailure(response.responseMsg)
         }
     }
 }

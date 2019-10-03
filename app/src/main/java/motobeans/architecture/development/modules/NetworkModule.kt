@@ -1,5 +1,4 @@
 package motobeans.architecture.development.modules
-
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -33,11 +32,6 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
-
-
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
 
 @Module
 class NetworkModule {
@@ -107,10 +101,7 @@ class NetworkModule {
         responseOriginal = response.newBuilder()
             .body(ResponseBody.create(response.body()?.contentType(), responseBody))
             .build()
-/*
-        if (response.code() == 403) {
-          logout(application, sharedPreferencesUtil)
-        }*/
+
       } catch (e: Exception) {
         e.printStackTrace()
       }
@@ -134,12 +125,13 @@ class NetworkModule {
       val original = chain.request()
 
       val builder = original.newBuilder()
-      builder.header("Authorization", "basic ${sharedPreferencesUtil.getUserToken()}")
-      builder.header("Content-Type", "application/json").method(original.method(), original.body())
+      sharedPreferencesUtil.getUserToken()?.let {
+        builder.header("Authorization", "Bearer ${sharedPreferencesUtil.getUserToken()}")
+      }
+      builder.header("Content-Type", "application/json").
+              method(original.method(), original.body())
       builder.header("platform", "Android")
-
       val request = builder.build()
-
       chain.proceed(request)
     }
   }
@@ -181,8 +173,6 @@ class NetworkModule {
   }
 
   companion object {
-
     internal val DISK_CACHE_SIZE = 1024 * 1024
   }
-
 }

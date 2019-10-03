@@ -8,7 +8,6 @@ import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 
 class AddTaskActivity : BaseAppCompatActivity() {
-
     // used to bind element of layout to activity
     private val binding: ActivityAddTaskBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_add_task)

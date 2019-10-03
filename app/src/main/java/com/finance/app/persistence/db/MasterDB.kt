@@ -1,23 +1,17 @@
 package com.finance.app.persistence.db
-
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import android.content.Context
 import com.finance.app.persistence.converters.ConverterArrayList
 import com.finance.app.persistence.converters.Converters
-import com.finance.app.persistence.dao.TempDao
-import com.finance.app.persistence.model.TempModel
+import com.finance.app.persistence.dao.AllMasterDropDownDao
+import com.finance.app.persistence.model.AllMasterDropDownValue
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
 
-/**
- * The Room database.
- */
-@Database(
-    entities = [TempModel::class],
-    version = 1)
+@Database(entities = [AllMasterDropDownValue::class], version = 3)
 @TypeConverters(value = [Converters::class, ConverterArrayList::class])
 abstract class MasterDB : RoomDatabase() {
 
@@ -51,14 +45,18 @@ abstract class MasterDB : RoomDatabase() {
   }
 
   @SuppressWarnings("WeakerAccess")
-  abstract fun tempDao(): TempDao
+  abstract fun allMasterDropDownDao(): AllMasterDropDownDao
 
   fun reconfigDataFromDBASync(){
 
   }
-  fun deleteAllTableDataFromDBAsycn() {
-    GlobalScope.launch {
 
-    }
+  fun deleteAllTableDataFromDBAsycn() =
+          GlobalScope.async {
+            resetDatabase()
+          }
+
+  private fun resetDatabase(): Any {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 }

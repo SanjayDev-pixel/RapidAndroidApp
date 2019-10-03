@@ -15,7 +15,7 @@ interface SharedPreferencesUtil {
     fun getUserToken(): String?
     fun getUserName(): String?
     fun getUserBranches(): ArrayList<Response.UserBranches>?
-    fun getLoginPrivilege():Response.RolePrivileges?
+    fun getRolePrivilege():Response.RolePrivileges?
     fun getNavMenuItem(): HashMap<String, Int>?
     // Clear All saved data from Shared Presence
     fun clearAll()

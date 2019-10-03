@@ -8,15 +8,28 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardBinding
+import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.presenter.connector.AllSpinnerValueConnector
+import com.finance.app.presenter.presenter.AllSpinnerValuePresenter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.roundTo2DecimalPlaces
+import javax.inject.Inject
 
 class DashboardActivity : BaseAppCompatActivity() {
-
     private val binding: ActivityDashboardBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_dashboard)
-
+    @Inject
+    lateinit var dataBase: DataBaseUtil
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
     private val moduleValues = listOf("Select Module","Disversal", "Loan Sanction", "Login")
     private val slotValues = listOf("Select Slot","MTD", "YTD")
 
@@ -38,6 +51,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         hideSecondaryToolbar()
         provideDropdownValue()
         setListenersOnDropdown()
@@ -144,4 +158,5 @@ class DashboardActivity : BaseAppCompatActivity() {
         binding.tvPercentShortfallFiles.text = percentShortfallFile.toString().plus("%")
         binding.tvPercentShortfallVolume.text = percentShortfallVolume.toString().plus("%")
     }
+
 }

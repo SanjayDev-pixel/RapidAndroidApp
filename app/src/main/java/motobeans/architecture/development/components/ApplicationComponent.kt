@@ -4,6 +4,7 @@ import android.app.Application
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
 import com.finance.app.view.activity.AddLeadActivity
+import com.finance.app.view.activity.DashboardActivity
 import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.SplashScreen
 import com.finance.app.view.adapters.Recycler.Adapter.TempRecyclerAdapter
@@ -39,6 +40,7 @@ interface ApplicationComponent {
      */
     fun inject(activity: TestActivity)
     fun inject(activity: BaseAppCompatActivity)
+    fun inject(activity: DashboardActivity)
     fun inject(activity: LoginActivity)
     fun inject(activity: SplashScreen)
     fun inject(activity: AddLeadActivity)
@@ -59,6 +61,7 @@ interface ApplicationComponent {
     fun inject(loginPresenter: LoginPresenter)
     fun inject(addLeadPresenter: AddLeadPresenter)
     fun inject(allSpinnerValuePresenter: AllSpinnerValuePresenter)
+    fun inject(loanInfoPresenter: LoanInfoPresenter)
 
     /**
      * View Model
