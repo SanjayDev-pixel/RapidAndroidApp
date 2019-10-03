@@ -40,7 +40,7 @@ class LoanInfoPresenter(private val LoanInfo: LoanApplicationConnector.LoanInfo)
     }
 
     private fun onLoanInfo(response: Response.ResponseLoanInfo) {
-        if (response.responseCode == "200") {
+        if (response.responseCode == "201") {
             LoanInfo.getLoanInfoSuccess(response)
         } else {
             LoanInfo.getLoanInfoFailure(response.responseMsg)

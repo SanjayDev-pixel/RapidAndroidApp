@@ -42,8 +42,6 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         getLoanTypeFromDB()
         binding.btnAddLead.setOnClickListener {
             presenterOpt.callNetwork(ConstantsApi.CALL_ADD_LEAD)
-            showToast("${binding.spinnerTypeOfLoan.selectedItem.toString().toInt()}")
-            showToast("${binding.spinnerTypeOfLoan.selectedItem}")
         }
     }
 
@@ -76,7 +74,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
                     branchID = 1,
-                    loanTypeDetailID = loanTypeDetailId.typeDetailID!!
+                    loanTypeDetailID = 1
             )
         }
 

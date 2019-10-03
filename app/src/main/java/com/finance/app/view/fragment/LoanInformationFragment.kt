@@ -1,5 +1,4 @@
 package com.finance.app.view.fragment
-
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
@@ -20,6 +19,7 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanInfoPresenter
 import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.utility.UploadData
+import com.finance.app.view.activity.DashboardActivity
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -35,7 +35,6 @@ import motobeans.architecture.util.exShowToast
 import javax.inject.Inject
 
 class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
-
     private lateinit var binding: FragmentLoanInformationBinding
     private val frag: Fragment = this
     @Inject
@@ -163,6 +162,7 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
 
     override fun getLoanInfoSuccess(value: Response.ResponseLoanInfo) {
         showToast("Success")
+        DashboardActivity.start(context!!)
     }
 
     override fun getLoanInfoFailure(msg: String) {
@@ -181,7 +181,6 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
     }
 
     override fun hideProgressDialog() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

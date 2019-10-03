@@ -29,7 +29,7 @@ object Response {
                                 val secuirtyAnswer1: String, val secuirtyAnswer2: String, val secuirtyQuestionId1: Int,
                                 val secuirtyQuestionId2: Int, val userId: Int, val userName: String)
 
-    data class ResponseAddLead(val error: Any, val responseCode: String, val responseMsg: String,
+    data class ResponseAddLead(val error: String, val responseCode: String, val responseMsg: String,
                                val responseObj: Any, val timeStamp: Int)
 
     data class ResponseAllMasterValue(val responseCode: String, val responseMsg: String,
