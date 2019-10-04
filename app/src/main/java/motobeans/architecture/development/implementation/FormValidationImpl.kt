@@ -1,9 +1,8 @@
 package motobeans.architecture.development.implementation
-
 import android.content.Context
-import com.google.android.material.textfield.TextInputLayout
 import android.widget.EditText
 import com.finance.app.databinding.*
+import com.google.android.material.textfield.TextInputLayout
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
@@ -13,7 +12,80 @@ import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
 class FormValidationImpl(private val context: Context) : FormValidation {
     override fun validatePersonalInfo(binding: FragmentPersonalBinding): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var errorCount = 0
+        val firstName = binding.basicInfoLayout.etFirstName.text.toString()
+        if (!firstName.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.basicInfoLayout.etFirstName.error = "Name can not be blank"
+        }
+
+        val dob = binding.basicInfoLayout.etDOB.text.toString()
+        if (!dob.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.basicInfoLayout.etDOB.error = "DOB can not be blank"
+        }
+
+        val alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
+        if (!alternateContact.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.basicInfoLayout.etAlternateNum.error = "Alternate Number can not be blank"
+        }
+
+        val currentAddress = binding.addressLayout.etCurrentAddress.text.toString()
+        if (!currentAddress.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etCurrentAddress.error = "Address can not be blank"
+        }
+
+        val permanentAddress = binding.addressLayout.etPermanentAddress.text.toString()
+        if (!permanentAddress.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etPermanentAddress.error = "Address can not be blank"
+        }
+
+        val currentLandmark = binding.addressLayout.etCurrentLandmark.text.toString()
+        if (!currentLandmark.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etCurrentLandmark.error = "Landmark can not be blank"
+        }
+
+        val currentPincode = binding.addressLayout.etCurrentPinCode.text.toString()
+        if (!currentPincode.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etCurrentPinCode.error = "Pin code can not be blank"
+        }
+
+        val permanentPincode = binding.addressLayout.etPermanentPinCode.text.toString()
+        if (!permanentPincode.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etPermanentPinCode.error = "Pin code can not be blank"
+        }
+
+        val currentCity = binding.addressLayout.etCurrentCity.text.toString()
+        if (!currentCity.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etCurrentCity.error = "City can not be blank"
+        }
+
+        val permanentCity = binding.addressLayout.etPermanentCity.text.toString()
+        if (!permanentCity.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etPermanentCity.error = "City can not be blank"
+        }
+
+        val permanentStaying = binding.addressLayout.etPermanentStaying.text.toString()
+        if (!permanentStaying.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etPermanentStaying.error = " This field is required"
+        }
+
+        val currentStaying = binding.addressLayout.etCurrentStaying.text.toString()
+        if (!currentStaying.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.addressLayout.etCurrentStaying.error = " This field is required"
+        }
+
+        return isValidForm(errorCount)
     }
 
     override fun validateLoanInformation(binding: FragmentLoanInformationBinding): Boolean {
@@ -60,7 +132,7 @@ class FormValidationImpl(private val context: Context) : FormValidation {
     }
 
     override fun validateTemp(binding: TempActivityBinding): Boolean {
-        var errorCount = 0
+        val errorCount = 0
 
         return isValidForm(errorCount)
     }
@@ -79,7 +151,6 @@ class FormValidationImpl(private val context: Context) : FormValidation {
 
         return errorCount
     }
-
 
     private fun isValidForm(errorCount: Int): Boolean {
         return errorCount <= 0

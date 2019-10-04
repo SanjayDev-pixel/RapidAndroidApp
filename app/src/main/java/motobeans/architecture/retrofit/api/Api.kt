@@ -34,4 +34,9 @@ interface Api {
     @GET("api/v1/master/all/")
     fun getAllSpinnerValue(): Observable<Response.ResponseAllMasterValue>
 
+    @GET("api/v1/master/loan-product-purpose")
+    fun getLoanProduct(): Observable<Response.ResponseLoanProduct>
+
+    @GET("api/v1/master/branchID/1/channelType/3/employeeID/{dsaId}")
+    fun sourceChannelPartnerName(@Path("dsaId") dsaId: String?): Observable<Response.ResponseSourceChannelPartnerName>
 }

@@ -6,7 +6,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @Entity
-class AllMasterDropDownValue : Serializable {
+class AllMasterDropDown : Serializable {
 
     @PrimaryKey
     var key: String = UUID.randomUUID().toString()

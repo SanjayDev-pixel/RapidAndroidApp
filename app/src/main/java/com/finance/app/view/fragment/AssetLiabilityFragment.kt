@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentAssetLiablityBinding
-import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.PersonalApplicants
 import com.finance.app.view.adapters.Recycler.Adapter.*
@@ -102,19 +101,19 @@ class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
     private fun setDropDownValue() {
         val lists: ArrayList<DropdownMaster> = ArrayList()
 
-        binding.spinnerAssetSubType.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.spinnerAssetType.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.spinnerDocumentProof.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.spinnerOwnership.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.spinnerAssetSubType.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.spinnerAssetType.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.spinnerDocumentProof.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.spinnerOwnership.adapter = MasterSpinnerAdapter(mContext, lists)
 
-        binding.layoutObligations.spinnerLoanOwnership.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.layoutObligations.spinnerLoanType.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.layoutObligations.spinnerObligate.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.layoutObligations.spinnerRepaymentBank.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.layoutObligations.spinnerEmiPaidInSameMonth.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.layoutObligations.spinnerLoanOwnership.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.layoutObligations.spinnerLoanType.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.layoutObligations.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.layoutObligations.spinnerRepaymentBank.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.layoutObligations.spinnerEmiPaidInSameMonth.adapter = MasterSpinnerAdapter(mContext, lists)
 
-        binding.layoutCreditCard.spinnerBankName.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.layoutCreditCard.spinnerObligate.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.layoutCreditCard.spinnerBankName.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.layoutCreditCard.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, lists)
     }
 
     private fun onAddApplicantClick() {

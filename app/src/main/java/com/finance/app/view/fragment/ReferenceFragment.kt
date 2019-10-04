@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.databinding.FragmentReferenceBinding
-import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 
 class ReferenceFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentReferenceBinding
@@ -28,7 +27,7 @@ class ReferenceFragment : androidx.fragment.app.Fragment() {
     private fun setDropDownValue() {
         val lists: ArrayList<DropdownMaster> = ArrayList()
 
-        binding.spinnerOccupation.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.spinnerRelation.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.spinnerOccupation.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.spinnerRelation.adapter = MasterSpinnerAdapter(mContext, lists)
     }
 }

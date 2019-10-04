@@ -3,10 +3,13 @@ import android.content.Context
 import android.content.Intent
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
-import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.persistence.model.AllMasterDropDown
+import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.presenter.connector.AllSpinnerValueConnector
+import com.finance.app.presenter.connector.LoanProductConnector
 import com.finance.app.presenter.connector.LoginConnector
 import com.finance.app.presenter.presenter.AllSpinnerValuePresenter
+import com.finance.app.presenter.presenter.LoanProductPresenter
 import com.finance.app.presenter.presenter.LoginPresenter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,7 +23,7 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinnerValueConnector.ViewOpt {
+class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinnerValueConnector.ViewOpt, LoanProductConnector.ViewOpt {
 
     // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
@@ -30,6 +33,7 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     private val loginPresenter = LoginPresenter(this)
+    private val loanProductPresenter = LoanProductPresenter(this)
     private val spinnerPresenter = AllSpinnerValuePresenter(this)
 
     companion object {
@@ -51,6 +55,7 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
             loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
+            loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -66,7 +71,6 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
         get() {
             binding.etUserName.setText("kuldeep.saini@gmail.com")
             binding.etPassword.setText("Default@123")
-
             val username = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
             val company = mCompany
@@ -88,13 +92,27 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
     }
 
     override fun getAllSpinnerValueSuccess(value: Response.ResponseAllMasterValue) {
-        saveDataToDB(value.responseObj)
+        saveMasterDataToDB(value.responseObj)
     }
 
-    private fun saveDataToDB(masterDropdownValue: AllMasterDropDownValue) {
+    private fun saveMasterDataToDB(masterDropdown: AllMasterDropDown) {
         GlobalScope.launch {
-            dataBase.provideDataBaseSource().allMasterDropDownDao().insertAllMasterDropDownValue(masterDropdownValue)
+            dataBase.provideDataBaseSource().allMasterDropDownDao().insertAllMasterDropDownValue(masterDropdown)
         }
+    }
+
+    override fun getLoanProductSuccess(value: Response.ResponseLoanProduct) {
+        saveLoanProductPurposeDataInDB(value.responseObj)
+    }
+
+    private fun saveLoanProductPurposeDataInDB(productPurpose: ArrayList<LoanProductMaster>) {
+        GlobalScope.launch {
+            dataBase.provideDataBaseSource().loanProductDao().insertLoanProductList(productPurpose)
+        }
+    }
+
+    override fun getLoanProductFailure(msg: String) {
+        showToast(msg)
     }
 
     override fun getAllSpinnerValueFailure(msg: String) {

@@ -12,11 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.databinding.FragmentEmploymentBinding
-import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.SelectDate
 import com.finance.app.utility.UploadData
-import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 
 class EmploymentFragment : androidx.fragment.app.Fragment(){
     private lateinit var binding: FragmentEmploymentBinding
@@ -61,10 +60,10 @@ class EmploymentFragment : androidx.fragment.app.Fragment(){
     private fun setDropDownValue() {
         val lists: ArrayList<DropdownMaster> = ArrayList()
 
-        binding.spinnerProfileSegment.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.spinnerSubProfile.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.layoutSalary.spinnerIndustry.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.layoutSalary.spinnerSector.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.spinnerProfileSegment.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.layoutSalary.spinnerIndustry.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.layoutSalary.spinnerSector.adapter = MasterSpinnerAdapter(mContext, lists)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

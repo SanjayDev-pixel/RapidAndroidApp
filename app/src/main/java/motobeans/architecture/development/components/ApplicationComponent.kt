@@ -62,6 +62,8 @@ interface ApplicationComponent {
     fun inject(addLeadPresenter: AddLeadPresenter)
     fun inject(allSpinnerValuePresenter: AllSpinnerValuePresenter)
     fun inject(loanInfoPresenter: LoanInfoPresenter)
+    fun inject(sourceChannelPartnerNamePresenter: SourceChannelPartnerNamePresenter)
+    fun inject(loanProductPresenter: LoanProductPresenter)
 
     /**
      * View Model

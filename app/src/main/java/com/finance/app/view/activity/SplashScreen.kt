@@ -5,17 +5,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
 import com.finance.app.R
-import com.finance.app.persistence.model.AllMasterDropDownValue
-import com.finance.app.presenter.connector.AllSpinnerValueConnector
-import com.finance.app.presenter.presenter.AllSpinnerValuePresenter
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 class SplashScreen : BaseAppCompatActivity() {

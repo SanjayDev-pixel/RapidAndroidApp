@@ -59,8 +59,8 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return null
     }
 
-    override fun getNavMenuItem(): HashMap<String, Int>? {
-        val navItemList = hashMapOf<String, Int>()
+    override fun getNavMenuItem(): LinkedHashMap<String, Int>? {
+        val navItemList = linkedMapOf<String, Int>()
         val loginSubModules = getRolePrivilege()?.subModuleList
         for (module in loginSubModules!!){
             when(module.screenName){

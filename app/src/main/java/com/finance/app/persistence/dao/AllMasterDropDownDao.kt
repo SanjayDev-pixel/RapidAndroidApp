@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.persistence.model.AllMasterDropDown
 
 @Dao
-interface AllMasterDropDownDao {
+interface  AllMasterDropDownDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllMasterDropDownValue(product: AllMasterDropDownValue)
+    fun insertAllMasterDropDownValue(product: AllMasterDropDown)
 
-    @Query("SELECT * FROM AllMasterDropDownValue LIMIT 1")
-    fun getMasterDropdownValue(): LiveData<AllMasterDropDownValue>
+    @Query("SELECT * FROM AllMasterDropDown LIMIT 1")
+    fun getMasterDropdownValue(): LiveData<AllMasterDropDown>
 
-    @Query("DELETE FROM AllMasterDropDownValue")
+    @Query("DELETE FROM AllMasterDropDown")
     fun deleteAllMasterDropdownValue()
 
 }

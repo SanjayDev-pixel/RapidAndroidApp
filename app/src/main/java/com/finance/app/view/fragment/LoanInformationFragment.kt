@@ -9,19 +9,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.finance.app.databinding.FragmentLoanInformationBinding
+import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanInfoPresenter
 import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.utility.UploadData
 import com.finance.app.view.activity.DashboardActivity
 import com.finance.app.view.activity.UploadedFormDataActivity
-import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.LoanProductSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.LoanPurposeSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -46,6 +50,8 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
     private lateinit var loanScheme: ArrayList<DropdownMaster>
     private lateinit var interestType: ArrayList<DropdownMaster>
     private lateinit var channelPartnerName: ArrayList<DropdownMaster>
+    private lateinit var allMasterDropDown: AllMasterDropDown
+    private lateinit var loanProducts: List<LoanProductMaster>
     private lateinit var sourcingChannelPartner: ArrayList<DropdownMaster>
     private val loanInfoPresenter = LoanInfoPresenter(this)
 
@@ -66,7 +72,7 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ArchitectureApp.instance.component.inject(this)
-        setDropDownValue()
+        getDropDownsFromDB()
         setMandatoryField()
         setClickListeners()
     }
@@ -76,7 +82,7 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
             UploadData(frag, context!!)
         }
         binding.ivThumbnail.setOnClickListener {
-            UploadedFormDataActivity.start(context!!,image, pdf)
+            UploadedFormDataActivity.start(context!!, image, pdf)
         }
         binding.btnSaveAndContinue.setOnClickListener {
             if (formValidation.validateLoanInformation(binding = binding)) {
@@ -84,55 +90,57 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
                 loanInfoPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO)
             }
         }
-    }
-
-    private fun setDropDownValue() {
-        val loanProducts = arrayOf("Home Loan", "LAP")
-        val loanPurpose = arrayOf("House Purchase", "Flat Purchase", "Plot Purchase",
-                "Improvement", "Plot Purchase + Construction", "HL- BT", "Top up", "HL-BT + Top Up",
-                "LAP", "LAP BT+ Top Up", "BT+ Extension", "Seller BT")
-        getDropDownsFromDB()
-        val adapterLoanProduct = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, loanProducts)
-        adapterLoanProduct.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        val adapterLoanPurpose = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, loanPurpose)
-        adapterLoanPurpose.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        binding.spinnerLoanProduct.adapter = adapterLoanProduct
-        binding.spinnerLoanPurpose.adapter = adapterLoanPurpose
+        binding.spinnerLoanProduct?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                showToast("Spinner1: position=$position id=$id")
+                val loanProduct: LoanProductMaster = binding.spinnerLoanProduct.adapter.
+                        getItem(position) as LoanProductMaster
+                binding.spinnerLoanPurpose.adapter = LoanPurposeSpinnerAdapter(context!!,
+                        loanProduct.loanPurposeList!!)
+            }
+        }
     }
 
     private fun getDropDownsFromDB() {
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
+            masterDrownDownValues.let {
+                allMasterDropDown = it
+                setMasterDropDownValue(allMasterDropDown)
+            }
+        })
+
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProductPurpose ->
+            loanProductPurpose.let {
+                loanProducts = it
+                setProductDropDownValue(loanProducts)
+            }
+        })
+    }
+
+    private fun setProductDropDownValue(products: List<LoanProductMaster>) {
+        loanProducts = products
+        binding.spinnerLoanProduct.adapter = LoanProductSpinnerAdapter(context!!, loanProducts)
+    }
+
+    private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
         loanScheme = ArrayList()
         interestType = ArrayList()
         channelPartnerName = ArrayList()
         sourcingChannelPartner = ArrayList()
-        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues?.let {
-                masterDrownDownValues.LoanScheme?.let { genderDropDown ->
-                    loanScheme = genderDropDown
-                    binding.spinnerLoanScheme.adapter = GenericSpinnerAdapter(context!!, loanScheme)
-                }
-            }
-            masterDrownDownValues?.let {
-                masterDrownDownValues.LoanInformationInterestType?.let { interestTypeDropDown ->
-                    interestType = interestTypeDropDown
-                    binding.spinnerInterestType.adapter = GenericSpinnerAdapter(context!!, interestType)
-                }
-            }
-            masterDrownDownValues?.let {
-                masterDrownDownValues.ChannelType?.let { sourceChannelPartnerDropDown ->
-                    sourcingChannelPartner = sourceChannelPartnerDropDown
-                    binding.spinnerPartnerName.adapter = GenericSpinnerAdapter(context!!, channelPartnerName)
-                }
-            }
-            masterDrownDownValues?.let {
-                masterDrownDownValues.SourcingChannelPartner?.let { channelPartnerNameDropDown ->
-                    channelPartnerName = channelPartnerNameDropDown
-                    binding.spinnerSourcingChannelPartner.adapter = GenericSpinnerAdapter(context!!, sourcingChannelPartner)
-                }
-            }
-        })
+
+        loanScheme = allMasterDropDown.LoanScheme!!
+        binding.spinnerLoanScheme.adapter = MasterSpinnerAdapter(context!!, loanScheme)
+
+        interestType = allMasterDropDown.LoanInformationInterestType!!
+        binding.spinnerInterestType.adapter = MasterSpinnerAdapter(context!!, interestType)
+
+        sourcingChannelPartner = allMasterDropDown.SourcingChannelPartner!!
+        binding.spinnerPartnerName.adapter = MasterSpinnerAdapter(context!!, channelPartnerName)
+
+        channelPartnerName = allMasterDropDown.ChannelPartnerName!!
+        binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(context!!, sourcingChannelPartner)
+
     }
 
     private fun setMandatoryField() {

@@ -7,7 +7,7 @@ import com.finance.app.databinding.ActivityAddLeadBinding
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.presenter.connector.AddLeadConnector
 import com.finance.app.presenter.presenter.AddLeadPresenter
-import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.UserBranchesSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
@@ -60,7 +60,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     private fun setDropDownValue() {
         val branches = sharedPreferences.getUserBranches()
         binding.spinnerBranchId.adapter = UserBranchesSpinnerAdapter(this, branches!!)
-        binding.spinnerTypeOfLoan.adapter = GenericSpinnerAdapter(this, loanType)
+        binding.spinnerTypeOfLoan.adapter = MasterSpinnerAdapter(this, loanType)
     }
 
     private val leadRequest: Requests.RequestAddLead

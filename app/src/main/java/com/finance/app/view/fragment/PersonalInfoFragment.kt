@@ -25,7 +25,7 @@ import com.finance.app.utility.SelectDate
 import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.ApplicantsAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import java.io.ByteArrayOutputStream
@@ -259,15 +259,15 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         binding.basicInfoLayout.spinnerQualification.adapter = adapterQualification
         binding.basicInfoLayout.spinnerDetailQualification.adapter = adapterDetailQualification
         binding.basicInfoLayout.spinnerMaritalStatus.adapter = adapterMaritalStatus
-        binding.addressLayout.spinnerCurrentAddressProof.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerCurrentDistrict.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerCurrentResidenceType.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerCurrentState.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerCurrentDistrict.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerCurrentState.adapter = MasterSpinnerAdapter(mContext, lists)
 
-        binding.addressLayout.spinnerPermanentAddressProof.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerPermanentDistrict.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerPermanentState.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerPermanentResidenceType.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerPermanentDistrict.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerPermanentState.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.addressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(mContext, lists)
 
     }
 

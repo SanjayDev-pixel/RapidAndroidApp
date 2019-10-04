@@ -66,6 +66,24 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_current_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:textColorHint="@color/hint_color">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCurrentAddress"
+                    android:layout_width="match_parent"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:hint="Current Address"
+                    android:minWidth="200dp"
+                    app:ms_hintTextSize="@dimen/hint_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_current_landmark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -275,6 +293,24 @@
                     app:ms_multiline="false" />
 
             </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_permanent_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:textColorHint="@color/hint_color">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPermanentAddress"
+                    android:layout_width="match_parent"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:hint="Permanent Address"
+                    android:minWidth="200dp"
+                    app:ms_hintTextSize="@dimen/hint_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_permanent_landmark"

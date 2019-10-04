@@ -1,14 +1,12 @@
 package com.finance.app.persistence.converters
 
 import androidx.room.TypeConverter
-import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import motobeans.architecture.util.DateUtil.dateFormattingType.TYPE_API_RESPONSE
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.Date
 
 /**
@@ -34,18 +32,18 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToAllDropDownMaster(value: String?): AllMasterDropDownValue? {
+    fun fromStringToAllDropDownMaster(value: String?): AllMasterDropDown? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<AllMasterDropDownValue>() {
+        val listType = object : TypeToken<AllMasterDropDown>() {
 
         }.type
-        return Gson().fromJson<AllMasterDropDownValue>(value, listType)
+        return Gson().fromJson<AllMasterDropDown>(value, listType)
     }
 
     @TypeConverter
-    fun fromAllDropDownMasterToString(list: AllMasterDropDownValue?): String? {
+    fun fromAllDropDownMasterToString(list: AllMasterDropDown?): String? {
         list?.let {
             val gson = Gson()
             return gson.toJson(list)
@@ -66,6 +64,26 @@ class Converters {
 
     @TypeConverter
     fun fromDropdownMasterToString(list: DropdownMaster?): String? {
+        list?.let {
+            val gson = Gson()
+            return gson.toJson(list)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToLoanPurpose(value: String?): Response.LoanPurpose? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<Response.LoanPurpose>() {
+
+        }.type
+        return Gson().fromJson<Response.LoanPurpose>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromLoanPurposeToString(list: Response.LoanPurpose?): String? {
         list?.let {
             val gson = Gson()
             return gson.toJson(list)

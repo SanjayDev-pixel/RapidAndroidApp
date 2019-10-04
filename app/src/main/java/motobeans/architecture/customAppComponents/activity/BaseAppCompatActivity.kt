@@ -16,6 +16,7 @@ import com.finance.app.view.activity.*
 import com.google.android.material.navigation.NavigationView
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
+import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
@@ -30,14 +31,15 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   private lateinit var bindingParent: ActivityBaseBinding
   @Inject
   lateinit var sharedPreferencesUtil: SharedPreferencesUtil
+  @Inject
+  lateinit var mDataBase: DataBaseUtil
 
   companion object {
     internal var progressDialog: ProgressDialog? = null
   }
 
   private fun setContentBindingTemp() {
-    bindingParent = DataBindingUtil.setContentView(getActivity(),
-            R.layout.activity_base)
+    bindingParent = DataBindingUtil.setContentView(getActivity(), R.layout.activity_base)
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +84,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
       }
       R.id.logout -> {
         sharedPreferencesUtil.clearAll()
+        mDataBase.provideDataBaseSource().deleteAllTableDataFromDBAsycn()
         LoginActivity.start(this)
       }
       R.id.assignedLeads -> {

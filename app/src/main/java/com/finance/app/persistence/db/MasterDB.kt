@@ -7,11 +7,13 @@ import androidx.room.TypeConverters
 import com.finance.app.persistence.converters.ConverterArrayList
 import com.finance.app.persistence.converters.Converters
 import com.finance.app.persistence.dao.AllMasterDropDownDao
-import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.persistence.dao.LoanProductDao
+import com.finance.app.persistence.model.AllMasterDropDown
+import com.finance.app.persistence.model.LoanProductMaster
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
-@Database(entities = [AllMasterDropDownValue::class], version = 3)
+@Database(entities = [AllMasterDropDown::class, LoanProductMaster::class], version = 3)
 @TypeConverters(value = [Converters::class, ConverterArrayList::class])
 abstract class MasterDB : RoomDatabase() {
 
@@ -47,6 +49,9 @@ abstract class MasterDB : RoomDatabase() {
   @SuppressWarnings("WeakerAccess")
   abstract fun allMasterDropDownDao(): AllMasterDropDownDao
 
+  @SuppressWarnings("WeakerAccess")
+  abstract fun loanProductDao(): LoanProductDao
+
   fun reconfigDataFromDBASync(){
 
   }
@@ -56,7 +61,8 @@ abstract class MasterDB : RoomDatabase() {
             resetDatabase()
           }
 
-  private fun resetDatabase(): Any {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+  private fun resetDatabase() {
+    allMasterDropDownDao().deleteAllMasterDropdownValue()
+    loanProductDao().deleteLoanProduct()
   }
 }

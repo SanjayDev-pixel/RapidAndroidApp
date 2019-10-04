@@ -13,10 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.finance.app.databinding.FragmentBankDetailBinding
-import com.finance.app.model.Modals
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.UploadData
-import com.finance.app.view.adapters.Recycler.Adapter.GenericSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 
 class BankDetailFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentBankDetailBinding
@@ -52,9 +51,9 @@ class BankDetailFragment : androidx.fragment.app.Fragment() {
     private fun setDropDownValue() {
         val lists: ArrayList<DropdownMaster> = ArrayList()
 
-        binding.spinnerAccountType.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.spinnerBankName.adapter = GenericSpinnerAdapter(mContext, lists)
-        binding.spinnerSalaryCredit.adapter = GenericSpinnerAdapter(mContext, lists)
+        binding.spinnerAccountType.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.spinnerBankName.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(mContext, lists)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

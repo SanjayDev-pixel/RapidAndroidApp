@@ -1,9 +1,10 @@
 package com.finance.app.persistence.converters
 import androidx.room.TypeConverter
-import com.finance.app.persistence.model.AllMasterDropDownValue
+import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
 /**
@@ -26,21 +27,21 @@ class ConverterArrayList {
     }
 
     @TypeConverter
-    fun fromStringToArrayListAllSpinnerMaster(value: String?): ArrayList<AllMasterDropDownValue>? {
+    fun fromStringToArrayListAllSpinnerMaster(value: String?): ArrayList<AllMasterDropDown>? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val arrayListType = object : TypeToken<ArrayList<AllMasterDropDownValue>>() {
+        val arrayListType = object : TypeToken<ArrayList<AllMasterDropDown>>() {
 
         }.type
-        return Gson().fromJson<ArrayList<AllMasterDropDownValue>>(value, arrayListType)
+        return Gson().fromJson<ArrayList<AllMasterDropDown>>(value, arrayListType)
     }
 
     @TypeConverter
-    fun fromAllSpinnerMasterArrayListToString(ArrayList: ArrayList<AllMasterDropDownValue>?): String? {
-        ArrayList?.let {
+    fun fromAllSpinnerMasterArrayListToString(arrayList: ArrayList<AllMasterDropDown>?): String? {
+        arrayList?.let {
             val gson = Gson()
-            return gson.toJson(ArrayList)
+            return gson.toJson(arrayList)
         }
         return null
     }
@@ -58,6 +59,26 @@ class ConverterArrayList {
 
     @TypeConverter
     fun fromDropdownMasterArrayListToString(ArrayList: ArrayList<DropdownMaster>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListLoanPurpose(value: String?): ArrayList<Response.LoanPurpose>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<Response.LoanPurpose>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<Response.LoanPurpose>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromLoanPurposeArrayListToString(ArrayList: ArrayList<Response.LoanPurpose>?): String? {
         ArrayList?.let {
             val gson = Gson()
             return gson.toJson(ArrayList)
