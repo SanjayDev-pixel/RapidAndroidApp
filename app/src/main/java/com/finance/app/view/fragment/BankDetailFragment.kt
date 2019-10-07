@@ -11,16 +11,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.finance.app.databinding.FragmentBankDetailBinding
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
+import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.development.interfaces.FormValidation
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import javax.inject.Inject
 
 class BankDetailFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentBankDetailBinding
     private lateinit var mContext: Context
     private val frag: Fragment = this
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
+    @Inject
+    lateinit var formValidation: FormValidation
 
     companion object {
         private const val SELECT_PDF_CODE = 1
@@ -38,8 +47,23 @@ class BankDetailFragment : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
         setDropDownValue()
         setClickListeners()
+        checkIncomeConsideration()
+    }
+
+    private fun checkIncomeConsideration() {
+        val selected = sharedPreferences.getIncomeCosideration()
+        if (!selected) {
+            Toast.makeText(context, "Income not considered in Loan Information",
+                    Toast.LENGTH_SHORT).show()
+            disableAllFields()
+        }
+    }
+
+    private fun disableAllFields() {
+        formValidation.disableBankDetailFields(binding)
     }
 
     private fun setClickListeners() {

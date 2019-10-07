@@ -6,18 +6,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.PersonalApplicants
 import com.finance.app.view.adapters.Recycler.Adapter.*
+import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.development.interfaces.FormValidation
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import javax.inject.Inject
 
 class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
     private lateinit var binding: FragmentAssetLiablityBinding
     private lateinit var mContext: Context
     private var applicantAdapter: ApplicantsAdapter? = null
     private var applicantsList: ArrayList<PersonalApplicants>? = null
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
+    @Inject
+    lateinit var formValidation: FormValidation
 
     companion object {
         private const val GALLERY = 1
@@ -35,10 +44,25 @@ class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
         applicantMenu = ArrayList()
         setDropDownValue()
         setCoApplicants()
         setClickListeners()
+        checkIncomeConsideration()
+    }
+
+    private fun checkIncomeConsideration() {
+        val selected = sharedPreferences.getIncomeCosideration()
+        if (!selected) {
+            Toast.makeText(context, "Income not considered in Loan Information",
+                    Toast.LENGTH_SHORT).show()
+            disableAllFields()
+        }
+    }
+
+    private fun disableAllFields() {
+        formValidation.disableAssetLiabilityFields(binding)
     }
 
     private fun setCoApplicants() {

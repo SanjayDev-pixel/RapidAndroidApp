@@ -165,13 +165,13 @@
             </LinearLayout>
 
                 <Button
-                    android:id="@+id/btnBankDetail"
+                    android:id="@+id/btnAddTransaction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:background="@drawable/button_theme_style"
                     android:padding="5sp"
-                    android:text="Add Transaction"
+                    android:text="@string/add_transaction"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textColor="@color/white"

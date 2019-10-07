@@ -112,57 +112,106 @@ class FormValidationImpl(private val context: Context) : FormValidation {
     }
 
     override fun disablePersonalFields(binding: FragmentPersonalBinding) {
-        binding.spinnerIdentificationType.isClickable = false
-        binding.etIdNum.isClickable = false
-        binding.etExpiryDate.isClickable = false
-        binding.etIssueDate.isClickable = false
-        binding.btnSaveAndContinue.isClickable = false
+        binding.spinnerIdentificationType.isEnabled = false
+        binding.etIdNum.isEnabled = false
+        binding.etExpiryDate.isEnabled = false
+        binding.etIssueDate.isEnabled = false
+        binding.btnSaveAndContinue.isEnabled = false
         binding.ivUploadKyc.isClickable = false
-        binding.spinnerVerifiedStatus.isClickable = false
+        binding.spinnerVerifiedStatus.isEnabled = false
         binding.basicInfoLayout.ivUploadDobProof.isClickable = false
-        binding.basicInfoLayout.btnGetOTP.isClickable = false
-        binding.basicInfoLayout.btnVerifyOTP.isClickable = false
-        binding.basicInfoLayout.etAge.isClickable = false
-        binding.basicInfoLayout.etEmail.isClickable = false
-        binding.basicInfoLayout.etFatherFirstName.isClickable = false
-        binding.basicInfoLayout.etFatherMiddleName.isClickable = false
-        binding.basicInfoLayout.etFatherLastName.isClickable = false
-        binding.basicInfoLayout.etFirstName.isClickable = false
-        binding.basicInfoLayout.etLastName.isClickable = false
-        binding.basicInfoLayout.etMiddleName.isClickable = false
-        binding.basicInfoLayout.etSpouseFirstName.isClickable = false
-        binding.basicInfoLayout.etSpouseMiddleName.isClickable = false
-        binding.basicInfoLayout.etSpouseLastName.isClickable = false
-        binding.basicInfoLayout.spinnerReligion.isClickable = false
-        binding.basicInfoLayout.spinnerCaste.isClickable = false
-        binding.basicInfoLayout.etNumOfDependent.isClickable = false
-        binding.basicInfoLayout.spinnerDobProof.isClickable = false
-        binding.basicInfoLayout.spinnerNationality.isClickable = false
-        binding.basicInfoLayout.spinnerQualification.isClickable = false
-        binding.basicInfoLayout.etMobile.isClickable = false
-        binding.basicInfoLayout.spinnerGender.isClickable = false
-        binding.basicInfoLayout.etDOB.isClickable = false
-        binding.basicInfoLayout.etAlternateNum.isClickable = false
-        binding.addressLayout.etCurrentAddress.isClickable = false
-        binding.addressLayout.etPermanentAddress.isClickable = false
-        binding.addressLayout.etCurrentLandmark.isClickable = false
-        binding.addressLayout.etCurrentPinCode.isClickable = false
-        binding.addressLayout.etPermanentPinCode.isClickable = false
-        binding.addressLayout.etCurrentCity.isClickable = false
-        binding.addressLayout.etPermanentCity.isClickable = false
-        binding.addressLayout.etPermanentStaying.isClickable = false
-        binding.addressLayout.etCurrentStaying.isClickable = false
-        binding.addressLayout.spinnerPermanentResidenceType.isClickable = false
-        binding.addressLayout.spinnerPermanentState.isClickable = false
-        binding.addressLayout.spinnerPermanentDistrict.isClickable = false
-        binding.addressLayout.spinnerPermanentAddressProof.isClickable = false
-        binding.addressLayout.spinnerCurrentAddressProof.isClickable = false
-        binding.addressLayout.spinnerCurrentDistrict.isClickable = false
-        binding.addressLayout.spinnerCurrentState.isClickable = false
+        binding.basicInfoLayout.btnGetOTP.isEnabled = false
+        binding.basicInfoLayout.btnVerifyOTP.isEnabled = false
+        binding.basicInfoLayout.etAge.isEnabled = false
+        binding.basicInfoLayout.otpView.isEnabled = false
+        binding.basicInfoLayout.etEmail.isEnabled = false
+        binding.basicInfoLayout.etFatherFirstName.isEnabled = false
+        binding.basicInfoLayout.etFatherMiddleName.isEnabled = false
+        binding.basicInfoLayout.etFatherLastName.isEnabled = false
+        binding.basicInfoLayout.etFirstName.isEnabled = false
+        binding.basicInfoLayout.etLastName.isEnabled = false
+        binding.basicInfoLayout.etMiddleName.isEnabled = false
+        binding.basicInfoLayout.etSpouseFirstName.isEnabled = false
+        binding.basicInfoLayout.etSpouseMiddleName.isEnabled = false
+        binding.basicInfoLayout.etSpouseLastName.isEnabled = false
+        binding.basicInfoLayout.spinnerReligion.isEnabled = false
+        binding.basicInfoLayout.spinnerCaste.isEnabled = false
+        binding.basicInfoLayout.etNumOfDependent.isEnabled = false
+        binding.basicInfoLayout.spinnerDobProof.isEnabled = false
+        binding.basicInfoLayout.spinnerDetailQualification.isEnabled = false
+        binding.basicInfoLayout.spinnerMaritalStatus.isEnabled = false
+        binding.basicInfoLayout.spinnerNationality.isEnabled = false
+        binding.basicInfoLayout.spinnerQualification.isEnabled = false
+        binding.basicInfoLayout.etMobile.isEnabled = false
+        binding.basicInfoLayout.spinnerGender.isEnabled = false
+        binding.basicInfoLayout.etDOB.isEnabled = false
+        binding.basicInfoLayout.etAlternateNum.isEnabled = false
+        binding.addressLayout.etCurrentAddress.isEnabled = false
+        binding.addressLayout.etPermanentAddress.isEnabled = false
+        binding.addressLayout.etCurrentLandmark.isEnabled = false
+        binding.addressLayout.etCurrentPinCode.isEnabled = false
+        binding.addressLayout.etPermanentPinCode.isEnabled = false
+        binding.addressLayout.etCurrentCity.isEnabled = false
+        binding.addressLayout.etPermanentCity.isEnabled = false
+        binding.addressLayout.etPermanentStaying.isEnabled = false
+        binding.addressLayout.etCurrentStaying.isEnabled = false
+        binding.addressLayout.spinnerPermanentResidenceType.isEnabled = false
+        binding.addressLayout.spinnerPermanentState.isEnabled = false
+        binding.addressLayout.spinnerPermanentDistrict.isEnabled = false
+        binding.addressLayout.spinnerPermanentAddressProof.isEnabled = false
+        binding.addressLayout.spinnerCurrentAddressProof.isEnabled = false
+        binding.addressLayout.spinnerCurrentDistrict.isEnabled = false
+        binding.addressLayout.spinnerCurrentState.isEnabled = false
         binding.addressLayout.cbSameAsCurrent.isClickable = false
-        binding.addressLayout.etCurrentRentAmount.isClickable = false
-        binding.addressLayout.etPermanentLandmark.isClickable = false
-        binding.addressLayout.etPermanentRentAmount.isClickable = false
+        binding.addressLayout.etCurrentRentAmount.isEnabled = false
+        binding.addressLayout.spinnerCurrentResidenceType.isEnabled = false
+        binding.addressLayout.etPermanentLandmark.isEnabled = false
+        binding.addressLayout.etPermanentRentAmount.isEnabled = false
+    }
+
+    override fun disableEmploymentFields(binding: FragmentEmploymentBinding) {
+        binding.spinnerProfileSegment.isEnabled = false
+        binding.spinnerSubProfile.isEnabled = false
+    }
+
+    override fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding) {
+        binding.spinnerAssetType.isEnabled = false
+        binding.spinnerAssetSubType.isEnabled = false
+        binding.spinnerOwnership.isEnabled = false
+        binding.spinnerDocumentProof.isEnabled = false
+        binding.etValue.isEnabled = false
+        binding.btnAddAsset.isEnabled = false
+        binding.btnAddApplicant.isEnabled = false
+        binding.layoutCreditCard.spinnerBankName.isEnabled = false
+        binding.layoutCreditCard.etCreditCardLimit.isEnabled = false
+        binding.layoutCreditCard.etLastPaymentDate.isEnabled = false
+        binding.layoutCreditCard.etCurrentUtilization.isEnabled = false
+        binding.layoutCreditCard.spinnerObligate.isEnabled = false
+        binding.layoutCreditCard.btnAddCreditCard.isEnabled = false
+        binding.layoutObligations.spinnerLoanOwnership.isEnabled = false
+        binding.layoutObligations.spinnerObligate.isEnabled = false
+        binding.layoutObligations.spinnerLoanType.isEnabled = false
+        binding.layoutObligations.etLoanAmount.isEnabled = false
+        binding.layoutObligations.etFinancierName.isEnabled = false
+        binding.layoutObligations.etTenure.isEnabled = false
+        binding.layoutObligations.etBalanceTenure.isEnabled = false
+        binding.layoutObligations.spinnerRepaymentBank.isEnabled = false
+        binding.layoutObligations.etEmiAmount.isEnabled = false
+        binding.layoutObligations.etBouncesInLastNineMonths.isEnabled = false
+        binding.layoutObligations.etBouncesInLastSixMonths.isEnabled = false
+        binding.layoutObligations.spinnerEmiPaidInSameMonth.isEnabled = false
+        binding.layoutObligations.etDisbursementDate.isEnabled = false
+        binding.layoutObligations.btnAddObligation.isEnabled = false
+    }
+
+    override fun disableBankDetailFields(binding: FragmentBankDetailBinding) {
+        binding.spinnerBankName.isEnabled = false
+        binding.spinnerAccountType.isEnabled = false
+        binding.spinnerSalaryCredit.isEnabled = false
+        binding.etAccountNum.isEnabled = false
+        binding.etAccountHolderName.isEnabled = false
+        binding.btnAddTransaction.isEnabled = false
+        binding.ivUploadStatement.isClickable = false
     }
 
     override fun validateEmployment(binding: FragmentEmploymentBinding): Boolean {

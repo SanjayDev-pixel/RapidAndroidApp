@@ -143,4 +143,6 @@
     <string name="applicant_first_name">Applicant First Name</string>
     <string name="applicant_middle_name">Applicant Middle Name</string>
     <string name="applicant_last_name">Applicant Last Name</string>
+    <string name="property_selected">Property Selected</string>
+    <string name="add_transaction">Add Transaction</string>
 </resources>

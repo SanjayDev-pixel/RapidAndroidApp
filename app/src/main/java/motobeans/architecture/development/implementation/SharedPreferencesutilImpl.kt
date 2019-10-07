@@ -47,6 +47,17 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return propertySelection == "Yes"
     }
 
+    override fun setIncomeConsideration(value: String) {
+        val incomeConsider = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_INCOME_CONSIDER)
+        incomeConsider.putString(SharedPreferencesBean.KEY_INCOME_CONSIDER,value)
+    }
+
+    override fun getIncomeCosideration(): Boolean {
+        val spIncomeConsider = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_INCOME_CONSIDER)
+        val incomeConsider = spIncomeConsider.getString(SharedPreferencesBean.KEY_INCOME_CONSIDER)
+        return incomeConsider == "Yes"
+    }
+
     override fun savePersonalInfoForApplicants(applicants: ArrayList<PersonalApplicants>) {
         val objPersonalApplicants = Gson().toJson(applicants)
         val objSPPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
@@ -83,7 +94,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
                 "Liability & Asset" -> navItemList[module.screenName] = R.drawable.assest_details_white
                 "Reference" -> navItemList[module.screenName] = R.drawable.reffrence_white
                 "Property" -> navItemList[module.screenName] = R.drawable.property_icon_white
-                "Document Checklist" -> navItemList[module.screenName] = R.drawable.document_checklist
+                "Document Checklist" -> navItemList[module.screenName] = R.drawable.checklist
             }
         }
         return navItemList

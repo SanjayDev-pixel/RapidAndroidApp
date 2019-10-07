@@ -1,5 +1,4 @@
 package com.finance.app.view.fragment
-
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,16 +10,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.finance.app.databinding.FragmentEmploymentBinding
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.SelectDate
 import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
+import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.development.interfaces.FormValidation
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import javax.inject.Inject
 
 class EmploymentFragment : androidx.fragment.app.Fragment(){
     private lateinit var binding: FragmentEmploymentBinding
     private lateinit var mContext: Context
     private val frag = this
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
+    @Inject
+    lateinit var formValidation: FormValidation
+
     companion object {
         private const val SELECT_PDF_CODE = 1
         private const val CLICK_IMAGE_CODE = 2
@@ -37,9 +46,24 @@ class EmploymentFragment : androidx.fragment.app.Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
         setDatePicker()
         setClickListeners()
         setDropDownValue()
+        checkIncomeConsideration()
+    }
+
+    private fun checkIncomeConsideration() {
+        val selected = sharedPreferences.getIncomeCosideration()
+        if (!selected) {
+            Toast.makeText(context, "Income not considered in Loan Information",
+                    Toast.LENGTH_SHORT).show()
+            disableAllFields()
+        }
+    }
+
+    private fun disableAllFields() {
+        formValidation.disableEmploymentFields(binding)
     }
 
     private fun setClickListeners() {

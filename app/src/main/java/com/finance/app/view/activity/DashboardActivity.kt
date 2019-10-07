@@ -23,7 +23,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
-    private val moduleValues = listOf("Select Module","Disversal", "Loan Sanction", "Login")
+    private val moduleValues = listOf("Select Module","Disbarsal", "Loan Sanction", "Login")
     private val slotValues = listOf("Select Slot","MTD", "YTD")
 
     companion object {

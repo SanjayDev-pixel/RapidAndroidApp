@@ -12,4 +12,7 @@ interface FormValidation {
     fun validateReference(binding: FragmentReferenceBinding):Boolean
     fun validateProperty(binding: FragmentPropertyBinding):Boolean
     fun disablePersonalFields(binding: FragmentPersonalBinding)
+    fun disableEmploymentFields(binding: FragmentEmploymentBinding)
+    fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding)
+    fun disableBankDetailFields(binding: FragmentBankDetailBinding)
 }

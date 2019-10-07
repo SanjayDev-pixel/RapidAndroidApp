@@ -209,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
                     android:padding="@dimen/margin_10"
-                    android:text="Property Selected"
+                    android:text="@string/property_selected"
                     android:textSize="@dimen/button_text_size" />
 
                 <LinearLayout

@@ -16,6 +16,8 @@ interface SharedPreferencesUtil {
     fun getUserName(): String?
     fun setPropertySelection(value: String)
     fun getPropertySelection(): Boolean
+    fun setIncomeConsideration(value: String)
+    fun getIncomeCosideration(): Boolean
     fun getUserBranches(): ArrayList<Response.UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
     fun getNavMenuItem(): HashMap<String, Int>?

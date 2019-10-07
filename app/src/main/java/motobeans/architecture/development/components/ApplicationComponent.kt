@@ -9,10 +9,7 @@ import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.SplashScreen
 import com.finance.app.view.adapters.Recycler.Adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.Recycler.Holder.TempHolder
-import com.finance.app.view.fragment.LoanInformationFragment
-import com.finance.app.view.fragment.NavMenuFragment
-import com.finance.app.view.fragment.PersonalInfoFragment
-import com.finance.app.view.fragment.TestFragment
+import com.finance.app.view.fragment.*
 import com.finance.app.viewModel.TempViewModel
 import com.optcrm.optreporting.AppModule
 import com.optcrm.optreporting.app.workers.UtilWorkersTask
@@ -52,6 +49,9 @@ interface ApplicationComponent {
     fun inject(fragment: PersonalInfoFragment)
     fun inject(fragment: NavMenuFragment)
     fun inject(fragment: LoanInformationFragment)
+    fun inject(fragment: EmploymentFragment)
+    fun inject(fragment: BankDetailFragment)
+    fun inject(fragment: AssetLiabilityFragment)
 
     /**
      * Presenters

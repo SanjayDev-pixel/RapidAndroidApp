@@ -1,5 +1,4 @@
 package com.finance.app.view.fragment
-
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -107,13 +106,16 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         binding.ivUploadKyc.setOnClickListener {
             UploadData(frag, mContext)
         }
+
         binding.basicInfoLayout.btnVerifyOTP.setOnClickListener {
             Toast.makeText(mContext, binding.basicInfoLayout.otpView.text, Toast.LENGTH_SHORT).show()
         }
+
         binding.btnAddKYC.setOnClickListener {
             getKycData()
             clearKycData()
         }
+
         binding.basicInfoLayout.ivUploadDobProof.setOnClickListener {
             UploadData(frag, mContext)
         }
@@ -123,7 +125,7 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         }
 
         binding.btnSaveAndContinue.setOnClickListener{
-
+            setIncomeConsidered()
         }
 
         binding.addressLayout.cbSameAsCurrent.setOnClickListener {
@@ -132,6 +134,14 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
             } else {
                 binding.addressLayout.llPermanentAddress.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun setIncomeConsidered() {
+        if (binding.cbIncomeConsidered.isChecked) {
+            sharedPreferences.setIncomeConsideration("Yes")
+        } else {
+            sharedPreferences.setIncomeConsideration("No")
         }
     }
 
@@ -180,7 +190,6 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         applicantMenu.add("Co- Applicant $coApplicant")
         binding.rcApplicants.adapter!!.notifyDataSetChanged()
         coApplicant++
-
     }
 
     override fun onApplicantClick(position: Int) {
