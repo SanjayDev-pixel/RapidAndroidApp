@@ -36,6 +36,17 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return getUserToken().exIsNotEmptyOrNullOrBlank()
     }
 
+    override fun setPropertySelection(value: String) {
+        val propertySelection = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PROPERTY_SELECTION)
+        propertySelection.putString(SharedPreferencesBean.KEY_PROPERTY_SELECTION,value)
+    }
+
+    override fun getPropertySelection(): Boolean {
+        val spPropertySelection = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PROPERTY_SELECTION)
+        val propertySelection = spPropertySelection.getString(SharedPreferencesBean.KEY_PROPERTY_SELECTION)
+        return propertySelection == "Yes"
+    }
+
     override fun savePersonalInfoForApplicants(applicants: ArrayList<PersonalApplicants>) {
         val objPersonalApplicants = Gson().toJson(applicants)
         val objSPPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)

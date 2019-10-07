@@ -27,6 +27,7 @@ import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -43,6 +44,8 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
     private var personalAddressDetail: ArrayList<AddressDetail>? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+    @Inject
+    lateinit var formValidation: FormValidation
 
     companion object {
         private const val GALLERY = 1
@@ -69,6 +72,20 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         setDatePicker()
         setDropDownValue()
         setClickListeners()
+        checkPropertySelection()
+    }
+
+    private fun checkPropertySelection() {
+        val selected = sharedPreferences.getPropertySelection()
+        if (!selected) {
+            Toast.makeText(context, "Property not selected in Loan Information",
+                    Toast.LENGTH_SHORT).show()
+            disableAllFields()
+        }
+    }
+
+    private fun disableAllFields() {
+        formValidation.disablePersonalFields(binding)
     }
 
     private fun setCoApplicants() {

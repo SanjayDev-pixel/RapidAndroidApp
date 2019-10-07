@@ -11,6 +11,7 @@ import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
  */
 
 class FormValidationImpl(private val context: Context) : FormValidation {
+
     override fun validatePersonalInfo(binding: FragmentPersonalBinding): Boolean {
         var errorCount = 0
         val firstName = binding.basicInfoLayout.etFirstName.text.toString()
@@ -49,14 +50,14 @@ class FormValidationImpl(private val context: Context) : FormValidation {
             binding.addressLayout.etCurrentLandmark.error = "Landmark can not be blank"
         }
 
-        val currentPincode = binding.addressLayout.etCurrentPinCode.text.toString()
-        if (!currentPincode.exIsNotEmptyOrNullOrBlank()) {
+        val currentPinCode = binding.addressLayout.etCurrentPinCode.text.toString()
+        if (!currentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.addressLayout.etCurrentPinCode.error = "Pin code can not be blank"
         }
 
-        val permanentPincode = binding.addressLayout.etPermanentPinCode.text.toString()
-        if (!permanentPincode.exIsNotEmptyOrNullOrBlank()) {
+        val permanentPinCode = binding.addressLayout.etPermanentPinCode.text.toString()
+        if (!permanentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.addressLayout.etPermanentPinCode.error = "Pin code can not be blank"
         }
@@ -107,8 +108,61 @@ class FormValidationImpl(private val context: Context) : FormValidation {
             errorCount++
             binding.etEmi.error = "EMI can not be blank"
         }
-
         return isValidForm(errorCount)
+    }
+
+    override fun disablePersonalFields(binding: FragmentPersonalBinding) {
+        binding.spinnerIdentificationType.isClickable = false
+        binding.etIdNum.isClickable = false
+        binding.etExpiryDate.isClickable = false
+        binding.etIssueDate.isClickable = false
+        binding.btnSaveAndContinue.isClickable = false
+        binding.ivUploadKyc.isClickable = false
+        binding.spinnerVerifiedStatus.isClickable = false
+        binding.basicInfoLayout.ivUploadDobProof.isClickable = false
+        binding.basicInfoLayout.btnGetOTP.isClickable = false
+        binding.basicInfoLayout.btnVerifyOTP.isClickable = false
+        binding.basicInfoLayout.etAge.isClickable = false
+        binding.basicInfoLayout.etEmail.isClickable = false
+        binding.basicInfoLayout.etFatherFirstName.isClickable = false
+        binding.basicInfoLayout.etFatherMiddleName.isClickable = false
+        binding.basicInfoLayout.etFatherLastName.isClickable = false
+        binding.basicInfoLayout.etFirstName.isClickable = false
+        binding.basicInfoLayout.etLastName.isClickable = false
+        binding.basicInfoLayout.etMiddleName.isClickable = false
+        binding.basicInfoLayout.etSpouseFirstName.isClickable = false
+        binding.basicInfoLayout.etSpouseMiddleName.isClickable = false
+        binding.basicInfoLayout.etSpouseLastName.isClickable = false
+        binding.basicInfoLayout.spinnerReligion.isClickable = false
+        binding.basicInfoLayout.spinnerCaste.isClickable = false
+        binding.basicInfoLayout.etNumOfDependent.isClickable = false
+        binding.basicInfoLayout.spinnerDobProof.isClickable = false
+        binding.basicInfoLayout.spinnerNationality.isClickable = false
+        binding.basicInfoLayout.spinnerQualification.isClickable = false
+        binding.basicInfoLayout.etMobile.isClickable = false
+        binding.basicInfoLayout.spinnerGender.isClickable = false
+        binding.basicInfoLayout.etDOB.isClickable = false
+        binding.basicInfoLayout.etAlternateNum.isClickable = false
+        binding.addressLayout.etCurrentAddress.isClickable = false
+        binding.addressLayout.etPermanentAddress.isClickable = false
+        binding.addressLayout.etCurrentLandmark.isClickable = false
+        binding.addressLayout.etCurrentPinCode.isClickable = false
+        binding.addressLayout.etPermanentPinCode.isClickable = false
+        binding.addressLayout.etCurrentCity.isClickable = false
+        binding.addressLayout.etPermanentCity.isClickable = false
+        binding.addressLayout.etPermanentStaying.isClickable = false
+        binding.addressLayout.etCurrentStaying.isClickable = false
+        binding.addressLayout.spinnerPermanentResidenceType.isClickable = false
+        binding.addressLayout.spinnerPermanentState.isClickable = false
+        binding.addressLayout.spinnerPermanentDistrict.isClickable = false
+        binding.addressLayout.spinnerPermanentAddressProof.isClickable = false
+        binding.addressLayout.spinnerCurrentAddressProof.isClickable = false
+        binding.addressLayout.spinnerCurrentDistrict.isClickable = false
+        binding.addressLayout.spinnerCurrentState.isClickable = false
+        binding.addressLayout.cbSameAsCurrent.isClickable = false
+        binding.addressLayout.etCurrentRentAmount.isClickable = false
+        binding.addressLayout.etPermanentLandmark.isClickable = false
+        binding.addressLayout.etPermanentRentAmount.isClickable = false
     }
 
     override fun validateEmployment(binding: FragmentEmploymentBinding): Boolean {

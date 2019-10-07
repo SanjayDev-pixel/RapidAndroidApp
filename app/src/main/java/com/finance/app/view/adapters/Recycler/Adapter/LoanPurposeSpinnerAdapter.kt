@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.finance.app.R
 import motobeans.architecture.retrofit.response.Response
 
-class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response.LoanPurpose>,
+class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response.LoanPurpose>?,
                                 val isMandatory: Boolean = false) : BaseAdapter() {
 
     private var inflater: LayoutInflater = context1.getSystemService(
@@ -18,7 +18,7 @@ class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response
     private lateinit var spinnerValue: Response.LoanPurpose
 
     override fun getItem(position: Int): Any? {
-        return value[position]
+        return value?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -26,7 +26,7 @@ class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response
     }
 
     override fun getCount(): Int {
-        return value.size
+        return value?.size ?: 0
     }
 
     override
@@ -36,7 +36,7 @@ class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value[position]
+        spinnerValue = value?.get(position)?: value?.get(0)!!
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)

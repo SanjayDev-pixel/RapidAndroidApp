@@ -9,10 +9,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.finance.app.R
 import com.finance.app.databinding.FragmentLoanInformationBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
@@ -24,7 +24,6 @@ import com.finance.app.utility.UploadData
 import com.finance.app.view.activity.DashboardActivity
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.Recycler.Adapter.LoanProductSpinnerAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.LoanPurposeSpinnerAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
@@ -77,43 +76,17 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
         setClickListeners()
     }
 
-    private fun setClickListeners() {
-        binding.ivUploadForm.setOnClickListener {
-            UploadData(frag, context!!)
-        }
-        binding.ivThumbnail.setOnClickListener {
-            UploadedFormDataActivity.start(context!!, image, pdf)
-        }
-        binding.btnSaveAndContinue.setOnClickListener {
-            if (formValidation.validateLoanInformation(binding = binding)) {
-                Toast.makeText(context, "Successfully Validated", Toast.LENGTH_SHORT).show()
-                loanInfoPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO)
-            }
-        }
-        binding.spinnerLoanProduct?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                showToast("Spinner1: position=$position id=$id")
-                val loanProduct: LoanProductMaster = binding.spinnerLoanProduct.adapter.
-                        getItem(position) as LoanProductMaster
-                binding.spinnerLoanPurpose.adapter = LoanPurposeSpinnerAdapter(context!!,
-                        loanProduct.loanPurposeList!!)
-            }
-        }
-    }
-
     private fun getDropDownsFromDB() {
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProduct ->
+            loanProduct.let {
+                loanProducts = it
+                setProductDropDownValue(loanProducts)
+            }
+        })
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
             masterDrownDownValues.let {
                 allMasterDropDown = it
                 setMasterDropDownValue(allMasterDropDown)
-            }
-        })
-
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProductPurpose ->
-            loanProductPurpose.let {
-                loanProducts = it
-                setProductDropDownValue(loanProducts)
             }
         })
     }
@@ -121,6 +94,14 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
     private fun setProductDropDownValue(products: List<LoanProductMaster>) {
         loanProducts = products
         binding.spinnerLoanProduct.adapter = LoanProductSpinnerAdapter(context!!, loanProducts)
+//        binding.spinnerLoanProduct?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onNothingSelected(parent: AdapterView<*>?) {}
+//            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+//                val loanProduct:LoanProductMaster? = parent.selectedItem as LoanProductMaster
+//                binding.spinnerLoanPurpose.adapter = LoanPurposeSpinnerAdapter(context!!,
+//                        loanProduct?.loanPurposeList)
+//            }
+//        }
     }
 
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
@@ -149,6 +130,31 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
         ShowAsMandatory(binding.inputLayoutEmi)
     }
 
+    private fun setClickListeners() {
+        binding.ivUploadForm.setOnClickListener {
+            UploadData(frag, context!!)
+        }
+        binding.ivThumbnail.setOnClickListener {
+            UploadedFormDataActivity.start(context!!, image, pdf)
+        }
+        binding.btnSaveAndContinue.setOnClickListener {
+            if (formValidation.validateLoanInformation(binding = binding)) {
+                Toast.makeText(context, "Successfully Validated", Toast.LENGTH_SHORT).show()
+                loanInfoPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO)
+                setPropertySelection()
+            }
+        }
+    }
+
+    private fun setPropertySelection() {
+        if (binding.cbPropertySelected.isChecked) {
+            sharedPreferences.setPropertySelection("Yes")
+            showToast("Property Selected")
+        } else {
+            sharedPreferences.setPropertySelection("No")
+        }
+    }
+
     override val loanInfoRequest: Requests.RequestLoanInfo
         get() = requestLoanInfo
 
@@ -170,7 +176,14 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
 
     override fun getLoanInfoSuccess(value: Response.ResponseLoanInfo) {
         showToast("Success")
-        DashboardActivity.start(context!!)
+        gotoNextFragment()
+    }
+
+    private fun gotoNextFragment() {
+        val ft = fragmentManager?.beginTransaction()
+        ft?.replace(R.id.secondaryFragmentContainer, PersonalInfoFragment())
+        ft?.addToBackStack(null)
+        ft?.commit()
     }
 
     override fun getLoanInfoFailure(msg: String) {

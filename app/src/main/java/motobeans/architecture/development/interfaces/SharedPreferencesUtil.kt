@@ -14,6 +14,8 @@ interface SharedPreferencesUtil {
     fun getPersonalInfoForApplicants(applicantNum:Int):PersonalApplicants
     fun getUserToken(): String?
     fun getUserName(): String?
+    fun setPropertySelection(value: String)
+    fun getPropertySelection(): Boolean
     fun getUserBranches(): ArrayList<Response.UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
     fun getNavMenuItem(): HashMap<String, Int>?

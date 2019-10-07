@@ -2,10 +2,6 @@ package motobeans.architecture.development.interfaces
 
 import com.finance.app.databinding.*
 
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
-
 interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
     fun validatePersonalInfo(binding: FragmentPersonalBinding):Boolean
@@ -15,6 +11,5 @@ interface FormValidation {
     fun validateAssetLiability(binding: FragmentAssetLiablityBinding):Boolean
     fun validateReference(binding: FragmentReferenceBinding):Boolean
     fun validateProperty(binding: FragmentPropertyBinding):Boolean
-
-
+    fun disablePersonalFields(binding: FragmentPersonalBinding)
 }

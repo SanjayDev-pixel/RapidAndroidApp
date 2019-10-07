@@ -203,7 +203,16 @@
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-            <LinearLayout
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/cbPropertySelected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/margin_10"
+                    android:text="Property Selected"
+                    android:textSize="@dimen/button_text_size" />
+
+                <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="true"
@@ -216,7 +225,6 @@
                 android:layout_weight="1"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/fields_margin"
                 android:src="@drawable/upload_icon" />
 
             <ImageView
@@ -225,7 +233,7 @@
                 android:layout_weight="1"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/fields_margin" />
+                />
 
             <ImageView
                 android:id="@+id/ivPdf"
@@ -235,7 +243,7 @@
                 android:layout_height="50sp"
                 android:visibility="gone"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/fields_margin" />
+                />
 
             </LinearLayout>
 
