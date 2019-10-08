@@ -145,4 +145,8 @@
     <string name="applicant_last_name">Applicant Last Name</string>
     <string name="property_selected">Property Selected</string>
     <string name="add_transaction">Add Transaction</string>
+    <string name="login_checklist">Login Checklist</string>
+    <string name="call">Call</string>
+    <string name="call_update">Call Update</string>
+    <string name="application">Application</string>
 </resources>

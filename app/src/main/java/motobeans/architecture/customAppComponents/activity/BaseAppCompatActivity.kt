@@ -113,7 +113,6 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     when (item?.itemId) {
         R.id.send_notification -> showToast("Notification")
         R.id.send_sms -> showToast("SMS")
-        R.id.send_whatsapp -> showToast("Whats App")
         R.id.search -> showToast("Searching")
     }
     return super.onOptionsItemSelected(item)
@@ -177,7 +176,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   fun showLeadOptionsMenu() {
     val menuOption = bindingParent.appBarWithLayout.toolbarMain.menu
-//    menuOption.findItem(R.id.group_lead_action).isVisible = true
+    menuOption.findItem(R.id.group_lead_action).isVisible = true
   }
 
   fun hideSecondaryToolbar() {

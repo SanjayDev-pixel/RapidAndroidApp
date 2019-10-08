@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Lead Number : "
+                android:text="@string/lead_number"
                 android:textColor="@color/white" />
 
             <TextView
@@ -87,7 +87,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:layout_marginStart="@dimen/margin_20"
                             android:text="ajkbnvjadbhvkhbvljabvlbavlbl"
                             android:textSize="20sp" />
 
@@ -199,6 +198,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_20"
+                    style="?android:attr/buttonBarStyle"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -207,11 +207,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/margin_10"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:layout_weight="1"
                         android:background="@drawable/button_theme_style"
                         android:padding="5sp"
                         android:textColor="@color/white"
-                        android:text="Application"
+                        android:text="@string/application"
                         android:textSize="@dimen/button_text_size"
                         />
 
@@ -220,13 +221,15 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:layout_marginEnd="@dimen/margin_10"
+                        android:autoLink="phone"
                         android:background="@drawable/button_theme_style"
                         android:backgroundTint="@color/md_red_600"
                         android:padding="5sp"
                         android:textColor="@color/white"
                         android:layout_weight="1"
-                        android:text="Call"
+                        android:text="@string/call"
                         android:textSize="@dimen/button_text_size" />
 
                     <Button
@@ -236,11 +239,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10"
                         android:textSize="@dimen/button_text_size"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:padding="5sp"
                         android:background="@drawable/button_theme_style"
                         android:backgroundTint="@color/md_grey_800"
                         android:layout_weight="1"
-                        android:text="Call Update" />
+                        android:text="@string/call_update" />
 
                 </LinearLayout>
 
@@ -277,7 +281,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/md_grey_300"
+                        app:backgroundTint="@color/md_grey_300"
                         android:background="@drawable/button_theme_style"
                         android:padding="3sp"
                         android:text="@string/add_task"

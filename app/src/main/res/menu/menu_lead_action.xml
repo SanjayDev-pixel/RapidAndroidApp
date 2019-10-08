@@ -4,17 +4,13 @@
     <group
         android:id="@+id/group_lead_action"
         android:visible="false"
-        app:showAsAction="ifRoom">
+        app:showAsAction="collapseActionView">
         <item
             android:id="@+id/send_notification"
             android:title="@string/send_notification" />
         <item
             android:id="@+id/send_sms"
             android:title="@string/send_sms" />
-        <item
-            android:id="@+id/send_whatsapp"
-            android:title="@string/send_whatsapp" />
-
         <item
             android:id="@+id/call_to_customers"
             android:title="@string/call_to_customer" />
@@ -24,5 +20,5 @@
         android:id="@+id/search"
         android:icon="@drawable/ic_vector_search"
         android:title="@string/search"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 </menu>

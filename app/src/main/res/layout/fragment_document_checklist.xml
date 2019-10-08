@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,22 +24,42 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/heading_background"
-                    android:text="Login Checklist"
+                    android:text="@string/login_checklist"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcApplicants"
-                    android:layout_marginTop="@dimen/margin_10"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+                    android:scrollbars="horizontal"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:orientation="horizontal">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/rcApplicants"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:layout_height="wrap_content"/>
+
+                    <Button
+                        android:id="@+id/btnAddApplicant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_toEndOf="@id/rcApplicants"
+                        android:text="@string/add_icon"
+                        android:layout_marginStart="5sp"
+                        android:textSize="@dimen/button_text_size"
+                        android:textColor="@color/black"
+                        android:background="@drawable/applicant_selected_tab" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
                     android:text="@string/mandatory_documents"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/black" />

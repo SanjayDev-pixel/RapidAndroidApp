@@ -2,7 +2,7 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.view.Menu
+import android.net.Uri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
@@ -23,18 +23,29 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
-        showLeadOptionsMenu()
+//        showLeadOptionsMenu()
+        setClickListeners()
         binding.rcActivities.layoutManager = LinearLayoutManager(this)
         binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
+    }
 
+    private fun setClickListeners() {
         binding.btnUpdateApplication.setOnClickListener {
             LoanApplicationActivity.start(this)
         }
 
         binding.btnCallToCustomer.setOnClickListener {
+            val mobileNum = 8920992443
+            val callIntent = Intent(Intent.ACTION_CALL)
+            callIntent.data = Uri.parse("tel: +91${mobileNum}")
+            startActivity(callIntent)
         }
 
-        binding.btnAddTask.setOnClickListener{
+        binding.btnCallUpdates.setOnClickListener {
+            UpdateCallActivity.start(this)
+        }
+
+        binding.btnAddTask.setOnClickListener {
             AddTaskActivity.start(this)
         }
     }

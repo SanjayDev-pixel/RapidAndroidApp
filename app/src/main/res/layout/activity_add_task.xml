@@ -5,8 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="@dimen/margin_10">
+        android:background="@drawable/background">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -177,6 +176,7 @@
                     android:gravity="center"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:padding="5sp"
                     android:background="@drawable/button_theme_style"
                     android:text="Add"

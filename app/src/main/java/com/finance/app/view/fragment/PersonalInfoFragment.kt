@@ -25,6 +25,8 @@ import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
+import kotlinx.android.synthetic.main.layout_address.view.*
+import kotlinx.android.synthetic.main.layout_basic_detail.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -108,7 +110,6 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         }
 
         binding.basicInfoLayout.btnVerifyOTP.setOnClickListener {
-            Toast.makeText(mContext, binding.basicInfoLayout.otpView.text, Toast.LENGTH_SHORT).show()
         }
 
         binding.btnAddKYC.setOnClickListener {
@@ -289,7 +290,6 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         binding.addressLayout.spinnerCurrentDistrict.adapter = MasterSpinnerAdapter(mContext, lists)
         binding.addressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(mContext, lists)
         binding.addressLayout.spinnerCurrentState.adapter = MasterSpinnerAdapter(mContext, lists)
-
         binding.addressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, lists)
         binding.addressLayout.spinnerPermanentDistrict.adapter = MasterSpinnerAdapter(mContext, lists)
         binding.addressLayout.spinnerPermanentState.adapter = MasterSpinnerAdapter(mContext, lists)

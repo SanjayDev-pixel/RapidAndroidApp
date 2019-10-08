@@ -71,9 +71,9 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
 
         fun bindItems(navItem: Modals.NavItems) {
             binding.tvNavItem.text = navItem.title
-            binding.iconNavItem.setImageResource(navItem.images)
+            binding.iconNavItem.setImageResource(navItem.image)
             binding.iconNavItem.setOnClickListener {
-                changeFragmentOnIconClick(navItem.images)
+                changeFragmentOnIconClick(navItem.image)
             }
 
             binding.tvNavItem.setOnClickListener {
@@ -105,7 +105,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
                 R.drawable.assest_details_white -> updateSecondaryFragment(AssetLiabilityFragment())
                 R.drawable.reffrence_white -> updateSecondaryFragment(ReferenceFragment())
                 R.drawable.property_icon_white -> updateSecondaryFragment(PropertyFragment())
-                R.drawable.document_checklist -> updateSecondaryFragment(DocumentCheckListFragment())
+                R.drawable.checklist -> updateSecondaryFragment(DocumentCheckListFragment())
             }
         }
 

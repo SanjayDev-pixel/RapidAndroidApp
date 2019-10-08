@@ -4,6 +4,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
+            android:background="@drawable/background"
             xmlns:app="http://schemas.android.com/tools"
             android:layout_height="match_parent">
 
@@ -33,16 +34,17 @@
                         android:textStyle="bold" />
 
                     <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerCustomerStatus"
+                        android:id="@+id/spinnerCallStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minWidth="@dimen/text_min_width"
                         app:ms_arrowColor="@color/black"
-                        android:layout_marginTop="@dimen/fields_margin"
-                        app:ms_arrowSize="@dimen/arrow_size"
+                        app:ms_arrowSize="16dp"
+                        android:textSize="@dimen/button_text_size"
+                        android:spinnerMode="dropdown"
                         app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Customer Status "
-                        app:ms_hint="Customer Status "
+                        app:ms_floatingLabelText="Call Status "
+                        app:ms_hint="Call Status "
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
@@ -58,6 +60,7 @@
                         layout="@layout/layout_not_interested"/>
 
                     <include
+                        android:visibility="gone"
                         android:id="@+id/layoutFollowUp"
                         layout="@layout/layout_follow_up"/>
 

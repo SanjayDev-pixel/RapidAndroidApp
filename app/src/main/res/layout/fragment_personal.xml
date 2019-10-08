@@ -98,7 +98,7 @@
                             android:minWidth="@dimen/text_min_width"
                             app:ms_arrowColor="@color/black"
                             app:ms_arrowSize="16dp"
-                            android:textSize="@dimen/text_size"
+                            android:textSize="@dimen/button_text_size"
                             android:spinnerMode="dialog"
                             app:ms_floatingLabelColor="@color/hint_color"
                             app:ms_floatingLabelText="Identification Type"

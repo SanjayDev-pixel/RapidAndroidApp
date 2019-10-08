@@ -1,22 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="start|center_vertical"
+        android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/llDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
-        android:gravity="start"
+        android:gravity="start|center_vertical"
         android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatCheckBox
+        <TextView
             android:id="@+id/cbDocument"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_10"
+            android:layout_marginStart="0sp"
+            android:layout_weight="2"
             android:layoutDirection="rtl"
             android:textSize="@dimen/button_text_size"
             android:text="Signed and Accepted Charges and Document List"
             android:textColor="@color/black" />
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/spinnerDocumentStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_weight="1"
+            android:minWidth="@dimen/text_min_width"
+            android:spinnerMode="dialog"
+            android:textSize="@dimen/text_size"
+            app:ms_arrowColor="@color/black"
+            app:ms_arrowSize="@dimen/text_size"
+            app:ms_floatingLabelColor="@color/hint_color"
+            app:ms_hintColor="@color/hint_color"
+            app:ms_hintTextSize="@dimen/hint_size"
+            app:ms_multiline="false" />
+
+    </LinearLayout>
+
+        <include layout="@layout/line_seperator" />
     </LinearLayout>
 </layout>

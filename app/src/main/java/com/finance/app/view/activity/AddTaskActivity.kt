@@ -20,8 +20,8 @@ class AddTaskActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
-        hideToolbar()
-        hideSecondaryToolbar()
+//        hideToolbar()
+//        hideSecondaryToolbar()
         binding.btnAddTask.setOnClickListener {
         }
     }

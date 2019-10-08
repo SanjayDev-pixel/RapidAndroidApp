@@ -2,6 +2,7 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAddLeadBinding
 import com.finance.app.databinding.ActivityNotificationBinding
@@ -32,7 +33,7 @@ class NotificationActivity : BaseAppCompatActivity(){
     }
 
     private fun setUpRecyclerView() {
-        binding.rcNotification.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        binding.rcNotification.layoutManager = LinearLayoutManager(this)
         binding.rcNotification.adapter = NotificationAdapter(this)
     }
 }
