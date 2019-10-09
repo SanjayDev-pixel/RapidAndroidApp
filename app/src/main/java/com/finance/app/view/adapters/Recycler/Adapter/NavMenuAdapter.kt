@@ -73,26 +73,26 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
             binding.tvNavItem.text = navItem.title
             binding.iconNavItem.setImageResource(navItem.image)
             binding.iconNavItem.setOnClickListener {
+                selectedPos = adapterPosition
                 changeFragmentOnIconClick(navItem.image)
+                notifyDataSetChanged()
             }
 
             binding.tvNavItem.setOnClickListener {
+                selectedPos = adapterPosition
                 changeFragment(navItem.title)
+                notifyDataSetChanged()
             }
         }
 
         private fun changeFragment(title: String) {
             navigateToAnotherFragment(title)
             (mContext as LoanApplicationActivity).handleCollapseScreen(false)
-            selectedPos = adapterPosition
-            notifyDataSetChanged()
         }
 
         private fun changeFragmentOnIconClick(icon: Int) {
             navigateToAnotherFragmentOnIconCLick(icon)
             (mContext as LoanApplicationActivity).handleCollapseScreen(false)
-            selectedPos = adapterPosition
-            notifyDataSetChanged()
         }
 
         private fun navigateToAnotherFragmentOnIconCLick(icon: Int) {
@@ -124,8 +124,11 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
         }
 
         private fun updateSecondaryFragment(fragment: Fragment) {
-            val ft = (mContext as AppCompatActivity).supportFragmentManager.beginTransaction()
-            ft.replace(R.id.secondaryFragmentContainer, fragment)
+            val ft = (mContext as AppCompatActivity).supportFragmentManager.
+                    beginTransaction().apply {
+                add(R.id.secondaryFragmentContainer, fragment)
+                addToBackStack(null)
+            }
             ft.commit()
         }
     }

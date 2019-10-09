@@ -6,7 +6,8 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
-import com.finance.app.view.fragment.*
+import com.finance.app.view.fragment.LoanInformationFragment
+import com.finance.app.view.fragment.NavMenuFragment
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 
@@ -39,15 +40,18 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
 
     private fun setNavFragment() {
         val fragment = NavMenuFragment()
-        val ft = supportFragmentManager.beginTransaction()
-        ft.add(R.id.navMenuContainer, fragment)
+        val ft = supportFragmentManager.beginTransaction().apply {
+            replace(R.id.navMenuContainer, fragment)
+            addToBackStack(null)
+        }
         ft.commit()
     }
 
     private fun setSecondaryFragment(fragment: Fragment) {
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.secondaryFragmentContainer, fragment)
-        ft.addToBackStack(null)
+        val ft = supportFragmentManager.beginTransaction().apply {
+            add(R.id.secondaryFragmentContainer, fragment)
+            addToBackStack(null)
+        }
         ft.commit()
     }
 
