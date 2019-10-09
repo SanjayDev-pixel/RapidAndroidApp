@@ -12,7 +12,7 @@ import com.finance.app.databinding.ItemObligationBinding
 
 class DocumentCheckListAdapter(private val mContext: Context) : RecyclerView.Adapter<DocumentCheckListAdapter.DocumentCheckListViewHolder>() {
     private lateinit var binding: ItemDocumentChecklistBinding
-    private val documentStatus = arrayOf("YES", "NO", "NA")
+    private val documentStatus = arrayOf("Select","YES", "NO", "NA")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentCheckListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

@@ -20,7 +20,7 @@ class DocumentCheckListFragment : Fragment(), ApplicantsAdapter.ItemClickListene
 
     private lateinit var binding: FragmentDocumentChecklistBinding
     private lateinit var mContext: Context
-    private var applicantsList: ArrayList<PersonalApplicants>? = null
+    private lateinit var applicantsList: ArrayList<PersonalApplicants>
     private var personalAddressDetail: ArrayList<AddressDetail>? = null
     private var applicantAdapter: ApplicantsAdapter? = null
     @Inject
@@ -43,6 +43,7 @@ class DocumentCheckListFragment : Fragment(), ApplicantsAdapter.ItemClickListene
         showDocumentList()
         setCoApplicants()
         setClickListeners()
+        applicantsList = ArrayList()
     }
 
     private fun setClickListeners() {
@@ -84,8 +85,8 @@ class DocumentCheckListFragment : Fragment(), ApplicantsAdapter.ItemClickListene
         }
 
     private fun saveCurrentApplicant(position: Int) {
-        applicantsList!!.add(applicant)
-        sharedPreferences.savePersonalInfoForApplicants(applicantsList!!)
+        applicantsList.add(applicant)
+        sharedPreferences.savePersonalInfoForApplicants(applicantsList)
     }
 
     private fun changeCurrentApplicant() {
