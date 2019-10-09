@@ -25,8 +25,6 @@ import com.finance.app.utility.UploadData
 import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
-import kotlinx.android.synthetic.main.layout_address.view.*
-import kotlinx.android.synthetic.main.layout_basic_detail.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -53,7 +51,7 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         private const val CAMERA = 2
         private var coApplicant = 1
         private lateinit var kycList: ArrayList<Modals.AddKyc>
-        private lateinit var applicantMenu: ArrayList<String>
+        private lateinit var applicantTab: ArrayList<String>
         private var image: Bitmap? = null
     }
 
@@ -67,7 +65,7 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         ArchitectureApp.instance.component.inject(this)
         kycList = ArrayList()
-        applicantMenu = ArrayList()
+        applicantTab = ArrayList()
         checkKycDataList()
         setCoApplicants()
         setDatePicker()
@@ -90,12 +88,12 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
     }
 
     private fun setCoApplicants() {
-        applicantMenu.add("Applicant")
+        applicantTab.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
-        applicantAdapter!!.setOnItemClickListener(this)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantTab)
         binding.rcApplicants.adapter = applicantAdapter
+        applicantAdapter!!.setOnItemClickListener(this)
     }
 
     private fun checkKycDataList() {
@@ -122,11 +120,12 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         }
 
         binding.btnAddApplicant.setOnClickListener {
-            onAddApplicantClick()
+            onAddCoApplicantClick()
         }
 
         binding.btnSaveAndContinue.setOnClickListener{
             setIncomeConsidered()
+            sharedPreferences.savePersonalInfoForApplicants(applicantsList!!)
         }
 
         binding.addressLayout.cbSameAsCurrent.setOnClickListener {
@@ -186,26 +185,32 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         }
     }
 
-    private fun onAddApplicantClick() {
-//        checkMandatoryField()
-        applicantMenu.add("Co- Applicant $coApplicant")
-        binding.rcApplicants.adapter!!.notifyDataSetChanged()
-        coApplicant++
+    private fun onAddCoApplicantClick() {
+        if (checkMandatoryField()) {
+            saveCurrentApplicant()
+            applicantTab.add("Co- Applicant $coApplicant")
+            binding.rcApplicants.adapter!!.notifyDataSetChanged()
+            ClearPersonalForm(binding)
+            coApplicant++
+        }
+    }
+
+    private fun checkMandatoryField(): Boolean {
+        return formValidation.validatePersonalInfo(binding)
     }
 
     override fun onApplicantClick(position: Int) {
-//        saveCurrentApplicant(position)
-        ClearPersonalForm(binding)
-        changeCurrentApplicant()
-        setDropDownValue()
+        saveCurrentApplicant()
+        getParticularApplicantData(position)
     }
 
-    private fun saveCurrentApplicant(position: Int) {
+    private fun getParticularApplicantData(position: Int) {
+
+    }
+
+    private fun saveCurrentApplicant() {
         applicantsList!!.add(applicant)
         sharedPreferences.savePersonalInfoForApplicants(applicantsList!!)
-    }
-
-    private fun checkMandatoryField() {
     }
 
     private val applicant: PersonalApplicants
@@ -221,16 +226,13 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
 
     private val contactDetail: ContactDetail
         get() {
-                applicantMenu.add(applicantMenu.size - 1, "Co-Applicant:${coApplicant}")
+            applicantTab.add(applicantTab.size - 1, "Co-Applicant:${coApplicant}")
                 applicantAdapter!!.notifyDataSetChanged()
-                saveCurrentApplicant(applicantMenu.size - 1)
-                applicantMenu.add("Co- Applicant $coApplicant")
+            saveCurrentApplicant()
+            applicantTab.add("Co- Applicant $coApplicant")
                 coApplicant++
             return ContactDetail()
         }
-
-    private fun changeCurrentApplicant() {
-    }
 
     private fun setDropDownValue() {
         val identificationType = arrayOf("PAN", "UID", "Passport")

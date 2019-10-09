@@ -118,6 +118,7 @@ class FormValidationImpl(private val context: Context) : FormValidation {
         binding.etIssueDate.isEnabled = false
         binding.btnSaveAndContinue.isEnabled = false
         binding.ivUploadKyc.isClickable = false
+        binding.btnAddKYC.isEnabled = false
         binding.spinnerVerifiedStatus.isEnabled = false
         binding.basicInfoLayout.ivUploadDobProof.isClickable = false
         binding.basicInfoLayout.btnGetOTP.isEnabled = false

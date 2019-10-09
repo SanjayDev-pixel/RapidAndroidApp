@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.finance.app.R
@@ -21,9 +21,9 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanInfoPresenter
 import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.utility.UploadData
-import com.finance.app.view.activity.DashboardActivity
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.Recycler.Adapter.LoanProductSpinnerAdapter
+import com.finance.app.view.adapters.Recycler.Adapter.LoanPurposeSpinnerAdapter
 import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
@@ -94,14 +94,19 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
     private fun setProductDropDownValue(products: List<LoanProductMaster>) {
         loanProducts = products
         binding.spinnerLoanProduct.adapter = LoanProductSpinnerAdapter(context!!, loanProducts)
-//        binding.spinnerLoanProduct?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onNothingSelected(parent: AdapterView<*>?) {}
-//            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-//                val loanProduct:LoanProductMaster? = parent.selectedItem as LoanProductMaster
-//                binding.spinnerLoanPurpose.adapter = LoanPurposeSpinnerAdapter(context!!,
-//                        loanProduct?.loanPurposeList)
-//            }
-//        }
+        binding.spinnerLoanProduct?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position>=0){
+                    setLoanPurposeDropdown(position)
+                }
+            }
+        }
+    }
+
+    private fun setLoanPurposeDropdown(position: Int) {
+        val loanPurposeList = loanProducts[position].loanPurposeList
+        binding.spinnerLoanPurpose.adapter = LoanPurposeSpinnerAdapter(context!!, loanPurposeList)
     }
 
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
@@ -139,9 +144,8 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
         }
         binding.btnSaveAndContinue.setOnClickListener {
             if (formValidation.validateLoanInformation(binding = binding)) {
-                Toast.makeText(context, "Successfully Validated", Toast.LENGTH_SHORT).show()
-                loanInfoPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO)
                 setPropertySelection()
+                loanInfoPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO)
             }
         }
     }
@@ -202,6 +206,7 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
     }
 
     override fun hideProgressDialog() {
+        BaseAppCompatActivity.progressDialog?.hide()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
