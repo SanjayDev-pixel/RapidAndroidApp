@@ -15,7 +15,7 @@ import com.finance.app.databinding.FragmentEmploymentBinding
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.SelectDate
 import com.finance.app.utility.UploadData
-import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -54,7 +54,7 @@ class EmploymentFragment : androidx.fragment.app.Fragment(){
     }
 
     private fun checkIncomeConsideration() {
-        val selected = sharedPreferences.getIncomeCosideration()
+        val selected = sharedPreferences.getIncomeConsideration()
         if (!selected) {
             Toast.makeText(context, "Income not considered in Loan Information",
                     Toast.LENGTH_SHORT).show()

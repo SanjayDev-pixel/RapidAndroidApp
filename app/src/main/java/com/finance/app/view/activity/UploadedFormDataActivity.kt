@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityUploadedFormDataBinding
-import com.finance.app.view.adapters.Recycler.Adapter.UploadFormDataAdapter
+import com.finance.app.view.adapters.recycler.adapter.UploadFormDataAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate

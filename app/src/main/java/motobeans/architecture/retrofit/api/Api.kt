@@ -8,6 +8,7 @@ import motobeans.architecture.retrofit.response.Response.ResponseSample
 import org.json.JSONObject
 import retrofit2.http.*
 
+
 /**
  * Created by munishkumarthakur on 04/11/17.
  */
@@ -37,6 +38,13 @@ interface Api {
     @GET("api/v1/master/loan-product-purpose")
     fun getLoanProduct(): Observable<Response.ResponseLoanProduct>
 
-    @GET("api/v1/master/branchID/1/channelType/3/employeeID/{dsaId}")
-    fun sourceChannelPartnerName(@Path("dsaId") dsaId: String?): Observable<Response.ResponseSourceChannelPartnerName>
+    @GET("api/v1/master/branchID/{branchId}/channelType/{channelType}/employeeID/{employeeId}")
+    fun sourceChannelPartnerName(@Path("branchId") branchId: String, @Path("channelType") channelType: String, @Path("employeeId") employeeId: String): Observable<Response.ResponseSourceChannelPartnerName>
+
+    @PUT("api/v1/loan/application/reference/detail/draft/{leadId}")
+    fun updateReference(@Path("leadId") leadId: String?, @Body requestUpdate: ArrayList<Requests.RequestUpdateReference>): Observable<Response.ResponseUpdateReference>
+
+    @GET("api/v1/pincode/{pinCode}")
+    fun getPinCodeDetail(@Path("pinCode") pinCode: String?): Observable<Response.ResponsePinCodeDetail>
+
 }

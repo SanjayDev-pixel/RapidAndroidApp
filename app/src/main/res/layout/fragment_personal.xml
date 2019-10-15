@@ -43,7 +43,7 @@
                     android:layout_marginStart="5sp"
                     android:textSize="@dimen/button_text_size"
                     android:textColor="@color/black"
-                    android:background="@drawable/applicant_selected_tab" />
+                    android:background="@drawable/selected_applicant_tab" />
 
             </RelativeLayout>
 
@@ -224,8 +224,8 @@
                     layout="@layout/layout_basic_detail" />
 
                 <include
-                    android:id="@+id/addressLayout"
-                    layout="@layout/layout_address" />
+                    android:id="@+id/personalAddressLayout"
+                    layout="@layout/layout_personal_address" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbIncomeConsidered"
@@ -248,6 +248,7 @@
                     android:textSize="@dimen/button_text_size" />
 
             </LinearLayout>
+
         </ScrollView>
     </RelativeLayout>
 </layout>

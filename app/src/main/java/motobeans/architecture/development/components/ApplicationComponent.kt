@@ -7,8 +7,8 @@ import com.finance.app.view.activity.AddLeadActivity
 import com.finance.app.view.activity.DashboardActivity
 import com.finance.app.view.activity.LoginActivity
 import com.finance.app.view.activity.SplashScreen
-import com.finance.app.view.adapters.Recycler.Adapter.TempRecyclerAdapter
-import com.finance.app.view.adapters.Recycler.Holder.TempHolder
+import com.finance.app.view.adapters.recycler.Holder.TempHolder
+import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.fragment.*
 import com.finance.app.viewModel.TempViewModel
 import com.optcrm.optreporting.AppModule
@@ -52,6 +52,7 @@ interface ApplicationComponent {
     fun inject(fragment: EmploymentFragment)
     fun inject(fragment: BankDetailFragment)
     fun inject(fragment: AssetLiabilityFragment)
+    fun inject(fragment: ReferenceFragment)
 
     /**
      * Presenters
@@ -64,6 +65,8 @@ interface ApplicationComponent {
     fun inject(loanInfoPresenter: LoanInfoPresenter)
     fun inject(sourceChannelPartnerNamePresenter: SourceChannelPartnerNamePresenter)
     fun inject(loanProductPresenter: LoanProductPresenter)
+    fun inject(updateReferencePresenter: UpdateReferencePresenter)
+    fun inject(presenter: PinCodeDetailPresenter)
 
     /**
      * View Model

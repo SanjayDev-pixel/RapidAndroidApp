@@ -5,14 +5,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:background="@color/white">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:paddingBottom="70sp">
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,6 +79,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/contact_no"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:singleLine="true"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -97,6 +98,8 @@
                             android:id="@+id/etKnownSince"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:singleLine="true"
                             android:hint="@string/known_since_in_years"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
@@ -132,6 +135,19 @@
 
                 </LinearLayout>
 
+                <include
+                    android:id="@+id/referenceAddressLayout"
+                    layout="@layout/layout_reference_address" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rcReference"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_marginBottom="@dimen/fields_margin"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_height="wrap_content"/>
+
                 <Button
                     android:id="@+id/btnAddReference"
                     android:layout_width="wrap_content"
@@ -145,7 +161,20 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
 
+
+                <Button
+                    android:id="@+id/btnSaveAndContinue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_50"
+                    android:background="@drawable/button_theme_style"
+                    android:layout_gravity="center"
+                    android:text="@string/save_and_continue"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button_text_size" />
+
             </LinearLayout>
+
         </ScrollView>
     </RelativeLayout>
 </layout>

@@ -11,18 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.PersonalApplicants
-import com.finance.app.view.adapters.Recycler.Adapter.*
+import com.finance.app.view.adapters.recycler.adapter.*
+import com.finance.app.model.Modals.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
+class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickListener {
     private lateinit var binding: FragmentAssetLiablityBinding
     private lateinit var mContext: Context
-    private var applicantAdapter: ApplicantsAdapter? = null
-    private var applicantsList: ArrayList<PersonalApplicants>? = null
+    private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
@@ -53,7 +52,7 @@ class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
     }
 
     private fun checkIncomeConsideration() {
-        val selected = sharedPreferences.getIncomeCosideration()
+        val selected = sharedPreferences.getIncomeConsideration()
         if (!selected) {
             Toast.makeText(context, "Income not considered in Loan Information",
                     Toast.LENGTH_SHORT).show()
@@ -69,9 +68,9 @@ class AssetLiabilityFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         applicantMenu.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
-        applicantAdapter!!.setOnItemClickListener(this)
-        binding.rcApplicants.adapter = applicantAdapter
+        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantMenu)
+        applicantAdapterPersonal!!.setOnItemClickListener(this)
+        binding.rcApplicants.adapter = applicantAdapterPersonal
     }
 
     override fun onApplicantClick(position: Int) {

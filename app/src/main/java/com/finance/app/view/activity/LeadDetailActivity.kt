@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
-import com.finance.app.view.adapters.Recycler.Adapter.LeadDetailActivityAdapter
+import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 

@@ -10,6 +10,8 @@ object SharedPreferencesBean {
     const val KEY_PERSONAL_APPLICANTS = "personal_applicants"
     const val KEY_PROPERTY_SELECTION = "property_selection"
     const val KEY_INCOME_CONSIDER = "income_consider"
+    const val KEY_CO_APPLICANT_SIZE = "co_applicant_size"
+    const val KEY_CO_APPLICANT_POSITION = "co_applicant_position"
 
     val Array_KEY_SHARED_PREFERENCES = arrayOf(KEY_LOGIN_DETAILS, KEY_PERSONAL_APPLICANTS)
 }

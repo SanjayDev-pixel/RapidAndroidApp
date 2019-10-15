@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.finance.app.databinding.FragmentPropertyBinding
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
 
 class PropertyFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentPropertyBinding

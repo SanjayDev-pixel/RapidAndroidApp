@@ -23,17 +23,17 @@ class LoanProductPresenter(private val loanInfo: LoanProductConnector.ViewOpt) :
 
     override fun callNetwork(type: ConstantsApi) {
         if (type == ConstantsApi.CALL_LOAN_PRODUCT) {
-            callLoanProductApi()
+            callUpdateReferenceDetailApi()
         }
     }
 
-    private fun callLoanProductApi() {
+    private fun callUpdateReferenceDetailApi() {
         val requestApi = apiProject.api.getLoanProduct()
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> loanInfo.showProgressDialog() }
+                .doOnSubscribe { loanInfo.showProgressDialog() }
                 .doFinally { loanInfo.hideProgressDialog() }
                 .subscribe({ response -> onLoanProductPurpose(response) },
                         { e -> loanInfo.getLoanProductFailure(e?.message ?: "") })

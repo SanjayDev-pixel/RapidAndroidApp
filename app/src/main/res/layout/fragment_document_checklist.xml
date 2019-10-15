@@ -29,38 +29,19 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="horizontal"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:orientation="horizontal">
-
-                    <androidx.recyclerview.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10"
                         android:id="@+id/rcApplicants"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:layout_height="wrap_content"/>
 
-                    <Button
-                        android:id="@+id/btnAddApplicant"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_toEndOf="@id/rcApplicants"
-                        android:text="@string/add_icon"
-                        android:layout_marginStart="5sp"
-                        android:textSize="@dimen/button_text_size"
-                        android:textColor="@color/black"
-                        android:background="@drawable/applicant_selected_tab" />
-
-                </RelativeLayout>
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mandatory_documents"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/black" />
 

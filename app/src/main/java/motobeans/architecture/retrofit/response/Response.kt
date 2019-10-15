@@ -36,7 +36,7 @@ object Response {
     data class ResponseAllMasterValue(val responseCode: String, val responseMsg: String,
                                       val responseObj: AllMasterDropDown, val timeStamp: Long)
 
-    class ResponsePersonalInfo(val draftDetailID: Int, val leadID: Int, val loanApplicationObj: LoanApplicationObj, val storageTypeID: Any, val userID: Any)
+    data class ResponseSavePersonalInfo(val draftDetailID: Int, val leadID: Int, val loanApplicationObj: LoanApplicationObj, val storageTypeID: Any, val userID: Any)
     data class LoanApplicationObj(val affordableEMI: Int, val channelPartnerDsaID: Int, val creditOfficerEmpID: Int, val creditOfficerEmpName: String, val interestTypeTypeDetailID: Int, val leadID: Int,
                                   val loanAmountRequest: Int, val loanApplicationID: Int, val loanPurposeID: Int, val loanSchemeTypeDetailID: Int, val logginUserEntityID: Int, val productID: Int,
                                   val ruleEngineResponse: String, val salesOfficerEmpID: Int, val salesOfficerEmpName: String, val sourcingChannelPartnerTypeDetailID: Int, val tenure: Int)
@@ -45,4 +45,7 @@ object Response {
     data class ChannelPartnerName(val branchID: Int, val channelTypeTypeDetailID: Int, val companyName: String, val dsaID: Int, val entityID: Int, val isActive: Boolean, val salesOfficerEmpID: Int)
     data class ResponseLoanProduct(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<LoanProductMaster>, val timeStamp: Long)
     data class LoanPurpose(val loanPurposeID: Int, val loanPurposeName: String)
+    data class ResponseUpdateReference(val responseCode: String, val responseMsg: String, val responseObj: Any, val timeStamp: Long)
+    data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ObjPinCode>, val timeStamp: Long)
+    data class ObjPinCode(val cityID: Int, val cityName: String, val districtID: Int, val districtName: String, val pincode: String, val pincodeID: Int, val stateID: Int, val stateName: String)
 }

@@ -26,7 +26,7 @@ class AddLeadPresenter(private val viewOpt: AddLeadConnector.ViewOpt) : AddLeadC
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_ADD_TASK) {
+        if (type == ConstantsApi.CALL_ADD_LEAD) {
                 callAddLeadApi()
         }
     }
@@ -37,7 +37,7 @@ class AddLeadPresenter(private val viewOpt: AddLeadConnector.ViewOpt) : AddLeadC
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
+                .doOnSubscribe { viewOpt.showProgressDialog() }
                 .doFinally { viewOpt.hideProgressDialog() }
                 .subscribe({ response -> onLeadAdd(response) },
                         { e -> viewOpt.getAddLeadFailure(e?.message ?: "") })

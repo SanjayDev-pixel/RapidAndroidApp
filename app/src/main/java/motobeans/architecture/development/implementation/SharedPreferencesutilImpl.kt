@@ -1,7 +1,7 @@
 package motobeans.architecture.development.implementation
 import android.content.Context
 import com.finance.app.R
-import com.finance.app.persistence.model.PersonalApplicants
+import com.finance.app.model.Modals
 import com.google.gson.Gson
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
@@ -52,22 +52,32 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         incomeConsider.putString(SharedPreferencesBean.KEY_INCOME_CONSIDER,value)
     }
 
-    override fun getIncomeCosideration(): Boolean {
+    override fun getIncomeConsideration(): Boolean {
         val spIncomeConsider = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_INCOME_CONSIDER)
         val incomeConsider = spIncomeConsider.getString(SharedPreferencesBean.KEY_INCOME_CONSIDER)
         return incomeConsider == "Yes"
     }
 
-    override fun savePersonalInfoForApplicants(applicants: ArrayList<PersonalApplicants>) {
+    override fun savePersonalInfoForApplicants(applicants: Modals.ApplicantPersonal) {
         val objPersonalApplicants = Gson().toJson(applicants)
         val objSPPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
         objSPPersonalApplicants.putString(SharedPreferencesBean.KEY_PERSONAL_APPLICANTS, objPersonalApplicants)
     }
 
-    override fun getPersonalInfoForApplicants(applicantNum: Int): PersonalApplicants {
+    override fun getPersonalInfoForApplicants(): Modals.ApplicantPersonal {
         val objSpPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
         val personalApplicantJson = objSpPersonalApplicants.getString(SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
-        return Gson().fromJson(personalApplicantJson, PersonalApplicants::class.java)
+        return Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
+    }
+
+    override fun setCoApplicantsPosition(position: String) {
+        val coApplicantPosition = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_CO_APPLICANT_POSITION)
+        coApplicantPosition.putString(SharedPreferencesBean.KEY_CO_APPLICANT_POSITION, position)
+    }
+
+    override fun getCoApplicantsPosition(): Int {
+        val spCoApplicantPosition = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_CO_APPLICANT_POSITION)
+        return spCoApplicantPosition.getString(SharedPreferencesBean.KEY_CO_APPLICANT_POSITION)!!.toInt()
     }
 
     override fun getRolePrivilege(): Response.RolePrivileges? {

@@ -4,16 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
-import com.finance.app.databinding.ActivityAddLeadBinding
 import com.finance.app.databinding.ActivityNotificationBinding
-import com.finance.app.presenter.connector.AddLeadConnector
-import com.finance.app.presenter.presenter.AddLeadPresenter
-import com.finance.app.view.adapters.Recycler.Adapter.LeadListingAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.NotificationAdapter
-import motobeans.architecture.constants.ConstantsApi
+import com.finance.app.view.adapters.recycler.adapter.NotificationAdapter
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import motobeans.architecture.retrofit.request.Requests
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 
 class NotificationActivity : BaseAppCompatActivity(){

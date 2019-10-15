@@ -150,4 +150,5 @@
     <string name="call_update">Call Update</string>
     <string name="application">Application</string>
     <string name="loan_application">Loan Application</string>
+    <string name="state">State</string>
 </resources>

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentNavMenuBinding
-import com.finance.app.view.adapters.Recycler.Adapter.NavMenuAdapter
+import com.finance.app.view.adapters.recycler.adapter.NavMenuAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject

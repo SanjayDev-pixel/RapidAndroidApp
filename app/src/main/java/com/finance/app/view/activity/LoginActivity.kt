@@ -80,10 +80,11 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
     override val loginRequest: Requests.RequestLogin
         get() = mLoginRequestLogin
 
+
     //    Handle success of the api
     override fun getLoginSuccess(value: Response.ResponseLogin) {
         spinnerPresenter.callNetwork(ConstantsApi.CALL_ALL_SPINNER_VALUE)
-        AddLeadActivity.start(this)
+        DashboardActivity.start(this)
     }
 
     //    Handle failure of the api

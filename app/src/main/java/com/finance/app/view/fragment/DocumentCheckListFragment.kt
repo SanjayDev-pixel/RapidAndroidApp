@@ -8,27 +8,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
-import com.finance.app.model.Modals
-import com.finance.app.persistence.model.AddressDetail
-import com.finance.app.persistence.model.PersonalApplicants
-import com.finance.app.view.adapters.Recycler.Adapter.ApplicantsAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.DocumentCheckListAdapter
+import com.finance.app.model.Modals.AddKyc
+import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
+import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class DocumentCheckListFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
+class DocumentCheckListFragment : Fragment() {
 
     private lateinit var binding: FragmentDocumentChecklistBinding
     private lateinit var mContext: Context
-    private lateinit var applicantsList: ArrayList<PersonalApplicants>
-    private var personalAddressDetail: ArrayList<AddressDetail>? = null
-    private var applicantAdapter: ApplicantsAdapter? = null
+    private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
 
     companion object {
         private var coApplicant = 1
-        private lateinit var kycList: ArrayList<Modals.AddKyc>
+        private lateinit var kycList: ArrayList<AddKyc>
         private lateinit var applicantMenu: ArrayList<String>
     }
 
@@ -43,19 +39,10 @@ class DocumentCheckListFragment : Fragment(), ApplicantsAdapter.ItemClickListene
         showDocumentList()
         setCoApplicants()
         setClickListeners()
-        applicantsList = ArrayList()
     }
 
     private fun setClickListeners() {
-        binding.btnAddApplicant.setOnClickListener {
-            onAddApplicantClick()
-        }
-    }
 
-    private fun onAddApplicantClick() {
-        applicantMenu.add("Co- Applicant $coApplicant")
-        binding.rcApplicants.adapter!!.notifyDataSetChanged()
-        coApplicant++
     }
 
     private fun showDocumentList() {
@@ -68,27 +55,8 @@ class DocumentCheckListFragment : Fragment(), ApplicantsAdapter.ItemClickListene
         applicantMenu.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
-        applicantAdapter!!.setOnItemClickListener(this)
-        binding.rcApplicants.adapter = applicantAdapter
+        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantMenu)
+        binding.rcApplicants.adapter = applicantAdapterPersonal
     }
 
-    override fun onApplicantClick(position: Int) {
-        saveCurrentApplicant(position)
-        changeCurrentApplicant()
-    }
-
-    private val applicant: PersonalApplicants
-        get() {
-            personalAddressDetail!!.add(AddressDetail())
-            return PersonalApplicants(personalAddressDetail!!)
-        }
-
-    private fun saveCurrentApplicant(position: Int) {
-        applicantsList.add(applicant)
-        sharedPreferences.savePersonalInfoForApplicants(applicantsList)
-    }
-
-    private fun changeCurrentApplicant() {
-    }
 }

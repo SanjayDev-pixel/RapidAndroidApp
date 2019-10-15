@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentAllLeadsBinding
 import com.finance.app.view.activity.AddLeadActivity
-import com.finance.app.view.adapters.Recycler.Adapter.LeadListingAdapter
+import com.finance.app.view.adapters.recycler.adapter.LeadListingAdapter
 
 class AllLeadsFragment : androidx.fragment.app.Fragment() {
 

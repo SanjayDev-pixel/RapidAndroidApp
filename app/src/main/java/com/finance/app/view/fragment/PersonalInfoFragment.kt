@@ -1,4 +1,5 @@
 package com.finance.app.view.fragment
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -15,16 +16,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.model.Modals
+import com.finance.app.model.Modals.AddKyc
+import com.finance.app.model.Modals.ApplicantPersonal
 import com.finance.app.persistence.model.AddressDetail
 import com.finance.app.persistence.model.ContactDetail
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.PersonalApplicants
+import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.ClearPersonalForm
 import com.finance.app.utility.SelectDate
 import com.finance.app.utility.UploadData
-import com.finance.app.view.adapters.Recycler.Adapter.AddKycAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.ApplicantsAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.AddKycAdapter
+import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -32,14 +35,13 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import javax.inject.Inject
 
-class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
+class PersonalInfoFragment : Fragment(), PersonalApplicantsAdapter.ItemClickListener {
 
     private lateinit var binding: FragmentPersonalBinding
     private val frag = this
     private lateinit var mContext: Context
     private var kycAdapter: AddKycAdapter? = null
-    private var applicantAdapter: ApplicantsAdapter? = null
-    private var applicantsList: ArrayList<PersonalApplicants>? = null
+    private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
     private var personalAddressDetail: ArrayList<AddressDetail>? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -50,7 +52,9 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         private const val GALLERY = 1
         private const val CAMERA = 2
         private var coApplicant = 1
-        private lateinit var kycList: ArrayList<Modals.AddKyc>
+        private var applicantsList: ArrayList<PersonalApplicantsModel>? = null
+        private lateinit var applicant: PersonalApplicantsModel
+        private lateinit var kycList: ArrayList<AddKyc>
         private lateinit var applicantTab: ArrayList<String>
         private var image: Bitmap? = null
     }
@@ -91,9 +95,9 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         applicantTab.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab)
-        binding.rcApplicants.adapter = applicantAdapter
-        applicantAdapter!!.setOnItemClickListener(this)
+        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantTab)
+        binding.rcApplicants.adapter = applicantAdapterPersonal
+        applicantAdapterPersonal!!.setOnItemClickListener(this)
     }
 
     private fun checkKycDataList() {
@@ -125,17 +129,22 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
 
         binding.btnSaveAndContinue.setOnClickListener{
             setIncomeConsidered()
-            sharedPreferences.savePersonalInfoForApplicants(applicantsList!!)
+            sharedPreferences.savePersonalInfoForApplicants(allApplicants)
         }
 
-        binding.addressLayout.cbSameAsCurrent.setOnClickListener {
-            if (binding.addressLayout.cbSameAsCurrent.isChecked) {
-                binding.addressLayout.llPermanentAddress.visibility = View.GONE
+        binding.personalAddressLayout.cbSameAsCurrent.setOnClickListener {
+            if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
+                binding.personalAddressLayout.llPermanentAddress.visibility = View.GONE
             } else {
-                binding.addressLayout.llPermanentAddress.visibility = View.VISIBLE
+                binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
             }
         }
     }
+
+    private val allApplicants: ApplicantPersonal
+        get() {
+            return ApplicantPersonal(applicantsList!!)
+        }
 
     private fun setIncomeConsidered() {
         if (binding.cbIncomeConsidered.isChecked) {
@@ -152,9 +161,9 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         binding.etExpiryDate.text?.clear()
     }
 
-    private val kyc: Modals.AddKyc
+    private val kyc: AddKyc
         get() {
-            return Modals.AddKyc(expiryDate = binding.etExpiryDate.text.toString(),
+            return AddKyc(expiryDate = binding.etExpiryDate.text.toString(),
                     idNum = binding.etIdNum.text.toString(), kycImage = image,
                     issueDate = binding.etIssueDate.text.toString(),
                     verifiedStatus = binding.spinnerVerifiedStatus.selectedItem.toString(),
@@ -187,7 +196,6 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
 
     private fun onAddCoApplicantClick() {
         if (checkMandatoryField()) {
-            saveCurrentApplicant()
             applicantTab.add("Co- Applicant $coApplicant")
             binding.rcApplicants.adapter!!.notifyDataSetChanged()
             ClearPersonalForm(binding)
@@ -195,44 +203,51 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         }
     }
 
-    private fun checkMandatoryField(): Boolean {
-        return formValidation.validatePersonalInfo(binding)
+    override fun onApplicantClick(position: Int) {
+        getApplicantData()
+        saveCurrentApplicant(position)
+        clearFrom()
+        getParticularApplicantData(position)
     }
 
-    override fun onApplicantClick(position: Int) {
-        saveCurrentApplicant()
-        getParticularApplicantData(position)
+    private fun getApplicantData(): PersonalApplicantsModel {
+        applicant.addressDetailList = personalAddressDetail!!
+        applicant.dateOfBirth = binding.basicInfoLayout.etAge.text.toString()
+        applicant.spouseMiddleName = binding.basicInfoLayout.etSpouseMiddleName.text.toString()
+        applicant.spouseLastName = binding.basicInfoLayout.etSpouseLastName.text.toString()
+        applicant.spouseFirstName = binding.basicInfoLayout.etSpouseFirstName.text.toString()
+        applicant.firstName = binding.basicInfoLayout.etFirstName.text.toString()
+        applicant.lastName = binding.basicInfoLayout.etLastName.text.toString()
+        applicant.middleName = binding.basicInfoLayout.etMiddleName.text.toString()
+        applicant.fatherFirstName = binding.basicInfoLayout.etFatherFirstName.text.toString()
+        applicant.fatherMiddleName = binding.basicInfoLayout.etFatherMiddleName.text.toString()
+        applicant.fatherLastName = binding.basicInfoLayout.etFatherLastName.text.toString()
+        val casteType = binding.basicInfoLayout.spinnerCaste.selectedItem as Modals.DropDownMaster
+        applicant.casteTypeDetailID = casteType.typeDetailID
+        val detailQualification = binding.basicInfoLayout.spinnerDetailQualification.selectedItem as DropdownMaster
+        applicant.detailQualificationTypeDetailID = detailQualification.typeDetailID!!
+        applicant.contactDetail
+        applicant.age = binding.basicInfoLayout.etAge.text.toString().toInt()
+        applicant.contactDetail = ContactDetail()
+        return applicant
+    }
+
+    private fun clearFrom() {
+
+    }
+
+    private fun checkMandatoryField(): Boolean {
+        return formValidation.validatePersonalInfo(binding)
     }
 
     private fun getParticularApplicantData(position: Int) {
 
     }
 
-    private fun saveCurrentApplicant() {
-        applicantsList!!.add(applicant)
-        sharedPreferences.savePersonalInfoForApplicants(applicantsList!!)
+    private fun saveCurrentApplicant(position: Int) {
+        applicantsList!![position] = applicant
+        sharedPreferences.savePersonalInfoForApplicants(allApplicants)
     }
-
-    private val applicant: PersonalApplicants
-        get() {
-            personalAddressDetail!!.add(AddressDetail())
-            return PersonalApplicants(personalAddressDetail!!)
-        }
-
-    private val addressDetail: AddressDetail
-        get() {
-            return AddressDetail()
-        }
-
-    private val contactDetail: ContactDetail
-        get() {
-            applicantTab.add(applicantTab.size - 1, "Co-Applicant:${coApplicant}")
-                applicantAdapter!!.notifyDataSetChanged()
-            saveCurrentApplicant()
-            applicantTab.add("Co- Applicant $coApplicant")
-                coApplicant++
-            return ContactDetail()
-        }
 
     private fun setDropDownValue() {
         val identificationType = arrayOf("PAN", "UID", "Passport")
@@ -288,14 +303,14 @@ class PersonalInfoFragment : Fragment(), ApplicantsAdapter.ItemClickListener {
         binding.basicInfoLayout.spinnerQualification.adapter = adapterQualification
         binding.basicInfoLayout.spinnerDetailQualification.adapter = adapterDetailQualification
         binding.basicInfoLayout.spinnerMaritalStatus.adapter = adapterMaritalStatus
-        binding.addressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerCurrentDistrict.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerCurrentState.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerPermanentDistrict.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerPermanentState.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.addressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.personalAddressLayout.spinnerCurrentDistrict.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.personalAddressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.personalAddressLayout.spinnerCurrentState.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.personalAddressLayout.spinnerPermanentDistrict.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.personalAddressLayout.spinnerPermanentState.adapter = MasterSpinnerAdapter(mContext, lists)
+        binding.personalAddressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(mContext, lists)
 
     }
 

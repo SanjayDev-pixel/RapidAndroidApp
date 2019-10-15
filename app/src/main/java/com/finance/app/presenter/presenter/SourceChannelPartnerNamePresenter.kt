@@ -1,6 +1,6 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.SourceChannelPartnerNameConnector
+import com.finance.app.presenter.connector.LoanApplicationConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class SourceChannelPartnerNamePresenter(private val viewOpt: SourceChannelPartnerNameConnector.ViewOpt) : SourceChannelPartnerNameConnector.PresenterOpt {
+class SourceChannelPartnerNamePresenter(private val channelPartner: LoanApplicationConnector.SourceChannelPartnerName) : LoanApplicationConnector.PresenterOpt {
     @Inject
     lateinit var apiProject: ApiProject
     @Inject
@@ -27,22 +27,24 @@ class SourceChannelPartnerNamePresenter(private val viewOpt: SourceChannelPartne
     }
 
     private fun callSourceChannelPartnerNameApi() {
-        val requestApi = apiProject.api.sourceChannelPartnerName(viewOpt.dsaId)
+        val requestApi = apiProject.api.sourceChannelPartnerName(branchId = channelPartner.branchId, channelType = channelPartner.channelTypeId, employeeId = channelPartner.employeeId)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
-                .doFinally { viewOpt.hideProgressDialog() }
+                .doOnSubscribe { channelPartner.showProgressDialog() }
+                .doFinally { channelPartner.hideProgressDialog() }
                 .subscribe({ response -> onSourceChannelPartnerName(response) },
-                        { e -> viewOpt.getSourceChannelPartnerNameFailure(e?.message ?: "") })
+                        { e ->
+                            channelPartner.getSourceChannelPartnerNameFailure(e?.message ?: "")
+                        })
     }
 
     private fun onSourceChannelPartnerName(response: Response.ResponseSourceChannelPartnerName) {
         if (response.responseCode == "200") {
-            viewOpt.getSourceChannelPartnerNameSuccess(response)
+            channelPartner.getSourceChannelPartnerNameSuccess(response)
         } else {
-            viewOpt.getSourceChannelPartnerNameFailure(response.responseMsg)
+            channelPartner.getSourceChannelPartnerNameFailure(response.responseMsg)
         }
     }
 }

@@ -32,58 +32,58 @@ class FormValidationImpl(private val context: Context) : FormValidation {
             binding.basicInfoLayout.etAlternateNum.error = "Alternate Number can not be blank"
         }
 
-        val currentAddress = binding.addressLayout.etCurrentAddress.text.toString()
+        val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
         if (!currentAddress.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etCurrentAddress.error = "Address can not be blank"
+            binding.personalAddressLayout.etCurrentAddress.error = "Address can not be blank"
         }
 
-        val permanentAddress = binding.addressLayout.etPermanentAddress.text.toString()
+        val permanentAddress = binding.personalAddressLayout.etPermanentAddress.text.toString()
         if (!permanentAddress.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etPermanentAddress.error = "Address can not be blank"
+            binding.personalAddressLayout.etPermanentAddress.error = "Address can not be blank"
         }
 
-        val currentLandmark = binding.addressLayout.etCurrentLandmark.text.toString()
+        val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         if (!currentLandmark.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etCurrentLandmark.error = "Landmark can not be blank"
+            binding.personalAddressLayout.etCurrentLandmark.error = "Landmark can not be blank"
         }
 
-        val currentPinCode = binding.addressLayout.etCurrentPinCode.text.toString()
+        val currentPinCode = binding.personalAddressLayout.etCurrentPinCode.text.toString()
         if (!currentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etCurrentPinCode.error = "Pin code can not be blank"
+            binding.personalAddressLayout.etCurrentPinCode.error = "Pin code can not be blank"
         }
 
-        val permanentPinCode = binding.addressLayout.etPermanentPinCode.text.toString()
+        val permanentPinCode = binding.personalAddressLayout.etPermanentPinCode.text.toString()
         if (!permanentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etPermanentPinCode.error = "Pin code can not be blank"
+            binding.personalAddressLayout.etPermanentPinCode.error = "Pin code can not be blank"
         }
 
-        val currentCity = binding.addressLayout.etCurrentCity.text.toString()
+        val currentCity = binding.personalAddressLayout.etCurrentCity.text.toString()
         if (!currentCity.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etCurrentCity.error = "City can not be blank"
+            binding.personalAddressLayout.etCurrentCity.error = "City can not be blank"
         }
 
-        val permanentCity = binding.addressLayout.etPermanentCity.text.toString()
+        val permanentCity = binding.personalAddressLayout.etPermanentCity.text.toString()
         if (!permanentCity.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etPermanentCity.error = "City can not be blank"
+            binding.personalAddressLayout.etPermanentCity.error = "City can not be blank"
         }
 
-        val permanentStaying = binding.addressLayout.etPermanentStaying.text.toString()
+        val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
         if (!permanentStaying.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etPermanentStaying.error = " This field is required"
+            binding.personalAddressLayout.etPermanentStaying.error = " This field is required"
         }
 
-        val currentStaying = binding.addressLayout.etCurrentStaying.text.toString()
+        val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
         if (!currentStaying.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.addressLayout.etCurrentStaying.error = " This field is required"
+            binding.personalAddressLayout.etCurrentStaying.error = " This field is required"
         }
 
         return isValidForm(errorCount)
@@ -147,27 +147,27 @@ class FormValidationImpl(private val context: Context) : FormValidation {
         binding.basicInfoLayout.spinnerGender.isEnabled = false
         binding.basicInfoLayout.etDOB.isEnabled = false
         binding.basicInfoLayout.etAlternateNum.isEnabled = false
-        binding.addressLayout.etCurrentAddress.isEnabled = false
-        binding.addressLayout.etPermanentAddress.isEnabled = false
-        binding.addressLayout.etCurrentLandmark.isEnabled = false
-        binding.addressLayout.etCurrentPinCode.isEnabled = false
-        binding.addressLayout.etPermanentPinCode.isEnabled = false
-        binding.addressLayout.etCurrentCity.isEnabled = false
-        binding.addressLayout.etPermanentCity.isEnabled = false
-        binding.addressLayout.etPermanentStaying.isEnabled = false
-        binding.addressLayout.etCurrentStaying.isEnabled = false
-        binding.addressLayout.spinnerPermanentResidenceType.isEnabled = false
-        binding.addressLayout.spinnerPermanentState.isEnabled = false
-        binding.addressLayout.spinnerPermanentDistrict.isEnabled = false
-        binding.addressLayout.spinnerPermanentAddressProof.isEnabled = false
-        binding.addressLayout.spinnerCurrentAddressProof.isEnabled = false
-        binding.addressLayout.spinnerCurrentDistrict.isEnabled = false
-        binding.addressLayout.spinnerCurrentState.isEnabled = false
-        binding.addressLayout.cbSameAsCurrent.isClickable = false
-        binding.addressLayout.etCurrentRentAmount.isEnabled = false
-        binding.addressLayout.spinnerCurrentResidenceType.isEnabled = false
-        binding.addressLayout.etPermanentLandmark.isEnabled = false
-        binding.addressLayout.etPermanentRentAmount.isEnabled = false
+        binding.personalAddressLayout.etCurrentAddress.isEnabled = false
+        binding.personalAddressLayout.etPermanentAddress.isEnabled = false
+        binding.personalAddressLayout.etCurrentLandmark.isEnabled = false
+        binding.personalAddressLayout.etCurrentPinCode.isEnabled = false
+        binding.personalAddressLayout.etPermanentPinCode.isEnabled = false
+        binding.personalAddressLayout.etCurrentCity.isEnabled = false
+        binding.personalAddressLayout.etPermanentCity.isEnabled = false
+        binding.personalAddressLayout.etPermanentStaying.isEnabled = false
+        binding.personalAddressLayout.etCurrentStaying.isEnabled = false
+        binding.personalAddressLayout.spinnerPermanentResidenceType.isEnabled = false
+        binding.personalAddressLayout.spinnerPermanentState.isEnabled = false
+        binding.personalAddressLayout.spinnerPermanentDistrict.isEnabled = false
+        binding.personalAddressLayout.spinnerPermanentAddressProof.isEnabled = false
+        binding.personalAddressLayout.spinnerCurrentAddressProof.isEnabled = false
+        binding.personalAddressLayout.spinnerCurrentDistrict.isEnabled = false
+        binding.personalAddressLayout.spinnerCurrentState.isEnabled = false
+        binding.personalAddressLayout.cbSameAsCurrent.isClickable = false
+        binding.personalAddressLayout.etCurrentRentAmount.isEnabled = false
+        binding.personalAddressLayout.spinnerCurrentResidenceType.isEnabled = false
+        binding.personalAddressLayout.etPermanentLandmark.isEnabled = false
+        binding.personalAddressLayout.etPermanentRentAmount.isEnabled = false
     }
 
     override fun disableEmploymentFields(binding: FragmentEmploymentBinding) {
@@ -228,7 +228,63 @@ class FormValidationImpl(private val context: Context) : FormValidation {
     }
 
     override fun validateReference(binding: FragmentReferenceBinding): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var errorCount = 0
+        val name = binding.etName.text.toString()
+        if (!name.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etName.error = "Name can not be blank"
+        }
+
+        val contact = binding.etContactNum.text.toString()
+        if (!contact.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etContactNum.error = "Contact can not be blank"
+        }
+
+        val address = binding.referenceAddressLayout.etAddress1.toString()
+        if (!address.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.referenceAddressLayout.etAddress1.error = "Address can not be blank"
+        }
+
+        val landmark = binding.referenceAddressLayout.etLandmark.text.toString()
+        if (!landmark.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.referenceAddressLayout.etLandmark.error = "Landmark can not be blank"
+        }
+
+        val pinCode = binding.referenceAddressLayout.etPinCode.text.toString()
+        if (!pinCode.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.referenceAddressLayout.etPinCode.error = "Pin code can not be blank"
+        }
+
+        val city = binding.referenceAddressLayout.etCity.text.toString()
+        if (!city.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.referenceAddressLayout.etCity.error = "City can not be blank"
+        }
+
+        val district = binding.referenceAddressLayout.etDistrict.text.toString()
+        if (!district.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.referenceAddressLayout.etDistrict.error = "District field is required"
+        }
+
+        return isValidForm(errorCount)
+    }
+
+    override fun clearReferenceForm(binding: FragmentReferenceBinding) {
+        binding.etContactNum.text?.clear()
+        binding.etName.text?.clear()
+        binding.etKnownSince.text?.clear()
+        binding.referenceAddressLayout.etDistrict.text?.clear()
+        binding.referenceAddressLayout.etCity.text?.clear()
+        binding.referenceAddressLayout.etPinCode.text?.clear()
+        binding.referenceAddressLayout.etAddress1.text?.clear()
+        binding.referenceAddressLayout.etAddress2.text?.clear()
+        binding.referenceAddressLayout.etLandmark.text?.clear()
+        binding.referenceAddressLayout.etState.text?.clear()
     }
 
     override fun validateProperty(binding: FragmentPropertyBinding): Boolean {
@@ -237,32 +293,10 @@ class FormValidationImpl(private val context: Context) : FormValidation {
 
     override fun validateTemp(binding: TempActivityBinding): Boolean {
         val errorCount = 0
-
         return isValidForm(errorCount)
     }
 
-    private fun checkAndSetError(etToCheck: EditText, tilToSet: TextInputLayout,
-                                 errorText: String): Int {
-        var errorCount = 0
-        val valToCheck = etToCheck.text.toString().trim { it <= ' ' }
-        if (valToCheck.exIsNotEmptyOrNullOrBlank()) {
-            tilToSet.isErrorEnabled = false
-        } else {
-            errorCount++
-            tilToSet.isErrorEnabled = true
-            tilToSet.error = errorText
-        }
-
-        return errorCount
-    }
-
-    private fun isValidForm(errorCount: Int): Boolean {
+     private fun isValidForm(errorCount: Int): Boolean {
         return errorCount <= 0
-    }
-
-    private fun isPinValid(pin: String): Boolean {
-        if (pin.length == 4 && pin.exIsNotEmptyOrNullOrBlank())
-            return true
-        return false
     }
 }

@@ -90,6 +90,7 @@
 
                 <include
                     android:id="@+id/layoutSalary"
+                    android:visibility="gone"
                     layout="@layout/layout_cash_salary" />
 
                 <include

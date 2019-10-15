@@ -192,6 +192,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:minWidth="@dimen/text_min_width"
+                    android:visibility="gone"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
                     app:ms_floatingLabelColor="@color/hint_color"

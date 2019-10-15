@@ -13,11 +13,7 @@ import com.finance.app.presenter.connector.ReusableView
 import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
 
-
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
-abstract class BaseFragment : androidx.fragment.app.Fragment(), ReusableView {
+abstract class BaseFragment : Fragment(), ReusableView {
 
   abstract fun init()
 

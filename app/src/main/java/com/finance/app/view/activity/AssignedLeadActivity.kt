@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAssignedLeadsBinding
-import com.finance.app.view.adapters.Recycler.Adapter.LeadPagerAdapter
+import com.finance.app.view.adapters.recycler.adapter.LeadPagerAdapter
 import com.finance.app.view.fragment.AllLeadsFragment
 import com.finance.app.view.fragment.CompletedLeadFragment
 import com.finance.app.view.fragment.PendingLeadsFragment

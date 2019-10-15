@@ -1,26 +1,24 @@
 package motobeans.architecture.development.interfaces
 
-import com.finance.app.persistence.model.PersonalApplicants
+import com.finance.app.model.Modals.*
 import motobeans.architecture.retrofit.response.Response
 
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
 interface SharedPreferencesUtil {
     fun saveLoginData(response: Response.ResponseLogin?): Boolean
     fun getLoginData(): Response.ResponseLogin?
     fun isLogin(): Boolean
-    fun savePersonalInfoForApplicants(applicants:ArrayList<PersonalApplicants>)
-    fun getPersonalInfoForApplicants(applicantNum:Int):PersonalApplicants
+    fun savePersonalInfoForApplicants(applicants:ApplicantPersonal)
+    fun getPersonalInfoForApplicants(): ApplicantPersonal
     fun getUserToken(): String?
     fun getUserName(): String?
     fun setPropertySelection(value: String)
     fun getPropertySelection(): Boolean
     fun setIncomeConsideration(value: String)
-    fun getIncomeCosideration(): Boolean
+    fun getIncomeConsideration(): Boolean
     fun getUserBranches(): ArrayList<Response.UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
     fun getNavMenuItem(): HashMap<String, Int>?
-    // Clear All saved data from Shared Presence
     fun clearAll()
+    fun setCoApplicantsPosition(position: String)
+    fun getCoApplicantsPosition():Int
 }

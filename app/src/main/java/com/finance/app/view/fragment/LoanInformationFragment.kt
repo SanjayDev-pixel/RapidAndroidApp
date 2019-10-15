@@ -19,12 +19,14 @@ import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanInfoPresenter
+import com.finance.app.presenter.presenter.SourceChannelPartnerNamePresenter
 import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.utility.UploadData
 import com.finance.app.view.activity.UploadedFormDataActivity
-import com.finance.app.view.adapters.Recycler.Adapter.LoanProductSpinnerAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.LoanPurposeSpinnerAdapter
-import com.finance.app.view.adapters.Recycler.Adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.ChannelPartnerNameSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.LoanProductSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.LoanPurposeSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -37,7 +39,7 @@ import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
 import javax.inject.Inject
 
-class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
+class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, LoanApplicationConnector.SourceChannelPartnerName {
     private lateinit var binding: FragmentLoanInformationBinding
     private val frag: Fragment = this
     @Inject
@@ -48,13 +50,17 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
     lateinit var sharedPreferences: SharedPreferencesUtil
     private lateinit var loanScheme: ArrayList<DropdownMaster>
     private lateinit var interestType: ArrayList<DropdownMaster>
-    private lateinit var channelPartnerName: ArrayList<DropdownMaster>
+    private lateinit var channelPartnerName: ArrayList<Response.ChannelPartnerName>
     private lateinit var allMasterDropDown: AllMasterDropDown
     private lateinit var loanProducts: List<LoanProductMaster>
+    private val sourcePartnerPresenter = SourceChannelPartnerNamePresenter(this)
     private lateinit var sourcingChannelPartner: ArrayList<DropdownMaster>
     private val loanInfoPresenter = LoanInfoPresenter(this)
 
     companion object {
+        private lateinit var mBranchId: String
+        private lateinit var mEmployeeId: String
+        private lateinit var mChannelTypeId: String
         private const val isMandatory = true
         private const val SELECT_PDF_CODE = 1
         private const val CLICK_IMAGE_CODE = 2
@@ -122,9 +128,6 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
         binding.spinnerInterestType.adapter = MasterSpinnerAdapter(context!!, interestType)
 
         sourcingChannelPartner = allMasterDropDown.SourcingChannelPartner!!
-        binding.spinnerPartnerName.adapter = MasterSpinnerAdapter(context!!, channelPartnerName)
-
-        channelPartnerName = allMasterDropDown.ChannelPartnerName!!
         binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(context!!, sourcingChannelPartner)
 
     }
@@ -148,6 +151,46 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
                 loanInfoPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO)
             }
         }
+        binding.spinnerSourcingChannelPartner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    val selectedValue = parent.selectedItem as DropdownMaster
+                    if (selectedValue.typeDetailCode != "DIRECT") {
+                        getChannelPartnerName(selectedValue)
+                    }
+                }
+            }
+        }
+    }
+
+    override val branchId: String
+        get() = mBranchId
+    override val employeeId: String
+        get() = mEmployeeId
+    override val channelTypeId: String
+        get() = mChannelTypeId
+
+    private fun getChannelPartnerName(sourceChannelPartner: DropdownMaster) {
+//        mEmployeeId = sharedPreferences.getLoginData()?.responseObj?.userDetails?.userBasicDetails?.userId.toString()
+//        mChannelTypeId = sourceChannelPartner.typeDetailID.toString()
+        mChannelTypeId = "3"
+        mEmployeeId = "2"
+        mBranchId = "1"
+        sourcePartnerPresenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME)
+    }
+
+    override fun getSourceChannelPartnerNameSuccess(value: Response.ResponseSourceChannelPartnerName) {
+        setChannelPartnerNameDropDown(value.responseObj)
+    }
+
+    private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<Response.ChannelPartnerName>) {
+        binding.spinnerPartnerName.visibility = View.VISIBLE
+        binding.spinnerPartnerName.adapter = ChannelPartnerNameSpinnerAdapter(context!!, channelPartners)
+    }
+
+    override fun getSourceChannelPartnerNameFailure(msg: String) {
+        showToast(msg)
     }
 
     private fun setPropertySelection() {
@@ -171,10 +214,13 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo {
         get() {
             val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as
                     DropdownMaster
+            val channelPartnerName = binding.spinnerPartnerName.selectedItem as
+                    Response.ChannelPartnerName
+
             return Requests.LoanInfoObj(affordableEMI = binding.etEmi.text.toString().toInt(), loanApplicationID = 1,
                     leadID = 5, productID = 1, loanPurposeID = 1, loanSchemeTypeDetailID = 1, loanAmountRequest = binding.etAmountRequest.text.toString().toInt(),
-                    tenure = binding.etTenure.text.toString().toInt(), interestTypeTypeDetailID = 1, sourcingChannelPartnerTypeDetailID = sourcingChannelPartner.typeDetailID.toString().toInt(),
-                    channelPartnerDsaID = 2, salesOfficerEmpID = 1, creditOfficerEmpName = "Vishal", creditOfficerEmpID = 2, salesOfficerEmpName = "Rathi",
+                    tenure = binding.etTenure.text.toString().toInt(), interestTypeTypeDetailID = 1, sourcingChannelPartnerTypeDetailID = sourcingChannelPartner.typeDetailID,
+                    channelPartnerDsaID = channelPartnerName.dsaID, salesOfficerEmpID = 1, creditOfficerEmpName = "Vishal", creditOfficerEmpID = 2, salesOfficerEmpName = "Rathi",
                     ruleEngineResponse = "actico Json string", logginUserEntityID = 1)
         }
 
