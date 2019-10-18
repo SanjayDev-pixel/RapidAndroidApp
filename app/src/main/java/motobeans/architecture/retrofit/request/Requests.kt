@@ -30,4 +30,20 @@ object Requests {
                            val cityName: String, val districtID: Int?, val landmark: String, val rentAmount: Int? = null,
                            val residenceTypeTypeDetailID: Int? = null, val zip: String)
 
+    data class RequestEmployment(val applicantDetails: ArrayList<EmploymentDetail>, val leadID: Int, val loanApplicationID: Int? = null)
+
+    data class EmploymentDetail(val addressBean: EmploymentAddressBean, val allEarningMembers: Int? = null, val applicantID: Int?,
+                                val businessSetupTypeDetailID: Int? = null, val businessVinatgeInYear: Int? = null, val companyName: String? = null,
+                                val constitutionTypeDetailID: Int? = null, val dateOfIncorporation: String? = null, val dateOfJoining: String? = null,
+                                val documents: ArrayList<Document>? = null, val employeeID: String? = null, val employmentTypeDetailID: Int? = null,
+                                val gstRegistration: String? = null, val industryTypeDetailID: Int? = null, val loanApplicationID: Int? = null,
+                                val occupationDetailID: Int? = null, val occupationalDetailID: Int? = null, val officialMailID: String? = null,
+                                val profileSegmentTypeDetailID: Int? = null, val retirementAge: Int? = null, val sectorTypeDetailID: Int? = null,
+                                val subProfileTypeDetailID: Int? = null, val totalExperience: String? = null, val designation: String? = null)
+
+    data class EmploymentAddressBean(val address1: String, val address2: String? = null, val addressProof: Int? = null, val cityID: Int?,
+                                     val cityName: String, val districtID: Int? = null, val landmark: String? = null, val rentAmount: Int? = null,
+                                     val residenceTypeTypeDetailID: Int? = null, val zip: String? = null)
+
+    data class Document(val documentTypeDetailID: Int, val uploadedDocumentPath: String)
 }

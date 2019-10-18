@@ -32,5 +32,11 @@ interface LoanApplicationConnector {
         fun getSourceChannelPartnerNameFailure(msg: String)
     }
 
+    interface Employment : ReusableView {
+        val employmentRequest: Requests.RequestEmployment
+        fun getEmploymentSuccess(value: Response.ResponseEmployment)
+        fun getEmploymentFailure(msg: String)
+    }
+
     interface PresenterOpt : ReusableNetworkConnector
 }

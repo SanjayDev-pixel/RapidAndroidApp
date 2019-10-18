@@ -215,12 +215,12 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
             val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as
                     DropdownMaster
             val channelPartnerName = binding.spinnerPartnerName.selectedItem as
-                    Response.ChannelPartnerName
+                    Response.ChannelPartnerName?
 
             return Requests.LoanInfoObj(affordableEMI = binding.etEmi.text.toString().toInt(), loanApplicationID = 1,
                     leadID = 5, productID = 1, loanPurposeID = 1, loanSchemeTypeDetailID = 1, loanAmountRequest = binding.etAmountRequest.text.toString().toInt(),
                     tenure = binding.etTenure.text.toString().toInt(), interestTypeTypeDetailID = 1, sourcingChannelPartnerTypeDetailID = sourcingChannelPartner.typeDetailID,
-                    channelPartnerDsaID = channelPartnerName.dsaID, salesOfficerEmpID = 1, creditOfficerEmpName = "Vishal", creditOfficerEmpID = 2, salesOfficerEmpName = "Rathi",
+                    channelPartnerDsaID = channelPartnerName?.dsaID, salesOfficerEmpID = 1, creditOfficerEmpName = "Vishal", creditOfficerEmpID = 2, salesOfficerEmpName = "Rathi",
                     ruleEngineResponse = "actico Json string", logginUserEntityID = 1)
         }
 

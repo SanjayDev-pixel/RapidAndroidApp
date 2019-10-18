@@ -30,12 +30,12 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
-        setNavFragment()
-        secondaryFragment = LoanInformationFragment()
-        setSecondaryFragment(secondaryFragment)
         binding.collapseImageView.setOnClickListener {
             handleCollapseScreen(isExpand)
         }
+        setNavFragment()
+        secondaryFragment = LoanInformationFragment()
+        setSecondaryFragment(secondaryFragment)
     }
 
     private fun setNavFragment() {

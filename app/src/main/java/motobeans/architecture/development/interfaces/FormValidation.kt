@@ -6,7 +6,8 @@ interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
     fun validatePersonalInfo(binding: FragmentPersonalBinding):Boolean
     fun validateLoanInformation(binding: FragmentLoanInformationBinding):Boolean
-    fun validateEmployment(binding:FragmentEmploymentBinding):Boolean
+    fun validateSalaryEmployment(binding: LayoutSalaryBinding): Boolean
+    fun validateSenpEmployment(binding: LayoutSenpBinding): Boolean
     fun validateBankDetail(binding: FragmentBankDetailBinding):Boolean
     fun validateAssetLiability(binding: FragmentAssetLiablityBinding):Boolean
     fun validateReference(binding: FragmentReferenceBinding):Boolean

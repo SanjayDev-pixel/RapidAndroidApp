@@ -7,9 +7,10 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/llCashSalary"
+            android:id="@+id/llSalary"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -200,6 +201,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:inputType="number"
+                        android:maxLength="2"
                         android:hint="Total Experience"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -220,6 +223,7 @@
                         android:hint="Retirement Age"
                         android:singleLine="true"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:minWidth="150dp"
                         android:textSize="@dimen/text_size" />
 
@@ -232,6 +236,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/fields_margin"
                 android:baselineAligned="false"
+                android:visibility="gone"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -300,6 +305,7 @@
                     android:id="@+id/input_layout_landmark"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2sp"
                     android:layout_weight="1"
                     android:textColorHint="@color/hint_color">
 
@@ -324,9 +330,10 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPinCode"
                         android:layout_width="match_parent"
-                        android:singleLine="true"
-                        android:inputType="number"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:maxLength="6"
+                        android:inputType="number"
                         android:hint="Pin Code"
                         android:minWidth="150dp"
                         android:textSize="@dimen/text_size" />
@@ -335,20 +342,86 @@
 
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_land_line_num"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/fields_margin"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_city"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/city"
+                        android:inputType="text"
+                        android:minWidth="200dp"
+                        android:singleLine="true"
+                        app:ms_hintTextSize="@dimen/hint_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_district"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDistrict"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/district"
+                        android:maxLength="6"
+                        android:minWidth="200dp"
+                        android:singleLine="true"
+                        app:ms_hintTextSize="@dimen/hint_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:textColorHint="@color/hint_color">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etState"
+                    android:layout_width="match_parent"
+                    android:inputType="number"
+                    android:layout_height="wrap_content"
+                    android:hint="State"
+                    android:minWidth="200dp"
+                    android:singleLine="true"
+                    app:ms_hintTextSize="@dimen/hint_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_landLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
                 android:textColorHint="@color/hint_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLandLine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
+                    android:hint="LandLine Num"
                     android:inputType="number"
-                    android:hint="LandLine No."
+                    android:maxLength="10"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
 

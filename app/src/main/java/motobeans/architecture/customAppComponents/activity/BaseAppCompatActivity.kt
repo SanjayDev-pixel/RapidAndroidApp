@@ -84,8 +84,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
       }
       R.id.logout -> {
         sharedPreferencesUtil.clearAll()
-        mDataBase.provideDataBaseSource().deleteAllTableDataFromDBAsycn()
         LoginActivity.start(this)
+        mDataBase.provideDataBaseSource().deleteAllTableDataFromDBAsycn()
       }
       R.id.assignedLeads -> {
         AssignedLeadActivity.start(this)

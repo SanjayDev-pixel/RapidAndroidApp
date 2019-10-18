@@ -1,8 +1,6 @@
 package motobeans.architecture.development.implementation
 import android.content.Context
-import android.widget.EditText
 import com.finance.app.databinding.*
-import com.google.android.material.textfield.TextInputLayout
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
@@ -10,7 +8,7 @@ import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
  * Created by munishkumarthakur on 04/11/17.
  */
 
-class FormValidationImpl(private val context: Context) : FormValidation {
+class FormValidationImpl(private val mContext: Context) : FormValidation {
 
     override fun validatePersonalInfo(binding: FragmentPersonalBinding): Boolean {
         var errorCount = 0
@@ -215,8 +213,122 @@ class FormValidationImpl(private val context: Context) : FormValidation {
         binding.ivUploadStatement.isClickable = false
     }
 
-    override fun validateEmployment(binding: FragmentEmploymentBinding): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun validateSalaryEmployment(binding: LayoutSalaryBinding): Boolean {
+        var errorCount = 0
+        val companyName = binding.etCompanyName.text.toString()
+        if (!companyName.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etCompanyName.error = "Company can not be blank"
+        }
+
+        val designation = binding.etDesignation.text.toString()
+        if (!designation.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etDesignation.error = "Designation can not be blank"
+        }
+
+        val totalExp = binding.etTotalExperience.text.toString()
+        if (!totalExp.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etTotalExperience.error = "Experience can not be blank"
+        }
+
+        val retirementAge = binding.etRetirementAge.text.toString()
+        if (!retirementAge.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etRetirementAge.error = "Retirement age can not be blank"
+        }
+
+        val officeAddress = binding.etOfficeAddress.text.toString()
+        if (!officeAddress.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etOfficeAddress.error = "Office address age can not be blank"
+        }
+
+        val landmark = binding.etLandmark.text.toString()
+        if (!landmark.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etLandmark.error = "Landmark can not be blank"
+        }
+
+        val pin = binding.etPinCode.text.toString()
+        if (!pin.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etPinCode.error = "Pin Code can not be blank"
+        }
+
+        val district = binding.etDistrict.text.toString()
+        if (!district.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etDistrict.error = "District can not be blank"
+        }
+
+        val state = binding.etState.text.toString()
+        if (!state.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etState.error = "State can not be blank"
+        }
+
+        return isValidForm(errorCount)
+    }
+
+    override fun validateSenpEmployment(binding: LayoutSenpBinding): Boolean {
+        var errorCount = 0
+        val businessName = binding.etBusinessName.text.toString()
+        if (!businessName.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etBusinessName.error = "Business name can not be blank"
+        }
+
+        val gstVatRegistration = binding.etGstRegistration.text.toString()
+        if (!gstVatRegistration.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etGstRegistration.error = "Registration can not be blank"
+        }
+
+        val incorporationDate = binding.etIncorporationDate.text.toString()
+        if (!incorporationDate.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etIncorporationDate.error = "Incorporation Date can not be blank"
+        }
+
+        val businessVintage = binding.etBusinessVintage.text.toString()
+        if (!businessVintage.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etBusinessVintage.error = "Business Vintage can not be blank"
+        }
+
+        val businessAddress = binding.etBusinessAddress.text.toString()
+        if (!businessAddress.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etBusinessAddress.error = "Business address age can not be blank"
+        }
+
+        val landmark = binding.etLandmark.text.toString()
+        if (!landmark.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etLandmark.error = "Landmark can not be blank"
+        }
+
+        val pin = binding.etPinCode.text.toString()
+        if (!pin.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etPinCode.error = "Pin Code can not be blank"
+        }
+
+        val district = binding.etDistrict.text.toString()
+        if (!district.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etDistrict.error = "District can not be blank"
+        }
+
+        val state = binding.etState.text.toString()
+        if (!state.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etState.error = "State can not be blank"
+        }
+
+        return isValidForm(errorCount)
     }
 
     override fun validateBankDetail(binding: FragmentBankDetailBinding): Boolean {

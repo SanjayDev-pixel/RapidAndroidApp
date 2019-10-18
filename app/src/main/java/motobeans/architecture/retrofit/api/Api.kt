@@ -47,4 +47,7 @@ interface Api {
     @GET("api/v1/pincode/{pinCode}")
     fun getPinCodeDetail(@Path("pinCode") pinCode: String?): Observable<Response.ResponsePinCodeDetail>
 
+    @POST("api/v1/loan/application/employment/")
+    fun saveEmployment(@Body request: Requests.RequestEmployment): Observable<Response.ResponseEmployment>
+
 }

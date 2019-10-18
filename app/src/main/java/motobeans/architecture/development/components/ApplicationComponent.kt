@@ -59,14 +59,15 @@ interface ApplicationComponent {
      */
     fun inject(presenter: TestPresenter)
     fun inject(presenter: TempSyncPresenter)
-    fun inject(loginPresenter: LoginPresenter)
-    fun inject(addLeadPresenter: AddLeadPresenter)
-    fun inject(allSpinnerValuePresenter: AllSpinnerValuePresenter)
-    fun inject(loanInfoPresenter: LoanInfoPresenter)
-    fun inject(sourceChannelPartnerNamePresenter: SourceChannelPartnerNamePresenter)
-    fun inject(loanProductPresenter: LoanProductPresenter)
-    fun inject(updateReferencePresenter: UpdateReferencePresenter)
+    fun inject(presenter: LoginPresenter)
+    fun inject(presenter: AddLeadPresenter)
+    fun inject(presenter: AllSpinnerValuePresenter)
+    fun inject(presenter: LoanInfoPresenter)
+    fun inject(presenter: SourceChannelPartnerNamePresenter)
+    fun inject(presenter: LoanProductPresenter)
+    fun inject(presenter: UpdateReferencePresenter)
     fun inject(presenter: PinCodeDetailPresenter)
+    fun inject(presenter: EmploymentPresenter)
 
     /**
      * View Model

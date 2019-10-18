@@ -3,6 +3,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Entity
 class AllMasterDropDown : Serializable {
@@ -39,4 +40,12 @@ class AllMasterDropDown : Serializable {
     var TypeOfOrganisation: ArrayList<DropdownMaster>? = null
     var VerifiedStatus: ArrayList<DropdownMaster>? = null
     var OccupationType: ArrayList<DropdownMaster>? = null
+    var ProfileSegment: ArrayList<DropdownMaster>? = null
+    var SubProfileSegment:ArrayList<DropdownMaster>? = null
+    var EmploymentType:ArrayList<DropdownMaster>? = null
+    var BusinessSetupType:ArrayList<DropdownMaster>? = null
+    var Industry:ArrayList<DropdownMaster>? = null
+    var Sector:ArrayList<DropdownMaster>? = null
+    var Constitution:ArrayList<DropdownMaster>? = null
+
 }

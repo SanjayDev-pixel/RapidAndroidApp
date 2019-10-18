@@ -222,8 +222,8 @@ class PersonalInfoFragment : Fragment(), PersonalApplicantsAdapter.ItemClickList
         applicant.fatherFirstName = binding.basicInfoLayout.etFatherFirstName.text.toString()
         applicant.fatherMiddleName = binding.basicInfoLayout.etFatherMiddleName.text.toString()
         applicant.fatherLastName = binding.basicInfoLayout.etFatherLastName.text.toString()
-        val casteType = binding.basicInfoLayout.spinnerCaste.selectedItem as Modals.DropDownMaster
-        applicant.casteTypeDetailID = casteType.typeDetailID
+        val casteType = binding.basicInfoLayout.spinnerCaste.selectedItem as DropdownMaster
+        applicant.casteTypeDetailID = casteType.typeDetailID!!
         val detailQualification = binding.basicInfoLayout.spinnerDetailQualification.selectedItem as DropdownMaster
         applicant.detailQualificationTypeDetailID = detailQualification.typeDetailID!!
         applicant.contactDetail

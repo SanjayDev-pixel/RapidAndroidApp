@@ -48,4 +48,10 @@ object Response {
     data class ResponseUpdateReference(val responseCode: String, val responseMsg: String, val responseObj: Any, val timeStamp: Long)
     data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ObjPinCode>, val timeStamp: Long)
     data class ObjPinCode(val cityID: Int, val cityName: String, val districtID: Int, val districtName: String, val pincode: String, val pincodeID: Int, val stateID: Int, val stateName: String)
+    data class ResponseEmployment(
+            val responseCode: String,
+            val responseMsg: String,
+            val responseObj: Any? = null,
+            val timeStamp: Long
+    )
 }

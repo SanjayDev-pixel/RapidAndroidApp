@@ -91,7 +91,6 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
                 updateReferenceList.add(updateReference)
                 showReferenceDetail()
                 formValidation.clearReferenceForm(binding)
-
             }
         }
         binding.btnSaveAndContinue.setOnClickListener {
@@ -105,7 +104,6 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
                     pinCodePresenter.callNetwork(ConstantsApi.CALL_PIN_CODE_DETAIL)
                 }
             }
-
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
@@ -135,7 +133,7 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
     }
 
     override fun getPinCodeFailure(msg: String) {
-        showToast(msg)
+        showToast(getString(R.string.failure_pin_code_api))
     }
 
     override val leadId: String
