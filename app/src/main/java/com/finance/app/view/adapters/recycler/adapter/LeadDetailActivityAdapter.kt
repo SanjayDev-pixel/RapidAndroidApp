@@ -10,7 +10,7 @@ import com.finance.app.R
 import com.finance.app.databinding.LeadDetailActivitiesItemBinding
 import java.util.*
 
-class LeadDetailActivityAdapter(private val c: Context) : RecyclerView.Adapter<LeadDetailActivityAdapter.LeadDetailActivityHolder>() {
+class LeadDetailActivityAdapter(private val mContext: Context) : RecyclerView.Adapter<LeadDetailActivityAdapter.LeadDetailActivityHolder>() {
     private lateinit var binding: LeadDetailActivitiesItemBinding
 
     private val name = arrayOf("ChamanLal", "Sanat bhagel", " bhagel", "Sanat ")
@@ -27,11 +27,11 @@ class LeadDetailActivityAdapter(private val c: Context) : RecyclerView.Adapter<L
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.lead_detail_activities_item,
                 parent, false)
-        return LeadDetailActivityHolder(binding, c)
+        return LeadDetailActivityHolder(binding, mContext)
     }
 
     inner class LeadDetailActivityHolder(val binding: LeadDetailActivitiesItemBinding,
-                                         val c: Context) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+                                         val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(name: Array<String>, position: Int, timeStamp: Array<Long>) {
             convertToHumanFormat(timeStamp)
         }

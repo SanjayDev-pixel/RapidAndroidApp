@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentPersonalBinding
-import com.finance.app.model.Modals
 import com.finance.app.model.Modals.AddKyc
 import com.finance.app.model.Modals.ApplicantPersonal
 import com.finance.app.persistence.model.AddressDetail
@@ -76,6 +75,22 @@ class PersonalInfoFragment : Fragment(), PersonalApplicantsAdapter.ItemClickList
         setDropDownValue()
         setClickListeners()
         checkPropertySelection()
+    }
+
+    override fun onApplicantClick(position: Int) {
+//        saveCurrentApplicant()
+        ClearPersonalForm(binding)
+        getApplicantData(position)
+//        getParticularApplicantData(position)
+    }
+
+    private fun onAddCoApplicantClick() {
+        if (checkMandatoryField()) {
+            applicantTab.add("Co- Applicant $coApplicant")
+            binding.rcApplicants.adapter!!.notifyDataSetChanged()
+            ClearPersonalForm(binding)
+            coApplicant++
+        }
     }
 
     private fun checkPropertySelection() {
@@ -194,23 +209,7 @@ class PersonalInfoFragment : Fragment(), PersonalApplicantsAdapter.ItemClickList
         }
     }
 
-    private fun onAddCoApplicantClick() {
-        if (checkMandatoryField()) {
-            applicantTab.add("Co- Applicant $coApplicant")
-            binding.rcApplicants.adapter!!.notifyDataSetChanged()
-            ClearPersonalForm(binding)
-            coApplicant++
-        }
-    }
-
-    override fun onApplicantClick(position: Int) {
-        getApplicantData()
-        saveCurrentApplicant(position)
-        clearFrom()
-        getParticularApplicantData(position)
-    }
-
-    private fun getApplicantData(): PersonalApplicantsModel {
+    private fun getApplicantData(position: Int): PersonalApplicantsModel {
         applicant.addressDetailList = personalAddressDetail!!
         applicant.dateOfBirth = binding.basicInfoLayout.etAge.text.toString()
         applicant.spouseMiddleName = binding.basicInfoLayout.etSpouseMiddleName.text.toString()
@@ -230,10 +229,6 @@ class PersonalInfoFragment : Fragment(), PersonalApplicantsAdapter.ItemClickList
         applicant.age = binding.basicInfoLayout.etAge.text.toString().toInt()
         applicant.contactDetail = ContactDetail()
         return applicant
-    }
-
-    private fun clearFrom() {
-
     }
 
     private fun checkMandatoryField(): Boolean {
@@ -340,8 +335,7 @@ class PersonalInfoFragment : Fragment(), PersonalApplicantsAdapter.ItemClickList
                 image = thumbnail
                 Toast.makeText(requireContext(), "Image Saved!", Toast.LENGTH_SHORT).show()
             }
-//            binding.rcKYC.adapter!!.notifyDataSetChanged()
+            binding.rcKYC.adapter!!.notifyDataSetChanged()
         }
     }
-
 }

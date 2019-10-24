@@ -33,17 +33,33 @@ object Requests {
     data class RequestEmployment(val applicantDetails: ArrayList<EmploymentDetail>, val leadID: Int, val loanApplicationID: Int? = null)
 
     data class EmploymentDetail(val addressBean: EmploymentAddressBean, val allEarningMembers: Int? = null, val applicantID: Int?,
-                                val businessSetupTypeDetailID: Int? = null, val businessVinatgeInYear: Int? = null, val companyName: String? = null,
-                                val constitutionTypeDetailID: Int? = null, val dateOfIncorporation: String? = null, val dateOfJoining: String? = null,
-                                val documents: ArrayList<Document>? = null, val employeeID: String? = null, val employmentTypeDetailID: Int? = null,
-                                val gstRegistration: String? = null, val industryTypeDetailID: Int? = null, val loanApplicationID: Int? = null,
-                                val occupationDetailID: Int? = null, val occupationalDetailID: Int? = null, val officialMailID: String? = null,
-                                val profileSegmentTypeDetailID: Int? = null, val retirementAge: Int? = null, val sectorTypeDetailID: Int? = null,
-                                val subProfileTypeDetailID: Int? = null, val totalExperience: String? = null, val designation: String? = null)
-
+                                val businessSetupTypeDetailID: Int? = null, val businessVinatgeInYear: Int? = null,
+                                val companyName: String? = null, val constitutionTypeDetailID: Int? = null,
+                                val dateOfIncorporation: String? = null, val dateOfJoining: String? = null,
+                                val documents: ArrayList<Document>? = null, val employeeID: String? = null,
+                                val employmentTypeDetailID: Int? = null, val gstRegistration: String? = null,
+                                val industryTypeDetailID: Int? = null, val loanApplicationID: Int? = null,
+                                val occupationDetailID: Int? = null, val occupationalDetailID: Int? = null,
+                                val officialMailID: String? = null, val leadApplicantNumber: Int? = null,
+                                val profileSegmentTypeDetailID: Int? = null, val retirementAge: Int? = null,
+                                val sectorTypeDetailID: Int? = null, val subProfileTypeDetailID: Int? = null,
+                                val totalExperience: String? = null, val designation: String? = null)
     data class EmploymentAddressBean(val address1: String, val address2: String? = null, val addressProof: Int? = null, val cityID: Int?,
                                      val cityName: String, val districtID: Int? = null, val landmark: String? = null, val rentAmount: Int? = null,
                                      val residenceTypeTypeDetailID: Int? = null, val zip: String? = null)
-
     data class Document(val documentTypeDetailID: Int, val uploadedDocumentPath: String)
+    data class RequestBankDetail(val draftDetailID: Any? = null, val leadID: Int, val loanApplicationID: Any? = null,
+                                 val loanApplicationObj: BankDetailObj, val storageTypeID: Any? = null, val userID: Int? = null)
+
+    data class BankDetailObj(val bankDetailList: ArrayList<BankDetail>)
+    data class BankDetail(val applicantBankDetailsBean: ArrayList<ApplicantBankDetailsBean>, val applicantID: Int? = null, val firstName: String? = null, val leadApplicantNumber: String)
+    data class ApplicantBankDetailsBean(val accountHolderName: String, val accountNumber: Long, val accountTypeDetailID: Int? = null,
+                                        val applicantBankTransectionList: List<ApplicantBankTransection>? = null, val applicantID: Int? = null,
+                                        val averageBankBalance: Any? = null, val averageDebitBalance: Any? = null, val bankDetailID: Int? = null,
+                                        val bankNameTypeDetailID: Int? = null, val bankStatementProof: Any? = null, val bulkEntryAmount: Any? = null,
+                                        val firstName: String? = null, val inwardChequeReturn: Any? = null, val loanApplicationID: Int? = null,
+                                        val netMonthlyCredit: Any? = null, val numberOfCredit: Int, val numberOfDebit: Any? = null,
+                                        val outwardChequeReturn: Any? = null, val salaryCreditTypeDetailID: Int? = null, val transection: Any? = null)
+
+    data class ApplicantBankTransection(val applicantBankTransectionID: Int)
 }

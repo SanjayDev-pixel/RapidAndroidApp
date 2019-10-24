@@ -8,11 +8,11 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
 
-class YesNoSpinnerAdapter(mContext: Context, val value: List<String>,
-                          val isMandatory: Boolean = false) : BaseAdapter() {
+class YesNoSpinnerAdapter(mContext: Context, val isMandatory: Boolean = false) : BaseAdapter() {
 
     private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val value = arrayListOf("yes", "No")
 
     override fun getItem(position: Int): Any? {
         return value[position]

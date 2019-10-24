@@ -1,5 +1,6 @@
 package com.finance.app.persistence.converters
 import androidx.room.TypeConverter
+import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.google.gson.Gson
@@ -79,6 +80,26 @@ class ConverterArrayList {
 
     @TypeConverter
     fun fromLoanPurposeArrayListToString(ArrayList: ArrayList<Response.LoanPurpose>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListAllLeadMaster(value: String?): ArrayList<AllLeadMaster>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<AllLeadMaster>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<AllLeadMaster>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromAllLeadArrayListToStringMaster(ArrayList: ArrayList<AllLeadMaster>?): String? {
         ArrayList?.let {
             val gson = Gson()
             return gson.toJson(ArrayList)

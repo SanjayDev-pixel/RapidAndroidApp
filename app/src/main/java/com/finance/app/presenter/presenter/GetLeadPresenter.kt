@@ -1,6 +1,6 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.LoanApplicationConnector
+import com.finance.app.presenter.connector.GetAllLeadsConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class EmploymentPresenter(private val employment: LoanApplicationConnector.Employment) : LoanApplicationConnector.PresenterOpt {
+class GetLeadPresenter(private val lead: GetAllLeadsConnector.ParticularLead) : GetAllLeadsConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -22,28 +22,27 @@ class EmploymentPresenter(private val employment: LoanApplicationConnector.Emplo
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_EMPLOYMENT) {
-            callEmploymentApi()
+        if (type == ConstantsApi.CALL_GET_LEAD) {
+            callGetLeadApi()
         }
     }
 
-    private fun callEmploymentApi() {
-        val requestApi = apiProject.api.employment(employment.employmentRequest)
-
+    private fun callGetLeadApi() {
+        val requestApi = apiProject.api.getLead(leadId = lead.leadId)
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { employment.showProgressDialog() }
-                .doFinally { employment.hideProgressDialog() }
-                .subscribe({ response -> onEmployment(response) },
-                        { e -> employment.getEmploymentFailure(e?.message ?: "") })
+                .doOnSubscribe { lead.showProgressDialog() }
+                .doFinally { lead.hideProgressDialog() }
+                .subscribe({ response -> onGetLead(response) },
+                        { e -> lead.getLeadFailure(e?.message ?: "") })
     }
 
-    private fun onEmployment(response: Response.ResponseEmployment) {
+    private fun onGetLead(response: Response.ResponseGetLead) {
         if (response.responseCode == "200") {
-            employment.getEmploymentSuccess(response)
+            lead.getLeadSuccess(response)
         } else {
-            employment.getEmploymentFailure(response.responseMsg)
+            lead.getLeadFailure(response.responseMsg)
         }
     }
 }

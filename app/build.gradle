@@ -182,6 +182,8 @@ dependencies {
     //pager Indicator
     implementation 'com.github.chahine:pageindicator:0.2.8'
 
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7"
+
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }

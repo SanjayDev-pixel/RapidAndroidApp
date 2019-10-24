@@ -8,11 +8,6 @@ import motobeans.architecture.retrofit.response.Response.ResponseSample
 import org.json.JSONObject
 import retrofit2.http.*
 
-
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
-
 interface Api {
     @POST("temp1/")
     fun postTempApi(@Body request: RequestSample): Observable<ResponseSample>
@@ -35,19 +30,32 @@ interface Api {
     @GET("api/v1/master/all/")
     fun getAllSpinnerValue(): Observable<Response.ResponseAllMasterValue>
 
-    @GET("api/v1/master/loan-product-purpose")
+    @GET("api/v1/master/loan-product-purpose/")
     fun getLoanProduct(): Observable<Response.ResponseLoanProduct>
 
-    @GET("api/v1/master/branchID/{branchId}/channelType/{channelType}/employeeID/{employeeId}")
+    @GET("api/v1/master/branchID/{branchId}/channelType/{channelType}/employeeID/{employeeId}/")
     fun sourceChannelPartnerName(@Path("branchId") branchId: String, @Path("channelType") channelType: String, @Path("employeeId") employeeId: String): Observable<Response.ResponseSourceChannelPartnerName>
 
-    @PUT("api/v1/loan/application/reference/detail/draft/{leadId}")
+    @PUT("api/v1/loan/application/reference/detail/draft/{leadId}/")
     fun updateReference(@Path("leadId") leadId: String?, @Body requestUpdate: ArrayList<Requests.RequestUpdateReference>): Observable<Response.ResponseUpdateReference>
 
-    @GET("api/v1/pincode/{pinCode}")
+    @GET("api/v1/pincode/{pinCode}/")
     fun getPinCodeDetail(@Path("pinCode") pinCode: String?): Observable<Response.ResponsePinCodeDetail>
 
     @POST("api/v1/loan/application/employment/")
-    fun saveEmployment(@Body request: Requests.RequestEmployment): Observable<Response.ResponseEmployment>
+    fun employment(@Body request: Requests.RequestEmployment): Observable<Response.ResponseEmployment>
+
+    @POST("api/v1/loan/application/applicant/bank-details")
+    fun bankDetail(@Body request: Requests.RequestBankDetail): Observable<Response.ResponseBankDetail>
+
+    @Multipart
+    @POST("api/v1/file/upload/")
+    fun uploadDocument(@Part("document") document: String): Observable<Response.ResponseDocumentUpload>
+
+    @GET("api/v1/lead/")
+    fun getAllLeads(): Observable<Response.ResponseGetAllLeads>
+
+    @GET("api/v1/lead/{leadId}/")
+    fun getLead(@Path("leadId") leadId: Int): Observable<Response.ResponseGetLead>
 
 }

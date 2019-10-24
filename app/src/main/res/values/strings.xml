@@ -152,4 +152,7 @@
     <string name="loan_application">Loan Application</string>
     <string name="state">State</string>
     <string name="failure_pin_code_api">Unable to get details for the pin</string>
+    <string name="upload">Upload</string>
+    <string name="document_name">Document Name</string>
+    <string name="failure_get_all_leads">No Leads to show</string>
 </resources>

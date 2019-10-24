@@ -4,10 +4,6 @@ import com.finance.app.databinding.*
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
-
 class FormValidationImpl(private val mContext: Context) : FormValidation {
 
     override fun validatePersonalInfo(binding: FragmentPersonalBinding): Boolean {
@@ -209,7 +205,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         binding.spinnerSalaryCredit.isEnabled = false
         binding.etAccountNum.isEnabled = false
         binding.etAccountHolderName.isEnabled = false
-        binding.btnAddTransaction.isEnabled = false
         binding.ivUploadStatement.isClickable = false
     }
 
@@ -332,11 +327,25 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     }
 
     override fun validateBankDetail(binding: FragmentBankDetailBinding): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        var errorCount = 0
+        val bankName = binding.etAccountNum.text.toString()
+        if (!bankName.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etAccountNum.error = "Account Num can not be blank"
+        }
 
-    override fun validateAssetLiability(binding: FragmentAssetLiablityBinding): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val accountHolderName = binding.etAccountHolderName.text.toString()
+        if (!accountHolderName.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etAccountHolderName.error = "Account holder name can not be blank"
+        }
+
+        val salaryCreditNum = binding.etSalaryCreditedInSixMonths.text.toString().toInt()
+        if (salaryCreditNum > 6) {
+            errorCount++
+            binding.etSalaryCreditedInSixMonths.error = "This can not be more than 6"
+        }
+        return isValidForm(errorCount)
     }
 
     override fun validateReference(binding: FragmentReferenceBinding): Boolean {
@@ -386,20 +395,11 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun clearReferenceForm(binding: FragmentReferenceBinding) {
-        binding.etContactNum.text?.clear()
-        binding.etName.text?.clear()
-        binding.etKnownSince.text?.clear()
-        binding.referenceAddressLayout.etDistrict.text?.clear()
-        binding.referenceAddressLayout.etCity.text?.clear()
-        binding.referenceAddressLayout.etPinCode.text?.clear()
-        binding.referenceAddressLayout.etAddress1.text?.clear()
-        binding.referenceAddressLayout.etAddress2.text?.clear()
-        binding.referenceAddressLayout.etLandmark.text?.clear()
-        binding.referenceAddressLayout.etState.text?.clear()
+    override fun validateProperty(binding: FragmentPropertyBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun validateProperty(binding: FragmentPropertyBinding): Boolean {
+    override fun validateAssetLiability(binding: FragmentAssetLiablityBinding): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -408,7 +408,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-     private fun isValidForm(errorCount: Int): Boolean {
+    private fun isValidForm(errorCount: Int): Boolean {
         return errorCount <= 0
     }
 }

@@ -1,6 +1,7 @@
 package motobeans.architecture.development.interfaces
 
-import com.finance.app.model.Modals.*
+import com.finance.app.model.Modals
+import com.finance.app.model.Modals.ApplicantPersonal
 import motobeans.architecture.retrofit.response.Response
 
 interface SharedPreferencesUtil {
@@ -19,6 +20,6 @@ interface SharedPreferencesUtil {
     fun getRolePrivilege():Response.RolePrivileges?
     fun getNavMenuItem(): HashMap<String, Int>?
     fun clearAll()
-    fun setCoApplicantsPosition(position: String)
+    fun getCoApplicant(): ArrayList<Modals.ApplicantTab>
     fun getCoApplicantsPosition():Int
 }

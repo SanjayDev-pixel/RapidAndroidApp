@@ -20,7 +20,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
     private val mKeys = ArrayList<String>(navItem.keys)
 
     companion object {
-        var selectedPos = 0
+        private var selectedPos = 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NavDrawerViewHolder {
@@ -126,7 +126,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
         private fun updateSecondaryFragment(fragment: Fragment) {
             val ft = (mContext as AppCompatActivity).supportFragmentManager.
                     beginTransaction().apply {
-                add(R.id.secondaryFragmentContainer, fragment)
+                replace(R.id.secondaryFragmentContainer, fragment)
                 addToBackStack(null)
             }
             ft.commit()

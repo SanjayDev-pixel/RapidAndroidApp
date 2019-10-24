@@ -172,7 +172,7 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
         get() = mChannelTypeId
 
     private fun getChannelPartnerName(sourceChannelPartner: DropdownMaster) {
-//        mEmployeeId = sharedPreferences.getLoginData()?.responseObj?.userDetails?.userBasicDetails?.userId.toString()
+//        mEmployeeId = sharedPreferences.getLoginData()?.loginObj?.userDetails?.userBasicDetails?.userId.toString()
 //        mChannelTypeId = sourceChannelPartner.typeDetailID.toString()
         mChannelTypeId = "3"
         mEmployeeId = "2"
@@ -254,6 +254,7 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
     override fun hideProgressDialog() {
         BaseAppCompatActivity.progressDialog?.hide()
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

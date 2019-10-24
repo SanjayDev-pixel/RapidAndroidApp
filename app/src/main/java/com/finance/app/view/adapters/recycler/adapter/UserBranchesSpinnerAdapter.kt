@@ -9,10 +9,10 @@ import android.widget.TextView
 import com.finance.app.R
 import motobeans.architecture.retrofit.response.Response
 
-class UserBranchesSpinnerAdapter(context1: Context, val value: ArrayList<Response.UserBranches>) :
+class UserBranchesSpinnerAdapter(mContext: Context, val value: ArrayList<Response.UserBranches>) :
         BaseAdapter() {
 
-    private var inflater: LayoutInflater = context1.getSystemService(
+    private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     private lateinit var spinnerValue: Response.UserBranches

@@ -50,7 +50,7 @@
             android:name=".view.activity.LoanApplicationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.AssignedLeadActivity"
+            android:name=".view.activity.AllLeadActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.DashboardActivity"
@@ -73,6 +73,7 @@
         <activity
             android:name=".view.activity.NotificationActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.UploadDataActivity" />
 
     </application>
 

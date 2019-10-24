@@ -1,54 +1,57 @@
 package com.finance.app.view.fragment
-
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.finance.app.R
 import com.finance.app.databinding.FragmentBankDetailBinding
+import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.utility.UploadData
+import com.finance.app.presenter.connector.LoanApplicationConnector
+import com.finance.app.presenter.presenter.BankDetailPresenter
 import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.YesNoSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.ConstantsApi
+import motobeans.architecture.customAppComponents.activity.BaseFragment
+import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.request.Requests
+import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class BankDetailFragment : androidx.fragment.app.Fragment() {
+class BankDetailFragment : BaseFragment(), LoanApplicationConnector.BankDetail {
+
     private lateinit var binding: FragmentBankDetailBinding
     private lateinit var mContext: Context
-    private val frag: Fragment = this
+    private lateinit var allMasterDropDown: AllMasterDropDown
+    private val bankDetailPresenter = BankDetailPresenter(this)
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
     lateinit var formValidation: FormValidation
+    @Inject
+    lateinit var dataBase: DataBaseUtil
 
     companion object {
-        private const val SELECT_PDF_CODE = 1
-        private const val CLICK_IMAGE_CODE = 2
-        private const val SELECT_IMAGE_CODE = 3
-        private var image: Bitmap? = null
-        private var pdf: Uri? = null
+        var bankDetailList: ArrayList<Requests.BankDetail> = ArrayList()
+        var bankDetailBeanList: ArrayList<Requests.ApplicantBankDetailsBean> = ArrayList()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentBankDetailBinding.inflate(inflater, container, false)
-        mContext = requireContext()
+        binding = initBinding(inflater, container, R.layout.fragment_bank_detail)
+        init()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun init() {
         ArchitectureApp.instance.component.inject(this)
-        setDropDownValue()
+        mContext = context!!
+        getDropDownsFromDB()
         setClickListeners()
         checkIncomeConsideration()
     }
@@ -67,44 +70,68 @@ class BankDetailFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun setClickListeners() {
-        binding.ivUploadStatement.setOnClickListener {
-            UploadData(frag, context!!)
-        }
-    }
-
-    private fun setDropDownValue() {
-        val lists: ArrayList<DropdownMaster> = ArrayList()
-
-        binding.spinnerAccountType.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.spinnerBankName.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(mContext, lists)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            val returnUri = data!!.data
-            when (requestCode) {
-                SELECT_PDF_CODE -> {
-                    Log.i("URI: ", returnUri?.toString())
-                    pdf = returnUri
-                    binding.tvUploadBankStatement.visibility = View.GONE
-                    binding.ivThumbnail.visibility = View.GONE
-                    binding.ivPdf.visibility = View.VISIBLE
-                }
-                SELECT_IMAGE_CODE -> {
-                    val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, returnUri)
-                    image = bitmap
-                    binding.tvUploadBankStatement.visibility = View.GONE
-                    binding.ivThumbnail.setImageBitmap(bitmap)
-                }
-                CLICK_IMAGE_CODE -> {
-                    val thumbnail = data.extras!!.get("data") as Bitmap
-                    image = thumbnail
-                    binding.tvUploadBankStatement.visibility = View.GONE
-                    binding.ivThumbnail.setImageBitmap(thumbnail)
-                }
+        binding.btnSaveAndContinue.setOnClickListener {
+            if (formValidation.validateBankDetail(binding)) {
+                bankDetailBeanList.add(bankDetailBean)
+                bankDetailList.add(bankDetail)
+                bankDetailPresenter.callNetwork(ConstantsApi.CALL_BANK_DETAIL)
             }
         }
     }
+
+    private fun getDropDownsFromDB() {
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
+            masterDrownDownValues.let {
+                allMasterDropDown = it
+                setMasterDropDownValue(allMasterDropDown)
+            }
+        })
+    }
+
+    private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
+        val bankNameList = allMasterDropDown.BankName!!
+        val accountType = allMasterDropDown.AccountType!!
+        binding.spinnerBankName.adapter = MasterSpinnerAdapter(context!!, bankNameList)
+        binding.spinnerAccountType.adapter = MasterSpinnerAdapter(context!!, accountType)
+        binding.spinnerSalaryCredit.adapter = YesNoSpinnerAdapter(context!!)
+    }
+
+    override val bankDetailRequest: Requests.RequestBankDetail
+        get() {
+            val leadId = 5
+            return Requests.RequestBankDetail(leadID = leadId, loanApplicationObj = bankDetailObj)
+        }
+
+    private val bankDetailObj: Requests.BankDetailObj
+        get() {
+            return Requests.BankDetailObj(bankDetailList)
+        }
+
+    private val bankDetail: Requests.BankDetail
+        get() {
+            return Requests.BankDetail(bankDetailBeanList, leadApplicantNumber = "1")
+        }
+
+    private val bankDetailBean: Requests.ApplicantBankDetailsBean
+        get() {
+            val bankName = binding.spinnerBankName.selectedItem as DropdownMaster
+            val accountType = binding.spinnerAccountType.selectedItem as DropdownMaster
+            return Requests.ApplicantBankDetailsBean(accountHolderName = binding.etAccountHolderName.text.toString(),
+                    accountNumber = binding.etAccountNum.text.toString().toLong(), bankNameTypeDetailID = bankName.typeDetailID,
+                    accountTypeDetailID = accountType.typeDetailID, salaryCreditTypeDetailID = binding.spinnerSalaryCredit.selectedItemPosition,
+                    numberOfCredit = binding.etSalaryCreditedInSixMonths.text.toString().toInt()
+            )
+        }
+
+    override fun getBankDetailSuccess(value: Response.ResponseBankDetail) = gotoNextFragment()
+
+    override fun getBankDetailFailure(msg: String) = showToast(msg)
+
+    private fun gotoNextFragment() {
+        val ft = fragmentManager?.beginTransaction()
+        ft?.replace(R.id.secondaryFragmentContainer, AssetLiabilityFragment())
+        ft?.addToBackStack(null)
+        ft?.commit()
+    }
+
 }

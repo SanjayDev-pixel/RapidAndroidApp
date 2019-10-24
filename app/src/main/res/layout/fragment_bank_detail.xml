@@ -11,8 +11,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:paddingBottom="70sp">
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +47,7 @@
                     android:id="@+id/input_layout_account_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -56,6 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Account No. "
+                        android:inputType="number"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
 
@@ -65,7 +65,7 @@
                     android:id="@+id/input_layout_account_holder_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -110,7 +110,8 @@
                         app:ms_arrowColor="@color/black"
                         android:textSize="@dimen/text_size"
                         app:ms_arrowSize="16dp"
-                        android:layout_marginStart="@dimen/margin_10" app:ms_floatingLabelColor="@color/hint_color"
+                        android:layout_marginStart="@dimen/margin_10"
+                        app:ms_floatingLabelColor="@color/hint_color"
                         app:ms_floatingLabelText="Salary Credit  "
                         app:ms_hint="Salary Credit "
                         app:ms_hintColor="@color/hint_color"
@@ -119,17 +120,37 @@
 
                 </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_salary_credit_in_six_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSalaryCreditedInSixMonths"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="No. of Salary Credited In 6 months"
+                        android:maxLength="1"
+                        android:minWidth="200dp"
+                        android:inputType="number"
+                        android:textSize="@dimen/text_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_50"
+                    android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/ivUploadStatement"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="50sp"
                     android:layout_gravity="center"
@@ -137,48 +158,24 @@
 
                 <TextView
                     android:id="@+id/tvUploadBankStatement"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/upload_bank_statement"
                     android:textColor="@color/black" />
-
-                <ImageView
-                    android:id="@+id/ivThumbnail"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="50sp"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:src="@drawable/upload_icon" />
-
-                <ImageView
-                    android:id="@+id/ivPdf"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_pdf_type"
-                    android:layout_height="50sp"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/fields_margin" />
-
-            </LinearLayout>
+                </LinearLayout>
 
                 <Button
-                    android:id="@+id/btnAddTransaction"
+                    android:id="@+id/btnSaveAndContinue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
+                    android:layout_marginTop="@dimen/margin_50"
                     android:background="@drawable/button_theme_style"
-                    android:padding="5sp"
-                    android:text="@string/add_transaction"
-                    android:gravity="center"
                     android:layout_gravity="center"
+                    android:text="@string/save_and_continue"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
-
             </LinearLayout>
-
         </ScrollView>
     </RelativeLayout>
 </layout>

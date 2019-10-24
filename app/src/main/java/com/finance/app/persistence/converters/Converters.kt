@@ -1,13 +1,14 @@
 package com.finance.app.persistence.converters
 
 import androidx.room.TypeConverter
+import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import java.util.Date
+import java.util.*
 
 /**
  * Created by munishkumarthakur on 19/03/18.
@@ -87,6 +88,26 @@ class Converters {
         list?.let {
             val gson = Gson()
             return gson.toJson(list)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToAllLeadMaster(value: String?): AllLeadMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<AllLeadMaster>() {
+
+        }.type
+        return Gson().fromJson<AllLeadMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromAllLeadMasterToString(lead: AllLeadMaster?): String? {
+        lead?.let {
+            val gson = Gson()
+            return gson.toJson(lead)
         }
         return null
     }

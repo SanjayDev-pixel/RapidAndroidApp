@@ -10,8 +10,8 @@
             android:id="@+id/llSalary"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <TextView
@@ -21,6 +21,15 @@
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="@dimen/margin_20"
                 android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbIsPensioner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_10"
+                android:text="Is Pensioner"
+                android:textSize="@dimen/button_text_size"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -229,6 +238,72 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_deduction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDeduction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Deduction"
+                        android:inputType="number"
+                        android:minWidth="200dp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_gross_income"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etGrossIncome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Gross Income"
+                        android:inputType="number"
+                        android:minWidth="150dp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_net_income"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:textColorHint="@color/hint_color">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNetIncome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Net Income"
+                    android:minWidth="200dp"
+                    android:singleLine="true"
+                    app:ms_hintTextSize="@dimen/hint_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

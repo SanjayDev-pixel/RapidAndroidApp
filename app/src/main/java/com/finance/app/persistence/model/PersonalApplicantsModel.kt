@@ -37,5 +37,5 @@ class PersonalApplicantsModel {
     var spouseFirstName: String = " "
     var spouseLastName: String = ""
     var spouseMiddleName: String = ""
-
+    var incomeConsidered: Boolean = true
 }

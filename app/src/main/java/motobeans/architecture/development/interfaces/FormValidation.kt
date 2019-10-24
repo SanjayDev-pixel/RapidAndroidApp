@@ -16,5 +16,4 @@ interface FormValidation {
     fun disableEmploymentFields(binding: FragmentEmploymentBinding)
     fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding)
     fun disableBankDetailFields(binding: FragmentBankDetailBinding)
-    fun clearReferenceForm(binding: FragmentReferenceBinding)
 }

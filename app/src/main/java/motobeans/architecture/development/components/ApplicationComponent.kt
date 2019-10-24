@@ -53,7 +53,10 @@ interface ApplicationComponent {
     fun inject(fragment: BankDetailFragment)
     fun inject(fragment: AssetLiabilityFragment)
     fun inject(fragment: ReferenceFragment)
-
+    fun inject(fragment: AllLeadsFragment)
+    fun inject(fragment: PendingLeadsFragment)
+    fun inject(fragment: CompletedLeadFragment)
+    fun inject(fragment: RejectedLeadFragment)
     /**
      * Presenters
      */
@@ -68,6 +71,10 @@ interface ApplicationComponent {
     fun inject(presenter: UpdateReferencePresenter)
     fun inject(presenter: PinCodeDetailPresenter)
     fun inject(presenter: EmploymentPresenter)
+    fun inject(presenter: DocumentUploadPresenter)
+    fun inject(presenter: BankDetailPresenter)
+    fun inject(presenter: GetAllLeadsPresenter)
+    fun inject(presenter: GetLeadPresenter)
 
     /**
      * View Model

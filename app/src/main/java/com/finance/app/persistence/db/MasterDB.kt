@@ -6,14 +6,16 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.finance.app.persistence.converters.ConverterArrayList
 import com.finance.app.persistence.converters.Converters
+import com.finance.app.persistence.dao.AllLeadsDao
 import com.finance.app.persistence.dao.AllMasterDropDownDao
 import com.finance.app.persistence.dao.LoanProductDao
+import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.LoanProductMaster
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
-@Database(entities = [AllMasterDropDown::class, LoanProductMaster::class], version = 3)
+@Database(entities = [AllMasterDropDown::class, LoanProductMaster::class, AllLeadMaster::class], version = 3)
 @TypeConverters(value = [Converters::class, ConverterArrayList::class])
 abstract class MasterDB : RoomDatabase() {
 
@@ -51,6 +53,9 @@ abstract class MasterDB : RoomDatabase() {
 
   @SuppressWarnings("WeakerAccess")
   abstract fun loanProductDao(): LoanProductDao
+
+  @SuppressWarnings("WeakerAccess")
+  abstract fun allLeadsDao(): AllLeadsDao
 
   fun reconfigDataFromDBASync(){
 

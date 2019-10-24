@@ -25,11 +25,11 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun getUserToken(): String?{
-        return getLoginData()?.responseObj?.token
+        return getLoginData()?.loginObj?.token
     }
 
     override fun getUserName(): String? {
-        return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.userName
+        return getLoginData()?.loginObj?.userDetails?.userBasicDetails?.userName
     }
 
     override fun isLogin(): Boolean {
@@ -70,9 +70,18 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
     }
 
-    override fun setCoApplicantsPosition(position: String) {
-        val coApplicantPosition = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_CO_APPLICANT_POSITION)
-        coApplicantPosition.putString(SharedPreferencesBean.KEY_CO_APPLICANT_POSITION, position)
+    override fun getCoApplicant(): ArrayList<Modals.ApplicantTab> {
+        val objSpPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
+        val personalApplicantJson = objSpPersonalApplicants.getString(SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
+        val personalApplicants =  Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
+        val applicants: ArrayList<Modals.ApplicantTab> = ArrayList()
+        for (applicant in personalApplicants.personalApplicants){
+                if (applicant.incomeConsidered){
+                    val coApplicant =Modals.ApplicantTab(applicant.firstName, applicant.incomeConsidered)
+                    applicants.add(coApplicant)
+                }
+        }
+        return applicants
     }
 
     override fun getCoApplicantsPosition(): Int {
@@ -81,7 +90,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun getRolePrivilege(): Response.RolePrivileges? {
-        val privilegesList = getLoginData()?.responseObj?.userDetails?.
+        val privilegesList = getLoginData()?.loginObj?.userDetails?.
                 rolePrivilegesList
         for (privilege in privilegesList!!){
             if(privilege.moduleName == "Login"){
@@ -111,7 +120,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun getUserBranches(): ArrayList<Response.UserBranches>? {
-        return getLoginData()?.responseObj?.userDetails?.userBranches
+        return getLoginData()?.loginObj?.userDetails?.userBranches
     }
 
     override fun clearAll() {
@@ -124,4 +133,5 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
 
         }
     }
+
 }

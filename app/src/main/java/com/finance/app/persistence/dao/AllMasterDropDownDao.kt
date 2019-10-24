@@ -15,6 +15,9 @@ interface  AllMasterDropDownDao {
     @Query("SELECT * FROM AllMasterDropDown LIMIT 1")
     fun getMasterDropdownValue(): LiveData<AllMasterDropDown>
 
+    @Query("SELECT * FROM AllMasterDropDown LIMIT 1")
+    fun getDropdownValue(): LiveData<AllMasterDropDown>
+
     @Query("DELETE FROM AllMasterDropDown")
     fun deleteAllMasterDropdownValue()
 

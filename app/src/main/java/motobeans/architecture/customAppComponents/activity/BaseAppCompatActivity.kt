@@ -88,7 +88,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         mDataBase.provideDataBaseSource().deleteAllTableDataFromDBAsycn()
       }
       R.id.assignedLeads -> {
-        AssignedLeadActivity.start(this)
+        AllLeadActivity.start(this)
       }
     }
     bindingParent.drawerLayout.closeDrawer(GravityCompat.START)

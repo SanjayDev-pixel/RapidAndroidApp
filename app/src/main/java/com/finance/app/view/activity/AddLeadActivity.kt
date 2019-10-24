@@ -28,9 +28,10 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     @Inject
     lateinit var dataBase: DataBaseUtil
     private val presenterOpt = AddLeadPresenter(this)
-    private lateinit var loanType: ArrayList<DropdownMaster>
 
     companion object {
+        private var loanType: ArrayList<DropdownMaster> = ArrayList()
+        private var branches: ArrayList<Response.UserBranches>? = ArrayList()
         fun start(context: Context) {
             val intent = Intent(context, AddLeadActivity::class.java)
             context.startActivity(intent)
@@ -58,7 +59,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     private fun setDropDownValue() {
-        val branches = sharedPreferences.getUserBranches()
+        branches = sharedPreferences.getUserBranches()
         binding.spinnerBranchId.adapter = UserBranchesSpinnerAdapter(this, branches!!)
         binding.spinnerTypeOfLoan.adapter = MasterSpinnerAdapter(this, loanType)
     }
@@ -82,11 +83,11 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         get() = leadRequest
 
     override fun getAddLeadSuccess(value: Response.ResponseAddLead) {
-        AssignedLeadActivity.start(this)
+        AllLeadActivity.start(this)
         showToast("success")
     }
 
     override fun getAddLeadFailure(msg: String) {
-        showToast("failed")
+        showToast(msg)
     }
 }

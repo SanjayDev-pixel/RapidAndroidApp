@@ -1,5 +1,6 @@
 package motobeans.architecture.retrofit.response
 
+import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.LoanProductMaster
 
@@ -7,8 +8,9 @@ object Response {
     data class ResponseSample(var isSuccess: Boolean, var status: Int, var message: String)
     data class UserBranches(val branchId: Int, val branchName: String)
     data class ResponseLogin(val responseCode: String, val responseMsg: String,
-                             val responseObj: ResponseObj, val timeStamp: Long)
-    data class ResponseObj(val token: String, val userDetails: UserDetails)
+                             val loginObj: LoginObj, val timeStamp: Long)
+
+    data class LoginObj(val token: String, val userDetails: UserDetails)
     data class UserDetails(val roleList: ArrayList<Role>, val rolePrivilegesList: ArrayList<RolePrivileges>,
                            val userBasicDetails: UserBasicDetails, val userBranches: ArrayList<UserBranches>,
                            val userSpecialPermissions: ArrayList<Any>)
@@ -46,12 +48,23 @@ object Response {
     data class ResponseLoanProduct(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<LoanProductMaster>, val timeStamp: Long)
     data class LoanPurpose(val loanPurposeID: Int, val loanPurposeName: String)
     data class ResponseUpdateReference(val responseCode: String, val responseMsg: String, val responseObj: Any, val timeStamp: Long)
-    data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ObjPinCode>, val timeStamp: Long)
-    data class ObjPinCode(val cityID: Int, val cityName: String, val districtID: Int, val districtName: String, val pincode: String, val pincodeID: Int, val stateID: Int, val stateName: String)
-    data class ResponseEmployment(
-            val responseCode: String,
-            val responseMsg: String,
-            val responseObj: Any? = null,
-            val timeStamp: Long
-    )
+    data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PinCodeObj>, val timeStamp: Long)
+    data class PinCodeObj(val cityID: Int, val cityName: String, val districtID: Int, val districtName: String, val pincode: String, val pincodeID: Int, val stateID: Int, val stateName: String)
+    data class ResponseEmployment(val responseCode: String, val responseMsg: String, val responseObj: Any? = null, val timeStamp: Long)
+    data class ResponseDocumentUpload(val responseCode: String, val responseMsg: String, val responseObj: DocumentUploadObj, val timeStamp: Long)
+    data class DocumentUploadObj(val applicationDocumentID: Any, val documentName: String, val documentType: Any, val documentTypeDetailID: Int, val uploadedDocumentPath: String)
+    data class ResponseBankDetail(val responseCode: String, val responseMsg: String, val responseObj: Any, val timeStamp: Long)
+    data class ResponseGetAllLeads(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<AllLeadMaster>, val timeStamp: Long)
+    data class AllLeadObj(val actualCompletionDate: Any, val applicantAddress: String, val applicantAlternativeContactNumber: Any, val applicantContactNumber: String,
+                          val applicantEmail: String, val applicantFirstName: String, val applicantLastName: String, val applicantMiddleName: String, val branchID: Any, val createdOn: String, val currentStatus: String,
+                          val dsaID: Any, val estimatedCompletionDate: Any, val isConvertedToLoanApplication: Any, val lastModifiedOn: String, val leadFailedReason: Any,
+                          val leadID: Int, val leadNumber: String, val leadOwnershipEntityID: Any, val leadReference: Any, val leadSourceTypeDetailID: Any,
+                          val loanApplicationID: Any, val loanProductID: Int, val loanProductName: String, val remarks: Any, val status: String)
+
+    data class ResponseGetLead(val responseCode: String, val responseMsg: String, val responseObj: LeadObj, val timeStamp: Long)
+    data class LeadObj(val actualCompletionDate: Any, val applicantAddress: String, val applicantAlternativeContactNumber: Any, val applicantContactNumber: String, val applicantEmail: String,
+                       val applicantFirstName: String, val applicantLastName: String, val applicantMiddleName: String, val branchID: Any, val createdOn: Long,
+                       val currentStatus: String, val dsaID: Any, val estimatedCompletionDate: Any, val isConvertedToLoanApplication: Any, val lastModifiedOn: Long,
+                       val leadFailedReason: Any, val leadID: Int, val leadNumber: String, val leadOwnershipEntityID: Any, val leadReference: Any, val leadSourceTypeDetailID: Any, val loanApplicationID: Any,
+                       val loanProductID: Int, val loanProductName: String, val remarks: Any, val status: String)
 }

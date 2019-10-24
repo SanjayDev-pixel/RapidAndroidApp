@@ -41,7 +41,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     private fun setNavFragment() {
         val fragment = NavMenuFragment()
         val ft = supportFragmentManager.beginTransaction().apply {
-            replace(R.id.navMenuContainer, fragment)
+            add(R.id.navMenuContainer, fragment)
             addToBackStack(null)
         }
         ft.commit()
@@ -90,6 +90,11 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         binding.mainLoanLayout.secondaryFragmentContainer.layoutParams = mainParam
         navFragment.notifyMenu(collapse)
         isExpand = true
+    }
+
+    override fun onBackPressed() {
+        this.finish()
+        super.onBackPressed()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

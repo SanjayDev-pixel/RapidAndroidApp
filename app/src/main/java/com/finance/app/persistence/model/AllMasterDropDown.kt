@@ -47,5 +47,5 @@ class AllMasterDropDown : Serializable {
     var Industry:ArrayList<DropdownMaster>? = null
     var Sector:ArrayList<DropdownMaster>? = null
     var Constitution:ArrayList<DropdownMaster>? = null
-
+    var AccountType:ArrayList<DropdownMaster>? = null
 }

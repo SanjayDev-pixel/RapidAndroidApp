@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentEmploymentBinding
 import com.finance.app.persistence.model.AllMasterDropDown
@@ -23,10 +24,13 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.EmploymentPresenter
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
+import com.finance.app.utility.ClearEmploymentForm
 import com.finance.app.utility.ConvertDateToApiFormat
 import com.finance.app.utility.IntFromDateString
 import com.finance.app.utility.SelectDate
+import com.finance.app.view.activity.UploadDataActivity
 import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.YesNoSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
@@ -38,7 +42,8 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode, LoanApplicationConnector.Employment {
+class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
+        LoanApplicationConnector.Employment, PersonalApplicantsAdapter.ItemClickListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -55,6 +60,7 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode, LoanA
     private lateinit var profileSegment: ArrayList<DropdownMaster>
     private lateinit var subProfileSegment: ArrayList<DropdownMaster>
     private lateinit var pinCodeFromForm: String
+    private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
     private var salaryDistrictId = 0
     private var salaryCityId = 0
     private var senpDistrictId = 0
@@ -66,6 +72,7 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode, LoanA
         private const val SENP = 2
         private const val CLICK_IMAGE_CODE = 2
         private const val SELECT_IMAGE_CODE = 3
+        private lateinit var applicantTab: ArrayList<String>
         var employmentList: ArrayList<Requests.EmploymentDetail> = ArrayList()
         private var image: Bitmap? = null
         private var pdf: Uri? = null
@@ -80,12 +87,40 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode, LoanA
     }
 
     override fun init() {
+        applicantTab = ArrayList()
         mContext = requireContext()
         ArchitectureApp.instance.component.inject(this)
         checkIncomeConsideration()
         setDatePicker()
+        getCoApplicants()
         getDropDownsFromDB()
         setClickListeners()
+    }
+
+    private fun getCoApplicants() {
+        applicantTab.add("Applicant")
+        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                LinearLayoutManager.HORIZONTAL, false)
+        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantTab)
+        binding.rcApplicants.adapter = applicantAdapterPersonal
+        applicantAdapterPersonal!!.setOnItemClickListener(this)
+    }
+
+    override fun onApplicantClick(position: Int) {
+        getApplicantData()
+        saveCurrentApplicant(position)
+        ClearEmploymentForm(binding)
+        getParticularApplicantData(position)
+    }
+
+    private fun getApplicantData() {
+    }
+
+    private fun saveCurrentApplicant(position: Int) {
+    }
+
+    private fun getParticularApplicantData(position: Int) {
+
     }
 
     private fun getDropDownsFromDB() {
@@ -111,12 +146,15 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode, LoanA
     }
 
     private fun setClickListeners() {
-        setSalaryPinCodeListener()
-        setSenpPinCodeListener()
         binding.btnSaveAndContinue.setOnClickListener {
             callApi()
         }
+        binding.ivDocumentUpload.setOnClickListener {
+            UploadDataActivity.start(mContext, allMasterDropDown.EmploymentType!!)
+        }
         setListenerForAge()
+        setSalaryPinCodeListener()
+        setSenpPinCodeListener()
     }
 
     private fun setListenerForAge() {
@@ -197,18 +235,6 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode, LoanA
                 if (position >= 0) {
                     val profile = parent.selectedItem as DropdownMaster
                     createSubProfileSegmentList(profile.typeDetailID, products.SubProfileSegment)
-                    when (profile.typeDetailID) {
-                        115 -> {
-                            binding.layoutSalary.llSalary.visibility = View.VISIBLE
-                            binding.layoutSenp.llSenp.visibility = View.GONE
-                            setUpSalaryDropDownValue()
-                        }
-                        114 -> {
-                            binding.layoutSenp.llSenp.visibility = View.VISIBLE
-                            binding.layoutSalary.llSalary.visibility = View.GONE
-                            setUpSenpDropDownValue()
-                        }
-                    }
                 }
             }
         }
@@ -231,22 +257,71 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode, LoanA
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
                     val profileSub = parent.selectedItem as DropdownMaster
-                    if (profileSub.typeDetailID == 116) {
-                        binding.spinnerAllEarningMember.visibility = View.VISIBLE
-                        setUpAllEarningMemberDropDownValue()
-                    } else {
-                        binding.spinnerAllEarningMember.visibility = View.GONE
+                    when (profileSub.typeDetailID) {
+                        118, 119 -> showSalaryForm(profileSub.typeDetailID!!)
+                        116, 117 -> showSenpForm(profileSub.typeDetailID!!)
                     }
                 }
             }
         }
     }
 
-    private fun setUpAllEarningMemberDropDownValue() {
-        setUpSenpDropDownValue()
+    private fun showSalaryForm(typeDetailID: Int) {
+        if (typeDetailID == 119) {
+            binding.layoutSalary.cbIsPensioner.visibility = View.VISIBLE
+        } else {
+            binding.layoutSalary.cbIsPensioner.visibility = View.GONE
+        }
+        binding.layoutSalary.llSalary.visibility = View.VISIBLE
+        binding.layoutSenp.llSenp.visibility = View.GONE
+        binding.spinnerAllEarningMember.visibility = View.GONE
+        setUpSalaryDropDownValue()
+        getNetIncomeValue()
+    }
+
+    private fun getNetIncomeValue() {
+        binding.layoutSalary.etDeduction.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                if (binding.layoutSalary.etDeduction.text.toString() == "" && binding.layoutSalary.etGrossIncome.text.toString() != "") {
+                    binding.layoutSalary.etNetIncome.setText((Integer.valueOf(binding.layoutSalary.etGrossIncome.text.toString()) -
+                            Integer.valueOf(binding.layoutSalary.etDeduction.text.toString())).toString())
+                }
+            }
+        })
+    }
+
+    private fun showSenpForm(typeDetailID: Int) {
+        if (typeDetailID == 116) {
+            setUpAllEarningMemberDropDownValue()
+            binding.layoutSenp.inputMonthlyIncome.visibility = View.VISIBLE
+        } else {
+            binding.spinnerAllEarningMember.visibility = View.GONE
+            binding.layoutSenp.inputMonthlyIncome.visibility = View.GONE
+        }
         binding.layoutSenp.llSenp.visibility = View.VISIBLE
-        val allEarningMemberList = listOf("No", "Yes")
-        binding.spinnerAllEarningMember.adapter = YesNoSpinnerAdapter(mContext, allEarningMemberList)
+        binding.layoutSalary.llSalary.visibility = View.GONE
+        setUpSenpDropDownValue()
+        getAverageMonthlyIncome()
+    }
+
+    private fun getAverageMonthlyIncome() {
+        binding.layoutSenp.etLastYearIncome.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                if (binding.layoutSenp.etLastYearIncome.text.toString() == "" && binding.layoutSenp.etCurrentYearIncome.text.toString() != "") {
+                    binding.layoutSenp.etAverageMonthlyIncome.setText((Integer.valueOf(binding.layoutSenp.etLastYearIncome.text.toString()) +
+                            Integer.valueOf(binding.layoutSenp.etLastYearIncome.text.toString()) / 24).toString())
+                }
+            }
+        })
+    }
+
+    private fun setUpAllEarningMemberDropDownValue() {
+        binding.spinnerAllEarningMember.visibility = View.VISIBLE
+        binding.spinnerAllEarningMember.adapter = YesNoSpinnerAdapter(mContext)
     }
 
     private fun setUpSenpDropDownValue() {
@@ -281,20 +356,20 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode, LoanA
         showToast(getString(R.string.failure_pin_code_api))
     }
 
-    private fun setPinDetailInSenp(objPinCode: Response.ObjPinCode) {
-        binding.layoutSenp.etCity.setText(objPinCode.cityName)
-        senpCityId = objPinCode.cityID
-        binding.layoutSenp.etDistrict.setText(objPinCode.districtName)
-        senpDistrictId = objPinCode.districtID
-        binding.layoutSenp.etState.setText(objPinCode.stateName)
+    private fun setPinDetailInSenp(pinCodeObj: Response.PinCodeObj) {
+        binding.layoutSenp.etCity.setText(pinCodeObj.cityName)
+        senpCityId = pinCodeObj.cityID
+        binding.layoutSenp.etDistrict.setText(pinCodeObj.districtName)
+        senpDistrictId = pinCodeObj.districtID
+        binding.layoutSenp.etState.setText(pinCodeObj.stateName)
     }
 
-    private fun setPinDetailInSalary(objPinCode: Response.ObjPinCode) {
-        binding.layoutSalary.etCity.setText(objPinCode.cityName)
-        salaryCityId = objPinCode.cityID
-        binding.layoutSalary.etDistrict.setText(objPinCode.districtName)
-        salaryDistrictId = objPinCode.districtID
-        binding.layoutSalary.etState.setText(objPinCode.stateName)
+    private fun setPinDetailInSalary(pinCodeObj: Response.PinCodeObj) {
+        binding.layoutSalary.etCity.setText(pinCodeObj.cityName)
+        salaryCityId = pinCodeObj.cityID
+        binding.layoutSalary.etDistrict.setText(pinCodeObj.districtName)
+        salaryDistrictId = pinCodeObj.districtID
+        binding.layoutSalary.etState.setText(pinCodeObj.stateName)
     }
 
     override val employmentRequest: Requests.RequestEmployment

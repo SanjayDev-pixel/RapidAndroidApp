@@ -9,10 +9,10 @@ import android.widget.TextView
 import com.finance.app.R
 import com.finance.app.persistence.model.DropdownMaster
 
-class MasterSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMaster>,
+class MasterSpinnerAdapter(mContext: Context, val value: ArrayList<DropdownMaster>,
                            val isMandatory: Boolean = false) : BaseAdapter() {
 
-    private var inflater: LayoutInflater = context1.getSystemService(
+    private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     private lateinit var spinnerValue: DropdownMaster

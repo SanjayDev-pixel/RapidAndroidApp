@@ -38,5 +38,11 @@ interface LoanApplicationConnector {
         fun getEmploymentFailure(msg: String)
     }
 
+    interface BankDetail : ReusableView {
+        val bankDetailRequest: Requests.RequestBankDetail
+        fun getBankDetailSuccess(value: Response.ResponseBankDetail)
+        fun getBankDetailFailure(msg: String)
+    }
+
     interface PresenterOpt : ReusableNetworkConnector
 }

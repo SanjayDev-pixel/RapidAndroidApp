@@ -17,6 +17,7 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
 import com.finance.app.presenter.presenter.UpdateReferencePresenter
+import com.finance.app.utility.ClearReferenceForm
 import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -90,7 +91,7 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
             if (formValidation.validateReference(binding = binding)) {
                 updateReferenceList.add(updateReference)
                 showReferenceDetail()
-                formValidation.clearReferenceForm(binding)
+                ClearReferenceForm(binding)
             }
         }
         binding.btnSaveAndContinue.setOnClickListener {
@@ -124,12 +125,12 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
         setPinCodeDetails(value.responseObj[0])
     }
 
-    private fun setPinCodeDetails(pinCodeDetail: Response.ObjPinCode) {
-        binding.referenceAddressLayout.etDistrict.setText(pinCodeDetail.districtName)
-        districtId = pinCodeDetail.districtID
-        binding.referenceAddressLayout.etCity.setText(pinCodeDetail.cityName)
-        cityId = pinCodeDetail.cityID
-        binding.referenceAddressLayout.etState.setText(pinCodeDetail.stateName)
+    private fun setPinCodeDetails(pinCodeObjDetail: Response.PinCodeObj) {
+        binding.referenceAddressLayout.etDistrict.setText(pinCodeObjDetail.districtName)
+        districtId = pinCodeObjDetail.districtID
+        binding.referenceAddressLayout.etCity.setText(pinCodeObjDetail.cityName)
+        cityId = pinCodeObjDetail.cityID
+        binding.referenceAddressLayout.etState.setText(pinCodeObjDetail.stateName)
     }
 
     override fun getPinCodeFailure(msg: String) {

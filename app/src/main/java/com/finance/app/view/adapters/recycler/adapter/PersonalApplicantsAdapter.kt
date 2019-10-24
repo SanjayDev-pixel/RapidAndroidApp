@@ -48,7 +48,7 @@ class PersonalApplicantsAdapter(private val mContext: Context, private val appli
                 if (mClickListener != null) {
                     selectedPosition = adapterPosition
                     mClickListener!!.onApplicantClick(position)
-                    sharedPreferences.setCoApplicantsPosition(position.toString())
+//                    sharedPreferences.setCoApplicantsPosition(position.toString())
                     notifyDataSetChanged()
                 }
             }

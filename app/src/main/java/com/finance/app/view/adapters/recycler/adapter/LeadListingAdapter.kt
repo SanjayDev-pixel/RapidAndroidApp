@@ -1,50 +1,50 @@
 package com.finance.app.view.adapters.recycler.adapter
 
 import android.content.Context
-import androidx.databinding.DataBindingUtil
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemLeadBinding
+import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.view.activity.LeadDetailActivity
 import java.util.*
 
-class LeadListingAdapter(private val c: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<LeadListingAdapter.LeadManagementViewHolder>() {
+class LeadListingAdapter(private val mContext: Context, private val leads: ArrayList<AllLeadMaster>) :
+        RecyclerView.Adapter<LeadListingAdapter.LeadManagementViewHolder>() {
+
     private lateinit var binding: ItemLeadBinding
 
-    private val name = arrayOf("ChamanLal", "Sanat bhagel", " bhagel", "Sanat ")
-    private val timeStamp = arrayOf(6541313L, 54684981L, 3216546L, 6461313L)
-
     override fun onBindViewHolder(holder: LeadManagementViewHolder, position: Int) {
-        holder.bindItems(name, position, timeStamp)
+        holder.bindItems(leads[position])
     }
 
-    override fun getItemCount() = 4
+    override fun getItemCount() = leads.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeadManagementViewHolder {
-
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_lead, parent, false)
-        return LeadManagementViewHolder(binding, c)
+        return LeadManagementViewHolder(binding)
     }
 
-    inner class LeadManagementViewHolder(val binding: ItemLeadBinding, val c: Context) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
-        fun bindItems(name: Array<String>, position: Int, timeStamp: Array<Long>) {
-            binding.tvLeadName.text = name[position]
-            convertToHumanFormat(timeStamp)
+    inner class LeadManagementViewHolder(val binding: ItemLeadBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bindItems(lead: AllLeadMaster) {
+            binding.tvLeadName.text = lead.applicantFirstName
+            binding.tvLeadStatus.text = lead.status
+            binding.tvLeadAddress.text = lead.applicantAddress
+            convertToHumanFormat(lead.lastModifiedOn!!)
             binding.leadCard.setOnClickListener {
-                LeadDetailActivity.start(c)
+                LeadDetailActivity.start(mContext, lead.leadID)
             }
         }
 
-        private fun convertToHumanFormat(timeStamp: Array<Long>) {
-
+        private fun convertToHumanFormat(timeStamp: Long) {
             val cal = Calendar.getInstance(Locale.ENGLISH)
-            cal.timeInMillis = timeStamp[position] * 1000L
+            cal.timeInMillis = timeStamp * 1000L
             val date = DateFormat.format("dd MMM : hh:mm", cal).toString()
             binding.tvDateAndTime.text = date
-
         }
     }
 }
