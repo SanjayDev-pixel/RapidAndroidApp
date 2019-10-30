@@ -18,11 +18,7 @@ import motobeans.architecture.development.implementation.ApiProjectImpl
 import motobeans.architecture.development.interfaces.ApiProject
 import motobeans.architecture.development.interfaces.EndPoint
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import okhttp3.Cache
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.ResponseBody
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
@@ -121,15 +117,13 @@ class NetworkModule {
   internal fun provideRetrofitHeaderV1(sharedPreferencesUtil: SharedPreferencesUtil,
       application: Application): Interceptor {
     return Interceptor { chain ->
-
       val original = chain.request()
-
       val builder = original.newBuilder()
       sharedPreferencesUtil.getUserToken()?.let {
         builder.header("Authorization", "Bearer ${sharedPreferencesUtil.getUserToken()}")
       }
-      builder.header("Content-Type", "application/json").
-              method(original.method(), original.body())
+      builder.header("Content-Type", "application/json").method(original.method(),
+              original.body())
       builder.header("platform", "Android")
       val request = builder.build()
       chain.proceed(request)

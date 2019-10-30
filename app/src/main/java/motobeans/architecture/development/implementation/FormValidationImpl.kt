@@ -176,7 +176,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         binding.spinnerDocumentProof.isEnabled = false
         binding.etValue.isEnabled = false
         binding.btnAddAsset.isEnabled = false
-        binding.btnAddApplicant.isEnabled = false
         binding.layoutCreditCard.spinnerBankName.isEnabled = false
         binding.layoutCreditCard.etCreditCardLimit.isEnabled = false
         binding.layoutCreditCard.etLastPaymentDate.isEnabled = false
@@ -263,7 +262,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             errorCount++
             binding.etState.error = "State can not be blank"
         }
-
         return isValidForm(errorCount)
     }
 
@@ -391,7 +389,32 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             errorCount++
             binding.referenceAddressLayout.etDistrict.error = "District field is required"
         }
+        return isValidForm(errorCount)
+    }
 
+    override fun validateAddLead(binding: ActivityAddLeadBinding): Boolean {
+        var errorCount = 0
+
+        val contact = binding.etContactNum.text.toString()
+        if (!contact.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etContactNum.error = "Contact can not be blank"
+        } else if (contact.length < 10) {
+            errorCount++
+            binding.etContactNum.error = "Contact can not be less than 10 digit"
+        }
+
+        val address = binding.etAddress.toString()
+        if (!address.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etAddress.error = "Address can not be blank"
+        }
+
+        val name = binding.etApplicantFirstName.text.toString()
+        if (!name.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etApplicantFirstName.error = "Name can not be blank"
+        }
         return isValidForm(errorCount)
     }
 

@@ -83,8 +83,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         DashboardActivity.start(this)
       }
       R.id.logout -> {
-        sharedPreferencesUtil.clearAll()
         LoginActivity.start(this)
+        sharedPreferencesUtil.clearAll()
         mDataBase.provideDataBaseSource().deleteAllTableDataFromDBAsycn()
       }
       R.id.assignedLeads -> {

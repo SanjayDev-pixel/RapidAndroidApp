@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.view.adapters.recycler.adapter.*
@@ -28,11 +29,7 @@ class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickLi
     lateinit var formValidation: FormValidation
 
     companion object {
-        private const val GALLERY = 1
-        private const val CAMERA = 2
-        private var coApplicant = 1
         private lateinit var applicantMenu: ArrayList<String>
-        private var image: Bitmap? = null
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -81,7 +78,6 @@ class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickLi
     }
 
     private fun setClickListeners() {
-
         binding.btnAddAsset.setOnClickListener {
             showAssetDetails()
         }
@@ -90,9 +86,6 @@ class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickLi
         }
         binding.layoutObligations.btnAddObligation.setOnClickListener {
             showObligationDetail()
-        }
-        binding.btnAddApplicant.setOnClickListener {
-            onAddApplicantClick()
         }
     }
 
@@ -110,7 +103,6 @@ class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickLi
         binding.layoutCreditCard.pageIndicatorCreditCard.attachTo(binding.layoutCreditCard.rcCreditCard)
         binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
         binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
-
     }
 
     private fun showAssetDetails() {
@@ -139,14 +131,13 @@ class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickLi
         binding.layoutCreditCard.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, lists)
     }
 
-    private fun onAddApplicantClick() {
-//        checkMandatoryField()
-        applicantMenu.add("Co- Applicant $coApplicant")
-        binding.rcApplicants.adapter!!.notifyDataSetChanged()
-        coApplicant++
-    }
-
     private fun changeCurrentApplicant() {
     }
 
+    private fun gotoNextFragment() {
+        val ft = fragmentManager?.beginTransaction()
+        ft?.replace(R.id.secondaryFragmentContainer, BankDetailFragment())
+        ft?.addToBackStack(null)
+        ft?.commit()
+    }
 }

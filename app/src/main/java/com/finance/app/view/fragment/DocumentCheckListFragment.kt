@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.finance.app.R
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
-import com.finance.app.model.Modals.AddKyc
+import com.finance.app.utility.ClearBankForm
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
 import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
+import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class DocumentCheckListFragment : Fragment() {
+class DocumentCheckListFragment : BaseFragment(), PersonalApplicantsAdapter.ItemClickListener {
 
     private lateinit var binding: FragmentDocumentChecklistBinding
     private lateinit var mContext: Context
@@ -23,22 +24,32 @@ class DocumentCheckListFragment : Fragment() {
     lateinit var sharedPreferences: SharedPreferencesUtil
 
     companion object {
-        private var coApplicant = 1
-        private lateinit var kycList: ArrayList<AddKyc>
         private lateinit var applicantMenu: ArrayList<String>
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentDocumentChecklistBinding.inflate(inflater, container, false)
-        mContext = requireContext()
+        binding = initBinding(inflater, container, R.layout.fragment_document_checklist)
+        init()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun init() {
+        mContext=requireContext()
         showDocumentList()
         setCoApplicants()
         setClickListeners()
+    }
+
+    override fun onApplicantClick(position: Int) {
+        saveCurrentApplicant()
+        getParticularApplicantData(position)
+    }
+
+    private fun saveCurrentApplicant() {
+    }
+
+    private fun getParticularApplicantData(position: Int) {
+
     }
 
     private fun setClickListeners() {
@@ -58,5 +69,4 @@ class DocumentCheckListFragment : Fragment() {
         applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantMenu)
         binding.rcApplicants.adapter = applicantAdapterPersonal
     }
-
 }

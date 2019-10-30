@@ -5,6 +5,7 @@ import com.finance.app.databinding.*
 interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
     fun validatePersonalInfo(binding: FragmentPersonalBinding):Boolean
+    fun validateAddLead(binding: ActivityAddLeadBinding):Boolean
     fun validateLoanInformation(binding: FragmentLoanInformationBinding):Boolean
     fun validateSalaryEmployment(binding: LayoutSalaryBinding): Boolean
     fun validateSenpEmployment(binding: LayoutSenpBinding): Boolean

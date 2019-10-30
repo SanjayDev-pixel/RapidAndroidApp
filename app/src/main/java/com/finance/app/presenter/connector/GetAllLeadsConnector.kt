@@ -8,12 +8,5 @@ interface GetAllLeadsConnector {
         fun getAllLeadsSuccess(value: Response.ResponseGetAllLeads)
         fun getAllLeadsFailure(msg: String)
     }
-
-    interface ParticularLead : ReusableView {
-        val leadId: Int
-        fun getLeadSuccess(value: Response.ResponseGetLead)
-        fun getLeadFailure(msg: String)
-    }
-
     interface PresenterOpt : ReusableNetworkConnector
 }

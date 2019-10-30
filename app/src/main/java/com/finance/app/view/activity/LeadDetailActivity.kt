@@ -4,28 +4,30 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
-import com.finance.app.presenter.connector.GetAllLeadsConnector
-import com.finance.app.presenter.presenter.GetLeadPresenter
+import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
-import motobeans.architecture.constants.ConstantsApi
+import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
-import motobeans.architecture.retrofit.response.Response
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class LeadDetailActivity : BaseAppCompatActivity(), GetAllLeadsConnector.ParticularLead {
+class LeadDetailActivity : BaseAppCompatActivity() {
 
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_detail)
     @Inject
     lateinit var dataBase: DataBaseUtil
-    private val presenter = GetLeadPresenter(this)
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
     private var bundle: Bundle? = null
     private var leadID = 0
+    private var leadContact:Long = 0
 
     companion object {
         private const val KEY_LEAD_ID = "leadId"
@@ -40,14 +42,8 @@ class LeadDetailActivity : BaseAppCompatActivity(), GetAllLeadsConnector.Particu
 
     override fun init() {
 //        showLeadOptionsMenu()
+        ArchitectureApp.instance.component.inject(this)
         getLeadId()
-        setClickListeners()
-        presenter.callNetwork(ConstantsApi.CALL_GET_LEAD)
-        }
-
-    private fun setRecyclerView() {
-        binding.rcActivities.layoutManager = LinearLayoutManager(this)
-        binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
     }
 
     private fun getLeadId() {
@@ -55,6 +51,28 @@ class LeadDetailActivity : BaseAppCompatActivity(), GetAllLeadsConnector.Particu
         bundle?.let {
             leadID = bundle!!.getInt(KEY_LEAD_ID)
         }
+        getLeadFormDB(leadID)
+    }
+
+    private fun getLeadFormDB(leadID: Int) {
+        dataBase.provideDataBaseSource().allLeadsDao().getLead(leadID)
+                .observe(this, Observer { lead ->
+                    fillDataOnScreen(lead)
+                    sharedPreferences.saveLeadDetail(lead)
+                })
+    }
+
+    private fun fillDataOnScreen(lead: AllLeadMaster?) {
+        binding.tvEmail.text = lead?.applicantEmail
+        val leadName = lead?.applicantFirstName + lead?.applicantLastName
+        binding.tvLeadName.text = leadName
+        binding.tvLeadNumber.text = lead?.leadNumber
+        binding.tvLocation.text = lead?.applicantAddress
+        binding.tvPhone.text = lead?.applicantContactNumber
+        binding.tvTypeOfLoan.text = lead?.loanProductName
+        leadContact = lead!!.applicantContactNumber!!.toLong()
+        setUpRecyclerView()
+        setClickListeners()
     }
 
     private fun setClickListeners() {
@@ -63,9 +81,8 @@ class LeadDetailActivity : BaseAppCompatActivity(), GetAllLeadsConnector.Particu
         }
 
         binding.btnCallToCustomer.setOnClickListener {
-            val mobileNum = 8920992443
             val callIntent = Intent(Intent.ACTION_CALL)
-            callIntent.data = Uri.parse("tel: +91${mobileNum}")
+            callIntent.data = Uri.parse("tel: +91${leadContact}")
             startActivity(callIntent)
         }
 
@@ -78,20 +95,8 @@ class LeadDetailActivity : BaseAppCompatActivity(), GetAllLeadsConnector.Particu
         }
     }
 
-    override val leadId: Int
-        get() = leadID
-
-    override fun getLeadSuccess(value: Response.ResponseGetLead) {
-        showToast("success")
-        setRecyclerView()
-        fillDataOnScreen(value.responseObj)
-    }
-
-    private fun fillDataOnScreen(value: Response.LeadObj) {
-
-    }
-
-    override fun getLeadFailure(msg: String) {
-        showToast(msg)
+    private fun setUpRecyclerView() {
+        binding.rcActivities.layoutManager = LinearLayoutManager(this)
+        binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
     }
 }

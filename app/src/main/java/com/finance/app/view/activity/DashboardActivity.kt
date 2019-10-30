@@ -69,9 +69,7 @@ class DashboardActivity : BaseAppCompatActivity() {
                                id: Long) {
                 updateData(moduleValues[position])
             }
-
             override fun onNothingSelected(parentView: AdapterView<*>) {
-                // do Nothing
             }
         }
 

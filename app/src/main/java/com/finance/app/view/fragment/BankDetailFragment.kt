@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentBankDetailBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.BankDetailPresenter
+import com.finance.app.utility.ClearBankForm
+import com.finance.app.utility.ClearEmploymentForm
 import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.YesNoSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
@@ -24,12 +28,14 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class BankDetailFragment : BaseFragment(), LoanApplicationConnector.BankDetail {
+class BankDetailFragment : BaseFragment(), LoanApplicationConnector.BankDetail ,
+        PersonalApplicantsAdapter.ItemClickListener{
 
     private lateinit var binding: FragmentBankDetailBinding
     private lateinit var mContext: Context
     private lateinit var allMasterDropDown: AllMasterDropDown
     private val bankDetailPresenter = BankDetailPresenter(this)
+    private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
@@ -38,6 +44,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.BankDetail {
     lateinit var dataBase: DataBaseUtil
 
     companion object {
+        private lateinit var applicantTab: ArrayList<String>
         var bankDetailList: ArrayList<Requests.BankDetail> = ArrayList()
         var bankDetailBeanList: ArrayList<Requests.ApplicantBankDetailsBean> = ArrayList()
     }
@@ -51,9 +58,33 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.BankDetail {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
+        applicantTab = ArrayList()
+        setCoApplicants()
         getDropDownsFromDB()
         setClickListeners()
         checkIncomeConsideration()
+    }
+
+    private fun setCoApplicants() {
+        applicantTab.add("Applicant")
+        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                LinearLayoutManager.HORIZONTAL, false)
+        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantTab)
+        binding.rcApplicants.adapter = applicantAdapterPersonal
+        applicantAdapterPersonal!!.setOnItemClickListener(this)
+    }
+
+    override fun onApplicantClick(position: Int) {
+        saveCurrentApplicant()
+        ClearBankForm(binding)
+        getParticularApplicantData(position)
+    }
+
+    private fun saveCurrentApplicant() {
+    }
+
+    private fun getParticularApplicantData(position: Int) {
+
     }
 
     private fun checkIncomeConsideration() {
@@ -61,7 +92,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.BankDetail {
         if (!selected) {
             Toast.makeText(context, "Income not considered in Loan Information",
                     Toast.LENGTH_SHORT).show()
-            disableAllFields()
+//            disableAllFields()
         }
     }
 
@@ -74,6 +105,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.BankDetail {
             if (formValidation.validateBankDetail(binding)) {
                 bankDetailBeanList.add(bankDetailBean)
                 bankDetailList.add(bankDetail)
+                gotoNextFragment()
                 bankDetailPresenter.callNetwork(ConstantsApi.CALL_BANK_DETAIL)
             }
         }
@@ -133,5 +165,4 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.BankDetail {
         ft?.addToBackStack(null)
         ft?.commit()
     }
-
 }

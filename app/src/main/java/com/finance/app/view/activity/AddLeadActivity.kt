@@ -5,14 +5,16 @@ import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAddLeadBinding
 import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.presenter.connector.AddLeadConnector
 import com.finance.app.presenter.presenter.AddLeadPresenter
-import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.LoanProductSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.UserBranchesSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
@@ -23,14 +25,15 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
     private val binding: ActivityAddLeadBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_add_lead)
+    private val presenterOpt = AddLeadPresenter(this)
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
     lateinit var dataBase: DataBaseUtil
-    private val presenterOpt = AddLeadPresenter(this)
+    @Inject
+    lateinit var formValidation: FormValidation
 
     companion object {
-        private var loanType: ArrayList<DropdownMaster> = ArrayList()
         private var branches: ArrayList<Response.UserBranches>? = ArrayList()
         fun start(context: Context) {
             val intent = Intent(context, AddLeadActivity::class.java)
@@ -40,42 +43,49 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-        getLoanTypeFromDB()
-        binding.btnAddLead.setOnClickListener {
-            presenterOpt.callNetwork(ConstantsApi.CALL_ADD_LEAD)
+        hideSecondaryToolbar()
+        getLoanProductFromDB()
+        setBranchesDropDownValue()
+        binding.btnCreate.setOnClickListener {
+            if (formValidation.validateAddLead(binding)) {
+                presenterOpt.callNetwork(ConstantsApi.CALL_ADD_LEAD)
+            }
         }
     }
 
-    private fun getLoanTypeFromDB() {
-        loanType = ArrayList()
-        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(this, Observer { masterDrownDownValues ->
-            masterDrownDownValues?.let {
-                masterDrownDownValues.LoanType?.let { loanTypeDropDown ->
-                    loanType = loanTypeDropDown
-                    setDropDownValue()
-                }
+    private fun setBranchesDropDownValue() {
+        branches = sharedPreferences.getUserBranches()
+        binding.spinnerBranches.setFloatingLabelText(R.string.branch)
+        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, branches!!)
+        binding.spinnerBranches.setFloatingLabelText(R.string.type_of_loan)
+    }
+
+    private fun getLoanProductFromDB() {
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProduct ->
+            loanProduct.let {
+                val loanProducts = it
+                setProductDropDownValue(loanProducts)
             }
         })
     }
 
-    private fun setDropDownValue() {
-        branches = sharedPreferences.getUserBranches()
-        binding.spinnerBranchId.adapter = UserBranchesSpinnerAdapter(this, branches!!)
-        binding.spinnerTypeOfLoan.adapter = MasterSpinnerAdapter(this, loanType)
+    private fun setProductDropDownValue(products: List<LoanProductMaster>) {
+        binding.spinnerLoanProduct.adapter = LoanProductSpinnerAdapter(this, products)
     }
 
     private val leadRequest: Requests.RequestAddLead
         get() {
-            val loanTypeDetailId = binding.spinnerTypeOfLoan.selectedItem as
-                    DropdownMaster
+//            val loanProduct = binding.spinnerLoanProduct.selectedItem as
+//                    LoanProductMaster
+//            val userBranches = binding.spinnerBranches.selectedItem as
+//                    Response.UserBranches
             return Requests.RequestAddLead(applicantAddress = binding.etAddress.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
                     applicantEmail = binding.etEmail.text.toString(),
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = 1,
-                    loanTypeDetailID = 1
+                    branchID = 1, loanTypeDetailID = 1
             )
         }
 
@@ -90,4 +100,5 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     override fun getAddLeadFailure(msg: String) {
         showToast(msg)
     }
+
 }

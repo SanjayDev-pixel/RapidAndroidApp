@@ -28,7 +28,7 @@ class LoanInfoPresenter(private val LoanInfo: LoanApplicationConnector.LoanInfo)
     }
 
     private fun callLoanInfoApi() {
-        val requestApi = apiProject.api.loanInformation(LoanInfo.loanInfoRequest)
+        val requestApi = apiProject.api.loanInfo(LoanInfo.loanInfoRequest)
 
         requestApi
                 .subscribeOn(Schedulers.io())
@@ -42,6 +42,7 @@ class LoanInfoPresenter(private val LoanInfo: LoanApplicationConnector.LoanInfo)
     private fun onLoanInfo(response: Response.ResponseLoanInfo) {
         if (response.responseCode == "201") {
             LoanInfo.getLoanInfoSuccess(response)
+
         } else {
             LoanInfo.getLoanInfoFailure(response.responseMsg)
         }

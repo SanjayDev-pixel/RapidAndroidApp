@@ -1,5 +1,6 @@
 package com.finance.app.view.fragment
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -29,33 +30,34 @@ import com.finance.app.view.adapters.recycler.adapter.LoanPurposeSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
-import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
-import motobeans.architecture.util.DialogFactory
-import motobeans.architecture.util.exShowToast
 import javax.inject.Inject
 
-class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, LoanApplicationConnector.SourceChannelPartnerName {
-    private lateinit var binding: FragmentLoanInformationBinding
-    private val frag: Fragment = this
+class LoanInformationFragment : BaseFragment(), LoanApplicationConnector.LoanInfo, LoanApplicationConnector.SourceChannelPartnerName {
+
     @Inject
     lateinit var formValidation: FormValidation
     @Inject
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+    private lateinit var binding: FragmentLoanInformationBinding
+    private val frag: Fragment = this
     private lateinit var loanScheme: ArrayList<DropdownMaster>
     private lateinit var interestType: ArrayList<DropdownMaster>
     private lateinit var channelPartnerName: ArrayList<Response.ChannelPartnerName>
     private lateinit var allMasterDropDown: AllMasterDropDown
-    private lateinit var loanProducts: List<LoanProductMaster>
-    private val sourcePartnerPresenter = SourceChannelPartnerNamePresenter(this)
     private lateinit var sourcingChannelPartner: ArrayList<DropdownMaster>
+    private var loanProducts: List<LoanProductMaster> = ArrayList()
+    private var loanInfo: Requests.LoanInfoObj? = null
+    private val sourcePartnerPresenter = SourceChannelPartnerNamePresenter(this)
     private val loanInfoPresenter = LoanInfoPresenter(this)
+    private var mContext: Context? = null
 
     companion object {
         private lateinit var mBranchId: String
@@ -64,42 +66,50 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
         private const val isMandatory = true
         private const val SELECT_PDF_CODE = 1
         private const val CLICK_IMAGE_CODE = 2
+        private var loanProductPosition = -1
+        private var loanPurposePosition = -1
+        private var loanSchemePosition = -1
+        private var loanInterestPosition = -1
+        private var sourceChannelPartnerPosition = -1
         private const val SELECT_IMAGE_CODE = 3
         private var image: Bitmap? = null
         private var pdf: Uri? = null
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentLoanInformationBinding.inflate(inflater, container, false)
+        binding = initBinding(inflater, container, R.layout.fragment_loan_information)
+        init()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun init() {
         ArchitectureApp.instance.component.inject(this)
+        mContext = context!!
         getDropDownsFromDB()
         setMandatoryField()
         setClickListeners()
+        checkSavedData()
     }
 
     private fun getDropDownsFromDB() {
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProduct ->
-            loanProduct.let {
-                loanProducts = it
-                setProductDropDownValue(loanProducts)
-            }
-        })
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
             masterDrownDownValues.let {
                 allMasterDropDown = it
                 setMasterDropDownValue(allMasterDropDown)
             }
         })
+
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProduct ->
+            loanProduct.let {
+                loanProducts = it
+                setProductDropDownValue(loanProducts)
+            }
+        })
     }
 
     private fun setProductDropDownValue(products: List<LoanProductMaster>) {
         loanProducts = products
-        binding.spinnerLoanProduct.adapter = LoanProductSpinnerAdapter(context!!, loanProducts)
+        binding.spinnerLoanProduct.adapter = LoanProductSpinnerAdapter(mContext!!, loanProducts)
         binding.spinnerLoanProduct?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -112,7 +122,16 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
 
     private fun setLoanPurposeDropdown(position: Int) {
         val loanPurposeList = loanProducts[position].loanPurposeList
-        binding.spinnerLoanPurpose.adapter = LoanPurposeSpinnerAdapter(context!!, loanPurposeList)
+        binding.spinnerLoanPurpose.adapter = LoanPurposeSpinnerAdapter(mContext!!, loanPurposeList)
+        binding.spinnerLoanPurpose?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    loanPurposePosition = position
+                }
+            }
+        }
+        checkSavedData()
     }
 
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
@@ -120,16 +139,45 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
         interestType = ArrayList()
         channelPartnerName = ArrayList()
         sourcingChannelPartner = ArrayList()
-
         loanScheme = allMasterDropDown.LoanScheme!!
-        binding.spinnerLoanScheme.adapter = MasterSpinnerAdapter(context!!, loanScheme)
+        binding.spinnerLoanScheme.adapter = MasterSpinnerAdapter(mContext!!, loanScheme)
+        binding.spinnerLoanScheme?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    loanSchemePosition = position
+                }
+            }
+        }
 
         interestType = allMasterDropDown.LoanInformationInterestType!!
-        binding.spinnerInterestType.adapter = MasterSpinnerAdapter(context!!, interestType)
+        binding.spinnerInterestType.adapter = MasterSpinnerAdapter(mContext!!, interestType)
+        binding.spinnerInterestType?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    loanInterestPosition = position
+                }
+            }
+        }
 
         sourcingChannelPartner = allMasterDropDown.SourcingChannelPartner!!
-        binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(context!!, sourcingChannelPartner)
-
+        binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(mContext!!, sourcingChannelPartner)
+        binding.spinnerSourcingChannelPartner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    val selectedValue = parent.selectedItem as DropdownMaster
+                    if (selectedValue.typeDetailCode == "DSA") {
+                        getChannelPartnerName(selectedValue)
+                        binding.spinnerPartnerName.visibility = View.VISIBLE
+                    }
+                    else{
+                        binding.spinnerPartnerName.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
 
     private fun setMandatoryField() {
@@ -140,10 +188,10 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
 
     private fun setClickListeners() {
         binding.ivUploadForm.setOnClickListener {
-            UploadData(frag, context!!)
+            UploadData(frag, mContext!!)
         }
         binding.ivThumbnail.setOnClickListener {
-            UploadedFormDataActivity.start(context!!, image, pdf)
+            UploadedFormDataActivity.start(mContext!!, image, pdf)
         }
         binding.btnSaveAndContinue.setOnClickListener {
             if (formValidation.validateLoanInformation(binding = binding)) {
@@ -151,15 +199,24 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
                 loanInfoPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO)
             }
         }
-        binding.spinnerSourcingChannelPartner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    val selectedValue = parent.selectedItem as DropdownMaster
-                    if (selectedValue.typeDetailCode != "DIRECT") {
-                        getChannelPartnerName(selectedValue)
-                    }
-                }
+    }
+
+    private fun checkSavedData() {
+        loanInfo = sharedPreferences.getLoanInfoData()
+        if (loanInfo != null) {
+            fillFormWithSavedData(loanInfo!!)
+        }
+    }
+
+    private fun fillFormWithSavedData(loanInfo: Requests.LoanInfoObj) {
+        binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toString())
+        binding.etEmi.setText(loanInfo.affordableEMI.toString())
+        binding.etTenure.setText(loanInfo.tenure.toString())
+        for (loan in loanProducts) {
+            if (loan.productID == loanInfo.productID) {
+                val selectedLoanProduct = loanProducts.indexOf(loan)
+                binding.spinnerLoanProduct.setSelection(selectedLoanProduct)
+                break
             }
         }
     }
@@ -186,7 +243,7 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
 
     private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<Response.ChannelPartnerName>) {
         binding.spinnerPartnerName.visibility = View.VISIBLE
-        binding.spinnerPartnerName.adapter = ChannelPartnerNameSpinnerAdapter(context!!, channelPartners)
+        binding.spinnerPartnerName.adapter = ChannelPartnerNameSpinnerAdapter(mContext!!, channelPartners)
     }
 
     override fun getSourceChannelPartnerNameFailure(msg: String) {
@@ -225,7 +282,7 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
         }
 
     override fun getLoanInfoSuccess(value: Response.ResponseLoanInfo) {
-        showToast("Success")
+        sharedPreferences.saveLoanInfoData(loanInfoObj)
         gotoNextFragment()
     }
 
@@ -239,22 +296,6 @@ class LoanInformationFragment : Fragment(), LoanApplicationConnector.LoanInfo, L
     override fun getLoanInfoFailure(msg: String) {
         showToast(msg)
     }
-
-    override fun showToast(msg: String) {
-        msg.exShowToast(context)
-    }
-
-    override fun showProgressDialog() {
-        when (BaseAppCompatActivity.progressDialog == null) {
-            true -> BaseAppCompatActivity.progressDialog = DialogFactory.getInstance(context = context!!)
-        }
-        BaseAppCompatActivity.progressDialog?.show()
-    }
-
-    override fun hideProgressDialog() {
-        BaseAppCompatActivity.progressDialog?.hide()
-    }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

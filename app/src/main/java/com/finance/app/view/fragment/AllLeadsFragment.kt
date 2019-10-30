@@ -31,13 +31,12 @@ class AllLeadsFragment : BaseFragment() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         getLeadsFromDB()
-        setClickListeners()
     }
 
     private fun getLeadsFromDB() {
         dataBase.provideDataBaseSource().allLeadsDao().getAllLeads()
-                .observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-                    masterDrownDownValues.let {
+                .observe(viewLifecycleOwner, Observer { leads ->
+                    leads.let {
                         val allLeadList = ArrayList(it)
                         if (allLeadList.size > 0) {
                             setUpRecyclerView(allLeadList)
@@ -46,12 +45,6 @@ class AllLeadsFragment : BaseFragment() {
                         }
                     }
                 })
-    }
-
-    private fun setClickListeners() {
-        binding.fabAddLead.setOnClickListener {
-            AddLeadActivity.start(requireContext())
-        }
     }
 
     private fun setUpRecyclerView(allLeadList: ArrayList<AllLeadMaster>) {

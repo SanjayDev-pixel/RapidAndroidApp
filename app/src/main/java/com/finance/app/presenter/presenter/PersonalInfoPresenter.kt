@@ -1,6 +1,6 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.AllSpinnerValueConnector
+import com.finance.app.presenter.connector.LoanApplicationConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -10,10 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-/**
- * Created by munishkumarthakur on 31/12/17.
- */
-class AllSpinnerValuePresenter(private val viewOpt: AllSpinnerValueConnector.ViewOpt) : AllSpinnerValueConnector.PresenterOpt {
+class PersonalInfoPresenter(private val personalinfo: LoanApplicationConnector.PersonalInfo) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -25,28 +22,28 @@ class AllSpinnerValuePresenter(private val viewOpt: AllSpinnerValueConnector.Vie
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_ALL_SPINNER_VALUE) {
-                callAllSpinnerApi()
+        if (type == ConstantsApi.CALL_PERSONAL_INFO) {
+            callPersonalInfoApi()
         }
     }
 
-    private fun callAllSpinnerApi() {
-        val requestApi = apiProject.api.getAllSpinnerValue()
+    private fun callPersonalInfoApi() {
+        val requestApi = apiProject.api.personalInfo(personalinfo.personalInfoRequest)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
-                .doFinally { viewOpt.hideProgressDialog() }
-                .subscribe({ response -> onAllSpinnerValue(response) },
-                        { e -> viewOpt.getAllSpinnerValueFailure(e?.message ?: "") })
+                .doOnSubscribe { _ -> personalinfo.showProgressDialog() }
+                .doFinally { personalinfo.hideProgressDialog() }
+                .subscribe({ response -> onPersonalInfo(response) },
+                        { e -> personalinfo.getPersonalInfoFailure(e?.message ?: "") })
     }
 
-    private fun onAllSpinnerValue(response: Response.ResponseAllMasterValue) {
+    private fun onPersonalInfo(response: Response.ResponseLoanApplication) {
         if (response.responseCode == "200") {
-            viewOpt.getAllSpinnerValueSuccess(response)
+            personalinfo.getPersonalInfoSuccess(response)
         } else {
-            viewOpt.getAllSpinnerValueFailure(response.responseMsg)
+            personalinfo.getPersonalInfoFailure(response.responseMsg)
         }
     }
 }

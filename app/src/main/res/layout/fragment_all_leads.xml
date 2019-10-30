@@ -11,14 +11,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAddLead"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="30sp"
-            android:tint="@color/white"
-            android:src="@android:drawable/ic_input_add" />
-    </RelativeLayout>
+       </RelativeLayout>
 </layout>

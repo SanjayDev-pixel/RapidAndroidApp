@@ -22,13 +22,16 @@ interface Api {
     fun loginUser(@Body request: Requests.RequestLogin): Observable<Response.ResponseLogin>
 
     @POST("api/v1/loan/applicant/loan/information/")
-    fun loanInformation(@Body request: Requests.RequestLoanInfo): Observable<Response.ResponseLoanInfo>
+    fun loanInfo(@Body request: Requests.RequestLoanInfo): Observable<Response.ResponseLoanInfo>
+
+    @POST("api/v1/loan/application/applicant/personal/detail/")
+    fun personalInfo(@Body request: Requests.RequestPersonalInfo): Observable<Response.ResponseLoanApplication>
 
     @POST("api/v1/lead/")
     fun addLead(@Body request: Requests.RequestAddLead): Observable<Response.ResponseAddLead>
 
     @GET("api/v1/master/all/")
-    fun getAllSpinnerValue(): Observable<Response.ResponseAllMasterValue>
+    fun getAllMasterValue(): Observable<Response.ResponseAllMasterValue>
 
     @GET("api/v1/master/loan-product-purpose/")
     fun getLoanProduct(): Observable<Response.ResponseLoanProduct>
@@ -45,7 +48,7 @@ interface Api {
     @POST("api/v1/loan/application/employment/")
     fun employment(@Body request: Requests.RequestEmployment): Observable<Response.ResponseEmployment>
 
-    @POST("api/v1/loan/application/applicant/bank-details")
+    @POST("api/v1/loan/application/applicant/bank-details/")
     fun bankDetail(@Body request: Requests.RequestBankDetail): Observable<Response.ResponseBankDetail>
 
     @Multipart
@@ -54,8 +57,4 @@ interface Api {
 
     @GET("api/v1/lead/")
     fun getAllLeads(): Observable<Response.ResponseGetAllLeads>
-
-    @GET("api/v1/lead/{leadId}/")
-    fun getLead(@Path("leadId") leadId: Int): Observable<Response.ResponseGetLead>
-
 }

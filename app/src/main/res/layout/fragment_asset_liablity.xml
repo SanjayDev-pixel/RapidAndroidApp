@@ -19,17 +19,14 @@
                 android:orientation="vertical"
                 android:padding="@dimen/margin_10">
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:id="@+id/rcApplicants"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_height="wrap_content"/>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:id="@+id/rcApplicants"
-                        android:layout_height="wrap_content"/>
-
-                    <Button
+                <!--    <Button
                         android:id="@+id/btnAddApplicant"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -38,8 +35,7 @@
                         android:textSize="@dimen/button_text_size"
                         android:textColor="@color/black"
                         android:background="@drawable/rectangular_curved_bg_blue" />
-
-                </LinearLayout>
+-->
 
                 <TextView
                     android:layout_width="match_parent"

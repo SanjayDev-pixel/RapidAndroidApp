@@ -1,8 +1,5 @@
 package motobeans.architecture.retrofit.request
 
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
 object Requests {
     data class RequestSample(var param1: String? = null, var param2: String? = null)
     data class RequestLogin(val company: Company, val password: String, val username: String)
@@ -62,4 +59,21 @@ object Requests {
                                         val outwardChequeReturn: Any? = null, val salaryCreditTypeDetailID: Int? = null, val transection: Any? = null)
 
     data class ApplicantBankTransection(val applicantBankTransectionID: Int)
+
+    data class RequestPersonalInfo(val applicantDetails: ArrayList<ApplicantDetail>, val draftDetailID: Int, val leadID: Int, val storageTypeID: Any? = null, val userID: Any? = null)
+
+    data class ApplicantDetail(val addressDetailList: ArrayList<AddressDetail>, val age: Int, val applicantID: Int, val casteTypeDetailID: Int,
+                               val contactDetail: Any? = null, val dateOfBirth: String, val detailQualificationTypeDetailID: Int,
+                               val dobProofImagePath: Any? = null, val dobProofTypeDetailID: Int, val entityID: Any? = null, val fatherFirstName: String,
+                               val fatherLastName: String, val fatherMiddleName: String, val firstName: String, val genderTypeDetailID: Int,
+                               val isMainApplicant: Boolean, val lastName: String, val loanApplicationID: Any? , val mainApplicant: Boolean,
+                               val maritialStatusTypeDetailID: Int, val middleName: String, val motherFirstName: String, val motherLastName: String,
+                               val motherMiddleName: String, val nationalityTypeDetailID: Int, val numberOfDependents: Int,
+                               val numberOfEarningMembers: Int, val numberOfFamilyMembersChildren: Int, val numberOfFamilyMembersOthers: Int,
+                               val presentAccommodationTypeDetailID: Int, val qualificationTypeDetailID: Int, val religionTypeDetailID: Int,
+                               val spouseFirstName: String, val spouseLastName: String, val spouseMiddleName: String)
+
+    data class AddressDetail(val address1: String, val address2: String, val addressID: Int, val addressProof: Int?, val addressTypeDetailID: Int,
+                             val cityID: Int, val cityName: String?, val districtID: Int?, val entityID: Int, val landmark: String, val rentAmount: Int,
+                             val residenceTypeTypeDetailID: Any, val zip: String)
 }

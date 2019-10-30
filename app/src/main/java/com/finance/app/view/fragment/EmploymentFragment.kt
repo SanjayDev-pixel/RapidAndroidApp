@@ -53,7 +53,6 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
     lateinit var dataBase: DataBaseUtil
     private lateinit var binding: FragmentEmploymentBinding
     private lateinit var mContext: Context
-    private val frag = this
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private val employmentPresenter = EmploymentPresenter(this)
     private lateinit var allMasterDropDown: AllMasterDropDown
@@ -92,12 +91,12 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         ArchitectureApp.instance.component.inject(this)
         checkIncomeConsideration()
         setDatePicker()
-        getCoApplicants()
+        setCoApplicants()
         getDropDownsFromDB()
         setClickListeners()
     }
 
-    private fun getCoApplicants() {
+    private fun setCoApplicants() {
         applicantTab.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
@@ -107,16 +106,12 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
     }
 
     override fun onApplicantClick(position: Int) {
-        getApplicantData()
-        saveCurrentApplicant(position)
+        saveCurrentApplicant()
         ClearEmploymentForm(binding)
         getParticularApplicantData(position)
     }
 
-    private fun getApplicantData() {
-    }
-
-    private fun saveCurrentApplicant(position: Int) {
+    private fun saveCurrentApplicant() {
     }
 
     private fun getParticularApplicantData(position: Int) {

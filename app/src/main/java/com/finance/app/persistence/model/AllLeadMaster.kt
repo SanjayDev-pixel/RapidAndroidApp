@@ -9,7 +9,7 @@ import java.util.*
 class AllLeadMaster : Serializable {
 
     @PrimaryKey
-    var key: String = UUID.randomUUID().toString()
+    var leadID: Int? = null
     var actualCompletionDate: String? = null
     var applicantAddress: String? = ""
     var applicantAlternativeContactNumber: String? = null
@@ -26,7 +26,6 @@ class AllLeadMaster : Serializable {
     var isConvertedToLoanApplication = false
     var lastModifiedOn: Long? = 0
     var leadFailedReason: String? = ""
-    var leadID: Int? = null
     var leadNumber: String? = ""
     var leadOwnershipEntityID: String? = null
     var leadReference: String? = null

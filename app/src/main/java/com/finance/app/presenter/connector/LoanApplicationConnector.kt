@@ -11,9 +11,9 @@ interface LoanApplicationConnector {
         fun getLoanInfoFailure(msg: String)
     }
 
-    interface ViewPersonalInfo : ReusableView {
-//        val personalInfoRequest: Requests.RequestPersonalInfo
-        fun getPersonalInfoSuccess(value: Response.ResponseSavePersonalInfo)
+    interface PersonalInfo : ReusableView {
+        val personalInfoRequest: Requests.RequestPersonalInfo
+        fun getPersonalInfoSuccess(value: Response.ResponseLoanApplication)
         fun getPersonalInfoFailure(msg: String)
     }
 

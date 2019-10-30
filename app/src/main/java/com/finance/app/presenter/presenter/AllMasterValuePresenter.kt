@@ -1,6 +1,6 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.GetAllLeadsConnector
+import com.finance.app.presenter.connector.AllMasterValueConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -10,7 +10,10 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class GetLeadPresenter(private val lead: GetAllLeadsConnector.ParticularLead) : GetAllLeadsConnector.PresenterOpt {
+/**
+ * Created by munishkumarthakur on 31/12/17.
+ */
+class AllMasterValuePresenter(private val viewOpt: AllMasterValueConnector.ViewOpt) : AllMasterValueConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -22,27 +25,28 @@ class GetLeadPresenter(private val lead: GetAllLeadsConnector.ParticularLead) : 
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_GET_LEAD) {
-            callGetLeadApi()
+        if (type == ConstantsApi.CALL_ALL_MASTER_VALUE) {
+                callAllSpinnerApi()
         }
     }
 
-    private fun callGetLeadApi() {
-        val requestApi = apiProject.api.getLead(leadId = lead.leadId)
+    private fun callAllSpinnerApi() {
+        val requestApi = apiProject.api.getAllMasterValue()
+
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { lead.showProgressDialog() }
-                .doFinally { lead.hideProgressDialog() }
-                .subscribe({ response -> onGetLead(response) },
-                        { e -> lead.getLeadFailure(e?.message ?: "") })
+                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
+                .doFinally { viewOpt.hideProgressDialog() }
+                .subscribe({ response -> onAllSpinnerValue(response) },
+                        { e -> viewOpt.getAllSpinnerValueFailure(e?.message ?: "") })
     }
 
-    private fun onGetLead(response: Response.ResponseGetLead) {
+    private fun onAllSpinnerValue(response: Response.ResponseAllMasterValue) {
         if (response.responseCode == "200") {
-            lead.getLeadSuccess(response)
+            viewOpt.getAllMasterValueSuccess(response)
         } else {
-            lead.getLeadFailure(response.responseMsg)
+            viewOpt.getAllSpinnerValueFailure(response.responseMsg)
         }
     }
 }

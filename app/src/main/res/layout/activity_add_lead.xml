@@ -6,19 +6,40 @@
     <LinearLayout
         xmlns:app="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/margin_20"
-        android:gravity="center"
-        android:background="@drawable/background">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/heading_background"
+        android:text="@string/add_lead"
+        android:layout_marginTop="@dimen/margin_20"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:fillViewport="true">
+
+        <LinearLayout
+            xmlns:app="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_20"
-            card_view:cardCornerRadius="5dp"
-            app:cardElevation="5dp"
-            app:cardMaxElevation="2dp"
-            card_view:cardUseCompatPadding="true">
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_20"
+                card_view:cardCornerRadius="5dp"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="2dp"
+                card_view:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,7 +51,6 @@
                     android:id="@+id/input_layout_applicant_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -104,13 +124,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerBranchId"
+                    android:id="@+id/spinner_branches"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
+                    app:ms_arrowSize="@dimen/text_size"
                     android:textSize="@dimen/text_size"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_floatingLabelText="Branch Id "
@@ -120,19 +139,18 @@
                     app:ms_multiline="false" />
 
                 <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerTypeOfLoan"
+                    android:id="@+id/spinnerLoanProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
-                    android:textSize="@dimen/text_size"
+                    app:ms_arrowSize="@dimen/hint_size"
+                    android:layout_marginTop="@dimen/fields_margin"
                     app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Type of Loan "
-                    app:ms_hint="Type of Loan "
-                    app:ms_hintColor="@color/hint_color"
+                    android:textSize="@dimen/text_size"
+                    app:ms_floatingLabelText="Loan Product "
+                    app:ms_hint="Loan Product "
                     app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_hintColor="@color/hint_color"
                     app:ms_multiline="false" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -170,20 +188,23 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
-                    android:id="@+id/btnAddLead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:layout_gravity="center"
-                    android:background="@drawable/button_theme_style"
-                    android:padding="5sp"
-                    android:text="@string/add_lead"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:layout_gravity="center"
+                android:background="@drawable/button_theme_style"
+                android:padding="5sp"
+                android:text="@string/create"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
+        </LinearLayout>
+    </ScrollView>
+
     </LinearLayout>
 </layout>

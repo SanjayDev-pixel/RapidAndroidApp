@@ -3,10 +3,7 @@ package motobeans.architecture.development.components
 import android.app.Application
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
-import com.finance.app.view.activity.AddLeadActivity
-import com.finance.app.view.activity.DashboardActivity
-import com.finance.app.view.activity.LoginActivity
-import com.finance.app.view.activity.SplashScreen
+import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.Holder.TempHolder
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.fragment.*
@@ -41,6 +38,8 @@ interface ApplicationComponent {
     fun inject(activity: LoginActivity)
     fun inject(activity: SplashScreen)
     fun inject(activity: AddLeadActivity)
+    fun inject(activity: AllLeadActivity)
+    fun inject(activity: LeadDetailActivity)
 
     /**
      * Fragment
@@ -63,8 +62,9 @@ interface ApplicationComponent {
     fun inject(presenter: TestPresenter)
     fun inject(presenter: TempSyncPresenter)
     fun inject(presenter: LoginPresenter)
+    fun inject(presenter: PersonalInfoPresenter)
     fun inject(presenter: AddLeadPresenter)
-    fun inject(presenter: AllSpinnerValuePresenter)
+    fun inject(presenter: AllMasterValuePresenter)
     fun inject(presenter: LoanInfoPresenter)
     fun inject(presenter: SourceChannelPartnerNamePresenter)
     fun inject(presenter: LoanProductPresenter)
@@ -74,7 +74,6 @@ interface ApplicationComponent {
     fun inject(presenter: DocumentUploadPresenter)
     fun inject(presenter: BankDetailPresenter)
     fun inject(presenter: GetAllLeadsPresenter)
-    fun inject(presenter: GetLeadPresenter)
 
     /**
      * View Model

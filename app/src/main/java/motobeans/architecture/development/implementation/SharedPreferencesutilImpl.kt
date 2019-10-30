@@ -2,8 +2,10 @@ package motobeans.architecture.development.implementation
 import android.content.Context
 import com.finance.app.R
 import com.finance.app.model.Modals
+import com.finance.app.persistence.model.AllLeadMaster
 import com.google.gson.Gson
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.sharedPreferences.SharedPreferencesBean
 import motobeans.architecture.sharedPreferences.SharedPreferencesCustom
@@ -25,15 +27,32 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun getUserToken(): String?{
-        return getLoginData()?.loginObj?.token
+        return getLoginData()?.responseObj?.token
     }
 
     override fun getUserName(): String? {
-        return getLoginData()?.loginObj?.userDetails?.userBasicDetails?.userName
+        return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.userName
+    }
+
+    override fun getUserBranches(): ArrayList<Response.UserBranches>? {
+        return getLoginData()?.responseObj?.userDetails?.userBranches
     }
 
     override fun isLogin(): Boolean {
         return getUserToken().exIsNotEmptyOrNullOrBlank()
+    }
+
+    override fun saveLoanInfoData(request: Requests.LoanInfoObj?): Boolean {
+        val objLoanInfo = Gson().toJson(request)
+        val objSPLoanInfo = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOAN_INFO)
+        objSPLoanInfo.putString(SharedPreferencesBean.KEY_LOAN_INFO, objLoanInfo)
+        return true
+    }
+
+    override fun getLoanInfoData(): Requests.LoanInfoObj? {
+        val objSpLoanInfo = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOAN_INFO)
+        val loanInfo = objSpLoanInfo.getString(SharedPreferencesBean.KEY_LOAN_INFO)
+        return Gson().fromJson(loanInfo, Requests.LoanInfoObj::class.java)
     }
 
     override fun setPropertySelection(value: String) {
@@ -70,6 +89,26 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
     }
 
+    override fun saveLeadDetail(lead:AllLeadMaster) {
+        val objLead = Gson().toJson(lead)
+        val objSPLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
+        objSPLead.putString(SharedPreferencesBean.KEY_LEAD_DETAIL, objLead)
+    }
+
+    override fun getLeadId(): Int {
+        val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
+        val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
+        val leadDetail = Gson().fromJson(leadJson, AllLeadMaster::class.java)
+        return leadDetail.leadID!!
+    }
+
+    override fun getLeadNum(): String {
+        val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
+        val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
+        val leadDetail = Gson().fromJson(leadJson, AllLeadMaster::class.java)
+        return leadDetail.leadNumber!!
+    }
+
     override fun getCoApplicant(): ArrayList<Modals.ApplicantTab> {
         val objSpPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
         val personalApplicantJson = objSpPersonalApplicants.getString(SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
@@ -90,7 +129,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun getRolePrivilege(): Response.RolePrivileges? {
-        val privilegesList = getLoginData()?.loginObj?.userDetails?.
+        val privilegesList = getLoginData()?.responseObj?.userDetails?.
                 rolePrivilegesList
         for (privilege in privilegesList!!){
             if(privilege.moduleName == "Login"){
@@ -117,10 +156,6 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
             }
         }
         return navItemList
-    }
-
-    override fun getUserBranches(): ArrayList<Response.UserBranches>? {
-        return getLoginData()?.loginObj?.userDetails?.userBranches
     }
 
     override fun clearAll() {

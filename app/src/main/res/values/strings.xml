@@ -155,4 +155,6 @@
     <string name="upload">Upload</string>
     <string name="document_name">Document Name</string>
     <string name="failure_get_all_leads">No Leads to show</string>
+    <string name="create">Create</string>
+    <string name="create_lead">Create Lead</string>
 </resources>

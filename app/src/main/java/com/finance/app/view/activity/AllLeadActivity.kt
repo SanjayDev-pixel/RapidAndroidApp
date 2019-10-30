@@ -40,9 +40,12 @@ class AllLeadActivity : BaseAppCompatActivity(), GetAllLeadsConnector.AllLeads {
     }
 
     override fun init() {
-        hideSecondaryToolbar()
         ArchitectureApp.instance.component.inject(this)
+        hideSecondaryToolbar()
         presenter.callNetwork(ConstantsApi.CALL_GET_ALL_LEADS)
+        binding.btnCreate.setOnClickListener {
+            AddLeadActivity.start(this)
+        }
     }
 
     override fun getAllLeadsSuccess(value: Response.ResponseGetAllLeads){

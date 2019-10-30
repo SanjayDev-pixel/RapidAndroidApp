@@ -118,6 +118,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:singleLine="true"
+                            android:maxLength="3"
                             android:hint="@string/tenure_months"
                             android:minWidth="150dp"
                             android:textSize="@dimen/text_size" />

@@ -5,10 +5,10 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.LoanProductMaster
-import com.finance.app.presenter.connector.AllSpinnerValueConnector
+import com.finance.app.presenter.connector.AllMasterValueConnector
 import com.finance.app.presenter.connector.LoanProductConnector
 import com.finance.app.presenter.connector.LoginConnector
-import com.finance.app.presenter.presenter.AllSpinnerValuePresenter
+import com.finance.app.presenter.presenter.AllMasterValuePresenter
 import com.finance.app.presenter.presenter.LoanProductPresenter
 import com.finance.app.presenter.presenter.LoginPresenter
 import kotlinx.coroutines.GlobalScope
@@ -23,7 +23,7 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinnerValueConnector.ViewOpt, LoanProductConnector.ViewOpt {
+class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllMasterValueConnector.ViewOpt, LoanProductConnector.ViewOpt {
 
     // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
@@ -34,7 +34,7 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
     lateinit var sharedPreferences: SharedPreferencesUtil
     private val loginPresenter = LoginPresenter(this)
     private val loanProductPresenter = LoanProductPresenter(this)
-    private val spinnerPresenter = AllSpinnerValuePresenter(this)
+    private val masterPresenter = AllMasterValuePresenter(this)
 
     companion object {
         fun start(context: Context) {
@@ -55,7 +55,6 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
             loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
-            loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -83,8 +82,8 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
 
     //    Handle success of the api
     override fun getLoginSuccess(value: Response.ResponseLogin) {
-        spinnerPresenter.callNetwork(ConstantsApi.CALL_ALL_SPINNER_VALUE)
-        DashboardActivity.start(this)
+        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
+        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
     }
 
     //    Handle failure of the api
@@ -92,8 +91,9 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllSpinne
         showToast(msg)
     }
 
-    override fun getAllSpinnerValueSuccess(value: Response.ResponseAllMasterValue) {
+    override fun getAllMasterValueSuccess(value: Response.ResponseAllMasterValue) {
         saveMasterDataToDB(value.responseObj)
+        DashboardActivity.start(this)
     }
 
     private fun saveMasterDataToDB(masterDropdown: AllMasterDropDown) {

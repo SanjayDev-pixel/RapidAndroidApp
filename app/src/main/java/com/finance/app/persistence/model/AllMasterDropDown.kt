@@ -12,6 +12,7 @@ class AllMasterDropDown : Serializable {
     var key: String = UUID.randomUUID().toString()
     var ApprovalStatus: ArrayList<DropdownMaster>? = null
     var AssetDetail: ArrayList<DropdownMaster>? = null
+    var Caste: ArrayList<DropdownMaster>? = null
     var BankName: ArrayList<DropdownMaster>? = null
     var Branch: ArrayList<DropdownMaster>? = null
     var ChannelPartnerName: ArrayList<DropdownMaster>? = null
@@ -48,4 +49,6 @@ class AllMasterDropDown : Serializable {
     var Sector:ArrayList<DropdownMaster>? = null
     var Constitution:ArrayList<DropdownMaster>? = null
     var AccountType:ArrayList<DropdownMaster>? = null
+    var AddressProof:ArrayList<DropdownMaster>? = null
+    var ResidenceType:ArrayList<DropdownMaster>? = null
 }

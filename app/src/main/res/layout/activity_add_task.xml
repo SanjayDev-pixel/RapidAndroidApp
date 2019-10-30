@@ -2,42 +2,43 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background">
-
         <ScrollView
             android:layout_width="match_parent"
+            android:background="@drawable/background"
             xmlns:app="http://schemas.android.com/tools"
             android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_10"
-            android:background="@color/white"
-            app:cardElevation="5dp"
-            app:cardMaxElevation="2dp"
-            card_view:cardCornerRadius="5dp"
-            card_view:cardUseCompatPadding="true">
-
             <LinearLayout
+                xmlns:app="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_20">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Create New Task"
+                    android:background="@color/heading_background"
+                    android:text="@string/add_task"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:gravity="center"
+                    android:textColor="@color/black"
                     android:textAppearance="?android:textAppearanceLarge"
-                    android:textSize="@dimen/text_size"
-                    android:layout_marginBottom="@dimen/margin_10"
                     android:textStyle="bold" />
 
-                <include layout="@layout/line_seperator" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_20"
+                    card_view:cardCornerRadius="5dp"
+                    app:cardElevation="5dp"
+                    app:cardMaxElevation="2dp"
+                    card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_20">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_task_subject"
@@ -169,36 +170,22 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
-                    android:id="@+id/btnAddTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:padding="5sp"
-                    android:background="@drawable/button_theme_style"
-                    android:text="Add"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-        </ScrollView>
 
-        <Button
-            android:id="@+id/btnCreateTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/fields_margin"
-            android:background="@drawable/button_theme_style"
-            android:padding="5sp"
-            android:text="@string/create_task"
-            android:textColor="@color/white"
-            android:textSize="@dimen/button_text_size" />
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/fields_margin"
+        android:layout_gravity="center"
+        android:background="@drawable/button_theme_style"
+        android:padding="5sp"
+        android:text="@string/create"
+        android:textColor="@color/white"
+        android:textSize="@dimen/button_text_size" />
+        </LinearLayout>
 
-    </RelativeLayout>
+</ScrollView>
 </layout>
