@@ -1,14 +1,21 @@
 package com.finance.app.presenter.connector
 
+import com.finance.app.persistence.model.LoanInfoMaster
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 
 interface LoanApplicationConnector {
 
-    interface LoanInfo : ReusableView {
-        val loanInfoRequest: Requests.RequestLoanInfo
-        fun getLoanInfoSuccess(value: Response.ResponseLoanInfo)
-        fun getLoanInfoFailure(msg: String)
+    interface PostLoanInfo : ReusableView {
+        val loanInfoRequestPost: LoanInfoMaster
+        fun getLoanInfoPostSuccess(value: Response.ResponsePostLoanInfo)
+        fun getLoanInfoPostFailure(msg: String)
+    }
+
+    interface GetLoanInfo : ReusableView {
+        val leadId: String
+        fun getLoanInfoGetSuccess(value: Response.ResponseGetLoanInfo)
+        fun getLoanInfoGetFailure(msg: String)
     }
 
     interface PersonalInfo : ReusableView {

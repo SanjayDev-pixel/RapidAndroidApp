@@ -65,7 +65,7 @@ interface ApplicationComponent {
     fun inject(presenter: PersonalInfoPresenter)
     fun inject(presenter: AddLeadPresenter)
     fun inject(presenter: AllMasterValuePresenter)
-    fun inject(presenter: LoanInfoPresenter)
+    fun inject(postPresenter: LoanInfoPostPresenter)
     fun inject(presenter: SourceChannelPartnerNamePresenter)
     fun inject(presenter: LoanProductPresenter)
     fun inject(presenter: UpdateReferencePresenter)
@@ -74,6 +74,7 @@ interface ApplicationComponent {
     fun inject(presenter: DocumentUploadPresenter)
     fun inject(presenter: BankDetailPresenter)
     fun inject(presenter: GetAllLeadsPresenter)
+    fun inject(presenter: LoanInfoGetPresenter)
 
     /**
      * View Model

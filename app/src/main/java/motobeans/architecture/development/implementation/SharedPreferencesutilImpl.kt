@@ -34,6 +34,10 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.userName
     }
 
+    override fun getUserId(): String? {
+        return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.userId.toString()
+    }
+
     override fun getUserBranches(): ArrayList<Response.UserBranches>? {
         return getLoginData()?.responseObj?.userDetails?.userBranches
     }
@@ -95,11 +99,11 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         objSPLead.putString(SharedPreferencesBean.KEY_LEAD_DETAIL, objLead)
     }
 
-    override fun getLeadId(): Int {
+    override fun getLeadId(): String? {
         val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadDetail = Gson().fromJson(leadJson, AllLeadMaster::class.java)
-        return leadDetail.leadID!!
+        return leadDetail.leadID.toString()
     }
 
     override fun getLeadNum(): String {
@@ -107,6 +111,13 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadDetail = Gson().fromJson(leadJson, AllLeadMaster::class.java)
         return leadDetail.leadNumber!!
+    }
+
+    override fun getLoanAppID(): Int? {
+        val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
+        val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
+        val leadDetail = Gson().fromJson(leadJson, AllLeadMaster::class.java)
+        return leadDetail.loanApplicationID
     }
 
     override fun getCoApplicant(): ArrayList<Modals.ApplicantTab> {

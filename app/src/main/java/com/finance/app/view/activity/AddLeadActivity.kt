@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAddLeadBinding
-import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.presenter.connector.AddLeadConnector
 import com.finance.app.presenter.presenter.AddLeadPresenter
@@ -61,11 +60,8 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     private fun getLoanProductFromDB() {
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProduct ->
-            loanProduct.let {
-                val loanProducts = it
-                setProductDropDownValue(loanProducts)
-            }
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProductValue ->
+            setProductDropDownValue(loanProductValue)
         })
     }
 

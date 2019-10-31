@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class LoanInfoPresenter(private val LoanInfo: LoanApplicationConnector.LoanInfo) : LoanApplicationConnector.PresenterOpt {
+class LoanInfoGetPresenter(private val getLoanInfo: LoanApplicationConnector.GetLoanInfo) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -22,29 +22,28 @@ class LoanInfoPresenter(private val LoanInfo: LoanApplicationConnector.LoanInfo)
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_LOAN_INFO) {
-            callLoanInfoApi()
+        if (type == ConstantsApi.CALL_LOAN_INFO_GET) {
+            callLoanInfoGetApi()
         }
     }
 
-    private fun callLoanInfoApi() {
-        val requestApi = apiProject.api.loanInfo(LoanInfo.loanInfoRequest)
+    private fun callLoanInfoGetApi() {
+        val requestApi = apiProject.api.getLoanInfo(getLoanInfo.leadId)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> LoanInfo.showProgressDialog() }
-                .doFinally { LoanInfo.hideProgressDialog() }
-                .subscribe({ response -> onLoanInfo(response) },
-                        { e -> LoanInfo.getLoanInfoFailure(e?.message ?: "") })
+                .doOnSubscribe { _ -> getLoanInfo.showProgressDialog() }
+                .doFinally { getLoanInfo.hideProgressDialog() }
+                .subscribe({ response -> onLoanInfoGet(response) },
+                        { e -> getLoanInfo.getLoanInfoGetFailure(e?.message ?: "") })
     }
 
-    private fun onLoanInfo(response: Response.ResponseLoanInfo) {
-        if (response.responseCode == "201") {
-            LoanInfo.getLoanInfoSuccess(response)
-
+    private fun onLoanInfoGet(responsePost: Response.ResponseGetLoanInfo) {
+        if (responsePost.responseCode == "200") {
+            getLoanInfo.getLoanInfoGetSuccess(responsePost)
         } else {
-            LoanInfo.getLoanInfoFailure(response.responseMsg)
+            getLoanInfo.getLoanInfoGetFailure(responsePost.responseMsg)
         }
     }
 }

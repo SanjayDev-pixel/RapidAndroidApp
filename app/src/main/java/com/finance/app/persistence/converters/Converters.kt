@@ -4,8 +4,10 @@ import androidx.room.TypeConverter
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.persistence.model.LoanInfoMaster
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import java.util.*
@@ -111,4 +113,45 @@ class Converters {
         }
         return null
     }
+
+    @TypeConverter
+    fun fromStringToLoanInfoMaster(value: String?): LoanInfoMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<LoanInfoMaster>() {
+
+        }.type
+        return Gson().fromJson<LoanInfoMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromLoanInfoMasterToString(lead: LoanInfoMaster?): String? {
+        lead?.let {
+            val gson = Gson()
+            return gson.toJson(lead)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToLoanInfoObj(value: String?): Requests.LoanInfoObj? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<Requests.LoanInfoObj>() {
+
+        }.type
+        return Gson().fromJson<Requests.LoanInfoObj>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromLoanInfoObjToString(lead: Requests.LoanInfoObj?): String? {
+        lead?.let {
+            val gson = Gson()
+            return gson.toJson(lead)
+        }
+        return null
+    }
+
 }

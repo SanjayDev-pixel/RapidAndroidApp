@@ -1,5 +1,6 @@
 package motobeans.architecture.retrofit.api
 
+import com.finance.app.persistence.model.LoanInfoMaster
 import io.reactivex.Observable
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.request.Requests.RequestSample
@@ -22,7 +23,10 @@ interface Api {
     fun loginUser(@Body request: Requests.RequestLogin): Observable<Response.ResponseLogin>
 
     @POST("api/v1/loan/applicant/loan/information/")
-    fun loanInfo(@Body request: Requests.RequestLoanInfo): Observable<Response.ResponseLoanInfo>
+    fun postLoanInfo(@Body requestPost: LoanInfoMaster): Observable<Response.ResponsePostLoanInfo>
+
+    @GET("api/v1/loan/applicant/loan/information/{leadId}")
+    fun getLoanInfo(@Path("leadId") leadId: String): Observable<Response.ResponseGetLoanInfo>
 
     @POST("api/v1/loan/application/applicant/personal/detail/")
     fun personalInfo(@Body request: Requests.RequestPersonalInfo): Observable<Response.ResponseLoanApplication>

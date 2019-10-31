@@ -2,6 +2,7 @@ package motobeans.architecture.retrofit.response
 
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.AllMasterDropDown
+import com.finance.app.persistence.model.LoanInfoMaster
 import com.finance.app.persistence.model.LoanProductMaster
 
 object Response {
@@ -24,11 +25,15 @@ object Response {
     data class UserBranches(val branchID: Int, val branchName: String)
     data class ResponseAllMasterValue(val responseCode: String, val responseMsg: String,
                                       val responseObj: AllMasterDropDown, val timeStamp: Long)
-    data class ResponseSavePersonalInfo(val draftDetailID: Int, val leadID: Int, val loanApplicationObj: LoanApplicationObj, val storageTypeID: Any, val userID: Any)
-    data class LoanApplicationObj(val affordableEMI: Int, val channelPartnerDsaID: Int, val creditOfficerEmpID: Int, val creditOfficerEmpName: String, val interestTypeTypeDetailID: Int, val leadID: Int,
-                                  val loanAmountRequest: Int, val loanApplicationID: Int, val loanPurposeID: Int, val loanSchemeTypeDetailID: Int, val logginUserEntityID: Int, val productID: Int,
-                                  val ruleEngineResponse: String, val salesOfficerEmpID: Int, val salesOfficerEmpName: String, val sourcingChannelPartnerTypeDetailID: Int, val tenure: Int)
-    data class ResponseLoanInfo(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
+
+    data class ResponseSavePersonalInfo(val draftDetailID: Int, val leadID: Int, val loanInfoObj: LoanInfoObj, val storageTypeID: Any, val userID: Any)
+    data class LoanInfoObj(val affordableEMI: Int, val channelPartnerDsaID: Int, val creditOfficerEmpID: Int, val creditOfficerEmpName: String, val interestTypeTypeDetailID: Int, val leadID: Int,
+                           val loanAmountRequest: Int, val loanApplicationID: Int, val loanPurposeID: Int, val loanSchemeTypeDetailID: Int, val logginUserEntityID: Int, val productID: Int,
+                           val ruleEngineResponse: String, val salesOfficerEmpID: Int, val salesOfficerEmpName: String, val sourcingChannelPartnerTypeDetailID: Int, val tenure: Int)
+
+    data class ResponsePostLoanInfo(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
+    data class ResponseGetLoanInfo(val responseCode: String, val responseMsg: String, val responseObj: LoanInfoMaster?, val timeStamp: Long)
+    data class ResponseGetLoanInfoObj(val draftDetailID: Any, val leadID: Any, val loanApplicationID: Any, val loanInfoObj: LoanInfoObj, val storageType: Any, val userID: Any)
     data class ResponseSourceChannelPartnerName(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ChannelPartnerName>, val timeStamp: Long)
     data class ChannelPartnerName(val branchID: Int, val channelTypeTypeDetailID: Int, val companyName: String, val dsaID: Int, val entityID: Int, val isActive: Boolean, val salesOfficerEmpID: Int)
     data class ResponseLoanProduct(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<LoanProductMaster>, val timeStamp: Long)
