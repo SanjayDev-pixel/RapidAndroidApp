@@ -56,25 +56,29 @@ interface ApplicationComponent {
     fun inject(fragment: PendingLeadsFragment)
     fun inject(fragment: CompletedLeadFragment)
     fun inject(fragment: RejectedLeadFragment)
+    fun inject(fragment: PropertyFragment)
     /**
      * Presenters
      */
     fun inject(presenter: TestPresenter)
+    fun inject(presenter: BankDetailGetPresenter)
     fun inject(presenter: TempSyncPresenter)
     fun inject(presenter: LoginPresenter)
-    fun inject(presenter: PersonalInfoPresenter)
+    fun inject(postPresenter: PersonalInfoPostPresenter)
     fun inject(presenter: AddLeadPresenter)
     fun inject(presenter: AllMasterValuePresenter)
     fun inject(postPresenter: LoanInfoPostPresenter)
     fun inject(presenter: SourceChannelPartnerNamePresenter)
     fun inject(presenter: LoanProductPresenter)
-    fun inject(presenter: UpdateReferencePresenter)
+    fun inject(presenter: PostReferencePresenter)
     fun inject(presenter: PinCodeDetailPresenter)
-    fun inject(presenter: EmploymentPresenter)
+    fun inject(postPresenter: EmploymentPostPresenter)
     fun inject(presenter: DocumentUploadPresenter)
-    fun inject(presenter: BankDetailPresenter)
+    fun inject(postPresenter: BankDetailPostPresenter)
     fun inject(presenter: GetAllLeadsPresenter)
     fun inject(presenter: LoanInfoGetPresenter)
+    fun inject(presenter: PersonalInfoGetPresenter)
+    fun inject(presenter: EmploymentGetPresenter)
 
     /**
      * View Model

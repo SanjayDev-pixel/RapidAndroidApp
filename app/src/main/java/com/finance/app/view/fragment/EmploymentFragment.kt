@@ -22,16 +22,16 @@ import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
-import com.finance.app.presenter.presenter.EmploymentPresenter
+import com.finance.app.presenter.presenter.EmploymentPostPresenter
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
 import com.finance.app.utility.ClearEmploymentForm
 import com.finance.app.utility.ConvertDateToApiFormat
 import com.finance.app.utility.IntFromDateString
 import com.finance.app.utility.SelectDate
 import com.finance.app.view.activity.UploadDataActivity
-import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
-import com.finance.app.view.adapters.recycler.adapter.YesNoSpinnerAdapter
+import com.finance.app.view.adapters.recycler.Spinner.YesNoSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
@@ -43,7 +43,7 @@ import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
-        LoanApplicationConnector.Employment, PersonalApplicantsAdapter.ItemClickListener {
+        LoanApplicationConnector.PostEmployment, PersonalApplicantsAdapter.ItemClickListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -54,7 +54,7 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
     private lateinit var binding: FragmentEmploymentBinding
     private lateinit var mContext: Context
     private val pinCodePresenter = PinCodeDetailPresenter(this)
-    private val employmentPresenter = EmploymentPresenter(this)
+    private val employmentPresenter = EmploymentPostPresenter(this)
     private lateinit var allMasterDropDown: AllMasterDropDown
     private lateinit var profileSegment: ArrayList<DropdownMaster>
     private lateinit var subProfileSegment: ArrayList<DropdownMaster>
@@ -170,12 +170,12 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         when (formSelected) {
             SALARY -> {
                 if (formValidation.validateSalaryEmployment(binding = binding.layoutSalary)) {
-                    employmentPresenter.callNetwork(ConstantsApi.CALL_EMPLOYMENT)
+                    employmentPresenter.callNetwork(ConstantsApi.CALL_POST_EMPLOYMENT)
                 }
             }
             SENP -> {
                 if (formValidation.validateSenpEmployment(binding = binding.layoutSenp)) {
-                    employmentPresenter.callNetwork(ConstantsApi.CALL_EMPLOYMENT)
+                    employmentPresenter.callNetwork(ConstantsApi.CALL_POST_EMPLOYMENT)
                 }
             }
         }
@@ -367,13 +367,13 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         binding.layoutSalary.etState.setText(pinCodeObj.stateName)
     }
 
-    override val employmentRequest: Requests.RequestEmployment
-        get() = mEmploymentRequest
+    override val employmentRequestPost: Requests.RequestPostEmployment
+        get() = mEmploymentRequestPost
 
-    private val mEmploymentRequest: Requests.RequestEmployment
+    private val mEmploymentRequestPost: Requests.RequestPostEmployment
         get() {
             employmentList.add(mEmploymentDetail)
-            return Requests.RequestEmployment(leadID = 1, applicantDetails = employmentList)
+            return Requests.RequestPostEmployment(leadID = 1, applicantDetails = employmentList)
         }
 
     private val mEmploymentDetail: Requests.EmploymentDetail
@@ -437,11 +437,11 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
                     zip = binding.layoutSenp.etPinCode.text.toString(), landmark = binding.layoutSenp.etLandmark.text.toString())
         }
 
-    override fun getEmploymentSuccess(value: Response.ResponseEmployment) {
+    override fun getEmploymentPostSuccess(value: Response.ResponseLoanApplication) {
         gotoNextFragment()
     }
 
-    override fun getEmploymentFailure(msg: String) {
+    override fun getEmploymentPostFailure(msg: String) {
         showToast(msg)
     }
 

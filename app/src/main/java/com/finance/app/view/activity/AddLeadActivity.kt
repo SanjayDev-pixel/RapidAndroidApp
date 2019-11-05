@@ -7,8 +7,8 @@ import com.finance.app.databinding.ActivityAddLeadBinding
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.presenter.connector.AddLeadConnector
 import com.finance.app.presenter.presenter.AddLeadPresenter
-import com.finance.app.view.adapters.recycler.adapter.LoanProductSpinnerAdapter
-import com.finance.app.view.adapters.recycler.adapter.UserBranchesSpinnerAdapter
+import com.finance.app.view.adapters.recycler.Spinner.LoanProductSpinnerAdapter
+import com.finance.app.view.adapters.recycler.Spinner.UserBranchesSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -33,7 +33,6 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     lateinit var formValidation: FormValidation
 
     companion object {
-        private var branches: ArrayList<Response.UserBranches>? = ArrayList()
         fun start(context: Context) {
             val intent = Intent(context, AddLeadActivity::class.java)
             context.startActivity(intent)
@@ -53,15 +52,14 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     private fun setBranchesDropDownValue() {
-        branches = sharedPreferences.getUserBranches()
         binding.spinnerBranches.setFloatingLabelText(R.string.branch)
-        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, branches!!)
+        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, sharedPreferences.getUserBranches()!!)
         binding.spinnerBranches.setFloatingLabelText(R.string.type_of_loan)
     }
 
     private fun getLoanProductFromDB() {
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProductValue ->
-            setProductDropDownValue(loanProductValue)
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer {
+            setProductDropDownValue(it)
         })
     }
 
@@ -81,7 +79,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = 1, loanTypeDetailID = 1
+                    branchID = 1, loanProductID = 1
             )
         }
 

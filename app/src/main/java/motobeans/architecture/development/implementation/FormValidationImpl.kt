@@ -1,6 +1,7 @@
 package motobeans.architecture.development.implementation
 import android.content.Context
 import com.finance.app.databinding.*
+import com.finance.app.persistence.model.LoanProductMaster
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
@@ -83,7 +84,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateLoanInformation(binding: FragmentLoanInformationBinding): Boolean {
+    override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean {
         var errorCount = 0
         val loanAmount = binding.etAmountRequest.text.toString()
         if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
@@ -95,6 +96,20 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         if (!tenure.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etTenure.error = "Tenure can not be blank"
+        }
+
+        if (loanProduct != null) {
+            if (tenure.toInt() > loanProduct.maxTenure) {
+                errorCount++
+                binding.etTenure.error = "Tenure more than the max value"
+            }
+
+            if (loanAmount.toInt() > loanProduct.maxAmount) {
+                errorCount++
+                binding.etAmountRequest.error = "Amount more than the max value"
+            }
+        } else {
+            binding.spinnerLoanProduct.error = "loan Product Cannot be empty"
         }
 
         val emi = binding.etEmi.text.toString()
@@ -152,10 +167,10 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         binding.personalAddressLayout.etCurrentStaying.isEnabled = false
         binding.personalAddressLayout.spinnerPermanentResidenceType.isEnabled = false
         binding.personalAddressLayout.spinnerPermanentState.isEnabled = false
-        binding.personalAddressLayout.spinnerPermanentDistrict.isEnabled = false
+//        binding.personalAddressLayout.spinnerPermanentDistrict.isEnabled = false
         binding.personalAddressLayout.spinnerPermanentAddressProof.isEnabled = false
         binding.personalAddressLayout.spinnerCurrentAddressProof.isEnabled = false
-        binding.personalAddressLayout.spinnerCurrentDistrict.isEnabled = false
+//        binding.personalAddressLayout.spinnerCurrentDistrict.isEnabled = false
         binding.personalAddressLayout.spinnerCurrentState.isEnabled = false
         binding.personalAddressLayout.cbSameAsCurrent.isClickable = false
         binding.personalAddressLayout.etCurrentRentAmount.isEnabled = false
@@ -414,6 +429,13 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         if (!name.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etApplicantFirstName.error = "Name can not be blank"
+        }
+
+        val email = binding.etEmail.text.toString()
+        if (email.exIsNotEmptyOrNullOrBlank()) {
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                binding.etEmail.error = "Invalid Email"
+            }
         }
         return isValidForm(errorCount)
     }

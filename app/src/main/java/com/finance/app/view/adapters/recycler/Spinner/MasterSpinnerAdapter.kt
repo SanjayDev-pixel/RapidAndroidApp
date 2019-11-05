@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.adapter
+package com.finance.app.view.adapters.recycler.Spinner
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -48,6 +48,10 @@ class MasterSpinnerAdapter(mContext: Context, val value: ArrayList<DropdownMaste
         return view
     }
 
+    fun setItem(position: Int) {
+        spinnerValue = value[position]
+        notifyDataSetChanged()
+    }
     override
     fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getCustomView(position, convertView, parent)

@@ -1,5 +1,4 @@
 package com.finance.app.presenter.presenter
-
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -10,7 +9,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class LoanInfoPostPresenter(private val PostLoanInfo: LoanApplicationConnector.PostLoanInfo) : LoanApplicationConnector.PresenterOpt {
+class BankDetailPostPresenter(private val postBankDetail: LoanApplicationConnector.PostBankDetail) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -22,29 +21,28 @@ class LoanInfoPostPresenter(private val PostLoanInfo: LoanApplicationConnector.P
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_LOAN_INFO_POST) {
-            callLoanInfoPostApi()
+        if (type == ConstantsApi.CALL_BANK_DETAIL_POST) {
+                callBankDetailPostApi()
         }
     }
 
-    private fun callLoanInfoPostApi() {
-        val requestApi = apiProject.api.postLoanInfo(PostLoanInfo.loanInfoRequestPost)
+    private fun callBankDetailPostApi() {
+        val requestApi = apiProject.api.postBankDetail(postBankDetail.bankDetailRequest)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> PostLoanInfo.showProgressDialog() }
-                .doFinally { PostLoanInfo.hideProgressDialog() }
-                .subscribe({ response -> onLoanInfoPost(response) },
-                        { e -> PostLoanInfo.getLoanInfoPostFailure(e?.message ?: "") })
+                .doOnSubscribe { postBankDetail.showProgressDialog() }
+                .doFinally { postBankDetail.hideProgressDialog() }
+                .subscribe({ response -> onBankDetailPost(response) },
+                        { e -> postBankDetail.getBankDetailPostFailure(e?.message ?: "") })
     }
 
-    private fun onLoanInfoPost(responsePost: Response.ResponseLoanApplication) {
-        if (responsePost.responseCode == "200") {
-            PostLoanInfo.getLoanInfoPostSuccess(responsePost)
-
+    private fun onBankDetailPost(response: Response.ResponseLoanApplication) {
+        if (response.responseCode == "200") {
+            postBankDetail.getBankDetailPostSuccess(response)
         } else {
-            PostLoanInfo.getLoanInfoPostFailure(responsePost.responseMsg)
+            postBankDetail.getBankDetailPostFailure(response.responseMsg)
         }
     }
 }

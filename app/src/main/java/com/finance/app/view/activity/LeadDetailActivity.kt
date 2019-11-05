@@ -64,7 +64,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun fillDataOnScreen(lead: AllLeadMaster?) {
         binding.tvEmail.text = lead?.applicantEmail
-        val leadName = lead?.applicantFirstName + lead?.applicantLastName
+        val leadName = lead?.applicantFirstName + " " + lead?.applicantLastName
         binding.tvLeadName.text = leadName
         binding.tvLeadNumber.text = lead?.leadNumber
         binding.tvLocation.text = lead?.applicantAddress

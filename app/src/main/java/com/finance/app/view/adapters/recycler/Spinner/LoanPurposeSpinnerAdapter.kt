@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.adapter
+package com.finance.app.view.adapters.recycler.Spinner
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,17 +7,18 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
-import com.finance.app.persistence.model.LoanProductMaster
+import motobeans.architecture.retrofit.response.Response
 
-class LoanProductSpinnerAdapter(private val mContext: Context, val value: List<LoanProductMaster>) : BaseAdapter() {
+class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response.LoanPurpose>?,
+                                val isMandatory: Boolean = false) : BaseAdapter() {
 
-    private var inflater: LayoutInflater = mContext.getSystemService(
+    private var inflater: LayoutInflater = context1.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: LoanProductMaster
+    private lateinit var spinnerValue: Response.LoanPurpose
 
     override fun getItem(position: Int): Any? {
-        return value[position]
+        return value?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -25,7 +26,7 @@ class LoanProductSpinnerAdapter(private val mContext: Context, val value: List<L
     }
 
     override fun getCount(): Int {
-        return value.size
+        return value?.size ?: 0
     }
 
     override
@@ -35,12 +36,12 @@ class LoanProductSpinnerAdapter(private val mContext: Context, val value: List<L
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value[position]
+        spinnerValue = value?.get(position)?: value?.get(0)!!
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.dropdown) as TextView
-            textView.text = spinnerValue.productName
+            textView.text = spinnerValue.loanPurposeName
         } else {
             view = convertView
         }

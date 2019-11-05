@@ -54,7 +54,7 @@ class AllLeadActivity : BaseAppCompatActivity(), GetAllLeadsConnector.AllLeads {
     }
 
     override fun getAllLeadsFailure(msg: String) {
-        showToast("Unable to refresh data")
+//        showToast("Unable to refresh data")
         setUpLeadFragments()
     }
 

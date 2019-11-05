@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class UpdateReferencePresenter(private val referenceDetail: LoanApplicationConnector.UpdateReference) : LoanApplicationConnector.PresenterOpt {
+class PostReferencePresenter(private val referenceDetail: LoanApplicationConnector.PostReference) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -28,7 +28,7 @@ class UpdateReferencePresenter(private val referenceDetail: LoanApplicationConne
     }
 
     private fun callUpdateReferenceApi() {
-        val requestApi = apiProject.api.updateReference(referenceDetail.leadId, referenceDetail.requestUpdateReference)
+        val requestApi = apiProject.api.postReference(referenceDetail.leadId, referenceDetail.requestPostReference)
 
         requestApi
                 .subscribeOn(Schedulers.io())
@@ -36,14 +36,14 @@ class UpdateReferencePresenter(private val referenceDetail: LoanApplicationConne
                 .doOnSubscribe { referenceDetail.showProgressDialog() }
                 .doFinally { referenceDetail.hideProgressDialog() }
                 .subscribe({ response -> onUpdateReference(response) },
-                        { e -> referenceDetail.getUpdateReferenceFailure(e?.message ?: "") })
+                        { e -> referenceDetail.getReferencePostFailure(e?.message ?: "") })
     }
 
-    private fun onUpdateReference(response: Response.ResponseUpdateReference) {
+    private fun onUpdateReference(response: Response.ResponseLoanApplication) {
         if (response.responseCode == "200") {
-            referenceDetail.getUpdateReferenceSuccess(response)
+            referenceDetail.getReferencePostSuccess(response)
         } else {
-            referenceDetail.getUpdateReferenceFailure(response.responseMsg)
+            referenceDetail.getReferencePostFailure(response.responseMsg)
         }
     }
 }

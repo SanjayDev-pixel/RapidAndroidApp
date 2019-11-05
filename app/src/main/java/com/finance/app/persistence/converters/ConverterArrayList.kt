@@ -1,16 +1,11 @@
 package com.finance.app.persistence.converters
 import androidx.room.TypeConverter
-import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
-/**
- * The 'ConverterArrayList' is converting ArrayList of HashMap to String and vice-versa to make it store-able entity in Database
- */
 class ConverterArrayList {
 
     @TypeConverter
@@ -99,11 +94,133 @@ class ConverterArrayList {
     }
 
     @TypeConverter
-    fun fromAllLeadArrayListToStringMaster(ArrayList: ArrayList<AllLeadMaster>?): String? {
+    fun fromAllLeadArrayListToString(ArrayList: ArrayList<AllLeadMaster>?): String? {
         ArrayList?.let {
             val gson = Gson()
             return gson.toJson(ArrayList)
         }
         return null
     }
+
+
+    @TypeConverter
+    fun fromStringToArrayListAssetDetail(value: String?): ArrayList<AssetDetail>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<AssetDetail>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<AssetDetail>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromAssetDetailArrayListToString(ArrayList: ArrayList<AssetDetail>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListCardDetail(value: String?): ArrayList<CardDetail>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<CardDetail>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<CardDetail>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromCardDetailArrayListToString(ArrayList: ArrayList<CardDetail>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListObligationDetail(value: String?): ArrayList<ObligationDetail>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<ObligationDetail>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<ObligationDetail>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromObligationDetailArrayListToString(ArrayList: ArrayList<ObligationDetail>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListReferenceMaster(value: String?): ArrayList<ReferenceMaster>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<ReferenceMaster>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<ReferenceMaster>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromReferenceArrayListToString(ArrayList: ArrayList<ReferenceMaster>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListPersonalApplicantModel(value: String?): ArrayList<PersonalApplicantsModel>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<PersonalApplicantsModel>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<PersonalApplicantsModel>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromPersonalApplicantModelArrayListToString(ArrayList: ArrayList<PersonalApplicantsModel>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListStateMaster(value: String?): ArrayList<StatesMaster>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<StatesMaster>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<StatesMaster>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromStateMasterArrayListToString(ArrayList: ArrayList<StatesMaster>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
 }

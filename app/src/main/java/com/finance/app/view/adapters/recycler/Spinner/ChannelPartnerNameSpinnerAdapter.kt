@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.adapter
+package com.finance.app.view.adapters.recycler.Spinner
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,16 +9,16 @@ import android.widget.TextView
 import com.finance.app.R
 import motobeans.architecture.retrofit.response.Response
 
-class UserBranchesSpinnerAdapter(mContext: Context, val value: ArrayList<Response.UserBranches>) :
-        BaseAdapter() {
+class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<Response.ChannelPartnerName>?,
+                                       val isMandatory: Boolean = false) : BaseAdapter() {
 
-    private var inflater: LayoutInflater = mContext.getSystemService(
+    private var inflater: LayoutInflater = context1.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: Response.UserBranches
+    private var spinnerValue: Response.ChannelPartnerName? = null
 
     override fun getItem(position: Int): Any? {
-        return value[position]
+        return value?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -26,7 +26,7 @@ class UserBranchesSpinnerAdapter(mContext: Context, val value: ArrayList<Respons
     }
 
     override fun getCount(): Int {
-        return value.size
+        return value?.size ?: 0
     }
 
     override
@@ -36,12 +36,12 @@ class UserBranchesSpinnerAdapter(mContext: Context, val value: ArrayList<Respons
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value[position]
+        spinnerValue = value?.get(position)
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.dropdown) as TextView
-            textView.text = spinnerValue.branchName
+            textView.text = spinnerValue!!.companyName
         } else {
             view = convertView
         }

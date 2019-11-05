@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class PersonalInfoPresenter(private val personalinfo: LoanApplicationConnector.PersonalInfo) : LoanApplicationConnector.PresenterOpt {
+class EmploymentGetPresenter(private val employment: LoanApplicationConnector.GetEmployment) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -22,28 +22,28 @@ class PersonalInfoPresenter(private val personalinfo: LoanApplicationConnector.P
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_PERSONAL_INFO) {
-            callPersonalInfoApi()
+        if (type == ConstantsApi.CALL_GET_EMPLOYMENT) {
+            callGetEmploymentApi()
         }
     }
 
-    private fun callPersonalInfoApi() {
-        val requestApi = apiProject.api.personalInfo(personalinfo.personalInfoRequest)
+    private fun callGetEmploymentApi() {
+        val requestApi = apiProject.api.getEmployment(employment.leadId)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> personalinfo.showProgressDialog() }
-                .doFinally { personalinfo.hideProgressDialog() }
-                .subscribe({ response -> onPersonalInfo(response) },
-                        { e -> personalinfo.getPersonalInfoFailure(e?.message ?: "") })
+                .doOnSubscribe { employment.showProgressDialog() }
+                .doFinally { employment.hideProgressDialog() }
+                .subscribe({ response -> onGetEmployment(response) },
+                        { e -> employment.getEmploymentGetFailure(e?.message ?: "") })
     }
 
-    private fun onPersonalInfo(response: Response.ResponseLoanApplication) {
+    private fun onGetEmployment(response: Response.ResponseGetEmployment) {
         if (response.responseCode == "200") {
-            personalinfo.getPersonalInfoSuccess(response)
+            employment.getEmploymentGetSuccess(response)
         } else {
-            personalinfo.getPersonalInfoFailure(response.responseMsg)
+            employment.getEmploymentGetFailure(response.responseMsg)
         }
     }
 }

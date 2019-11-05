@@ -1,34 +1,26 @@
-package com.finance.app.view.adapters.recycler.adapter
+package com.finance.app.view.adapters.recycler.Spinner
 
 import android.content.Context
+import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
-import motobeans.architecture.retrofit.response.Response
+import com.finance.app.persistence.model.LoanProductMaster
 
-class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response.LoanPurpose>?,
-                                val isMandatory: Boolean = false) : BaseAdapter() {
+class LoanProductSpinnerAdapter(val mContext: Context, val value: List<LoanProductMaster>) : BaseAdapter() {
 
-    private var inflater: LayoutInflater = context1.getSystemService(
-            Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private var inflater: LayoutInflater = mContext.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private lateinit var spinnerValue: LoanProductMaster
 
-    private lateinit var spinnerValue: Response.LoanPurpose
-
-    override fun getItem(position: Int): Any? {
-        return value?.get(position)
-    }
-
+    override fun getCount() = value.size
+    override fun getItem(position: Int) = value[position]
     override fun getItemId(position: Int): Long {
         return 0
     }
-
-    override fun getCount(): Int {
-        return value?.size ?: 0
-    }
-
+    
     override
     fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getCustomView(position, convertView, parent)
@@ -36,12 +28,12 @@ class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value?.get(position)?: value?.get(0)!!
+        spinnerValue = value[position]
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.dropdown) as TextView
-            textView.text = spinnerValue.loanPurposeName
+            textView.text = spinnerValue.productName
         } else {
             view = convertView
         }

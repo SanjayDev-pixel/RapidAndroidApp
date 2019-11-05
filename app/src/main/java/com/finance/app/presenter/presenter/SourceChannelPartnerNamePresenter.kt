@@ -1,6 +1,7 @@
 package com.finance.app.presenter.presenter
 
 import com.finance.app.presenter.connector.LoanApplicationConnector
+import com.finance.app.presenter.connector.SourceChannelPartnerNameConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -10,7 +11,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class SourceChannelPartnerNamePresenter(private val channelPartner: LoanApplicationConnector.SourceChannelPartnerName) : LoanApplicationConnector.PresenterOpt {
+class SourceChannelPartnerNamePresenter(private val channelPartner: SourceChannelPartnerNameConnector.SourceChannelPartnerName) : LoanApplicationConnector.PresenterOpt {
     @Inject
     lateinit var apiProject: ApiProject
     @Inject

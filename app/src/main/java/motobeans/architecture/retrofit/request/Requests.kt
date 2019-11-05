@@ -1,31 +1,33 @@
 package motobeans.architecture.retrofit.request
 
+import com.finance.app.persistence.model.BankDetailMaster
+
 object Requests {
     data class RequestSample(var param1: String? = null, var param2: String? = null)
     data class RequestLogin(val company: Company, val password: String, val username: String)
     data class Company(val companyId: Int, val companySlug: String)
-    data class RequestAddLead(val applicantAddress: String, val applicantContactNumber: String, val loanTypeDetailID: Int,
+    data class RequestAddLead(val applicantAddress: String, val applicantContactNumber: String, val loanProductID: Int,
                               val applicantEmail: String, val applicantFirstName: String, val applicantLastName: String,
                               val applicantMiddleName: String, val branchID: Int)
 
-    data class RequestPostLoanInfo(val draftDetailID: Int?, val leadID: Int?, val loanApplicationObj: LoanInfoObj,
-                                   val storageTypeID: Int?, val userID: Int?)
+    data class RequestPostReference(
+            val active: Boolean,
+            val address: String,
+            val addressBean: AddressBean,
+            val applicantID: Int?,
+            val applicantReferenceDetailID: Int,
+            val contactNumber: String,
+            val knowSince: String,
+            val name: String,
+            val occupationTypeDetailID: Int?,
+            val relationTypeDetailID: Int?,
+            val serialNumber: Int)
 
-    data class LoanInfoObj(val affordableEMI: Int, val channelPartnerNameTypeDetailID: Int?, val creditOfficerEmpID: Any? = null, val creditOfficerEmpName: Any? = null,
-                           val interestTypeTypeDetailID: Int, val leadID: Int, val loanAmountRequest: Int, val loanApplicationID: Int? = null,
-                           val loanProductTypeDetailID: Int, val loanPurposeTypeDetailID: Int, val loanSchemeTypeDetailID: Int, val salesOfficerEmpID: Int,
-                           val salesOfficerEmpName: Any? =null, val sourcingChannelPartnerTypeDetailID: Int, val tenure: Int)
+    data class AddressBean(val address1: String, val address2: String? = null, val addressID: Int?, val addressProof: Int,
+                           val cityID: Int, val cityName: String, val districtID: Int, val entityID: Int?,
+                           val landmark: String?, val rentAmount: Int, val residenceTypeTypeDetailID: Int, val zip: String)
 
-    data class RequestUpdateReference(val address: String = "Address", val addressBean: AddressBean, val applicantID: Int? = null,
-                                      val applicantReferenceDetailID: Int? = null, val contactNumber: String,
-                                      val knowSince: String, val name: String, val occupationTypeDetailID: Int? = null,
-                                      val relationTypeDetailID: Int?, val serialNumber: Int? = null)
-
-    data class AddressBean(val address1: String, val address2: String? = null, val addressProof: Int? = null, val cityID: Int?,
-                           val cityName: String, val districtID: Int?, val landmark: String, val rentAmount: Int? = null,
-                           val residenceTypeTypeDetailID: Int? = null, val zip: String)
-
-    data class RequestEmployment(val applicantDetails: ArrayList<EmploymentDetail>, val leadID: Int, val loanApplicationID: Int? = null)
+    data class RequestPostEmployment(val applicantDetails: ArrayList<EmploymentDetail>, val leadID: Int, val loanApplicationID: Int? = null)
 
     data class EmploymentDetail(val addressBean: EmploymentAddressBean, val allEarningMembers: Int? = null, val applicantID: Int?,
                                 val businessSetupTypeDetailID: Int? = null, val businessVinatgeInYear: Int? = null,
@@ -44,9 +46,9 @@ object Requests {
                                      val residenceTypeTypeDetailID: Int? = null, val zip: String? = null)
     data class Document(val documentTypeDetailID: Int, val uploadedDocumentPath: String)
     data class RequestBankDetail(val draftDetailID: Any? = null, val leadID: Int, val loanApplicationID: Any? = null,
-                                 val loanApplicationObj: BankDetailObj, val storageTypeID: Any? = null, val userID: Int? = null)
+                                 val loanApplicationObj: BankDetailMaster, val storageTypeID: Any? = null, val userID: Int? = null)
 
-    data class BankDetailObj(val bankDetailList: ArrayList<BankDetail>)
+    //    data class BankDetailObj(val bankDetailList: ArrayList<BankDetail>?)
     data class BankDetail(val applicantBankDetailsBean: ArrayList<ApplicantBankDetailsBean>, val applicantID: Int? = null, val firstName: String? = null, val leadApplicantNumber: String)
     data class ApplicantBankDetailsBean(val accountHolderName: String, val accountNumber: Long, val accountTypeDetailID: Int? = null,
                                         val applicantBankTransectionList: List<ApplicantBankTransection>? = null, val applicantID: Int? = null,
@@ -58,7 +60,7 @@ object Requests {
 
     data class ApplicantBankTransection(val applicantBankTransectionID: Int)
 
-    data class RequestPersonalInfo(val applicantDetails: ArrayList<ApplicantDetail>, val draftDetailID: Int, val leadID: Int, val storageTypeID: Any? = null, val userID: Any? = null)
+    data class RequestPostPersonalInfo(val applicantDetails: ArrayList<ApplicantDetail>, val draftDetailID: Int, val leadID: Int, val storageTypeID: Any? = null, val userID: Any? = null)
 
     data class ApplicantDetail(val addressDetailList: ArrayList<AddressDetail>, val age: Int, val applicantID: Int, val casteTypeDetailID: Int,
                                val contactDetail: Any? = null, val dateOfBirth: String, val detailQualificationTypeDetailID: Int,
@@ -74,4 +76,15 @@ object Requests {
     data class AddressDetail(val address1: String, val address2: String, val addressID: Int, val addressProof: Int?, val addressTypeDetailID: Int,
                              val cityID: Int, val cityName: String?, val districtID: Int?, val entityID: Int, val landmark: String, val rentAmount: Int,
                              val residenceTypeTypeDetailID: Any, val zip: String)
+
+    data class RequestPostAssetLiability(val applicantAssetDetailList: ArrayList<ApplicantAssetDetail>, val applicantCreditCardDetailList: ArrayList<ApplicantCreditCardDetail>, val applicantExistingObligationList: ArrayList<ApplicantExistingObligation>, val applicantId: Int)
+
+    data class ApplicantAssetDetail(val assetDetailsTypeDetailID: Int, val assetValue: Int, val documentedProof: Int, val ownership: String, val subTypeOfAssetTypeDetailID: Int)
+
+    data class ApplicantCreditCardDetail(val bankNameTypeDetailID: Int, val cardLimit: Int, val currentUtilization: Int, val lastPaymentDate: String, val obligateTypeDetail: Int)
+
+    data class ApplicantExistingObligation(val balanceTenure: Int, val borrowerNameTypeDetailID: Int, val bounseEmiPaidInSameMonth: Int, val emiAmount: Int,
+                                           val financerName: String, val loanAccountNumber: String, val loanAmount: Int, val loanOwnershipTypeDetailID: Int, val loanTypeTypeDetailID: Int,
+                                           val numberOfBouncesInLastNineMonth: Int, val numberOfBouncesInLastSixMonth: Int, val obligateTypeDetailID: Int, val repaymentBankTypeDetailID: Int, val tenure: Int)
+
 }

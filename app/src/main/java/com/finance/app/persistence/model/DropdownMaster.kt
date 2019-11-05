@@ -1,10 +1,8 @@
 package com.finance.app.persistence.model
 
 import java.io.Serializable
-import java.util.*
 
 class DropdownMaster : Serializable {
-    var key: String = UUID.randomUUID().toString()
     var typeDetailCode: String? = null
     var typeMasterID: Int? = null
     var typeDetailID: Int? = null

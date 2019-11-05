@@ -6,18 +6,15 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.finance.app.persistence.converters.ConverterArrayList
 import com.finance.app.persistence.converters.Converters
-import com.finance.app.persistence.dao.AllLeadsDao
-import com.finance.app.persistence.dao.AllMasterDropDownDao
-import com.finance.app.persistence.dao.LoanInfoDao
-import com.finance.app.persistence.dao.LoanProductDao
-import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.LoanInfoMaster
-import com.finance.app.persistence.model.LoanProductMaster
+import com.finance.app.persistence.dao.*
+import com.finance.app.persistence.model.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
-@Database(entities = [AllMasterDropDown::class, LoanProductMaster::class, AllLeadMaster::class, LoanInfoMaster::class], version = 3)
+@Database(entities = [AllMasterDropDown::class, LoanProductMaster::class, AllLeadMaster::class,
+  LoanInfoMaster::class, AssetLiabilityMaster::class, BankDetailMaster::class, ReferenceMaster::class,
+  PersonalInfoMaster::class, StatesMaster::class],
+        version = 3)
 @TypeConverters(value = [Converters::class, ConverterArrayList::class])
 abstract class MasterDB : RoomDatabase() {
 
@@ -61,6 +58,18 @@ abstract class MasterDB : RoomDatabase() {
 
   @SuppressWarnings("WeakerAccess")
   abstract fun loanInfoDao(): LoanInfoDao
+
+  @SuppressWarnings("WeakerAccess")
+  abstract fun personalInfoDao(): PersonalInfoDao
+
+  @SuppressWarnings("WeakerAccess")
+  abstract fun bankDetailDao(): BankDetailDao
+
+  @SuppressWarnings("WeakerAccess")
+  abstract fun referenceDao(): ReferenceDao
+
+  @SuppressWarnings("WeakerAccess")
+  abstract fun statesDao(): StatesDao
 
   fun reconfigDataFromDBASync(){
 

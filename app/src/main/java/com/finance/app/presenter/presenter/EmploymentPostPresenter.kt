@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class EmploymentPresenter(private val employment: LoanApplicationConnector.Employment) : LoanApplicationConnector.PresenterOpt {
+class EmploymentPostPresenter(private val postEmployment: LoanApplicationConnector.PostEmployment) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -22,28 +22,28 @@ class EmploymentPresenter(private val employment: LoanApplicationConnector.Emplo
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_EMPLOYMENT) {
-            callEmploymentApi()
+        if (type == ConstantsApi.CALL_POST_EMPLOYMENT) {
+            callPostEmploymentApi()
         }
     }
 
-    private fun callEmploymentApi() {
-        val requestApi = apiProject.api.employment(employment.employmentRequest)
+    private fun callPostEmploymentApi() {
+        val requestApi = apiProject.api.postEmployment(postEmployment.employmentRequestPost)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { employment.showProgressDialog() }
-                .doFinally { employment.hideProgressDialog() }
+                .doOnSubscribe { postEmployment.showProgressDialog() }
+                .doFinally { postEmployment.hideProgressDialog() }
                 .subscribe({ response -> onEmployment(response) },
-                        { e -> employment.getEmploymentFailure(e?.message ?: "") })
+                        { e -> postEmployment.getEmploymentPostFailure(e?.message ?: "") })
     }
 
-    private fun onEmployment(response: Response.ResponseEmployment) {
+    private fun onEmployment(response: Response.ResponseLoanApplication) {
         if (response.responseCode == "200") {
-            employment.getEmploymentSuccess(response)
+            postEmployment.getEmploymentPostSuccess(response)
         } else {
-            employment.getEmploymentFailure(response.responseMsg)
+            postEmployment.getEmploymentPostFailure(response.responseMsg)
         }
     }
 }

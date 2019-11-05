@@ -13,12 +13,13 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentReferenceBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.persistence.model.ReferenceMaster
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
-import com.finance.app.presenter.presenter.UpdateReferencePresenter
+import com.finance.app.presenter.presenter.PostReferencePresenter
 import com.finance.app.utility.ClearReferenceForm
-import com.finance.app.view.adapters.recycler.adapter.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
@@ -30,7 +31,7 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReference,
+class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference,
         PinCodeDetailConnector.PinCode, ReferenceAdapter.ItemClickListener {
 
     @Inject
@@ -45,13 +46,13 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
     private lateinit var relation: ArrayList<DropdownMaster>
     private lateinit var occupation: ArrayList<DropdownMaster>
     private var referenceAdapter: ReferenceAdapter? = null
-    private val referencePresenter = UpdateReferencePresenter(this)
+    private val referencePostPresenter = PostReferencePresenter(this)
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private var districtId = 0
     private var cityId = 0
 
     companion object {
-        var updateReferenceList: ArrayList<Requests.RequestUpdateReference> = ArrayList()
+        var postReferenceList: ArrayList<Requests.RequestPostReference> = ArrayList()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -89,14 +90,14 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
     private fun setClickListeners() {
         binding.btnAddReference.setOnClickListener {
             if (formValidation.validateReference(binding = binding)) {
-                updateReferenceList.add(updateReference)
+                postReferenceList.add(postReference)
                 showReferenceDetail()
                 ClearReferenceForm(binding)
             }
         }
         binding.btnSaveAndContinue.setOnClickListener {
             if (formValidation.validateReference(binding = binding)) {
-                referencePresenter.callNetwork(ConstantsApi.CALL_UPDATE_REFERENCE)
+                referencePostPresenter.callNetwork(ConstantsApi.CALL_UPDATE_REFERENCE)
             }
         }
         binding.referenceAddressLayout.etPinCode.addTextChangedListener(object : TextWatcher {
@@ -112,7 +113,7 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
 
     private fun showReferenceDetail() {
         binding.rcReference.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        referenceAdapter = ReferenceAdapter(activity!!, updateReferenceList)
+        referenceAdapter = ReferenceAdapter(activity!!, postReferenceList)
         binding.rcReference.adapter = referenceAdapter
         referenceAdapter!!.setOnItemClickListener(this)
         binding.rcReference.visibility = View.VISIBLE
@@ -140,18 +141,17 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
     override val leadId: String
         get() = "1"
 
-    override val requestUpdateReference: ArrayList<Requests.RequestUpdateReference>
-        get() = updateReferenceList
 
-    private val updateReference: Requests.RequestUpdateReference
+    private val postReference: Requests.RequestPostReference
         get() {
             val relation = binding.spinnerRelation.selectedItem as DropdownMaster?
             val occupation = binding.spinnerOccupation.selectedItem as DropdownMaster?
-            return Requests.RequestUpdateReference(name = binding.etName.text.toString(),
+            return Requests.RequestPostReference(name = binding.etName.text.toString(),
                     contactNumber = binding.etContactNum.text.toString(), addressBean = addressBean,
                     knowSince = binding.etKnownSince.text.toString(),
                     applicantID = null, occupationTypeDetailID = occupation?.typeDetailID,
-                    relationTypeDetailID = relation?.typeDetailID)
+                    relationTypeDetailID = relation?.typeDetailID, active = true, serialNumber = 1,
+                    address = "", applicantReferenceDetailID = 1)
         }
 
     private val addressBean: Requests.AddressBean
@@ -161,34 +161,39 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.UpdateReferen
                     address2 = binding.referenceAddressLayout.etAddress2.text.toString(),
                     landmark = binding.referenceAddressLayout.etLandmark.text.toString(),
                     cityName = binding.referenceAddressLayout.etCity.text.toString(),
-                    zip = binding.referenceAddressLayout.etPinCode.text.toString())
+                    zip = binding.referenceAddressLayout.etPinCode.text.toString(),
+                    residenceTypeTypeDetailID = 1, rentAmount = 0, addressProof = 1,
+                    addressID = 1, entityID = 1)
         }
 
-    override fun getUpdateReferenceSuccess(value: Response.ResponseUpdateReference) {
+    override val requestPostReference: ArrayList<ReferenceMaster>
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+
+    override fun getReferencePostSuccess(value: Response.ResponseLoanApplication) {
         gotoNextFragment()
     }
 
-    override fun getUpdateReferenceFailure(msg: String) {
+    override fun getReferencePostFailure(msg: String) {
         showToast(msg)
     }
 
     override fun onDeleteClicked(position: Int) {
-        updateReferenceList.removeAt(position)
+        postReferenceList.removeAt(position)
         referenceAdapter!!.notifyDataSetChanged()
     }
 
     override fun onEditClicked(position: Int) {
         getReferenceDetailAtPosition(position)
-        updateReferenceList.removeAt(position)
+        postReferenceList.removeAt(position)
         referenceAdapter!!.notifyDataSetChanged()
     }
 
     private fun getReferenceDetailAtPosition(position: Int) {
-        val referenceDetail = updateReferenceList[position]
+        val referenceDetail = postReferenceList[position]
         fillForm(referenceDetail)
     }
 
-    private fun fillForm(referenceDetail: Requests.RequestUpdateReference) {
+    private fun fillForm(referenceDetail: Requests.RequestPostReference) {
         binding.etName.setText(referenceDetail.name)
         binding.etKnownSince.setText(referenceDetail.knowSince)
         binding.etContactNum.setText(referenceDetail.contactNumber)

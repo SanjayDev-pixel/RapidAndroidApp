@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.adapter
+package com.finance.app.view.adapters.recycler.Spinner
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,18 +7,15 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
-import motobeans.architecture.retrofit.response.Response
 
-class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<Response.ChannelPartnerName>?,
-                                       val isMandatory: Boolean = false) : BaseAdapter() {
+class YesNoSpinnerAdapter(mContext: Context, val isMandatory: Boolean = false) : BaseAdapter() {
 
-    private var inflater: LayoutInflater = context1.getSystemService(
+    private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-    private var spinnerValue: Response.ChannelPartnerName? = null
+    private val value = arrayListOf("yes", "No")
 
     override fun getItem(position: Int): Any? {
-        return value?.get(position)
+        return value[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -26,7 +23,7 @@ class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<R
     }
 
     override fun getCount(): Int {
-        return value?.size ?: 0
+        return value.size
     }
 
     override
@@ -36,12 +33,10 @@ class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<R
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value?.get(position)
-
         if (convertView == null) {
             view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.dropdown) as TextView
-            textView.text = spinnerValue!!.companyName
+            textView.text = value[position]
         } else {
             view = convertView
         }

@@ -3,6 +3,7 @@ import android.content.Context
 import com.finance.app.R
 import com.finance.app.model.Modals
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.LoanInfoObj
 import com.google.gson.Gson
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
@@ -38,7 +39,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.userId.toString()
     }
 
-    override fun getUserBranches(): ArrayList<Response.UserBranches>? {
+    override fun getUserBranches(): List<Response.UserBranches>? {
         return getLoginData()?.responseObj?.userDetails?.userBranches
     }
 
@@ -46,17 +47,17 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return getUserToken().exIsNotEmptyOrNullOrBlank()
     }
 
-    override fun saveLoanInfoData(request: Requests.LoanInfoObj?): Boolean {
+    override fun saveLoanInfoData(request: LoanInfoObj?): Boolean {
         val objLoanInfo = Gson().toJson(request)
         val objSPLoanInfo = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOAN_INFO)
         objSPLoanInfo.putString(SharedPreferencesBean.KEY_LOAN_INFO, objLoanInfo)
         return true
     }
 
-    override fun getLoanInfoData(): Requests.LoanInfoObj? {
+    override fun getLoanInfoData(): LoanInfoObj? {
         val objSpLoanInfo = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOAN_INFO)
         val loanInfo = objSpLoanInfo.getString(SharedPreferencesBean.KEY_LOAN_INFO)
-        return Gson().fromJson(loanInfo, Requests.LoanInfoObj::class.java)
+        return Gson().fromJson(loanInfo, LoanInfoObj::class.java)
     }
 
     override fun setPropertySelection(value: String) {
@@ -157,7 +158,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
             when(module.screenName){
                 "Loan Information" -> navItemList[module.screenName] = R.drawable.loan_info_white
                 "Personal" -> navItemList[module.screenName] = R.drawable.personal_info_white
-                "Employment" -> navItemList[module.screenName] = R.drawable.employment_icon_white
+                "PostEmployment" -> navItemList[module.screenName] = R.drawable.employment_icon_white
 //                "Income" -> navItemList[module.screenName] = R.drawable.income_icon_white
                 "Bank Details" -> navItemList[module.screenName] = R.drawable.bank_icon_white
                 "Liability & Asset" -> navItemList[module.screenName] = R.drawable.assest_details_white

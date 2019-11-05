@@ -3,14 +3,15 @@ package motobeans.architecture.development.interfaces
 import com.finance.app.model.Modals
 import com.finance.app.model.Modals.ApplicantPersonal
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.LoanInfoObj
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 
 interface SharedPreferencesUtil {
     fun saveLoginData(response: Response.ResponseLogin?): Boolean
-    fun saveLoanInfoData(request:Requests.LoanInfoObj?): Boolean
+    fun saveLoanInfoData(request: LoanInfoObj?): Boolean
     fun getLoginData(): Response.ResponseLogin?
-    fun getLoanInfoData(): Requests.LoanInfoObj?
+    fun getLoanInfoData(): LoanInfoObj?
     fun isLogin(): Boolean
     fun savePersonalInfoForApplicants(applicants:ApplicantPersonal)
     fun getPersonalInfoForApplicants(): ApplicantPersonal
@@ -25,7 +26,7 @@ interface SharedPreferencesUtil {
     fun getPropertySelection(): Boolean
     fun setIncomeConsideration(value: String)
     fun getIncomeConsideration(): Boolean
-    fun getUserBranches(): ArrayList<Response.UserBranches>?
+    fun getUserBranches(): List<Response.UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
     fun getNavMenuItem(): HashMap<String, Int>?
     fun clearAll()

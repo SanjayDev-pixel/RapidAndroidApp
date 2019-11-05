@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class LoanInfoPostPresenter(private val PostLoanInfo: LoanApplicationConnector.PostLoanInfo) : LoanApplicationConnector.PresenterOpt {
+class PersonalInfoPostPresenter(private val personalinfo: LoanApplicationConnector.PostPersonalInfo) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -22,29 +22,28 @@ class LoanInfoPostPresenter(private val PostLoanInfo: LoanApplicationConnector.P
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_LOAN_INFO_POST) {
-            callLoanInfoPostApi()
+        if (type == ConstantsApi.CALL_POST_PERSONAL_INFO) {
+            callPersonalInfoPostApi()
         }
     }
 
-    private fun callLoanInfoPostApi() {
-        val requestApi = apiProject.api.postLoanInfo(PostLoanInfo.loanInfoRequestPost)
+    private fun callPersonalInfoPostApi() {
+        val requestApi = apiProject.api.postPersonalInfo(personalinfo.personalInfoRequestPost)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> PostLoanInfo.showProgressDialog() }
-                .doFinally { PostLoanInfo.hideProgressDialog() }
-                .subscribe({ response -> onLoanInfoPost(response) },
-                        { e -> PostLoanInfo.getLoanInfoPostFailure(e?.message ?: "") })
+                .doOnSubscribe { _ -> personalinfo.showProgressDialog() }
+                .doFinally { personalinfo.hideProgressDialog() }
+                .subscribe({ response -> onPostPersonalInfo(response) },
+                        { e -> personalinfo.getPersonalPostInfoFailure(e?.message ?: "") })
     }
 
-    private fun onLoanInfoPost(responsePost: Response.ResponseLoanApplication) {
-        if (responsePost.responseCode == "200") {
-            PostLoanInfo.getLoanInfoPostSuccess(responsePost)
-
+    private fun onPostPersonalInfo(response: Response.ResponseLoanApplication) {
+        if (response.responseCode == "200") {
+            personalinfo.getPersonalPostInfoSuccess(response)
         } else {
-            PostLoanInfo.getLoanInfoPostFailure(responsePost.responseMsg)
+            personalinfo.getPersonalPostInfoFailure(response.responseMsg)
         }
     }
 }

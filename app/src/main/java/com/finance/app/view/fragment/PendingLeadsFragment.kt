@@ -43,8 +43,6 @@ class PendingLeadsFragment : BaseFragment() {
                         val allLeadList = ArrayList(it)
                         if (allLeadList.size > 0) {
                             setUpRecyclerView(allLeadList)
-                        } else {
-                            showToast(getString(R.string.failure_get_all_leads))
                         }
                     }
                 })

@@ -587,6 +587,51 @@
                     android:baselineAligned="true"
                     android:orientation="horizontal">
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_num_of_earning_member"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="8sp"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etNumOfEarningMember"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:maxLength="10"
+                            android:hint="@string/alternate_contact_no"
+                            android:minWidth="200dp"
+                            app:ms_hintTextSize="@dimen/hint_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerIncomeConsidered"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minWidth="@dimen/text_min_width"
+                        app:ms_arrowColor="@color/black"
+                        app:ms_arrowSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size"
+                        app:ms_floatingLabelColor="@color/hint_color"
+                        app:ms_floatingLabelText="Income Considered "
+                        app:ms_hint="Income Considered "
+                        app:ms_hintColor="@color/hint_color"
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        app:ms_multiline="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
+
                     <fr.ganfra.materialspinner.MaterialSpinner
                         android:id="@+id/spinnerLivingStandard"
                         android:layout_width="0dp"
@@ -621,7 +666,6 @@
                         app:ms_multiline="false" />
 
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

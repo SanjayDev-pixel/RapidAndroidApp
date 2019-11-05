@@ -113,7 +113,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
             when (title) {
                 "Loan Information" -> updateSecondaryFragment(LoanInformationFragment())
                 "Personal" -> updateSecondaryFragment(PersonalInfoFragment())
-                "Employment" -> updateSecondaryFragment(EmploymentFragment())
+                "PostEmployment" -> updateSecondaryFragment(EmploymentFragment())
 //                "Income" -> updateSecondaryFragment(IncomeFragment())
                 "Bank Details" -> updateSecondaryFragment(BankDetailFragment())
                 "Liability & Asset" -> updateSecondaryFragment(AssetLiabilityFragment())

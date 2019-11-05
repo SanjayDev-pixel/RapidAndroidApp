@@ -2,17 +2,17 @@ package com.finance.app.persistence.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import motobeans.architecture.retrofit.request.Requests
+import motobeans.architecture.retrofit.response.Response
 import java.io.Serializable
 
 @Entity
-class LoanInfoMaster : Serializable {
+class BankDetailMaster : Serializable {
 
     @PrimaryKey
     var leadID: Int = 0
     var draftDetailID: Int? = null
-    var loanApplicationObj: LoanInfoObj? = null
-    var userID: String? = null
+    var loanApplicationID: Int? = null
+    var loanApplicationObj: Response.BankDetailList? = null
     var storageType: String? = null
-    var loanApplicationID:Int? =null
+    var userID: Int? = null
 }

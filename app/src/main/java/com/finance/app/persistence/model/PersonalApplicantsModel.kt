@@ -2,7 +2,7 @@ package com.finance.app.persistence.model
 
 class PersonalApplicantsModel {
 
-    var addressDetailList: ArrayList<AddressDetail> = ArrayList()
+    var addressDetailList: ArrayList<AddressDetail>? = ArrayList()
     var age: Int = 25
     var applicantID: Int? = null
     var casteTypeDetailID: Int = 32158
@@ -20,7 +20,6 @@ class PersonalApplicantsModel {
     var isMainApplicant = false
     var lastName: String = ""
     var loanApplicationID: Int = 32213
-//    var mainApplicant = false
     var maritialStatusTypeDetailID: Int = 13251
     var middleName: String = ""
     var motherFirstName: String = ""

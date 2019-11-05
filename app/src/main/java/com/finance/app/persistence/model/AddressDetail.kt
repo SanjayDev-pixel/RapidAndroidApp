@@ -1,6 +1,7 @@
 package com.finance.app.persistence.model
+import java.io.Serializable
 
-class AddressDetail {
+class AddressDetail : Serializable {
 
     var address1: String = ""
     var address2: String = ""

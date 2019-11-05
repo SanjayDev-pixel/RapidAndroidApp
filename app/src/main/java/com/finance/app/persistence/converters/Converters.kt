@@ -1,10 +1,7 @@
 package com.finance.app.persistence.converters
 
 import androidx.room.TypeConverter
-import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.LoanInfoMaster
+import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import motobeans.architecture.retrofit.request.Requests
@@ -135,21 +132,181 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToLoanInfoObj(value: String?): Requests.LoanInfoObj? {
+    fun fromStringToLoanInfoObj(value: String?): LoanInfoObj? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<Requests.LoanInfoObj>() {
+        val listType = object : TypeToken<LoanInfoObj>() {
 
         }.type
-        return Gson().fromJson<Requests.LoanInfoObj>(value, listType)
+        return Gson().fromJson<LoanInfoObj>(value, listType)
     }
 
     @TypeConverter
-    fun fromLoanInfoObjToString(lead: Requests.LoanInfoObj?): String? {
+    fun fromLoanInfoObjToString(lead: LoanInfoObj?): String? {
         lead?.let {
             val gson = Gson()
             return gson.toJson(lead)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToAssetLiabilityMaster(value: String?): AssetLiabilityMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<AssetLiabilityMaster>() {
+
+        }.type
+        return Gson().fromJson<AssetLiabilityMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromAssetLiabilityMasterToString(lead: AssetLiabilityMaster?): String? {
+        lead?.let {
+            val gson = Gson()
+            return gson.toJson(lead)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToBankDetailMaster(value: String?): BankDetailMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<BankDetailMaster>() {
+
+        }.type
+        return Gson().fromJson<BankDetailMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromBankDetailMasterToString(lead: BankDetailMaster?): String? {
+        lead?.let {
+            val gson = Gson()
+            return gson.toJson(lead)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToBankLoanApplicationObj(value: String?): Response.BankDetailList? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<Response.BankDetailList>() {
+
+        }.type
+        return Gson().fromJson<Response.BankDetailList>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromBankLoanApplicationObjMasterToString(bank: Response.BankDetailList?): String? {
+        bank?.let {
+            val gson = Gson()
+            return gson.toJson(bank)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToReferenceMaster(value: String?): ReferenceMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<ReferenceMaster>() {
+
+        }.type
+        return Gson().fromJson<ReferenceMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromReferenceMasterToString(reference: ReferenceMaster?): String? {
+        reference?.let {
+            val gson = Gson()
+            return gson.toJson(reference)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToAddressBean(value: String?): Requests.AddressBean? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<ReferenceMaster>() {
+
+        }.type
+        return Gson().fromJson<Requests.AddressBean>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromReferenceMasterToString(address: Requests.AddressBean?): String? {
+        address?.let {
+            val gson = Gson()
+            return gson.toJson(address)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToPersonalInfoMaster(value: String?): PersonalInfoMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<PersonalInfoMaster>() {
+
+        }.type
+        return Gson().fromJson<PersonalInfoMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromPersonalInfoMasterToString(personalInfo: PersonalInfoMaster?): String? {
+        personalInfo?.let {
+            val gson = Gson()
+            return gson.toJson(personalInfo)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToPersonalApplicantModel(value: String?): PersonalApplicantsModel? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<PersonalApplicantsModel>() {
+
+        }.type
+        return Gson().fromJson<PersonalApplicantsModel>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromPersonalApplicantModelToString(personalApplicant: PersonalApplicantsModel?): String? {
+        personalApplicant?.let {
+            val gson = Gson()
+            return gson.toJson(personalApplicant)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToStateMaster(value: String?): StatesMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<StatesMaster>() {
+
+        }.type
+        return Gson().fromJson<StatesMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromStatesMasterToString(states: StatesMaster?): String? {
+        states?.let {
+            val gson = Gson()
+            return gson.toJson(states)
         }
         return null
     }

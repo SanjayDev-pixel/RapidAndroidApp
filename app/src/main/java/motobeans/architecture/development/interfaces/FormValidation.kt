@@ -1,12 +1,13 @@
 package motobeans.architecture.development.interfaces
 
 import com.finance.app.databinding.*
+import com.finance.app.persistence.model.LoanProductMaster
 
 interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
     fun validatePersonalInfo(binding: FragmentPersonalBinding):Boolean
     fun validateAddLead(binding: ActivityAddLeadBinding):Boolean
-    fun validateLoanInformation(binding: FragmentLoanInformationBinding):Boolean
+    fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean
     fun validateSalaryEmployment(binding: LayoutSalaryBinding): Boolean
     fun validateSenpEmployment(binding: LayoutSenpBinding): Boolean
     fun validateBankDetail(binding: FragmentBankDetailBinding):Boolean

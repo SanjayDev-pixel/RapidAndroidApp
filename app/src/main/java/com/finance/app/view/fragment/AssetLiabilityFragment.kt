@@ -1,25 +1,24 @@
 package com.finance.app.view.fragment
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.*
-import com.finance.app.model.Modals.*
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickListener {
+class AssetLiabilityFragment : BaseFragment(), PersonalApplicantsAdapter.ItemClickListener {
     private lateinit var binding: FragmentAssetLiablityBinding
     private lateinit var mContext: Context
     private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
@@ -33,14 +32,15 @@ class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickLi
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentAssetLiablityBinding.inflate(inflater, container, false)
-        mContext = requireContext()
+        binding = initBinding(inflater, container, R.layout.fragment_asset_liablity)
+        init()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun init() {
         ArchitectureApp.instance.component.inject(this)
+        mContext = context!!
+        setDropDownValue()
         applicantMenu = ArrayList()
         setDropDownValue()
         setCoApplicants()
@@ -53,12 +53,8 @@ class AssetLiabilityFragment : Fragment(), PersonalApplicantsAdapter.ItemClickLi
         if (!selected) {
             Toast.makeText(context, "Income not considered in Loan Information",
                     Toast.LENGTH_SHORT).show()
-            disableAllFields()
+//            formValidation.disableAssetLiabilityFields(binding)
         }
-    }
-
-    private fun disableAllFields() {
-        formValidation.disableAssetLiabilityFields(binding)
     }
 
     private fun setCoApplicants() {

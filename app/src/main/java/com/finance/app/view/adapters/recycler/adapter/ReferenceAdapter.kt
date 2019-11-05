@@ -9,7 +9,7 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemReferenceBinding
 import motobeans.architecture.retrofit.request.Requests
 
-class ReferenceAdapter(private val c: Context, private val references: ArrayList<Requests.RequestUpdateReference>) : RecyclerView.Adapter<ReferenceAdapter.ObligationViewHolder>() {
+class ReferenceAdapter(private val c: Context, private val references: ArrayList<Requests.RequestPostReference>) : RecyclerView.Adapter<ReferenceAdapter.ObligationViewHolder>() {
     private lateinit var binding: ItemReferenceBinding
     private var mOnItemClickListener: ItemClickListener? = null
 
@@ -35,7 +35,7 @@ class ReferenceAdapter(private val c: Context, private val references: ArrayList
     }
 
     inner class ObligationViewHolder(val binding: ItemReferenceBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
-        fun bindItems(reference: Requests.RequestUpdateReference, position: Int) {
+        fun bindItems(reference: Requests.RequestPostReference, position: Int) {
             binding.tvName.text = reference.name
             binding.tvAddress.text = reference.address
             binding.tvContact.text = reference.contactNumber
