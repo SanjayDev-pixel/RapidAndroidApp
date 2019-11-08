@@ -1,11 +1,10 @@
 package com.finance.app.persistence.model
 
 class ContactDetail {
-    var contactID: Int = 21365
-    var contactTypeDetailID: Int = 16113
+    var contactID: Int? = null
+    var contactTypeDetailID: Int? = null
     var email: String? = ""
-    var enitiyID: Any = 3215
-    var fax: Int = 12452
-    var mobile: Int = 984161123
-
+    var enitiyID: Int? = null
+    var fax: String? = ""
+    var mobile: String? = ""
 }

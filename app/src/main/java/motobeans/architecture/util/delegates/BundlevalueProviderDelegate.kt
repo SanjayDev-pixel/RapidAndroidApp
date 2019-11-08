@@ -1,7 +1,6 @@
 package motobeans.architecture.util.delegates
 
 import android.app.Activity
-import androidx.fragment.app.Fragment
 import android.util.Size
 import android.util.SizeF
 import java.io.Serializable

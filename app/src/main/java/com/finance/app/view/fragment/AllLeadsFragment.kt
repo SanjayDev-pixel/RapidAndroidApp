@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAllLeadsBinding
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.view.activity.AddLeadActivity
 import com.finance.app.view.adapters.recycler.adapter.LeadListingAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment

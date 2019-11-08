@@ -3,6 +3,7 @@ import android.content.Context
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.LoanProductMaster
 import motobeans.architecture.development.interfaces.FormValidation
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
 class FormValidationImpl(private val mContext: Context) : FormValidation {
@@ -33,12 +34,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.personalAddressLayout.etCurrentAddress.error = "Address can not be blank"
         }
 
-        val permanentAddress = binding.personalAddressLayout.etPermanentAddress.text.toString()
-        if (!permanentAddress.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.personalAddressLayout.etPermanentAddress.error = "Address can not be blank"
-        }
-
         val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         if (!currentLandmark.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -51,37 +46,51 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.personalAddressLayout.etCurrentPinCode.error = "Pin code can not be blank"
         }
 
-        val permanentPinCode = binding.personalAddressLayout.etPermanentPinCode.text.toString()
-        if (!permanentPinCode.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.personalAddressLayout.etPermanentPinCode.error = "Pin code can not be blank"
-        }
-
         val currentCity = binding.personalAddressLayout.etCurrentCity.text.toString()
         if (!currentCity.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.personalAddressLayout.etCurrentCity.error = "City can not be blank"
         }
 
+        val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
+        if (!currentStaying.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.personalAddressLayout.etCurrentStaying.error = "Required field"
+        }
+
+        if (!binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
+            errorCount.plus(checkPermanentAddressFields(binding))
+        }
+
+        return isValidForm(errorCount)
+    }
+
+    private fun checkPermanentAddressFields(binding: FragmentPersonalBinding): Int {
+        var errorCount = 0
+        val permanentAddress = binding.personalAddressLayout.etPermanentAddress.text.toString()
+        if (!permanentAddress.exIsNotEmptyOrNullOrBlank()) {
+            binding.personalAddressLayout.etPermanentAddress.error = "Address can not be blank"
+            errorCount++
+        }
+
+        val permanentPinCode = binding.personalAddressLayout.etPermanentPinCode.text.toString()
+        if (!permanentPinCode.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.personalAddressLayout.etPermanentPinCode.error = "Pin code can not be blank"
+        }
+
         val permanentCity = binding.personalAddressLayout.etPermanentCity.text.toString()
         if (!permanentCity.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
             binding.personalAddressLayout.etPermanentCity.error = "City can not be blank"
+            errorCount++
         }
 
         val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
         if (!permanentStaying.exIsNotEmptyOrNullOrBlank()) {
+            binding.personalAddressLayout.etPermanentStaying.error = "Required field"
             errorCount++
-            binding.personalAddressLayout.etPermanentStaying.error = " This field is required"
         }
-
-        val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
-        if (!currentStaying.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.personalAddressLayout.etCurrentStaying.error = " This field is required"
-        }
-
-        return isValidForm(errorCount)
+        return errorCount
     }
 
     override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean {
@@ -410,15 +419,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     override fun validateAddLead(binding: ActivityAddLeadBinding): Boolean {
         var errorCount = 0
 
-        val contact = binding.etContactNum.text.toString()
-        if (!contact.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etContactNum.error = "Contact can not be blank"
-        } else if (contact.length < 10) {
-            errorCount++
-            binding.etContactNum.error = "Contact can not be less than 10 digit"
-        }
-
         val address = binding.etAddress.toString()
         if (!address.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -432,12 +432,44 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         }
 
         val email = binding.etEmail.text.toString()
-        if (email.exIsNotEmptyOrNullOrBlank()) {
-            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                binding.etEmail.error = "Invalid Email"
-            }
+        if (!isValidEmail(email)) {
+            errorCount++
+            binding.etEmail.error = "Invalid Email"
         }
+
+        val mobile = binding.etContactNum.text.toString()
+        if (isValidMobile(mobile)) {
+            errorCount++
+            binding.etContactNum.error = "Invalid Mobile Num"
+        }
+
+        val loanProduct = binding.spinnerLoanProduct.selectedItem as LoanProductMaster?
+        if (loanProduct == null) {
+            errorCount++
+            binding.spinnerLoanProduct.error = "Select Loan"
+        }
+
+        val branch = binding.spinnerBranches.selectedItem as Response.UserBranches?
+        if (branch == null) {
+            errorCount++
+            binding.spinnerBranches.error = "Select Branch"
+        }
+
         return isValidForm(errorCount)
+    }
+
+    private fun isValidMobile(mobile: String): Boolean {
+        if (mobile.exIsNotEmptyOrNullOrBlank()) {
+            return android.util.Patterns.PHONE.matcher(mobile).matches()
+        }
+        return false
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        if (email.exIsNotEmptyOrNullOrBlank()) {
+            return (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        }
+        return false
     }
 
     override fun validateProperty(binding: FragmentPropertyBinding): Boolean {

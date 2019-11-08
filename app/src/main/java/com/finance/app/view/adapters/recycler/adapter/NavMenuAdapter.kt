@@ -19,7 +19,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
     private lateinit var binding: ItemNavBinding
     private val mKeys = ArrayList<String>(navItem.keys)
 
-    companion object {
+    companion object{
         private var selectedPos = 0
     }
 
@@ -97,7 +97,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
 
         private fun navigateToAnotherFragmentOnIconCLick(icon: Int) {
             when (icon) {
-                R.drawable.loan_info_white -> updateSecondaryFragment(LoanInformationFragment())
+                R.drawable.loan_info_white -> updateSecondaryFragment(LoanInfoFragment())
                 R.drawable.personal_info_white -> updateSecondaryFragment(PersonalInfoFragment())
                 R.drawable.employment_icon_white -> updateSecondaryFragment(EmploymentFragment())
 //                R.drawable.income_icon_white -> updateSecondaryFragment(IncomeFragment())
@@ -111,7 +111,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
 
         private fun navigateToAnotherFragment(title: String) {
             when (title) {
-                "Loan Information" -> updateSecondaryFragment(LoanInformationFragment())
+                "Loan Information" -> updateSecondaryFragment(LoanInfoFragment())
                 "Personal" -> updateSecondaryFragment(PersonalInfoFragment())
                 "PostEmployment" -> updateSecondaryFragment(EmploymentFragment())
 //                "Income" -> updateSecondaryFragment(IncomeFragment())

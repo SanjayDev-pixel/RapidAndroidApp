@@ -16,10 +16,10 @@ class NavMenuFragment : Fragment() {
     private lateinit var navMenuAdapter: NavMenuAdapter
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+    private var menuList: HashMap<String, Int>? = null
 
     companion object {
         private var isExpanded = true
-        private var menuList: HashMap<String, Int>? = null
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

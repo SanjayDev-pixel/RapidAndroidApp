@@ -58,8 +58,10 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     private fun getLoanProductFromDB() {
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer {
-            setProductDropDownValue(it)
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer {loanProduct->
+            loanProduct?.let{
+                setProductDropDownValue(it)
+            }
         })
     }
 
@@ -69,18 +71,17 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
     private val leadRequest: Requests.RequestAddLead
         get() {
-//            val loanProduct = binding.spinnerLoanProduct.selectedItem as
-//                    LoanProductMaster
-//            val userBranches = binding.spinnerBranches.selectedItem as
-//                    Response.UserBranches
+            val loanProduct = binding.spinnerLoanProduct.selectedItem as
+                    LoanProductMaster?
+            val branch = binding.spinnerBranches.selectedItem as
+                    Response.UserBranches?
             return Requests.RequestAddLead(applicantAddress = binding.etAddress.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
                     applicantEmail = binding.etEmail.text.toString(),
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = 1, loanProductID = 1
-            )
+                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
         }
 
     override val addLeadRequest: Requests.RequestAddLead
@@ -91,8 +92,5 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         showToast("success")
     }
 
-    override fun getAddLeadFailure(msg: String) {
-        showToast(msg)
-    }
-
+    override fun getAddLeadFailure(msg: String) = showToast(msg)
 }

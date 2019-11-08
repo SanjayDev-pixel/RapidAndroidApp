@@ -17,7 +17,6 @@ package com.finance.app.viewModel
 
 import android.app.ProgressDialog
 import androidx.lifecycle.ViewModel
-import androidx.fragment.app.FragmentActivity
 import com.finance.app.persistence.db.MasterDB
 import com.finance.app.presenter.connector.ReusableView
 import motobeans.architecture.util.DialogFactory

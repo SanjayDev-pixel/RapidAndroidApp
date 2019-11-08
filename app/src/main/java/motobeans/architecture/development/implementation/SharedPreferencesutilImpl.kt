@@ -6,7 +6,6 @@ import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoObj
 import com.google.gson.Gson
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.sharedPreferences.SharedPreferencesBean
 import motobeans.architecture.sharedPreferences.SharedPreferencesCustom

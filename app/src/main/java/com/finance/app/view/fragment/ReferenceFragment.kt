@@ -123,7 +123,10 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference
         get() = binding.referenceAddressLayout.etPinCode.text.toString()
 
     override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail) {
-        setPinCodeDetails(value.responseObj[0])
+        val pinResponse = value.responseObj
+        if (pinResponse != null) {
+            setPinCodeDetails(pinResponse[0])
+        }
     }
 
     private fun setPinCodeDetails(pinCodeObjDetail: Response.PinCodeObj) {
@@ -140,7 +143,6 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference
 
     override val leadId: String
         get() = "1"
-
 
     private val postReference: Requests.RequestPostReference
         get() {

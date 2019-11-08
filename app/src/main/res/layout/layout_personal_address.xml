@@ -153,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
                 android:baselineAligned="true"
+                android:weightSum="2"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -175,28 +176,9 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_current_city"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etCurrentCity"
-                        android:layout_width="match_parent"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/city"
-                        android:inputType="text"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
             </LinearLayout>
 
-                <fr.ganfra.materialspinner.MaterialSpinner
+            <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerCurrentState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -212,24 +194,50 @@
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_current_district"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/fields_margin"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/hint_color">
+                android:layout_marginTop="@dimen/fields_margin"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCurrentDistrict"
-                    android:layout_width="match_parent"
-                    android:singleLine="true"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerCurrentDistrict"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="@string/district"
-                    android:inputType="text"
-                    android:minWidth="200dp"
-                    app:ms_hintTextSize="@dimen/hint_size" />
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="@dimen/text_size"
+                    android:textSize="@dimen/text_size"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="District"
+                    app:ms_hint="District"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_current_city"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/spinner_date_margin"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCurrentCity"
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/city"
+                        android:inputType="text"
+                        android:minWidth="200dp"
+                        app:ms_hintTextSize="@dimen/hint_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -389,6 +397,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
                 android:baselineAligned="true"
+                android:weightSum="2"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -402,27 +411,69 @@
                         android:id="@+id/etPermanentPinCode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
                         android:hint="@string/pin_code"
-                        android:maxLength="6"
+                        android:singleLine="true"
                         android:inputType="number"
+                        android:maxLength="6"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinnerPermanentState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/text_min_width"
+                android:layout_marginTop="@dimen/fields_margin"
+                app:ms_arrowColor="@color/black"
+                app:ms_arrowSize="@dimen/text_size"
+                android:textSize="@dimen/text_size"
+                app:ms_floatingLabelColor="@color/hint_color"
+                app:ms_floatingLabelText="State"
+                app:ms_hint="State"
+                app:ms_hintColor="@color/hint_color"
+                app:ms_hintTextSize="@dimen/hint_size"
+                app:ms_multiline="false" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerPermanentDistrict"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="@dimen/text_size"
+                    android:textSize="@dimen/text_size"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="District"
+                    app:ms_hint="District"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_permanent_city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="@dimen/spinner_date_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPermanentCity"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:layout_height="wrap_content"
                         android:hint="@string/city"
                         android:inputType="text"
                         android:minWidth="200dp"
@@ -431,40 +482,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerPermanentState"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="State"
-                    app:ms_hint="State"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_permanent_district"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/hint_color">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPermanentDistrict"
-                    android:layout_width="match_parent"
-                    android:singleLine="true"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/district"
-                    android:inputType="text"
-                    android:minWidth="200dp"
-                    app:ms_hintTextSize="@dimen/hint_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
     </LinearLayout>

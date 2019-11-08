@@ -148,7 +148,7 @@
                         android:id="@+id/etValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/value"
+                        android:hint="@string/dropdown"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
 

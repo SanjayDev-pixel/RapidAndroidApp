@@ -40,7 +40,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class LoanInformationFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
+class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
         LoanApplicationConnector.GetLoanInfo, SourceChannelPartnerNameConnector.SourceChannelPartnerName {
 
     @Inject
@@ -64,14 +64,14 @@ class LoanInformationFragment : BaseFragment(), LoanApplicationConnector.PostLoa
     private var mContext: Context? = null
     private var mLeadId: String? = null
     private var empId: String? = null
+    private var loanMaster: LoanInfoMaster? = LoanInfoMaster()
+    private var loanInfo: LoanInfoObj? = null
     private var channelPartner: DropdownMaster? = null
 
     companion object {
         private lateinit var mBranchId: String
         private lateinit var mEmployeeId: String
         private lateinit var mChannelTypeId: String
-        private var loanMaster: LoanInfoMaster? = LoanInfoMaster()
-        private var loanInfo: LoanInfoObj? = null
         private const val isMandatory = true
         private const val SELECT_PDF_CODE = 1
         private const val CLICK_IMAGE_CODE = 2
@@ -108,8 +108,8 @@ class LoanInformationFragment : BaseFragment(), LoanApplicationConnector.PostLoa
             loanMaster = value.responseObj
             loanInfo = loanMaster?.loanApplicationObj
             saveDataToDB(loanMaster!!)
-            showData(loanInfo)
         }
+        showData(loanInfo)
     }
 
     private fun showData(loanInfo: LoanInfoObj?) {
@@ -419,7 +419,7 @@ class LoanInformationFragment : BaseFragment(), LoanApplicationConnector.PostLoa
 
     private fun getLoanInfoMaster(): LoanInfoMaster {
         loanMaster?.loanApplicationObj = getLoanInfoObj()
-        loanMaster?.userID = empId
+        loanMaster?.userID = empId!!.toInt()
         return loanMaster!!
     }
 }

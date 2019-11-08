@@ -22,16 +22,16 @@ import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
+import com.finance.app.presenter.presenter.EmploymentGetPresenter
 import com.finance.app.presenter.presenter.EmploymentPostPresenter
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
 import com.finance.app.utility.ClearEmploymentForm
-import com.finance.app.utility.ConvertDateToApiFormat
-import com.finance.app.utility.IntFromDateString
+import com.finance.app.utility.ConvertDate
 import com.finance.app.utility.SelectDate
 import com.finance.app.view.activity.UploadDataActivity
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
 import com.finance.app.view.adapters.recycler.Spinner.YesNoSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
@@ -43,7 +43,8 @@ import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
-        LoanApplicationConnector.PostEmployment, PersonalApplicantsAdapter.ItemClickListener {
+        LoanApplicationConnector.PostEmployment, LoanApplicationConnector.GetEmployment,
+        PersonalApplicantsAdapter.ItemClickListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -54,12 +55,15 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
     private lateinit var binding: FragmentEmploymentBinding
     private lateinit var mContext: Context
     private val pinCodePresenter = PinCodeDetailPresenter(this)
-    private val employmentPresenter = EmploymentPostPresenter(this)
+    private val employmentPostPresenter = EmploymentPostPresenter(this)
+    private val employmentGetPresenter = EmploymentGetPresenter(this)
     private lateinit var allMasterDropDown: AllMasterDropDown
     private lateinit var profileSegment: ArrayList<DropdownMaster>
     private lateinit var subProfileSegment: ArrayList<DropdownMaster>
     private lateinit var pinCodeFromForm: String
     private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
+    private var mLeadId: String? = null
+    private var empId: String? = null
     private var salaryDistrictId = 0
     private var salaryCityId = 0
     private var senpDistrictId = 0
@@ -86,9 +90,10 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
     }
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         applicantTab = ArrayList()
         mContext = requireContext()
-        ArchitectureApp.instance.component.inject(this)
+        getEmploymentInfo()
         checkIncomeConsideration()
         setDatePicker()
         setCoApplicants()
@@ -96,11 +101,28 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         setClickListeners()
     }
 
+    private fun getEmploymentInfo() {
+        mLeadId = sharedPreferences.getLeadId()
+        empId = sharedPreferences.getUserId()
+        employmentGetPresenter.callNetwork(ConstantsApi.CALL_GET_EMPLOYMENT)
+    }
+
+    override val leadId: String
+        get() = mLeadId!!
+
+    override fun getEmploymentGetSuccess(value: Response.ResponseGetEmployment) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getEmploymentGetFailure(msg: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun setCoApplicants() {
         applicantTab.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantTab)
+//        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantTab)
         binding.rcApplicants.adapter = applicantAdapterPersonal
         applicantAdapterPersonal!!.setOnItemClickListener(this)
     }
@@ -157,7 +179,7 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
             override fun afterTextChanged(s: Editable) {
                 val incorporationDate: String? = binding.layoutSenp.etIncorporationDate.text.toString()
                 if (incorporationDate != null) {
-                    IntFromDateString(incorporationDate, binding.layoutSenp.etBusinessVintage)
+//                    IntFromDateString(incorporationDate, binding.layoutSenp.etBusinessVintage)
                 }
             }
 
@@ -170,12 +192,12 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         when (formSelected) {
             SALARY -> {
                 if (formValidation.validateSalaryEmployment(binding = binding.layoutSalary)) {
-                    employmentPresenter.callNetwork(ConstantsApi.CALL_POST_EMPLOYMENT)
+                    employmentPostPresenter.callNetwork(ConstantsApi.CALL_POST_EMPLOYMENT)
                 }
             }
             SENP -> {
                 if (formValidation.validateSenpEmployment(binding = binding.layoutSenp)) {
-                    employmentPresenter.callNetwork(ConstantsApi.CALL_POST_EMPLOYMENT)
+                    employmentPostPresenter.callNetwork(ConstantsApi.CALL_POST_EMPLOYMENT)
                 }
             }
         }
@@ -341,9 +363,12 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         get() = pinCodeFromForm
 
     override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail) {
-        when (formSelected) {
-            SENP -> setPinDetailInSenp(value.responseObj[0])
-            SALARY -> setPinDetailInSalary(value.responseObj[0])
+        val pinResponse = value.responseObj
+        if (pinResponse != null && pinResponse.size > 0) {
+            when (formSelected) {
+                SENP -> setPinDetailInSenp(pinResponse[0])
+                SALARY -> setPinDetailInSalary(pinResponse[0])
+            }
         }
     }
 
@@ -378,7 +403,7 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
 
     private val mEmploymentDetail: Requests.EmploymentDetail
         get() {
-            val convertDate = ConvertDateToApiFormat()
+            val convertDate = ConvertDate()
             var retirementAge: Int? = null
             var totalExp: String? = null
             val company: String
@@ -391,14 +416,14 @@ class EmploymentFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
                 industry = binding.layoutSalary.spinnerIndustry.selectedItem as DropdownMaster
                 retirementAge = binding.layoutSalary.etRetirementAge.text.toString().toInt()
                 totalExp = binding.layoutSalary.etTotalExperience.text.toString()
-                dateOfJoining = convertDate.convertToDesirableFormat(binding.layoutSalary.etJoiningDate.text.toString())
+                dateOfJoining = convertDate.convertToApiFormat(binding.layoutSalary.etJoiningDate.text.toString())
                 employeeSalaryAddress
 
             } else {
                 company = binding.layoutSenp.etBusinessName.text.toString()
                 industry = binding.layoutSenp.spinnerIndustry.selectedItem as DropdownMaster
                 vintageYear = binding.layoutSenp.etBusinessVintage.text.toString().toInt()
-                incorporationDate = convertDate.convertToDesirableFormat(binding.layoutSenp.etIncorporationDate.text.toString())
+                incorporationDate = convertDate.convertToApiFormat(binding.layoutSenp.etIncorporationDate.text.toString())
                 employeeSenpAddress
             }
             val mProfileSegment = binding.spinnerProfileSegment.selectedItem as DropdownMaster?

@@ -17,8 +17,9 @@ class PersonalApplicantsAdapter(private val mContext: Context, private val appli
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
 
+    private var selectedPosition = 0
     companion object {
-        private var selectedPosition = 0
+//        private var selectedPosition = 0
     }
 
     fun setOnItemClickListener(listener: ItemClickListener) {
@@ -48,8 +49,6 @@ class PersonalApplicantsAdapter(private val mContext: Context, private val appli
                 if (mClickListener != null) {
                     selectedPosition = adapterPosition
                     mClickListener!!.onApplicantClick(position)
-//                    sharedPreferences.setCoApplicantsPosition(position.toString())
-                    notifyDataSetChanged()
                 }
             }
 

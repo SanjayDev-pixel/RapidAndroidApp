@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
-import com.finance.app.view.fragment.LoanInformationFragment
+import com.finance.app.view.fragment.LoanInfoFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
@@ -34,7 +34,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
             handleCollapseScreen(isExpand)
         }
         setNavFragment()
-        secondaryFragment = LoanInformationFragment()
+        secondaryFragment = LoanInfoFragment()
         setSecondaryFragment(secondaryFragment)
     }
 

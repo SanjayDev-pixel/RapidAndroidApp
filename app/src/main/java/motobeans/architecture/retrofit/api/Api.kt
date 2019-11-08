@@ -29,13 +29,16 @@ interface Api {
     fun getLoanInfo(@Path("leadId") leadId: String): Observable<Response.ResponseGetLoanInfo>
 
     @POST("api/v1/loan/application/applicant/personal/detail/")
-    fun postPersonalInfo(@Body requestPost: Requests.RequestPostPersonalInfo): Observable<Response.ResponseLoanApplication>
+    fun postPersonalInfo(@Body requestPost: PersonalInfoMaster): Observable<Response.ResponseLoanApplication>
+
+    @GET("api/v1/loan/application/applicant/personal/detail/{leadId}")
+    fun getPersonalInfo(@Path("leadId") leadId: String): Observable<Response.ResponseGetPersonalInfo>
 
     @POST("api/v1/lead/")
     fun addLead(@Body request: Requests.RequestAddLead): Observable<Response.ResponseAddLead>
 
     @GET("api/v1/master/all/")
-    fun getAllMasterValue(): Observable<Response.ResponseAllMasterValue>
+    fun getAllMasterValue(): Observable<Response.ResponseAllMasterDropdown>
 
     @GET("api/v1/master/loan-product-purpose/")
     fun getLoanProduct(): Observable<Response.ResponseLoanProduct>
@@ -65,8 +68,6 @@ interface Api {
     @GET("api/v1/loan/application/applicant/bank-details?leadID={leadId}&loanApplicationID=&bankDetailID=0")
     fun getBankDetail(@Path("leadId") leadId: String): Observable<Response.ResponseGetBankDetail>
 
-    @GET("api/v1/loan/application/applicant/personal/detail/{leadId}")
-    fun getPersonalInfo(@Path("leadId") leadId: String): Observable<Response.ResponseGetPersonalInfo>
 
     @GET("api/v1/lead/")
     fun getAllLeads(): Observable<Response.ResponseGetAllLeads>
@@ -75,6 +76,6 @@ interface Api {
     fun getEmployment(@Path("leadId") leadId: String): Observable<Response.ResponseGetEmployment>
 
     @GET("api/v1/master/states/")
-    fun getStates(): Observable<Response.ResponseGetEmployment>
+    fun getStates(): Observable<Response.ResponseStatesDropdown>
 
 }

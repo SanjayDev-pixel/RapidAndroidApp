@@ -3,8 +3,6 @@ package motobeans.architecture.appDelegates
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import motobeans.architecture.appDelegates.ViewModelType.WITHOUT_FACTORY
 import motobeans.architecture.appDelegates.ViewModelType.WITH_DAO
 import com.finance.app.others.Injection

@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * Created by munishkumarthakur on 31/12/17.
  */
-class AllMasterValuePresenter(private val viewOpt: AllMasterValueConnector.ViewOpt) : AllMasterValueConnector.PresenterOpt {
+class AllMasterDropdownPresenter(private val masterDropdown: AllMasterValueConnector.MasterDropdown) : AllMasterValueConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -36,17 +36,17 @@ class AllMasterValuePresenter(private val viewOpt: AllMasterValueConnector.ViewO
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
-                .doFinally { viewOpt.hideProgressDialog() }
+                .doOnSubscribe { _ -> masterDropdown.showProgressDialog() }
+                .doFinally { masterDropdown.hideProgressDialog() }
                 .subscribe({ response -> onAllSpinnerValue(response) },
-                        { e -> viewOpt.getAllSpinnerValueFailure(e?.message ?: "") })
+                        { e -> masterDropdown.getAllMasterDropdownFailure(e?.message ?: "") })
     }
 
-    private fun onAllSpinnerValue(response: Response.ResponseAllMasterValue) {
+    private fun onAllSpinnerValue(response: Response.ResponseAllMasterDropdown) {
         if (response.responseCode == "200") {
-            viewOpt.getAllMasterValueSuccess(response)
+            masterDropdown.getAllMasterDropdownSuccess(response)
         } else {
-            viewOpt.getAllSpinnerValueFailure(response.responseMsg)
+            masterDropdown.getAllMasterDropdownFailure(response.responseMsg)
         }
     }
 }

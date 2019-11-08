@@ -3,7 +3,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.*
-import kotlin.collections.ArrayList
 
 @Entity
 class AllMasterDropDown : Serializable {
@@ -51,4 +50,5 @@ class AllMasterDropDown : Serializable {
     var AccountType:ArrayList<DropdownMaster>? = null
     var AddressProof:ArrayList<DropdownMaster>? = null
     var ResidenceType:ArrayList<DropdownMaster>? = null
+    var LivingStandardIndicators: ArrayList<DropdownMaster>? = null
 }

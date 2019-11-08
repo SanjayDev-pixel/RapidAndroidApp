@@ -3,7 +3,6 @@ package motobeans.architecture.customAppComponents.dialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

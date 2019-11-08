@@ -2,6 +2,7 @@ package com.finance.app.presenter.connector
 
 import com.finance.app.persistence.model.BankDetailMaster
 import com.finance.app.persistence.model.LoanInfoMaster
+import com.finance.app.persistence.model.PersonalInfoMaster
 import com.finance.app.persistence.model.ReferenceMaster
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
@@ -21,7 +22,7 @@ interface LoanApplicationConnector {
     }
 
     interface PostPersonalInfo : ReusableView {
-        val personalInfoRequestPost: Requests.RequestPostPersonalInfo
+        val personalInfoRequestPost: PersonalInfoMaster
         fun getPersonalPostInfoSuccess(value: Response.ResponseLoanApplication)
         fun getPersonalPostInfoFailure(msg: String)
     }

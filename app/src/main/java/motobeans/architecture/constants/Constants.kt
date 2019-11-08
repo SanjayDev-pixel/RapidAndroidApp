@@ -5,6 +5,7 @@ package motobeans.architecture.constants
  */
 class Constants {
 
+
     private fun Constants(): Unit {}
 
 

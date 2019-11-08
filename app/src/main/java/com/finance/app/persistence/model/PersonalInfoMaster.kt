@@ -8,7 +8,7 @@ import java.io.Serializable
 class PersonalInfoMaster : Serializable {
 
     @PrimaryKey
-    var leadID: Int? = 0
+    var leadID: Int = 0
     var applicantDetails: ArrayList<PersonalApplicantsModel>? = null
     var draftDetailID: Int? = null
     var storageTypeID: Int? = null

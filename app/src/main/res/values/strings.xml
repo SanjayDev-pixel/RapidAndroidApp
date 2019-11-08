@@ -82,7 +82,7 @@
     <string name="current_utilization">Current Utilization</string>
     <string name="delete">Delete</string>
     <string name="add_asset">Add Asset</string>
-    <string name="value">Value</string>
+    <string name="dropdown">Value</string>
     <string name="add_credit_card">Add Credit Card</string>
     <string name="confirmation_delete_kyc_detail">Are you sure! You want to delete this KYC detail?</string>
     <string name="save_and_continue">Save And Continue</string>
@@ -157,4 +157,7 @@
     <string name="failure_get_all_leads">No Leads to show</string>
     <string name="create">Create</string>
     <string name="create_lead">Create Lead</string>
+    <string name="number_of_earning_members">Number of Earning Members</string>
+    <string name="mandatory_field_missing">Mandatory Field Missing</string>
+    <string name="msg_saving">Saving Data</string>
 </resources>

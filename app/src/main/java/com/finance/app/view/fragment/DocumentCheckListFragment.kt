@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
-import com.finance.app.utility.ClearBankForm
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
 import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
 import motobeans.architecture.customAppComponents.activity.BaseFragment

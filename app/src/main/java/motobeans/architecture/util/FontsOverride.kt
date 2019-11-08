@@ -1,7 +1,6 @@
 package motobeans.architecture.util
 
 import android.content.Context
-import java.lang.reflect.AccessibleObject.setAccessible
 import android.graphics.Typeface
 
 

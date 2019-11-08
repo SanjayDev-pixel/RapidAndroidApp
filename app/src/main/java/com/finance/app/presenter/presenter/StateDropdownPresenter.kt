@@ -1,6 +1,6 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.AddLeadConnector
+import com.finance.app.presenter.connector.AllMasterValueConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -10,10 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-/**
- * Created by munishkumarthakur on 31/12/17.
- */
-class AddLeadPresenter(private val viewOpt: AddLeadConnector.ViewOpt) : AddLeadConnector.PresenterOpt {
+class StateDropdownPresenter(private val masterDropdown: AllMasterValueConnector.StateDropdown) : AllMasterValueConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -25,28 +22,28 @@ class AddLeadPresenter(private val viewOpt: AddLeadConnector.ViewOpt) : AddLeadC
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_ADD_LEAD) {
-                callAddLeadApi()
+        if (type == ConstantsApi.CALL_ALL_STATES) {
+                callAllStateApi()
         }
     }
 
-    private fun callAddLeadApi() {
-        val requestApi = apiProject.api.addLead(viewOpt.addLeadRequest)
+    private fun callAllStateApi() {
+        val requestApi = apiProject.api.getStates()
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewOpt.showProgressDialog() }
-                .doFinally { viewOpt.hideProgressDialog() }
-                .subscribe({ response -> onLeadAdd(response) },
-                        { e -> viewOpt.getAddLeadFailure(e?.message ?: "") })
+                .doOnSubscribe { _ -> masterDropdown.showProgressDialog() }
+                .doFinally { masterDropdown.hideProgressDialog() }
+                .subscribe({ response -> onAllStatesValue(response) },
+                        { e -> masterDropdown.getStatesDropdownFailure(e?.message ?: "") })
     }
 
-    private fun onLeadAdd(response: Response.ResponseAddLead) {
+    private fun onAllStatesValue(response: Response.ResponseStatesDropdown) {
         if (response.responseCode == "200") {
-            viewOpt.getAddLeadSuccess(response)
+            masterDropdown.getStatesDropdownSuccess(response)
         } else {
-            viewOpt.getAddLeadFailure(response.responseMsg)
+            masterDropdown.getStatesDropdownFailure(response.responseMsg)
         }
     }
 }

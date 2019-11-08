@@ -3,7 +3,6 @@ package motobeans.architecture.util.delegates
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import kotlin.properties.ReadOnlyProperty

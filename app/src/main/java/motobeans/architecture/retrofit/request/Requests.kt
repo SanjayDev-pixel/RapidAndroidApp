@@ -10,18 +10,10 @@ object Requests {
                               val applicantEmail: String, val applicantFirstName: String, val applicantLastName: String,
                               val applicantMiddleName: String, val branchID: Int)
 
-    data class RequestPostReference(
-            val active: Boolean,
-            val address: String,
-            val addressBean: AddressBean,
-            val applicantID: Int?,
-            val applicantReferenceDetailID: Int,
-            val contactNumber: String,
-            val knowSince: String,
-            val name: String,
-            val occupationTypeDetailID: Int?,
-            val relationTypeDetailID: Int?,
-            val serialNumber: Int)
+    data class RequestPostReference(val active: Boolean, val address: String, val addressBean: AddressBean,
+                                    val applicantID: Int?, val applicantReferenceDetailID: Int, val contactNumber: String,
+                                    val knowSince: String, val name: String, val occupationTypeDetailID: Int?,
+                                    val relationTypeDetailID: Int?, val serialNumber: Int)
 
     data class AddressBean(val address1: String, val address2: String? = null, val addressID: Int?, val addressProof: Int,
                            val cityID: Int, val cityName: String, val districtID: Int, val entityID: Int?,
@@ -48,7 +40,6 @@ object Requests {
     data class RequestBankDetail(val draftDetailID: Any? = null, val leadID: Int, val loanApplicationID: Any? = null,
                                  val loanApplicationObj: BankDetailMaster, val storageTypeID: Any? = null, val userID: Int? = null)
 
-    //    data class BankDetailObj(val bankDetailList: ArrayList<BankDetail>?)
     data class BankDetail(val applicantBankDetailsBean: ArrayList<ApplicantBankDetailsBean>, val applicantID: Int? = null, val firstName: String? = null, val leadApplicantNumber: String)
     data class ApplicantBankDetailsBean(val accountHolderName: String, val accountNumber: Long, val accountTypeDetailID: Int? = null,
                                         val applicantBankTransectionList: List<ApplicantBankTransection>? = null, val applicantID: Int? = null,

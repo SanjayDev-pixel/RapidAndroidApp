@@ -5,12 +5,14 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.LoanProductMaster
+import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.presenter.connector.AllMasterValueConnector
 import com.finance.app.presenter.connector.LoanProductConnector
 import com.finance.app.presenter.connector.LoginConnector
-import com.finance.app.presenter.presenter.AllMasterValuePresenter
+import com.finance.app.presenter.presenter.AllMasterDropdownPresenter
 import com.finance.app.presenter.presenter.LoanProductPresenter
 import com.finance.app.presenter.presenter.LoginPresenter
+import com.finance.app.presenter.presenter.StateDropdownPresenter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -23,7 +25,9 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllMasterValueConnector.ViewOpt, LoanProductConnector.ViewOpt {
+class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
+        AllMasterValueConnector.MasterDropdown, LoanProductConnector.ViewOpt,
+        AllMasterValueConnector.StateDropdown {
 
     // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
@@ -34,7 +38,8 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllMaster
     lateinit var sharedPreferences: SharedPreferencesUtil
     private val loginPresenter = LoginPresenter(this)
     private val loanProductPresenter = LoanProductPresenter(this)
-    private val masterPresenter = AllMasterValuePresenter(this)
+    private val masterPresenter = AllMasterDropdownPresenter(this)
+    private val statePresenter = StateDropdownPresenter(this)
 
     companion object {
         fun start(context: Context) {
@@ -79,31 +84,31 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllMaster
     override val loginRequest: Requests.RequestLogin
         get() = mLoginRequestLogin
 
-
     //    Handle success of the api
     override fun getLoginSuccess(value: Response.ResponseLogin) {
         masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
         loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
+        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
     }
 
-    //    Handle failure of the api
-    override fun getLoginFailure(msg: String) {
-        showToast(msg)
-    }
-
-    override fun getAllMasterValueSuccess(value: Response.ResponseAllMasterValue) {
-        saveMasterDataToDB(value.responseObj)
+    override fun getAllMasterDropdownSuccess(dropdown: Response.ResponseAllMasterDropdown) {
+        saveMasterDataToDB(dropdown.responseObj)
         DashboardActivity.start(this)
-    }
-
-    private fun saveMasterDataToDB(masterDropdown: AllMasterDropDown) {
-        GlobalScope.launch {
-            dataBase.provideDataBaseSource().allMasterDropDownDao().insertAllMasterDropDownValue(masterDropdown)
-        }
     }
 
     override fun getLoanProductSuccess(value: Response.ResponseLoanProduct) {
         saveLoanProductPurposeDataInDB(value.responseObj)
+    }
+
+    override fun getStatesDropdownSuccess(value: Response.ResponseStatesDropdown) {
+        saveStatesDataInDB(value.responseObj)
+    }
+
+    //    Save Data to DB
+    private fun saveMasterDataToDB(masterDropdown: AllMasterDropDown) {
+        GlobalScope.launch {
+            dataBase.provideDataBaseSource().allMasterDropDownDao().insertAllMasterDropDownValue(masterDropdown)
+        }
     }
 
     private fun saveLoanProductPurposeDataInDB(productPurpose: ArrayList<LoanProductMaster>) {
@@ -112,11 +117,18 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt, AllMaster
         }
     }
 
-    override fun getLoanProductFailure(msg: String) {
-        showToast(msg)
+    private fun saveStatesDataInDB(statesObj: ArrayList<StatesMaster>) {
+        GlobalScope.launch {
+            dataBase.provideDataBaseSource().statesDao().insertStates(statesObj)
+        }
     }
 
-    override fun getAllSpinnerValueFailure(msg: String) {
-        showToast(msg)
-    }
+    //    Handle failure of the api
+    override fun getStatesDropdownFailure(msg: String) = showToast(msg)
+
+    override fun getAllMasterDropdownFailure(msg: String) = showToast(msg)
+
+    override fun getLoginFailure(msg: String) = showToast(msg)
+
+    override fun getLoanProductFailure(msg: String) = showToast(msg)
 }

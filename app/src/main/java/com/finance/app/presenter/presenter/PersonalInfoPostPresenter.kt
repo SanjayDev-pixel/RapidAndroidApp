@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class PersonalInfoPostPresenter(private val personalinfo: LoanApplicationConnector.PostPersonalInfo) : LoanApplicationConnector.PresenterOpt {
+class PersonalInfoPostPresenter(private val personalInfo: LoanApplicationConnector.PostPersonalInfo) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -28,22 +28,22 @@ class PersonalInfoPostPresenter(private val personalinfo: LoanApplicationConnect
     }
 
     private fun callPersonalInfoPostApi() {
-        val requestApi = apiProject.api.postPersonalInfo(personalinfo.personalInfoRequestPost)
+        val requestApi = apiProject.api.postPersonalInfo(personalInfo.personalInfoRequestPost)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> personalinfo.showProgressDialog() }
-                .doFinally { personalinfo.hideProgressDialog() }
+                .doOnSubscribe { _ -> personalInfo.showProgressDialog() }
+                .doFinally { personalInfo.hideProgressDialog() }
                 .subscribe({ response -> onPostPersonalInfo(response) },
-                        { e -> personalinfo.getPersonalPostInfoFailure(e?.message ?: "") })
+                        { e -> personalInfo.getPersonalPostInfoFailure(e?.message ?: "") })
     }
 
     private fun onPostPersonalInfo(response: Response.ResponseLoanApplication) {
         if (response.responseCode == "200") {
-            personalinfo.getPersonalPostInfoSuccess(response)
+            personalInfo.getPersonalPostInfoSuccess(response)
         } else {
-            personalinfo.getPersonalPostInfoFailure(response.responseMsg)
+            personalInfo.getPersonalPostInfoFailure(response.responseMsg)
         }
     }
 }

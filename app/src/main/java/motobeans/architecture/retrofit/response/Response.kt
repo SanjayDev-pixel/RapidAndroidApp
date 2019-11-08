@@ -21,22 +21,13 @@ object Response {
                                 val secuirtyAnswer1: String, val secuirtyAnswer2: String, val secuirtyQuestionId1: Int, val secuirtyQuestionId2: Int, val userId: Int, val userName: String)
 
     data class UserBranches(val branchID: Int, val branchName: String)
-    data class ResponseAllMasterValue(val responseCode: String, val responseMsg: String, val responseObj: AllMasterDropDown, val timeStamp: Long)
-
-    data class ResponsePostPersonalInfo(val draftDetailID: Int, val leadID: Int, val loanInfoObj: LoanInfoObj, val storageTypeID: Any, val userID: Any)
-    data class LoanInfoObj(val affordableEMI: Int, val channelPartnerDsaID: Int, val creditOfficerEmpID: Int, val creditOfficerEmpName: String, val interestTypeTypeDetailID: Int, val leadID: Int,
-                           val loanAmountRequest: Int, val loanApplicationID: Int, val loanPurposeID: Int, val loanSchemeTypeDetailID: Int, val logginUserEntityID: Int, val productID: Int,
-                           val ruleEngineResponse: String, val salesOfficerEmpID: Int, val salesOfficerEmpName: String, val sourcingChannelPartnerTypeDetailID: Int, val tenure: Int)
-
-    data class ResponsePostLoanInfo(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
+    data class ResponseAllMasterDropdown(val responseCode: String, val responseMsg: String, val responseObj: AllMasterDropDown, val timeStamp: Long)
     data class ResponseGetLoanInfo(val responseCode: String, val responseMsg: String, val responseObj: LoanInfoMaster?, val timeStamp: Long)
-    data class ResponseGetLoanInfoObj(val draftDetailID: Any, val leadID: Any, val loanApplicationID: Any, val loanInfoObj: LoanInfoObj, val storageType: Any, val userID: Any)
     data class ResponseSourceChannelPartnerName(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ChannelPartnerName>, val timeStamp: Long)
     data class ChannelPartnerName(val branchID: Int, val channelTypeTypeDetailID: Int, val companyName: String, val dsaID: Int, val entityID: Int, val isActive: Boolean, val salesOfficerEmpID: Int)
     data class ResponseLoanProduct(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<LoanProductMaster>, val timeStamp: Long)
     data class LoanPurpose(val loanPurposeID: Int, val loanPurposeName: String)
-    data class ResponsePostReference(val responseCode: String, val responseMsg: String, val responseObj: Any, val timeStamp: Long)
-    data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PinCodeObj>, val timeStamp: Long)
+    data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PinCodeObj>?, val timeStamp: Long)
     data class PinCodeObj(val cityID: Int, val cityName: String, val districtID: Int, val districtName: String, val pincode: String, val pincodeID: Int, val stateID: Int, val stateName: String)
     data class ResponseLoanApplication(val responseCode: String, val responseMsg: String, val responseObj: Any? = null, val timeStamp: Long)
     data class ResponseDocumentUpload(val responseCode: String, val responseMsg: String, val responseObj: DocumentUploadObj, val timeStamp: Long)
@@ -70,10 +61,8 @@ object Response {
     )
 
     data class ResponseGetReference(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ReferenceMaster>, val timeStamp: Long)
-    data class ResponseGetPersonalInfo(val responseCode: String, val responseMsg: String, val responseObj: PersonalInfoMaster, val timeStamp: Long)
     data class ResponseGetEmployment(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<EmploymentMaster>, val timeStamp: Long)
     data class EmploymentApplicantDetail(
-            val addressBean: AddressBean,
             val allEarningMembers: Boolean,
             val applicantID: Int,
             val businessSetupTypeDetailID: Int,
@@ -100,27 +89,6 @@ object Response {
             val totalExperience: String
     )
 
-    data class AddressBean(
-            val address1: String,
-            val address2: String,
-            val addressID: Int,
-            val addressProof: Int,
-            val addressTypeDetailID: Any,
-            val cityID: Int,
-            val cityName: String,
-            val districtID: Int,
-            val entityID: Int,
-            val landmark: String,
-            val rentAmount: Int,
-            val residenceTypeTypeDetailID: Int,
-            val zip: String
-    )
-
-    data class AlreadyOwnedPropertyTypeDetailID(val typeDetailID: Int)
-    data class ApplicantID(val applicantID: Int)
-    data class LoanApplicationID(val loanApplicationID: Int)
-    data class OwnershipTypeDetailID(val typeDetailID: Int)
-    data class PropertySelectedTypeDetail(val typeDetailID: Int)
-    data class UnitTypeTypeDetailID(val typeDetailID: Int)
-    data class ResponseGetStates(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<StatesMaster>, val timeStamp: Long)
+    data class ResponseGetPersonalInfo(val responseCode: String, val responseMsg: String, val responseObj: PersonalInfoMaster?, val timeStamp: Long)
+    data class ResponseStatesDropdown(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<StatesMaster>, val timeStamp: Long)
 }

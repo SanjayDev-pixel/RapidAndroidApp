@@ -2,7 +2,6 @@ package motobeans.architecture.util
 
 import android.app.ProgressDialog
 import android.content.Context
-import androidx.annotation.StringRes
 
 /**
  * Created by munishkumarthakur on 04/11/17.
