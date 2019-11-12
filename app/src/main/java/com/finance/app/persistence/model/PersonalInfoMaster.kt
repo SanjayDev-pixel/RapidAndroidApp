@@ -9,9 +9,8 @@ class PersonalInfoMaster : Serializable {
 
     @PrimaryKey
     var leadID: Int = 0
-    var applicantDetails: ArrayList<PersonalApplicantsModel>? = null
-    var draftDetailID: Int? = null
-    var storageTypeID: Int? = null
-    var userID: Int? = null
-    var loanApplicationID: Int? = null
+    var loanApplicationDraftDetailID: Int? = null
+    var draftData: PersonalApplicantList = PersonalApplicantList()
+    var storageType: String = "APPLICANT_PERSONAL"
+    var editable: Boolean? = null
 }

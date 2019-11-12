@@ -15,7 +15,7 @@ import com.finance.app.presenter.presenter.BankDetailGetPresenter
 import com.finance.app.presenter.presenter.BankDetailPostPresenter
 import com.finance.app.utility.ClearBankForm
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
+import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.Spinner.YesNoSpinnerAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,14 +30,14 @@ import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostBankDetail,
-        LoanApplicationConnector.GetBankDetail, PersonalApplicantsAdapter.ItemClickListener {
+        LoanApplicationConnector.GetBankDetail, ApplicantsAdapter.ItemClickListener {
 
     private lateinit var binding: FragmentBankDetailBinding
     private lateinit var mContext: Context
     private lateinit var allMasterDropDown: AllMasterDropDown
     private val bankDetailPostPresenter = BankDetailPostPresenter(this)
     private val bankDetailGetPresenter = BankDetailGetPresenter(this)
-    private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
+    private var applicantAdapter: ApplicantsAdapter? = null
     private var mLeadId: String? = null
     private var empId: String? = null
     @Inject
@@ -103,9 +103,9 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostBankDeta
         applicantTab.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantTab)
-        binding.rcApplicants.adapter = applicantAdapterPersonal
-        applicantAdapterPersonal!!.setOnItemClickListener(this)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantTab)
+        binding.rcApplicants.adapter = applicantAdapter
+        applicantAdapter!!.setOnItemClickListener(this)
     }
 
     override fun onApplicantClick(position: Int) {

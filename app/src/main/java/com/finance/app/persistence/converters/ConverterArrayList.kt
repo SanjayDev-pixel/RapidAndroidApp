@@ -204,6 +204,26 @@ class ConverterArrayList {
     }
 
     @TypeConverter
+    fun fromStringToArrayListEmploymentApplicantModel(value: String?): ArrayList<EmploymentApplicantsModel>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<EmploymentApplicantsModel>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<EmploymentApplicantsModel>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromEmploymentApplicantModelArrayListToString(ArrayList: ArrayList<EmploymentApplicantsModel>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
     fun fromStringToArrayListStateMaster(value: String?): ArrayList<StatesMaster>? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null

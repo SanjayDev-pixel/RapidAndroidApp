@@ -1,6 +1,7 @@
 package com.finance.app.utility
 
 import android.content.Context
+import android.view.View
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.StatesMaster
@@ -14,6 +15,7 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.etIdNum.text?.clear()
         binding.etIssueDate.text?.clear()
         binding.etExpiryDate.text?.clear()
+        binding.basicInfoLayout.cbIncomeConsidered.isChecked = false
         clearBasicInfoForm()
         clearAddressInfoForm()
     }
@@ -31,10 +33,12 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.personalAddressLayout.etCurrentLandmark.text?.clear()
         binding.personalAddressLayout.etCurrentAddress.text?.clear()
         binding.personalAddressLayout.etCurrentCity.text?.clear()
+        binding.personalAddressLayout.cbSameAsCurrent.isChecked = false
         clearAddressInfoDropdown()
     }
 
     private fun clearAddressInfoDropdown() {
+        binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
         binding.personalAddressLayout.spinnerCurrentState.adapter = StatesSpinnerAdapter(context, state)
         binding.personalAddressLayout.spinnerPermanentState.adapter = StatesSpinnerAdapter(context, state)
         binding.personalAddressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(context, masterDropdown.ResidenceType!!)
@@ -76,5 +80,4 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.basicInfoLayout.spinnerNationality.adapter = MasterSpinnerAdapter(context, masterDropdown.Nationality!!)
         binding.basicInfoLayout.spinnerGender.adapter = MasterSpinnerAdapter(context, masterDropdown.Gender!!)
     }
-
 }

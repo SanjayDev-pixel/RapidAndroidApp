@@ -3,10 +3,10 @@ package com.finance.app.persistence.model
 class PersonalApplicantsModel {
     var addressDetailList: ArrayList<AddressDetail>? = ArrayList()
     var age: Int? = 0
-    var alternateContact: String? = null
+    var alternateContact: String? = ""
     var applicantID: Int? = null
     var casteTypeDetailID: Int? = 0
-    var contactDetail: ContactDetail? = null
+    var contactDetail: ContactDetail? = ContactDetail()
     var dateOfBirth: String? = ""
     var leadApplicantNumber: String? = null
     var detailQualificationTypeDetailID: Int? = 0
@@ -16,7 +16,7 @@ class PersonalApplicantsModel {
     var fatherFirstName: String? = ""
     var fatherLastName: String? = ""
     var fatherMiddleName: String? = ""
-    var firstName: String? = " "
+    var firstName: String? = ""
     var genderTypeDetailID: Int? = 0
     var isMainApplicant = false
     var lastName: String? = ""
@@ -25,7 +25,7 @@ class PersonalApplicantsModel {
     var middleName: String? = ""
     var motherFirstName: String? = ""
     var motherLastName: String? = ""
-    var motherMiddleName: String? = " "
+    var motherMiddleName: String? = ""
     var nationalityTypeDetailID: Int? = 0
     var numberOfDependents: Int? = 0
     var numberOfEarningMembers: Int? = 0
@@ -38,6 +38,6 @@ class PersonalApplicantsModel {
     var spouseFirstName: String? = " "
     var spouseLastName: String? = ""
     var spouseMiddleName: String? = ""
-    var incomeConsidered: Boolean = true
+    var incomeConsidered: Boolean = false
     var livingStandardTypeDetailId: Int? = 0
 }

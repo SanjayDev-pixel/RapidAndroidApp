@@ -22,6 +22,9 @@ interface Api {
     @POST("api/v1/auth/")
     fun loginUser(@Body request: Requests.RequestLogin): Observable<Response.ResponseLogin>
 
+    @POST("api/v1/loan/application/draft/")
+    fun newDraftPost(@Body request: Requests.RequestNewDraft): Observable<Response.ResponseGetLoanApplication>
+
     @POST("api/v1/loan/applicant/loan/information/")
     fun postLoanInfo(@Body requestPost: LoanInfoMaster): Observable<Response.ResponseLoanApplication>
 
@@ -77,5 +80,11 @@ interface Api {
 
     @GET("api/v1/master/states/")
     fun getStates(): Observable<Response.ResponseStatesDropdown>
+
+    @POST("api/v1/loan/application/draft/")
+    fun postLoanApp(@Body requestPost: LoanApplicationRequest): Observable<Response.ResponseGetLoanApplication>
+
+    @GET("api/v1/loan/application/draft/lead/{leadId}/type/{storageType}/")
+    fun getLoanApp(@Path("leadId") leadId: String, @Path("storageType") storageType: String): Observable<Response.ResponseGetLoanApplication>
 
 }

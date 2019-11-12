@@ -272,21 +272,61 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToPersonalApplicantModel(value: String?): PersonalApplicantsModel? {
+    fun fromStringToPersonalApplicantList(value: String?): PersonalApplicantList? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<PersonalApplicantsModel>() {
+        val listType = object : TypeToken<PersonalApplicantList>() {
 
         }.type
-        return Gson().fromJson<PersonalApplicantsModel>(value, listType)
+        return Gson().fromJson<PersonalApplicantList>(value, listType)
     }
 
     @TypeConverter
-    fun fromPersonalApplicantModelToString(personalApplicant: PersonalApplicantsModel?): String? {
-        personalApplicant?.let {
+    fun fromPersonalApplicantListToString(applicant: PersonalApplicantList?): String? {
+        applicant?.let {
             val gson = Gson()
-            return gson.toJson(personalApplicant)
+            return gson.toJson(applicant)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToEmploymentMaster(value: String?): EmploymentMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<EmploymentMaster>() {
+
+        }.type
+        return Gson().fromJson<EmploymentMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromEmploymentMasterToString(states: EmploymentMaster?): String? {
+        states?.let {
+            val gson = Gson()
+            return gson.toJson(states)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToEmploymentApplicantList(value: String?): EmploymentApplicantList? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<EmploymentApplicantList>() {
+
+        }.type
+        return Gson().fromJson<EmploymentApplicantList>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromEmploymentApplicantListToString(applicant: EmploymentApplicantList?): String? {
+        applicant?.let {
+            val gson = Gson()
+            return gson.toJson(applicant)
         }
         return null
     }

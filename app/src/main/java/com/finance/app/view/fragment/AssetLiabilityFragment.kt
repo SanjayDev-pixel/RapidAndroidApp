@@ -18,10 +18,10 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class AssetLiabilityFragment : BaseFragment(), PersonalApplicantsAdapter.ItemClickListener {
+class AssetLiabilityFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener {
     private lateinit var binding: FragmentAssetLiablityBinding
     private lateinit var mContext: Context
-    private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
+    private var applicantAdapter: ApplicantsAdapter? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
@@ -61,9 +61,9 @@ class AssetLiabilityFragment : BaseFragment(), PersonalApplicantsAdapter.ItemCli
         applicantMenu.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantMenu)
-        applicantAdapterPersonal!!.setOnItemClickListener(this)
-        binding.rcApplicants.adapter = applicantAdapterPersonal
+        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
+        applicantAdapter!!.setOnItemClickListener(this)
+        binding.rcApplicants.adapter = applicantAdapter
     }
 
     override fun onApplicantClick(position: Int) {

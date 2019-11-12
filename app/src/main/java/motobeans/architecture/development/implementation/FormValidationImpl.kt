@@ -3,7 +3,6 @@ import android.content.Context
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.LoanProductMaster
 import motobeans.architecture.development.interfaces.FormValidation
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
 class FormValidationImpl(private val mContext: Context) : FormValidation {
@@ -108,14 +107,14 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         }
 
         if (loanProduct != null) {
-            if (tenure.toInt() > loanProduct.maxTenure) {
+            if (tenure.toInt() > loanProduct.maxTenure && tenure.toInt() < loanProduct.minTenure) {
                 errorCount++
-                binding.etTenure.error = "Tenure more than the max value"
+                binding.etTenure.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
             }
 
-            if (loanAmount.toInt() > loanProduct.maxAmount) {
+            if (loanAmount.toInt() > loanProduct.maxAmount && loanAmount.toInt() <loanProduct.minAmount) {
                 errorCount++
-                binding.etAmountRequest.error = "Amount more than the max value"
+                binding.etAmountRequest.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
             }
         } else {
             binding.spinnerLoanProduct.error = "loan Product Cannot be empty"
@@ -257,35 +256,24 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.etRetirementAge.error = "Retirement age can not be blank"
         }
 
-        val officeAddress = binding.etOfficeAddress.text.toString()
+        val officeAddress = binding.layoutAddress.etAddress.text.toString()
         if (!officeAddress.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.etOfficeAddress.error = "Office address age can not be blank"
+            binding.layoutAddress.etAddress.error = "Address can not be blank"
         }
 
-        val landmark = binding.etLandmark.text.toString()
+        val landmark = binding.layoutAddress.etLandmark.text.toString()
         if (!landmark.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.etLandmark.error = "Landmark can not be blank"
+            binding.layoutAddress.etLandmark.error = "Landmark can not be blank"
         }
 
-        val pin = binding.etPinCode.text.toString()
+        val pin = binding.layoutAddress.etPinCode.text.toString()
         if (!pin.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.etPinCode.error = "Pin Code can not be blank"
+            binding.layoutAddress.etPinCode.error = "Pin Code can not be blank"
         }
 
-        val district = binding.etDistrict.text.toString()
-        if (!district.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etDistrict.error = "District can not be blank"
-        }
-
-        val state = binding.etState.text.toString()
-        if (!state.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etState.error = "State can not be blank"
-        }
         return isValidForm(errorCount)
     }
 
@@ -315,34 +303,22 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.etBusinessVintage.error = "Business Vintage can not be blank"
         }
 
-        val businessAddress = binding.etBusinessAddress.text.toString()
+        val businessAddress = binding.layoutAddress.etAddress.text.toString()
         if (!businessAddress.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.etBusinessAddress.error = "Business address age can not be blank"
+            binding.layoutAddress.etAddress.error = "Address can not be blank"
         }
 
-        val landmark = binding.etLandmark.text.toString()
+        val landmark = binding.layoutAddress.etLandmark.text.toString()
         if (!landmark.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.etLandmark.error = "Landmark can not be blank"
+            binding.layoutAddress.etLandmark.error = "Landmark can not be blank"
         }
 
-        val pin = binding.etPinCode.text.toString()
+        val pin = binding.layoutAddress.etPinCode.text.toString()
         if (!pin.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.etPinCode.error = "Pin Code can not be blank"
-        }
-
-        val district = binding.etDistrict.text.toString()
-        if (!district.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etDistrict.error = "District can not be blank"
-        }
-
-        val state = binding.etState.text.toString()
-        if (!state.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etState.error = "State can not be blank"
+            binding.layoutAddress.etPinCode.error = "Pin Code can not be blank"
         }
 
         return isValidForm(errorCount)
@@ -438,22 +414,22 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         }
 
         val mobile = binding.etContactNum.text.toString()
-        if (isValidMobile(mobile)) {
+        if (!isValidMobile(mobile)) {
             errorCount++
             binding.etContactNum.error = "Invalid Mobile Num"
         }
 
-        val loanProduct = binding.spinnerLoanProduct.selectedItem as LoanProductMaster?
-        if (loanProduct == null) {
-            errorCount++
-            binding.spinnerLoanProduct.error = "Select Loan"
-        }
-
-        val branch = binding.spinnerBranches.selectedItem as Response.UserBranches?
-        if (branch == null) {
-            errorCount++
-            binding.spinnerBranches.error = "Select Branch"
-        }
+//        val loanProduct = binding.spinnerLoanProduct.selectedItem as LoanProductMaster?
+//        if (loanProduct == null) {
+//            errorCount++
+//            binding.spinnerLoanProduct.error = "Select Loan"
+//        }
+//
+//        val branch = binding.spinnerBranches.selectedItem as Response.UserBranches?
+//        if (branch == null) {
+//            errorCount++
+//            binding.spinnerBranches.error = "Select Branch"
+//        }
 
         return isValidForm(errorCount)
     }

@@ -125,7 +125,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
-                            android:hint="Age"
+                            android:focusable="false"
+                            android:editable="false"
+                            android:hint="@string/age"
                             android:maxLength="2"
                             android:inputType="number"
                             android:minWidth="200dp"
@@ -480,6 +482,7 @@
                     android:layout_height="wrap_content"
                     android:baselineAligned="true"
                     android:id="@+id/llSpouse"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout

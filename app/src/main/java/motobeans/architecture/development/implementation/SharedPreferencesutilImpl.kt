@@ -157,7 +157,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
             when(module.screenName){
                 "Loan Information" -> navItemList[module.screenName] = R.drawable.loan_info_white
                 "Personal" -> navItemList[module.screenName] = R.drawable.personal_info_white
-                "PostEmployment" -> navItemList[module.screenName] = R.drawable.employment_icon_white
+                "Employment" -> navItemList[module.screenName] = R.drawable.employment_icon_white
 //                "Income" -> navItemList[module.screenName] = R.drawable.income_icon_white
                 "Bank Details" -> navItemList[module.screenName] = R.drawable.bank_icon_white
                 "Liability & Asset" -> navItemList[module.screenName] = R.drawable.assest_details_white
@@ -176,8 +176,6 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
                 objSp.clearSharedPreferences()
             }
         } catch (e: Exception) {
-
         }
     }
-
 }

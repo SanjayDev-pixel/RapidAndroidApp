@@ -121,6 +121,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/rent_amount"
                         android:singleLine="true"
+                        android:maxLength="5"
                         android:inputType="number"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />

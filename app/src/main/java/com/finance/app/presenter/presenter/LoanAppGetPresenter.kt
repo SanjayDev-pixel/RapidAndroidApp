@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class LoanInfoGetPresenter(private val getLoanInfo: LoanApplicationConnector.GetLoanInfo) : LoanApplicationConnector.PresenterOpt {
+class LoanAppGetPresenter(private val GetLoanApp: LoanApplicationConnector.GetLoanApp) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -22,28 +22,28 @@ class LoanInfoGetPresenter(private val getLoanInfo: LoanApplicationConnector.Get
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_LOAN_INFO_GET) {
-            callLoanInfoGetApi()
+        if (type == ConstantsApi.CALL_GET_LOAN_APP) {
+            callLoanAppGetApi()
         }
     }
 
-    private fun callLoanInfoGetApi() {
-        val requestApi = apiProject.api.getLoanInfo(getLoanInfo.leadId)
+    private fun callLoanAppGetApi() {
+        val requestApi = apiProject.api.getLoanApp(GetLoanApp.leadId, GetLoanApp.storageType)
 
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> getLoanInfo.showProgressDialog() }
-                .doFinally { getLoanInfo.hideProgressDialog() }
-                .subscribe({ response -> onLoanInfoGet(response) },
-                        { e -> getLoanInfo.getLoanInfoGetFailure(e?.message ?: "") })
+                .doOnSubscribe { GetLoanApp.showProgressDialog() }
+                .doFinally { GetLoanApp.hideProgressDialog() }
+                .subscribe({ response -> onLoanAppGet(response) },
+                        { e -> GetLoanApp.getLoanAppGetFailure(e?.message ?: "") })
     }
 
-    private fun onLoanInfoGet(responsePost: Response.ResponseGetLoanInfo) {
+    private fun onLoanAppGet(responsePost: Response.ResponseGetLoanApplication) {
         if (responsePost.responseCode == "200") {
-            getLoanInfo.getLoanInfoGetSuccess(responsePost)
+            GetLoanApp.getLoanAppGetSuccess(responsePost)
         } else {
-            getLoanInfo.getLoanInfoGetFailure(responsePost.responseMsg)
+            GetLoanApp.getLoanAppGetFailure(responsePost.responseMsg)
         }
     }
 }

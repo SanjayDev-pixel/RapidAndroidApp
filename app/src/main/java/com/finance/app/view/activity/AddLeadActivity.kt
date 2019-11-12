@@ -81,7 +81,8 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
+                    branchID = 2, loanProductID = 1)
+//                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
         }
 
     override val addLeadRequest: Requests.RequestAddLead

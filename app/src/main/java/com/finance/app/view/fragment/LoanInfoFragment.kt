@@ -19,9 +19,11 @@ import com.finance.app.databinding.FragmentLoanInformationBinding
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.SourceChannelPartnerNameConnector
-import com.finance.app.presenter.presenter.LoanInfoGetPresenter
-import com.finance.app.presenter.presenter.LoanInfoPostPresenter
+import com.finance.app.presenter.presenter.LoanAppGetPresenter
+import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.presenter.presenter.SourceChannelPartnerNamePresenter
+import com.finance.app.utility.RequestConversion
+import com.finance.app.utility.ResponseConversion
 import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.utility.UploadData
 import com.finance.app.view.activity.UploadedFormDataActivity
@@ -40,8 +42,8 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
-        LoanApplicationConnector.GetLoanInfo, SourceChannelPartnerNameConnector.SourceChannelPartnerName {
+class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
+        LoanApplicationConnector.GetLoanApp, SourceChannelPartnerNameConnector.SourceChannelPartnerName {
 
     @Inject
     lateinit var formValidation: FormValidation
@@ -59,8 +61,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
     private var loanProducts: List<LoanProductMaster> = ArrayList()
     private var selectedLoanProduct: LoanProductMaster? = null
     private val sourcePartnerPresenter = SourceChannelPartnerNamePresenter(this)
-    private val loanInfoGetPresenter = LoanInfoGetPresenter(this)
-    private val loanInfoPostPresenter = LoanInfoPostPresenter(this)
+    private val loanAppGetPresenter = LoanAppGetPresenter(this)
+    private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private var mContext: Context? = null
     private var mLeadId: String? = null
     private var empId: String? = null
@@ -70,7 +72,6 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
 
     companion object {
         private lateinit var mBranchId: String
-        private lateinit var mEmployeeId: String
         private lateinit var mChannelTypeId: String
         private const val isMandatory = true
         private const val SELECT_PDF_CODE = 1
@@ -78,6 +79,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
         private const val SELECT_IMAGE_CODE = 3
         private var image: Bitmap? = null
         private var pdf: Uri? = null
+        private val responseConversion = ResponseConversion()
+        private val requestConversion = RequestConversion()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -97,16 +100,19 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
     private fun getLoanInfo() {
         mLeadId = sharedPreferences.getLeadId()
         empId = sharedPreferences.getUserId()
-        loanInfoGetPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO_GET)
+        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
 
     override val leadId: String
         get() = mLeadId!!
 
-    override fun getLoanInfoGetSuccess(value: Response.ResponseGetLoanInfo) {
+    override val storageType: String
+        get() = loanMaster?.storageType!!
+
+    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
         value.responseObj?.let {
-            loanMaster = value.responseObj
-            loanInfo = loanMaster?.loanApplicationObj
+            loanMaster = responseConversion.toLoanMaster(value.responseObj)
+            loanInfo = loanMaster?.draftData
             saveDataToDB(loanMaster!!)
         }
         showData(loanInfo)
@@ -125,7 +131,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
         }
     }
 
-    override fun getLoanInfoGetFailure(msg: String) = getDataFromDB()
+    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
@@ -147,7 +153,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
         dataBase.provideDataBaseSource().loanInfoDao().getLoanInfo(mLeadId!!).observe(this, Observer { loanInfoMaster ->
             loanInfoMaster?.let {
                 loanMaster = it
-                loanInfo = loanMaster?.loanApplicationObj
+                loanInfo = loanMaster?.draftData
             }
             showData(loanInfo)
         })
@@ -282,7 +288,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
             if (formValidation.validateLoanInformation(binding, selectedLoanProduct)) {
                 checkPropertySelection()
                 saveDataToDB(getLoanInfoMaster())
-                loanInfoPostPresenter.callNetwork(ConstantsApi.CALL_LOAN_INFO_POST)
+                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             }
         }
     }
@@ -302,11 +308,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
         get() = mChannelTypeId
 
     private fun getChannelPartnerName(sourceChannelPartner: DropdownMaster) {
-//        mEmployeeId = sharedPreferences.getLoginData()?.loginObj?.userDetails?.userBasicDetails?.userId.toString()
-//        mChannelTypeId = sourceChannelPartner.typeDetailID.toString()
-        mChannelTypeId = "3"
-        mEmployeeId = "2"
-        mBranchId = "1"
+        mChannelTypeId = sourceChannelPartner.typeDetailID.toString()
+        mBranchId = "2"
         sourcePartnerPresenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME)
     }
 
@@ -343,10 +346,11 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
         }
     }
 
-    override val loanInfoRequestPost: LoanInfoMaster
-        get() = getLoanInfoMaster()
+    override val loanAppRequestPost: LoanApplicationRequest
+        get() = requestConversion.loanInfoRequest(getLoanInfoMaster())
 
-    override fun getLoanInfoPostSuccess(value: Response.ResponseLoanApplication) {
+    override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
+        showToast(value.responseMsg)
         saveDataToDB(getLoanInfoMaster())
         gotoNextFragment()
     }
@@ -358,7 +362,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
         ft?.commit()
     }
 
-    override fun getLoanInfoPostFailure(msg: String) {
+    override fun getLoanAppPostFailure(msg: String) {
         saveDataToDB(getLoanInfoMaster())
         showToast(msg)
     }
@@ -391,35 +395,35 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanInfo,
     private fun getLoanInfoObj(): LoanInfoObj {
         val loanInfoObj = LoanInfoObj()
         val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as
-                DropdownMaster
+                DropdownMaster?
         val channelPartnerName = binding.spinnerPartnerName.selectedItem as
                 Response.ChannelPartnerName?
         val loanProduct = binding.spinnerLoanProduct.selectedItem as
-                LoanProductMaster
-        val interestType = binding.spinnerInterestType.selectedItem as DropdownMaster
-        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose
-        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster
+                LoanProductMaster?
+        val interestType = binding.spinnerInterestType.selectedItem as DropdownMaster?
+        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
+        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
 
         if (channelPartner!!.typeDetailCode == "DSA") {
             loanInfoObj.channelPartnerDsaID = channelPartnerName?.dsaID
         }
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
         loanInfoObj.leadID = mLeadId!!.toInt()
-        loanInfoObj.productID = loanProduct.productID
+        loanInfoObj.productID = loanProduct?.productID
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
-        loanInfoObj.loanPurposeID = loanPurpose.loanPurposeID
-        loanInfoObj.loanSchemeTypeDetailID = loanScheme.typeDetailID!!
+        loanInfoObj.loanPurposeID = loanPurpose?.loanPurposeID
+        loanInfoObj.loanSchemeTypeDetailID = loanScheme?.typeDetailID!!
         loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toDouble()
         loanInfoObj.tenure = binding.etTenure.text.toString().toDouble()
-        loanInfoObj.interestTypeTypeDetailID = interestType.typeDetailID!!
-        loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner.typeDetailID!!
+        loanInfoObj.interestTypeTypeDetailID = interestType?.typeDetailID!!
+        loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner?.typeDetailID!!
         loanInfoObj.isPropertySelected = binding.cbPropertySelected.isChecked
         return loanInfoObj
     }
 
     private fun getLoanInfoMaster(): LoanInfoMaster {
-        loanMaster?.loanApplicationObj = getLoanInfoObj()
-        loanMaster?.userID = empId!!.toInt()
+        loanMaster?.draftData = getLoanInfoObj()
+        loanMaster?.leadID = mLeadId!!.toInt()
         return loanMaster!!
     }
 }

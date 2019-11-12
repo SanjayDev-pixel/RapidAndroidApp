@@ -11,7 +11,7 @@ import com.finance.app.databinding.ItemApplicantBinding
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class PersonalApplicantsAdapter(private val mContext: Context, private val applicants: ArrayList<String>) : RecyclerView.Adapter<PersonalApplicantsAdapter.CreditCardViewHolder>() {
+class ApplicantsAdapter(private val mContext: Context, private val applicants: ArrayList<String>) : RecyclerView.Adapter<ApplicantsAdapter.CreditCardViewHolder>() {
     private lateinit var binding: ItemApplicantBinding
     private var mClickListener: ItemClickListener? = null
     @Inject

@@ -29,7 +29,7 @@ object Response {
     data class LoanPurpose(val loanPurposeID: Int, val loanPurposeName: String)
     data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PinCodeObj>?, val timeStamp: Long)
     data class PinCodeObj(val cityID: Int, val cityName: String, val districtID: Int, val districtName: String, val pincode: String, val pincodeID: Int, val stateID: Int, val stateName: String)
-    data class ResponseLoanApplication(val responseCode: String, val responseMsg: String, val responseObj: Any? = null, val timeStamp: Long)
+    data class ResponseLoanApplication(val responseCode: String, val responseMsg: String, val responseObj: String? = null, val timeStamp: Long)
     data class ResponseDocumentUpload(val responseCode: String, val responseMsg: String, val responseObj: DocumentUploadObj, val timeStamp: Long)
     data class DocumentUploadObj(val applicationDocumentID: Any, val documentName: String, val documentType: Any, val documentTypeDetailID: Int, val uploadedDocumentPath: String)
     data class ResponseGetBankDetail(val responseCode: String, val responseMsg: String, val responseObj: BankDetailMaster?, val timeStamp: Long)
@@ -62,33 +62,9 @@ object Response {
 
     data class ResponseGetReference(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ReferenceMaster>, val timeStamp: Long)
     data class ResponseGetEmployment(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<EmploymentMaster>, val timeStamp: Long)
-    data class EmploymentApplicantDetail(
-            val allEarningMembers: Boolean,
-            val applicantID: Int,
-            val businessSetupTypeDetailID: Int,
-            val businessVinatgeInYear: Int,
-            val companyName: String,
-            val constitutionTypeDetailID: Int,
-            val dateOfIncorporation: String,
-            val dateOfJoining: String,
-            val designation: String,
-            val employeeID: String,
-            val employmentTypeDetailID: Int,
-            val gstRegistration: String,
-            val industryTypeDetailID: Int,
-            val isActive: Boolean,
-            val isPensioner: Boolean,
-            val leadApplicantNumber: Any,
-            val loanApplicationID: Int,
-            val occupationalDetailID: Int,
-            val officialMailID: String,
-            val profileSegmentTypeDetailID: Int,
-            val retirementAge: Int,
-            val sectorTypeDetailID: Int,
-            val subProfileTypeDetailID: Int,
-            val totalExperience: String
-    )
-
+    data class EmploymentApplicantDetail(val allEarningMembers: Boolean, val applicantID: Int, val businessSetupTypeDetailID: Int, val businessVinatgeInYear: Int, val companyName: String, val constitutionTypeDetailID: Int, val dateOfIncorporation: String, val dateOfJoining: String, val designation: String, val employeeID: String, val employmentTypeDetailID: Int, val gstRegistration: String, val industryTypeDetailID: Int, val isActive: Boolean, val isPensioner: Boolean, val leadApplicantNumber: Any, val loanApplicationID: Int, val occupationalDetailID: Int, val officialMailID: String, val profileSegmentTypeDetailID: Int, val retirementAge: Int, val sectorTypeDetailID: Int, val subProfileTypeDetailID: Int, val totalExperience: String)
+    data class ResponseGetLoanApplication(val responseCode: String, val responseMsg: String, val responseObj: ResponseObj?, val timeStamp: Long)
+    data class ResponseObj(val draftData: String?, val editable: Boolean?, val leadID: Int, val loanApplicationDraftDetailID: Int?, val storageType: String)
     data class ResponseGetPersonalInfo(val responseCode: String, val responseMsg: String, val responseObj: PersonalInfoMaster?, val timeStamp: Long)
     data class ResponseStatesDropdown(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<StatesMaster>, val timeStamp: Long)
 }

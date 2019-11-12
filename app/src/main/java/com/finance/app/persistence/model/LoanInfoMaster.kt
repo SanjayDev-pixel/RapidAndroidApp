@@ -9,9 +9,8 @@ class LoanInfoMaster : Serializable {
 
     @PrimaryKey
     var leadID: Int = 0
-    var draftDetailID: Int? = null
-    var loanApplicationObj: LoanInfoObj? = null
-    var userID: Int? = null
-    var storageType: String? = null
-    var loanApplicationID:Int? =null
+    var loanApplicationDraftDetailID: Int? = null
+    var draftData: LoanInfoObj? = null
+    var storageType: String = "LOAN_INFORMATION"
+    var editable: Boolean? = null
 }

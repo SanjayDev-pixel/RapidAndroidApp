@@ -10,8 +10,7 @@ class EmploymentMaster : Serializable {
 
     @PrimaryKey
     var leadID: Int = 0
-    var draftDetailID: Int? = null
-    var applicantDetails: ArrayList<Response.EmploymentApplicantDetail>? = null
-    var loanApplicationID: Int? = null
-    var storageTypeID: Int? = null
-}
+    var loanApplicationDraftDetailID: Int? = null
+    var draftData: EmploymentApplicantList = EmploymentApplicantList()
+    var storageType: String = "EMPLOYMENT"
+    var editable: Boolean? = null}

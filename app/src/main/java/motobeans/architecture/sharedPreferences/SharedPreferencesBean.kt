@@ -5,7 +5,7 @@ package motobeans.architecture.sharedPreferences
  */
 
 object SharedPreferencesBean {
-
+    const val KEY_JSON = "json"
     const val KEY_LOGIN_DETAILS = "login_credentials"
     const val KEY_PERSONAL_APPLICANTS = "personal_applicants"
     const val KEY_PROPERTY_SELECTION = "property_selection"

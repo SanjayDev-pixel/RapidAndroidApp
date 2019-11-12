@@ -1,36 +1,22 @@
 package com.finance.app.presenter.connector
 
-import com.finance.app.persistence.model.BankDetailMaster
-import com.finance.app.persistence.model.LoanInfoMaster
-import com.finance.app.persistence.model.PersonalInfoMaster
-import com.finance.app.persistence.model.ReferenceMaster
+import com.finance.app.persistence.model.*
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 
 interface LoanApplicationConnector {
 
-    interface PostLoanInfo : ReusableView {
-        val loanInfoRequestPost: LoanInfoMaster
-        fun getLoanInfoPostSuccess(value: Response.ResponseLoanApplication)
-        fun getLoanInfoPostFailure(msg: String)
+    interface PostLoanApp : ReusableView {
+        val loanAppRequestPost: LoanApplicationRequest
+        fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication)
+        fun getLoanAppPostFailure(msg: String)
     }
 
-    interface GetLoanInfo : ReusableView {
+    interface GetLoanApp : ReusableView {
         val leadId: String
-        fun getLoanInfoGetSuccess(value: Response.ResponseGetLoanInfo)
-        fun getLoanInfoGetFailure(msg: String)
-    }
-
-    interface PostPersonalInfo : ReusableView {
-        val personalInfoRequestPost: PersonalInfoMaster
-        fun getPersonalPostInfoSuccess(value: Response.ResponseLoanApplication)
-        fun getPersonalPostInfoFailure(msg: String)
-    }
-
-    interface GetPersonalInfo : ReusableView {
-        val leadId: String
-        fun getPersonalGetInfoSuccess(value: Response.ResponseGetPersonalInfo)
-        fun getPersonalGetInfoFailure(msg: String)
+        val storageType: String
+        fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication)
+        fun getLoanAppGetFailure(msg: String)
     }
 
     interface PostEmployment : ReusableView {

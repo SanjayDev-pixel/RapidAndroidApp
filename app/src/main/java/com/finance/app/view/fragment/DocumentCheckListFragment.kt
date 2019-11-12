@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
-import com.finance.app.view.adapters.recycler.adapter.PersonalApplicantsAdapter
+import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class DocumentCheckListFragment : BaseFragment(), PersonalApplicantsAdapter.ItemClickListener {
+class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener {
 
     private lateinit var binding: FragmentDocumentChecklistBinding
     private lateinit var mContext: Context
-    private var applicantAdapterPersonal: PersonalApplicantsAdapter? = null
+    private var applicantAdapter: ApplicantsAdapter? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
 
@@ -65,7 +65,7 @@ class DocumentCheckListFragment : BaseFragment(), PersonalApplicantsAdapter.Item
         applicantMenu.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapterPersonal = PersonalApplicantsAdapter(context!!, applicantMenu)
-        binding.rcApplicants.adapter = applicantAdapterPersonal
+        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
+        binding.rcApplicants.adapter = applicantAdapter
     }
 }

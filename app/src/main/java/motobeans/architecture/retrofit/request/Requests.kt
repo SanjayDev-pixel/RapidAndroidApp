@@ -78,4 +78,7 @@ object Requests {
                                            val financerName: String, val loanAccountNumber: String, val loanAmount: Int, val loanOwnershipTypeDetailID: Int, val loanTypeTypeDetailID: Int,
                                            val numberOfBouncesInLastNineMonth: Int, val numberOfBouncesInLastSixMonth: Int, val obligateTypeDetailID: Int, val repaymentBankTypeDetailID: Int, val tenure: Int)
 
+    data class RequestNewDraft(val draftData: String, val leadID: Int, val loanApplictionDraftDetailID: Any, val storageType: String)
+        data class RequestPostLoanApplication(var draftData: String, val editable: Boolean? = null, var leadID: Int,
+                                          val loanApplictionDraftDetailID: Int? = null, var storageType: String)
 }

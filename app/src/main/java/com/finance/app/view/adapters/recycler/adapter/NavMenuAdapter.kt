@@ -18,9 +18,10 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
 
     private lateinit var binding: ItemNavBinding
     private val mKeys = ArrayList<String>(navItem.keys)
+    private var selectedPos = 0
 
     companion object{
-        private var selectedPos = 0
+//        private var selectedPos = 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NavDrawerViewHolder {
@@ -113,7 +114,7 @@ class NavMenuAdapter(private val mContext: Context, private val navItem: HashMap
             when (title) {
                 "Loan Information" -> updateSecondaryFragment(LoanInfoFragment())
                 "Personal" -> updateSecondaryFragment(PersonalInfoFragment())
-                "PostEmployment" -> updateSecondaryFragment(EmploymentFragment())
+                "Employment" -> updateSecondaryFragment(EmploymentFragment())
 //                "Income" -> updateSecondaryFragment(IncomeFragment())
                 "Bank Details" -> updateSecondaryFragment(BankDetailFragment())
                 "Liability & Asset" -> updateSecondaryFragment(AssetLiabilityFragment())
