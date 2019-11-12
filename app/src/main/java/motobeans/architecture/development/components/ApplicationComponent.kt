@@ -2,6 +2,7 @@ package motobeans.architecture.development.components
 
 import android.app.Application
 import com.finance.app.TestActivity
+import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.*
@@ -61,14 +62,14 @@ interface ApplicationComponent {
     /**
      * Presenters
      */
+    fun inject(presenter: LoanAppPostPresenter)
+    fun inject(presenter: LoanAppGetPresenter)
     fun inject(presenter: TestPresenter)
     fun inject(presenter: BankDetailGetPresenter)
     fun inject(presenter: TempSyncPresenter)
     fun inject(presenter: LoginPresenter)
-    fun inject(postPresenter: PersonalInfoPostPresenter)
     fun inject(presenter: AddLeadPresenter)
     fun inject(presenter: AllMasterDropdownPresenter)
-    fun inject(postPresenter: LoanInfoPostPresenter)
     fun inject(presenter: SourceChannelPartnerNamePresenter)
     fun inject(presenter: LoanProductPresenter)
     fun inject(presenter: PostReferencePresenter)
@@ -77,8 +78,6 @@ interface ApplicationComponent {
     fun inject(presenter: DocumentUploadPresenter)
     fun inject(postPresenter: BankDetailPostPresenter)
     fun inject(presenter: GetAllLeadsPresenter)
-    fun inject(presenter: LoanInfoGetPresenter)
-    fun inject(presenter: PersonalInfoGetPresenter)
     fun inject(presenter: EmploymentGetPresenter)
     fun inject(presenter: StateDropdownPresenter)
 
