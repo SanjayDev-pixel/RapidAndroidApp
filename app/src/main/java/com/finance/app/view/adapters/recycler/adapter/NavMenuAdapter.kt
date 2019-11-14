@@ -3,6 +3,7 @@ package com.finance.app.view.adapters.recycler.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -11,18 +12,23 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.view.fragment.*
-import motobeans.architecture.util.exGone
-import motobeans.architecture.util.exVisible
 
-class NavMenuAdapter(private val mContext: Context, private val navListItem: List<AppEnums.ScreenLoanInfo>) : RecyclerView.Adapter<NavDrawerViewHolder>() {
+interface NavMenuConnector {
+    fun isMenuExpanded(): Boolean
+    fun getSelectionScreenName(): String
+    fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanInfo)
+}
+
+class NavMenuAdapter(private val mContext: Context, private val navListItem: List<AppEnums.ScreenLoanInfo>) : RecyclerView.Adapter<NavDrawerViewHolder>(), NavMenuConnector {
 
     private lateinit var binding: ItemNavBinding
     private var isExpanded = true
-    private var selectedNav: AppEnums.ScreenLoanInfo = AppEnums.ScreenLoanInfo.DEFAULT
+
+    private var selectedNavString = ""
 
     init {
         when (navListItem.size > 0) {
-            true -> selectedNav = navListItem[0]
+            true -> selectedNavString = navListItem[0].screenName
 
         }
     }
@@ -30,71 +36,24 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NavDrawerViewHolder {
         val layoutInflater = LayoutInflater.from(mContext)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_nav, parent, false)
-        return NavDrawerViewHolder(binding, mContext)
+        return NavDrawerViewHolder(binding, mContext, this)
     }
 
     override fun getItemCount() = navListItem.size
 
     override fun onBindViewHolder(holder: NavDrawerViewHolder, position: Int) {
         val navItem = navListItem[position]
-        holder.bindItems(position = position, navItem = navItem, selectedNavItem = selectedNav)
+        holder.bindItems(position = position, navItem = navItem)
+    }
 
-        binding.root.setOnClickListener {
-            val navItemNew = navListItem[position]
-            selectedNav = navItem
-            println("Munish Thakur -> NavItem -> SELECTED at position: $position-> $navItemNew ($navItem)")
-            //navigateToAnotherFragmentOnIconCLick(navItem)
+    override fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanInfo) {
+        selectedNavString = navItem.screenName
+        println("Munish Thakur -> NavItem -> SELECTED at position: $position -> $navItem ($navItem) -> Screen Name -> $selectedNavString")
+        navigateToAnotherFragmentOnIconCLick(navItem)
+        if(isMenuExpanded()) {
             toggleMenu()
         }
-    }
-
-    fun isMenuExpanded(): Boolean {
-        return isExpanded
-    }
-
-    fun setMenuExpanded() {
-        toggleMenu()
-    }
-
-    private fun toggleMenu() {
-        isExpanded = !isExpanded
         notifyDataSetChanged()
-    }
-}
-
-class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
-
-    fun bindItems(position: Int, navItem: AppEnums.ScreenLoanInfo, selectedNavItem: AppEnums.ScreenLoanInfo) {
-        val navIcon = navItem.icon
-        //var title = if (isExpanded) navItem.screenName else ""
-        var title = navItem.screenName
-
-        binding.tvNavItem.text = title
-        binding.iconNavItem.setImageResource(navIcon)
-
-        changeColorBasedOnSelection(navItem = navItem, selectedNavItem = selectedNavItem)
-    }
-
-    private fun changeColorBasedOnSelection(navItem: AppEnums.ScreenLoanInfo, selectedNavItem: AppEnums.ScreenLoanInfo) {
-        if (navItem.isMatch(selectedNavItem)) {
-            println("-------------")
-            println("Munish Thakur -> NavItem -> COLORED -> $navItem, Selected: $selectedNavItem")
-            println("-------------")
-
-            binding.tvTempHighlight.exVisible()
-            binding.iconNavItem.setColorFilter(ContextCompat.getColor(mContext, R.color.colorPrimary),
-                    android.graphics.PorterDuff.Mode.MULTIPLY)
-            binding.tvNavItem.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
-            binding.parent.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white))
-
-        } else {
-            binding.tvTempHighlight.exGone()
-            println("Munish Thakur -> NavItem -> NOT-COLORED -> $navItem")
-            binding.iconNavItem.setColorFilter(ContextCompat.getColor(mContext, R.color.white),
-                    android.graphics.PorterDuff.Mode.MULTIPLY)
-            binding.tvNavItem.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.parent.setBackgroundResource(R.drawable.drawer_gradient_color)
-        }
     }
 
     private fun navigateToAnotherFragmentOnIconCLick(navData: AppEnums.ScreenLoanInfo) {
@@ -111,10 +70,63 @@ class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context) : 
     }
 
     private fun updateSecondaryFragment(fragment: Fragment) {
-        /*val ft = (mContext as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
+        val ft = (mContext as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
             replace(R.id.secondaryFragmentContainer, fragment)
             addToBackStack(null)
         }
-        ft.commit()*/
+        ft.commit()
+    }
+
+    override fun getSelectionScreenName(): String {
+        return selectedNavString
+    }
+
+    override fun isMenuExpanded(): Boolean {
+        return isExpanded
+    }
+
+    fun setMenuExpanded() {
+        toggleMenu()
+    }
+
+    private fun toggleMenu() {
+        isExpanded = !isExpanded
+        notifyDataSetChanged()
+    }
+}
+
+class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context, val navMenuConnector: NavMenuConnector) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bindItems(position: Int, navItem: AppEnums.ScreenLoanInfo) {
+        val navIcon = navItem.icon
+        var title = if (navMenuConnector.isMenuExpanded()) navItem.screenName else ""
+        //var title = navItem.screenName
+
+        binding.tvNavItem.text = title
+        binding.iconNavItem.setImageResource(navIcon)
+
+        binding.root.setOnClickListener {
+            navMenuConnector.rootViewClicked(position, navItem)
+        }
+
+        changeColorBasedOnSelection(navItem = navItem)
+    }
+
+    private fun changeColorBasedOnSelection(navItem: AppEnums.ScreenLoanInfo) {
+
+        val selectedScreenName = navMenuConnector.getSelectionScreenName()
+
+        if (navItem.screenName.equals(selectedScreenName, ignoreCase = true)) {
+            binding.iconNavItem.setColorFilter(ContextCompat.getColor(mContext, R.color.colorPrimary),
+                    android.graphics.PorterDuff.Mode.MULTIPLY)
+            binding.tvNavItem.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
+            binding.parent.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white))
+
+        } else {
+            binding.iconNavItem.setColorFilter(ContextCompat.getColor(mContext, R.color.white),
+                    android.graphics.PorterDuff.Mode.MULTIPLY)
+            binding.tvNavItem.setTextColor(ContextCompat.getColor(mContext, R.color.white))
+            binding.parent.setBackgroundResource(R.drawable.drawer_gradient_color)
+        }
     }
 }
