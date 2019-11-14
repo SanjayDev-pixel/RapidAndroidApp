@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minWidth="@dimen/text_min_width"
-                    android:textSize="@dimen/text_size"
+                    android:textSize="@dimen/button_text_size"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
                     app:ms_floatingLabelColor="@color/hint_color"

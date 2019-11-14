@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
-import com.finance.app.databinding.FragmentLeadCompletedBinding
+import com.finance.app.databinding.FragmentLeadSubmittedBinding
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.view.adapters.recycler.adapter.LeadListingAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -15,14 +15,14 @@ import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import javax.inject.Inject
 
-class CompletedLeadFragment : BaseFragment() {
+class SubmittedLeadFragment : BaseFragment() {
     @Inject
     lateinit var dataBase: DataBaseUtil
-    private lateinit var binding:FragmentLeadCompletedBinding
+    private lateinit var binding: FragmentLeadSubmittedBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.fragment_lead_completed)
+        binding = initBinding(inflater, container, R.layout.fragment_lead_submitted)
         init()
         return binding.root
     }
@@ -33,7 +33,7 @@ class CompletedLeadFragment : BaseFragment() {
     }
 
     private fun getLeadsFromDB() {
-        dataBase.provideDataBaseSource().allLeadsDao().getCompletedLeads()
+        dataBase.provideDataBaseSource().allLeadsDao().getSubmittedLeads()
                 .observe(viewLifecycleOwner, Observer { leads ->
                     leads.let {
                         val allLeadList = ArrayList(it)
@@ -45,8 +45,7 @@ class CompletedLeadFragment : BaseFragment() {
     }
 
     private fun setUpRecyclerView(allLeadList: ArrayList<AllLeadMaster>) {
-        binding.rcCompletedLeads.layoutManager = LinearLayoutManager(this.activity)
-        binding.rcCompletedLeads.adapter = LeadListingAdapter(this.requireActivity(), allLeadList)
+        binding.rcSubmittedLeads.layoutManager = LinearLayoutManager(this.activity)
+        binding.rcSubmittedLeads.adapter = LeadListingAdapter(this.requireActivity(), allLeadList)
     }
-
 }

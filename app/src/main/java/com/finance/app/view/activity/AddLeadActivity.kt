@@ -52,15 +52,13 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     private fun setBranchesDropDownValue() {
-        binding.spinnerBranches.setFloatingLabelText(R.string.branch)
         binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, sharedPreferences.getUserBranches()!!)
-        binding.spinnerBranches.setFloatingLabelText(R.string.type_of_loan)
     }
 
     private fun getLoanProductFromDB() {
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer {loanProduct->
-            loanProduct?.let{
-                setProductDropDownValue(it)
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer {loanProducts->
+            loanProducts?.let{
+                setProductDropDownValue(loanProducts)
             }
         })
     }

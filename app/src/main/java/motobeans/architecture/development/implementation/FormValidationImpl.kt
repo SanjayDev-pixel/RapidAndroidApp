@@ -445,7 +445,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         if (email.exIsNotEmptyOrNullOrBlank()) {
             return (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
         }
-        return false
+        return true
     }
 
     override fun validateProperty(binding: FragmentPropertyBinding): Boolean {

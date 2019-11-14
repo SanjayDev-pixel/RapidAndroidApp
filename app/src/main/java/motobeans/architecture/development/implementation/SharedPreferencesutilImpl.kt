@@ -99,6 +99,12 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         objSPLead.putString(SharedPreferencesBean.KEY_LEAD_DETAIL, objLead)
     }
 
+    override fun getLeadDetail(): AllLeadMaster {
+        val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
+        val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
+        return Gson().fromJson(leadJson, AllLeadMaster::class.java)
+
+    }
     override fun getLeadId(): String? {
         val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)

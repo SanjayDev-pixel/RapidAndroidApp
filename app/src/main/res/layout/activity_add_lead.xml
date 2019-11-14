@@ -128,16 +128,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minWidth="@dimen/text_min_width"
+                    android:textSize="@dimen/button_text_size"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:textSize="@dimen/button_text_size"
-                    android:spinnerMode="dialog"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_floatingLabelText="Loan Product "
-                    app:ms_hint="Loan Product "
+                    app:ms_hint="Loan Product"
                     app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_hintTextSize="@dimen/button_text_size"
                     app:ms_multiline="false" />
 
                 <fr.ganfra.materialspinner.MaterialSpinner
@@ -145,22 +143,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minWidth="@dimen/text_min_width"
+                    android:textSize="@dimen/button_text_size"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:textSize="@dimen/button_text_size"
-                    android:spinnerMode="dialog"
                     app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Select Branch "
-                    app:ms_hint="Select Branch "
+                    app:ms_floatingLabelText="Branch "
+                    app:ms_hint="Branch"
                     app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_hintTextSize="@dimen/button_text_size"
                     app:ms_multiline="false" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/address"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
@@ -168,7 +165,6 @@
                         android:id="@+id/etAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/address"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 

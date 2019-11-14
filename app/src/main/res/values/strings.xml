@@ -161,4 +161,5 @@
     <string name="mandatory_field_missing">Mandatory Field Missing</string>
     <string name="msg_saving">Saving Data</string>
     <string name="age">Age</string>
+    <string name="branches">Branches</string>
 </resources>

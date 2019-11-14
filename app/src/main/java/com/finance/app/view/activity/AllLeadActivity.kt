@@ -9,7 +9,7 @@ import com.finance.app.presenter.connector.GetAllLeadsConnector
 import com.finance.app.presenter.presenter.GetAllLeadsPresenter
 import com.finance.app.view.adapters.recycler.adapter.LeadPagerAdapter
 import com.finance.app.view.fragment.AllLeadsFragment
-import com.finance.app.view.fragment.CompletedLeadFragment
+import com.finance.app.view.fragment.SubmittedLeadFragment
 import com.finance.app.view.fragment.PendingLeadsFragment
 import com.finance.app.view.fragment.RejectedLeadFragment
 import kotlinx.coroutines.GlobalScope
@@ -67,7 +67,7 @@ class AllLeadActivity : BaseAppCompatActivity(), GetAllLeadsConnector.AllLeads {
     private fun setUpLeadFragments() {
         pagerAdapter = LeadPagerAdapter(supportFragmentManager)
         pagerAdapter!!.addFragment(PendingLeadsFragment(), "Pending")
-        pagerAdapter!!.addFragment(CompletedLeadFragment(), "Completed")
+        pagerAdapter!!.addFragment(SubmittedLeadFragment(), "Submitted")
         pagerAdapter!!.addFragment(RejectedLeadFragment(), "Rejected")
         pagerAdapter!!.addFragment(AllLeadsFragment(), "All Leads")
         binding.viewPager.adapter = pagerAdapter

@@ -53,14 +53,14 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private lateinit var binding: FragmentPersonalBinding
     private lateinit var mContext: Context
-    private var mLeadId: String? = null
+    private var mLead: AllLeadMaster? = null
     private var empId: String? = null
     private val frag = this
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
-    private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = ArrayList()
+    private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = null
     private var personalInfoMaster: PersonalInfoMaster? = PersonalInfoMaster()
     private var currentApplicant: PersonalApplicantsModel = PersonalApplicantsModel()
     private var contactDetail: ContactDetail? = ContactDetail()
@@ -70,6 +70,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var addressType: String = ""
     private var personalAddressDetail: ArrayList<AddressDetail>? = ArrayList()
     private var currentPosition = 0
+
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
@@ -89,7 +90,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         private val leadAndLoanDetail = LeadAndLoanDetail()
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
-        private val convertDate = ConvertDate()
         private var pApplicantList = PersonalApplicantList()
         private lateinit var applicantTab: ArrayList<String>
     }
@@ -111,7 +111,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun getPersonalInfo() {
-        mLeadId = sharedPreferences.getLeadId()
+        mLead = sharedPreferences.getLeadDetail()
         empId = sharedPreferences.getUserId()
         loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
@@ -120,16 +120,13 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         get() = personalInfoMaster?.storageType!!
 
     override val leadId: String
-        get() = mLeadId!!
+        get() = mLead!!.leadID.toString()
 
     override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
         value.responseObj?.let {
             personalInfoMaster = responseConversion.toPersonalMaster(value.responseObj)
             pApplicantList = personalInfoMaster?.draftData!!
             personalApplicantsList = pApplicantList.applicantDetails
-//            if (personalApplicantsList!!.size == 0) {
-//                personalApplicantsList!!.add(PersonalApplicantsModel())
-//            }
         }
         setCoApplicants(personalApplicantsList)
         showData(personalApplicantsList)
@@ -157,7 +154,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun getDataFromDB() {
-        dataBase.provideDataBaseSource().personalInfoDao().getPersonalInfo(mLeadId!!).observe(this, Observer { personalMaster ->
+        dataBase.provideDataBaseSource().personalInfoDao().getPersonalInfo(leadId).observe(this, Observer { personalMaster ->
             personalMaster?.let {
                 personalInfoMaster = personalMaster
                 pApplicantList = personalInfoMaster?.draftData!!
@@ -201,8 +198,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             saveCurrentApplicant()
             ClearPersonalForm(binding, mContext, allMasterDropDown, states)
             currentPosition = position
-//            getParticularApplicantData(position)
-//            applicantAdapter!!.notifyDataSetChanged()
             waitFor2Sec(position)
         } else showToast(getString(R.string.mandatory_field_missing))
     }
@@ -238,11 +233,21 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                     currentApplicant = applicant
                     personalAddressDetail = currentApplicant.addressDetailList
                     contactDetail = currentApplicant.contactDetail
-                    fillFormWithCurrentApplicant(currentApplicant)
                 }
             }
-        }
+        } else fillFormWithLeadDetail()
+        fillFormWithCurrentApplicant(currentApplicant)
         getDropDownsFromDB()
+    }
+
+    private fun fillFormWithLeadDetail() {
+        currentApplicant = PersonalApplicantsModel()
+        currentApplicant.firstName = mLead!!.applicantFirstName
+        currentApplicant.middleName = mLead!!.applicantMiddleName
+        currentApplicant.lastName = mLead!!.applicantLastName
+        personalAddressDetail = currentApplicant.addressDetailList
+        contactDetail!!.mobile = mLead!!.applicantContactNumber
+        contactDetail!!.email = mLead!!.applicantEmail
     }
 
     private fun fillFormWithCurrentApplicant(currentApplicant: PersonalApplicantsModel) {
@@ -258,13 +263,14 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
         binding.basicInfoLayout.etAge.setText(currentApplicant.age.toString())
         binding.basicInfoLayout.etAlternateNum.setText(currentApplicant.alternateContact.toString())
+        binding.basicInfoLayout.etEmail.setText(contactDetail!!.email)
+        binding.basicInfoLayout.etMobile.setText(contactDetail!!.mobile)
         fillValueInMasterDropDown()
-        contactDetail?.let {
-            binding.basicInfoLayout.etEmail.setText(contactDetail!!.email)
-            binding.basicInfoLayout.etMobile.setText(contactDetail!!.mobile)
-        }
         if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
             fillAddressInfo(personalAddressDetail!!)
+        } else {
+            binding.personalAddressLayout.etCurrentAddress.setText(mLead!!.applicantAddress)
+            binding.personalAddressLayout.etPermanentAddress.setText(mLead!!.applicantAddress)
         }
         if (currentApplicant.maritialStatusTypeDetailID != SINGLE_TYPE_DETAIL_ID) {
             binding.basicInfoLayout.etSpouseMiddleName.setText(currentApplicant.spouseMiddleName)
@@ -291,9 +297,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, dropDown.LivingStandardIndicators!!)
         setMaritalStatus(dropDown)
         fillValueInMasterDropDown()
-        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
-            fillAddressInfo(personalAddressDetail!!)
-        }
+//        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
+//            fillAddressInfo(personalAddressDetail!!)
+//        }
     }
 
     private fun setStateDropDownValue(states: List<StatesMaster>) {
@@ -649,7 +655,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun getPersonalInfoMaster(): PersonalInfoMaster {
         pApplicantList.applicantDetails = personalApplicantsList
         personalInfoMaster?.draftData = pApplicantList
-        personalInfoMaster!!.leadID = mLeadId!!.toInt()
+        personalInfoMaster!!.leadID = leadId.toInt()
         return personalInfoMaster!!
     }
 

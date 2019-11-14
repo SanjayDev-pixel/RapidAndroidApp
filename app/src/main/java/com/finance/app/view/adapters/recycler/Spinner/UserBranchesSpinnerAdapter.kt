@@ -39,7 +39,7 @@ class UserBranchesSpinnerAdapter(mContext: Context, val value: List<Response.Use
         spinnerValue = value[position]
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
+            view = inflater.inflate(R.layout.spinner_textbox, parent, false)
             val textView = view.findViewById<View>(R.id.dropdown) as TextView
             textView.text = spinnerValue.branchName
         } else {

@@ -64,7 +64,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private var mContext: Context? = null
-    private var mLeadId: String? = null
+    private var mLead: AllLeadMaster? = null
     private var empId: String? = null
     private var loanMaster: LoanInfoMaster? = LoanInfoMaster()
     private var loanInfo: LoanInfoObj? = null
@@ -98,13 +98,13 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun getLoanInfo() {
-        mLeadId = sharedPreferences.getLeadId()
+        mLead = sharedPreferences.getLeadDetail()
         empId = sharedPreferences.getUserId()
         loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
 
     override val leadId: String
-        get() = mLeadId!!
+        get() = mLead!!.leadID.toString()
 
     override val storageType: String
         get() = loanMaster?.storageType!!
@@ -115,14 +115,14 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             loanInfo = loanMaster?.draftData
             saveDataToDB(loanMaster!!)
         }
-        showData(loanInfo)
+            showData(loanInfo)
     }
 
     private fun showData(loanInfo: LoanInfoObj?) {
-        if (loanInfo != null) {
-            fillFormWithSavedData(loanInfo)
-        }
         getDropDownsFromDB()
+        if (loanInfo != null) {
+            fillFormWithLoanData(loanInfo)
+        }
     }
 
     private fun saveDataToDB(loanInfoMaster: LoanInfoMaster) {
@@ -150,7 +150,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun getDataFromDB() {
-        dataBase.provideDataBaseSource().loanInfoDao().getLoanInfo(mLeadId!!).observe(this, Observer { loanInfoMaster ->
+        dataBase.provideDataBaseSource().loanInfoDao().getLoanInfo(leadId).observe(this, Observer { loanInfoMaster ->
             loanInfoMaster?.let {
                 loanMaster = it
                 loanInfo = loanMaster?.draftData
@@ -173,6 +173,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
         if (loanInfo != null) {
             selectProductValue(binding.spinnerLoanProduct, loanInfo!!)
+        }else{
+            selectProductValueFromLead(binding.spinnerLoanProduct, mLead!!)
         }
     }
 
@@ -180,7 +182,16 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as LoanProductMaster
             if (obj.productID == value.productID) {
-//                spinner.adapter = LoanProductSpinnerAdapter(mContext!!, loanProducts)
+                spinner.setSelection(index + 1)
+                return
+            }
+        }
+    }
+
+    private fun selectProductValueFromLead(spinner: Spinner, value: AllLeadMaster) {
+        for (index in 0 until spinner.count - 1) {
+            val obj = spinner.getItemAtPosition(index) as LoanProductMaster
+            if (obj.productID == value.loanProductID) {
                 spinner.setSelection(index + 1)
                 return
             }
@@ -293,7 +304,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
-    private fun fillFormWithSavedData(loanInfo: LoanInfoObj) {
+    private fun fillFormWithLoanData(loanInfo: LoanInfoObj) {
         binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toInt().toString())
         binding.etEmi.setText(loanInfo.affordableEMI!!.toInt().toString())
         binding.etTenure.setText(loanInfo.tenure!!.toInt().toString())
@@ -408,7 +419,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             loanInfoObj.channelPartnerDsaID = channelPartnerName?.dsaID
         }
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
-        loanInfoObj.leadID = mLeadId!!.toInt()
+        loanInfoObj.leadID = leadId.toInt()
         loanInfoObj.productID = loanProduct?.productID
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
         loanInfoObj.loanPurposeID = loanPurpose?.loanPurposeID
@@ -423,7 +434,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun getLoanInfoMaster(): LoanInfoMaster {
         loanMaster?.draftData = getLoanInfoObj()
-        loanMaster?.leadID = mLeadId!!.toInt()
+        loanMaster?.leadID = leadId.toInt()
         return loanMaster!!
     }
 }

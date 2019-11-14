@@ -7,7 +7,7 @@
         android:background="@color/white">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcCompletedLeads"
+            android:id="@+id/rc_submitted_leads"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -2,7 +2,6 @@ package motobeans.architecture.development.components
 
 import android.app.Application
 import com.finance.app.TestActivity
-import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.*
@@ -56,7 +55,7 @@ interface ApplicationComponent {
     fun inject(fragment: ReferenceFragment)
     fun inject(fragment: AllLeadsFragment)
     fun inject(fragment: PendingLeadsFragment)
-    fun inject(fragment: CompletedLeadFragment)
+    fun inject(fragment: SubmittedLeadFragment)
     fun inject(fragment: RejectedLeadFragment)
     fun inject(fragment: PropertyFragment)
     /**

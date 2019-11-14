@@ -4,13 +4,12 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/dropdown"
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/margin_10"
-        android:paddingEnd="@dimen/margin_10"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:textSize="17sp" />
+        android:padding="16sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/text_color"
+        android:textAppearance="?attr/textAppearanceSubtitle1"/>
 
 </LinearLayout>
