@@ -1,9 +1,6 @@
 package com.finance.app.utility
 
-import com.finance.app.persistence.model.EmploymentMaster
-import com.finance.app.persistence.model.LoanApplicationRequest
-import com.finance.app.persistence.model.LoanInfoMaster
-import com.finance.app.persistence.model.PersonalInfoMaster
+import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 
 class RequestConversion {
@@ -28,6 +25,14 @@ class RequestConversion {
     }
 
     fun employmentRequest(master: EmploymentMaster): LoanApplicationRequest {
+        val request = LoanApplicationRequest()
+        request.draftData = Gson().toJson(master.draftData)
+        request.leadID = master.leadID
+        request.storageType = master.storageType
+        return request
+    }
+
+    fun bankRequest(master: BankDetailMaster): LoanApplicationRequest {
         val request = LoanApplicationRequest()
         request.draftData = Gson().toJson(master.draftData)
         request.leadID = master.leadID

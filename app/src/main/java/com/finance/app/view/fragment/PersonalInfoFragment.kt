@@ -34,6 +34,8 @@ import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
+import kotlinx.android.synthetic.main.layout_basic_detail.view.*
+import kotlinx.android.synthetic.main.layout_personal_address.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp

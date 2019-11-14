@@ -11,12 +11,14 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentBankDetailBinding
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
-import com.finance.app.presenter.presenter.BankDetailGetPresenter
-import com.finance.app.presenter.presenter.BankDetailPostPresenter
+import com.finance.app.presenter.presenter.LoanAppGetPresenter
+import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.utility.ClearBankForm
+import com.finance.app.utility.RequestConversion
+import com.finance.app.utility.ResponseConversion
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.Spinner.YesNoSpinnerAdapter
+import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -29,17 +31,20 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostBankDetail,
-        LoanApplicationConnector.GetBankDetail, ApplicantsAdapter.ItemClickListener {
+class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
+        LoanApplicationConnector.GetLoanApp, ApplicantsAdapter.ItemClickListener {
 
     private lateinit var binding: FragmentBankDetailBinding
     private lateinit var mContext: Context
     private lateinit var allMasterDropDown: AllMasterDropDown
-    private val bankDetailPostPresenter = BankDetailPostPresenter(this)
-    private val bankDetailGetPresenter = BankDetailGetPresenter(this)
+    private val loanAppGetPresenter = LoanAppGetPresenter(this)
+    private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
     private var mLeadId: String? = null
     private var empId: String? = null
+    private val responseConversion = ResponseConversion()
+    private val requestConversion = RequestConversion()
+    private var mLead: AllLeadMaster? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
@@ -79,15 +84,22 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostBankDeta
     }
 
     override val leadId: String
-        get() = mLeadId!!
+        get() = mLead!!.leadID.toString()
 
-    override fun getBankDetailGetSuccess(value: Response.ResponseGetBankDetail) {
+    override val storageType: String
+        get() = bankDetailMaster?.storageType!!
+
+    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
         value.responseObj?.let {
-            saveDataToDB(value.responseObj)
-            bankDetailMaster = value.responseObj
+//            saveDataToDB(value.responseObj)
+//            bankDetailMaster = value.responseObj
 //            loanInfo = bankDetailMaster?.loanApplicationObj
 //            showData(loanInfo)
         }
+    }
+
+    override fun getLoanAppGetFailure(msg: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun saveDataToDB(bankDetail: BankDetailMaster) {
@@ -96,8 +108,6 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostBankDeta
         }
     }
 
-    override fun getBankDetailGetFailure(msg: String) {
-    }
 
     private fun setCoApplicants() {
         applicantTab.add("Applicant")
@@ -136,7 +146,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostBankDeta
                 bankDetailBeanList.add(bankDetailBean)
 //                bankDetailList.add(bankDetail)
                 gotoNextFragment()
-                bankDetailPostPresenter.callNetwork(ConstantsApi.CALL_BANK_DETAIL_POST)
+                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             }
         }
     }
@@ -174,12 +184,17 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostBankDeta
             )
         }
 
-    override val bankDetailRequest: BankDetailMaster
-        get() = bankDetailMaster!!
+    override val loanAppRequestPost: LoanApplicationRequest
+        get() = requestConversion.bankRequest(getBankDetailMaster())
 
-    override fun getBankDetailPostSuccess(value: Response.ResponseLoanApplication) = gotoNextFragment()
+    private fun getBankDetailMaster(): BankDetailMaster {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
-    override fun getBankDetailPostFailure(msg: String) = showToast(msg)
+    override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
+    }
+
+    override fun getLoanAppPostFailure(msg: String) = showToast(msg)
 
     private fun gotoNextFragment() {
         val ft = fragmentManager?.beginTransaction()
