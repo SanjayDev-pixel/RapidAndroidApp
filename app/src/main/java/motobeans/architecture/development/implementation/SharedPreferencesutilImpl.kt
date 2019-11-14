@@ -40,7 +40,21 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun getUserBranches(): List<Response.UserBranches>? {
-        return getLoginData()?.responseObj?.userDetails?.userBranches
+
+        val userBranches = ArrayList<Response.UserBranches>()
+
+        val userSelectTextBranch = Response.UserBranches(branchID = 0, branchName = "Branch")
+        userBranches.add(userSelectTextBranch)
+
+        getLoginData()?.responseObj?.userDetails?.userBranches?.let {
+            userBranches.addAll(getLoginData()!!.responseObj.userDetails!!.userBranches)
+            /*userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
+            userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
+            userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
+            userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)*/
+        }
+
+        return userBranches
     }
 
     override fun isLogin(): Boolean {
