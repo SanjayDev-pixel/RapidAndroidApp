@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLead"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?actionBarSize"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            android:textSize="@dimen/button_text_size"
-            app:tabBackground="@color/white"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabIndicatorHeight="3dp"
-            app:tabMode="fixed"
-            app:tabTextColor="@color/black" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_below="@id/tabLead"
-            android:layout_width="match_parent"
-            android:layout_above="@id/btnCreate"
-            android:layout_height="match_parent" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?actionBarSize"
+                app:tabSelectedTextColor="@color/colorPrimary"
+                android:textSize="@dimen/button_text_size"
+                app:tabBackground="@color/white"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/colorPrimary"
+                app:tabIndicatorHeight="3dp"
+                app:tabMode="fixed"
+                app:tabTextColor="@color/black" />
 
-        <Button
-            android:id="@+id/btnCreate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/fields_margin"
-            android:layout_gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/button_theme_style"
-            android:padding="5sp"
-            android:text="@string/create_lead"
-            android:textColor="@color/white"
-            android:textSize="@dimen/button_text_size" />
-    </RelativeLayout>
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_below="@id/tabLead"
+                android:layout_width="match_parent"
+                android:layout_above="@id/btnCreate"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:layout_gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/button_theme_style"
+                android:padding="5sp"
+                android:text="@string/create_lead"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

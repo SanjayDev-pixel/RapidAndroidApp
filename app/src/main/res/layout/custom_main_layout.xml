@@ -26,6 +26,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="?attr/actionBarSize"
                             app:elevation="4dp"
+                            android:theme="@style/ToolbarColoredBackArrow"
                             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
                         </androidx.appcompat.widget.Toolbar>
 

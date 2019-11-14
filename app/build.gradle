@@ -172,13 +172,16 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.0.0-rc02'
     implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
 
-    // matrieal spinner
+    // material spinner
     implementation 'com.github.ganfra:material-spinner:2.0.0'
 
     //otpLayout
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.3'
 
+    //Swipe to refresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     //pager Indicator
+
     implementation 'com.github.chahine:pageindicator:0.2.8'
 
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7"
