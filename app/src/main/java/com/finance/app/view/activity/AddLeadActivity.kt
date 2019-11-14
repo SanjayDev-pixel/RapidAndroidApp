@@ -1,4 +1,5 @@
 package com.finance.app.view.activity
+
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -64,13 +65,10 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         binding.spinnerBranches.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0){
+                if (position >= 0) {
                     val selectedItem = branchList[position]
                     //val selectedItem = parent.selectedItem
-                    selectedItem?.let {
-                        val selectedLoanProduct = parent.selectedItem as Response.UserBranches
-                        print("User Branches Selected -> ${selectedLoanProduct.toString()}")
-                    }
+                    print("User Branches Selected -> ${selectedItem.toString()}")
                 }
             }
         }
@@ -79,8 +77,8 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     private fun getLoanProductFromDB() {
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer {loanProducts->
-            loanProducts?.let{
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProducts ->
+            loanProducts?.let {
                 setProductDropDownValue(loanProducts)
             }
         })
