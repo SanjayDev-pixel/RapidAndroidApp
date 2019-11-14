@@ -1,6 +1,8 @@
 package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
+import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAddLeadBinding
@@ -32,6 +34,8 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     @Inject
     lateinit var formValidation: FormValidation
 
+    private lateinit var branchList: List<Response.UserBranches>
+
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, AddLeadActivity::class.java)
@@ -41,9 +45,13 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
+
+        branchList = sharedPreferences.getUserBranches()!!
+
         hideSecondaryToolbar()
         getLoanProductFromDB()
         setBranchesDropDownValue()
+
         binding.btnCreate.setOnClickListener {
             if (formValidation.validateAddLead(binding)) {
                 presenterOpt.callNetwork(ConstantsApi.CALL_ADD_LEAD)
@@ -52,7 +60,22 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     private fun setBranchesDropDownValue() {
-        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, sharedPreferences.getUserBranches()!!)
+        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, branchList!!)
+        binding.spinnerBranches.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0){
+                    val selectedItem = branchList[position]
+                    //val selectedItem = parent.selectedItem
+                    selectedItem?.let {
+                        val selectedLoanProduct = parent.selectedItem as Response.UserBranches
+                        print("User Branches Selected -> ${selectedLoanProduct.toString()}")
+                    }
+                }
+            }
+        }
+
+
     }
 
     private fun getLoanProductFromDB() {

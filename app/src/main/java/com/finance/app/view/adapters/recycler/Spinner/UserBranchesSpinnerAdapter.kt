@@ -15,8 +15,6 @@ class UserBranchesSpinnerAdapter(mContext: Context, val value: List<Response.Use
     private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: Response.UserBranches
-
     override fun getItem(position: Int): Any? {
         return value[position]
     }
@@ -36,11 +34,11 @@ class UserBranchesSpinnerAdapter(mContext: Context, val value: List<Response.Use
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value[position]
+        val spinnerValue = value[position]
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.spinner_textbox, parent, false)
-            val textView = view.findViewById<View>(R.id.dropdown) as TextView
+            view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
+            val textView: TextView = view.findViewById(R.id.dropdown)
             textView.text = spinnerValue.branchName
         } else {
             view = convertView

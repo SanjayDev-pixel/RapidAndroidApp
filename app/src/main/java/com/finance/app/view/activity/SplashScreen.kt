@@ -26,6 +26,7 @@ class SplashScreen : BaseAppCompatActivity() {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
+
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
         Handler().postDelayed({
