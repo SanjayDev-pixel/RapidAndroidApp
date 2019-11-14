@@ -192,18 +192,18 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToBankLoanApplicationObj(value: String?): Response.BankDetailList? {
+    fun fromStringToBankLoanApplicationObj(value: String?): BankDetail? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<Response.BankDetailList>() {
+        val listType = object : TypeToken<Response.BankDetail>() {
 
         }.type
-        return Gson().fromJson<Response.BankDetailList>(value, listType)
+        return Gson().fromJson<BankDetail>(value, listType)
     }
 
     @TypeConverter
-    fun fromBankLoanApplicationObjMasterToString(bank: Response.BankDetailList?): String? {
+    fun fromBankLoanApplicationObjMasterToString(bank: BankDetail?): String? {
         bank?.let {
             val gson = Gson()
             return gson.toJson(bank)

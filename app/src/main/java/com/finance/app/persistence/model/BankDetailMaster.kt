@@ -11,6 +11,6 @@ class BankDetailMaster : Serializable {
     @PrimaryKey
     var leadID: Int = 0
     var loanApplicationDraftDetailID: Int? = null
-    var draftData: Response.BankDetailList? = null
-    var storageType: String = "EMPLOYMENT"
+    var draftData: BankDetail? = BankDetail()
+    var storageType: String = "BANK_DETAIL"
     var editable: Boolean? = null}

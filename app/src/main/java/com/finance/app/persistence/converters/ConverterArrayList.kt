@@ -243,4 +243,24 @@ class ConverterArrayList {
         return null
     }
 
+    @TypeConverter
+    fun fromStringToArrayListBankDetailModel(value: String?): ArrayList<BankDetailModel>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<BankDetailModel>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<BankDetailModel>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromBankDetailModelArrayListToString(ArrayList: ArrayList<BankDetailModel>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
 }
