@@ -2,6 +2,7 @@ package motobeans.architecture.development.interfaces
 
 import com.finance.app.model.Modals
 import com.finance.app.model.Modals.ApplicantPersonal
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoObj
 import motobeans.architecture.retrofit.response.Response
@@ -28,7 +29,7 @@ interface SharedPreferencesUtil {
     fun getIncomeConsideration(): Boolean
     fun getUserBranches(): List<Response.UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
-    fun getNavMenuItem(): HashMap<String, Int>?
+    fun getNavMenuItem(): List<AppEnums.ScreenLoanInfo>?
     fun clearAll()
     fun getCoApplicant(): ArrayList<Modals.ApplicantTab>
     fun getCoApplicantsPosition():Int

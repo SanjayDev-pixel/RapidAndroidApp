@@ -19,7 +19,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     private lateinit var navFragment: NavMenuFragment
     private lateinit var secondaryFragment: Fragment
     private lateinit var menuParam: LinearLayout.LayoutParams
-    private var isExpand = false
 
     companion object {
         fun start(context: Context) {
@@ -31,7 +30,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
 
     override fun init() {
         binding.collapseImageView.setOnClickListener {
-            handleCollapseScreen(isExpand)
+            navFragment.toggleMenu()
         }
         setNavFragment()
         secondaryFragment = LoanInfoFragment()
@@ -39,9 +38,9 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     }
 
     private fun setNavFragment() {
-        val fragment = NavMenuFragment()
+        navFragment = NavMenuFragment()
         val ft = supportFragmentManager.beginTransaction().apply {
-            add(R.id.navMenuContainer, fragment)
+            add(R.id.navMenuContainer, navFragment)
             addToBackStack(null)
         }
         ft.commit()
@@ -53,43 +52,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
             addToBackStack(null)
         }
         ft.commit()
-    }
-
-    fun handleCollapseScreen(collapse: Boolean) {
-        navFragment = supportFragmentManager.findFragmentById(R.id.navMenuContainer) as NavMenuFragment
-        if (collapse) {
-            expandScreen(collapse)
-        } else {
-            collapseScreen(collapse)
-        }
-    }
-
-    private fun expandScreen(collapse: Boolean) {
-        menuParam = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.MATCH_PARENT)
-        binding.mainLoanLayout.navMenuContainer.layoutParams = menuParam
-        val mainParam = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT)
-        binding.mainLoanLayout.secondaryFragmentContainer.layoutParams = mainParam
-        navFragment.notifyMenu(collapse)
-        isExpand = false
-    }
-
-    private fun collapseScreen(collapse: Boolean) {
-        menuParam = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.MATCH_PARENT)
-        menuParam.weight = 1f
-        binding.mainLoanLayout.navMenuContainer.layoutParams = menuParam
-        val mainParam = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.MATCH_PARENT)
-        mainParam.weight = 2f
-        binding.mainLoanLayout.secondaryFragmentContainer.layoutParams = mainParam
-        navFragment.notifyMenu(collapse)
-        isExpand = true
     }
 
     override fun onBackPressed() {

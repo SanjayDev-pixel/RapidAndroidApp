@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import com.finance.app.persistence.model.PersonalApplicantsModel
 
 class Modals {
-    data class NavItems(var image: Int, var title: String)
     data class AddKyc(var idType: String, var idNum: String, var kycImage: Bitmap?, var issueDate: String,
                       var expiryDate: String, var verifiedStatus: String)
     data class ApplicantPersonal(var personalApplicants: ArrayList<PersonalApplicantsModel>)

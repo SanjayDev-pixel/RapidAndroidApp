@@ -1,7 +1,8 @@
 package motobeans.architecture.development.implementation
+
 import android.content.Context
-import com.finance.app.R
 import com.finance.app.model.Modals
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoObj
 import com.google.gson.Gson
@@ -26,7 +27,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return Gson().fromJson(loginJson, Response.ResponseLogin::class.java)
     }
 
-    override fun getUserToken(): String?{
+    override fun getUserToken(): String? {
         return getLoginData()?.responseObj?.token
     }
 
@@ -61,7 +62,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
 
     override fun setPropertySelection(value: String) {
         val propertySelection = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PROPERTY_SELECTION)
-        propertySelection.putString(SharedPreferencesBean.KEY_PROPERTY_SELECTION,value)
+        propertySelection.putString(SharedPreferencesBean.KEY_PROPERTY_SELECTION, value)
     }
 
     override fun getPropertySelection(): Boolean {
@@ -72,7 +73,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
 
     override fun setIncomeConsideration(value: String) {
         val incomeConsider = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_INCOME_CONSIDER)
-        incomeConsider.putString(SharedPreferencesBean.KEY_INCOME_CONSIDER,value)
+        incomeConsider.putString(SharedPreferencesBean.KEY_INCOME_CONSIDER, value)
     }
 
     override fun getIncomeConsideration(): Boolean {
@@ -93,7 +94,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
     }
 
-    override fun saveLeadDetail(lead:AllLeadMaster) {
+    override fun saveLeadDetail(lead: AllLeadMaster) {
         val objLead = Gson().toJson(lead)
         val objSPLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
         objSPLead.putString(SharedPreferencesBean.KEY_LEAD_DETAIL, objLead)
@@ -105,6 +106,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return Gson().fromJson(leadJson, AllLeadMaster::class.java)
 
     }
+
     override fun getLeadId(): String? {
         val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
@@ -129,13 +131,13 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     override fun getCoApplicant(): ArrayList<Modals.ApplicantTab> {
         val objSpPersonalApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
         val personalApplicantJson = objSpPersonalApplicants.getString(SharedPreferencesBean.KEY_PERSONAL_APPLICANTS)
-        val personalApplicants =  Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
+        val personalApplicants = Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
         val applicants: ArrayList<Modals.ApplicantTab> = ArrayList()
-        for (applicant in personalApplicants.personalApplicants){
-                if (applicant.incomeConsidered){
-                    val coApplicant =Modals.ApplicantTab(applicant.firstName, applicant.incomeConsidered)
-                    applicants.add(coApplicant)
-                }
+        for (applicant in personalApplicants.personalApplicants) {
+            if (applicant.incomeConsidered) {
+                val coApplicant = Modals.ApplicantTab(applicant.firstName, applicant.incomeConsidered)
+                applicants.add(coApplicant)
+            }
         }
         return applicants
     }
@@ -146,30 +148,23 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun getRolePrivilege(): Response.RolePrivileges? {
-        val privilegesList = getLoginData()?.responseObj?.userDetails?.
-                rolePrivilegesList
-        for (privilege in privilegesList!!){
-            if(privilege.moduleName == "Login"){
+        val privilegesList = getLoginData()?.responseObj?.userDetails?.rolePrivilegesList
+        for (privilege in privilegesList!!) {
+            if (privilege.moduleName == "Login") {
                 return privilege
             }
         }
         return null
     }
 
-    override fun getNavMenuItem(): LinkedHashMap<String, Int>? {
-        val navItemList = linkedMapOf<String, Int>()
+    override fun getNavMenuItem(): List<AppEnums.ScreenLoanInfo>? {
+        val navItemList = ArrayList<AppEnums.ScreenLoanInfo>()
         val loginSubModules = getRolePrivilege()?.subModuleList
-        for (module in loginSubModules!!){
-            when(module.screenName){
-                "Loan Information" -> navItemList[module.screenName] = R.drawable.loan_info_white
-                "Personal" -> navItemList[module.screenName] = R.drawable.personal_info_white
-                "Employment" -> navItemList[module.screenName] = R.drawable.employment_icon_white
-//                "Income" -> navItemList[module.screenName] = R.drawable.income_icon_white
-                "Bank Details" -> navItemList[module.screenName] = R.drawable.bank_icon_white
-                "Liability & Asset" -> navItemList[module.screenName] = R.drawable.assest_details_white
-                "Reference" -> navItemList[module.screenName] = R.drawable.reffrence_white
-                "Property" -> navItemList[module.screenName] = R.drawable.property_icon_white
-                "Document Checklist" -> navItemList[module.screenName] = R.drawable.checklist
+        for (module in loginSubModules!!) {
+
+            val screenData = AppEnums.ScreenLoanInfo.getData(module.screenName)
+            if (!(navItemList.contains(screenData)) && screenData != AppEnums.ScreenLoanInfo.DEFAULT) {
+                navItemList.add(screenData)
             }
         }
         return navItemList

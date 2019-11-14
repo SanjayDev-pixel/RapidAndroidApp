@@ -12,10 +12,6 @@ class TaskDetailAdapter(private val c: Context) : RecyclerView.Adapter<TaskDetai
 
     private lateinit var binding: ItemDocumentToCollectBinding
 
-    companion object {
-        var selectedPos = 0
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskDetailViewHolder {
         val layoutInflater = LayoutInflater.from(c)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_document_to_collect, parent, false)

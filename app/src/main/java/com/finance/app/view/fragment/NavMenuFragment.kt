@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.databinding.FragmentNavMenuBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.view.adapters.recycler.adapter.NavMenuAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -16,11 +17,7 @@ class NavMenuFragment : Fragment() {
     private lateinit var navMenuAdapter: NavMenuAdapter
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
-    private var menuList: HashMap<String, Int>? = null
-
-    companion object {
-        private var isExpanded = true
-    }
+    private var menuList: List<AppEnums.ScreenLoanInfo>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNavMenuBinding.inflate(inflater, container, false)
@@ -39,14 +36,12 @@ class NavMenuFragment : Fragment() {
         callAdapter()
     }
 
-    fun notifyMenu(collapse: Boolean) {
-        isExpanded = collapse
-        binding.rcNavMenu.adapter?.notifyDataSetChanged()
-        callAdapter()
+    private fun callAdapter() {
+        navMenuAdapter = NavMenuAdapter(requireContext(), menuList!!)
+        binding.rcNavMenu.adapter = navMenuAdapter
     }
 
-    private fun callAdapter() {
-        navMenuAdapter = NavMenuAdapter(requireContext(), menuList!!, isExpanded)
-        binding.rcNavMenu.adapter = navMenuAdapter
+    fun toggleMenu() {
+        navMenuAdapter.setMenuExpanded()
     }
 }
