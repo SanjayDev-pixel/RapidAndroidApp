@@ -96,6 +96,7 @@
                             android:layout_width="match_parent"
                             android:inputType="number"
                             android:singleLine="true"
+                            android:maxLength="7"
                             android:layout_height="wrap_content"
                             android:hint="@string/loan_amount_request"
                             android:minWidth="200dp"
@@ -163,7 +164,8 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:singleLine="true"
-                            android:hint="Affordable EMI"
+                            android:maxLength="5"
+                            android:hint="@string/affordable_emi"
                             android:minWidth="@dimen/text_min_width"
                             android:textSize="@dimen/text_size" />
 

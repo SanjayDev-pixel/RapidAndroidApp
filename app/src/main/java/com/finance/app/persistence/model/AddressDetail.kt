@@ -5,21 +5,21 @@ class AddressDetail : Serializable {
 
     var address1: String = ""
     var address2: String = ""
-    var addressID: Int? = null
-    var addressProof: Int? = null
-    var addressTypeDetailID: Int? = null
-    var addressTypeDetail: String? = null
+    var addressID: Int? = 0
+    var addressProof: Int? = 0
+    var addressTypeDetailID: Int? = 0
+    var addressTypeDetail: String? = ""
     var cityID: Int? = 0
     var cityName: String? = ""
     var districtID: Int? = 0
-    var districtName: String? = null
+    var districtName: String? = ""
     var entityID: Int? = 0
     var landmark: String = ""
     var rentAmount: Int? = 0
-    var residenceTypeTypeDetailID: Int? = null
+    var residenceTypeTypeDetailID: Int? = 0
     var zip: String = ""
-    var stateID: Int? = null
-    var stateName: String? = null
+    var stateID: Int? = 0
+    var stateName: String? = ""
     var stayingInYears: Int? = 0
 
 }

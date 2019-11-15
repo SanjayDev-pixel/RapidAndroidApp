@@ -437,4 +437,5 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         loanMaster?.leadID = leadId.toInt()
         return loanMaster!!
     }
+
 }

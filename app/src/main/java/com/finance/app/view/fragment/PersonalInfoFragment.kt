@@ -34,8 +34,6 @@ import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
-import kotlinx.android.synthetic.main.layout_basic_detail.view.*
-import kotlinx.android.synthetic.main.layout_personal_address.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -231,7 +229,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun showData(applicantList: ArrayList<PersonalApplicantsModel>?) {
         if (applicantList != null) {
             for (applicant in applicantList) {
-                if (applicant.isMainApplicant) {
+                if (applicant.isMainApplicant!!) {
                     currentApplicant = applicant
                     personalAddressDetail = currentApplicant.addressDetailList
                     contactDetail = currentApplicant.contactDetail
@@ -254,7 +252,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun fillFormWithCurrentApplicant(currentApplicant: PersonalApplicantsModel) {
         binding.basicInfoLayout.etDOB.setText(currentApplicant.dateOfBirth!!)
-        binding.basicInfoLayout.cbIncomeConsidered.isSelected = currentApplicant.incomeConsidered
+        binding.basicInfoLayout.cbIncomeConsidered.isSelected = currentApplicant.incomeConsidered!!
         binding.basicInfoLayout.etFatherLastName.setText(currentApplicant.fatherLastName)
         binding.basicInfoLayout.etFatherMiddleName.setText(currentApplicant.fatherMiddleName)
         binding.basicInfoLayout.etFatherFirstName.setText(currentApplicant.fatherFirstName)
@@ -299,7 +297,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, dropDown.LivingStandardIndicators!!)
         setMaritalStatus(dropDown)
         fillValueInMasterDropDown()
-        fillAddressInfo(personalAddressDetail!!)
+        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
+            fillAddressInfo(personalAddressDetail!!)
+        }
     }
 
     private fun setStateDropDownValue(states: List<StatesMaster>) {
@@ -322,8 +322,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun fillAddressInfo(addressDetailList: ArrayList<AddressDetail>) {
-        fillCurrentAddressInfo(addressDetailList[0])
         fillPermanentAddressInfo(addressDetailList[1])
+        fillCurrentAddressInfo(addressDetailList[0])
     }
 
     private fun fillCurrentAddressInfo(addressDetail: AddressDetail) {

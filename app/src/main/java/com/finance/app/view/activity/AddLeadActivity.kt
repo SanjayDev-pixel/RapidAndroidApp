@@ -67,8 +67,8 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
                     val selectedItem = branchList[position]
-                    //val selectedItem = parent.selectedItem
-                    print("User Branches Selected -> ${selectedItem.toString()}")
+//                    val selectedItem = parent.selectedItem
+                    print("User Branches Selected -> $selectedItem")
                 }
             }
         }
@@ -100,7 +100,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = 2, loanProductID = 1)
+                    branchID = branch!!.branchID, loanProductID = 1)
 //                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
         }
 

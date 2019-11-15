@@ -148,8 +148,8 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         val personalApplicants = Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
         val applicants: ArrayList<Modals.ApplicantTab> = ArrayList()
         for (applicant in personalApplicants.personalApplicants) {
-            if (applicant.incomeConsidered) {
-                val coApplicant = Modals.ApplicantTab(applicant.firstName, applicant.incomeConsidered)
+            if (applicant.incomeConsidered!!) {
+                val coApplicant = Modals.ApplicantTab(applicant.firstName, applicant.incomeConsidered!! )
                 applicants.add(coApplicant)
             }
         }

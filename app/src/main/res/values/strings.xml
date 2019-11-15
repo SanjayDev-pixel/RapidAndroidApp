@@ -162,4 +162,5 @@
     <string name="msg_saving">Saving Data</string>
     <string name="age">Age</string>
     <string name="branches">Branches</string>
+    <string name="affordable_emi">Affordable EMI</string>
 </resources>
