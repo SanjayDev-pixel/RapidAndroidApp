@@ -9,9 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetLiablityBinding
-import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.LoanApplicationRequest
+import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
@@ -40,6 +38,8 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
+    private var assetLiabilityMaster: AssetLiabilityMaster? = AssetLiabilityMaster()
+    private var currentApplicant: AssetLiabilityModel = AssetLiabilityModel()
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
@@ -48,7 +48,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     lateinit var dataBase: DataBaseUtil
 
     companion object {
-        private lateinit var applicantMenu: ArrayList<String>
+        private lateinit var applicantTab: ArrayList<String>
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,9 +60,9 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
-//        getAssetLiabilityInfo()
+        getAssetLiabilityInfo()
         setDropDownValue()
-        applicantMenu = ArrayList()
+        applicantTab = ArrayList()
         setDropDownValue()
         setCoApplicants()
         setClickListeners()
@@ -72,7 +72,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private fun getAssetLiabilityInfo() {
         mLead = sharedPreferences.getLeadDetail()
         empId = sharedPreferences.getUserId()
-        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
+//        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
 
     override val leadId: String
@@ -100,10 +100,10 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun setCoApplicants() {
-        applicantMenu.add("Applicant")
+        applicantTab.add("Applicant")
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantTab)
         applicantAdapter!!.setOnItemClickListener(this)
         binding.rcApplicants.adapter = applicantAdapter
     }

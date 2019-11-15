@@ -46,9 +46,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-
         branchList = sharedPreferences.getUserBranches()!!
-
         hideSecondaryToolbar()
         getLoanProductFromDB()
         setBranchesDropDownValue()

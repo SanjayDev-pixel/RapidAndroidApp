@@ -3,14 +3,14 @@ package com.finance.app.persistence.model
 import java.io.Serializable
 
 class DropdownMaster : Serializable {
-    var typeDetailCode: String? = null
-    var typeMasterID: Int? = null
-    var typeDetailID: Int? = null
-    var refTypeDetailID: Int? = null
-    var typeMasterName: String? = null
-    var typeMasterDisplayText: String? = null
-    var typeMasterLogicalCode: String? = null
-    var typeDetailLogicalCode: String? = null
-    var sequence: String? = null
-    var typeDetailDescription: String? = null
+    var typeDetailCode: String? = ""
+    var typeMasterID: Int? = 0
+    var typeDetailID: Int? = 0
+    var refTypeDetailID: Int? = 0
+    var typeMasterName: String? = ""
+    var typeMasterDisplayText: String? = ""
+    var typeMasterLogicalCode: String? = ""
+    var typeDetailLogicalCode: String? = ""
+    var sequence: String? = ""
+    var typeDetailDescription: String? = ""
 }

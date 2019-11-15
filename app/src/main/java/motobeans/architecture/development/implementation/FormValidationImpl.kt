@@ -106,7 +106,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.etTenure.error = "Tenure can not be blank"
         }
 
-        if (loanProduct != null) {
+        if (loanProduct != null && tenure != "") {
             if (tenure.toInt() > loanProduct.maxTenure && tenure.toInt() < loanProduct.minTenure) {
                 errorCount++
                 binding.etTenure.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
@@ -116,7 +116,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
                 errorCount++
                 binding.etAmountRequest.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
             }
-        } else {
+        } else if (loanProduct == null) {
             binding.spinnerLoanProduct.error = "loan Product Cannot be empty"
         }
 

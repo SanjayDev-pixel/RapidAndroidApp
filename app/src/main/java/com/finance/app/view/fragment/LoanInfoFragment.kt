@@ -68,7 +68,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var empId: String? = null
     private var loanMaster: LoanInfoMaster? = LoanInfoMaster()
     private var loanInfo: LoanInfoModel? = null
-    private var channelPartner: DropdownMaster? = null
+    private var channelPartner: DropdownMaster? = DropdownMaster()
 
     companion object {
         private lateinit var mBranchId: String
@@ -361,7 +361,6 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         get() = requestConversion.loanInfoRequest(getLoanInfoMaster())
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
-        showToast(value.responseMsg)
         saveDataToDB(getLoanInfoMaster())
         gotoNextFragment()
     }
@@ -376,6 +375,41 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override fun getLoanAppPostFailure(msg: String) {
         saveDataToDB(getLoanInfoMaster())
         showToast(msg)
+    }
+
+    private fun getLoanInfoObj(): LoanInfoModel {
+        val loanInfoObj = LoanInfoModel()
+        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as
+                DropdownMaster?
+        val channelPartnerName = binding.spinnerPartnerName.selectedItem as
+                Response.ChannelPartnerName?
+        val loanProduct = binding.spinnerLoanProduct.selectedItem as
+                LoanProductMaster?
+        val interestType = binding.spinnerInterestType.selectedItem as DropdownMaster?
+        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
+        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
+
+        if (channelPartner?.typeDetailCode == "DSA") {
+            loanInfoObj.channelPartnerDsaID = channelPartnerName?.dsaID
+        }
+        loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
+        loanInfoObj.leadID = leadId.toInt()
+        loanInfoObj.productID = loanProduct?.productID
+        loanInfoObj.salesOfficerEmpID = empId!!.toInt()
+        loanInfoObj.loanPurposeID = loanPurpose?.loanPurposeID
+        loanInfoObj.loanSchemeTypeDetailID = loanScheme?.typeDetailID
+        loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toDouble()
+        loanInfoObj.tenure = binding.etTenure.text.toString().toDouble()
+        loanInfoObj.interestTypeTypeDetailID = interestType?.typeDetailID
+        loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner?.typeDetailID
+        loanInfoObj.isPropertySelected = binding.cbPropertySelected.isChecked
+        return loanInfoObj
+    }
+
+    private fun getLoanInfoMaster(): LoanInfoMaster {
+        loanMaster?.draftData = getLoanInfoObj()
+        loanMaster?.leadID = leadId.toInt()
+        return loanMaster!!
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -401,41 +435,6 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 }
             }
         }
-    }
-
-    private fun getLoanInfoObj(): LoanInfoModel {
-        val loanInfoObj = LoanInfoModel()
-        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as
-                DropdownMaster?
-        val channelPartnerName = binding.spinnerPartnerName.selectedItem as
-                Response.ChannelPartnerName?
-        val loanProduct = binding.spinnerLoanProduct.selectedItem as
-                LoanProductMaster?
-        val interestType = binding.spinnerInterestType.selectedItem as DropdownMaster?
-        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
-        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
-
-        if (channelPartner!!.typeDetailCode == "DSA") {
-            loanInfoObj.channelPartnerDsaID = channelPartnerName?.dsaID
-        }
-        loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
-        loanInfoObj.leadID = leadId.toInt()
-        loanInfoObj.productID = loanProduct?.productID
-        loanInfoObj.salesOfficerEmpID = empId!!.toInt()
-        loanInfoObj.loanPurposeID = loanPurpose?.loanPurposeID
-        loanInfoObj.loanSchemeTypeDetailID = loanScheme?.typeDetailID!!
-        loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toDouble()
-        loanInfoObj.tenure = binding.etTenure.text.toString().toDouble()
-        loanInfoObj.interestTypeTypeDetailID = interestType?.typeDetailID!!
-        loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner?.typeDetailID!!
-        loanInfoObj.isPropertySelected = binding.cbPropertySelected.isChecked
-        return loanInfoObj
-    }
-
-    private fun getLoanInfoMaster(): LoanInfoMaster {
-        loanMaster?.draftData = getLoanInfoObj()
-        loanMaster?.leadID = leadId.toInt()
-        return loanMaster!!
     }
 
 }
