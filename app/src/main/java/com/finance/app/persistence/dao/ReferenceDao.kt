@@ -13,11 +13,8 @@ interface ReferenceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertReference(product: ReferenceMaster)
 
-//    @Query("SELECT * FROM ReferenceMaster WHERE leadID=:leadID")
-//    fun getReferenceList(leadID: String): LiveData<ArrayList<ReferenceMaster>>
-//
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insertReferenceList(product: ArrayList<ReferenceMaster>)
+    @Query("SELECT * FROM ReferenceMaster WHERE leadID=:leadID")
+    fun getReference(leadID: String): LiveData<ReferenceMaster>
 
     @Query("DELETE FROM ReferenceMaster")
     fun deleteReferenceMaster()

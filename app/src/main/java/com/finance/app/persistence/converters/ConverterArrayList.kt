@@ -104,21 +104,21 @@ class ConverterArrayList {
 
 
     @TypeConverter
-    fun fromStringToArrayListAssetDetail(value: String?): ArrayList<AssetDetail>? {
+    fun fromStringToArrayListAssetDetail(value: String?): ArrayList<AssetLiability>? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val arrayListType = object : TypeToken<ArrayList<AssetDetail>>() {
+        val arrayListType = object : TypeToken<ArrayList<AssetLiability>>() {
 
         }.type
-        return Gson().fromJson<ArrayList<AssetDetail>>(value, arrayListType)
+        return Gson().fromJson<ArrayList<AssetLiability>>(value, arrayListType)
     }
 
     @TypeConverter
-    fun fromAssetDetailArrayListToString(ArrayList: ArrayList<AssetDetail>?): String? {
-        ArrayList?.let {
+    fun fromAssetDetailArrayListToString(array: ArrayList<AssetLiability>?): String? {
+        array?.let {
             val gson = Gson()
-            return gson.toJson(ArrayList)
+            return gson.toJson(array)
         }
         return null
     }
@@ -255,7 +255,27 @@ class ConverterArrayList {
     }
 
     @TypeConverter
-    fun fromBankDetailModelArrayListToString(ArrayList: ArrayList<BankDetailModel>?): String? {
+    fun fromBankDetailModelArrayListToString(arrayModel: ArrayList<AssetLiabilityModel>?): String? {
+        arrayModel?.let {
+            val gson = Gson()
+            return gson.toJson(arrayModel)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListAssetLiabilityModel(value: String?): ArrayList<AssetLiabilityModel>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<AssetLiabilityModel>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<AssetLiabilityModel>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromAssetLibilityModelArrayListToString(ArrayList: ArrayList<BankDetailModel>?): String? {
         ArrayList?.let {
             val gson = Gson()
             return gson.toJson(ArrayList)

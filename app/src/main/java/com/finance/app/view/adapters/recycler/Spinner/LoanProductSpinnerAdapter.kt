@@ -31,8 +31,8 @@ class LoanProductSpinnerAdapter(val mContext: Context, val value: List<LoanProdu
         spinnerValue = value[position]
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
-            val textView = view.findViewById<View>(R.id.dropdown) as TextView
+            view = inflater.inflate(R.layout.spinner_textbox, parent, false)
+            val textView = view.findViewById<View>(R.id.tvDropdownText) as TextView
             textView.text = spinnerValue.productName
         } else {
             view = convertView

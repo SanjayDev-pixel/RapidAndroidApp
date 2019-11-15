@@ -1,6 +1,6 @@
 package com.finance.app.persistence.model
 
-class LoanInfoObj {
+class LoanInfoModel {
 
     var affordableEMI: Double? = null
     var applicationNumber: String? = " "

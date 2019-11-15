@@ -35,7 +35,7 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class EmploymentFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
+class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp, PinCodeDetailConnector.PinCode,
         ApplicantsAdapter.ItemClickListener {
 
@@ -53,6 +53,7 @@ class EmploymentFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private lateinit var profileSegment: ArrayList<DropdownMaster>
     private lateinit var subProfileSegment: ArrayList<DropdownMaster>
     private lateinit var pinCodeFromForm: String
+    private var mLead: AllLeadMaster? = null
     private var mLeadId: String? = null
     private var empId: String? = null
     private val frag = this
@@ -100,7 +101,8 @@ class EmploymentFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun getEmploymentInfo() {
-        mLeadId = sharedPreferences.getLeadId()
+        mLead = sharedPreferences.getLeadDetail()
+        mLeadId = mLead!!.leadID.toString()
         empId = sharedPreferences.getUserId()
         loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
@@ -109,7 +111,7 @@ class EmploymentFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         get() = employmentMaster?.storageType!!
 
     override val leadId: String
-        get() = mLeadId!!
+        get() = mLead!!.leadID.toString()
 
     override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
         value.responseObj?.let {

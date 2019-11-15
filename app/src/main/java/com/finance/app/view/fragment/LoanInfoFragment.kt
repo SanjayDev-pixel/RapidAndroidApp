@@ -67,7 +67,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var mLead: AllLeadMaster? = null
     private var empId: String? = null
     private var loanMaster: LoanInfoMaster? = LoanInfoMaster()
-    private var loanInfo: LoanInfoObj? = null
+    private var loanInfo: LoanInfoModel? = null
     private var channelPartner: DropdownMaster? = null
 
     companion object {
@@ -118,7 +118,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             showData(loanInfo)
     }
 
-    private fun showData(loanInfo: LoanInfoObj?) {
+    private fun showData(loanInfo: LoanInfoModel?) {
         getDropDownsFromDB()
         if (loanInfo != null) {
             fillFormWithLoanData(loanInfo)
@@ -178,7 +178,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
-    private fun selectProductValue(spinner: Spinner, value: LoanInfoObj) {
+    private fun selectProductValue(spinner: Spinner, value: LoanInfoModel) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as LoanProductMaster
             if (obj.productID == value.productID) {
@@ -206,7 +206,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
-    private fun selectLoanPurposeValue(spinner: Spinner, value: LoanInfoObj) {
+    private fun selectLoanPurposeValue(spinner: Spinner, value: LoanInfoModel) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as Response.LoanPurpose
             if (obj.loanPurposeID == value.loanPurposeID) {
@@ -304,7 +304,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
-    private fun fillFormWithLoanData(loanInfo: LoanInfoObj) {
+    private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
         binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toInt().toString())
         binding.etEmi.setText(loanInfo.affordableEMI!!.toInt().toString())
         binding.etTenure.setText(loanInfo.tenure!!.toInt().toString())
@@ -403,8 +403,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
-    private fun getLoanInfoObj(): LoanInfoObj {
-        val loanInfoObj = LoanInfoObj()
+    private fun getLoanInfoObj(): LoanInfoModel {
+        val loanInfoObj = LoanInfoModel()
         val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as
                 DropdownMaster?
         val channelPartnerName = binding.spinnerPartnerName.selectedItem as

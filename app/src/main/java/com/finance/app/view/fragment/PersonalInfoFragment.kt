@@ -299,9 +299,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, dropDown.LivingStandardIndicators!!)
         setMaritalStatus(dropDown)
         fillValueInMasterDropDown()
-//        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
-//            fillAddressInfo(personalAddressDetail!!)
-//        }
+        fillAddressInfo(personalAddressDetail!!)
     }
 
     private fun setStateDropDownValue(states: List<StatesMaster>) {
@@ -440,7 +438,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun selectAddressProofValue(spinner: MaterialSpinner, address: AddressDetail) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == address.addressProof) {
+            if (obj.typeDetailID == address.addressTypeDetailID) {
                 spinner.setSelection(index + 1)
                 return
             }
