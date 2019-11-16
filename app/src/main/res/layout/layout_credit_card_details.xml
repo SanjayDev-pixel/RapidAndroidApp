@@ -39,8 +39,8 @@
                         android:textSize="@dimen/text_size"
                         app:ms_arrowSize="16dp"
                         app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Bank Name "
-                        app:ms_hint="Bank Name "
+                        app:ms_floatingLabelText="Bank Name* "
+                        app:ms_hint="Bank Name* "
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
@@ -103,9 +103,9 @@
                         app:ms_arrowColor="@color/black"
                         app:ms_arrowSize="@dimen/text_size"
                         app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Obligate "
+                        app:ms_floatingLabelText="Obligate* "
                         android:textSize="@dimen/text_size"
-                        app:ms_hint="Obligate "
+                        app:ms_hint="Obligate* "
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />

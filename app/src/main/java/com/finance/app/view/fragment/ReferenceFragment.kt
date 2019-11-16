@@ -20,6 +20,7 @@ import com.finance.app.presenter.presenter.PinCodeDetailPresenter
 import com.finance.app.utility.ClearReferenceForm
 import com.finance.app.utility.RequestConversion
 import com.finance.app.utility.ResponseConversion
+import com.finance.app.utility.SetReferenceMandatoryFiled
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -70,10 +71,11 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     }
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         relation = ArrayList()
         occupation = ArrayList()
-        ArchitectureApp.instance.component.inject(this)
+        SetReferenceMandatoryFiled(binding)
 //        getReferenceInfo()
         getDropDownsFromDB()
         setClickListeners()

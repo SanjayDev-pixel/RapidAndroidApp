@@ -105,6 +105,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         kycList = ArrayList()
         mContext = context!!
         getPersonalInfo()
+        SetPersonalMandatoryFiled(binding)
         setDatePicker()
         checkKycDataList()
         setClickListeners()
@@ -333,7 +334,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
-        selectAddressProofValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail)
+        selectCurrentAddressProofValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail)
         selectResidenceTypeValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail)
     }
 
@@ -345,7 +346,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears.toString())
         selectResidenceTypeValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail)
-        selectAddressProofValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail)
+        selectPermanentAddressProofValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail)
     }
 
     private fun setMaritalStatus(dropDown: AllMasterDropDown) {
@@ -435,7 +436,17 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    private fun selectAddressProofValue(spinner: MaterialSpinner, address: AddressDetail) {
+    private fun selectCurrentAddressProofValue(spinner: MaterialSpinner, address: AddressDetail) {
+        for (index in 0 until spinner.count - 1) {
+            val obj = spinner.getItemAtPosition(index) as DropdownMaster
+            if (obj.typeDetailID == address.addressTypeDetailID) {
+                spinner.setSelection(index + 1)
+                return
+            }
+        }
+    }
+
+    private fun selectPermanentAddressProofValue(spinner: MaterialSpinner, address: AddressDetail) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
             if (obj.typeDetailID == address.addressTypeDetailID) {

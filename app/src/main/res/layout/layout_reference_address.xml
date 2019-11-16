@@ -26,6 +26,7 @@
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="@string/address"
+                    android:maxLength="40"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
 

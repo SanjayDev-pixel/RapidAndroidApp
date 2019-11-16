@@ -22,10 +22,7 @@ import com.finance.app.presenter.connector.SourceChannelPartnerNameConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.presenter.presenter.SourceChannelPartnerNamePresenter
-import com.finance.app.utility.RequestConversion
-import com.finance.app.utility.ResponseConversion
-import com.finance.app.utility.ShowAsMandatory
-import com.finance.app.utility.UploadData
+import com.finance.app.utility.*
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.recycler.Spinner.ChannelPartnerNameSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.LoanProductSpinnerAdapter
@@ -93,7 +90,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         getLoanInfo()
-        setMandatoryField()
+        SetLoanInfoMandatoryFiled(binding)
         setClickListeners()
     }
 
@@ -280,12 +277,6 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 return
             }
         }
-    }
-
-    private fun setMandatoryField() {
-        ShowAsMandatory(binding.inputLayoutAmountRequest)
-        ShowAsMandatory(binding.inputLayoutTenure)
-        ShowAsMandatory(binding.inputLayoutEmi)
     }
 
     private fun setClickListeners() {

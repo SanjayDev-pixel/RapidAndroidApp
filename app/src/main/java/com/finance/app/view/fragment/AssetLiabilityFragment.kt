@@ -13,6 +13,8 @@ import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
+import com.finance.app.utility.SetAssetLiabilityMandatoryFiled
+import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
@@ -61,6 +63,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         getAssetLiabilityInfo()
+        SetAssetLiabilityMandatoryFiled(binding)
         setDropDownValue()
         applicantTab = ArrayList()
         setDropDownValue()
@@ -68,6 +71,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         setClickListeners()
         checkIncomeConsideration()
     }
+
 
     private fun getAssetLiabilityInfo() {
         mLead = sharedPreferences.getLeadDetail()

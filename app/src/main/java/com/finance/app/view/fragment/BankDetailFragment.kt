@@ -13,9 +13,7 @@ import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
-import com.finance.app.utility.ClearBankForm
-import com.finance.app.utility.RequestConversion
-import com.finance.app.utility.ResponseConversion
+import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.YesNoSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
@@ -72,6 +70,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         applicantTab = ArrayList()
+        SetBankDetailMandatoryFiled(binding)
         getBankDetail()
         getDropDownsFromDB()
         setClickListeners()

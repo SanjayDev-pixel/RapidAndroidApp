@@ -126,7 +126,7 @@
     <string name="bank_name">Bank Name</string>
     <string name="obligation_details">Obligation Details</string>
     <string name="edit">Edit</string>
-    <string name="loan_a_c_num">Loan A/C num :</string>
+    <string name="loan_a_c_num">Loan A/C num </string>
     <string name="document_checklist">Document Checklist</string>
     <string name="mandatory_documents">Mandatory Documents :</string>
     <string name="remarks">Remarks</string>
@@ -136,14 +136,14 @@
     <string name="credit_card_limit">Credit Card Limit</string>
     <string name="deduction">Deduction</string>
     <string name="monthly_income">Monthly Income</string>
-    <string name="income_considered">Income Considered</string>
+    <string name="income_considered">Income Considered*</string>
     <string name="salaried">Salaried</string>
     <string name="add_icon">+</string>
     <string name="address">Address</string>
     <string name="applicant_first_name">Applicant First Name</string>
     <string name="applicant_middle_name">Applicant Middle Name</string>
     <string name="applicant_last_name">Applicant Last Name</string>
-    <string name="property_selected">Property Selected</string>
+    <string name="property_selected">Property Selected*</string>
     <string name="add_transaction">Add Transaction</string>
     <string name="login_checklist">Login Checklist</string>
     <string name="call">Call</string>
