@@ -43,7 +43,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
 
         val userBranches = ArrayList<Response.UserBranches>()
 
-        val userSelectTextBranch = Response.UserBranches(branchID = 0, branchName = "Branch")
+        val userSelectTextBranch = Response.UserBranches(branchID = -1, branchName = "Branch")
         userBranches.add(userSelectTextBranch)
 
         getLoginData()?.responseObj?.userDetails?.userBranches?.let {

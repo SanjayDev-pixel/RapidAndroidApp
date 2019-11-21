@@ -43,6 +43,9 @@ class UserBranchesSpinnerAdapter(mContext: Context, val value: List<Response.Use
         } else {
             view = convertView
         }
+
+        view.tag = spinnerValue
+
         return view
     }
 

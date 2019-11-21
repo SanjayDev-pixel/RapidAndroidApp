@@ -58,7 +58,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private lateinit var channelPartnerName: ArrayList<Response.ChannelPartnerName>
     private lateinit var allMasterDropDown: AllMasterDropDown
     private lateinit var sourcingChannelPartner: ArrayList<DropdownMaster>
-    private var loanProducts: List<LoanProductMaster> = ArrayList()
+    private var loanProducts: ArrayList<LoanProductMaster> = ArrayList()
     private var selectedLoanProduct: LoanProductMaster? = null
     private val sourcePartnerPresenter = SourceChannelPartnerNamePresenter(this)
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
@@ -143,7 +143,11 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
         dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProductValue ->
             loanProductValue.let {
-                loanProducts = loanProductValue
+
+                val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
+                arrayListOfLoanProducts.addAll(loanProductValue)
+
+                loanProducts = arrayListOfLoanProducts
                 setProductDropDownValue(loanProducts)
             }
         })
@@ -159,7 +163,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         })
     }
 
-    private fun setProductDropDownValue(products: List<LoanProductMaster>) {
+    private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
         binding.spinnerLoanProduct.adapter = LoanProductSpinnerAdapter(mContext!!, products)
         binding.spinnerLoanProduct?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}

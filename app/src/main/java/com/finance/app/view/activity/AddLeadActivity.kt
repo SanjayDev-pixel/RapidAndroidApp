@@ -54,10 +54,36 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         setBranchesDropDownValue()
 
         binding.btnCreate.setOnClickListener {
-            if (formValidation.validateAddLead(binding)) {
+            if (isValidToProceed()) {
                 presenterOpt.callNetwork(ConstantsApi.CALL_ADD_LEAD)
             }
         }
+    }
+
+    private fun isValidToProceed(): Boolean {
+
+        var isValid = true
+        val isValidBinding = formValidation.validateAddLead(binding)
+
+        val selectedLoan = getSelectedLoanProductMasterType()
+        val isLoanValid = selectedLoan != null && selectedLoan.productID > 0
+        binding.spinnerLoanProduct.isEnableErrorLabel = !isLoanValid
+        when(isLoanValid) {
+            false -> {
+                binding.spinnerLoanProduct.error = "Select Loan"
+            }
+        }
+
+        val selectedBranch = getSelectedBranchType()
+        val isBranchValid = selectedBranch != null && selectedBranch.branchID > 0
+        binding.spinnerBranches.isEnableErrorLabel = !isBranchValid
+        when(isBranchValid) {
+            false -> {
+                binding.spinnerBranches.error = "Select Branch"
+            }
+        }
+        isValid = isValidBinding && isLoanValid && isBranchValid
+        return isValid
     }
 
     private fun setBranchesDropDownValue() {
@@ -65,10 +91,11 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         binding.spinnerBranches.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    val selectedItem = branchList[position]
-                    //val selectedItem = parent.selectedItem
-                    print("User Branches Selected -> ${selectedItem.toString()}")
+                if (position > 0) {
+                    val branchSelected = getSelectedBranchType()
+
+                    // TEMP CODE - MUNISH THAKUR (below print code is temporary)
+                    println("Munish Thakur -> Debug Point");
                 }
             }
         }
@@ -79,21 +106,21 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     private fun getLoanProductFromDB() {
         dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProducts ->
             loanProducts?.let {
-                setProductDropDownValue(loanProducts)
+                val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
+                arrayListOfLoanProducts.addAll(loanProducts)
+                setProductDropDownValue(arrayListOfLoanProducts)
             }
         })
     }
 
-    private fun setProductDropDownValue(products: List<LoanProductMaster>) {
+    private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
         binding.spinnerLoanProduct.adapter = LoanProductSpinnerAdapter(this, products)
     }
 
     private val leadRequest: Requests.RequestAddLead
         get() {
-            val loanProduct = binding.spinnerLoanProduct.selectedItem as
-                    LoanProductMaster?
-            val branch = binding.spinnerBranches.selectedItem as
-                    Response.UserBranches?
+            val loanProduct = getSelectedLoanProductMasterType()
+            val branch = getSelectedBranchType()
             return Requests.RequestAddLead(applicantAddress = binding.etAddress.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
                     applicantEmail = binding.etEmail.text.toString(),
@@ -113,4 +140,20 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     override fun getAddLeadFailure(msg: String) = showToast(msg)
+
+    private fun getSelectedLoanProductMasterType(): LoanProductMaster? {
+        try {
+            return binding.spinnerLoanProduct.selectedView.tag as LoanProductMaster
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    private fun getSelectedBranchType(): Response.UserBranches? {
+        try {
+            return binding.spinnerBranches.selectedView.tag as Response.UserBranches
+        } catch (e: Exception) {
+            return null
+        }
+    }
 }

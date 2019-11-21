@@ -419,18 +419,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.etContactNum.error = "Invalid Mobile Num"
         }
 
-//        val loanProduct = binding.spinnerLoanProduct.selectedItem as LoanProductMaster?
-//        if (loanProduct == null) {
-//            errorCount++
-//            binding.spinnerLoanProduct.error = "Select Loan"
-//        }
-//
-//        val branch = binding.spinnerBranches.selectedItem as Response.UserBranches?
-//        if (branch == null) {
-//            errorCount++
-//            binding.spinnerBranches.error = "Select Branch"
-//        }
-
         return isValidForm(errorCount)
     }
 
