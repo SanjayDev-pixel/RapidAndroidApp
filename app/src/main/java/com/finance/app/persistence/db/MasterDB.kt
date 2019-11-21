@@ -74,6 +74,9 @@ abstract class MasterDB : RoomDatabase() {
   @SuppressWarnings("WeakerAccess")
   abstract fun employmentDao(): EmploymentDao
 
+  @SuppressWarnings("WeakerAccess")
+  abstract fun assetLiabilityDao(): AssetLiabilityDao
+
   fun reconfigDataFromDBASync(){
 
   }

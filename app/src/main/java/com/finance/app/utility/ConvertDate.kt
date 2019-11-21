@@ -22,7 +22,7 @@ class ConvertDate {
         return desiredSdf.format(date)
     }
 
-    fun intFromDateString(date: String): String {
+    fun getDifferenceFromDate(date: String): String {
         val myFormat = SimpleDateFormat("dd-MMM-yyyy")
         val selectedDate = myFormat.parse(date)
         val todayDate = Date()

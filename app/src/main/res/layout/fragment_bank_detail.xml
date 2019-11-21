@@ -45,8 +45,8 @@
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
                     app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Bank Name "
-                    app:ms_hint="Bank Name "
+                    app:ms_floatingLabelText="Bank Name*"
+                    app:ms_hint="Bank Name*"
                     app:ms_hintColor="@color/hint_color"
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
@@ -103,8 +103,8 @@
                         app:ms_arrowSize="16dp"
                         app:ms_floatingLabelColor="@color/hint_color"
                         android:textSize="@dimen/text_size"
-                        app:ms_floatingLabelText="Account Type  "
-                        app:ms_hint="Account Type "
+                        app:ms_floatingLabelText="Account Type* "
+                        app:ms_hint="Account Type*"
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
@@ -120,8 +120,8 @@
                         app:ms_arrowSize="16dp"
                         android:layout_marginStart="@dimen/margin_10"
                         app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Salary Credit  "
-                        app:ms_hint="Salary Credit "
+                        app:ms_floatingLabelText="Salary Credit* "
+                        app:ms_hint="Salary Credit* "
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />

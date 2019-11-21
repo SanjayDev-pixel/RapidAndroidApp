@@ -4,7 +4,7 @@ import android.content.Context
 import com.finance.app.model.Modals
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.LoanInfoObj
+import com.finance.app.persistence.model.LoanInfoModel
 import com.google.gson.Gson
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
@@ -61,17 +61,17 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return getUserToken().exIsNotEmptyOrNullOrBlank()
     }
 
-    override fun saveLoanInfoData(request: LoanInfoObj?): Boolean {
+    override fun saveLoanInfoData(request: LoanInfoModel?): Boolean {
         val objLoanInfo = Gson().toJson(request)
         val objSPLoanInfo = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOAN_INFO)
         objSPLoanInfo.putString(SharedPreferencesBean.KEY_LOAN_INFO, objLoanInfo)
         return true
     }
 
-    override fun getLoanInfoData(): LoanInfoObj? {
+    override fun getLoanInfoData(): LoanInfoModel? {
         val objSpLoanInfo = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LOAN_INFO)
         val loanInfo = objSpLoanInfo.getString(SharedPreferencesBean.KEY_LOAN_INFO)
-        return Gson().fromJson(loanInfo, LoanInfoObj::class.java)
+        return Gson().fromJson(loanInfo, LoanInfoModel::class.java)
     }
 
     override fun setPropertySelection(value: String) {
@@ -148,8 +148,8 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         val personalApplicants = Gson().fromJson(personalApplicantJson, Modals.ApplicantPersonal::class.java)
         val applicants: ArrayList<Modals.ApplicantTab> = ArrayList()
         for (applicant in personalApplicants.personalApplicants) {
-            if (applicant.incomeConsidered) {
-                val coApplicant = Modals.ApplicantTab(applicant.firstName, applicant.incomeConsidered)
+            if (applicant.incomeConsidered!!) {
+                val coApplicant = Modals.ApplicantTab(applicant.firstName, applicant.incomeConsidered!! )
                 applicants.add(coApplicant)
             }
         }

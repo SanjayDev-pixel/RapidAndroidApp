@@ -8,8 +8,9 @@ import java.io.Serializable
 class AssetLiabilityMaster : Serializable {
 
     @PrimaryKey
-    var applicantId: Int? = 0
-    var applicantAssetDetailList: ArrayList<AssetDetail>? = null
-    var applicantCreditCardDetailList: ArrayList<CardDetail>? = null
-    var applicantExistingObligationList: ArrayList<ObligationDetail>? = null
+    var leadID: Int = 0
+    var loanApplicationDraftDetailID: Int? = null
+    var draftData: AssetLiabilityModel? = AssetLiabilityModel()
+    var storageType: String = "LIABILITY_AND_ASSET"
+    var editable: Boolean? = null
 }

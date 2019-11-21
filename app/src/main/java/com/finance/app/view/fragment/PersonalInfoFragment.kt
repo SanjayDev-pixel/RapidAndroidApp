@@ -105,6 +105,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         kycList = ArrayList()
         mContext = context!!
         getPersonalInfo()
+        SetPersonalMandatoryFiled(binding)
         setDatePicker()
         checkKycDataList()
         setClickListeners()
@@ -229,7 +230,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun showData(applicantList: ArrayList<PersonalApplicantsModel>?) {
         if (applicantList != null) {
             for (applicant in applicantList) {
-                if (applicant.isMainApplicant) {
+                if (applicant.isMainApplicant!!) {
                     currentApplicant = applicant
                     personalAddressDetail = currentApplicant.addressDetailList
                     contactDetail = currentApplicant.contactDetail
@@ -252,7 +253,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun fillFormWithCurrentApplicant(currentApplicant: PersonalApplicantsModel) {
         binding.basicInfoLayout.etDOB.setText(currentApplicant.dateOfBirth!!)
-        binding.basicInfoLayout.cbIncomeConsidered.isSelected = currentApplicant.incomeConsidered
+        binding.basicInfoLayout.cbIncomeConsidered.isSelected = currentApplicant.incomeConsidered!!
         binding.basicInfoLayout.etFatherLastName.setText(currentApplicant.fatherLastName)
         binding.basicInfoLayout.etFatherMiddleName.setText(currentApplicant.fatherMiddleName)
         binding.basicInfoLayout.etFatherFirstName.setText(currentApplicant.fatherFirstName)
@@ -297,9 +298,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, dropDown.LivingStandardIndicators!!)
         setMaritalStatus(dropDown)
         fillValueInMasterDropDown()
-//        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
-//            fillAddressInfo(personalAddressDetail!!)
-//        }
+        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
+            fillAddressInfo(personalAddressDetail!!)
+        }
     }
 
     private fun setStateDropDownValue(states: List<StatesMaster>) {
@@ -322,8 +323,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun fillAddressInfo(addressDetailList: ArrayList<AddressDetail>) {
-        fillCurrentAddressInfo(addressDetailList[0])
         fillPermanentAddressInfo(addressDetailList[1])
+        fillCurrentAddressInfo(addressDetailList[0])
     }
 
     private fun fillCurrentAddressInfo(addressDetail: AddressDetail) {
@@ -333,7 +334,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
-        selectAddressProofValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail)
+        selectCurrentAddressProofValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail)
         selectResidenceTypeValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail)
     }
 
@@ -345,7 +346,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears.toString())
         selectResidenceTypeValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail)
-        selectAddressProofValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail)
+        selectPermanentAddressProofValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail)
     }
 
     private fun setMaritalStatus(dropDown: AllMasterDropDown) {
@@ -435,10 +436,20 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    private fun selectAddressProofValue(spinner: MaterialSpinner, address: AddressDetail) {
+    private fun selectCurrentAddressProofValue(spinner: MaterialSpinner, address: AddressDetail) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == address.addressProof) {
+            if (obj.typeDetailID == address.addressTypeDetailID) {
+                spinner.setSelection(index + 1)
+                return
+            }
+        }
+    }
+
+    private fun selectPermanentAddressProofValue(spinner: MaterialSpinner, address: AddressDetail) {
+        for (index in 0 until spinner.count - 1) {
+            val obj = spinner.getItemAtPosition(index) as DropdownMaster
+            if (obj.typeDetailID == address.addressTypeDetailID) {
                 spinner.setSelection(index + 1)
                 return
             }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
+import com.finance.app.view.adapters.recycler.Holder.NavDrawerViewHolder
 import com.finance.app.view.fragment.*
 
 interface NavMenuConnector {
@@ -27,9 +28,8 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
     private var selectedNavString = ""
 
     init {
-        when (navListItem.size > 0) {
+        when (navListItem.isNotEmpty()) {
             true -> selectedNavString = navListItem[0].screenName
-
         }
     }
 
@@ -92,41 +92,5 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
     private fun toggleMenu() {
         isExpanded = !isExpanded
         notifyDataSetChanged()
-    }
-}
-
-class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context, val navMenuConnector: NavMenuConnector) : RecyclerView.ViewHolder(binding.root) {
-
-    fun bindItems(position: Int, navItem: AppEnums.ScreenLoanInfo) {
-        val navIcon = navItem.icon
-        var title = if (navMenuConnector.isMenuExpanded()) navItem.screenName else ""
-        //var title = navItem.screenName
-
-        binding.tvNavItem.text = title
-        binding.iconNavItem.setImageResource(navIcon)
-
-        binding.root.setOnClickListener {
-            navMenuConnector.rootViewClicked(position, navItem)
-        }
-
-        changeColorBasedOnSelection(navItem = navItem)
-    }
-
-    private fun changeColorBasedOnSelection(navItem: AppEnums.ScreenLoanInfo) {
-
-        val selectedScreenName = navMenuConnector.getSelectionScreenName()
-
-        if (navItem.screenName.equals(selectedScreenName, ignoreCase = true)) {
-            binding.iconNavItem.setColorFilter(ContextCompat.getColor(mContext, R.color.colorPrimary),
-                    android.graphics.PorterDuff.Mode.MULTIPLY)
-            binding.tvNavItem.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
-            binding.parent.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white))
-
-        } else {
-            binding.iconNavItem.setColorFilter(ContextCompat.getColor(mContext, R.color.white),
-                    android.graphics.PorterDuff.Mode.MULTIPLY)
-            binding.tvNavItem.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.parent.setBackgroundResource(R.drawable.drawer_gradient_color)
-        }
     }
 }

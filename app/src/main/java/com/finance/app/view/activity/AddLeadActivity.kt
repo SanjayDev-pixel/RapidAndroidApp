@@ -46,9 +46,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-
         branchList = sharedPreferences.getUserBranches()!!
-
         hideSecondaryToolbar()
         getLoanProductFromDB()
         setBranchesDropDownValue()
@@ -127,7 +125,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = 2, loanProductID = 1)
+                    branchID = branch!!.branchID, loanProductID = 1)
 //                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
         }
 

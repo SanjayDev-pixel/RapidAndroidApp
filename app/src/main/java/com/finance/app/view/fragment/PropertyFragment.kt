@@ -35,7 +35,6 @@ class PropertyFragment : BaseFragment() {
         binding.spinnerIsFirstProperty.adapter = MasterSpinnerAdapter(mContext, lists)
         binding.spinnerOwnedProperty.adapter = MasterSpinnerAdapter(mContext, lists)
         binding.spinnerOwnership.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.spinnerPropertySelected.adapter = MasterSpinnerAdapter(mContext, lists)
         binding.spinnerState.adapter = MasterSpinnerAdapter(mContext, lists)
         binding.spinnerUnitType.adapter = MasterSpinnerAdapter(mContext, lists)
     }

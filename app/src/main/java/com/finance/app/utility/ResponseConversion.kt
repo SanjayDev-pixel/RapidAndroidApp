@@ -3,7 +3,6 @@ package com.finance.app.utility
 import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 import motobeans.architecture.retrofit.response.Response
-import org.json.JSONArray
 
 class ResponseConversion {
 
@@ -14,7 +13,7 @@ class ResponseConversion {
     fun toLoanMaster(response: Response.ResponseObj): LoanInfoMaster? {
         val master = LoanInfoMaster()
         master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, LoanInfoObj::class.java)
+        master.draftData = gson.fromJson(response.draftData, LoanInfoModel::class.java)
         return master
     }
 
@@ -29,6 +28,13 @@ class ResponseConversion {
         val master = EmploymentMaster()
         master.leadID = response.leadID
         master.draftData = gson.fromJson(response.draftData, EmploymentApplicantList::class.java)
+        return master
+    }
+
+    fun toBankDetailMaster(response: Response.ResponseObj): BankDetailMaster {
+        val master = BankDetailMaster()
+        master.leadID = response.leadID
+        master.draftData = gson.fromJson(response.draftData, BankDetail::class.java)
         return master
     }
 }

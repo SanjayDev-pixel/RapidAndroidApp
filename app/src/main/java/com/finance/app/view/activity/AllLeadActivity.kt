@@ -2,6 +2,7 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAllLeadsBinding
 import com.finance.app.persistence.model.AllLeadMaster
@@ -9,9 +10,9 @@ import com.finance.app.presenter.connector.GetAllLeadsConnector
 import com.finance.app.presenter.presenter.GetAllLeadsPresenter
 import com.finance.app.view.adapters.recycler.adapter.LeadPagerAdapter
 import com.finance.app.view.fragment.AllLeadsFragment
-import com.finance.app.view.fragment.SubmittedLeadFragment
 import com.finance.app.view.fragment.PendingLeadsFragment
 import com.finance.app.view.fragment.RejectedLeadFragment
+import com.finance.app.view.fragment.SubmittedLeadFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -43,9 +44,16 @@ class AllLeadActivity : BaseAppCompatActivity(), GetAllLeadsConnector.AllLeads {
         ArchitectureApp.instance.component.inject(this)
         hideSecondaryToolbar()
         presenter.callNetwork(ConstantsApi.CALL_GET_ALL_LEADS)
+        refreshPage()
         binding.btnCreate.setOnClickListener {
             AddLeadActivity.start(this)
         }
+    }
+
+    private fun refreshPage() {
+        binding.refresh.setOnRefreshListener {
+            presenter.callNetwork(ConstantsApi.CALL_GET_ALL_LEADS)
+            binding.refresh.isRefreshing = false }
     }
 
     override fun getAllLeadsSuccess(value: Response.ResponseGetAllLeads){
@@ -54,7 +62,6 @@ class AllLeadActivity : BaseAppCompatActivity(), GetAllLeadsConnector.AllLeads {
     }
 
     override fun getAllLeadsFailure(msg: String) {
-//        showToast("Unable to refresh data")
         setUpLeadFragments()
     }
 

@@ -183,6 +183,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email_id"
+                        android:maxLength="45"
+                        android:singleLine="true"
                         android:inputType="textEmailAddress"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />

@@ -33,10 +33,6 @@ class NavMenuFragment : Fragment() {
         ArchitectureApp.instance.component.inject(this)
         menuList = sharedPreferences.getNavMenuItem()
         binding.rcNavMenu.layoutManager = LinearLayoutManager(requireContext())
-        callAdapter()
-    }
-
-    private fun callAdapter() {
         navMenuAdapter = NavMenuAdapter(requireContext(), menuList!!)
         binding.rcNavMenu.adapter = navMenuAdapter
     }

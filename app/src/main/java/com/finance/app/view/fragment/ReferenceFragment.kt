@@ -11,14 +11,16 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentReferenceBinding
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.ReferenceMaster
+import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
+import com.finance.app.presenter.presenter.LoanAppGetPresenter
+import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
-import com.finance.app.presenter.presenter.PostReferencePresenter
 import com.finance.app.utility.ClearReferenceForm
+import com.finance.app.utility.RequestConversion
+import com.finance.app.utility.ResponseConversion
+import com.finance.app.utility.SetReferenceMandatoryFiled
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -31,8 +33,9 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference,
-        PinCodeDetailConnector.PinCode, ReferenceAdapter.ItemClickListener {
+class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
+        LoanApplicationConnector.GetLoanApp,PinCodeDetailConnector.PinCode,
+        ReferenceAdapter.ItemClickListener {
 
     @Inject
     lateinit var formValidation: FormValidation
@@ -43,16 +46,21 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference
     private lateinit var allMasterDropDown: AllMasterDropDown
     private lateinit var binding: FragmentReferenceBinding
     private lateinit var mContext: Context
+    private var mLeadId: String? = null
+    private var empId: String? = null
     private lateinit var relation: ArrayList<DropdownMaster>
     private lateinit var occupation: ArrayList<DropdownMaster>
     private var referenceAdapter: ReferenceAdapter? = null
-    private val referencePostPresenter = PostReferencePresenter(this)
+    private val loanAppPostPresenter = LoanAppPostPresenter(this)
+    private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private var districtId = 0
     private var cityId = 0
 
     companion object {
         var postReferenceList: ArrayList<Requests.RequestPostReference> = ArrayList()
+        private val responseConversion = ResponseConversion()
+        private val requestConversion = RequestConversion()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -63,12 +71,35 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference
     }
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         relation = ArrayList()
         occupation = ArrayList()
-        ArchitectureApp.instance.component.inject(this)
+        SetReferenceMandatoryFiled(binding)
+//        getReferenceInfo()
         getDropDownsFromDB()
         setClickListeners()
+    }
+
+    private fun getReferenceInfo() {
+        mLeadId = sharedPreferences.getLeadId()
+        empId = sharedPreferences.getUserId()
+        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
+
+    }
+
+    override val leadId: String
+        get() = mLeadId!!
+
+    override val storageType: String
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+
+    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getLoanAppGetFailure(msg: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun getDropDownsFromDB() {
@@ -97,7 +128,7 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference
         }
         binding.btnSaveAndContinue.setOnClickListener {
             if (formValidation.validateReference(binding = binding)) {
-                referencePostPresenter.callNetwork(ConstantsApi.CALL_UPDATE_REFERENCE)
+                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             }
         }
         binding.referenceAddressLayout.etPinCode.addTextChangedListener(object : TextWatcher {
@@ -141,9 +172,6 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference
         showToast(getString(R.string.failure_pin_code_api))
     }
 
-    override val leadId: String
-        get() = "1"
-
     private val postReference: Requests.RequestPostReference
         get() {
             val relation = binding.spinnerRelation.selectedItem as DropdownMaster?
@@ -168,15 +196,20 @@ class ReferenceFragment : BaseFragment(), LoanApplicationConnector.PostReference
                     addressID = 1, entityID = 1)
         }
 
-    override val requestPostReference: ArrayList<ReferenceMaster>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
-    override fun getReferencePostSuccess(value: Response.ResponseLoanApplication) {
-        gotoNextFragment()
+    private fun getReferenceMaster(): ReferenceMaster {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getReferencePostFailure(msg: String) {
-        showToast(msg)
+    override val loanAppRequestPost: LoanApplicationRequest
+        get() = requestConversion.referenceRequest(getReferenceMaster())
+
+    override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getLoanAppPostFailure(msg: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onDeleteClicked(position: Int) {

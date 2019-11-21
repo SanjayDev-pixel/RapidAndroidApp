@@ -132,18 +132,18 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToLoanInfoObj(value: String?): LoanInfoObj? {
+    fun fromStringToLoanInfoObj(value: String?): LoanInfoModel? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<LoanInfoObj>() {
+        val listType = object : TypeToken<LoanInfoModel>() {
 
         }.type
-        return Gson().fromJson<LoanInfoObj>(value, listType)
+        return Gson().fromJson<LoanInfoModel>(value, listType)
     }
 
     @TypeConverter
-    fun fromLoanInfoObjToString(lead: LoanInfoObj?): String? {
+    fun fromLoanInfoObjToString(lead: LoanInfoModel?): String? {
         lead?.let {
             val gson = Gson()
             return gson.toJson(lead)
@@ -163,7 +163,27 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromAssetLiabilityMasterToString(lead: AssetLiabilityMaster?): String? {
+    fun fromAssetLiabilityMasterToString(lead: AssetLiabilityModel?): String? {
+        lead?.let {
+            val gson = Gson()
+            return gson.toJson(lead)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToAssetLiabilityList(value: String?): AssetLiabilityModel? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<AssetLiabilityMaster>() {
+
+        }.type
+        return Gson().fromJson<AssetLiabilityModel>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromAssetLiabilityListToString(lead: AssetLiabilityMaster?): String? {
         lead?.let {
             val gson = Gson()
             return gson.toJson(lead)
@@ -192,18 +212,18 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToBankLoanApplicationObj(value: String?): Response.BankDetailList? {
+    fun fromStringToBankLoanApplicationObj(value: String?): BankDetail? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<Response.BankDetailList>() {
+        val listType = object : TypeToken<Response.BankDetail>() {
 
         }.type
-        return Gson().fromJson<Response.BankDetailList>(value, listType)
+        return Gson().fromJson<BankDetail>(value, listType)
     }
 
     @TypeConverter
-    fun fromBankLoanApplicationObjMasterToString(bank: Response.BankDetailList?): String? {
+    fun fromBankLoanApplicationObjMasterToString(bank: BankDetail?): String? {
         bank?.let {
             val gson = Gson()
             return gson.toJson(bank)

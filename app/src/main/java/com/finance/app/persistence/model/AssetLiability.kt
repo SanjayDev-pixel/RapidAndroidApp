@@ -3,7 +3,7 @@ package com.finance.app.persistence.model
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-class AssetDetail : Serializable {
+class AssetLiability : Serializable {
 
     @PrimaryKey
     var financerName: String = " "
