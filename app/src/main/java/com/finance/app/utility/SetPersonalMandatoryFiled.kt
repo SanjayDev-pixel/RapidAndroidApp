@@ -17,5 +17,7 @@ class SetPersonalMandatoryFiled(binding: FragmentPersonalBinding) {
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentPinCode)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentStaying)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentStaying)
+        ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentRentAmount)
+        ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentRentAmount)
     }
 }

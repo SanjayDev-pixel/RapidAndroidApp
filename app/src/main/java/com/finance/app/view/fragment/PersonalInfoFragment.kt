@@ -626,13 +626,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         val cDistrict = binding.personalAddressLayout.spinnerCurrentDistrict.selectedItem as Response.DistrictObj?
         val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
         val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
-        if (binding.personalAddressLayout.etCurrentRentAmount.text.toString() != "") {
-            cAddressDetail.rentAmount = binding.personalAddressLayout.etCurrentRentAmount.text.toString().toInt()
-        }
-        if (binding.personalAddressLayout.etCurrentStaying.text.toString() != "") {
-            cAddressDetail.stayingInYears = binding.personalAddressLayout.etCurrentStaying.text.toString().toInt()
-        }
+
         cAddressDetail.rentAmount = binding.personalAddressLayout.etCurrentRentAmount.text.toString().toInt()
+        cAddressDetail.stayingInYears = binding.personalAddressLayout.etCurrentStaying.text.toString().toInt()
         cAddressDetail.address1 = binding.personalAddressLayout.etCurrentAddress.text.toString()
         cAddressDetail.landmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         cAddressDetail.zip = binding.personalAddressLayout.etCurrentPinCode.text.toString()
@@ -653,12 +649,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             val pDistrict = binding.personalAddressLayout.spinnerPermanentDistrict.selectedItem as Response.DistrictObj?
             val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
             val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
-            if (binding.personalAddressLayout.etPermanentRentAmount.text.toString() != "") {
-                pAddressDetail.rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString().toInt()
-            }
-            if (binding.personalAddressLayout.etPermanentStaying.text.toString() != "") {
-                pAddressDetail.stayingInYears = binding.personalAddressLayout.etPermanentStaying.text.toString().toInt()
-            }
+
+            pAddressDetail.rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString().toInt()
+            pAddressDetail.stayingInYears = binding.personalAddressLayout.etPermanentStaying.text.toString().toInt()
             pAddressDetail.address1 = binding.personalAddressLayout.etPermanentAddress.text.toString()
             pAddressDetail.landmark = binding.personalAddressLayout.etPermanentLandmark.text.toString()
             pAddressDetail.zip = binding.personalAddressLayout.etPermanentPinCode.text.toString()

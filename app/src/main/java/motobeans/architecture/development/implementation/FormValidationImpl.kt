@@ -12,39 +12,46 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     override fun validatePersonalInfo(binding: FragmentPersonalBinding): Boolean {
         var errorCount = 0
         val firstName = binding.basicInfoLayout.etFirstName.text.toString()
+        val dob = binding.basicInfoLayout.etDOB.text.toString()
+        val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
+        val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
+        val currentPinCode = binding.personalAddressLayout.etCurrentPinCode.text.toString()
+        val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
+        val rentAmount = binding.personalAddressLayout.etCurrentRentAmount.text.toString()
+
         if (!firstName.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.basicInfoLayout.etFirstName.error = "Name can not be blank"
         }
 
-        val dob = binding.basicInfoLayout.etDOB.text.toString()
         if (!dob.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.basicInfoLayout.etDOB.error = "DOB can not be blank"
         }
 
-        val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
         if (!currentAddress.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.personalAddressLayout.etCurrentAddress.error = "Address can not be blank"
         }
 
-        val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         if (!currentLandmark.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.personalAddressLayout.etCurrentLandmark.error = "Landmark can not be blank"
         }
 
-        val currentPinCode = binding.personalAddressLayout.etCurrentPinCode.text.toString()
         if (!currentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.personalAddressLayout.etCurrentPinCode.error = "Pin code can not be blank"
         }
 
-        val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
-        if (!currentStaying.exIsNotEmptyOrNullOrBlank()) {
+        if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying != "") {
             errorCount++
             binding.personalAddressLayout.etCurrentStaying.error = "Required field"
+        }
+
+        if (!rentAmount.exIsNotEmptyOrNullOrBlank() && currentStaying != "") {
+            errorCount++
+            binding.personalAddressLayout.etCurrentRentAmount.error = "Required field"
         }
 
         if (!binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
@@ -57,22 +64,30 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     private fun checkPermanentAddressFields(binding: FragmentPersonalBinding): Int {
         var errorCount = 0
         val permanentAddress = binding.personalAddressLayout.etPermanentAddress.text.toString()
+        val permanentPinCode = binding.personalAddressLayout.etPermanentPinCode.text.toString()
+        val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
+        val rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString()
+
         if (!permanentAddress.exIsNotEmptyOrNullOrBlank()) {
             binding.personalAddressLayout.etPermanentAddress.error = "Address can not be blank"
             errorCount++
         }
 
-        val permanentPinCode = binding.personalAddressLayout.etPermanentPinCode.text.toString()
         if (!permanentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.personalAddressLayout.etPermanentPinCode.error = "Pin code can not be blank"
         }
 
-        val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
-        if (!permanentStaying.exIsNotEmptyOrNullOrBlank()) {
+        if (!permanentStaying.exIsNotEmptyOrNullOrBlank() && permanentStaying != "") {
             binding.personalAddressLayout.etPermanentStaying.error = "Required field"
             errorCount++
         }
+
+        if (!rentAmount.exIsNotEmptyOrNullOrBlank() && rentAmount != "") {
+            binding.personalAddressLayout.etPermanentRentAmount.error = "Required field"
+            errorCount++
+        }
+
         return errorCount
     }
 
