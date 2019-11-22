@@ -59,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textStyle="bold"
+                    android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:text="Virendra Sehwag"
                     android:textSize="20sp" />

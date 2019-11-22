@@ -10,7 +10,7 @@ class LoanInfoModel {
     var creditOfficerEmpName: String? = ""
     var interestTypeTypeDetailID: Int? = 0
     var leadID: Int? = 0
-    var loanAmountRequest: Double = 0.0
+    var loanAmountRequest: Int = 0
     var loanApplicationID: Int? = 0
     var loanPurposeID: Int? = 0
     var loanSchemeTypeDetailID: Int? = 0

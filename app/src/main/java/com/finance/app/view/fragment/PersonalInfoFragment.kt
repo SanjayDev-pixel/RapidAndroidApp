@@ -56,7 +56,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private val districtPresenter = DistrictPresenter(this)
     private val cityPresenter = CityPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
-    private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = null
+    private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = ArrayList()
     private var personalInfoMaster: PersonalInfoMaster? = PersonalInfoMaster()
     private var currentApplicant: PersonalApplicantsModel = PersonalApplicantsModel()
     private var contactDetail: ContactDetail? = ContactDetail()

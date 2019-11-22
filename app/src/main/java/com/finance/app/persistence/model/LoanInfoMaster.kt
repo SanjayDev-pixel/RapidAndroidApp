@@ -12,5 +12,5 @@ class LoanInfoMaster : Serializable {
     var loanApplicationDraftDetailID: Int? = null
     var draftData: LoanInfoModel? = null
     var storageType: String = "LOAN_INFORMATION"
-    var editable: Boolean? = null
+    var editable: Boolean? = false
 }

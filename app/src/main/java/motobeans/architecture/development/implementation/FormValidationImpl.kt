@@ -104,7 +104,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
 
             if (loanAmount.toInt() > loanProduct.maxAmount && loanAmount.toInt() <loanProduct.minAmount) {
                 errorCount++
-                binding.etAmountRequest.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
+                binding.etAmountRequest.error = "Range:${loanProduct.minAmount} - ${loanProduct.maxAmount}"
             }
         } else if (loanProduct == null) {
             errorCount++

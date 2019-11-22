@@ -396,7 +396,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
         loanInfoObj.loanPurposeID = loanPurpose?.loanPurposeID
         loanInfoObj.loanSchemeTypeDetailID = loanScheme?.typeDetailID
-        loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toDouble()
+        loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toInt()
         loanInfoObj.tenure = binding.etTenure.text.toString().toDouble()
         loanInfoObj.interestTypeTypeDetailID = interestType?.typeDetailID
         loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner?.typeDetailID
