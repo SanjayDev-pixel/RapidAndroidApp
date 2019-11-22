@@ -7,18 +7,19 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
+import com.finance.app.persistence.model.DropdownMaster
 import motobeans.architecture.retrofit.response.Response
 
-class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<Response.ChannelPartnerName>?,
-                                       val isMandatory: Boolean = false) : BaseAdapter() {
+class CitySpinnerAdapter(mContext: Context, val value: ArrayList<Response.CityObj>,
+                         val isMandatory: Boolean = false) : BaseAdapter() {
 
-    private var inflater: LayoutInflater = context1.getSystemService(
+    private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private var spinnerValue: Response.ChannelPartnerName? = null
+    private lateinit var spinnerValue: Response.CityObj
 
     override fun getItem(position: Int): Any? {
-        return value?.get(position)
+        return value[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -26,7 +27,7 @@ class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<R
     }
 
     override fun getCount(): Int {
-        return value?.size ?: 0
+        return value.size
     }
 
     override
@@ -36,18 +37,22 @@ class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<R
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value?.get(position)
+        spinnerValue = value[position]
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.spinner_textbox, parent, false)
             val textView = view.findViewById<View>(R.id.tvDropdownText) as TextView
-            textView.text = spinnerValue!!.companyName
+            textView.text = spinnerValue.cityName
         } else {
             view = convertView
         }
         return view
     }
 
+    fun setItem(position: Int) {
+        spinnerValue = value[position]
+        notifyDataSetChanged()
+    }
     override
     fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getCustomView(position, convertView, parent)

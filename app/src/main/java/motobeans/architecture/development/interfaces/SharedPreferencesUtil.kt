@@ -22,6 +22,7 @@ interface SharedPreferencesUtil {
     fun getLeadId():String?
     fun getLeadDetail():AllLeadMaster
     fun getUserId():String?
+    fun getEmpId(): String?
     fun getLoanAppID():Int?
     fun getLeadNum():String
     fun getPropertySelection(): Boolean

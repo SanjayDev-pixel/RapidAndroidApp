@@ -24,4 +24,18 @@
   <style name="ToolbarColoredBackArrow" parent="AppTheme">
     <item name="android:textColorSecondary">@color/white</item>
   </style>
+
+  <style name="spinner_style">
+
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">2dp</item>
+    <item name="android:paddingTop">2dp</item>
+    <item name="android:dropDownWidth">100dp</item>
+    <item name="android:showDividers">none</item>
+    <item name="android:dividerHeight">2dp</item>
+    <item name="android:dropDownHeight">100dp</item>
+    <item name="android:scrollbarAlwaysDrawVerticalTrack">false</item>
+    <item name="android:dropDownSelector">@android:color/white</item>
+
+  </style>
 </resources>

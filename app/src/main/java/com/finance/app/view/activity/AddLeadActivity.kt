@@ -35,8 +35,6 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     @Inject
     lateinit var formValidation: FormValidation
 
-    private lateinit var branchList: List<Response.UserBranches>
-
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, AddLeadActivity::class.java)
@@ -46,7 +44,6 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-        branchList = sharedPreferences.getUserBranches()!!
         hideSecondaryToolbar()
         getLoanProductFromDB()
         setBranchesDropDownValue()
@@ -85,15 +82,15 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     }
 
     private fun setBranchesDropDownValue() {
-        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, branchList!!)
+        val branchList = sharedPreferences.getUserBranches()!!
+        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, branchList)
         binding.spinnerBranches.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position > 0) {
                     val branchSelected = getSelectedBranchType()
-
                     // TEMP CODE - MUNISH THAKUR (below print code is temporary)
-                    println("Munish Thakur -> Debug Point");
+                    println("Munish Thakur -> Debug Point")
                 }
             }
         }
@@ -125,7 +122,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = branch!!.branchID, loanProductID = 1)
+                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
 //                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
         }
 
@@ -140,18 +137,18 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     override fun getAddLeadFailure(msg: String) = showToast(msg)
 
     private fun getSelectedLoanProductMasterType(): LoanProductMaster? {
-        try {
-            return binding.spinnerLoanProduct.selectedView.tag as LoanProductMaster
+        return try {
+            binding.spinnerLoanProduct.selectedView.tag as LoanProductMaster
         } catch (e: Exception) {
-            return null
+            null
         }
     }
 
     private fun getSelectedBranchType(): Response.UserBranches? {
-        try {
-            return binding.spinnerBranches.selectedView.tag as Response.UserBranches
+        return try {
+            binding.spinnerBranches.selectedView.tag as Response.UserBranches
         } catch (e: Exception) {
-            return null
+            null
         }
     }
 }

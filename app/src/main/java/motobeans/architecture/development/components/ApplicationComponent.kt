@@ -74,6 +74,8 @@ interface ApplicationComponent {
     fun inject(presenter: DocumentUploadPresenter)
     fun inject(presenter: GetAllLeadsPresenter)
     fun inject(presenter: StateDropdownPresenter)
+    fun inject(presenter: DistrictPresenter)
+    fun inject(presenter: CityPresenter)
 
     /**
      * View Model

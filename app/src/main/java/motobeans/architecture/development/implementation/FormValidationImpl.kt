@@ -1,8 +1,10 @@
 package motobeans.architecture.development.implementation
 import android.content.Context
 import com.finance.app.databinding.*
+import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import motobeans.architecture.development.interfaces.FormValidation
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
 class FormValidationImpl(private val mContext: Context) : FormValidation {
@@ -45,12 +47,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.personalAddressLayout.etCurrentPinCode.error = "Pin code can not be blank"
         }
 
-        val currentCity = binding.personalAddressLayout.etCurrentCity.text.toString()
-        if (!currentCity.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.personalAddressLayout.etCurrentCity.error = "City can not be blank"
-        }
-
         val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
         if (!currentStaying.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -76,12 +72,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         if (!permanentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.personalAddressLayout.etPermanentPinCode.error = "Pin code can not be blank"
-        }
-
-        val permanentCity = binding.personalAddressLayout.etPermanentCity.text.toString()
-        if (!permanentCity.exIsNotEmptyOrNullOrBlank()) {
-            binding.personalAddressLayout.etPermanentCity.error = "City can not be blank"
-            errorCount++
         }
 
         val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
@@ -117,8 +107,28 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
                 binding.etAmountRequest.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
             }
         } else if (loanProduct == null) {
-            binding.spinnerLoanProduct.error = "loan Product Cannot be empty"
+            errorCount++
+            binding.spinnerLoanProduct.error = "Loan Product Cannot be empty"
         }
+
+        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
+        if (loanPurpose == null) {
+            errorCount++
+            binding.spinnerLoanPurpose.error = "Loan Purpose Cannot be empty"
+        }
+
+        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
+        if (loanScheme == null) {
+            errorCount++
+            binding.spinnerLoanScheme.error = "Loan Scheme Cannot be empty"
+        }
+
+        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as DropdownMaster?
+        if (sourcingChannelPartner == null) {
+            errorCount++
+            binding.spinnerSourcingChannelPartner.error = "Sourcing channel partner Cannot be empty"
+        }
+
 
         val emi = binding.etEmi.text.toString()
         if (!emi.exIsNotEmptyOrNullOrBlank()) {
@@ -172,8 +182,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         binding.personalAddressLayout.etCurrentLandmark.isEnabled = false
         binding.personalAddressLayout.etCurrentPinCode.isEnabled = false
         binding.personalAddressLayout.etPermanentPinCode.isEnabled = false
-        binding.personalAddressLayout.etCurrentCity.isEnabled = false
-        binding.personalAddressLayout.etPermanentCity.isEnabled = false
         binding.personalAddressLayout.etPermanentStaying.isEnabled = false
         binding.personalAddressLayout.etCurrentStaying.isEnabled = false
         binding.personalAddressLayout.spinnerPermanentResidenceType.isEnabled = false

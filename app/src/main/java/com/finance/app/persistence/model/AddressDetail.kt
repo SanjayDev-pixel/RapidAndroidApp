@@ -21,5 +21,5 @@ class AddressDetail : Serializable {
     var stateID: Int? = 0
     var stateName: String? = ""
     var stayingInYears: Int? = 0
-
+    var contactNum: String? = ""
 }

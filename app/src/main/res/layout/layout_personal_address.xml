@@ -218,25 +218,22 @@
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_current_city"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerCurrentCity"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="@dimen/spinner_date_margin"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etCurrentCity"
-                        android:layout_width="match_parent"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/city"
-                        android:inputType="text"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="@dimen/text_size"
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginStart="@dimen/margin_10"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="City"
+                    app:ms_hint="City"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
 
             </LinearLayout>
 
@@ -319,7 +316,7 @@
                     android:layout_width="match_parent"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
-                    android:hint="Permanent Address"
+                    android:hint="@string/permanent_address"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -462,25 +459,22 @@
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_permanent_city"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerPermanentCity"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="@dimen/spinner_date_margin"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPermanentCity"
-                        android:layout_width="match_parent"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/city"
-                        android:inputType="text"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="@dimen/text_size"
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginStart="@dimen/margin_10"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="City"
+                    app:ms_hint="City"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
 
             </LinearLayout>
 

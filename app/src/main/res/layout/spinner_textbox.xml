@@ -10,6 +10,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="@dimen/margin_10"
+        style="@style/spinner_style"
         android:paddingEnd="@dimen/margin_10"
         android:text="@string/loan_amount"
         android:textSize="@dimen/text_size"

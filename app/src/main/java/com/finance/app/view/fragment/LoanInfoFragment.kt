@@ -22,7 +22,10 @@ import com.finance.app.presenter.connector.SourceChannelPartnerNameConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.presenter.presenter.SourceChannelPartnerNamePresenter
-import com.finance.app.utility.*
+import com.finance.app.utility.RequestConversion
+import com.finance.app.utility.ResponseConversion
+import com.finance.app.utility.SetLoanInfoMandatoryFiled
+import com.finance.app.utility.UploadData
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.recycler.Spinner.ChannelPartnerNameSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.LoanProductSpinnerAdapter
@@ -96,7 +99,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun getLoanInfo() {
         mLead = sharedPreferences.getLeadDetail()
-        empId = sharedPreferences.getUserId()
+        empId = sharedPreferences.getLoginData()!!.responseObj.userDetails.userBasicDetails.tablePrimaryID.toString()
         loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
 
@@ -140,10 +143,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
         dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProductValue ->
             loanProductValue.let {
-
                 val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
                 arrayListOfLoanProducts.addAll(loanProductValue)
-
                 loanProducts = arrayListOfLoanProducts
                 setProductDropDownValue(loanProducts)
             }
@@ -236,13 +237,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
                     channelPartner = parent.selectedItem as DropdownMaster
-                    if (channelPartner!!.typeDetailCode == "DSA") {
-                        getChannelPartnerName(channelPartner!!)
-                        binding.spinnerPartnerName.visibility = View.VISIBLE
-                    }
-                    else{
-                        binding.spinnerPartnerName.visibility = View.GONE
-                    }
+                    getChannelPartnerName(channelPartner!!)
                 }
             }
         }
@@ -309,18 +304,26 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override val branchId: String
         get() = mBranchId
     override val employeeId: String
-        get() = empId!!
+        //        get() = empId!!
+        get() = "3"
     override val channelTypeId: String
         get() = mChannelTypeId
 
     private fun getChannelPartnerName(sourceChannelPartner: DropdownMaster) {
         mChannelTypeId = sourceChannelPartner.typeDetailID.toString()
-        mBranchId = "2"
+        mBranchId = sharedPreferences.getLeadDetail().branchID!!
         sourcePartnerPresenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME)
     }
 
     override fun getSourceChannelPartnerNameSuccess(value: Response.ResponseSourceChannelPartnerName) {
-        setChannelPartnerNameDropDown(value.responseObj)
+        if (value.responseObj.size > 0) {
+            setChannelPartnerNameDropDown(value.responseObj)
+            binding.spinnerPartnerName.visibility = View.VISIBLE
+        } else {
+            binding.spinnerPartnerName.visibility = View.GONE
+            sourcingChannelPartner = allMasterDropDown.SourcingChannelPartner!!
+            binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(mContext!!, sourcingChannelPartner)
+        }
     }
 
     private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<Response.ChannelPartnerName>) {
@@ -341,7 +344,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
-    override fun getSourceChannelPartnerNameFailure(msg: String) = showToast(msg)
+    override fun getSourceChannelPartnerNameFailure(msg: String)=showToast(msg)
 
     private fun checkPropertySelection() {
         if (binding.cbPropertySelected.isChecked) {

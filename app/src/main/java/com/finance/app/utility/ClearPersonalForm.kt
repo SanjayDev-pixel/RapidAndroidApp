@@ -26,13 +26,11 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.personalAddressLayout.etPermanentLandmark.text?.clear()
         binding.personalAddressLayout.etPermanentStaying.text?.clear()
         binding.personalAddressLayout.etCurrentRentAmount.text?.clear()
-        binding.personalAddressLayout.etPermanentCity.text?.clear()
         binding.personalAddressLayout.etPermanentAddress.text?.clear()
         binding.personalAddressLayout.etCurrentStaying.text?.clear()
         binding.personalAddressLayout.etCurrentPinCode.text?.clear()
         binding.personalAddressLayout.etCurrentLandmark.text?.clear()
         binding.personalAddressLayout.etCurrentAddress.text?.clear()
-        binding.personalAddressLayout.etCurrentCity.text?.clear()
         binding.personalAddressLayout.cbSameAsCurrent.isChecked = false
         clearAddressInfoDropdown()
     }

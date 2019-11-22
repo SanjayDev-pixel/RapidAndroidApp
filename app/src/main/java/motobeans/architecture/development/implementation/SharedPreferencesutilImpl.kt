@@ -39,6 +39,10 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.userId.toString()
     }
 
+    override fun getEmpId(): String? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getUserBranches(): List<Response.UserBranches>? {
 
         val userBranches = ArrayList<Response.UserBranches>()
@@ -47,7 +51,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         userBranches.add(userSelectTextBranch)
 
         getLoginData()?.responseObj?.userDetails?.userBranches?.let {
-            userBranches.addAll(getLoginData()!!.responseObj.userDetails!!.userBranches)
+            userBranches.addAll(getLoginData()!!.responseObj.userDetails.userBranches)
             /*userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
             userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
             userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
