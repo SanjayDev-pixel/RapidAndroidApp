@@ -1,5 +1,6 @@
 package com.finance.app.presenter.presenter
 
+import com.finance.app.others.AppEnums
 import com.finance.app.presenter.connector.DistrictCityConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -22,12 +23,10 @@ class CityPresenter(private val city: DistrictCityConnector.City) : DistrictCity
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        if (type == ConstantsApi.CALL_CITY) {
-                callCityApi()
-        }
+
     }
 
-    private fun callCityApi() {
+    fun callCityApi(addressType: AppEnums.ADDRESS_TYPE? = null) {
         val requestApi = apiProject.api.getCities(city.districtId)
 
         requestApi
@@ -35,13 +34,13 @@ class CityPresenter(private val city: DistrictCityConnector.City) : DistrictCity
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { city.showProgressDialog() }
                 .doFinally { city.hideProgressDialog() }
-                .subscribe({ response -> onCity(response) },
+                .subscribe({ response -> onCity(response, addressType) },
                         { e -> city.getCityFailure(e?.message ?: "") })
     }
 
-    private fun onCity(response: Response.ResponseCity) {
+    private fun onCity(response: Response.ResponseCity, addressType: AppEnums.ADDRESS_TYPE? = null) {
         if (response.responseCode == "200") {
-            city.getCitySuccess(response)
+            city.getCitySuccess(response, addressType)
         } else {
             city.getCityFailure(response.responseMsg)
         }

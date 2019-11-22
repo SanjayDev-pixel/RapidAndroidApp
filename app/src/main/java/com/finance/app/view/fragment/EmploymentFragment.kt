@@ -18,6 +18,7 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentEmploymentBinding
 import com.finance.app.databinding.LayoutSalaryBinding
 import com.finance.app.databinding.LayoutSenpBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
@@ -644,7 +645,7 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
     override val pinCode: String
         get() = pinCodeFromForm
 
-    override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail) {
+    override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail, addressType: AppEnums.ADDRESS_TYPE?) {
         val pinResponse = value.responseObj
         if (pinResponse != null && pinResponse.size > 0) {
             when (formSelected) {

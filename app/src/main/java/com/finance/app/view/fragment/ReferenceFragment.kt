@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentReferenceBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
@@ -153,7 +154,7 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     override val pinCode: String
         get() = binding.referenceAddressLayout.etPinCode.text.toString()
 
-    override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail) {
+    override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail, addressType: AppEnums.ADDRESS_TYPE?) {
         val pinResponse = value.responseObj
         if (pinResponse != null) {
             setPinCodeDetails(pinResponse[0])

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.model.Modals.AddKyc
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.DistrictCityConnector
 import com.finance.app.presenter.connector.LoanApplicationConnector
@@ -63,7 +64,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var image: Bitmap? = null
     private var maritalStatus: DropdownMaster? = null
     private var mPinCode: String = ""
-    private var addressType: String = ""
     private var personalAddressDetail: ArrayList<AddressDetail>? = ArrayList()
     private var currentPosition = 0
     private var mStateId: String = ""
@@ -309,7 +309,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 if (position >= 0) {
                     val state = parent.selectedItem as StatesMaster
                     mStateId = state.stateID.toString()
-                    districtPresenter.callNetwork(ConstantsApi.CALL_DISTRICT)
+                    districtPresenter.callDistrictApi(addressType = AppEnums.ADDRESS_TYPE.CURRENT)
                 }
             }
         }
@@ -321,7 +321,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 if (position >= 0) {
                     val state = parent.selectedItem as StatesMaster
                     mStateId = state.stateID.toString()
-                    districtPresenter.callNetwork(ConstantsApi.CALL_DISTRICT)
+                    districtPresenter.callDistrictApi(addressType = AppEnums.ADDRESS_TYPE.PERMANENT)
                 }
             }
         }
@@ -348,7 +348,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun fillCurrentAddressInfo(addressDetail: AddressDetail) {
-        addressType = CURRENT
         binding.personalAddressLayout.etCurrentAddress.setText(addressDetail.address1)
         binding.personalAddressLayout.etCurrentPinCode.setText(addressDetail.zip)
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
@@ -364,7 +363,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             if (obj.districtID == pinCodeObj.districtID) {
                 spinner.setSelection(index + 1)
                 mDistrictId = obj.districtID.toString()
-                cityPresenter.callNetwork(ConstantsApi.CALL_CITY)
+                cityPresenter.callCityApi(addressType = AppEnums.ADDRESS_TYPE.CURRENT)
                 return
             }
         }
@@ -381,7 +380,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun fillPermanentAddressInfo(addressDetail: AddressDetail) {
-        addressType = PERMANENT
         binding.personalAddressLayout.etPermanentAddress.setText(addressDetail.address1)
         binding.personalAddressLayout.etPermanentPinCode.setText(addressDetail.zip)
         binding.personalAddressLayout.etPermanentLandmark.setText(addressDetail.landmark)
@@ -397,7 +395,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             if (obj.districtID == pinCodeObj.districtID) {
                 spinner.setSelection(index + 1)
                 mDistrictId = obj.districtID.toString()
-                cityPresenter.callNetwork(ConstantsApi.CALL_CITY)
+                cityPresenter.callCityApi(addressType = AppEnums.ADDRESS_TYPE.PERMANENT)
                 return
             }
         }
@@ -695,19 +693,18 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
             }
         }
-        pinCodeListener(binding.personalAddressLayout.etCurrentPinCode, CURRENT)
-        pinCodeListener(binding.personalAddressLayout.etPermanentPinCode, PERMANENT)
+        pinCodeListener(binding.personalAddressLayout.etCurrentPinCode, AppEnums.ADDRESS_TYPE.CURRENT)
+        pinCodeListener(binding.personalAddressLayout.etPermanentPinCode, AppEnums.ADDRESS_TYPE.PERMANENT)
     }
 
-    private fun pinCodeListener(pinCodeField: TextInputEditText?, type: String) {
+    private fun pinCodeListener(pinCodeField: TextInputEditText?, addressType: AppEnums.ADDRESS_TYPE? = null) {
         pinCodeField!!.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (pinCodeField.text!!.length == 6) {
-                    addressType = type
                     mPinCode = pinCodeField.text.toString()
-                    pinCodePresenter.callNetwork(ConstantsApi.CALL_PIN_CODE_DETAIL)
+                    pinCodePresenter.callPinCodeDetailApi(addressType = addressType)
                 }
             }
         })
@@ -748,12 +745,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override val pinCode: String
         get() = mPinCode
 
-    override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail) {
+    override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail, addressType: AppEnums.ADDRESS_TYPE?) {
         if (value.responseObj!!.size > 0) {
             pinCodeObj = value.responseObj[0]
-            when (addressType) {
-                PERMANENT -> setPermanentPinCodeDetails(pinCodeObj!!)
-                CURRENT -> setCurrentPinCodeDetails(pinCodeObj!!)
+            when (addressType?.addressType) {
+                AppEnums.ADDRESS_TYPE.PERMANENT.addressType -> setPermanentPinCodeDetails(pinCodeObj!!)
+                AppEnums.ADDRESS_TYPE.CURRENT.addressType -> setCurrentPinCodeDetails(pinCodeObj!!)
             }
         } else {
             clearPinCodes()
@@ -762,10 +759,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
-    private fun clearPinCodes() {
-        when (addressType) {
-            PERMANENT -> clearPermanentPinCodeField()
-            CURRENT -> clearCurrentPinCodeField()
+    private fun clearPinCodes(addressType: AppEnums.ADDRESS_TYPE? = null) {
+
+        when (addressType?.addressType) {
+            AppEnums.ADDRESS_TYPE.PERMANENT.addressType -> clearPermanentPinCodeField()
+            AppEnums.ADDRESS_TYPE.CURRENT.addressType -> clearCurrentPinCodeField()
         }
     }
 
@@ -788,11 +786,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override val stateId: String
         get() = mStateId
 
-    override fun getDistrictSuccess(value: Response.ResponseDistrict) {
+    override fun getDistrictSuccess(value: Response.ResponseDistrict, addressType: AppEnums.ADDRESS_TYPE?) {
         if (value.responseObj != null && value.responseObj.size > 0) {
             when (addressType) {
-                PERMANENT -> setPermanentDistricts(value, pinCodeObj)
-                CURRENT -> setCurrentDistricts(value, pinCodeObj)
+                AppEnums.ADDRESS_TYPE.PERMANENT -> setPermanentDistricts(value, pinCodeObj)
+                AppEnums.ADDRESS_TYPE.CURRENT -> setCurrentDistricts(value, pinCodeObj)
             }
         }
     }
@@ -805,7 +803,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 if (position >= 0) {
                     val district = parent.selectedItem as Response.DistrictObj
                     mDistrictId = district.districtID.toString()
-                    cityPresenter.callNetwork(ConstantsApi.CALL_CITY)
+                    cityPresenter.callCityApi(addressType = AppEnums.ADDRESS_TYPE.CURRENT)
                 }
             }
         }
@@ -820,7 +818,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 if (position >= 0) {
                     val district = parent.selectedItem as Response.DistrictObj
                     mDistrictId = district.districtID.toString()
-                    cityPresenter.callNetwork(ConstantsApi.CALL_CITY)
+                    cityPresenter.callCityApi(addressType = AppEnums.ADDRESS_TYPE.PERMANENT)
                 }
             }
         }
@@ -832,11 +830,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override val districtId: String
         get() = mDistrictId
 
-    override fun getCitySuccess(value: Response.ResponseCity) {
+    override fun getCitySuccess(value: Response.ResponseCity, addressType: AppEnums.ADDRESS_TYPE?) {
         if (value.responseObj != null && value.responseObj.size > 0) {
             when (addressType) {
-                PERMANENT -> setPermanentCity(value)
-                CURRENT -> setCurrentCity(value)
+                AppEnums.ADDRESS_TYPE.PERMANENT -> setPermanentCity(value)
+                AppEnums.ADDRESS_TYPE.CURRENT -> setCurrentCity(value)
             }
         }
     }
@@ -859,7 +857,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             if (obj.stateID == pinCodeDetail.stateID) {
                 spinner.setSelection(index + 1)
                 mStateId = pinCodeDetail.stateID.toString()
-                districtPresenter.callNetwork(ConstantsApi.CALL_DISTRICT)
+                districtPresenter.callDistrictApi(addressType = AppEnums.ADDRESS_TYPE.CURRENT)
                 return
             }
         }
@@ -871,7 +869,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             if (obj.stateID == pinCodeDetail.stateID) {
                 spinner.setSelection(index + 1)
                 mStateId = pinCodeDetail.stateID.toString()
-                districtPresenter.callNetwork(ConstantsApi.CALL_DISTRICT)
+                districtPresenter.callDistrictApi(addressType = AppEnums.ADDRESS_TYPE.PERMANENT)
                 return
             }
         }

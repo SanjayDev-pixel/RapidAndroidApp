@@ -48,4 +48,7 @@ class AppEnums {
         }
     }
 
+    enum class ADDRESS_TYPE (val addressType: String) {
+        PERMANENT ("PERMANENT"), CURRENT ("CURRENT")
+    }
 }

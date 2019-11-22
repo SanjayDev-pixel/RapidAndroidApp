@@ -1,5 +1,6 @@
 package com.finance.app.presenter.presenter
 
+import com.finance.app.others.AppEnums
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -27,7 +28,7 @@ class PinCodeDetailPresenter(private val pinCode: PinCodeDetailConnector.PinCode
         }
     }
 
-    private fun callPinCodeDetailApi() {
+    fun callPinCodeDetailApi(addressType: AppEnums.ADDRESS_TYPE? = null) {
         val requestApi = apiProject.api.getPinCodeDetail(pinCode.pinCode)
 
         requestApi
@@ -35,13 +36,13 @@ class PinCodeDetailPresenter(private val pinCode: PinCodeDetailConnector.PinCode
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { pinCode.showProgressDialog() }
                 .doFinally { pinCode.hideProgressDialog() }
-                .subscribe({ response -> onPinCode(response) },
+                .subscribe({ response -> onPinCode(response, addressType) },
                         { e -> pinCode.getPinCodeFailure(e?.message ?: "") })
     }
 
-    private fun onPinCode(response: Response.ResponsePinCodeDetail) {
+    private fun onPinCode(response: Response.ResponsePinCodeDetail, addressType: AppEnums.ADDRESS_TYPE? = null) {
         if (response.responseCode == "200") {
-            pinCode.getPinCodeSuccess(response)
+            pinCode.getPinCodeSuccess(response, addressType = addressType)
         } else {
             pinCode.getPinCodeFailure(response.responseMsg)
         }
