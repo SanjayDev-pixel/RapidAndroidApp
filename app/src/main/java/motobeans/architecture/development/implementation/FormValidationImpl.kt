@@ -134,7 +134,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         if (!emi.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etEmi.error = "EMI can not be blank"
-        } else if (emi.toInt() > loanAmount.toInt()) {
+        } else if (loanAmount != "" && emi.toInt() > loanAmount.toInt()) {
             errorCount++
             binding.etEmi.error = "EMI cannot be greater than loan amount"
         }
