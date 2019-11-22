@@ -23,6 +23,12 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.basicInfoLayout.etDOB.error = "DOB can not be blank"
         }
 
+        val alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
+        if (!alternateContact.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.basicInfoLayout.etAlternateNum.error = "Alternate Number can not be blank"
+        }
+
         val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
         if (!currentAddress.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -79,55 +85,59 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean {
         var errorCount = 0
         val loanAmount = binding.etAmountRequest.text.toString()
-        val tenure = binding.etTenure.text.toString()
         val emi = binding.etEmi.text.toString()
+        val tenure = binding.etTenure.text.toString()
+        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
+        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
+        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as DropdownMaster?
 
         if (loanProduct != null && tenure != "" && loanAmount != "") {
-            if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
-                errorCount++
-                binding.etAmountRequest.error = "Amount can not be blank"
-            } else if(loanAmount.toInt() > loanProduct.maxAmount && loanAmount.toInt() <loanProduct.minAmount) {
-                errorCount++
-                binding.etAmountRequest.error = "Range:${loanProduct.minAmount} - ${loanProduct.maxAmount}"
-            }
-            if (!tenure.exIsNotEmptyOrNullOrBlank()) {
-                errorCount++
-                binding.etTenure.error = "Tenure can not be blank"
-            }else if (tenure.toInt() > loanProduct.maxTenure && tenure.toInt() < loanProduct.minTenure) {
+            if (tenure.toInt() > loanProduct.maxTenure || tenure.toInt() < loanProduct.minTenure) {
                 errorCount++
                 binding.etTenure.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
             }
-            if (!emi.exIsNotEmptyOrNullOrBlank()) {
-                errorCount++
-                binding.etEmi.error = "EMI can not be blank"
-            } else if (emi.toInt() > loanAmount.toInt()) {
-                errorCount++
-                binding.etEmi.error = "EMI cannot be greater than loan amount"
-            }
 
+            if (loanAmount.toInt() > loanProduct.maxAmount || loanAmount.toInt() < loanProduct.minAmount) {
+                errorCount++
+                binding.etAmountRequest.error = "Range:${loanProduct.minAmount} - ${loanProduct.maxAmount}"
+            }
         } else if (loanProduct == null) {
             errorCount++
             binding.spinnerLoanProduct.error = "Loan Product Cannot be empty"
         }
 
-        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
+        if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etAmountRequest.error = "Amount can not be blank"
+        }
+
+        if (!tenure.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etTenure.error = "Tenure can not be blank"
+        }
+
         if (loanPurpose == null) {
             errorCount++
             binding.spinnerLoanPurpose.error = "Loan Purpose Cannot be empty"
         }
 
-        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
         if (loanScheme == null) {
             errorCount++
             binding.spinnerLoanScheme.error = "Loan Scheme Cannot be empty"
         }
 
-        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as DropdownMaster?
         if (sourcingChannelPartner == null) {
             errorCount++
             binding.spinnerSourcingChannelPartner.error = "Sourcing channel partner Cannot be empty"
         }
 
+        if (!emi.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etEmi.error = "EMI can not be blank"
+        } else if (emi.toInt() > loanAmount.toInt()) {
+            errorCount++
+            binding.etEmi.error = "EMI cannot be greater than loan amount"
+        }
         return isValidForm(errorCount)
     }
 

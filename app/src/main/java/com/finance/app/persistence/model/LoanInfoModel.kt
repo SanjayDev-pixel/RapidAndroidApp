@@ -20,7 +20,7 @@ class LoanInfoModel {
     var salesOfficerEmpID: Int? = 0
     var salesOfficerEmpName: String? = ""
     var sourcingChannelPartnerTypeDetailID: Int? = 0
-    var tenure: Double? = 0.0
+    var tenure: Int? = 0
     var processingFeePercentage: Double? = 0.0
     var isPropertySelected: Boolean? = false
 }

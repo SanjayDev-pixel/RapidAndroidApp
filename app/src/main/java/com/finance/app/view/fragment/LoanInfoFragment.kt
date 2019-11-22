@@ -287,15 +287,14 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
         binding.btnSaveAndContinue.setOnClickListener {
             if (formValidation.validateLoanInformation(binding, selectedLoanProduct)) {
-                checkPropertySelection()
-                saveDataToDB(getLoanInfoMaster())
+//                checkPropertySelection()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             }
         }
     }
 
     private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
-        binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toInt().toString())
+        binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toString())
         binding.etEmi.setText(loanInfo.affordableEMI!!.toInt().toString())
         binding.etTenure.setText(loanInfo.tenure!!.toInt().toString())
         binding.cbPropertySelected.isChecked = loanInfo.isPropertySelected!!
@@ -387,20 +386,26 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
         val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
 
-        if (channelPartner?.typeDetailCode == "DSA") {
-            loanInfoObj.channelPartnerDsaID = channelPartnerName?.dsaID
-        }
-        loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
         loanInfoObj.leadID = leadId.toInt()
         loanInfoObj.productID = loanProduct?.productID
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
         loanInfoObj.loanPurposeID = loanPurpose?.loanPurposeID
         loanInfoObj.loanSchemeTypeDetailID = loanScheme?.typeDetailID
-        loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toInt()
-        loanInfoObj.tenure = binding.etTenure.text.toString().toDouble()
         loanInfoObj.interestTypeTypeDetailID = interestType?.typeDetailID
         loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner?.typeDetailID
         loanInfoObj.isPropertySelected = binding.cbPropertySelected.isChecked
+//        if (binding.etAmountRequest.text.toString() != "") {
+            loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toInt()
+//        }
+//        if (binding.etTenure.text.toString() != "") {
+            loanInfoObj.tenure = binding.etTenure.text.toString().toInt()
+//        }
+//        if (channelPartner?.typeDetailCode == "DSA") {
+            loanInfoObj.channelPartnerDsaID = channelPartnerName?.dsaID
+//        }
+//        if (binding.etEmi.text.toString() != "") {
+            loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
+//        }
         return loanInfoObj
     }
 
