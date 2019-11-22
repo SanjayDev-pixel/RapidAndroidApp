@@ -9,7 +9,6 @@ class SetPersonalMandatoryFiled(binding: FragmentPersonalBinding) {
         ShowAsMandatory(binding.basicInfoLayout.inputLayoutDob)
         ShowAsMandatory(binding.basicInfoLayout.inputLayoutFatherFirstName)
         ShowAsMandatory(binding.basicInfoLayout.inputLayoutSpouseFirstName)
-        ShowAsMandatory(binding.basicInfoLayout.inputLayoutAlternateNum)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentAddress)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentAddress)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentLandmark)
@@ -18,6 +17,5 @@ class SetPersonalMandatoryFiled(binding: FragmentPersonalBinding) {
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentPinCode)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentStaying)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentStaying)
-
     }
 }

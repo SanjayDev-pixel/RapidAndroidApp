@@ -394,18 +394,10 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         loanInfoObj.interestTypeTypeDetailID = interestType?.typeDetailID
         loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner?.typeDetailID
         loanInfoObj.isPropertySelected = binding.cbPropertySelected.isChecked
-//        if (binding.etAmountRequest.text.toString() != "") {
-            loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toInt()
-//        }
-//        if (binding.etTenure.text.toString() != "") {
-            loanInfoObj.tenure = binding.etTenure.text.toString().toInt()
-//        }
-//        if (channelPartner?.typeDetailCode == "DSA") {
-            loanInfoObj.channelPartnerDsaID = channelPartnerName?.dsaID
-//        }
-//        if (binding.etEmi.text.toString() != "") {
-            loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
-//        }
+        loanInfoObj.loanAmountRequest = binding.etAmountRequest.text.toString().toInt()
+        loanInfoObj.tenure = binding.etTenure.text.toString().toInt()
+        loanInfoObj.channelPartnerDsaID = channelPartnerName?.dsaID
+        loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
         return loanInfoObj
     }
 

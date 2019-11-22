@@ -227,14 +227,18 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun showData(applicantList: ArrayList<PersonalApplicantsModel>?) {
         if (applicantList != null) {
-            for (applicant in applicantList) {
-                if (applicant.isMainApplicant!!) {
-                    currentApplicant = applicant
-                    personalAddressDetail = currentApplicant.addressDetailList
-                    contactDetail = currentApplicant.contactDetail
+            if (applicantList.size <= 0) {
+                fillFormWithLeadDetail()
+            } else {
+                for (applicant in applicantList) {
+                    if (applicant.isMainApplicant!!) {
+                        currentApplicant = applicant
+                        personalAddressDetail = currentApplicant.addressDetailList
+                        contactDetail = currentApplicant.contactDetail
+                    }
                 }
             }
-        } else fillFormWithLeadDetail()
+        }
         fillFormWithCurrentApplicant(currentApplicant)
         getDropDownsFromDB()
     }
@@ -251,7 +255,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun fillFormWithCurrentApplicant(currentApplicant: PersonalApplicantsModel) {
         binding.basicInfoLayout.etDOB.setText(currentApplicant.dateOfBirth!!)
-        binding.basicInfoLayout.cbIncomeConsidered.isSelected = currentApplicant.incomeConsidered!!
+        binding.basicInfoLayout.cbIncomeConsidered.isChecked = currentApplicant.incomeConsidered!!
         binding.basicInfoLayout.etFatherLastName.setText(currentApplicant.fatherLastName)
         binding.basicInfoLayout.etFatherMiddleName.setText(currentApplicant.fatherMiddleName)
         binding.basicInfoLayout.etFatherFirstName.setText(currentApplicant.fatherFirstName)
@@ -559,7 +563,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun saveCurrentApplicant() {
-        personalApplicantsList!![currentPosition] = getCurrentApplicant()
+        if (personalApplicantsList!!.size > 0) {
+            personalApplicantsList!![currentPosition] = getCurrentApplicant()
+        } else personalApplicantsList!!.add(currentPosition, getCurrentApplicant())
     }
 
     private fun getCurrentApplicant(): PersonalApplicantsModel {
@@ -591,13 +597,16 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         currentApplicant.firstName = binding.basicInfoLayout.etFirstName.text.toString()
         currentApplicant.middleName = binding.basicInfoLayout.etMiddleName.text.toString()
         currentApplicant.lastName = binding.basicInfoLayout.etLastName.text.toString()
+        currentApplicant.spouseFirstName = binding.basicInfoLayout.etSpouseFirstName.text.toString()
+        currentApplicant.spouseMiddleName = binding.basicInfoLayout.etSpouseMiddleName.text.toString()
+        currentApplicant.spouseLastName = binding.basicInfoLayout.etSpouseLastName .text.toString()
         currentApplicant.fatherFirstName = binding.basicInfoLayout.etFatherFirstName.text.toString()
         currentApplicant.fatherMiddleName = binding.basicInfoLayout.etFatherMiddleName.text.toString()
         currentApplicant.fatherLastName = binding.basicInfoLayout.etFatherLastName.text.toString()
         currentApplicant.dateOfBirth = binding.basicInfoLayout.etDOB.text.toString()
         currentApplicant.age = binding.basicInfoLayout.etAge.text.toString().toInt()
         currentApplicant.isMainApplicant = currentPosition == 0
-        currentApplicant.incomeConsidered = binding.basicInfoLayout.cbIncomeConsidered.isSelected
+        currentApplicant.incomeConsidered = binding.basicInfoLayout.cbIncomeConsidered.isChecked
         currentApplicant.alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
         currentApplicant.contactDetail = getContactDetail()
         currentApplicant.addressDetailList = getAddressDetailList()
@@ -617,6 +626,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         val cDistrict = binding.personalAddressLayout.spinnerCurrentDistrict.selectedItem as Response.DistrictObj?
         val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
         val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
+        if (binding.personalAddressLayout.etCurrentRentAmount.text.toString() != "") {
+            cAddressDetail.rentAmount = binding.personalAddressLayout.etCurrentRentAmount.text.toString().toInt()
+        }
+        if (binding.personalAddressLayout.etCurrentStaying.text.toString() != "") {
+            cAddressDetail.stayingInYears = binding.personalAddressLayout.etCurrentStaying.text.toString().toInt()
+        }
         cAddressDetail.rentAmount = binding.personalAddressLayout.etCurrentRentAmount.text.toString().toInt()
         cAddressDetail.address1 = binding.personalAddressLayout.etCurrentAddress.text.toString()
         cAddressDetail.landmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
@@ -638,11 +653,15 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             val pDistrict = binding.personalAddressLayout.spinnerPermanentDistrict.selectedItem as Response.DistrictObj?
             val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
             val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
-            pAddressDetail.rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString().toInt()
+            if (binding.personalAddressLayout.etPermanentRentAmount.text.toString() != "") {
+                pAddressDetail.rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString().toInt()
+            }
+            if (binding.personalAddressLayout.etPermanentStaying.text.toString() != "") {
+                pAddressDetail.stayingInYears = binding.personalAddressLayout.etPermanentStaying.text.toString().toInt()
+            }
             pAddressDetail.address1 = binding.personalAddressLayout.etPermanentAddress.text.toString()
             pAddressDetail.landmark = binding.personalAddressLayout.etPermanentLandmark.text.toString()
             pAddressDetail.zip = binding.personalAddressLayout.etPermanentPinCode.text.toString()
-            pAddressDetail.stayingInYears = binding.personalAddressLayout.etPermanentStaying.text.toString().toInt()
             pAddressDetail.residenceTypeTypeDetailID = pResidenceType?.typeDetailID
             pAddressDetail.addressTypeDetailID = pAddressProof?.typeDetailID
             pAddressDetail.stateID = pState?.stateID
@@ -754,7 +773,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
     private fun clearPinCodes(addressType: AppEnums.ADDRESS_TYPE? = null) {
-
         when (addressType?.addressType) {
             AppEnums.ADDRESS_TYPE.PERMANENT.addressType -> clearPermanentPinCodeField()
             AppEnums.ADDRESS_TYPE.CURRENT.addressType -> clearCurrentPinCodeField()

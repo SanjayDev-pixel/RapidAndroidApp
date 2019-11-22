@@ -163,4 +163,7 @@
     <string name="age">Age</string>
     <string name="branches">Branches</string>
     <string name="affordable_emi">Affordable EMI</string>
+    <string name="official_mail_id">Official Mail Id</string>
+    <string name="employee_id">Employee Id</string>
+    <string name="joining_date">Joining Date</string>
 </resources>

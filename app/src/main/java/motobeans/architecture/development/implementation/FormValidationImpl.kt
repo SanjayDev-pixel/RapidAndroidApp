@@ -23,12 +23,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.basicInfoLayout.etDOB.error = "DOB can not be blank"
         }
 
-        val alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
-        if (!alternateContact.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.basicInfoLayout.etAlternateNum.error = "Alternate Number can not be blank"
-        }
-
         val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
         if (!currentAddress.exIsNotEmptyOrNullOrBlank()) {
             errorCount++

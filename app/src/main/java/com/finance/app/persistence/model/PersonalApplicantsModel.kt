@@ -35,9 +35,9 @@ class PersonalApplicantsModel {
     var qualificationTypeDetailID: Int? = 0
     var religionTypeDetailID: Int? = 0
     var relationshipTypeDetailId: Int? = 0
-    var spouseFirstName: String? = " "
+    var spouseFirstName: String? = ""
     var spouseLastName: String? = ""
     var spouseMiddleName: String? = ""
-    var incomeConsidered: Boolean? = true
+    var incomeConsidered: Boolean? = false
     var livingStandardTypeDetailId: Int? = 0
 }

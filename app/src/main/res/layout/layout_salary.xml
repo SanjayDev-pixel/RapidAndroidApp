@@ -136,7 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:hint="Official Mail Id"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/official_mail_id"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -161,8 +162,7 @@
                         android:id="@+id/etEmployeeId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Employee Id"
-                        android:inputType="number"
+                        android:hint="@string/employee_id"
                         android:singleLine="true"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -183,7 +183,7 @@
                         android:editable="false"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_calender"
-                        android:hint="Joining Date"
+                        android:hint="@string/joining_date"
                         android:minWidth="150dp"
                         android:textSize="@dimen/text_size" />
 
@@ -278,6 +278,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Gross Income"
                         android:inputType="number"
+                        android:maxLength="6"
                         android:minWidth="150dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_size" />
