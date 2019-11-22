@@ -23,12 +23,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.basicInfoLayout.etDOB.error = "DOB can not be blank"
         }
 
-        val alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
-        if (!alternateContact.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.basicInfoLayout.etAlternateNum.error = "Alternate Number can not be blank"
-        }
-
         val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
         if (!currentAddress.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -85,27 +79,32 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean {
         var errorCount = 0
         val loanAmount = binding.etAmountRequest.text.toString()
-        if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etAmountRequest.error = "Amount can not be blank"
-        }
-
         val tenure = binding.etTenure.text.toString()
-        if (!tenure.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etTenure.error = "Tenure can not be blank"
-        }
+        val emi = binding.etEmi.text.toString()
 
-        if (loanProduct != null && tenure != "") {
-            if (tenure.toInt() > loanProduct.maxTenure && tenure.toInt() < loanProduct.minTenure) {
+        if (loanProduct != null && tenure != "" && loanAmount != "") {
+            if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
                 errorCount++
-                binding.etTenure.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
-            }
-
-            if (loanAmount.toInt() > loanProduct.maxAmount && loanAmount.toInt() <loanProduct.minAmount) {
+                binding.etAmountRequest.error = "Amount can not be blank"
+            } else if(loanAmount.toInt() > loanProduct.maxAmount && loanAmount.toInt() <loanProduct.minAmount) {
                 errorCount++
                 binding.etAmountRequest.error = "Range:${loanProduct.minAmount} - ${loanProduct.maxAmount}"
             }
+            if (!tenure.exIsNotEmptyOrNullOrBlank()) {
+                errorCount++
+                binding.etTenure.error = "Tenure can not be blank"
+            }else if (tenure.toInt() > loanProduct.maxTenure && tenure.toInt() < loanProduct.minTenure) {
+                errorCount++
+                binding.etTenure.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
+            }
+            if (!emi.exIsNotEmptyOrNullOrBlank()) {
+                errorCount++
+                binding.etEmi.error = "EMI can not be blank"
+            } else if (emi.toInt() > loanAmount.toInt()) {
+                errorCount++
+                binding.etEmi.error = "EMI cannot be greater than loan amount"
+            }
+
         } else if (loanProduct == null) {
             errorCount++
             binding.spinnerLoanProduct.error = "Loan Product Cannot be empty"
@@ -129,15 +128,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.spinnerSourcingChannelPartner.error = "Sourcing channel partner Cannot be empty"
         }
 
-
-        val emi = binding.etEmi.text.toString()
-        if (!emi.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etEmi.error = "EMI can not be blank"
-        } else if (emi.toInt() > loanAmount.toInt()) {
-            errorCount++
-            binding.etEmi.error = "EMI cannot be greater than loan amount"
-        }
         return isValidForm(errorCount)
     }
 

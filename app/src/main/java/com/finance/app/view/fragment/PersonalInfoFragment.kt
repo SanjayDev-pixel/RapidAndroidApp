@@ -601,12 +601,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         currentApplicant.isMainApplicant = currentPosition == 0
         currentApplicant.incomeConsidered = binding.basicInfoLayout.cbIncomeConsidered.isSelected
         currentApplicant.alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
-        currentApplicant.numberOfEarningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString().toInt()
-        currentApplicant.numberOfEarningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString().toInt()
-        currentApplicant.numberOfEarningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString().toInt()
-        currentApplicant.numberOfEarningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString().toInt()
-        currentApplicant.numberOfEarningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString().toInt()
-        currentApplicant.numberOfEarningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString().toInt()
         currentApplicant.contactDetail = getContactDetail()
         currentApplicant.addressDetailList = getAddressDetailList()
         return currentApplicant
