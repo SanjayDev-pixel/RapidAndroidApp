@@ -197,11 +197,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             saveCurrentApplicant()
             ClearPersonalForm(binding, mContext, allMasterDropDown, states)
             currentPosition = position
-            waitFor2Sec(position)
+            waitFor1Sec(position)
         } else showToast(getString(R.string.mandatory_field_missing))
     }
 
-    private fun waitFor2Sec(position: Int) {
+    private fun waitFor1Sec(position: Int) {
         val progress = ProgressDialog(mContext)
         progress.setMessage(getString(R.string.msg_saving))
         progress.setCancelable(false)
@@ -210,7 +210,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         handler.postDelayed({
             getParticularApplicantData(position)
             progress.dismiss()
-        }, 2000)
+        }, 1000)
         applicantAdapter!!.notifyDataSetChanged()
     }
 
@@ -368,6 +368,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 spinner.setSelection(index + 1)
                 mDistrictId = obj.districtID.toString()
                 cityPresenter.callCityApi(addressType = AppEnums.ADDRESS_TYPE.CURRENT)
+                spinner.isEnabled = false
                 return
             }
         }
@@ -378,6 +379,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             val obj = spinner.getItemAtPosition(index) as Response.CityObj
             if (obj.cityID == cityId) {
                 spinner.setSelection(index + 1)
+                spinner.isEnabled = false
                 return
             }
         }
@@ -400,6 +402,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 spinner.setSelection(index + 1)
                 mDistrictId = obj.districtID.toString()
                 cityPresenter.callCityApi(addressType = AppEnums.ADDRESS_TYPE.PERMANENT)
+                spinner.isEnabled = false
                 return
             }
         }
@@ -410,6 +413,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             val obj = spinner.getItemAtPosition(index) as Response.CityObj
             if (obj.cityID == cityId) {
                 spinner.setSelection(index + 1)
+                spinner.isEnabled = false
                 return
             }
         }
@@ -862,6 +866,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 spinner.setSelection(index + 1)
                 mStateId = pinCodeDetail.stateID.toString()
                 districtPresenter.callDistrictApi(addressType = AppEnums.ADDRESS_TYPE.CURRENT)
+                spinner.isEnabled = false
                 return
             }
         }
@@ -874,6 +879,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 spinner.setSelection(index + 1)
                 mStateId = pinCodeDetail.stateID.toString()
                 districtPresenter.callDistrictApi(addressType = AppEnums.ADDRESS_TYPE.PERMANENT)
+                spinner.isEnabled = false
                 return
             }
         }
