@@ -15,7 +15,6 @@ import motobeans.architecture.retrofit.response.Response
 class LoanProductSpinnerAdapter(val mContext: Context, val value: ArrayList<LoanProductMaster>) : BaseAdapter() {
 
     init {
-
         val userSelectTextBranch = LoanProductMaster()
         userSelectTextBranch.productID = -1
         userSelectTextBranch.productName = "Select Loan"

@@ -320,8 +320,6 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             binding.spinnerPartnerName.visibility = View.VISIBLE
         } else {
             binding.spinnerPartnerName.visibility = View.GONE
-            sourcingChannelPartner = allMasterDropDown.SourcingChannelPartner!!
-            binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(mContext!!, sourcingChannelPartner)
         }
     }
 

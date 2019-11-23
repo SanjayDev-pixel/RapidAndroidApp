@@ -762,25 +762,35 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 AppEnums.ADDRESS_TYPE.CURRENT.addressType -> setCurrentPinCodeDetails(pinCodeObj!!)
             }
         } else {
-            clearPinCodes()
+            clearPinCodes(addressType?.addressType)
         }
     }
 
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
-    private fun clearPinCodes(addressType: AppEnums.ADDRESS_TYPE? = null) {
-        when (addressType?.addressType) {
+    private fun clearPinCodes(addressType: String? = null) {
+        when (addressType) {
             AppEnums.ADDRESS_TYPE.PERMANENT.addressType -> clearPermanentPinCodeField()
             AppEnums.ADDRESS_TYPE.CURRENT.addressType -> clearCurrentPinCodeField()
         }
     }
 
     private fun clearPermanentPinCodeField() {
+        binding.personalAddressLayout.spinnerPermanentState.isEnabled = true
+        binding.personalAddressLayout.spinnerPermanentDistrict.isEnabled = true
+        binding.personalAddressLayout.spinnerPermanentCity.isEnabled = true
         binding.personalAddressLayout.spinnerPermanentState.adapter = StatesSpinnerAdapter(mContext, states)
+        binding.personalAddressLayout.spinnerPermanentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
+        binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(mContext,ArrayList())
     }
 
     private fun clearCurrentPinCodeField() {
+        binding.personalAddressLayout.spinnerCurrentDistrict.isEnabled = true
+        binding.personalAddressLayout.spinnerCurrentCity.isEnabled = true
+        binding.personalAddressLayout.spinnerCurrentState.isEnabled = true
         binding.personalAddressLayout.spinnerCurrentState.adapter = StatesSpinnerAdapter(mContext, states)
+        binding.personalAddressLayout.spinnerCurrentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
+        binding.personalAddressLayout.spinnerCurrentCity.adapter = CitySpinnerAdapter(mContext,ArrayList())
     }
 
     private fun setCurrentPinCodeDetails(pinCodeDetail: Response.PinCodeObj) {
