@@ -37,6 +37,7 @@ interface ApplicationComponent {
     fun inject(activity: BaseAppCompatActivity)
     fun inject(activity: DashboardActivity)
     fun inject(activity: LoginActivity)
+    fun inject(activity: LoanApplicationActivity)
     fun inject(activity: SplashScreen)
     fun inject(activity: AddLeadActivity)
     fun inject(activity: AllLeadActivity)

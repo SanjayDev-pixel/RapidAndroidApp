@@ -2,14 +2,16 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
 import com.finance.app.view.fragment.LoanInfoFragment
 import com.finance.app.view.fragment.NavMenuFragment
+import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import javax.inject.Inject
 
 class LoanApplicationActivity : BaseAppCompatActivity() {
 
@@ -18,7 +20,8 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
 
     private lateinit var navFragment: NavMenuFragment
     private lateinit var secondaryFragment: Fragment
-    private lateinit var menuParam: LinearLayout.LayoutParams
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
 
     companion object {
         fun start(context: Context) {
@@ -29,12 +32,19 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         binding.collapseImageView.setOnClickListener {
             navFragment.toggleMenu()
         }
+        setLeadNumber()
         setNavFragment()
         secondaryFragment = LoanInfoFragment()
         setSecondaryFragment(secondaryFragment)
+    }
+
+    private fun setLeadNumber() {
+        val leadNum = sharedPreferences.getLeadNum()
+        setLeadNum(leadNum)
     }
 
     private fun setNavFragment() {

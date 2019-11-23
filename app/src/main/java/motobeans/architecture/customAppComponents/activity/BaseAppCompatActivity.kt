@@ -104,10 +104,10 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     toggle.onConfigurationChanged(newConfig)
   }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+  override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_lead_action, menu)
         return true
-    }
+  }
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
     when (item?.itemId) {
@@ -156,6 +156,10 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     bindingParent.appBarWithLayout.tvBackSecondary.setOnClickListener {
       onBackPressed()
     }
+  }
+
+  fun setLeadNum(leadNum: String) {
+    bindingParent.appBarWithLayout.tvLeadNumber.text = leadNum
   }
 
   private fun setUpHeaderView() {
