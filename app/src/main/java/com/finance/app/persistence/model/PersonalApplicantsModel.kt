@@ -1,7 +1,7 @@
 package com.finance.app.persistence.model
 
 class PersonalApplicantsModel {
-    var addressDetailList: ArrayList<AddressDetail>? = null
+    var addressDetailList: ArrayList<AddressDetail>? = ArrayList()
     var age: Int? = 0
     var alternateContact: String? = ""
     var applicantID: Int? = 0

@@ -139,8 +139,8 @@
                         android:id="@+id/etCurrentStaying"
                         android:layout_width="match_parent"
                         android:singleLine="true"
-                        android:inputType="number"
-                        android:maxLength="2"
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
                         android:layout_height="wrap_content"
                         android:hint="@string/staying_in_years"
                         android:minWidth="200dp"
@@ -382,8 +382,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/staying_in_years"
                         android:singleLine="true"
-                        android:inputType="number"
-                        android:maxLength="2"
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 

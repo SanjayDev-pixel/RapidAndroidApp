@@ -58,7 +58,6 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
-    private lateinit var profileSegment: ArrayList<DropdownMaster>
     private lateinit var subProfileSegment: ArrayList<DropdownMaster>
     private lateinit var pinCodeFromForm: String
     private var mLead: AllLeadMaster? = null
@@ -72,6 +71,7 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
     private var salaryDistrictId = 0
     private var salaryCityId = 0
     private var senpDistrictId = 0
+    private lateinit var allMasterDropDown: AllMasterDropDown
     private var senpCityId = 0
 
     companion object {
@@ -79,7 +79,6 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
         private const val SENP = 2
         private lateinit var applicantTab: ArrayList<String>
         private var employmentList: ArrayList<Requests.EmploymentDetail> = ArrayList()
-        private lateinit var allMasterDropDown: AllMasterDropDown
         private lateinit var states: List<StatesMaster>
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
@@ -124,7 +123,7 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
             employmentMaster = responseConversion.toEmploymentMaster(value.responseObj)
             employmentDraft = employmentMaster?.draftData!!
             employmentApplicantsList = employmentDraft.applicantDetails
-            saveDataToDB(employmentMaster!!)
+//            saveDataToDB(employmentMaster!!)
         }
         setCoApplicants(employmentApplicantsList)
         showData(employmentApplicantsList)

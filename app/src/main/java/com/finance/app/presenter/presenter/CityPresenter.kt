@@ -22,9 +22,7 @@ class CityPresenter(private val city: DistrictCityConnector.City) : DistrictCity
         ArchitectureApp.instance.component.inject(this)
     }
 
-    override fun callNetwork(type: ConstantsApi) {
-
-    }
+    override fun callNetwork(type: ConstantsApi) {}
 
     fun callCityApi(addressType: AppEnums.ADDRESS_TYPE? = null) {
         val requestApi = apiProject.api.getCities(city.districtId)

@@ -20,6 +20,6 @@ class AddressDetail : Serializable {
     var zip: String = ""
     var stateID: Int? = 0
     var stateName: String? = ""
-    var stayingInYears: Int? = 0
+    var stayingInYears: Float? = 0.0f
     var contactNum: String? = ""
 }
