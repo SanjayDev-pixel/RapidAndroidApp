@@ -2,7 +2,7 @@ package com.finance.app.utility
 
 import com.finance.app.databinding.FragmentReferenceBinding
 
-class SetReferenceMandatoryFiled(binding: FragmentReferenceBinding) {
+class SetReferenceMandatoryField(binding: FragmentReferenceBinding) {
 
     init {
         ShowAsMandatory(binding.inputLayoutName)

@@ -21,7 +21,7 @@ import com.finance.app.presenter.presenter.PinCodeDetailPresenter
 import com.finance.app.utility.ClearReferenceForm
 import com.finance.app.utility.RequestConversion
 import com.finance.app.utility.ResponseConversion
-import com.finance.app.utility.SetReferenceMandatoryFiled
+import com.finance.app.utility.SetReferenceMandatoryField
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -76,7 +76,7 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         mContext = context!!
         relation = ArrayList()
         occupation = ArrayList()
-        SetReferenceMandatoryFiled(binding)
+        SetReferenceMandatoryField(binding)
 //        getReferenceInfo()
         getDropDownsFromDB()
         setClickListeners()

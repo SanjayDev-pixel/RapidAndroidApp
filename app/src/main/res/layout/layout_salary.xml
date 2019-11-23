@@ -10,7 +10,6 @@
             android:id="@+id/llSalary"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -31,63 +30,6 @@
                 android:textSize="@dimen/button_text_size"
                 android:visibility="gone" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:orientation="horizontal">
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerSector"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/arrow_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelText="Sector"
-                    app:ms_hint="Sector"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerIndustry"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:layout_weight="1"
-                    android:minWidth="@dimen/text_min_width"
-                    android:textSize="@dimen/text_size"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/arrow_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Industry"
-                    app:ms_hint="Industry"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-            </LinearLayout>
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spinnerEmploymentType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
-                android:minWidth="@dimen/text_min_width"
-                app:ms_arrowColor="@color/black"
-                app:ms_arrowSize="@dimen/text_size"
-                android:layout_marginTop="@dimen/fields_margin"
-                app:ms_floatingLabelColor="@color/hint_color"
-                app:ms_floatingLabelText="Employment Type"
-                app:ms_hint="Employment Type"
-                app:ms_hintColor="@color/hint_color"
-                app:ms_hintTextSize="@dimen/hint_size"
-                app:ms_multiline="false" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_company_name"
                 android:layout_width="match_parent"
@@ -105,6 +47,64 @@
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerSector"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="@dimen/arrow_size"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    android:textSize="@dimen/text_size"
+                    app:ms_floatingLabelText="Sector*"
+                    app:ms_hint="Sector*"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerIndustry"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_10"
+                    android:layout_weight="1"
+                    android:minWidth="@dimen/text_min_width"
+                    android:textSize="@dimen/text_size"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="@dimen/arrow_size"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="Industry*"
+                    app:ms_hint="Industry*"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
+
+            </LinearLayout>
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinnerEmploymentType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size"
+                android:minWidth="@dimen/text_min_width"
+                app:ms_arrowColor="@color/black"
+                app:ms_arrowSize="@dimen/text_size"
+                android:layout_marginTop="@dimen/fields_margin"
+                app:ms_floatingLabelColor="@color/hint_color"
+                app:ms_floatingLabelText="Employment Type*"
+                app:ms_hint="Employment Type*"
+                app:ms_hintColor="@color/hint_color"
+                app:ms_hintTextSize="@dimen/hint_size"
+                app:ms_multiline="false" />
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_designation"

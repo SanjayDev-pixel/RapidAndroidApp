@@ -13,15 +13,13 @@ import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
-import com.finance.app.utility.SetAssetLiabilityMandatoryFiled
-import com.finance.app.utility.ShowAsMandatory
+import com.finance.app.utility.SetAssetLiabilityMandatoryField
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.CreditCardAdapter
 import com.finance.app.view.adapters.recycler.adapter.ObligationAdapter
 import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
@@ -63,7 +61,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         getAssetLiabilityInfo()
-        SetAssetLiabilityMandatoryFiled(binding)
+        SetAssetLiabilityMandatoryField(binding)
         setDropDownValue()
         applicantTab = ArrayList()
         setDropDownValue()

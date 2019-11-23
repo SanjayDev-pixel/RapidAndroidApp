@@ -67,6 +67,7 @@ interface ApplicationComponent {
     fun inject(presenter: TestPresenter)
     fun inject(presenter: TempSyncPresenter)
     fun inject(presenter: LoginPresenter)
+    fun inject(presenter: EmploymentInfoFragment)
     fun inject(presenter: AddLeadPresenter)
     fun inject(presenter: AllMasterDropdownPresenter)
     fun inject(presenter: SourceChannelPartnerNamePresenter)

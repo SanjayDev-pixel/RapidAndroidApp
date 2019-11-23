@@ -48,11 +48,8 @@ class AppEnums {
         }
     }
 
-    enum class ADDRESS_TYPE (val addressType: String) {
-        PERMANENT ("PERMANENT"), CURRENT ("CURRENT")
-    }
-
-    enum class EMPLOYMENT_TYPE (val employmentType: String) {
-        SENP ("SENP"), SALARY ("SALARY")
+    enum class ADDRESS_TYPE (val type: String) {
+        PERMANENT("PERMANENT"), CURRENT("CURRENT"),
+        SENP("SENP"), SALARY("SALARY")
     }
 }

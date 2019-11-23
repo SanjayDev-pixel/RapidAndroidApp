@@ -39,7 +39,6 @@ import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
@@ -67,6 +66,7 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
     private var employmentApplicantsList: ArrayList<EmploymentApplicantsModel>? = ArrayList()
     private var employmentMaster: EmploymentMaster? = EmploymentMaster()
     private var currentApplicant: EmploymentApplicantsModel = EmploymentApplicantsModel()
+    private var employmentDraft = EmploymentApplicantList()
     private var currentPosition = 0
     private var salaryDistrictId = 0
     private var salaryCityId = 0
@@ -78,12 +78,10 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
         private const val SALARY = 1
         private const val SENP = 2
         private lateinit var applicantTab: ArrayList<String>
-        private var employmentList: ArrayList<Requests.EmploymentDetail> = ArrayList()
         private lateinit var states: List<StatesMaster>
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
         private val convertDate = ConvertDate()
-        private var employmentDraft = EmploymentApplicantList()
         private var formSelected: Int? = 0
     }
 
@@ -123,7 +121,6 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
             employmentMaster = responseConversion.toEmploymentMaster(value.responseObj)
             employmentDraft = employmentMaster?.draftData!!
             employmentApplicantsList = employmentDraft.applicantDetails
-//            saveDataToDB(employmentMaster!!)
         }
         setCoApplicants(employmentApplicantsList)
         showData(employmentApplicantsList)
@@ -213,6 +210,7 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
             SENP ->
                 currentApplicant = getSenpForm(binding.layoutSenp)
         }
+        currentApplicant.isMainApplicant = currentPosition == 0
         return currentApplicant
     }
 
@@ -237,7 +235,6 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
         address.address1 = binding.layoutAddress.etAddress.text.toString()
         address.cityID = salaryCityId
         address.districtID = salaryDistrictId
-        address.cityName = binding.layoutAddress.etCity.text.toString()
         address.zip = binding.layoutAddress.etPinCode.text.toString()
         address.landmark = binding.layoutAddress.etLandmark.text.toString()
         address.stateID = state?.stateID
@@ -268,7 +265,6 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
         address.address1 = binding.layoutAddress.etAddress.text.toString()
         address.cityID = salaryCityId
         address.districtID = salaryDistrictId
-        address.cityName = binding.layoutAddress.etCity.text.toString()
         address.zip = binding.layoutAddress.etPinCode.text.toString()
         address.landmark = binding.layoutAddress.etLandmark.text.toString()
         address.stateID = state?.stateID
@@ -451,7 +447,7 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
                 }
             }
         }
-        if (currentApplicant.profileSegmentTypeDetailID != null) {
+        if (currentApplicant.profileSegmentTypeDetailID != 0) {
             selectProfileAndSubProfile()
         }
     }
@@ -659,13 +655,11 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
     }
 
     private fun setPinDetailInSenp(pinCodeObj: Response.PinCodeObj) {
-        binding.layoutSenp.layoutAddress.etCity.setText(pinCodeObj.cityName)
         senpCityId = pinCodeObj.cityID
         selectStateValue(binding.layoutSenp.layoutAddress.spinnerState, pinCodeObj.stateID)
     }
 
     private fun setPinDetailInSalary(pinCodeObj: Response.PinCodeObj) {
-        binding.layoutSalary.layoutAddress.etCity.setText(pinCodeObj.cityName)
         salaryCityId = pinCodeObj.cityID
         selectStateValue(binding.layoutSalary.layoutAddress.spinnerState, pinCodeObj.stateID)
     }

@@ -24,7 +24,7 @@ import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.presenter.presenter.SourceChannelPartnerNamePresenter
 import com.finance.app.utility.RequestConversion
 import com.finance.app.utility.ResponseConversion
-import com.finance.app.utility.SetLoanInfoMandatoryFiled
+import com.finance.app.utility.SetLoanInfoMandatoryField
 import com.finance.app.utility.UploadData
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.recycler.Spinner.ChannelPartnerNameSpinnerAdapter
@@ -93,7 +93,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         getLoanInfo()
-        SetLoanInfoMandatoryFiled(binding)
+        SetLoanInfoMandatoryField(binding)
         setClickListeners()
     }
 

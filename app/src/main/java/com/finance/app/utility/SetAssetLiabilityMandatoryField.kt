@@ -2,7 +2,7 @@ package com.finance.app.utility
 
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 
-class SetAssetLiabilityMandatoryFiled(binding: FragmentAssetLiablityBinding) {
+class SetAssetLiabilityMandatoryField(binding: FragmentAssetLiablityBinding) {
 
     init {
         ShowAsMandatory(binding.layoutObligations.inputLayoutBalanceTenure)

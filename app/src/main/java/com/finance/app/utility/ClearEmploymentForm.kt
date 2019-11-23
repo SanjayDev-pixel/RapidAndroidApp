@@ -4,6 +4,8 @@ import android.content.Context
 import com.finance.app.databinding.FragmentEmploymentBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.StatesMaster
+import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
+import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 
@@ -19,7 +21,6 @@ class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, privat
     }
 
     private fun clearSalaryForm() {
-        binding.layoutSalary.layoutAddress.etCity.text?.clear()
         binding.layoutSalary.etCompanyName.text?.clear()
         binding.layoutSalary.etJoiningDate.text?.clear()
         binding.layoutSalary.layoutAddress.etLandmark.text?.clear()
@@ -39,10 +40,11 @@ class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, privat
         binding.layoutSalary.spinnerSector.adapter = MasterSpinnerAdapter(context, masterDropdown.Sector!!)
         binding.layoutSalary.layoutAddress.spinnerState.adapter = StatesSpinnerAdapter(context,state)
         binding.layoutSalary.spinnerEmploymentType.adapter = MasterSpinnerAdapter(context, masterDropdown.EmploymentType!!)
+        binding.layoutSalary.layoutAddress.spinnerDistrict.adapter = DistrictSpinnerAdapter(context, ArrayList())
+        binding.layoutSalary.layoutAddress.spinnerCity.adapter = CitySpinnerAdapter(context,ArrayList())
     }
 
     private fun clearSenpForm() {
-        binding.layoutSenp.layoutAddress.etCity.text?.clear()
         binding.layoutSenp.etBusinessName.text?.clear()
         binding.layoutSenp.etIncorporationDate.text?.clear()
         binding.layoutSenp.layoutAddress.etLandmark.text?.clear()
@@ -59,5 +61,7 @@ class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, privat
         binding.layoutSenp.spinnerConstitution.adapter = MasterSpinnerAdapter(context, masterDropdown.Constitution!!)
         binding.layoutSenp.spinnerBusinessSetUpType.adapter = MasterSpinnerAdapter(context, masterDropdown.BusinessSetupType!!)
         binding.layoutSenp.layoutAddress.spinnerState.adapter = StatesSpinnerAdapter(context,state)
+        binding.layoutSenp.layoutAddress.spinnerDistrict.adapter = DistrictSpinnerAdapter(context, ArrayList())
+        binding.layoutSenp.layoutAddress.spinnerCity.adapter = CitySpinnerAdapter(context,ArrayList())
     }
 }

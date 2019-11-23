@@ -60,7 +60,7 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
         when (navData) {
             AppEnums.ScreenLoanInfo.LOAN_INFORMATION -> updateSecondaryFragment(LoanInfoFragment())
             AppEnums.ScreenLoanInfo.PERSONAL -> updateSecondaryFragment(PersonalInfoFragment())
-            AppEnums.ScreenLoanInfo.EMPLOYMENT -> updateSecondaryFragment(EmploymentFragment())
+            AppEnums.ScreenLoanInfo.EMPLOYMENT -> updateSecondaryFragment(EmploymentInfoFragment())
             AppEnums.ScreenLoanInfo.BANK_DETAIL -> updateSecondaryFragment(BankDetailFragment())
             AppEnums.ScreenLoanInfo.LIABILITY_AND_ASSET -> updateSecondaryFragment(AssetLiabilityFragment())
             AppEnums.ScreenLoanInfo.REFERENCE -> updateSecondaryFragment(ReferenceFragment())

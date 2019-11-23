@@ -6,7 +6,7 @@ import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AgeFromDOB(mContext: Context,  dateField: TextView, private val ageField: TextView) {
+class DateDifference(mContext: Context, dateField: TextView, private val differenceField: TextView) {
     init {
         val calender = Calendar.getInstance()
         val year = calender.get(Calendar.YEAR)
@@ -29,12 +29,12 @@ class AgeFromDOB(mContext: Context,  dateField: TextView, private val ageField: 
         val desiredSdf = SimpleDateFormat(desirablePattern, Locale.US)
         val dateToShow = desiredSdf.format(date)
         dateField.text = dateToShow
-        setAgeOnAgeField(date, ageField)
+        setDifferenceInField(date, differenceField)
     }
 
-    private fun setAgeOnAgeField(date: Date, ageField: TextView) {
+    private fun setDifferenceInField(date: Date, differenceField: TextView) {
         val todayDate = Date()
         val difference = todayDate.year - date.year
-        ageField.text = difference.toString()
+        differenceField.text = difference.toString()
     }
 }

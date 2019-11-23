@@ -70,7 +70,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         applicantTab = ArrayList()
-        SetBankDetailMandatoryFiled(binding)
+        SetBankDetailMandatoryField(binding)
         getBankDetail()
         getDropDownsFromDB()
         setClickListeners()

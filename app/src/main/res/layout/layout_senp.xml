@@ -10,7 +10,6 @@
             android:id="@+id/llSenp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginTop="@dimen/margin_10"
             android:orientation="vertical">
 
@@ -42,17 +41,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spinnerBusinessSetUpType"
+                android:id="@+id/spinnerConstitution"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
                 android:minWidth="@dimen/text_min_width"
                 app:ms_arrowColor="@color/black"
-                app:ms_arrowSize="@dimen/text_size"
-                android:layout_marginTop="@dimen/fields_margin"
+                android:textSize="@dimen/text_size"
+                app:ms_arrowSize="@dimen/arrow_size"
                 app:ms_floatingLabelColor="@color/hint_color"
-                app:ms_floatingLabelText="Business Setup Type"
-                app:ms_hint="Business Setup Type"
+                app:ms_floatingLabelText="Constitution*"
+                app:ms_hint="Constitution* "
                 app:ms_hintColor="@color/hint_color"
                 app:ms_hintTextSize="@dimen/hint_size"
                 app:ms_multiline="false" />
@@ -65,22 +63,6 @@
                 android:orientation="horizontal">
 
                 <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerConstitution"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    android:textSize="@dimen/text_size"
-                    app:ms_arrowSize="@dimen/arrow_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Sector"
-                    app:ms_hint="Constitution "
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-                <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerIndustry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -90,8 +72,24 @@
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="@dimen/arrow_size"
                     app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Industry"
-                    app:ms_hint="Industry "
+                    app:ms_floatingLabelText="Industry*"
+                    app:ms_hint="Industry*"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerBusinessSetUpType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="@dimen/text_size"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="Business Setup Type*"
+                    app:ms_hint="Business Setup Type*"
                     app:ms_hintColor="@color/hint_color"
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />

@@ -2,7 +2,7 @@ package com.finance.app.utility
 
 import com.finance.app.databinding.FragmentPersonalBinding
 
-class SetPersonalMandatoryFiled(binding: FragmentPersonalBinding) {
+class SetPersonalMandatoryField(binding: FragmentPersonalBinding) {
 
     init {
         ShowAsMandatory(binding.basicInfoLayout.inputLayoutFirstName)

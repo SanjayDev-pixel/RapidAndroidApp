@@ -69,7 +69,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var pinCodeObj: Response.PinCodeObj? = null
-    private var pApplicantList = PersonalApplicantList()
+    private var pDraftData = PersonalApplicantList()
     private lateinit var allMasterDropDown: AllMasterDropDown
 
     @Inject
@@ -104,7 +104,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         kycList = ArrayList()
         mContext = context!!
         getPersonalInfo()
-        SetPersonalMandatoryFiled(binding)
+        SetPersonalMandatoryField(binding)
         setDatePicker()
         checkKycDataList()
         setClickListeners()
@@ -124,8 +124,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
         value.responseObj?.let {
             personalInfoMaster = responseConversion.toPersonalMaster(value.responseObj)
-            pApplicantList = personalInfoMaster?.draftData!!
-            personalApplicantsList = pApplicantList.applicantDetails
+            pDraftData = personalInfoMaster?.draftData!!
+            personalApplicantsList = pDraftData.applicantDetails
         }
         setCoApplicants(personalApplicantsList)
         showData(personalApplicantsList)
@@ -156,8 +156,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         dataBase.provideDataBaseSource().personalInfoDao().getPersonalInfo(leadId).observe(this, Observer { personalMaster ->
             personalMaster?.let {
                 personalInfoMaster = personalMaster
-                pApplicantList = personalInfoMaster?.draftData!!
-                personalApplicantsList = pApplicantList.applicantDetails
+                pDraftData = personalInfoMaster?.draftData!!
+                personalApplicantsList = pDraftData.applicantDetails
                 if (personalApplicantsList!!.size < 0) {
                     personalApplicantsList!!.add(PersonalApplicantsModel())
                 }
@@ -721,7 +721,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun setDatePicker() {
         binding.basicInfoLayout.etDOB.setOnClickListener {
-            AgeFromDOB(mContext, binding.basicInfoLayout.etDOB, binding.basicInfoLayout.etAge)
+            DateDifference(mContext, binding.basicInfoLayout.etDOB, binding.basicInfoLayout.etAge)
         }
         binding.etIssueDate.setOnClickListener {
             SelectDate(binding.etIssueDate, mContext)
@@ -745,8 +745,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun getPersonalInfoMaster(): PersonalInfoMaster {
-        pApplicantList.applicantDetails = personalApplicantsList
-        personalInfoMaster?.draftData = pApplicantList
+        pDraftData.applicantDetails = personalApplicantsList
+        personalInfoMaster?.draftData = pDraftData
         personalInfoMaster!!.leadID = leadId.toInt()
         return personalInfoMaster!!
     }
@@ -757,12 +757,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail, addressType: AppEnums.ADDRESS_TYPE?) {
         if (value.responseObj!!.size > 0) {
             pinCodeObj = value.responseObj[0]
-            when (addressType?.addressType) {
-                AppEnums.ADDRESS_TYPE.PERMANENT.addressType -> setPermanentPinCodeDetails(pinCodeObj!!)
-                AppEnums.ADDRESS_TYPE.CURRENT.addressType -> setCurrentPinCodeDetails(pinCodeObj!!)
+            when (addressType?.type) {
+                AppEnums.ADDRESS_TYPE.PERMANENT.type -> setPermanentPinCodeDetails(pinCodeObj!!)
+                AppEnums.ADDRESS_TYPE.CURRENT.type -> setCurrentPinCodeDetails(pinCodeObj!!)
             }
         } else {
-            clearPinCodes(addressType?.addressType)
+            clearPinCodes(addressType?.type)
         }
     }
 
@@ -770,8 +770,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun clearPinCodes(addressType: String? = null) {
         when (addressType) {
-            AppEnums.ADDRESS_TYPE.PERMANENT.addressType -> clearPermanentPinCodeField()
-            AppEnums.ADDRESS_TYPE.CURRENT.addressType -> clearCurrentPinCodeField()
+            AppEnums.ADDRESS_TYPE.PERMANENT.type -> clearPermanentPinCodeField()
+            AppEnums.ADDRESS_TYPE.CURRENT.type -> clearCurrentPinCodeField()
         }
     }
 
