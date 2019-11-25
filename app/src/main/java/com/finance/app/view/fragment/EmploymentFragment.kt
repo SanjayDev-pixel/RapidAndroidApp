@@ -253,7 +253,7 @@ class EmploymentFragment : BaseFragment(),  LoanApplicationConnector.PostLoanApp
         currentApplicant.designation = binding.etDesignation.text.toString()
         currentApplicant.dateOfJoining = binding.etJoiningDate.text.toString()
         currentApplicant.totalExperience = binding.etTotalExperience.text.toString()
-        currentApplicant.retirementAge = binding.etRetirementAge.text.toString().toInt()
+        currentApplicant.retirementAge = binding.etRetirementAge.text.toString().toFloat()
         currentApplicant.officialMailID = binding.etOfficialMailId.text.toString()
         currentApplicant.addressBean = getSalaryAddress(binding)
         return currentApplicant

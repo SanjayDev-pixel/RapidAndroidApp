@@ -1,7 +1,5 @@
 package com.finance.app.persistence.model
 
-import motobeans.architecture.retrofit.request.Requests
-
 class EmploymentApplicantsModel {
     var addressBean: AddressDetail? = AddressDetail()
     var allEarningMembers: Int? = 0
@@ -13,7 +11,6 @@ class EmploymentApplicantsModel {
     var constitutionTypeDetailID: Int? = 0
     var dateOfIncorporation: String? = ""
     var dateOfJoining: String? = ""
-    var documents: ArrayList<Requests.Document>? = ArrayList()
     var employeeID: String? = ""
     var employmentTypeDetailID: Int? = 0
     var gstRegistration: String? = ""
@@ -23,9 +20,10 @@ class EmploymentApplicantsModel {
     var occupationalDetailID: Int? = 0
     var officialMailID: String? = ""
     var leadApplicantNumber: Int? = 0
-    var incomeConsidered: Boolean? = true
+    var incomeConsidered: Boolean = false
+    var isPensioner: Boolean = false
     var profileSegmentTypeDetailID: Int? = 0
-    var retirementAge: Int? = 0
+    var retirementAge: Float? = 0.0f
     var sectorTypeDetailID: Int? = 0
     var subProfileTypeDetailID: Int? = 0
     var totalExperience: String? = ""

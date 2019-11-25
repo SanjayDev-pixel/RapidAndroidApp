@@ -10,6 +10,7 @@
             android:id="@+id/llSalary"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -231,8 +232,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Retirement Age"
                         android:singleLine="true"
-                        android:inputType="number"
-                        android:maxLength="2"
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
                         android:minWidth="150dp"
                         android:textSize="@dimen/text_size" />
 
