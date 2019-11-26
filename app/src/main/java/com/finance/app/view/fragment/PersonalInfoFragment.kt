@@ -239,8 +239,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 }
             }
         }
-        fillFormWithCurrentApplicant(currentApplicant)
         getDropDownsFromDB()
+        fillFormWithCurrentApplicant(currentApplicant)
     }
 
     private fun fillFormWithLeadDetail() {
@@ -897,7 +897,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun gotoNextFragment() {
         val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, EmploymentFragment())
+        ft?.replace(R.id.secondaryFragmentContainer, EmploymentInfoFragment())
         ft?.addToBackStack(null)
         ft?.commit()
     }

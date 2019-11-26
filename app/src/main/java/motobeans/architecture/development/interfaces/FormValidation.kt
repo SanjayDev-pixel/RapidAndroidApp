@@ -8,8 +8,8 @@ interface FormValidation {
     fun validatePersonalInfo(binding: FragmentPersonalBinding):Boolean
     fun validateAddLead(binding: ActivityAddLeadBinding):Boolean
     fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean
-    fun validateSalaryEmployment(binding: LayoutSalaryBinding): Boolean
-    fun validateSenpEmployment(binding: LayoutSenpBinding): Boolean
+    fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding): Boolean
+    fun validateSenpEmployment(senpBinding: LayoutSenpBinding ): Boolean
     fun validateBankDetail(binding: FragmentBankDetailBinding):Boolean
     fun validateAssetLiability(binding: FragmentAssetLiablityBinding):Boolean
     fun validateReference(binding: FragmentReferenceBinding):Boolean

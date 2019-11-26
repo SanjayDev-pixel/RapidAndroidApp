@@ -139,6 +139,7 @@
                     android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="@dimen/text_size"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:textSize="@dimen/text_size"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_floatingLabelText="City*"

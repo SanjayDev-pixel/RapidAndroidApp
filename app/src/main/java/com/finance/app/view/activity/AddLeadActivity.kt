@@ -47,7 +47,6 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         hideSecondaryToolbar()
         getLoanProductFromDB()
         setBranchesDropDownValue()
-
         binding.btnCreate.setOnClickListener {
             if (isValidToProceed()) {
                 presenterOpt.callNetwork(ConstantsApi.CALL_ADD_LEAD)
@@ -84,18 +83,6 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
     private fun setBranchesDropDownValue() {
         val branchList = sharedPreferences.getUserBranches()!!
         binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, branchList)
-        binding.spinnerBranches.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position > 0) {
-                    val branchSelected = getSelectedBranchType()
-                    // TEMP CODE - MUNISH THAKUR (below print code is temporary)
-                    println("Munish Thakur -> Debug Point")
-                }
-            }
-        }
-
-
     }
 
     private fun getLoanProductFromDB() {
@@ -123,7 +110,6 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
                     branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
-//                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
         }
 
     override val addLeadRequest: Requests.RequestAddLead

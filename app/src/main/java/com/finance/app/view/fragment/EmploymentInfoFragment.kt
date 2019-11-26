@@ -71,10 +71,15 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var eAddressDetail: AddressDetail = AddressDetail()
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mPinCode: String = ""
+    private var grossIncome: Float = 0.0f
+    private var deduction: Float = 0.0f
+    private var netIncome: String = ""
     private var currentPosition = 0
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var formType: Int = -1
+    private var counter = 0
+    private lateinit var employmentForm:ClearEmploymentForm
 
     companion object {
         private val responseConversion = ResponseConversion()
@@ -95,6 +100,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         ArchitectureApp.instance.component.inject(this)
         SetEmploymentMandatoryField(binding)
         mContext = context!!
+        employmentForm = ClearEmploymentForm(binding, mContext, allMasterDropDown, states)
         getEmploymentInfo()
         setDatePicker()
         setClickListeners()
@@ -130,8 +136,8 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 }
             }
         }
-        fillFormWithCurrentApplicant(currentApplicant)
         getDropDownsFromDB()
+        fillFormWithCurrentApplicant(currentApplicant)
     }
 
     private fun setCoApplicants(applicants: ArrayList<EmploymentApplicantsModel>?) {
@@ -189,14 +195,63 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         } else {
             eApplicantList!![position]
         }
-//        fillFormWithCurrentApplicant(currentApplicant)
+        fillFormWithCurrentApplicant(currentApplicant)
     }
 
     private fun setClickListeners() {
-        binding.btnSaveAndContinue.setOnClickListener {}
+        binding.btnSaveAndContinue.setOnClickListener {
+            saveCurrentApplicant()
+            when (formType) {
+                SALARY -> validateSalary()
+                SENP -> validateSenp()
+            }
+        }
         binding.ivDocumentUpload.setOnClickListener {}
+        incomeListener(binding.layoutSalary.etGrossIncome, AppEnums.INCOME_TYPE.GROSS_INCOME)
+        incomeListener(binding.layoutSalary.etDeduction, AppEnums.INCOME_TYPE.DEDUCTION)
         pinCodeListener(binding.layoutSenp.layoutAddress.etPinCode, AppEnums.ADDRESS_TYPE.SENP)
         pinCodeListener(binding.layoutSalary.layoutAddress.etPinCode, AppEnums.ADDRESS_TYPE.SALARY)
+    }
+
+    private fun incomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
+        amountField!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                when (type) {
+                    AppEnums.INCOME_TYPE.GROSS_INCOME -> grossIncome = getIncomeValue(amountField.text.toString())
+                    AppEnums.INCOME_TYPE.DEDUCTION -> deduction = getIncomeValue(amountField.text.toString())
+                }
+                if (counter == 2 && grossIncome > deduction) {
+                    netIncome = (grossIncome - deduction).toString()
+                    binding.layoutSalary.etNetIncome.setText(netIncome)
+                    counter = 0
+                }
+            }
+        })
+    }
+
+    private fun getIncomeValue(amount: String): Float {
+        if (amount.isNotEmpty()) {
+            val income = amount.toFloat()
+            counter++
+            return income
+        }
+        return 0.0f
+    }
+
+    private fun validateSalary() {
+        if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
+            employmentForm.clearSenpForm()
+            loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+        }
+    }
+
+    private fun validateSenp() {
+        if (formValidation.validateSenpEmployment(binding.layoutSenp)) {
+            employmentForm.clearSalaryForm()
+            loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+        }
     }
 
     private fun pinCodeListener(pinCodeField: TextInputEditText?, formType: AppEnums.ADDRESS_TYPE? = null) {
@@ -230,6 +285,16 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         setDropDownForState(binding.layoutSenp.layoutAddress.spinnerState, AppEnums.ADDRESS_TYPE.SENP)
     }
 
+    private fun setMasterDropDownValue(dropDown: AllMasterDropDown) {
+        binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(mContext, ArrayList())
+        setUpProfileSegmentDropDown(binding.spinnerProfileSegment, dropDown)
+        setSenpDropDown(binding.layoutSenp, dropDown)
+        setSalaryDropDown(binding.layoutSalary, dropDown)
+        selectProfileValue(binding.spinnerProfileSegment, currentApplicant)
+        fillSenpForm(binding.layoutSenp, currentApplicant)
+        fillSalaryForm(binding.layoutSalary, currentApplicant)
+    }
+
     private fun setDropDownForState(spinner: MaterialSpinner, type: AppEnums.ADDRESS_TYPE) {
         spinner.adapter = StatesSpinnerAdapter(mContext, states)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -242,13 +307,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 }
             }
         }
-    }
-
-    private fun setMasterDropDownValue(dropDown: AllMasterDropDown) {
-        setUpProfileSegmentDropDown(binding.spinnerProfileSegment, dropDown)
-        binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(mContext, ArrayList())
-        setSenpDropDown(binding.layoutSenp, dropDown)
-        setSalaryDropDown(binding.layoutSalary, dropDown)
     }
 
     private fun setUpProfileSegmentDropDown(spinner: MaterialSpinner, dropDown: AllMasterDropDown) {
@@ -276,6 +334,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     private fun setUpSubProfileSegmentDropDown(spinner: MaterialSpinner, subProfile: ArrayList<DropdownMaster>) {
         spinner.adapter = MasterSpinnerAdapter(mContext, subProfile)
+        selectSubProfileValue(binding.spinnerSubProfile, currentApplicant)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -305,22 +364,18 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         binding.layoutSalary.llSalary.visibility = View.VISIBLE
         binding.layoutSenp.llSenp.visibility = View.GONE
         binding.spinnerAllEarningMember.visibility = View.GONE
-//        fillSalaryForm(currentApplicant)
-//        getNetIncomeValue()
     }
 
     private fun showSenpForm(id: Int) {
         if (id == 116) {
-//            setUpAllEarningMemberDropDownValue()
+            binding.layoutSenp.cbAllEarningMember.visibility = View.VISIBLE
             binding.layoutSenp.inputMonthlyIncome.visibility = View.VISIBLE
         } else {
-            binding.spinnerAllEarningMember.visibility = View.GONE
+            binding.layoutSenp.cbAllEarningMember.visibility = View.GONE
             binding.layoutSenp.inputMonthlyIncome.visibility = View.GONE
         }
         binding.layoutSenp.llSenp.visibility = View.VISIBLE
         binding.layoutSalary.llSalary.visibility = View.GONE
-//        fillSenpForm(currentApplicant)
-//        getAverageMonthlyIncome()
     }
 
     private fun setSalaryDropDown(binding: LayoutSalaryBinding, dropDown: AllMasterDropDown) {
@@ -336,17 +391,61 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun fillFormWithCurrentApplicant(currentApplicant: EmploymentApplicantsModel) {
-        fillSenpValue(binding.layoutSenp, currentApplicant)
-        fillSalaryValue(binding.layoutSalary, currentApplicant)
+        fillSenpForm(binding.layoutSenp, currentApplicant)
+        fillSalaryForm(binding.layoutSalary, currentApplicant)
     }
 
-    private fun fillSenpValue(binding: LayoutSenpBinding, applicant: EmploymentApplicantsModel) {
+    private fun selectProfileValue(spinner: Spinner, currentApplicant: EmploymentApplicantsModel) {
+        for (index in 0 until spinner.count - 1) {
+            val obj = spinner.getItemAtPosition(index) as DropdownMaster
+            if (obj.typeDetailID == currentApplicant.profileSegmentTypeDetailID) {
+                spinner.setSelection(index + 1)
+                createSubProfileSegmentList(obj.typeDetailID, allMasterDropDown.SubProfileSegment)
+                return
+            }
+        }
+    }
+
+    private fun selectSubProfileValue(spinner: Spinner, currentApplicant: EmploymentApplicantsModel) {
+        for (index in 0 until spinner.count - 1) {
+            val obj = spinner.getItemAtPosition(index) as DropdownMaster
+            if (obj.typeDetailID == currentApplicant.subProfileTypeDetailID) {
+                spinner.setSelection(index + 1)
+                return
+            }
+        }
+    }
+
+    private fun fillSenpForm(binding: LayoutSenpBinding, applicant: EmploymentApplicantsModel) {
         binding.etIncorporationDate.setText(currentApplicant.dateOfIncorporation)
         binding.etBusinessName.setText(currentApplicant.companyName)
         binding.etGstRegistration.setText(currentApplicant.gstRegistration)
-        binding.etBusinessVintage.setText(currentApplicant.businessVinatgeInYear!!)
+        binding.etBusinessVintage.setText(currentApplicant.businessVinatgeInYear.toString())
+        binding.etLastYearIncome.setText(currentApplicant.lastYearIncome)
+        binding.etCurrentYearIncome.setText(currentApplicant.currentYearIncome)
+        binding.etAverageMonthlyIncome.setText(currentApplicant.averageMonthlyIncome)
+        binding.etMonthlyIncome.setText(currentApplicant.monthlyIncome)
+        binding.cbAllEarningMember.isChecked = currentApplicant.allEarningMembers
         selectMasterDropdownValue(binding.spinnerBusinessSetUpType, applicant.businessSetupTypeDetailID)
         selectMasterDropdownValue(binding.spinnerConstitution, applicant.constitutionTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerIndustry, applicant.industryTypeDetailID)
+        fillAddress(binding.layoutAddress, applicant.addressBean)
+    }
+
+    private fun fillSalaryForm(binding: LayoutSalaryBinding, applicant: EmploymentApplicantsModel) {
+        binding.etJoiningDate.setText(currentApplicant.dateOfJoining)
+        binding.etTotalExperience.setText(currentApplicant.totalExperience)
+        binding.etRetirementAge.setText(currentApplicant.retirementAge.toString())
+        binding.etOfficialMailId.setText(currentApplicant.officialMailID)
+        binding.etDesignation.setText(currentApplicant.designation)
+        binding.etEmployeeId.setText(currentApplicant.employeeID)
+        binding.etCompanyName.setText(currentApplicant.companyName)
+        binding.cbIsPensioner.isChecked = currentApplicant.isPensioner
+        binding.etGrossIncome.setText(currentApplicant.grossIncome)
+        binding.etDeduction.setText(currentApplicant.deduction)
+        binding.etNetIncome.setText(currentApplicant.netIncome)
+        selectMasterDropdownValue(binding.spinnerSector, applicant.sectorTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerEmploymentType, applicant.employmentTypeDetailID)
         selectMasterDropdownValue(binding.spinnerIndustry, applicant.industryTypeDetailID)
         fillAddress(binding.layoutAddress, applicant.addressBean)
     }
@@ -358,22 +457,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         binding.etContactNum.setText(address.contactNum)
     }
 
-    private fun fillSalaryValue(binding: LayoutSalaryBinding, applicant: EmploymentApplicantsModel) {
-        binding.etJoiningDate.setText(currentApplicant.dateOfJoining)
-        binding.etTotalExperience.setText(currentApplicant.totalExperience)
-        binding.etRetirementAge.setText(currentApplicant.retirementAge.toString())
-        binding.etOfficialMailId.setText(currentApplicant.officialMailID)
-        binding.etDesignation.setText(currentApplicant.designation)
-        binding.etEmployeeId.setText(currentApplicant.employeeID)
-        binding.etCompanyName.setText(currentApplicant.companyName)
-        binding.cbIsPensioner.isChecked = currentApplicant.isPensioner
-        selectMasterDropdownValue(binding.spinnerSector, applicant.sectorTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerEmploymentType, applicant.employmentTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerIndustry, applicant.industryTypeDetailID)
-        fillAddress(binding.layoutAddress, applicant.addressBean)
-    }
-
-    private fun selectMasterDropdownValue(spinner: MaterialSpinner, id: Int?) {
+    private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
             if (obj.typeDetailID == id) {
@@ -522,45 +606,57 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun getCityFailure(msg: String) = showToast(msg)
 
     private fun getCurrentApplicant(): EmploymentApplicantsModel {
+        val currentApplicant = EmploymentApplicantsModel()
+        val profile = binding.spinnerProfileSegment.selectedItem as DropdownMaster?
+        val subProfile = binding.spinnerSubProfile.selectedItem as DropdownMaster?
+        currentApplicant.profileSegmentTypeDetailID = profile?.typeDetailID
+        currentApplicant.subProfileTypeDetailID = subProfile?.typeDetailID
+        currentApplicant.isMainApplicant = currentPosition == 0
         when (formType) {
-            SALARY -> return getSalaryForm(binding.layoutSalary)
-            SENP -> return getSenpForm(binding.layoutSenp)
+            SALARY -> return getSalaryForm(binding.layoutSalary, currentApplicant)
+            SENP -> return getSenpForm(binding.layoutSenp, currentApplicant)
         }
-        return EmploymentApplicantsModel()
+        return currentApplicant
     }
 
-    private fun getSalaryForm(binding: LayoutSalaryBinding): EmploymentApplicantsModel {
-        val currentApplicant = EmploymentApplicantsModel()
+    private fun getSalaryForm(binding: LayoutSalaryBinding, applicant: EmploymentApplicantsModel): EmploymentApplicantsModel {
         val sector = binding.spinnerSector.selectedItem as DropdownMaster?
         val industry = binding.spinnerIndustry.selectedItem as DropdownMaster?
         val employment = binding.spinnerEmploymentType.selectedItem as DropdownMaster?
-        currentApplicant.companyName = binding.etCompanyName.toString()
-        currentApplicant.sectorTypeDetailID = sector?.typeDetailID
-        currentApplicant.industryTypeDetailID = industry?.typeDetailID
-        currentApplicant.employmentTypeDetailID = employment?.typeDetailID
-        currentApplicant.designation = binding.etDesignation.text.toString()
-        currentApplicant.dateOfJoining = binding.etJoiningDate.text.toString()
-        currentApplicant.totalExperience = binding.etTotalExperience.text.toString()
-        currentApplicant.retirementAge = binding.etRetirementAge.text.toString().toFloat()
-        currentApplicant.officialMailID = binding.etOfficialMailId.text.toString()
-        currentApplicant.addressBean = getAddress(binding.layoutAddress)
-        return currentApplicant
+        applicant.companyName = binding.etCompanyName.text.toString()
+        applicant.sectorTypeDetailID = sector?.typeDetailID
+        applicant.industryTypeDetailID = industry?.typeDetailID
+        applicant.employmentTypeDetailID = employment?.typeDetailID
+        applicant.designation = binding.etDesignation.text.toString()
+        applicant.dateOfJoining = binding.etJoiningDate.text.toString()
+        applicant.totalExperience = binding.etTotalExperience.text.toString()
+        applicant.retirementAge = binding.etRetirementAge.text.toString().toInt()
+        applicant.officialMailID = binding.etOfficialMailId.text.toString()
+        applicant.addressBean = getAddress(binding.layoutAddress)
+        applicant.grossIncome = binding.etGrossIncome.text.toString()
+        applicant.deduction = binding.etDeduction.text.toString()
+        applicant.netIncome = binding.etNetIncome.text.toString()
+        return applicant
     }
 
-    private fun getSenpForm(binding: LayoutSenpBinding): EmploymentApplicantsModel {
-        val currentApplicant = EmploymentApplicantsModel()
+    private fun getSenpForm(binding: LayoutSenpBinding, applicant: EmploymentApplicantsModel): EmploymentApplicantsModel {
         val constitution = binding.spinnerConstitution.selectedItem as DropdownMaster?
         val industry = binding.spinnerIndustry.selectedItem as DropdownMaster?
         val businessSetupType = binding.spinnerBusinessSetUpType.selectedItem as DropdownMaster?
-        currentApplicant.companyName = binding.etBusinessName.toString()
-        currentApplicant.constitutionTypeDetailID = constitution?.typeDetailID
-        currentApplicant.businessSetupTypeDetailID = businessSetupType?.typeDetailID
-        currentApplicant.industryTypeDetailID = industry?.typeDetailID
-        currentApplicant.dateOfIncorporation = binding.etIncorporationDate.text.toString()
-        currentApplicant.gstRegistration = binding.etGstRegistration.text.toString()
-        currentApplicant.businessVinatgeInYear = binding.etBusinessVintage.text.toString().toInt()
-        currentApplicant.addressBean = getAddress(binding.layoutAddress)
-        return currentApplicant
+        applicant.companyName = binding.etBusinessName.text.toString()
+        applicant.constitutionTypeDetailID = constitution?.typeDetailID
+        applicant.businessSetupTypeDetailID = businessSetupType?.typeDetailID
+        applicant.industryTypeDetailID = industry?.typeDetailID
+        applicant.dateOfIncorporation = binding.etIncorporationDate.text.toString()
+        applicant.gstRegistration = binding.etGstRegistration.text.toString()
+        applicant.businessVinatgeInYear = binding.etBusinessVintage.text.toString().toInt()
+        applicant.addressBean = getAddress(binding.layoutAddress)
+        applicant.monthlyIncome = binding.etMonthlyIncome.text.toString()
+        applicant.averageMonthlyIncome = binding.etAverageMonthlyIncome.text.toString()
+        applicant.lastYearIncome = binding.etLastYearIncome.text.toString()
+        applicant.currentYearIncome = binding.etCurrentYearIncome.text.toString()
+        applicant.allEarningMembers = binding.cbAllEarningMember.isChecked
+        return applicant
     }
 
     private fun getAddress(binding: LayoutEmploymentAddressBinding): AddressDetail {
@@ -568,7 +664,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         val state = binding.spinnerState.selectedItem as StatesMaster?
         val district = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
         val city = binding.spinnerCity.selectedItem as Response.CityObj?
-
         address.address1 = binding.etAddress.text.toString()
         address.zip = binding.etPinCode.text.toString()
         address.landmark = binding.etLandmark.text.toString()

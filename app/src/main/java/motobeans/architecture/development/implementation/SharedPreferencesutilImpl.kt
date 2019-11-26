@@ -52,12 +52,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
 
         getLoginData()?.responseObj?.userDetails?.userBranches?.let {
             userBranches.addAll(getLoginData()!!.responseObj.userDetails.userBranches)
-            /*userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
-            userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
-            userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)
-            userBranches.addAll(getLoginData()!!.responseObj!!.userDetails!!.userBranches)*/
         }
-
         return userBranches
     }
 

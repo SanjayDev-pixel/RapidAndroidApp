@@ -4,9 +4,6 @@ import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 
 class RequestConversion {
-    companion object {
-        val gson = Gson()
-    }
 
     fun loanInfoRequest(master: LoanInfoMaster): LoanApplicationRequest {
         val request = LoanApplicationRequest()

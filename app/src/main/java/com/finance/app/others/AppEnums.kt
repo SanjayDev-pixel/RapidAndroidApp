@@ -52,4 +52,8 @@ class AppEnums {
         PERMANENT("PERMANENT"), CURRENT("CURRENT"),
         SENP("SENP"), SALARY("SALARY")
     }
+
+    enum class INCOME_TYPE (val type: String) {
+        GROSS_INCOME("GROSS_INCOME"), DEDUCTION("DEDUCTION")
+    }
 }

@@ -2,7 +2,7 @@ package com.finance.app.persistence.model
 
 class EmploymentApplicantsModel {
     var addressBean: AddressDetail? = AddressDetail()
-    var allEarningMembers: Int? = 0
+    var allEarningMembers = false
     var applicantID: Int? = 0
     var businessSetupTypeDetailID: Int? = 0
     var businessVinatgeInYear: Int? = 0
@@ -22,8 +22,15 @@ class EmploymentApplicantsModel {
     var leadApplicantNumber: Int? = 0
     var incomeConsidered: Boolean = false
     var isPensioner: Boolean = false
+    var grossIncome: String = ""
+    var netIncome: String = ""
+    var deduction: String = ""
+    var lastYearIncome: String = ""
+    var currentYearIncome: String = ""
+    var averageMonthlyIncome: String = ""
+    var monthlyIncome: String = ""
     var profileSegmentTypeDetailID: Int? = 0
-    var retirementAge: Float? = 0.0f
+    var retirementAge: Int = 0
     var sectorTypeDetailID: Int? = 0
     var subProfileTypeDetailID: Int? = 0
     var totalExperience: String? = ""

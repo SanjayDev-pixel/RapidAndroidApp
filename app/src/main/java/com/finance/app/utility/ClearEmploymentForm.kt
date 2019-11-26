@@ -20,7 +20,7 @@ class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, privat
         clearSenpForm()
     }
 
-    private fun clearSalaryForm() {
+    fun clearSalaryForm() {
         binding.layoutSalary.etCompanyName.text?.clear()
         binding.layoutSalary.etJoiningDate.text?.clear()
         binding.layoutSalary.layoutAddress.etLandmark.text?.clear()
@@ -44,7 +44,7 @@ class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, privat
         binding.layoutSalary.layoutAddress.spinnerCity.adapter = CitySpinnerAdapter(context,ArrayList())
     }
 
-    private fun clearSenpForm() {
+    fun clearSenpForm() {
         binding.layoutSenp.etBusinessName.text?.clear()
         binding.layoutSenp.etIncorporationDate.text?.clear()
         binding.layoutSenp.layoutAddress.etLandmark.text?.clear()

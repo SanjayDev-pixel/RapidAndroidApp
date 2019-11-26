@@ -113,7 +113,6 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         value.responseObj?.let {
             loanMaster = responseConversion.toLoanMaster(value.responseObj)
             loanInfo = loanMaster?.draftData
-            saveDataToDB(loanMaster!!)
         }
             showData(loanInfo)
     }

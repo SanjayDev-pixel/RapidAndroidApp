@@ -11,7 +11,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_marginTop="@dimen/margin_10"
             android:orientation="vertical">
 
             <TextView
@@ -22,6 +21,15 @@
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbAllEarningMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_10"
+                android:text="@string/all_earning_member"
+                android:textSize="@dimen/button_text_size"
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_business_name"
@@ -67,7 +75,6 @@
                     android:id="@+id/spinnerIndustry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_weight="1"
                     android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
@@ -81,13 +88,14 @@
 
                 <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerBusinessSetUpType"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
+                    android:layout_weight="1"
                     android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="@dimen/text_size"
-                    android:layout_marginTop="@dimen/fields_margin"
+                    android:layout_marginStart="@dimen/margin_10"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_floatingLabelText="Business Setup Type*"
                     app:ms_hint="Business Setup Type*"
@@ -105,25 +113,6 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_current_year_income"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etCurrentYearIncome"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Current Year Income"
-                        android:minWidth="200dp"
-                        android:inputType="number"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_last_year_income"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -137,6 +126,27 @@
                         android:hint="Last Year Income"
                         android:inputType="number"
                         android:minWidth="150dp"
+                        android:maxLength="6"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_current_year_income"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCurrentYearIncome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Current Year Income"
+                        android:maxLength="6"
+                        android:minWidth="200dp"
+                        android:inputType="number"
                         android:singleLine="true"
                         android:textSize="@dimen/text_size" />
 
@@ -157,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Average Monthly Income"
                     android:inputType="number"
+                    android:maxLength="5"
                     android:minWidth="200dp"
                     android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
@@ -175,6 +186,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Monthly Income"
+                    android:maxLength="5"
+                    android:inputType="numberDecimal"
                     android:minWidth="200dp"
                     android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
