@@ -299,6 +299,21 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val industry = salaryBinding.spinnerIndustry.selectedItem as DropdownMaster?
         val employmentType = salaryBinding.spinnerEmploymentType.selectedItem as DropdownMaster?
 
+        if (sector == null) {
+            errorCount++
+            salaryBinding.spinnerSector.error = "Required Field"
+        }
+
+        if (industry == null) {
+            errorCount++
+            salaryBinding.spinnerIndustry.error = "Required Field"
+        }
+
+        if (employmentType == null) {
+            errorCount++
+            salaryBinding.spinnerEmploymentType.error = "Required Field"
+        }
+
         errorCount.plus(validateAddress(salaryBinding.layoutAddress))
         return isValidForm(errorCount)
     }
@@ -352,10 +367,22 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     private fun validateAddress(binding: LayoutEmploymentAddressBinding): Int {
         var errorCount = 0
         val state = binding.spinnerState.selectedItem as StatesMaster?
+        val district = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
+        val city = binding.spinnerCity.selectedItem as Response.CityObj?
+
         if (state == null) {
             errorCount++
             binding.spinnerState.error = "Required Field"
         }
+        if (district == null) {
+            errorCount++
+            binding.spinnerDistrict.error = "Required Field"
+        }
+        if (city == null) {
+            errorCount++
+            binding.spinnerCity.error = "Required Field"
+        }
+
         val pin = binding.etPinCode.text.toString()
         if (!pin.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -496,7 +523,60 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     }
 
     override fun validateProperty(binding: FragmentPropertyBinding): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var errorCount = 0
+        val unitType = binding.spinnerUnitType.selectedItem as DropdownMaster?
+        val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
+        val ownedProperty = binding.spinnerOwnedProperty.selectedItem as DropdownMaster?
+        val state = binding.spinnerState.selectedItem as StatesMaster?
+        val district = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
+        val city = binding.spinnerCity.selectedItem as Response.CityObj?
+
+        if (unitType == null) {
+            errorCount++
+            binding.spinnerUnitType.error = "Required Field"
+        }
+
+        if (ownership == null) {
+            errorCount++
+            binding.spinnerOwnership.error = "Required Field"
+        }
+
+        if (ownedProperty == null) {
+            errorCount++
+            binding.spinnerOwnedProperty.error = "Required Field"
+        }
+
+        if (district == null) {
+            errorCount++
+            binding.spinnerDistrict.error = "Required Field"
+        }
+        if (city == null) {
+            errorCount++
+            binding.spinnerCity.error = "Required Field"
+        }
+        if (state == null) {
+            errorCount++
+            binding.spinnerState.error = "Required Field"
+        }
+        val pin = binding.etPinCode.text.toString()
+        if (!pin.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etPinCode.error = "Required Field"
+        }
+
+        val propertyAddress = binding.etPropertyAddress.text.toString()
+        if (!propertyAddress.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etPropertyAddress.error = "Required Field"
+        }
+
+        val landmark = binding.etLandmark.text.toString()
+        if (!landmark.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etLandmark.error = "Required Field"
+        }
+
+        return isValidForm(errorCount)
     }
 
     override fun validateAssetLiability(binding: FragmentAssetLiablityBinding): Boolean {

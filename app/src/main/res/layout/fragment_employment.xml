@@ -79,23 +79,6 @@
 
                 </LinearLayout>
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerAllEarningMember"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    android:visibility="gone"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="All Earning member in Loan Structure"
-                    app:ms_hint="All Earning member in Loan Structure"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
                 <include
                     android:id="@+id/layoutSalary"
                     layout="@layout/layout_salary" />

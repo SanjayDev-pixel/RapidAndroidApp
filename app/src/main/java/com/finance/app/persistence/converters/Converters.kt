@@ -371,4 +371,23 @@ class Converters {
         return null
     }
 
+    @TypeConverter
+    fun fromStringToPropertyModel(value: String?): PropertyModel? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<PropertyModel>() {
+
+        }.type
+        return Gson().fromJson<PropertyModel>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromPropertyModelToString(states: PropertyModel?): String? {
+        states?.let {
+            val gson = Gson()
+            return gson.toJson(states)
+        }
+        return null
+    }
 }

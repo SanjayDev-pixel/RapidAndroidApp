@@ -40,7 +40,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun getEmpId(): String? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.tablePrimaryID.toString()
     }
 
     override fun getUserBranches(): List<Response.UserBranches>? {

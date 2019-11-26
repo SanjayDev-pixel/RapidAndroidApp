@@ -10,14 +10,13 @@ import java.util.*
 class LoanProductMaster : Serializable {
 
     @PrimaryKey
-    var key: String = UUID.randomUUID().toString()
+    var productID: Int = 0
     var fromDate: String? = null
     var loanPurposeList: ArrayList<Response.LoanPurpose>? = null
     var maxAmount: Int = 0
     var maxTenure: Int = 0
     var minAmount: Int = 0
     var minTenure: Int = 0
-    var productID: Int = 0
     var productName: String? = null
     var toDate: String? = null
 }

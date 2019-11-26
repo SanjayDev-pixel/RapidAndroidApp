@@ -13,7 +13,7 @@ import kotlinx.coroutines.async
 
 @Database(entities = [AllMasterDropDown::class, LoanProductMaster::class, AllLeadMaster::class,
   LoanInfoMaster::class, AssetLiabilityMaster::class, BankDetailMaster::class, ReferenceMaster::class,
-  PersonalInfoMaster::class, StatesMaster::class, EmploymentMaster::class], version = 3)
+  PersonalInfoMaster::class, StatesMaster::class, EmploymentMaster::class, PropertyMaster::class], version = 3)
 
 @TypeConverters(value = [Converters::class, ConverterArrayList::class])
 abstract class MasterDB : RoomDatabase() {
@@ -76,6 +76,9 @@ abstract class MasterDB : RoomDatabase() {
 
   @SuppressWarnings("WeakerAccess")
   abstract fun assetLiabilityDao(): AssetLiabilityDao
+
+  @SuppressWarnings("WeakerAccess")
+  abstract fun propertyDao(): PropertyDao
 
   fun reconfigDataFromDBASync(){
 

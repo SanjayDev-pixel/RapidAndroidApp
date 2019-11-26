@@ -302,14 +302,14 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override val branchId: String
         get() = mBranchId
     override val employeeId: String
-        //        get() = empId!!
-        get() = "3"
+        get() = empId!!
     override val channelTypeId: String
         get() = mChannelTypeId
 
     private fun getChannelPartnerName(sourceChannelPartner: DropdownMaster) {
         mChannelTypeId = sourceChannelPartner.typeDetailID.toString()
         mBranchId = sharedPreferences.getLeadDetail().branchID!!
+        empId = sharedPreferences.getEmpId()
         sourcePartnerPresenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME)
     }
 

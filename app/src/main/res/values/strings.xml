@@ -167,4 +167,9 @@
     <string name="employee_id">Employee Id</string>
     <string name="joining_date">Joining Date</string>
     <string name="all_earning_member">All Earning Member</string>
+    <string name="is_first_property">Is First Property</string>
+    <string name="distance_from_residence">Distance From Residence</string>
+    <string name="income">Income</string>
+    <string name="senp">SENP</string>
+    <string name="average_monthly_income">Average Monthly Income</string>
 </resources>

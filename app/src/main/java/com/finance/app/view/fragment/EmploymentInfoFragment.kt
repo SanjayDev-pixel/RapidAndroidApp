@@ -74,6 +74,9 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var grossIncome: Float = 0.0f
     private var deduction: Float = 0.0f
     private var netIncome: String = ""
+    private var lastYearIncome: Float = 0.0f
+    private var currentYearIncome: Float = 0.0f
+    private var averageMonthlyIncome: String = ""
     private var currentPosition = 0
     private var mStateId: String = ""
     private var mDistrictId: String = ""
@@ -88,6 +91,10 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         private lateinit var states: List<StatesMaster>
         private const val SALARY = 0
         private const val SENP = 1
+        private const val ASSESED_INCOME = 116
+        private const val ITR = 117
+        private const val CASH_SALARY = 118
+        private const val BANK_SALARY = 119
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -100,7 +107,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         ArchitectureApp.instance.component.inject(this)
         SetEmploymentMandatoryField(binding)
         mContext = context!!
-        employmentForm = ClearEmploymentForm(binding, mContext, allMasterDropDown, states)
         getEmploymentInfo()
         setDatePicker()
         setClickListeners()
@@ -170,7 +176,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun onApplicantClick(position: Int) {
         if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
             saveCurrentApplicant()
-            ClearEmploymentForm(binding, mContext, allMasterDropDown, states)
+            ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearAll()
             currentPosition = position
             waitFor1Sec(position)
         } else showToast(getString(R.string.mandatory_field_missing))
@@ -207,13 +213,15 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             }
         }
         binding.ivDocumentUpload.setOnClickListener {}
-        incomeListener(binding.layoutSalary.etGrossIncome, AppEnums.INCOME_TYPE.GROSS_INCOME)
-        incomeListener(binding.layoutSalary.etDeduction, AppEnums.INCOME_TYPE.DEDUCTION)
+        salaryIncomeListener(binding.layoutSalary.etGrossIncome, AppEnums.INCOME_TYPE.GROSS_INCOME)
+        salaryIncomeListener(binding.layoutSalary.etDeduction, AppEnums.INCOME_TYPE.DEDUCTION)
+        senpIncomeListener(binding.layoutSenp.etLastYearIncome, AppEnums.INCOME_TYPE.LAST_YEAR_INCOME)
+        senpIncomeListener(binding.layoutSenp.etCurrentYearIncome, AppEnums.INCOME_TYPE.CURRENT_YEAR_INCOME)
         pinCodeListener(binding.layoutSenp.layoutAddress.etPinCode, AppEnums.ADDRESS_TYPE.SENP)
         pinCodeListener(binding.layoutSalary.layoutAddress.etPinCode, AppEnums.ADDRESS_TYPE.SALARY)
     }
 
-    private fun incomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
+    private fun salaryIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
         amountField!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable) {}
@@ -231,6 +239,24 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         })
     }
 
+    private fun senpIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
+        amountField!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                when (type) {
+                    AppEnums.INCOME_TYPE.LAST_YEAR_INCOME -> lastYearIncome = getIncomeValue(amountField.text.toString())
+                    AppEnums.INCOME_TYPE.CURRENT_YEAR_INCOME -> currentYearIncome = getIncomeValue(amountField.text.toString())
+                }
+                if (counter == 2) {
+                    averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toString()
+                    binding.layoutSenp.etAverageMonthlyIncome.setText(averageMonthlyIncome)
+                    counter = 0
+                }
+            }
+        })
+    }
+
     private fun getIncomeValue(amount: String): Float {
         if (amount.isNotEmpty()) {
             val income = amount.toFloat()
@@ -241,6 +267,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun validateSalary() {
+        employmentForm = ClearEmploymentForm(binding, mContext, allMasterDropDown, states)
         if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
             employmentForm.clearSenpForm()
             loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
@@ -341,11 +368,11 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 if (position >= 0) {
                     val profileSub = parent.selectedItem as DropdownMaster
                     when (profileSub.typeDetailID) {
-                        118, 119 -> {
+                        CASH_SALARY, BANK_SALARY -> {
                             formType = SALARY
                             showSalaryForm(profileSub.typeDetailID!!)
                         }
-                        116, 117 -> {
+                        ITR, ASSESED_INCOME -> {
                             formType = SENP
                             showSenpForm(profileSub.typeDetailID!!)
                         }
@@ -356,23 +383,24 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun showSalaryForm(id: Int) {
-        if (id == 119) {
+        if (id == BANK_SALARY) {
             binding.layoutSalary.cbIsPensioner.visibility = View.VISIBLE
         } else {
             binding.layoutSalary.cbIsPensioner.visibility = View.GONE
         }
         binding.layoutSalary.llSalary.visibility = View.VISIBLE
         binding.layoutSenp.llSenp.visibility = View.GONE
-        binding.spinnerAllEarningMember.visibility = View.GONE
     }
 
     private fun showSenpForm(id: Int) {
-        if (id == 116) {
+        if (id == ASSESED_INCOME) {
             binding.layoutSenp.cbAllEarningMember.visibility = View.VISIBLE
+            binding.layoutSenp.lastCurrentIncome.visibility = View.GONE
             binding.layoutSenp.inputMonthlyIncome.visibility = View.VISIBLE
         } else {
             binding.layoutSenp.cbAllEarningMember.visibility = View.GONE
             binding.layoutSenp.inputMonthlyIncome.visibility = View.GONE
+            binding.layoutSenp.lastCurrentIncome.visibility = View.VISIBLE
         }
         binding.layoutSenp.llSenp.visibility = View.VISIBLE
         binding.layoutSalary.llSalary.visibility = View.GONE

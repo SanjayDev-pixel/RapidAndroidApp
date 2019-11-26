@@ -51,4 +51,7 @@ class AllMasterDropDown : Serializable {
     var AddressProof:ArrayList<DropdownMaster>? = null
     var ResidenceType:ArrayList<DropdownMaster>? = null
     var LivingStandardIndicators: ArrayList<DropdownMaster>? = null
+    var PropertyUnitType: ArrayList<DropdownMaster>? = null
+    var AlreadyOwnedProperty: ArrayList<DropdownMaster>? = null
+    var PropertyOwnership: ArrayList<DropdownMaster>? = null
 }

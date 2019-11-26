@@ -12,15 +12,15 @@ import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, private val context: Context,
                           private val masterDropdown: AllMasterDropDown, private val state: List<StatesMaster>) {
 
-    init {
+    fun clearAll() {
         binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(context,masterDropdown.SubProfileSegment!!)
         binding.spinnerProfileSegment.adapter = MasterSpinnerAdapter(context,masterDropdown.ProfileSegment!!)
-        binding.spinnerAllEarningMember.adapter = MasterSpinnerAdapter(context,masterDropdown.LivingStandardIndicators!!)
         clearSalaryForm()
         clearSenpForm()
     }
 
     fun clearSalaryForm() {
+        binding.layoutSalary.cbIsPensioner.isChecked = false
         binding.layoutSalary.etCompanyName.text?.clear()
         binding.layoutSalary.etJoiningDate.text?.clear()
         binding.layoutSalary.layoutAddress.etLandmark.text?.clear()
@@ -45,6 +45,7 @@ class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, privat
     }
 
     fun clearSenpForm() {
+        binding.layoutSenp.cbAllEarningMember.isChecked = false
         binding.layoutSenp.etBusinessName.text?.clear()
         binding.layoutSenp.etIncorporationDate.text?.clear()
         binding.layoutSenp.layoutAddress.etLandmark.text?.clear()
