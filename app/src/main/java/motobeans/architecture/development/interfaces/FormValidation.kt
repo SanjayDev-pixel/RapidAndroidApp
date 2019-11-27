@@ -13,7 +13,7 @@ interface FormValidation {
     fun validateBankDetail(binding: FragmentBankDetailBinding):Boolean
     fun validateAssetLiability(binding: FragmentAssetLiablityBinding):Boolean
     fun validateReference(binding: FragmentReferenceBinding):Boolean
-    fun validateProperty(binding: FragmentPropertyBinding):Boolean
+    fun validateProperty(binding: FragmentPropertyInfoBinding):Boolean
     fun disablePersonalFields(binding: FragmentPersonalBinding)
     fun disableEmploymentFields(binding: FragmentEmploymentBinding)
     fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding)

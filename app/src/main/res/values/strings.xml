@@ -172,4 +172,10 @@
     <string name="income">Income</string>
     <string name="senp">SENP</string>
     <string name="average_monthly_income">Average Monthly Income</string>
+    <string name="num_of_tenant">Num of Tenant</string>
+    <string name="cash_ocr_value">Cash OCR Value(Rs)</string>
+    <string name="ocr_value_rs">OCR Value(Rs)</string>
+    <string name="mv_of_property">Mv of Property(Rs)</string>
+    <string name="agreement_value">Agreement Value(Rs)</string>
+    <string name="tenant_noc_available">Tenant NOC available</string>
 </resources>

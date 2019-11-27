@@ -32,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="true"
+                    android:layout_marginTop="@dimen/fields_margin"
                     android:orientation="horizontal">
 
                     <fr.ganfra.materialspinner.MaterialSpinner
@@ -50,6 +51,23 @@
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
 
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerOwnership"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minWidth="@dimen/text_min_width"
+                        app:ms_arrowColor="@color/black"
+                        app:ms_arrowSize="@dimen/text_size"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:textSize="@dimen/text_size"
+                        app:ms_floatingLabelColor="@color/hint_color"
+                        app:ms_floatingLabelText="Ownership* "
+                        app:ms_hint="Ownership* "
+                        app:ms_hintColor="@color/hint_color"
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        app:ms_multiline="false" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -60,7 +78,7 @@
                     android:orientation="horizontal">
 
                     <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerOwnership"
+                        android:id="@+id/spinnerPropertyTransaction"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -69,11 +87,37 @@
                         app:ms_arrowSize="@dimen/text_size"
                         android:textSize="@dimen/text_size"
                         app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Ownership* "
-                        app:ms_hint="Ownership* "
+                        app:ms_floatingLabelText="Nature Of Property Transaction* "
+                        app:ms_hint="Nature Of Property Transaction* "
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerTransactionCategory"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minWidth="@dimen/text_min_width"
+                        app:ms_arrowColor="@color/black"
+                        app:ms_arrowSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size"
+                        android:layout_marginStart="@dimen/margin_10"
+                        app:ms_floatingLabelColor="@color/hint_color"
+                        app:ms_floatingLabelText="Property Nature of Transaction Category* "
+                        app:ms_hint="Property Nature of Transaction Category* "
+                        app:ms_hintColor="@color/hint_color"
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        app:ms_multiline="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="true"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:orientation="horizontal">
 
                     <fr.ganfra.materialspinner.MaterialSpinner
                         android:id="@+id/spinnerOwnedProperty"
@@ -84,10 +128,26 @@
                         app:ms_arrowColor="@color/black"
                         app:ms_arrowSize="@dimen/text_size"
                         android:textSize="@dimen/text_size"
-                        android:layout_marginStart="@dimen/margin_10"
                         app:ms_floatingLabelColor="@color/hint_color"
                         app:ms_floatingLabelText="Owned Property* "
                         app:ms_hint="Owned Property* "
+                        app:ms_hintColor="@color/hint_color"
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        app:ms_multiline="false" />
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerOccupiedBy"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:minWidth="@dimen/text_min_width"
+                        app:ms_arrowColor="@color/black"
+                        android:layout_marginStart="@dimen/margin_10"
+                        app:ms_arrowSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size"
+                        app:ms_floatingLabelColor="@color/hint_color"
+                        app:ms_floatingLabelText="Occupied by* "
+                        app:ms_hint="Occupied by* "
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
@@ -101,7 +161,99 @@
                     android:layout_marginTop="@dimen/fields_margin"
                     android:orientation="horizontal">
 
-                     <com.google.android.material.textfield.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_no_of_tenants"
+                        android:layout_width="0dp"
+                        android:layout_marginTop="@dimen/edit_spinner_margin"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etNumOfTenants"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/num_of_tenant"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:minWidth="200dp"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerTenantNocAvailable"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:minWidth="@dimen/text_min_width"
+                        app:ms_arrowColor="@color/black"
+                        android:layout_marginStart="@dimen/margin_10"
+                        app:ms_arrowSize="@dimen/text_size"
+                        android:textSize="@dimen/text_size"
+                        app:ms_floatingLabelColor="@color/hint_color"
+                        app:ms_floatingLabelText="Tenant NOC Available* "
+                        app:ms_hint="Tenant NOC Available* "
+                        app:ms_hintColor="@color/hint_color"
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        app:ms_multiline="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="true"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_cash_ocr"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCashOcr"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/cash_ocr_value"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:minWidth="200dp"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_ocr"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etOcr"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/ocr_value_rs"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:minWidth="200dp"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="true"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_property_area"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -109,17 +261,17 @@
                         android:layout_marginTop="@dimen/spinner_edittext_margin"
                         android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPropertyArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/property_area_in_sq_ft"
-                        android:minWidth="200dp"
-                        android:maxLength="5"
-                        android:inputType="number"
-                        android:textSize="@dimen/text_size" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPropertyArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/property_area_in_sq_ft"
+                            android:minWidth="200dp"
+                            android:maxLength="5"
+                            android:inputType="number"
+                            android:textSize="@dimen/text_size" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/cbIsFirstProperty"
@@ -131,6 +283,53 @@
                         android:padding="@dimen/margin_10"
                         android:text="@string/is_first_property"
                         android:textSize="@dimen/button_text_size" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="true"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_mv_property"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etMvProperty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/mv_of_property"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:minWidth="200dp"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_agreement_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAgreementValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/agreement_value"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:minWidth="200dp"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 

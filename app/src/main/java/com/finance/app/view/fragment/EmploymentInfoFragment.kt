@@ -83,7 +83,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var mDistrictId: String = ""
     private var formType: Int = -1
     private var counter = 0
-    private lateinit var employmentForm:ClearEmploymentForm
 
     companion object {
         private val responseConversion = ResponseConversion()

@@ -71,4 +71,6 @@ object Response {
     data class CityObj(val cityID: Int, val cityName: String)
     data class ResponseDistrict(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<DistrictObj>?, val timeStamp: Long)
     data class DistrictObj(val districtID: Int, val districtName: String)
+    data class ResponsePropertyNature(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PropertyNatureObj>, val timeStamp: Long)
+    data class PropertyNatureObj(val propertyNatureTransactionCategory: String, val propertyNatureTransactionCategoryID: Int)
 }

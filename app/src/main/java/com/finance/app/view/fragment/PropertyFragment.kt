@@ -11,20 +11,19 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.lifecycle.Observer
 import com.finance.app.R
-import com.finance.app.databinding.FragmentPropertyBinding
+import com.finance.app.databinding.FragmentPropertyInfoBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.DistrictCityConnector
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
+import com.finance.app.presenter.connector.PropertyNatureConnector
 import com.finance.app.presenter.presenter.*
+import com.finance.app.utility.DisablePropertyFields
 import com.finance.app.utility.RequestConversion
 import com.finance.app.utility.ResponseConversion
 import com.finance.app.utility.SetPropertyMandatoryField
-import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
+import com.finance.app.view.adapters.recycler.Spinner.*
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.coroutines.GlobalScope
@@ -39,8 +38,8 @@ import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
-        LoanApplicationConnector.GetLoanApp, PinCodeDetailConnector.PinCode,
-        DistrictCityConnector.District, DistrictCityConnector.City {
+        LoanApplicationConnector.GetLoanApp, PropertyNatureConnector.PropertyNature,
+        PinCodeDetailConnector.PinCode, DistrictCityConnector.District, DistrictCityConnector.City {
 
     @Inject
     lateinit var formValidation: FormValidation
@@ -48,7 +47,7 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
-    private lateinit var binding: FragmentPropertyBinding
+    private lateinit var binding: FragmentPropertyInfoBinding
     private lateinit var mContext: Context
     private val responseConversion = ResponseConversion()
     private val requestConversion = RequestConversion()
@@ -56,6 +55,7 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private lateinit var states: List<StatesMaster>
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
+    private val propertyNaturePresenter = PropertyNaturePresenter(this)
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private val districtPresenter = DistrictPresenter(this)
     private val cityPresenter = CityPresenter(this)
@@ -66,10 +66,12 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var mLead: AllLeadMaster? = null
+    private var mOwnerhipId: String = ""
+    private var mTransactionId: String = ""
     private var empId: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.fragment_property)
+        binding = initBinding(inflater, container, R.layout.fragment_property_info)
         init()
         return binding.root
     }
@@ -77,9 +79,14 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
-        getPropertyInfo()
+        checkPropertySelection()
         SetPropertyMandatoryField(binding)
         setClickListeners()
+    }
+
+    private fun checkPropertySelection() {
+        if (sharedPreferences.getPropertySelection()) getPropertyInfo()
+        else DisablePropertyFields(binding)
     }
 
     private fun getPropertyInfo() {
@@ -126,7 +133,12 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.etPropertyArea.setText(property.propertyAreaSquareFt.toString())
         binding.etPropertyAddress.setText(property.propertyAddress)
         binding.etLandmark.setText(property.landmark)
+        binding.etNumOfTenants.setText(property.numberOfTenants.toString())
+        binding.etCashOcr.setText(property.cashOCRValue.toString())
+        binding.etOcr.setText(property.ocrValue.toString())
         binding.etPinCode.setText(property.pinCode)
+        binding.etMvProperty.setText(property.mvOfProperty)
+        binding.etAgreementValue.setText(property.agreementValue.toString())
     }
 
     private fun getDropDownsFromDB() {
@@ -145,11 +157,63 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun setMasterDropDown(allMasterDropDown: AllMasterDropDown) {
         binding.spinnerUnitType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.PropertyUnitType!!)
-        binding.spinnerOwnership.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Ownership!!)
+        binding.spinnerOwnership.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.PropertyOwnership!!)
         binding.spinnerOwnedProperty.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.AlreadyOwnedProperty!!)
+        binding.spinnerPropertyTransaction.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.NatureOfPropertyTransaction!!)
+        binding.spinnerOccupiedBy.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.PropertyOccupiedBy!!)
+        binding.spinnerTenantNocAvailable.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.TenantNocAvailable!!)
+        binding.spinnerTransactionCategory.adapter = PropertyNatureSpinnerAdapter(mContext, ArrayList())
         selectMasterDropdownValue(binding.spinnerOwnedProperty, propertyModel!!.alreadyOwnedPropertyTypeDetailID)
         selectMasterDropdownValue(binding.spinnerOwnership, propertyModel!!.ownershipTypeDetailID)
         selectMasterDropdownValue(binding.spinnerUnitType, propertyModel!!.unitTypeTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerPropertyTransaction, propertyModel!!.natureOfPropertyTransactionTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerOccupiedBy, propertyModel!!.occupiedByTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerTenantNocAvailable, propertyModel!!.tenantNocAvailableTypeDetailID)
+        setUpOwnership(binding.spinnerOwnership, allMasterDropDown)
+    }
+
+    private fun setUpOwnership(ownershipSpinner: Spinner, allMasterDropDown: AllMasterDropDown) {
+        ownershipSpinner.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.PropertyOwnership!!)
+        ownershipSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    val ownership = parent.selectedItem as DropdownMaster
+                    setUpPropertyTransaction(ownership.typeDetailID)
+                }
+            }
+        }
+    }
+
+    private fun setUpPropertyTransaction(ownership: Int?) {
+        binding.spinnerPropertyTransaction.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.NatureOfPropertyTransaction!!)
+        binding.spinnerPropertyTransaction.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    val transaction = parent.selectedItem as DropdownMaster
+                    callTransactionCategoryApi(ownership, transaction.typeDetailID)
+                }
+            }
+        }
+    }
+
+    override val ownershipId: String
+        get() = mOwnerhipId
+
+    override val transactionId: String
+        get() = mTransactionId
+
+    private fun callTransactionCategoryApi(ownershipId: Int?, transactionId: Int?) {
+        mOwnerhipId = ownershipId.toString()
+        mTransactionId = transactionId.toString()
+        propertyNaturePresenter.callNetwork(ConstantsApi.CALL_PROPERTY_NATURE)
+    }
+
+    override fun getPropertyNatureFailure(msg: String) = showToast(msg)
+
+    override fun getPropertyNatureSuccess(value: Response.ResponsePropertyNature) {
+        binding.spinnerTransactionCategory.adapter = PropertyNatureSpinnerAdapter(mContext, value.responseObj)
     }
 
     private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
@@ -301,16 +365,23 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private fun getPropertyModel(): PropertyModel {
         val propertyModel = PropertyModel()
         val cCity = binding.spinnerCity.selectedItem as Response.CityObj?
+        val transactionCategory = binding.spinnerTransactionCategory.selectedItem as Response.PropertyNatureObj?
         val cState = binding.spinnerState.selectedItem as StatesMaster?
         val cDistrict = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
         val unitType = binding.spinnerUnitType.selectedItem as DropdownMaster?
         val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
         val ownedProperty = binding.spinnerOwnedProperty.selectedItem as DropdownMaster?
+        val propertyTransaction = binding.spinnerPropertyTransaction.selectedItem as DropdownMaster?
+        val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
+        val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
 
         propertyModel.leadID = leadId.toInt()
         propertyModel.cityID = cCity?.cityID
         propertyModel.districtID = cDistrict?.districtID
         propertyModel.stateID = cState?.stateID
+        propertyModel.occupiedByTypeDetailID = occupiedBy?.typeDetailID
+        propertyModel.natureOfPropertyTransactionTypeDetailID = propertyTransaction?.typeDetailID
+        propertyModel.propertyNatureOfTransactionCategoryTypeDetailID = transactionCategory?.propertyNatureTransactionCategoryID
         propertyModel.unitTypeTypeDetailID = unitType?.typeDetailID
         propertyModel.alreadyOwnedPropertyTypeDetailID = ownedProperty?.typeDetailID
         propertyModel.ownershipTypeDetailID = ownership?.typeDetailID
@@ -319,6 +390,12 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         propertyModel.landmark = binding.etLandmark.text.toString()
         propertyModel.pinCode = binding.etPinCode.text.toString()
         propertyModel.distanceFromBranch = binding.etDistanceFromBranch.text.toString()
+        propertyModel.numberOfTenants = binding.etNumOfTenants.text.toString().toInt()
+        propertyModel.cashOCRValue = binding.etCashOcr.text.toString().toDouble()
+        propertyModel.ocrValue = binding.etOcr.text.toString().toDouble()
+        propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
+        propertyModel.mvOfProperty = binding.etMvProperty.text.toString()
+        propertyModel.agreementValue = binding.etAgreementValue.text.toString().toDouble()
         propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
         propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
         return propertyModel

@@ -522,11 +522,14 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return true
     }
 
-    override fun validateProperty(binding: FragmentPropertyBinding): Boolean {
+    override fun validateProperty(binding: FragmentPropertyInfoBinding): Boolean {
         var errorCount = 0
         val unitType = binding.spinnerUnitType.selectedItem as DropdownMaster?
         val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
         val ownedProperty = binding.spinnerOwnedProperty.selectedItem as DropdownMaster?
+        val propertyTransaction = binding.spinnerPropertyTransaction.selectedItem as DropdownMaster?
+        val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
+        val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
         val state = binding.spinnerState.selectedItem as StatesMaster?
         val district = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
         val city = binding.spinnerCity.selectedItem as Response.CityObj?
@@ -536,6 +539,19 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.spinnerUnitType.error = "Required Field"
         }
 
+        if (propertyTransaction == null) {
+            errorCount++
+            binding.spinnerPropertyTransaction.error = "Required Field"
+        }
+        if (occupiedBy == null) {
+            errorCount++
+            binding.spinnerOccupiedBy.error = "Required Field"
+        }
+
+        if (tenantNoc == null) {
+            errorCount++
+            binding.spinnerTenantNocAvailable.error = "Required Field"
+        }
         if (ownership == null) {
             errorCount++
             binding.spinnerOwnership.error = "Required Field"
@@ -558,6 +574,43 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             errorCount++
             binding.spinnerState.error = "Required Field"
         }
+        val tenants = binding.etNumOfTenants.text.toString()
+        if (!tenants.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etNumOfTenants.error = "Required Field"
+        }
+
+        val cashOcr = binding.etCashOcr.text.toString()
+        if (!cashOcr.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etCashOcr.error = "Required Field"
+        }
+        val ocr = binding.etOcr.text.toString()
+        if (!ocr.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etOcr.error = "Required Field"
+        }
+        val propertyMv = binding.etMvProperty.text.toString()
+        if (!propertyMv.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etMvProperty.error = "Required Field"
+        }
+        val propertyArea = binding.etPropertyArea.text.toString()
+        if (!propertyArea.exIsNotEmptyOrNullOrBlank() || propertyArea.toInt() <= 0) {
+            errorCount++
+            binding.etPropertyArea.error = "Required Field"
+        }
+        if (ocr.toDouble() < cashOcr.toDouble()) {
+            errorCount++
+            binding.etOcr.error = "Cannot be grater than cash OCR"
+        }
+
+        val agreementValue = binding.etAgreementValue.text.toString()
+        if (!agreementValue.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etAgreementValue.error = "Required Field"
+        }
+
         val pin = binding.etPinCode.text.toString()
         if (!pin.exIsNotEmptyOrNullOrBlank()) {
             errorCount++

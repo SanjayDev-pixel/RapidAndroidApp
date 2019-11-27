@@ -87,6 +87,9 @@ interface Api {
     @GET("api/v1/master/district/{districtId}/city/")
     fun getCities(@Path("districtId") districtId: String): Observable<Response.ResponseCity>
 
+    @GET("api/v1/master/prop-nature/{ownershipId}/{transactionId}")
+    fun getPropertyNature(@Path("ownershipId") ownershipId: String, @Path("transactionId") transactionId: String): Observable<Response.ResponsePropertyNature>
+
     @POST("api/v1/loan/application/draft/")
     fun postLoanApp(@Body requestPost: LoanApplicationRequest): Observable<Response.ResponseGetLoanApplication>
 

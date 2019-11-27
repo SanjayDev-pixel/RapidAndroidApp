@@ -54,4 +54,7 @@ class AllMasterDropDown : Serializable {
     var PropertyUnitType: ArrayList<DropdownMaster>? = null
     var AlreadyOwnedProperty: ArrayList<DropdownMaster>? = null
     var PropertyOwnership: ArrayList<DropdownMaster>? = null
+    var NatureOfPropertyTransaction: ArrayList<DropdownMaster>? = null
+    var PropertyOccupiedBy: ArrayList<DropdownMaster>? = null
+    var TenantNocAvailable: ArrayList<DropdownMaster>? = null
 }

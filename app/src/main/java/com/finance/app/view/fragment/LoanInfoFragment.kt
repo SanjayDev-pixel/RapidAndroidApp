@@ -286,9 +286,17 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
         binding.btnSaveAndContinue.setOnClickListener {
             if (formValidation.validateLoanInformation(binding, selectedLoanProduct)) {
-//                checkPropertySelection()
+                checkPropertySelection()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             }
+        }
+    }
+
+    private fun checkPropertySelection() {
+        if (binding.cbPropertySelected.isChecked) {
+            sharedPreferences.setPropertySelection("Yes")
+        } else {
+            sharedPreferences.setPropertySelection("No")
         }
     }
 
@@ -341,15 +349,6 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     override fun getSourceChannelPartnerNameFailure(msg: String)=showToast(msg)
-
-    private fun checkPropertySelection() {
-        if (binding.cbPropertySelected.isChecked) {
-            sharedPreferences.setPropertySelection("Yes")
-            showToast("Property Selected")
-        } else {
-            sharedPreferences.setPropertySelection("No")
-        }
-    }
 
     override val loanAppRequestPost: LoanApplicationRequest
         get() = requestConversion.loanInfoRequest(getLoanInfoMaster())
