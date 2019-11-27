@@ -41,6 +41,7 @@ import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
+import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import javax.inject.Inject
 
 class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
@@ -223,17 +224,16 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     private fun salaryIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
         amountField!!.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 when (type) {
                     AppEnums.INCOME_TYPE.GROSS_INCOME -> grossIncome = getIncomeValue(amountField.text.toString())
                     AppEnums.INCOME_TYPE.DEDUCTION -> deduction = getIncomeValue(amountField.text.toString())
                 }
-                if (counter == 2 && grossIncome > deduction) {
+                if (grossIncome > deduction) {
                     netIncome = (grossIncome - deduction).toString()
                     binding.layoutSalary.etNetIncome.setText(netIncome)
-                    counter = 0
                 }
             }
         })
@@ -241,24 +241,21 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     private fun senpIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
         amountField!!.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 when (type) {
                     AppEnums.INCOME_TYPE.LAST_YEAR_INCOME -> lastYearIncome = getIncomeValue(amountField.text.toString())
                     AppEnums.INCOME_TYPE.CURRENT_YEAR_INCOME -> currentYearIncome = getIncomeValue(amountField.text.toString())
                 }
-                if (counter == 2) {
-                    averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toString()
-                    binding.layoutSenp.etAverageMonthlyIncome.setText(averageMonthlyIncome)
-                    counter = 0
-                }
+                averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toString()
+                binding.layoutSenp.etAverageMonthlyIncome.setText(averageMonthlyIncome)
             }
         })
     }
 
     private fun getIncomeValue(amount: String): Float {
-        if (amount.isNotEmpty()) {
+        if (amount.exIsNotEmptyOrNullOrBlank()) {
             val income = amount.toFloat()
             counter++
             return income
@@ -267,16 +264,15 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun validateSalary() {
-        employmentForm = ClearEmploymentForm(binding, mContext, allMasterDropDown, states)
         if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
-            employmentForm.clearSenpForm()
+            ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSenpForm()
             loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
         }
     }
 
     private fun validateSenp() {
         if (formValidation.validateSenpEmployment(binding.layoutSenp)) {
-            employmentForm.clearSalaryForm()
+            ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSalaryForm()
             loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
         }
     }
@@ -397,10 +393,12 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             binding.layoutSenp.cbAllEarningMember.visibility = View.VISIBLE
             binding.layoutSenp.lastCurrentIncome.visibility = View.GONE
             binding.layoutSenp.inputMonthlyIncome.visibility = View.VISIBLE
+            binding.layoutSenp.inputAverageMonthlyIncome.visibility = View.GONE
         } else {
             binding.layoutSenp.cbAllEarningMember.visibility = View.GONE
             binding.layoutSenp.inputMonthlyIncome.visibility = View.GONE
             binding.layoutSenp.lastCurrentIncome.visibility = View.VISIBLE
+            binding.layoutSenp.inputAverageMonthlyIncome.visibility = View.VISIBLE
         }
         binding.layoutSenp.llSenp.visibility = View.VISIBLE
         binding.layoutSalary.llSalary.visibility = View.GONE
@@ -663,6 +661,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         applicant.addressBean = getAddress(binding.layoutAddress)
         applicant.grossIncome = binding.etGrossIncome.text.toString()
         applicant.deduction = binding.etDeduction.text.toString()
+        applicant.employeeID = binding.etEmployeeId.text.toString()
         applicant.netIncome = binding.etNetIncome.text.toString()
         return applicant
     }
