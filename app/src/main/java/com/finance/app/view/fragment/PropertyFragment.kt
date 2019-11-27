@@ -126,6 +126,20 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         fillFormWithPropertyData(property!!)
     }
 
+    private fun getDropDownsFromDB() {
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
+            masterDrownDownValues.let {
+                allMasterDropDown = it
+                setMasterDropDown(allMasterDropDown)
+            }
+        })
+
+        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer {
+            states = it
+            setStateDropDown(states)
+        })
+    }
+
     private fun fillFormWithPropertyData(property: PropertyModel) {
         binding.cbIsFirstProperty.isChecked = property.isFirstProperty
         binding.etDistanceFromBranch.setText(property.distanceFromBranch)
@@ -139,20 +153,6 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.etPinCode.setText(property.pinCode)
         binding.etMvProperty.setText(property.mvOfProperty)
         binding.etAgreementValue.setText(property.agreementValue.toString())
-    }
-
-    private fun getDropDownsFromDB() {
-        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
-                setMasterDropDown(allMasterDropDown)
-            }
-        })
-
-        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer {
-            states = it
-            setStateDropDown(states)
-        })
     }
 
     private fun setMasterDropDown(allMasterDropDown: AllMasterDropDown) {
@@ -246,7 +246,7 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.btnSaveAndContinue.setOnClickListener {
             if (formValidation.validateProperty(binding)) {
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
-            }
+            } else showToast(getString(R.string.validation_error))
         }
         pinCodeListener(binding.etPinCode)
     }
@@ -432,5 +432,4 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             dataBase.provideDataBaseSource().propertyDao().insertProperty(property)
         }
     }
-
 }

@@ -2,6 +2,7 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
@@ -65,8 +66,23 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        this.finish()
-        super.onBackPressed()
+        showDialog()
+    }
+
+    private fun showDialog() {
+        runOnUiThread {
+            if (!isFinishing) {
+                AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.warning_msg))
+                        .setMessage(getString(R.string.data_loss_msg))
+                        .setCancelable(false)
+                        .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                        .setPositiveButton("ok") { _, _ ->
+                            this.finish()
+                            super.onBackPressed()
+                        }.show()
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -48,7 +48,6 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
 
     override fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanInfo) {
         selectedNavString = navItem.screenName
-        println("Munish Thakur -> NavItem -> SELECTED at position: $position -> $navItem ($navItem) -> Screen Name -> $selectedNavString")
         navigateToAnotherFragmentOnIconCLick(navItem)
         if(isMenuExpanded()) {
             toggleMenu()

@@ -266,14 +266,14 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSenpForm()
             loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
-        }
+        } else showToast(getString(R.string.validation_error))
     }
 
     private fun validateSenp() {
         if (formValidation.validateSenpEmployment(binding.layoutSenp)) {
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSalaryForm()
             loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
-        }
+        } else showToast(getString(R.string.validation_error))
     }
 
     private fun pinCodeListener(pinCodeField: TextInputEditText?, formType: AppEnums.ADDRESS_TYPE? = null) {

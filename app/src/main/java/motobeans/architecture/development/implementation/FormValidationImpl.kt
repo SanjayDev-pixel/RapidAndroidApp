@@ -18,7 +18,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         val currentPinCode = binding.personalAddressLayout.etCurrentPinCode.text.toString()
         val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
-        val rentAmount = binding.personalAddressLayout.etCurrentRentAmount.text.toString()
 
         if (!firstName.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -48,11 +47,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying != "") {
             errorCount++
             binding.personalAddressLayout.etCurrentStaying.error = "Required field"
-        }
-
-        if (!rentAmount.exIsNotEmptyOrNullOrBlank() && currentStaying != "") {
-            errorCount++
-            binding.personalAddressLayout.etCurrentRentAmount.error = "Required field"
         }
 
         if (!binding.personalAddressLayout.cbSameAsCurrent.isChecked) {

@@ -178,4 +178,7 @@
     <string name="mv_of_property">Mv of Property(Rs)</string>
     <string name="agreement_value">Agreement Value(Rs)</string>
     <string name="tenant_noc_available">Tenant NOC available</string>
+    <string name="validation_error">Enter Valid Input</string>
+    <string name="warning_msg">Warning!</string>
+    <string name="data_loss_msg">Your data will be lost if not saved. Do you still want to proceed?</string>
 </resources>
