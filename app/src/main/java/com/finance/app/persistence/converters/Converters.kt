@@ -16,13 +16,13 @@ class Converters {
 
     @TypeConverter
     fun fromTimestamp(value: String?): Date? {
-        /*for(dateFormate in alDateFormats){
-          try {
-            return dateFormate.parse(value)
-          } catch (e: Exception) {
-            e.printStackTrace()
-          }
-        }*/
+//        for(dateFormate in alDateFormats){
+//          try {
+//            return dateFormate.parse(value)
+//          } catch (e: Exception) {
+//            e.printStackTrace()
+//          }
+//        }
         return if (value == null) null else Date(value)
     }
 
@@ -192,41 +192,22 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToBankDetailMaster(value: String?): BankDetailMaster? {
+    fun fromStringToBankDetailList(value: String?): BankDetailList? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
-        val listType = object : TypeToken<BankDetailMaster>() {
+        val listType = object : TypeToken<BankDetailList
+                >() {
 
         }.type
-        return Gson().fromJson<BankDetailMaster>(value, listType)
+        return Gson().fromJson<BankDetailList>(value, listType)
     }
 
     @TypeConverter
-    fun fromBankDetailMasterToString(lead: BankDetailMaster?): String? {
-        lead?.let {
+    fun fromBankDetailListToString(bankList: BankDetailList?): String? {
+        bankList?.let {
             val gson = Gson()
-            return gson.toJson(lead)
-        }
-        return null
-    }
-
-    @TypeConverter
-    fun fromStringToBankLoanApplicationObj(value: String?): BankDetail? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<Response.BankDetail>() {
-
-        }.type
-        return Gson().fromJson<BankDetail>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromBankLoanApplicationObjMasterToString(bank: BankDetail?): String? {
-        bank?.let {
-            val gson = Gson()
-            return gson.toJson(bank)
+            return gson.toJson(bankList)
         }
         return null
     }
@@ -304,6 +285,26 @@ class Converters {
 
     @TypeConverter
     fun fromPersonalApplicantListToString(applicant: PersonalApplicantList?): String? {
+        applicant?.let {
+            val gson = Gson()
+            return gson.toJson(applicant)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToReferencesList(value: String?): ReferencesList? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<ReferencesList>() {
+
+        }.type
+        return Gson().fromJson<ReferencesList>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromReferencesListToString(applicant: ReferencesList?): String? {
         applicant?.let {
             val gson = Gson()
             return gson.toJson(applicant)

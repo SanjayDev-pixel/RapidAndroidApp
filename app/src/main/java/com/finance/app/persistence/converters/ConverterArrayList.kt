@@ -283,4 +283,24 @@ class ConverterArrayList {
         return null
     }
 
+    @TypeConverter
+    fun fromStringToArrayListReferenceModel(value: String?): ArrayList<ReferenceModel>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<ReferenceModel>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<ReferenceModel>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromReferenceModelArrayListToString(ArrayList: ArrayList<ReferenceModel>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
 }

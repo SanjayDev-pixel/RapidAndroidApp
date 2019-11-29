@@ -123,6 +123,8 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override val storageType: String
         get() = employmentMaster.storageType
 
+    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
+
     override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
         value.responseObj?.let {
             employmentMaster = responseConversion.toEmploymentMaster(value.responseObj)
@@ -160,8 +162,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         applicantAdapter!!.setOnItemClickListener(this)
         binding.rcApplicants.adapter = applicantAdapter
     }
-
-    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
 
     private fun setDatePicker() {
         binding.layoutSalary.etJoiningDate.setOnClickListener {

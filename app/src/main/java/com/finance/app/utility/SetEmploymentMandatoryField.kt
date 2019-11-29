@@ -18,8 +18,8 @@ class SetEmploymentMandatoryField(binding: FragmentEmploymentBinding) {
         ShowAsMandatory(binding.inputLayoutBusinessVintage)
         ShowAsMandatory(binding.layoutAddress.inputLayoutAddress)
         ShowAsMandatory(binding.layoutAddress.inputLayoutLandmark)
-        ShowAsMandatory(binding.layoutAddress.inputLayoutContactNum)
-        ShowAsMandatory(binding.layoutAddress.inputLayoutPinCode)
+        ShowAsMandatory(binding.layoutAddress.inputLayoutContact)
+        ShowAsMandatory(binding.layoutAddress.inputLayoutZip)
     }
 
     private fun setSalaryMandatoryField(binding: LayoutSalaryBinding) {
@@ -29,7 +29,7 @@ class SetEmploymentMandatoryField(binding: FragmentEmploymentBinding) {
         ShowAsMandatory(binding.inputLayoutJoiningDate)
         ShowAsMandatory(binding.layoutAddress.inputLayoutAddress)
         ShowAsMandatory(binding.layoutAddress.inputLayoutLandmark)
-        ShowAsMandatory(binding.layoutAddress.inputLayoutContactNum)
-        ShowAsMandatory(binding.layoutAddress.inputLayoutPinCode)
+        ShowAsMandatory(binding.layoutAddress.inputLayoutContact)
+        ShowAsMandatory(binding.layoutAddress.inputLayoutZip)
     }
 }

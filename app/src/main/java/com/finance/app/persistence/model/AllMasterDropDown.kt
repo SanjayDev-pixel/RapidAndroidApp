@@ -56,5 +56,7 @@ class AllMasterDropDown : Serializable {
     var PropertyOwnership: ArrayList<DropdownMaster>? = null
     var NatureOfPropertyTransaction: ArrayList<DropdownMaster>? = null
     var PropertyOccupiedBy: ArrayList<DropdownMaster>? = null
+    var ReferenceRelationship: ArrayList<DropdownMaster>? = null
     var TenantNocAvailable: ArrayList<DropdownMaster>? = null
+    var SalaryCredit: ArrayList<DropdownMaster>? = null
 }

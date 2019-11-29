@@ -181,4 +181,7 @@
     <string name="validation_error">Enter Valid Input</string>
     <string name="warning_msg">Warning!</string>
     <string name="data_loss_msg">Your data will be lost if not saved. Do you still want to proceed?</string>
+    <string name="contact_num">Contact Num</string>
+    <string name="add_bank_detail">Add Bank Detail</string>
+    <string name="account_holder_name">Account Holder Name</string>
 </resources>

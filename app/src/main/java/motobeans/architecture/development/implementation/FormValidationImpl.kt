@@ -429,21 +429,50 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     override fun validateReference(binding: FragmentReferenceBinding): Boolean {
         var errorCount = 0
         val name = binding.etName.text.toString()
+        val relation = binding.spinnerRelation.selectedItem as DropdownMaster?
+        val occupation = binding.spinnerOccupation.selectedItem as DropdownMaster?
+        val state = binding.referenceAddressLayout.spinnerState.selectedItem as StatesMaster?
+        val district = binding.referenceAddressLayout.spinnerDistrict.selectedItem as Response.DistrictObj?
+        val city = binding.referenceAddressLayout.spinnerCity.selectedItem as Response.CityObj?
+
+        if (relation == null) {
+            errorCount++
+            binding.spinnerRelation.error = "Required Field"
+        }
+
+        if (occupation == null) {
+            errorCount++
+            binding.spinnerOccupation.error = "Required Field"
+        }
+
+        if (district == null) {
+            errorCount++
+            binding.referenceAddressLayout.spinnerDistrict.error = "Required Field"
+        }
+        if (city == null) {
+            errorCount++
+            binding.referenceAddressLayout.spinnerCity.error = "Required Field"
+        }
+        if (state == null) {
+            errorCount++
+            binding.referenceAddressLayout.spinnerState.error = "Required Field"
+        }
+
         if (!name.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etName.error = "Name can not be blank"
         }
 
-        val contact = binding.etContactNum.text.toString()
+        val contact = binding.referenceAddressLayout.etContactNum.text.toString()
         if (!contact.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.etContactNum.error = "Contact can not be blank"
+            binding.referenceAddressLayout.etContactNum.error = "Contact can not be blank"
         }
 
-        val address = binding.referenceAddressLayout.etAddress1.toString()
+        val address = binding.referenceAddressLayout.etAddress.toString()
         if (!address.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.referenceAddressLayout.etAddress1.error = "Address can not be blank"
+            binding.referenceAddressLayout.etAddress.error = "Address can not be blank"
         }
 
         val landmark = binding.referenceAddressLayout.etLandmark.text.toString()
@@ -458,17 +487,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.referenceAddressLayout.etPinCode.error = "Pin code can not be blank"
         }
 
-        val city = binding.referenceAddressLayout.etCity.text.toString()
-        if (!city.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.referenceAddressLayout.etCity.error = "City can not be blank"
-        }
-
-        val district = binding.referenceAddressLayout.etDistrict.text.toString()
-        if (!district.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.referenceAddressLayout.etDistrict.error = "District field is required"
-        }
         return isValidForm(errorCount)
     }
 
@@ -594,15 +612,26 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             errorCount++
             binding.etPropertyArea.error = "Required Field"
         }
-        if (ocr.toDouble() < cashOcr.toDouble()) {
-            errorCount++
-            binding.etOcr.error = "Cannot be grater than cash OCR"
-        }
 
         val agreementValue = binding.etAgreementValue.text.toString()
         if (!agreementValue.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etAgreementValue.error = "Required Field"
+        }
+
+        if (ocr.toDouble() < cashOcr.toDouble()) {
+            errorCount++
+            binding.etOcr.error = "Cannot be grater than cash OCR"
+        }
+
+        if (propertyMv.toDouble() < agreementValue.toDouble()) {
+            errorCount++
+            binding.etOcr.error = "Cannot be grater than MV of property"
+        }
+
+        if (ocr.toDouble() > propertyMv.toDouble() && ocr.toDouble() > agreementValue.toDouble()) {
+            errorCount++
+            binding.etOcr.error = "Cannot be grater than MV of Property or agreement value"
         }
 
         val pin = binding.etPinCode.text.toString()

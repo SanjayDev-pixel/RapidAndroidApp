@@ -63,6 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Account No. "
+                        android:maxLength="20"
                         android:inputType="number"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -80,7 +81,7 @@
                         android:id="@+id/etAccountHolderName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Account Holder Name "
+                        android:hint="@string/account_holder_name"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
 
@@ -172,6 +173,19 @@
                     android:text="@string/upload_bank_statement"
                     android:textColor="@color/black" />
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnAddBankDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:background="@drawable/button_theme_style"
+                    android:padding="5sp"
+                    android:text="@string/add_bank_detail"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button_text_size" />
 
                 <Button
                     android:id="@+id/btnSaveAndContinue"

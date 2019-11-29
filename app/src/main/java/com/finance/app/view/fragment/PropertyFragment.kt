@@ -37,7 +37,8 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
+class
+PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp, PropertyNatureConnector.PropertyNature,
         PinCodeDetailConnector.PinCode, DistrictCityConnector.District, DistrictCityConnector.City {
 
@@ -68,7 +69,6 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var mLead: AllLeadMaster? = null
     private var mOwnerhipId: String = ""
     private var mTransactionId: String = ""
-    private var empId: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_property_info)
@@ -91,7 +91,6 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun getPropertyInfo() {
         mLead = sharedPreferences.getLeadDetail()
-        empId = sharedPreferences.getLoginData()!!.responseObj.userDetails.userBasicDetails.tablePrimaryID.toString()
         loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
 
@@ -172,6 +171,22 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         setUpOwnership(binding.spinnerOwnership, allMasterDropDown)
     }
 
+    private fun setStateDropDown(states: List<StatesMaster>) {
+        binding.spinnerState.adapter = StatesSpinnerAdapter(mContext, states)
+        binding.spinnerCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
+        binding.spinnerDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
+        binding.spinnerState?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    val state = parent.selectedItem as StatesMaster
+                    mStateId = state.stateID.toString()
+                    districtPresenter.callDistrictApi()
+                }
+            }
+        }
+    }
+
     private fun setUpOwnership(ownershipSpinner: Spinner, allMasterDropDown: AllMasterDropDown) {
         ownershipSpinner.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.PropertyOwnership!!)
         ownershipSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -222,22 +237,6 @@ class PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             if (obj.typeDetailID == id) {
                 spinner.setSelection(index + 1)
                 return
-            }
-        }
-    }
-
-    private fun setStateDropDown(states: List<StatesMaster>) {
-        binding.spinnerState.adapter = StatesSpinnerAdapter(mContext, states)
-        binding.spinnerCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
-        binding.spinnerDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
-        binding.spinnerState?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    val state = parent.selectedItem as StatesMaster
-                    mStateId = state.stateID.toString()
-                    districtPresenter.callDistrictApi()
-                }
             }
         }
     }

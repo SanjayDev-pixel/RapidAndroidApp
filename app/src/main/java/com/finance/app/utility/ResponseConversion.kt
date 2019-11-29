@@ -34,7 +34,7 @@ class ResponseConversion {
     fun toBankDetailMaster(response: Response.ResponseObj): BankDetailMaster {
         val master = BankDetailMaster()
         master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, BankDetail::class.java)
+        master.draftData = gson.fromJson(response.draftData, BankDetailList::class.java)
         return master
     }
 
@@ -42,6 +42,13 @@ class ResponseConversion {
         val master = PropertyMaster()
         master.leadID = response.leadID
         master.draftData = gson.fromJson(response.draftData, PropertyModel::class.java)
+        return master
+    }
+
+    fun toReferenceMaster(response: Response.ResponseObj): ReferenceMaster {
+        val master = ReferenceMaster()
+        master.leadID = response.leadID
+        master.draftData = gson.fromJson(response.draftData, ReferencesList::class.java)
         return master
     }
 }

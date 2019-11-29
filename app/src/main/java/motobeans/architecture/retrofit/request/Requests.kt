@@ -15,10 +15,7 @@ object Requests {
                                     val knowSince: String, val name: String, val occupationTypeDetailID: Int?,
                                     val relationTypeDetailID: Int?, val serialNumber: Int)
 
-    data class AddressBean(val address1: String, val address2: String? = null, val addressID: Int?, val addressProof: Int,
-                           val cityID: Int, val cityName: String, val districtID: Int, val entityID: Int?,
-                           val landmark: String?, val rentAmount: Int, val residenceTypeTypeDetailID: Int, val zip: String)
-
+    data class AddressBean(val address1: String, val address2: Any? = null, val addressProof: Int? = null, val cityID: Int, val cityName: String, val districtID: Int, val landmark: String, val rentAmount: Any? = null, val residenceTypeTypeDetailID: Any? = null, val zip: String)
     data class RequestPostEmployment(val applicantDetails: ArrayList<EmploymentDetail>, val leadID: Int, val loanApplicationID: Int? = null)
 
     data class EmploymentDetail(val addressBean: EmploymentAddressBean, val allEarningMembers: Int? = null, val applicantID: Int?,

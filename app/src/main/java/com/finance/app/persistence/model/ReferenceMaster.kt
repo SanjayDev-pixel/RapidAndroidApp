@@ -10,7 +10,7 @@ class ReferenceMaster:Serializable {
     @PrimaryKey
     var leadID: Int = 0
     var loanApplicationDraftDetailID: Int? = null
-    var draftData: BankDetail? = BankDetail()
+    var draftData: ReferencesList = ReferencesList()
     var storageType: String = "APPLICANT_REFERENCE_DETAIL"
     var editable: Boolean? = null
 }
