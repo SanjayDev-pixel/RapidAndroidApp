@@ -5,5 +5,5 @@ class BankDetailModel {
     var applicantID: Int? = null
     var firstName: String? = null
     var isMainApplicant: Boolean = false
-    var leadApplicantNumber: String? = null
+    var leadApplicantNumber: String? = ""
 }

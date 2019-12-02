@@ -5,21 +5,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Spinner
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetLiablityBinding
+import com.finance.app.databinding.LayoutCreditCardDetailsBinding
+import com.finance.app.databinding.LayoutObligationBinding
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
-import com.finance.app.utility.SetAssetLiabilityMandatoryField
+import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.CreditCardAdapter
 import com.finance.app.view.adapters.recycler.adapter.ObligationAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
@@ -30,25 +37,36 @@ import javax.inject.Inject
 class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp, ApplicantsAdapter.ItemClickListener {
 
-    private lateinit var binding: FragmentAssetLiablityBinding
-    private lateinit var mContext: Context
-    private var mLead: AllLeadMaster? = null
-    private var mLeadId: String? = null
-    private var empId: String? = null
-    private val loanAppPostPresenter = LoanAppPostPresenter(this)
-    private val loanAppGetPresenter = LoanAppGetPresenter(this)
-    private var applicantAdapter: ApplicantsAdapter? = null
-    private var assetLiabilityMaster: AssetLiabilityMaster? = AssetLiabilityMaster()
-    private var currentApplicant: AssetLiabilityModel = AssetLiabilityModel()
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
     lateinit var formValidation: FormValidation
     @Inject
     lateinit var dataBase: DataBaseUtil
+    private lateinit var binding: FragmentAssetLiablityBinding
+    private lateinit var mContext: Context
+    private var mLead: AllLeadMaster? = null
+    private lateinit var allMasterDropDown: AllMasterDropDown
+    private val loanAppPostPresenter = LoanAppPostPresenter(this)
+    private val loanAppGetPresenter = LoanAppGetPresenter(this)
+    private var applicantAdapter: ApplicantsAdapter? = null
+    private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
+    private var assetLiabilityMaster: AssetLiabilityMaster = AssetLiabilityMaster()
+    private var aApplicantList: ArrayList<AssetLiabilityModel>? = ArrayList()
+    private var currentApplicant: AssetLiabilityModel = AssetLiabilityModel()
+    private var aDraftData = AssetLiabilityList()
+    private var assetsList: ArrayList<AssetLiability>? = ArrayList()
+    private var currentAsset: AssetLiability? = AssetLiability()
+    private var cardDetailList: ArrayList<CardDetail>? = ArrayList()
+    private var currentCardDetail: CardDetail? = CardDetail()
+    private var obligationsList: ArrayList<ObligationDetail>? = ArrayList()
+    private var currentObligation: ObligationDetail? = ObligationDetail()
+    private var currentPosition = 0
 
     companion object {
-        private lateinit var applicantTab: ArrayList<String>
+        private val leadAndLoanDetail = LeadAndLoanDetail()
+        private val responseConversion = ResponseConversion()
+        private val requestConversion = RequestConversion()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,59 +80,154 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         mContext = context!!
         getAssetLiabilityInfo()
         SetAssetLiabilityMandatoryField(binding)
-        setDropDownValue()
-        applicantTab = ArrayList()
-        setDropDownValue()
-        setCoApplicants()
+        setDatePicker()
         setClickListeners()
-        checkIncomeConsideration()
+//        checkIncomeConsideration()
     }
 
+    private fun checkIncomeConsideration() {
+    }
 
     private fun getAssetLiabilityInfo() {
         mLead = sharedPreferences.getLeadDetail()
-        empId = sharedPreferences.getUserId()
-//        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
+        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
 
     override val leadId: String
         get() = mLead!!.leadID.toString()
 
     override val storageType: String
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = assetLiabilityMaster.storageType
+
+    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
 
     override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getLoanAppGetFailure(msg: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
-    private fun checkIncomeConsideration() {
-        val selected = sharedPreferences.getIncomeConsideration()
-        if (!selected) {
-            Toast.makeText(context, "Income not considered in Loan Information",
-                    Toast.LENGTH_SHORT).show()
-//            formValidation.disableAssetLiabilityFields(binding)
+        value.responseObj?.let {
+            assetLiabilityMaster = responseConversion.toAssetLiabilityMaster(value.responseObj)
+            aDraftData = assetLiabilityMaster.draftData!!
+            aApplicantList = aDraftData.applicantDetails
         }
+        setCoApplicants()
+        showData(aApplicantList)
     }
 
     private fun setCoApplicants() {
-        applicantTab.add("Applicant")
+        val applicantsList = sharedPreferences.getCoApplicantsList()
+        if (applicantsList == null || applicantsList.size <= 0) {
+            applicantTab?.add(getDefaultCoApplicant())
+        }else applicantTab = applicantsList
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
         applicantAdapter!!.setOnItemClickListener(this)
         binding.rcApplicants.adapter = applicantAdapter
     }
 
-    override fun onApplicantClick(position: Int) {
-//        saveCurrentApplicant(position)
-//        ClearPersonalForm(binding)
-        changeCurrentApplicant()
-        setDropDownValue()
+    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
+        return Response.CoApplicantsObj(firstName = "Applicant",
+                isMainApplicant = true, leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
+    }
+
+    override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
+    }
+
+    private fun showData(applicantList: ArrayList<AssetLiabilityModel>?) {
+        if (applicantList != null) {
+            for (applicant in applicantList) {
+                if (applicant.isMainApplicant) {
+                    currentApplicant = applicant
+                    setUpCurrentApplicantDetails(currentApplicant)
+                }
+            }
+        }
+        fillFromWithCurrentApplicant()
+        getDropDownsFromDB()
+    }
+
+    private fun getDropDownsFromDB() {
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
+            masterDrownDownValues.let {
+                allMasterDropDown = masterDrownDownValues
+                setMasterDropDownValue(allMasterDropDown)
+            }
+        })
+    }
+
+    private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown?) {
+        binding.spinnerDocumentProof.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown!!.DocumentProof!!)
+        binding.spinnerAssetSubType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.AssetSubType!!)
+        binding.spinnerAssetType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.AssetDetail!!)
+        binding.spinnerOwnership.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Ownership!!)
+        binding.layoutCreditCard.spinnerBankName.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.BankName!!)
+        binding.layoutCreditCard.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Obligate!!)
+        binding.layoutObligations.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Obligate!!)
+        binding.layoutObligations.spinnerLoanOwnership.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.LoanOwnership!!)
+        binding.layoutObligations.spinnerLoanType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.LoanType!!)
+        binding.layoutObligations.spinnerRepaymentBank.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.RepaymentBank!!)
+        binding.layoutObligations.spinnerEmiPaidInSameMonth.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.BounceEmiPaidInSameMonth!!)
+    }
+
+    private fun setUpCurrentApplicantDetails(currentApplicant: AssetLiabilityModel) {
+        assetsList = currentApplicant.applicantAssetLiabilityList
+        cardDetailList = currentApplicant.applicantCreditCardDetailList
+        obligationsList = currentApplicant.applicantExistingObligationList
+        currentAsset = if (assetsList!!.size > 0) {
+            assetsList!![0]
+        } else AssetLiability()
+        currentCardDetail = if (cardDetailList!!.size > 0) {
+            cardDetailList!![0]
+        } else CardDetail()
+        currentObligation = if (obligationsList!!.size > 0) {
+            obligationsList!![0]
+        } else ObligationDetail()
+    }
+
+    private fun fillFromWithCurrentApplicant() {
+        binding.etValue.setText(currentAsset?.assetValue.toString())
+        binding.layoutCreditCard.etCurrentUtilization.setText(currentCardDetail?.currentUtilization.toString())
+        binding.layoutCreditCard.etLastPaymentDate.setText(currentCardDetail?.lastPaymentDate!!)
+        fillMasterDropdownValueInAssetForm()
+    }
+
+    private fun fillMasterDropdownValueInAssetForm() {
+        selectMasterDropdownValue(binding.spinnerAssetType, currentAsset?.assetDetailsTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerAssetSubType, currentAsset?.subTypeOfAssetTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerOwnership, currentAsset?.ownershipTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerAssetType, currentAsset?.assetDetailsTypeDetailID)
+        fillMasterDropdownValueInCardForm(binding.layoutCreditCard)
+        fillMasterDropdownValueInObligationForm(binding.layoutObligations)
+    }
+
+    private fun fillMasterDropdownValueInCardForm(binding: LayoutCreditCardDetailsBinding) {
+        selectMasterDropdownValue(binding.spinnerBankName, currentCardDetail?.bankNameTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerObligate, currentCardDetail?.obligateTypeDetail)
+    }
+
+    private fun fillMasterDropdownValueInObligationForm(binding: LayoutObligationBinding) {
+        selectMasterDropdownValue(binding.spinnerLoanOwnership, currentObligation?.loanOwnershipTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerObligate, currentObligation?.obligateTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerLoanType, currentObligation?.loanTypeTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerRepaymentBank, currentObligation?.repaymentBankTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerEmiPaidInSameMonth, currentObligation?.bounseEmiPaidInSameMonth)
+    }
+
+    private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
+        for (index in 0 until spinner.count - 1) {
+            val obj = spinner.getItemAtPosition(index) as DropdownMaster
+            if (obj.typeDetailID == id) {
+                spinner.setSelection(index + 1)
+                return
+            }
+        }
+    }
+
+    private fun setDatePicker() {
+        binding.layoutCreditCard.etLastPaymentDate.setOnClickListener {
+            SelectDate(binding.layoutCreditCard.etLastPaymentDate, mContext)
+        }
+        binding.layoutObligations.etDisbursementDate.setOnClickListener {
+            SelectDate(binding.layoutObligations.etDisbursementDate, mContext)
+        }
     }
 
     private fun setClickListeners() {
@@ -153,41 +266,47 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         binding.rcAsset.visibility = View.VISIBLE
     }
 
-    private fun setDropDownValue() {
-        val lists: ArrayList<DropdownMaster> = ArrayList()
-
-        binding.spinnerAssetSubType.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.spinnerAssetType.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.spinnerDocumentProof.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.spinnerOwnership.adapter = MasterSpinnerAdapter(mContext, lists)
-
-        binding.layoutObligations.spinnerLoanOwnership.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.layoutObligations.spinnerLoanType.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.layoutObligations.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.layoutObligations.spinnerRepaymentBank.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.layoutObligations.spinnerEmiPaidInSameMonth.adapter = MasterSpinnerAdapter(mContext, lists)
-
-        binding.layoutCreditCard.spinnerBankName.adapter = MasterSpinnerAdapter(mContext, lists)
-        binding.layoutCreditCard.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, lists)
+    private fun getDataFromDB() {
+        dataBase.provideDataBaseSource().assetLiabilityDao().getAssetLiability(leadId).observe(this, Observer { assetInfo ->
+            assetInfo?.let {
+                assetLiabilityMaster = assetInfo
+                aDraftData = assetLiabilityMaster.draftData!!
+                aApplicantList = aDraftData.applicantDetails
+            }
+            setCoApplicants()
+            showData(aApplicantList)
+        })
     }
 
-    private fun changeCurrentApplicant() {
+    private fun getAssetLiabilityMaster(): AssetLiabilityMaster {
+        aDraftData.applicantDetails = aApplicantList
+        assetLiabilityMaster.draftData = aDraftData
+        assetLiabilityMaster.leadID = leadId.toInt()
+        return assetLiabilityMaster
     }
 
     override val loanAppRequestPost: LoanApplicationRequest
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = requestConversion.assetLiabilityRequest(getAssetLiabilityMaster())
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        saveDataToDB(getAssetLiabilityMaster())
+        gotoNextFragment()
     }
 
     override fun getLoanAppPostFailure(msg: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        saveDataToDB(getAssetLiabilityMaster())
+        showToast(msg)
+    }
+
+    private fun saveDataToDB(assetLiability: AssetLiabilityMaster) {
+        GlobalScope.launch {
+            dataBase.provideDataBaseSource().assetLiabilityDao().insertAssetLiability(assetLiability)
+        }
     }
 
     private fun gotoNextFragment() {
         val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, BankDetailFragment())
+        ft?.replace(R.id.secondaryFragmentContainer, ReferenceFragment())
         ft?.addToBackStack(null)
         ft?.commit()
     }

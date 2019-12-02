@@ -1,6 +1,6 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.GetAllLeadsConnector
+import com.finance.app.presenter.connector.AllLeadsConnector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class GetAllLeadsPresenter(private val allLeads: GetAllLeadsConnector.AllLeads) : GetAllLeadsConnector.PresenterOpt {
+class GetAllLeadsPresenter(private val allLeads: AllLeadsConnector.AllLeads) : AllLeadsConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject

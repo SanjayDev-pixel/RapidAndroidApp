@@ -10,7 +10,7 @@ class AssetLiabilityMaster : Serializable {
     @PrimaryKey
     var leadID: Int = 0
     var loanApplicationDraftDetailID: Int? = null
-    var draftData: AssetLiabilityModel? = AssetLiabilityModel()
+    var draftData: AssetLiabilityList? = AssetLiabilityList()
     var storageType: String = "LIABILITY_AND_ASSET"
     var editable: Boolean? = null
 }

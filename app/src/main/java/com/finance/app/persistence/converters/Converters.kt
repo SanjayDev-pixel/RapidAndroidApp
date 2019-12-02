@@ -152,46 +152,6 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToAssetLiabilityMaster(value: String?): AssetLiabilityMaster? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<AssetLiabilityMaster>() {
-
-        }.type
-        return Gson().fromJson<AssetLiabilityMaster>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromAssetLiabilityMasterToString(lead: AssetLiabilityModel?): String? {
-        lead?.let {
-            val gson = Gson()
-            return gson.toJson(lead)
-        }
-        return null
-    }
-
-    @TypeConverter
-    fun fromStringToAssetLiabilityList(value: String?): AssetLiabilityModel? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<AssetLiabilityMaster>() {
-
-        }.type
-        return Gson().fromJson<AssetLiabilityModel>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromAssetLiabilityListToString(lead: AssetLiabilityMaster?): String? {
-        lead?.let {
-            val gson = Gson()
-            return gson.toJson(lead)
-        }
-        return null
-    }
-
-    @TypeConverter
     fun fromStringToBankDetailList(value: String?): BankDetailList? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
@@ -273,6 +233,26 @@ class Converters {
     }
 
     @TypeConverter
+    fun fromStringToAssetLiabilityMaster(value: String?): AssetLiabilityMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<AssetLiabilityMaster>() {
+
+        }.type
+        return Gson().fromJson<AssetLiabilityMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromAssetLiabilityMasterToString(personalInfo: AssetLiabilityMaster?): String? {
+        personalInfo?.let {
+            val gson = Gson()
+            return gson.toJson(personalInfo)
+        }
+        return null
+    }
+
+   @TypeConverter
     fun fromStringToPersonalApplicantList(value: String?): PersonalApplicantList? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
@@ -285,6 +265,26 @@ class Converters {
 
     @TypeConverter
     fun fromPersonalApplicantListToString(applicant: PersonalApplicantList?): String? {
+        applicant?.let {
+            val gson = Gson()
+            return gson.toJson(applicant)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToAssetLiabilityList(value: String?): AssetLiabilityList? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<AssetLiabilityList>() {
+
+        }.type
+        return Gson().fromJson<AssetLiabilityList>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromAssetLiabilityListToString(applicant: AssetLiabilityList?): String? {
         applicant?.let {
             val gson = Gson()
             return gson.toJson(applicant)

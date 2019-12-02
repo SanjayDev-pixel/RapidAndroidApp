@@ -8,22 +8,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
-import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
+import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
+import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
+import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener {
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
     private lateinit var binding: FragmentDocumentChecklistBinding
     private lateinit var mContext: Context
     private var applicantAdapter: ApplicantsAdapter? = null
-    @Inject
-    lateinit var sharedPreferences: SharedPreferencesUtil
+    private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
+    private var currentPosition = 0
 
     companion object {
-        private lateinit var applicantMenu: ArrayList<String>
+        private val leadAndLoanDetail = LeadAndLoanDetail()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,13 +38,14 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
     }
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         mContext=requireContext()
         showDocumentList()
         setCoApplicants()
         setClickListeners()
     }
 
-    override fun onApplicantClick(position: Int) {
+    override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
         saveCurrentApplicant()
         getParticularApplicantData(position)
     }
@@ -61,11 +67,20 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
     }
 
     private fun setCoApplicants() {
-        applicantMenu = ArrayList()
-        applicantMenu.add("Applicant")
+        val applicantsList = sharedPreferences.getCoApplicantsList()
+        if (applicantsList == null || applicantsList.size <= 0) {
+            applicantTab?.add(getDefaultCoApplicant())
+        }
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantMenu)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
+        applicantAdapter!!.setOnItemClickListener(this)
         binding.rcApplicants.adapter = applicantAdapter
     }
+
+    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
+        return Response.CoApplicantsObj(firstName = "Applicant",
+                isMainApplicant = true, leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
+    }
+
 }

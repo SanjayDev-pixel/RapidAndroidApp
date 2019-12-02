@@ -9,7 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.FragmentReferenceBinding
 import com.finance.app.databinding.LayoutEmploymentAddressBinding
@@ -19,10 +22,7 @@ import com.finance.app.presenter.connector.DistrictCityConnector
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.*
-import com.finance.app.utility.ClearReferenceForm
-import com.finance.app.utility.RequestConversion
-import com.finance.app.utility.ResponseConversion
-import com.finance.app.utility.SetReferenceMandatoryField
+import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
@@ -30,6 +30,7 @@ import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
+import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -55,6 +56,7 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     private lateinit var binding: FragmentReferenceBinding
     private lateinit var mContext: Context
     private var mLead: AllLeadMaster? = null
+    private lateinit var referenceAdapter: ReferenceAdapter
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private val pinCodePresenter = PinCodeDetailPresenter(this)
@@ -66,13 +68,14 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     private var rDraftData = ReferencesList()
     private var referencesList: ArrayList<ReferenceModel>? = ArrayList()
     private var currentReference: ReferenceModel = ReferenceModel()
-    private var rAddressDetail: ReferenceAddressDetail = ReferenceAddressDetail()
+    private var currentPosition: Int? = null
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mPinCode: String = ""
     private var mStateId: String = ""
     private var mDistrictId: String = ""
 
     companion object {
+        private val leadAndLoanDetail = LeadAndLoanDetail()
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
     }
@@ -130,11 +133,20 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
 
     private fun showData(referenceList: ArrayList<ReferenceModel>?) {
         if (referenceList != null && referenceList.size > 0) {
-            currentReference = referenceList[0]
-            rAddressDetail = currentReference.addressBean!!
+            setUpAdapterForListing(referenceList)
         }
         getDropDownsFromDB()
-        fillFormWithCurrentApplicant(currentReference)
+        fillFormWithCurrentReference(currentReference)
+    }
+
+    private fun setUpAdapterForListing(references: ArrayList<ReferenceModel>?) {
+        binding.rcReference.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
+        referenceAdapter = ReferenceAdapter(mContext, references!!)
+        binding.rcReference.adapter = referenceAdapter
+        referenceAdapter.setOnItemClickListener(this)
+        binding.pageIndicatorAsset.attachTo(binding.rcReference)
+        binding.pageIndicatorAsset.visibility = View.VISIBLE
+        binding.rcReference.visibility = View.VISIBLE
     }
 
     private fun getDropDownsFromDB() {
@@ -150,11 +162,13 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         })
     }
 
-    private fun fillFormWithCurrentApplicant(currentReference: ReferenceModel) {
+    private fun fillFormWithCurrentReference(currentReference: ReferenceModel) {
         binding.etName.setText(currentReference.name)
         binding.etKnownSince.setText(currentReference.knowSince)
         binding.referenceAddressLayout.etContactNum.setText(currentReference.contactNumber)
-        fillAddressFields(binding.referenceAddressLayout, rAddressDetail)
+        selectMasterDropdownValue(binding.spinnerRelation, currentReference.relationTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerOccupation, currentReference.occupationTypeDetailID)
+        fillAddressFields(binding.referenceAddressLayout, currentReference.addressBean)
     }
 
     private fun fillAddressFields(binding: LayoutEmploymentAddressBinding, address: ReferenceAddressDetail?) {
@@ -200,8 +214,9 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     private fun setClickListeners() {
         binding.btnAddReference.setOnClickListener {
             if (formValidation.validateReference(binding = binding)) {
-                referencesList?.add(getReferenceModel())
+                saveReference()
                 ClearReferenceForm(binding, mContext, allMasterDropDown, states)
+                clearPinCodeData()
             }
         }
         binding.btnSaveAndContinue.setOnClickListener {
@@ -211,6 +226,13 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
             }
         }
         pinCodeListener(binding.referenceAddressLayout.etPinCode)
+    }
+
+    private fun saveReference() {
+        if (currentPosition == null) {
+            referencesList?.add(getReferenceModel())
+        } else referencesList!![currentPosition!!] = getReferenceModel()
+        setUpAdapterForListing(referencesList)
     }
 
     private fun pinCodeListener(pinCodeField: TextInputEditText?) {
@@ -338,20 +360,20 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         referenceModel.knowSince = binding.etKnownSince.text.toString()
         referenceModel.relationTypeDetailID = relation?.typeDetailID
         referenceModel.occupationTypeDetailID = occupation?.typeDetailID
-        referencesList?.add(referenceModel)
         return referenceModel
     }
 
-    override fun onDeleteClicked(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun onDeleteClicked(position: Int) = showAlertDialog(position)
 
-    override fun onEditClicked(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onEditClicked(position: Int, reference: ReferenceModel) {
+        currentPosition = position
+        fillFormWithCurrentReference(reference)
     }
 
     private fun getReferenceMaster(): ReferenceMaster {
         rDraftData.referenceDetails = referencesList
+        rDraftData.isMainApplicant = true
+        rDraftData.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1)
         referenceMaster.draftData = rDraftData
         referenceMaster.leadID = leadId.toInt()
         return referenceMaster
@@ -382,4 +404,21 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
             dataBase.provideDataBaseSource().referenceDao().insertReference(reference)
         }
     }
+
+    private fun showAlertDialog(position: Int) {
+        val deleteDialogView = LayoutInflater.from(activity).inflate(R.layout.delete_dialog, null)
+        val mBuilder = AlertDialog.Builder(mContext)
+                .setView(deleteDialogView)
+                .setTitle("Delete Reference")
+        val deleteDialog = mBuilder.show()
+        deleteDialogView.tvDeleteConfirm.setOnClickListener { deleteReference(position) }
+        deleteDialogView.tvDonotDelete.setOnClickListener { deleteDialog.dismiss() }
+    }
+
+    private fun deleteReference(position: Int) {
+        referencesList!!.removeAt(position)
+        binding.rcReference.adapter!!.notifyItemRemoved(position)
+        binding.rcReference.adapter!!.notifyItemRangeChanged(position, referencesList!!.size)
+    }
+
 }

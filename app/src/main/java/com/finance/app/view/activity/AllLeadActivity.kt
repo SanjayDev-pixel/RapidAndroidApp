@@ -2,11 +2,10 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAllLeadsBinding
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.presenter.connector.GetAllLeadsConnector
+import com.finance.app.presenter.connector.AllLeadsConnector
 import com.finance.app.presenter.presenter.GetAllLeadsPresenter
 import com.finance.app.view.adapters.recycler.adapter.LeadPagerAdapter
 import com.finance.app.view.fragment.AllLeadsFragment
@@ -23,7 +22,7 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class AllLeadActivity : BaseAppCompatActivity(), GetAllLeadsConnector.AllLeads {
+class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
 
     private val binding: ActivityAllLeadsBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_all_leads)

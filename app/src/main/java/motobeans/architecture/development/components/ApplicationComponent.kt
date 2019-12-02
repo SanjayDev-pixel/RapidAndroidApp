@@ -58,12 +58,14 @@ interface ApplicationComponent {
     fun inject(fragment: PendingLeadsFragment)
     fun inject(fragment: SubmittedLeadFragment)
     fun inject(fragment: RejectedLeadFragment)
+    fun inject(fragment: DocumentCheckListFragment)
     fun inject(fragment: PropertyFragment)
     /**
      * Presenters
      */
     fun inject(presenter: LoanAppPostPresenter)
     fun inject(presenter: LoanAppGetPresenter)
+    fun inject(presenter: CoApplicantsPresenter)
     fun inject(presenter: TestPresenter)
     fun inject(presenter: TempSyncPresenter)
     fun inject(presenter: LoginPresenter)

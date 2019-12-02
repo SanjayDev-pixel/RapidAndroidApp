@@ -1,7 +1,6 @@
 package motobeans.architecture.retrofit.response
 
 import com.finance.app.persistence.model.*
-import java.text.DecimalFormat
 
 object Response {
     data class ResponseSample(var isSuccess: Boolean, var status: Int, var message: String)
@@ -34,37 +33,10 @@ object Response {
     data class DocumentUploadObj(val applicationDocumentID: Any, val documentName: String, val documentType: Any, val documentTypeDetailID: Int, val uploadedDocumentPath: String)
     data class ResponseGetBankDetail(val responseCode: String, val responseMsg: String, val responseObj: BankDetailMaster?, val timeStamp: Long)
     data class ResponseGetAllLeads(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<AllLeadMaster>, val timeStamp: Long)
-    data class BankDetailList(val bankDetailList: ArrayList<BankDetail>?)
-    data class BankDetail(val applicantBankDetailsBean: ArrayList<ApplicantBankDetailsBean>?, val applicantID: Int, val firstName: String, val leadApplicantNumber: String)
-    data class ApplicantBankDetailsBean(
-            val accountHolderName: String,
-            val accountNumber: Int,
-            val accountTypeDetailID: Int,
-            var active: Boolean = true,
-            val applicantBankTransectionList: Any? = null,
-            val applicantID: Int,
-            val averageBankBalance: DecimalFormat? = null,
-            val averageDebitBalance: DecimalFormat? = null,
-            val bankDetailID: Int? = null,
-            val bankNameTypeDetailID: Int,
-            val bankStatementProof: String? = null,
-            val bulkEntryAmount: DecimalFormat? = null,
-            val firstName: String,
-            val inwardChequeReturn: DecimalFormat? = null,
-            val loanApplicationID: Int?,
-            val netMonthlyCredit: DecimalFormat? = null,
-            val numberOfCredit: Int?,
-            val numberOfDebit: Int? = null,
-            val outwardChequeReturn: DecimalFormat? = null,
-            val salaryCreditTypeDetailID: Int,
-            var transection: Int? = null
-    )
 
-    data class ResponseGetReference(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ReferenceMaster>, val timeStamp: Long)
     data class ResponseGetEmployment(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<EmploymentMaster>, val timeStamp: Long)
-    data class EmploymentApplicantDetail(val allEarningMembers: Boolean, val applicantID: Int, val businessSetupTypeDetailID: Int, val businessVinatgeInYear: Int, val companyName: String, val constitutionTypeDetailID: Int, val dateOfIncorporation: String, val dateOfJoining: String, val designation: String, val employeeID: String, val employmentTypeDetailID: Int, val gstRegistration: String, val industryTypeDetailID: Int, val isActive: Boolean, val isPensioner: Boolean, val leadApplicantNumber: Any, val loanApplicationID: Int, val occupationalDetailID: Int, val officialMailID: String, val profileSegmentTypeDetailID: Int, val retirementAge: Int, val sectorTypeDetailID: Int, val subProfileTypeDetailID: Int, val totalExperience: String)
-    data class ResponseGetLoanApplication(val responseCode: String, val responseMsg: String, val responseObj: ResponseObj?, val timeStamp: Long)
-    data class ResponseObj(val draftData: String?, val editable: Boolean?, val leadID: Int, val loanApplicationDraftDetailID: Int?, val storageType: String)
+    data class ResponseGetLoanApplication(val responseCode: String, val responseMsg: String, val responseObj: LoanApplicationGetObj?, val timeStamp: Long)
+    data class LoanApplicationGetObj(val draftData: String?, val editable: Boolean?, val leadID: Int, val loanApplicationDraftDetailID: Int?, val storageType: String)
     data class ResponseGetPersonalInfo(val responseCode: String, val responseMsg: String, val responseObj: PersonalInfoMaster?, val timeStamp: Long)
     data class ResponseStatesDropdown(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<StatesMaster>, val timeStamp: Long)
     data class ResponseCity(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<CityObj>?, val timeStamp: Long)
@@ -73,4 +45,9 @@ object Response {
     data class DistrictObj(val districtID: Int, val districtName: String)
     data class ResponsePropertyNature(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PropertyNatureObj>, val timeStamp: Long)
     data class PropertyNatureObj(val propertyNatureTransactionCategory: String, val propertyNatureTransactionCategoryID: Int)
+    data class ResponseCoApplicants(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<CoApplicantsObj>, val timeStamp: Long)
+    data class CoApplicantsList(val coApplicants: ArrayList<CoApplicantsObj>)
+    data class CoApplicantsObj(val applicantID: Int? = null, val entityID: Int? = null, val firstName: String? = null,
+                               val incomeConsidered: Boolean? = null, val isMainApplicant: Boolean,
+                               val lastName: String? = null, val leadApplicantNumber: String, val middleName: String? = null)
 }

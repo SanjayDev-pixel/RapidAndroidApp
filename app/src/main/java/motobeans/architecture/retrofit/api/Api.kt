@@ -96,4 +96,7 @@ interface Api {
     @GET("api/v1/loan/application/draft/lead/{leadId}/type/{storageType}/")
     fun getLoanApp(@Path("leadId") leadId: String, @Path("storageType") storageType: String): Observable<Response.ResponseGetLoanApplication>
 
+    @GET("api/v1/loan/applicant/{leadId}/")
+    fun getCoApplicantsList(@Path("leadId") leadId: String): Observable<Response.ResponseCoApplicants>
+
 }

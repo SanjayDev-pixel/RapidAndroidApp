@@ -59,4 +59,6 @@ class AllMasterDropDown : Serializable {
     var ReferenceRelationship: ArrayList<DropdownMaster>? = null
     var TenantNocAvailable: ArrayList<DropdownMaster>? = null
     var SalaryCredit: ArrayList<DropdownMaster>? = null
+    var BounceEmiPaidInSameMonth: ArrayList<DropdownMaster>? = null
+    var AssetSubType: ArrayList<DropdownMaster>? = null
 }

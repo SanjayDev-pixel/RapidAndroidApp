@@ -13,4 +13,5 @@ class ReferenceModel {
     var relationTypeDetailID: Int? = 0
     var occupationTypeDetailID: Int? = 0
     var active: Boolean? = true
+
 }

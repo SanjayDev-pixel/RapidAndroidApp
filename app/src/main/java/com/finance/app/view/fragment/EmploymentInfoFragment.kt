@@ -65,6 +65,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private val districtPresenter = DistrictPresenter(this)
     private val cityPresenter = CityPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
+    private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
     private var employmentMaster: EmploymentMaster = EmploymentMaster()
     private var eDraftData = EmploymentApplicantList()
     private var eApplicantList: ArrayList<EmploymentApplicantsModel>? = ArrayList()
@@ -87,6 +88,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     companion object {
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
+        private val leadAndLoanDetail = LeadAndLoanDetail()
         private lateinit var applicantTab: ArrayList<String>
         private lateinit var states: List<StatesMaster>
         private const val SALARY = 0
@@ -131,7 +133,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             eDraftData = employmentMaster.draftData
             eApplicantList = eDraftData.applicantDetails
         }
-        setCoApplicants(eApplicantList)
+        setCoApplicants()
         showData(eApplicantList)
     }
 
@@ -148,17 +150,14 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         fillFormWithCurrentApplicant(currentApplicant)
     }
 
-    private fun setCoApplicants(applicants: ArrayList<EmploymentApplicantsModel>?) {
-        applicantTab = ArrayList()
-        applicantTab.add("Applicant")
-        if (applicants != null && applicants.size > 1) {
-            for (position in 1 until applicants.size) {
-                applicantTab.add("CoApplicant $position")
-            }
-        }
+    private fun setCoApplicants() {
+        val applicantsList = sharedPreferences.getCoApplicantsList()
+        if (applicantsList == null || applicantsList.size <= 0) {
+            applicantTab?.add(getDefaultCoApplicant())
+        }else applicantTab = applicantsList
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
         applicantAdapter!!.setOnItemClickListener(this)
         binding.rcApplicants.adapter = applicantAdapter
     }
@@ -173,34 +172,41 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         }
     }
 
-    override fun onApplicantClick(position: Int) {
+    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
+        return Response.CoApplicantsObj( firstName = "Applicant", isMainApplicant = currentPosition == 0,
+                leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
+    }
+
+    override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
         if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
             saveCurrentApplicant()
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearAll()
             currentPosition = position
-            waitFor1Sec(position)
+            waitFor1Sec(position, coApplicant)
         } else showToast(getString(R.string.mandatory_field_missing))
     }
 
-    private fun waitFor1Sec(position: Int) {
+    private fun waitFor1Sec(position: Int, coApplicant: Response.CoApplicantsObj) {
         val progress = ProgressDialog(mContext)
         progress.setMessage(getString(R.string.msg_saving))
         progress.setCancelable(false)
         progress.show()
         val handler = Handler()
         handler.postDelayed({
-            getParticularApplicantData(position)
+            getParticularApplicantData(position, coApplicant)
             progress.dismiss()
         }, 1000)
         applicantAdapter!!.notifyDataSetChanged()
     }
 
-    private fun getParticularApplicantData(position: Int) {
+    private fun getParticularApplicantData(position: Int, coApplicant: Response.CoApplicantsObj) {
         currentApplicant = if (position >= eApplicantList!!.size) {
             EmploymentApplicantsModel()
         } else {
             eApplicantList!![position]
         }
+        currentApplicant.isMainApplicant = coApplicant.isMainApplicant
+        currentApplicant.leadApplicantNumber = coApplicant.leadApplicantNumber
         fillFormWithCurrentApplicant(currentApplicant)
     }
 
@@ -502,7 +508,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                     eApplicantList!!.add(EmploymentApplicantsModel())
                 }
             }
-            setCoApplicants(eApplicantList)
+            setCoApplicants()
             showData(eApplicantList)
         })
     }

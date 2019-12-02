@@ -19,7 +19,6 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.connector.PropertyNatureConnector
 import com.finance.app.presenter.presenter.*
-import com.finance.app.utility.DisablePropertyFields
 import com.finance.app.utility.RequestConversion
 import com.finance.app.utility.ResponseConversion
 import com.finance.app.utility.SetPropertyMandatoryField
@@ -67,7 +66,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var mLead: AllLeadMaster? = null
-    private var mOwnerhipId: String = ""
+    private var mOwnershipId: String = ""
     private var mTransactionId: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -85,8 +84,9 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun checkPropertySelection() {
-        if (sharedPreferences.getPropertySelection()) getPropertyInfo()
-        else DisablePropertyFields(binding)
+        getPropertyInfo()
+//        if (sharedPreferences.getPropertySelection()) getPropertyInfo()
+//        else DisablePropertyFields(binding)
     }
 
     private fun getPropertyInfo() {
@@ -214,13 +214,13 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     override val ownershipId: String
-        get() = mOwnerhipId
+        get() = mOwnershipId
 
     override val transactionId: String
         get() = mTransactionId
 
     private fun callTransactionCategoryApi(ownershipId: Int?, transactionId: Int?) {
-        mOwnerhipId = ownershipId.toString()
+        mOwnershipId = ownershipId.toString()
         mTransactionId = transactionId.toString()
         propertyNaturePresenter.callNetwork(ConstantsApi.CALL_PROPERTY_NATURE)
     }

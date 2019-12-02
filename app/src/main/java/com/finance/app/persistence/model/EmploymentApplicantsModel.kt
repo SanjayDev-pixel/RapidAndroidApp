@@ -19,7 +19,7 @@ class EmploymentApplicantsModel {
     var occupationDetailID: Int? = 0
     var occupationalDetailID: Int? = 0
     var officialMailID: String? = ""
-    var leadApplicantNumber: Int? = 0
+    var leadApplicantNumber: String? = ""
     var incomeConsidered: Boolean = false
     var isPensioner: Boolean = false
     var grossIncome: String = ""

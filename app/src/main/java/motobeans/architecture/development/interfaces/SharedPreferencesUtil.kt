@@ -13,12 +13,12 @@ interface SharedPreferencesUtil {
     fun getLoginData(): Response.ResponseLogin?
     fun getLoanInfoData(): LoanInfoModel?
     fun isLogin(): Boolean
-    fun savePersonalInfoForApplicants(applicants:ApplicantPersonal)
-    fun getPersonalInfoForApplicants(): ApplicantPersonal
     fun getUserToken(): String?
     fun getUserName(): String?
     fun setPropertySelection(value: String)
     fun saveLeadDetail(lead:AllLeadMaster)
+    fun saveCoApplicantsList(coApplicants: ArrayList<Response.CoApplicantsObj>)
+    fun getCoApplicantsList():ArrayList<Response.CoApplicantsObj>?
     fun getLeadId():String?
     fun getLeadDetail():AllLeadMaster
     fun getUserId():String?
@@ -26,12 +26,8 @@ interface SharedPreferencesUtil {
     fun getLoanAppID():Int?
     fun getLeadNum():String
     fun getPropertySelection(): Boolean
-    fun setIncomeConsideration(value: String)
-    fun getIncomeConsideration(): Boolean
     fun getUserBranches(): List<Response.UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
     fun getNavMenuItem(): List<AppEnums.ScreenLoanInfo>?
     fun clearAll()
-    fun getCoApplicant(): ArrayList<Modals.ApplicantTab>
-    fun getCoApplicantsPosition():Int
 }

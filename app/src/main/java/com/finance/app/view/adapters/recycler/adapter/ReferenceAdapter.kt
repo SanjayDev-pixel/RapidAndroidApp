@@ -8,21 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemReferenceBinding
 import com.finance.app.persistence.model.ReferenceModel
-import motobeans.architecture.retrofit.request.Requests
 
-class ReferenceAdapter(private val c: Context, private val references: ArrayList<ReferenceModel>) : RecyclerView.Adapter<ReferenceAdapter.ObligationViewHolder>() {
+class ReferenceAdapter(private val c: Context, private val references: ArrayList<ReferenceModel>) : RecyclerView.Adapter<ReferenceAdapter.ReferenceViewHolder>() {
     private lateinit var binding: ItemReferenceBinding
     private var mOnItemClickListener: ItemClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObligationViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReferenceViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_reference, parent, false)
-        return ObligationViewHolder(binding, c)
+        return ReferenceViewHolder(binding, c)
     }
 
     override fun getItemCount() = references.size
 
-    override fun onBindViewHolder(holder: ObligationViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ReferenceViewHolder, position: Int) {
         holder.bindItems(references[position], position)
     }
 
@@ -32,25 +31,25 @@ class ReferenceAdapter(private val c: Context, private val references: ArrayList
 
     interface ItemClickListener {
         fun onDeleteClicked(position: Int)
-        fun onEditClicked(position: Int)
+        fun onEditClicked(position: Int, reference: ReferenceModel)
     }
 
-    inner class ObligationViewHolder(val binding: ItemReferenceBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
+    inner class ReferenceViewHolder(val binding: ItemReferenceBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(reference: ReferenceModel, position: Int) {
             binding.tvName.text = reference.name
             binding.tvAddress.text = reference.address
             binding.tvContact.text = reference.contactNumber
             binding.tvKnownSince.text = reference.knowSince
-            addClickListener(position)
+            addClickListener(position, reference)
         }
 
-        private fun addClickListener(position: Int) {
+        private fun addClickListener(position: Int, reference: ReferenceModel) {
             binding.btnDelete.setOnClickListener {
                 mOnItemClickListener!!.onDeleteClicked(position)
             }
 
             binding.btnEdit.setOnClickListener {
-                mOnItemClickListener!!.onEditClicked(position)
+                mOnItemClickListener!!.onEditClicked(position, reference)
             }
         }
     }

@@ -1,17 +1,18 @@
 package com.finance.app.persistence.model
 
 class ObligationDetail {
-    var active: Boolean = true
-    var applicantID: Int? = null
-    var assetDetailsID: Int? = null
-    var assetDetailsTypeDetailID: Int? = null
-    var assetvarue: Int? = null
-    var createdBy: Int? = null
-    var createdOn: String? = null
-    var documentedProof: Boolean? = null
-    var lastModifiedBy: Int? = null
-    var lastModifiedOn: String? = null
-    var loanApplicationID: String? = null
-    var ownership: String? = null
-    var subTypeOfAssetTypeDetailID: Int? = null
+    var loanAmount: Int? = null
+    var tenure: Int? = null
+    var balanceTenure: Int? = null
+    var emiAmount: Int? = null
+    var numberOfBouncesInLastSixMonth: Int? = null
+    var numberOfBouncesInLastNineMonth: Int? = null
+    var financerName: String? = ""
+    var loanAccountNumber: String? = null
+    var borrowerNameTypeDetailID: Int? = 0
+    var bounseEmiPaidInSameMonth: Int? = null
+    var loanOwnershipTypeDetailID: Int? = 0
+    var obligateTypeDetailID: Int? = 0
+    var loanTypeTypeDetailID: Int? = 0
+    var repaymentBankTypeDetailID: Int? = 0
 }

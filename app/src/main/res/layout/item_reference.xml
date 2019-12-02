@@ -95,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10"
                 android:baselineAligned="false"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -125,8 +126,42 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="start|center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Occupation: "
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textSize="@dimen/text_size" />
+
+                    <TextView
+                        android:id="@+id/tvOccupation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="Builder"
+                        android:textSize="@dimen/text_size" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_gravity="end"
-                    android:gravity="center|end"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
@@ -151,46 +186,10 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:gravity="start|center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="Occupation: "
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size" />
-
-                    <TextView
-                        android:id="@+id/tvOccupation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:text="Builder"
-                        android:textSize="@dimen/text_size" />
-                </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_gravity="end"
-                    android:gravity="end|center"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
                     android:orientation="horizontal">

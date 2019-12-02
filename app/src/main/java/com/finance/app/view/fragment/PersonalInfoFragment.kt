@@ -71,6 +71,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var pinCodeObj: Response.PinCodeObj? = null
     private var pDraftData = PersonalApplicantList()
     private lateinit var allMasterDropDown: AllMasterDropDown
+    private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -90,7 +91,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         private val leadAndLoanDetail = LeadAndLoanDetail()
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
-        private lateinit var applicantTab: ArrayList<String>
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -127,7 +127,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             pDraftData = personalInfoMaster?.draftData!!
             personalApplicantsList = pDraftData.applicantDetails
         }
-        setCoApplicants(personalApplicantsList)
+        setCoApplicants()
         showData(personalApplicantsList)
     }
 
@@ -162,29 +162,26 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                     personalApplicantsList!!.add(PersonalApplicantsModel())
                 }
             }
-            setCoApplicants(personalApplicantsList)
+            setCoApplicants()
             showData(personalApplicantsList)
         })
     }
 
-    private fun setCoApplicants(applicants: ArrayList<PersonalApplicantsModel>?) {
-        applicantTab = ArrayList()
-        applicantTab.add("Applicant")
-        if (applicants != null && applicants.size > 1) {
-            for (position in 1 until applicants.size) {
-                applicantTab.add("CoApplicant $position")
-            }
-        }
+    private fun setCoApplicants() {
+        val applicantsList = sharedPreferences.getCoApplicantsList()
+        if (applicantsList == null || applicantsList.size <= 0) {
+            applicantTab?.add(getDefaultCoApplicant())
+        }else applicantTab = applicantsList
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
         applicantAdapter!!.setOnItemClickListener(this)
         binding.rcApplicants.adapter = applicantAdapter
     }
 
     private fun onAddCoApplicantClick() {
         if (formValidation.validatePersonalInfo(binding)) {
-            applicantTab.add("CoApplicant ${applicantTab.size}")
+            applicantTab!!.add(getDefaultCoApplicant())
             binding.rcApplicants.adapter!!.notifyDataSetChanged()
             personalApplicantsList!!.add(PersonalApplicantsModel())
         } else {
@@ -192,7 +189,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    override fun onApplicantClick(position: Int) {
+    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
+        return Response.CoApplicantsObj( firstName = "Applicant", isMainApplicant = currentPosition == 0,
+                leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
+    }
+
+    override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
         if (formValidation.validatePersonalInfo(binding)) {
             saveCurrentApplicant()
             ClearPersonalForm(binding, mContext, allMasterDropDown, states)

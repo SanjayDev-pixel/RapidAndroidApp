@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/white"
-        android:text="@string/confirmation_delete_kyc_detail"
+        android:text="Warning! Do you really want to delete this?"
         android:textSize="@dimen/button_text_size" />
 
     <LinearLayout

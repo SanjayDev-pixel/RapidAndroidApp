@@ -9,18 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemApplicantBinding
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class ApplicantsAdapter(private val mContext: Context, private val applicants: ArrayList<String>) : RecyclerView.Adapter<ApplicantsAdapter.CreditCardViewHolder>() {
+class ApplicantsAdapter(private val mContext: Context, private val applicants: ArrayList<Response.CoApplicantsObj>) : RecyclerView.Adapter<ApplicantsAdapter.CreditCardViewHolder>() {
     private lateinit var binding: ItemApplicantBinding
     private var mClickListener: ItemClickListener? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
 
     private var selectedPosition = 0
-    companion object {
-//        private var selectedPosition = 0
-    }
 
     fun setOnItemClickListener(listener: ItemClickListener) {
         mClickListener = listener
@@ -35,20 +33,20 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
     override fun getItemCount() = applicants.size
 
     override fun onBindViewHolder(holder: CreditCardViewHolder, position: Int) {
-        holder.bindItems(position)
+        holder.bindItems(position, applicants[position])
     }
 
     interface ItemClickListener {
-        fun onApplicantClick(position: Int)
+        fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj)
     }
 
     inner class CreditCardViewHolder(val binding: ItemApplicantBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
-        fun bindItems(position: Int) {
-            binding.tvApplicants.text = applicants[position]
+        fun bindItems(position: Int, coApplicant: Response.CoApplicantsObj) {
+            binding.tvApplicants.text = coApplicant.firstName
             binding.tvApplicants.setOnClickListener {
                 if (mClickListener != null) {
                     selectedPosition = adapterPosition
-                    mClickListener!!.onApplicantClick(position)
+                    mClickListener!!.onApplicantClick(position, coApplicant)
                 }
             }
 

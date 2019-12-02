@@ -6,23 +6,27 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
+import com.finance.app.presenter.connector.CoApplicantsConnector
+import com.finance.app.presenter.presenter.CoApplicantsPresenter
 import com.finance.app.view.fragment.LoanInfoFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class LoanApplicationActivity : BaseAppCompatActivity() {
-
+class LoanApplicationActivity : BaseAppCompatActivity(), CoApplicantsConnector.CoApplicants {
     private val binding: ActivityLoanApplicationBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_loan_application)
 
-    private lateinit var navFragment: NavMenuFragment
-    private lateinit var secondaryFragment: Fragment
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+    private lateinit var navFragment: NavMenuFragment
+    private lateinit var secondaryFragment: Fragment
+    private var presenter = CoApplicantsPresenter(this)
 
     companion object {
         fun start(context: Context) {
@@ -37,11 +41,19 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         binding.collapseImageView.setOnClickListener {
             navFragment.toggleMenu()
         }
+        presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST)
         setLeadNumber()
         setNavFragment()
         secondaryFragment = LoanInfoFragment()
         setSecondaryFragment(secondaryFragment)
     }
+
+    override val leadId: String
+        get() = sharedPreferences.getLeadId()!!
+
+    override fun getCoApplicantsListSuccess(value: Response.ResponseCoApplicants) {}
+
+    override fun getCoApplicantsListFailure(msg: String) = showToast(msg)
 
     private fun setLeadNumber() {
         val leadNum = sharedPreferences.getLeadNum()

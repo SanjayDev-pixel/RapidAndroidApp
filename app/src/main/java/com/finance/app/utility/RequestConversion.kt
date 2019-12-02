@@ -52,4 +52,12 @@ class RequestConversion {
         request.storageType = master.storageType
         return request
     }
+
+    fun assetLiabilityRequest(master: AssetLiabilityMaster): LoanApplicationRequest {
+        val request = LoanApplicationRequest()
+        request.draftData = Gson().toJson(master.draftData)
+        request.leadID = master.leadID
+        request.storageType = master.storageType
+        return request
+    }
 }
