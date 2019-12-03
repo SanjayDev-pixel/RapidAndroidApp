@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/md_grey_700"
-    android:padding="20sp">
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="5sp"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangular_curved_bg_blue"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20sp">
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:text="Warning! Do you really want to delete this?"
         android:textSize="@dimen/button_text_size" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="@dimen/margin_20"
         android:gravity="center">
 
         <Button
@@ -29,8 +36,9 @@
             android:layout_marginEnd="20sp"
             style="?attr/buttonBarButtonStyle"
             android:layout_weight="1"
-            app:backgroundTint="@color/md_red_500"
-            android:textColor="@color/white"
+            android:padding="0sp"
+            app:backgroundTint="@color/md_grey_400"
+            android:textColor="@color/black"
             android:background="@drawable/button_theme_style"
             android:text="@string/yes"
             android:textSize="@dimen/button_text_size" />
@@ -43,11 +51,13 @@
             android:layout_gravity="end"
             android:layout_marginStart="20sp"
             android:layout_weight="1"
-            app:backgroundTint="@color/md_green_500"
+            app:backgroundTint="@color/md_blue_500"
             android:textColor="@color/white"
             android:background="@drawable/button_theme_style"
             android:text="@string/no"
             android:textSize="@dimen/button_text_size" />
 
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

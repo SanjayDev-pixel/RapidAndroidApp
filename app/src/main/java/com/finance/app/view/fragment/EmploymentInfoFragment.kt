@@ -89,7 +89,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
         private val leadAndLoanDetail = LeadAndLoanDetail()
-        private lateinit var applicantTab: ArrayList<String>
         private lateinit var states: List<StatesMaster>
         private const val SALARY = 0
         private const val SENP = 1
@@ -178,7 +177,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
-        if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
+        if (formValidation.validateSalaryEmployment(binding.layoutSalary) || formValidation.validateSenpEmployment(binding.layoutSenp)) {
             saveCurrentApplicant()
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearAll()
             currentPosition = position
@@ -637,17 +636,18 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun getCityFailure(msg: String) = showToast(msg)
 
     private fun getCurrentApplicant(): EmploymentApplicantsModel {
-        val currentApplicant = EmploymentApplicantsModel()
+        val applicant = EmploymentApplicantsModel()
         val profile = binding.spinnerProfileSegment.selectedItem as DropdownMaster?
         val subProfile = binding.spinnerSubProfile.selectedItem as DropdownMaster?
-        currentApplicant.profileSegmentTypeDetailID = profile?.typeDetailID
-        currentApplicant.subProfileTypeDetailID = subProfile?.typeDetailID
-        currentApplicant.isMainApplicant = currentPosition == 0
+        applicant.profileSegmentTypeDetailID = profile?.typeDetailID
+        applicant.subProfileTypeDetailID = subProfile?.typeDetailID
+        applicant.isMainApplicant = currentPosition == 0
+        applicant.leadApplicantNumber = currentApplicant.leadApplicantNumber
         when (formType) {
-            SALARY -> return getSalaryForm(binding.layoutSalary, currentApplicant)
-            SENP -> return getSenpForm(binding.layoutSenp, currentApplicant)
+            SALARY -> return getSalaryForm(binding.layoutSalary, applicant)
+            SENP -> return getSenpForm(binding.layoutSenp, applicant)
         }
-        return currentApplicant
+        return applicant
     }
 
     private fun getSalaryForm(binding: LayoutSalaryBinding, applicant: EmploymentApplicantsModel): EmploymentApplicantsModel {

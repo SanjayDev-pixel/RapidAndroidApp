@@ -69,12 +69,12 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var loanMaster: LoanInfoMaster? = LoanInfoMaster()
     private var loanInfo: LoanInfoModel? = null
     private var channelPartner: DropdownMaster? = DropdownMaster()
+    private var mChannelTypeId: Int = 0
 
     companion object {
         private lateinit var mBranchId: String
-        private lateinit var mChannelTypeId: String
-        private const val isMandatory = true
         private const val SELECT_PDF_CODE = 1
+        private const val DIRECT = 53
         private const val CLICK_IMAGE_CODE = 2
         private const val SELECT_IMAGE_CODE = 3
         private var image: Bitmap? = null
@@ -312,21 +312,24 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override val employeeId: String
         get() = empId!!
     override val channelTypeId: String
-        get() = mChannelTypeId
+        get() = mChannelTypeId.toString()
 
     private fun getChannelPartnerName(sourceChannelPartner: DropdownMaster) {
-        mChannelTypeId = sourceChannelPartner.typeDetailID.toString()
+        mChannelTypeId = sourceChannelPartner.typeDetailID.toString().toInt()
         mBranchId = sharedPreferences.getLeadDetail().branchID!!
         empId = sharedPreferences.getEmpId()
-        sourcePartnerPresenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME)
+        if (mChannelTypeId != DIRECT) {
+            sourcePartnerPresenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME)
+            binding.spinnerPartnerName.visibility = View.VISIBLE
+        } else {
+            binding.spinnerPartnerName.adapter = ChannelPartnerNameSpinnerAdapter(mContext!!, ArrayList())
+            binding.spinnerPartnerName.visibility = View.GONE
+        }
     }
 
     override fun getSourceChannelPartnerNameSuccess(value: Response.ResponseSourceChannelPartnerName) {
         if (value.responseObj.size > 0) {
             setChannelPartnerNameDropDown(value.responseObj)
-            binding.spinnerPartnerName.visibility = View.VISIBLE
-        } else {
-            binding.spinnerPartnerName.visibility = View.GONE
         }
     }
 

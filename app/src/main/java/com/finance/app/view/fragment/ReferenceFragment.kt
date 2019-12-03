@@ -363,13 +363,6 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         return referenceModel
     }
 
-    override fun onDeleteClicked(position: Int) = showAlertDialog(position)
-
-    override fun onEditClicked(position: Int, reference: ReferenceModel) {
-        currentPosition = position
-        fillFormWithCurrentReference(reference)
-    }
-
     private fun getReferenceMaster(): ReferenceMaster {
         rDraftData.referenceDetails = referencesList
         rDraftData.isMainApplicant = true
@@ -405,6 +398,13 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         }
     }
 
+    override fun onDeleteClicked(position: Int) = showAlertDialog(position)
+
+    override fun onEditClicked(position: Int, reference: ReferenceModel) {
+        currentPosition = position
+        fillFormWithCurrentReference(reference)
+    }
+
     private fun showAlertDialog(position: Int) {
         val deleteDialogView = LayoutInflater.from(activity).inflate(R.layout.delete_dialog, null)
         val mBuilder = AlertDialog.Builder(mContext)
@@ -420,5 +420,4 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         binding.rcReference.adapter!!.notifyItemRemoved(position)
         binding.rcReference.adapter!!.notifyItemRangeChanged(position, referencesList!!.size)
     }
-
 }

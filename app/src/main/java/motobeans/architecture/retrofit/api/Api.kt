@@ -71,7 +71,6 @@ interface Api {
     @GET("api/v1/loan/application/applicant/bank-details?leadID={leadId}&loanApplicationID=&bankDetailID=0")
     fun getBankDetail(@Path("leadId") leadId: String): Observable<Response.ResponseGetBankDetail>
 
-
     @GET("api/v1/lead/")
     fun getAllLeads(): Observable<Response.ResponseGetAllLeads>
 

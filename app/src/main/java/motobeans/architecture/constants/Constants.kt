@@ -1,13 +1,8 @@
 package motobeans.architecture.constants
 
-/**
- * Created by munishkumarthakur on 04/11/17.
- */
 class Constants {
 
-
     private fun Constants(): Unit {}
-
 
     object Injection {
         const val API_CURRENT_URL = "currentURL"
@@ -16,7 +11,6 @@ class Constants {
         const val API_TESTING_URL = "testingURL"
         const val API_LIVE_URL = "liveURL"
         const val API_PRODUCTION_URL = "productionURL"
-
 
         /**
          * Network Class v1 constants
@@ -36,8 +30,8 @@ class Constants {
         object URL {
 
             //const val URL_DEVELOPMENT = "http://optcrm.info/OptCrmApi/api/"
-//            const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmi/"
-            const val URL_DEVELOPMENT = "http://13.232.224.66:8080/dmi/"
+            const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmi/"
+//            const val URL_DEVELOPMENT = "http://13.232.224.66:8080/dmi/"
             const val URL_TESTING = ""
             const val URL_LIVE = ""
             const val URL_PRODUCTION = ""

@@ -406,8 +406,25 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
 
     override fun validateBankDetail(binding: FragmentBankDetailBinding): Boolean {
         var errorCount = 0
-        val bankName = binding.etAccountNum.text.toString()
-        if (!bankName.exIsNotEmptyOrNullOrBlank()) {
+        val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
+        val accountType = binding.spinnerAccountType.selectedItem as DropdownMaster?
+        val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
+
+        if (bankName == null) {
+            errorCount++
+            binding.spinnerBankName.error = "Required Field"
+        }
+        if (accountType == null) {
+            errorCount++
+            binding.spinnerAccountType.error = "Required Field"
+        }
+        if (salaryCredit == null) {
+            errorCount++
+            binding.spinnerSalaryCredit.error = "Required Field"
+        }
+
+        val accountNum = binding.etAccountNum.text.toString()
+        if (!accountNum.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etAccountNum.error = "Account Num can not be blank"
         }
@@ -418,11 +435,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.etAccountHolderName.error = "Account holder name can not be blank"
         }
 
-        val salaryCreditNum = binding.etSalaryCreditedInSixMonths.text.toString().toInt()
-        if (salaryCreditNum > 6) {
-            errorCount++
-            binding.etSalaryCreditedInSixMonths.error = "This can not be more than 6"
-        }
         return isValidForm(errorCount)
     }
 
@@ -629,7 +641,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.etOcr.error = "Cannot be grater than MV of property"
         }
 
-        if (ocr.toDouble() > propertyMv.toDouble() && ocr.toDouble() > agreementValue.toDouble()) {
+        if (ocr.toDouble() > propertyMv.toDouble() || ocr.toDouble() > agreementValue.toDouble()) {
             errorCount++
             binding.etOcr.error = "Cannot be grater than MV of Property or agreement value"
         }
@@ -655,8 +667,135 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateAssetLiability(binding: FragmentAssetLiablityBinding): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun validateAssetLiabilityForm(binding: FragmentAssetLiablityBinding): Boolean {
+        var errorCount = 0
+        if (!validateAssets(binding) || !validateCards(binding.layoutCreditCard) || !validateObligations(binding.layoutObligations))
+            errorCount++
+        return isValidForm(errorCount)
+    }
+
+    override fun validateAssets(binding: FragmentAssetLiablityBinding): Boolean {
+        var errorCount = 0
+        val assetType = binding.spinnerAssetType.selectedItem as DropdownMaster?
+        val assetSubType = binding.spinnerAssetSubType.selectedItem as DropdownMaster?
+        val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
+        val documentProof = binding.spinnerDocumentProof.selectedItem as DropdownMaster?
+
+        val value = binding.etValue.text.toString()
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etValue.error = "Required Field"
+        }
+        if (assetSubType == null) {
+            errorCount++
+            binding.spinnerAssetSubType.error = "Required Field"
+        }
+
+        if (assetType == null) {
+            errorCount++
+            binding.spinnerAssetType.error = "Required Field"
+        }
+        if (ownership == null) {
+            errorCount++
+            binding.spinnerOwnership.error = "Required Field"
+        }
+        if (documentProof == null) {
+            errorCount++
+            binding.spinnerDocumentProof.error = "Required Field"
+        }
+        return isValidForm(errorCount)
+    }
+
+    override fun validateCards(binding: LayoutCreditCardDetailsBinding): Boolean {
+        var errorCount = 0
+        val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
+        val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
+
+        val utilization = binding.etCurrentUtilization.text.toString()
+        if (!utilization.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etCurrentUtilization.error = "Required Field"
+        }
+
+        val cardLimit = binding.etCreditCardLimit.text.toString()
+        if (!cardLimit.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etCreditCardLimit.error = "Required Field"
+        }
+
+        if (bankName == null) {
+            errorCount++
+            binding.spinnerBankName.error = "Required Field"
+        }
+
+        if (obligate == null) {
+            errorCount++
+            binding.spinnerObligate.error = "Required Field"
+        }
+        return isValidForm(errorCount)
+    }
+
+    override fun validateObligations(binding: LayoutObligationBinding): Boolean {
+        var errorCount = 0
+        val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
+        val loanType = binding.spinnerLoanType.selectedItem as DropdownMaster?
+        val repaymentBank = binding.spinnerRepaymentBank.selectedItem as DropdownMaster?
+        val ownership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
+
+        if (obligate == null) {
+            errorCount++
+            binding.spinnerObligate.error = "Required Field"
+        }
+
+        if (loanType == null) {
+            errorCount++
+            binding.spinnerLoanType.error = "Required Field"
+        }
+        if (repaymentBank == null) {
+            errorCount++
+            binding.spinnerRepaymentBank.error = "Required Field"
+        }
+        if (ownership == null) {
+            errorCount++
+            binding.spinnerLoanOwnership.error = "Required Field"
+        }
+
+        val financierName = binding.etFinancierName.text.toString()
+        if (!financierName.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etFinancierName.error = "Required Field"
+        }
+        val accountNum = binding.etAccountNum.text.toString()
+        if (!accountNum.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etAccountNum.error = "Required Field"
+        }
+        val tenure = binding.etTenure.text.toString()
+        if (!tenure.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etTenure.error = "Required Field"
+        }
+        val balanceTenure = binding.etBalanceTenure.text.toString()
+        if (!balanceTenure.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etBalanceTenure.error = "Required Field"
+        }
+        val emiAmount = binding.etEmiAmount.text.toString()
+        if (!emiAmount.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etEmiAmount.error = "Required Field"
+        }
+        val bouncesIn6 = binding.etBouncesInLastSixMonths.text.toString()
+        if (!bouncesIn6.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etBouncesInLastSixMonths.error = "Required Field"
+        }
+        val bouncesIn9 = binding.etBouncesInLastNineMonths.text.toString()
+        if (!bouncesIn9.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etBouncesInLastNineMonths.error = "Required Field"
+        }
+        return isValidForm(errorCount)
     }
 
     override fun validateTemp(binding: TempActivityBinding): Boolean {

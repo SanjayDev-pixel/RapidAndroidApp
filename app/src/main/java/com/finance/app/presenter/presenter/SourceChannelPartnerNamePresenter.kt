@@ -28,7 +28,9 @@ class SourceChannelPartnerNamePresenter(private val channelPartner: SourceChanne
     }
 
     private fun callSourceChannelPartnerNameApi() {
-        val requestApi = apiProject.api.sourceChannelPartnerName(branchId = channelPartner.branchId, channelType = channelPartner.channelTypeId, employeeId = channelPartner.employeeId)
+        val requestApi = apiProject.api
+                .sourceChannelPartnerName(branchId = channelPartner.branchId,
+                        channelType = channelPartner.channelTypeId, employeeId = channelPartner.employeeId)
 
         requestApi
                 .subscribeOn(Schedulers.io())

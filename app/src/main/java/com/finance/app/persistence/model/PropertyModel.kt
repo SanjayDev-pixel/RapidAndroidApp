@@ -29,5 +29,7 @@ class PropertyModel {
     var propertyNatureOfTransactionCategoryTypeDetailID: Int? = 0
     var tenantNocAvailableTypeDetailID: Int? = 0
     var unitTypeTypeDetailID: Int? = 0
+    var leadApplicantNumber: String = ""
+    var isMainApplicant:Boolean? = true
 
 }

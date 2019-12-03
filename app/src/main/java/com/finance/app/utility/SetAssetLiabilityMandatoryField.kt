@@ -10,7 +10,6 @@ class SetAssetLiabilityMandatoryField(binding: FragmentAssetLiablityBinding) {
         ShowAsMandatory(binding.layoutObligations.inputLayoutLoanAmount)
         ShowAsMandatory(binding.layoutObligations.inputLayoutAccountNum)
         ShowAsMandatory(binding.layoutObligations.inputLayoutTenure)
-        ShowAsMandatory(binding.layoutObligations.inputLayoutBalanceTenure)
         ShowAsMandatory(binding.layoutObligations.inputLayoutEmiAmount)
         ShowAsMandatory(binding.layoutObligations.inputLayoutBouncesInLastSixMonths)
         ShowAsMandatory(binding.layoutObligations.inputLayoutBouncesInLastNineMonths)

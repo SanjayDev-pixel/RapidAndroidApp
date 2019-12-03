@@ -81,8 +81,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     lateinit var dataBase: DataBaseUtil
 
     companion object {
-        private const val GALLERY = 1
-        private const val CAMERA = 2
         private const val SINGLE_TYPE_DETAIL_ID = 63
         private const val PERMANENT = "Permanent"
         private const val CURRENT = "Current"
@@ -309,6 +307,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun setStateDropDownValue(states: List<StatesMaster>) {
         binding.personalAddressLayout.spinnerCurrentState.adapter = StatesSpinnerAdapter(mContext, states)
+        binding.personalAddressLayout.spinnerCurrentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
+        binding.personalAddressLayout.spinnerCurrentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
+
         binding.personalAddressLayout.spinnerCurrentState?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -321,6 +322,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
 
         binding.personalAddressLayout.spinnerPermanentState.adapter = StatesSpinnerAdapter(mContext, states)
+        binding.personalAddressLayout.spinnerPermanentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
+        binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
         binding.personalAddressLayout.spinnerPermanentState?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -633,7 +636,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
         val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
 
-        cAddressDetail.rentAmount = binding.personalAddressLayout.etCurrentRentAmount.text.toString().toInt()
+        cAddressDetail.rentAmount = binding.personalAddressLayout.etCurrentRentAmount.text.toString()
         cAddressDetail.stayingInYears = binding.personalAddressLayout.etCurrentStaying.text.toString().toFloat()
         cAddressDetail.address1 = binding.personalAddressLayout.etCurrentAddress.text.toString()
         cAddressDetail.landmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
@@ -655,7 +658,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
             val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
 
-            pAddressDetail.rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString().toInt()
+            pAddressDetail.rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString()
             pAddressDetail.stayingInYears = binding.personalAddressLayout.etPermanentStaying.text.toString().toFloat()
             pAddressDetail.address1 = binding.personalAddressLayout.etPermanentAddress.text.toString()
             pAddressDetail.landmark = binding.personalAddressLayout.etPermanentLandmark.text.toString()

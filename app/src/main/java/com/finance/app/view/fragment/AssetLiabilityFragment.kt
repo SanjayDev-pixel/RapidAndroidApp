@@ -1,14 +1,18 @@
 package com.finance.app.view.fragment
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
-import android.widget.Toast
+import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.databinding.LayoutCreditCardDetailsBinding
@@ -21,8 +25,10 @@ import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
-import com.finance.app.view.adapters.recycler.adapter.CreditCardAdapter
+import com.finance.app.view.adapters.recycler.adapter.CardDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.ObligationAdapter
+import kotlinx.android.synthetic.main.delete_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_asset_liablity.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -35,7 +41,9 @@ import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
-        LoanApplicationConnector.GetLoanApp, ApplicantsAdapter.ItemClickListener {
+        LoanApplicationConnector.GetLoanApp, ApplicantsAdapter.ItemClickListener,
+        AssetDetailAdapter.AssetClickListener, CardDetailAdapter.CardClickListener,
+        ObligationAdapter.ObligationClickListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -50,6 +58,9 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
+    private lateinit var assetAdapter: AssetDetailAdapter
+    private lateinit var cardDetailAdapter: CardDetailAdapter
+    private lateinit var obligationAdapter: ObligationAdapter
     private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
     private var assetLiabilityMaster: AssetLiabilityMaster = AssetLiabilityMaster()
     private var aApplicantList: ArrayList<AssetLiabilityModel>? = ArrayList()
@@ -67,6 +78,9 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         private val leadAndLoanDetail = LeadAndLoanDetail()
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
+        private const val ASSET = 1
+        private const val CARD = 2
+        private const val OBLIGATION = 3
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -129,6 +143,33 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
+        if (formValidation.validateAssetLiabilityForm(binding)) {
+            saveCurrentApplicant()
+            ClearAssetLiabilityForm(binding, mContext, allMasterDropDown)
+            currentPosition = position
+            waitFor1Sec(position)
+        } else showToast(getString(R.string.mandatory_field_missing))
+    }
+
+    private fun waitFor1Sec(position: Int) {
+        val progress = ProgressDialog(mContext)
+        progress.setMessage(getString(R.string.msg_saving))
+        progress.setCancelable(false)
+        progress.show()
+        val handler = Handler()
+        handler.postDelayed({
+            getParticularApplicantData(position)
+            progress.dismiss()
+        }, 1000)
+        applicantAdapter!!.notifyDataSetChanged()
+    }
+
+    private fun getParticularApplicantData(position: Int) {
+        currentApplicant = if (position >= aApplicantList!!.size) {
+            AssetLiabilityModel()
+        } else {
+            aApplicantList!![position]
+        }
     }
 
     private fun showData(applicantList: ArrayList<AssetLiabilityModel>?) {
@@ -140,7 +181,6 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 }
             }
         }
-        fillFromWithCurrentApplicant()
         getDropDownsFromDB()
     }
 
@@ -171,44 +211,45 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         assetsList = currentApplicant.applicantAssetLiabilityList
         cardDetailList = currentApplicant.applicantCreditCardDetailList
         obligationsList = currentApplicant.applicantExistingObligationList
-        currentAsset = if (assetsList!!.size > 0) {
-            assetsList!![0]
-        } else AssetLiability()
-        currentCardDetail = if (cardDetailList!!.size > 0) {
-            cardDetailList!![0]
-        } else CardDetail()
-        currentObligation = if (obligationsList!!.size > 0) {
-            obligationsList!![0]
-        } else ObligationDetail()
+        if (assetsList != null && assetsList!!.size > 0) {
+            setUpAssetAdapter(assetsList!!)
+        }
+        if (cardDetailList != null && cardDetailList!!.size > 0) {
+            setUpCardDetailAdapter(cardDetailList!!)
+        }
+        if (obligationsList != null && obligationsList!!.size > 0) {
+            setUpObligationAdapter(obligationsList!!)
+        }
     }
 
-    private fun fillFromWithCurrentApplicant() {
-        binding.etValue.setText(currentAsset?.assetValue.toString())
-        binding.layoutCreditCard.etCurrentUtilization.setText(currentCardDetail?.currentUtilization.toString())
-        binding.layoutCreditCard.etLastPaymentDate.setText(currentCardDetail?.lastPaymentDate!!)
-        fillMasterDropdownValueInAssetForm()
+    private fun setUpAssetAdapter(assets: ArrayList<AssetLiability>) {
+        binding.rcAsset.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
+        assetAdapter = AssetDetailAdapter(mContext, assets)
+        binding.rcAsset.adapter = assetAdapter
+        assetAdapter.setOnAssetClickListener(this)
+        binding.pageIndicatorAsset.attachTo(binding.rcAsset)
+        binding.pageIndicatorAsset.visibility = View.VISIBLE
+        binding.rcAsset.visibility = View.VISIBLE
     }
 
-    private fun fillMasterDropdownValueInAssetForm() {
-        selectMasterDropdownValue(binding.spinnerAssetType, currentAsset?.assetDetailsTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerAssetSubType, currentAsset?.subTypeOfAssetTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerOwnership, currentAsset?.ownershipTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerAssetType, currentAsset?.assetDetailsTypeDetailID)
-        fillMasterDropdownValueInCardForm(binding.layoutCreditCard)
-        fillMasterDropdownValueInObligationForm(binding.layoutObligations)
+    private fun setUpCardDetailAdapter(cards: ArrayList<CardDetail>) {
+        binding.layoutCreditCard.rcCreditCard.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
+        cardDetailAdapter = CardDetailAdapter(mContext, cards)
+        binding.layoutCreditCard.rcCreditCard.adapter = cardDetailAdapter
+        assetAdapter.setOnAssetClickListener(this)
+        binding.pageIndicatorAsset.attachTo(binding.layoutCreditCard.rcCreditCard)
+        binding.pageIndicatorAsset.visibility = View.VISIBLE
+        binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
     }
 
-    private fun fillMasterDropdownValueInCardForm(binding: LayoutCreditCardDetailsBinding) {
-        selectMasterDropdownValue(binding.spinnerBankName, currentCardDetail?.bankNameTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerObligate, currentCardDetail?.obligateTypeDetail)
-    }
-
-    private fun fillMasterDropdownValueInObligationForm(binding: LayoutObligationBinding) {
-        selectMasterDropdownValue(binding.spinnerLoanOwnership, currentObligation?.loanOwnershipTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerObligate, currentObligation?.obligateTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerLoanType, currentObligation?.loanTypeTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerRepaymentBank, currentObligation?.repaymentBankTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerEmiPaidInSameMonth, currentObligation?.bounseEmiPaidInSameMonth)
+    private fun setUpObligationAdapter(obligations: ArrayList<ObligationDetail>) {
+        binding.layoutObligations.rcObligation.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
+        obligationAdapter = ObligationAdapter(mContext, obligations)
+        binding.layoutObligations.rcObligation.adapter = obligationAdapter
+        obligationAdapter.setOnObligationClickListener(this)
+        binding.pageIndicatorAsset.attachTo(binding.layoutObligations.rcObligation)
+        binding.pageIndicatorAsset.visibility = View.VISIBLE
+        binding.layoutObligations.rcObligation.visibility = View.VISIBLE
     }
 
     private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
@@ -232,38 +273,69 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     private fun setClickListeners() {
         binding.btnAddAsset.setOnClickListener {
-            showAssetDetails()
+            if (formValidation.validateAssets(binding)) {
+                saveCurrentAsset()
+                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearAssetForm(binding)
+            } else showToast(getString(R.string.validation_error))
         }
         binding.layoutCreditCard.btnAddCreditCard.setOnClickListener {
-            showCreditCardDetails()
+            if (formValidation.validateCards(binding.layoutCreditCard)) {
+                saveCurrentCardDetails()
+                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearCardForm(binding.layoutCreditCard)
+            } else showToast(getString(R.string.validation_error))
         }
         binding.layoutObligations.btnAddObligation.setOnClickListener {
-            showObligationDetail()
+            if (formValidation.validateCards(binding.layoutCreditCard)) {
+                saveCurrentObligations()
+                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearObligationForm(binding.layoutObligations)
+            } else showToast(getString(R.string.validation_error))
+        }
+        binding.btnSaveAndContinue.setOnClickListener {
+            if (formValidation.validateAssetLiabilityForm(binding)) {
+                saveCurrentApplicant()
+                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+            } else showToast(getString(R.string.validation_error))
         }
     }
 
-    private fun showObligationDetail() {
-        binding.layoutObligations.rcObligation.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.layoutObligations.rcObligation.adapter = ObligationAdapter(context!!)
-        binding.layoutObligations.pageIndicatorObligation.attachTo(binding.layoutObligations.rcObligation)
-        binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
-        binding.layoutObligations.rcObligation.visibility = View.VISIBLE
+    private fun saveCurrentObligations() {
+        if (obligationsList == null || obligationsList!!.size <= 0) {
+            obligationsList?.add(getCurrentObligation())
+        } else obligationsList!![currentPosition] = getCurrentObligation()
+        setUpObligationAdapter(obligationsList!!)
     }
 
-    private fun showCreditCardDetails() {
-        binding.layoutCreditCard.rcCreditCard.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.layoutCreditCard.rcCreditCard.adapter = CreditCardAdapter(context!!)
-        binding.layoutCreditCard.pageIndicatorCreditCard.attachTo(binding.layoutCreditCard.rcCreditCard)
-        binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
-        binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
+    private fun saveCurrentCardDetails() {
+        if (cardDetailList == null || cardDetailList!!.size <= 0) {
+            cardDetailList?.add(getCurrentCardDetail())
+        } else cardDetailList!![currentPosition] = getCurrentCardDetail()
+        setUpCardDetailAdapter(cardDetailList!!)
     }
 
-    private fun showAssetDetails() {
-        binding.rcAsset.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.rcAsset.adapter = AssetDetailAdapter(context!!)
-        binding.pageIndicatorAsset.attachTo(binding.rcAsset)
-        binding.pageIndicatorAsset.visibility = View.VISIBLE
-        binding.rcAsset.visibility = View.VISIBLE
+    private fun saveCurrentAsset() {
+        if (assetsList == null || assetsList!!.size <= 0) {
+            assetsList?.add(getCurrentAsset())
+        } else assetsList!![currentPosition] = getCurrentAsset()
+        setUpAssetAdapter(assetsList!!)
+    }
+
+    private fun saveCurrentApplicant() {
+        saveCurrentAsset()
+        saveCurrentCardDetails()
+        saveCurrentObligations()
+        if (aApplicantList!!.size > 0) {
+            aApplicantList!![currentPosition] = getCurrentApplicant()
+        } else aApplicantList!!.add(currentPosition, getCurrentApplicant())
+    }
+
+    private fun getCurrentApplicant(): AssetLiabilityModel {
+        val currentApplicant = AssetLiabilityModel()
+        currentApplicant.isMainApplicant = currentPosition == 0
+        currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1)
+        currentApplicant.applicantAssetLiabilityList = assetsList
+        currentApplicant.applicantCreditCardDetailList = cardDetailList
+        currentApplicant.applicantExistingObligationList = obligationsList
+        return currentApplicant
     }
 
     private fun getDataFromDB() {
@@ -309,5 +381,138 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         ft?.replace(R.id.secondaryFragmentContainer, ReferenceFragment())
         ft?.addToBackStack(null)
         ft?.commit()
+    }
+
+    override fun onAssetDeleteClicked(position: Int) = showAlertDialog(position, ASSET)
+
+    override fun onObligationDeleteClicked(position: Int) = showAlertDialog(position, OBLIGATION)
+
+    override fun onCardDetailDeleteClicked(position: Int) = showAlertDialog(position, CARD)
+
+    override fun onAssetEditClicked(position: Int, asset: AssetLiability) {
+        currentAsset = asset
+        fillAssetFormWithCurrentAsset(currentAsset!!)
+    }
+
+    override fun onCardDetailEditClicked(position: Int, card: CardDetail) {
+        currentCardDetail = card
+        fillCardDetailFormWithCurrentCard(binding.layoutCreditCard, currentCardDetail!!)
+    }
+
+    override fun onObligationEditClicked(position: Int, obligation: ObligationDetail) {
+        currentObligation = obligation
+        fillObligationFormWithCurrentObligation(binding.layoutObligations, currentObligation!!)
+    }
+
+    private fun fillAssetFormWithCurrentAsset(currentAsset: AssetLiability) {
+        binding.etValue.setText(currentAsset.assetValue.toString())
+        selectMasterDropdownValue(binding.spinnerOwnership, currentAsset.ownershipTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerAssetType, currentAsset.assetDetailsTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerAssetSubType, currentAsset.subTypeOfAssetTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerDocumentProof, currentAsset.documentedProofTypeDetailID)
+    }
+
+    private fun fillCardDetailFormWithCurrentCard(binding: LayoutCreditCardDetailsBinding, currentCardDetail: CardDetail) {
+        binding.etCreditCardLimit.setText(currentCardDetail.cardLimit.toString())
+        binding.etCurrentUtilization.setText(currentCardDetail.currentUtilization.toString())
+        binding.etLastPaymentDate.setText(currentCardDetail.lastPaymentDate.toString())
+        selectMasterDropdownValue(binding.spinnerBankName, currentCardDetail.bankNameTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerObligate, currentCardDetail.obligateTypeDetail)
+    }
+
+    private fun fillObligationFormWithCurrentObligation(binding: LayoutObligationBinding, currentObligation: ObligationDetail) {
+        binding.etFinancierName.setText(currentObligation.financerName)
+        binding.etLoanAmount.setText(currentObligation.loanAmount.toString())
+        binding.etAccountNum.setText(currentObligation.loanAccountNumber)
+        binding.etTenure.setText(currentObligation.tenure.toString())
+        binding.etBalanceTenure.setText(currentObligation.balanceTenure.toString())
+        binding.etEmiAmount.setText(currentObligation.emiAmount.toString())
+        binding.etBouncesInLastSixMonths.setText(currentObligation.numberOfBouncesInLastSixMonth.toString())
+        binding.etBouncesInLastNineMonths.setText(currentObligation.numberOfBouncesInLastNineMonth.toString())
+    }
+
+    private fun showAlertDialog(position: Int, formType: Int) {
+        val deleteDialogView = LayoutInflater.from(activity).inflate(R.layout.delete_dialog, null)
+        val mBuilder = AlertDialog.Builder(mContext)
+                .setView(deleteDialogView)
+                .setTitle("Delete Detail")
+        val deleteDialog = mBuilder.show()
+        deleteDialogView.tvDeleteConfirm.setOnClickListener {
+            when (formType) {
+                ASSET -> deleteAsset(position)
+                CARD -> deleteCard(position)
+                OBLIGATION -> deleteObligation(position)
+            }
+            deleteDialogView.tvDonotDelete.setOnClickListener { deleteDialog.dismiss() }
+        }
+    }
+
+    private fun deleteAsset(position: Int) {
+        assetsList!!.removeAt(position)
+        binding.rcAsset.adapter!!.notifyItemRemoved(position)
+        binding.rcAsset.adapter!!.notifyItemRangeChanged(position, rcAsset!!.size)
+    }
+
+    private fun deleteCard(position: Int) {
+        cardDetailList!!.removeAt(position)
+        binding.layoutCreditCard.rcCreditCard.adapter!!.notifyItemRemoved(position)
+        binding.layoutCreditCard.rcCreditCard.adapter!!.notifyItemRangeChanged(position, cardDetailList!!.size)
+    }
+
+    private fun deleteObligation(position: Int) {
+        obligationsList!!.removeAt(position)
+        binding.layoutObligations.rcObligation.adapter!!.notifyItemRemoved(position)
+        binding.layoutObligations.rcObligation.adapter!!.notifyItemRangeChanged(position, obligationsList!!.size)
+    }
+
+    private fun getCurrentObligation(): ObligationDetail {
+        val currentObligation = ObligationDetail()
+        val loanOwnership = binding.layoutObligations.spinnerLoanOwnership.selectedItem as DropdownMaster?
+        val obligate = binding.layoutObligations.spinnerObligate.selectedItem as DropdownMaster?
+        val loanType = binding.layoutObligations.spinnerLoanType.selectedItem as DropdownMaster?
+        val repaymentBank = binding.layoutObligations.spinnerRepaymentBank.selectedItem as DropdownMaster?
+        val emiPaidInSameMonth = binding.layoutObligations.spinnerEmiPaidInSameMonth.selectedItem as DropdownMaster?
+
+        currentObligation.numberOfBouncesInLastNineMonth = binding.layoutObligations.etBouncesInLastNineMonths.text.toString().toInt()
+        currentObligation.numberOfBouncesInLastSixMonth = binding.layoutObligations.etBouncesInLastSixMonths.text.toString().toInt()
+        currentObligation.financerName = binding.layoutObligations.etFinancierName.text.toString()
+        currentObligation.loanAmount = binding.layoutObligations.etLoanAmount.text.toString().toInt()
+        currentObligation.loanAccountNumber = binding.layoutObligations.etAccountNum.text.toString()
+        currentObligation.tenure = binding.layoutObligations.etTenure.text.toString().toInt()
+        currentObligation.balanceTenure = binding.layoutObligations.etBalanceTenure.text.toString().toInt()
+        currentObligation.emiAmount = binding.layoutObligations.etEmiAmount.text.toString().toInt()
+        currentObligation.loanOwnershipTypeDetailID = loanOwnership?.typeDetailID
+        currentObligation.obligateTypeDetailID = obligate?.typeDetailID
+        currentObligation.loanTypeTypeDetailID = loanType?.typeDetailID
+        currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
+        currentObligation.bounseEmiPaidInSameMonth = emiPaidInSameMonth?.typeDetailID
+        return currentObligation
+    }
+
+    private fun getCurrentCardDetail(): CardDetail {
+        val currentCard = CardDetail()
+        val bankName = binding.layoutCreditCard.spinnerBankName.selectedItem as DropdownMaster?
+        val obligate = binding.layoutCreditCard.spinnerObligate.selectedItem as DropdownMaster?
+        currentCard.lastPaymentDate = binding.layoutCreditCard.etLastPaymentDate.text.toString()
+        currentCard.cardLimit = binding.layoutCreditCard.etCreditCardLimit.text.toString().toInt()
+        currentCard.currentUtilization = binding.layoutCreditCard.etCurrentUtilization.text.toString().toInt()
+        currentCard.bankNameTypeDetailID = bankName?.typeDetailID
+        currentCard.obligateTypeDetail = obligate?.typeDetailID
+        return currentCard
+    }
+
+    private fun getCurrentAsset(): AssetLiability {
+        val currentAsset = AssetLiability()
+        val assetType = binding.spinnerAssetType.selectedItem as DropdownMaster?
+        val assetSubType = binding.spinnerAssetSubType.selectedItem as DropdownMaster?
+        val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
+        val documentProof = binding.spinnerDocumentProof.selectedItem as DropdownMaster?
+
+        currentAsset.assetValue = binding.etValue.text.toString().toInt()
+        currentAsset.assetDetailsTypeDetailID = assetType?.typeDetailID
+        currentAsset.subTypeOfAssetTypeDetailID = assetSubType?.typeDetailID
+        currentAsset.ownershipTypeDetailID = ownership?.typeDetailID
+        currentAsset.documentedProofTypeDetailID = documentProof?.typeDetailID
+        return currentAsset
     }
 }

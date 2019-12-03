@@ -4,7 +4,7 @@ import java.text.DecimalFormat
 
 class BankDetailBean {
     var accountHolderName: String? = ""
-    var accountNumber: Int? = 0
+    var accountNumber: String? = ""
     var accountTypeDetailID: Int? = 0
     var active: Boolean = true
     var applicantBankTransectionList: Any? = null

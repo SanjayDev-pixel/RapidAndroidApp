@@ -188,6 +188,21 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rcBank"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_marginBottom="@dimen/fields_margin"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_height="wrap_content"/>
+
+                <com.chahinem.pageindicator.PageIndicator
+                    android:id="@+id/pageIndicatorAsset"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="12sp" />
+
                 <Button
                     android:id="@+id/btnSaveAndContinue"
                     android:layout_width="wrap_content"

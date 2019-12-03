@@ -15,7 +15,7 @@ class AddressDetail : Serializable {
     var districtName: String? = ""
     var entityID: Int? = 0
     var landmark: String = ""
-    var rentAmount: Int? = 0
+    var rentAmount: String? = ""
     var residenceTypeTypeDetailID: Int? = 0
     var zip: String = ""
     var stateID: Int? = 0

@@ -19,6 +19,7 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.connector.PropertyNatureConnector
 import com.finance.app.presenter.presenter.*
+import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.utility.RequestConversion
 import com.finance.app.utility.ResponseConversion
 import com.finance.app.utility.SetPropertyMandatoryField
@@ -62,6 +63,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var propertyMaster: PropertyMaster = PropertyMaster()
     private var propertyModel: PropertyModel? = PropertyModel()
     private var pinCodeObj: Response.PinCodeObj? = null
+    private val leadAndLoanDetail = LeadAndLoanDetail()
     private var mPinCode: String = ""
     private var mStateId: String = ""
     private var mDistrictId: String = ""
@@ -395,6 +397,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
         propertyModel.mvOfProperty = binding.etMvProperty.text.toString()
         propertyModel.agreementValue = binding.etAgreementValue.text.toString().toDouble()
+        propertyModel.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1)
         propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
         propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
         return propertyModel

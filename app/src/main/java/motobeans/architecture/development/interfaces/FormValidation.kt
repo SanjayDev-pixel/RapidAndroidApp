@@ -11,9 +11,12 @@ interface FormValidation {
     fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding): Boolean
     fun validateSenpEmployment(senpBinding: LayoutSenpBinding ): Boolean
     fun validateBankDetail(binding: FragmentBankDetailBinding):Boolean
-    fun validateAssetLiability(binding: FragmentAssetLiablityBinding):Boolean
     fun validateReference(binding: FragmentReferenceBinding):Boolean
     fun validateProperty(binding: FragmentPropertyInfoBinding):Boolean
+    fun validateAssets(binding: FragmentAssetLiablityBinding):Boolean
+    fun validateCards(binding: LayoutCreditCardDetailsBinding):Boolean
+    fun validateObligations(binding: LayoutObligationBinding):Boolean
+    fun validateAssetLiabilityForm(binding: FragmentAssetLiablityBinding):Boolean
     fun disablePersonalFields(binding: FragmentPersonalBinding)
     fun disableEmploymentFields(binding: FragmentEmploymentBinding)
     fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding)
