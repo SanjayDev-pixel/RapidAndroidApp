@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Handler
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -20,17 +19,20 @@ import javax.inject.Inject
 class ApplicantsAdapter(private val mContext: Context, private val applicants: ArrayList<Response.CoApplicantsObj>)
     : RecyclerView.Adapter<ApplicantsAdapter.ApplicantsViewHolder>() {
 
-    private lateinit var binding: ItemApplicantBinding
-    private var mClickListener: ItemClickListener? = null
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
-
+    private lateinit var binding: ItemApplicantBinding
+    private var mClickListener: ItemClickListener? = null
+    private var mLongClickListener: ItemLongClickListener? = null
     private var selectedPosition = 0
 
     fun setOnItemClickListener(listener: ItemClickListener) {
         mClickListener = listener
     }
 
+    fun setOnLongClickListener(longListener: ItemLongClickListener) {
+        mLongClickListener = longListener
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplicantsViewHolder {
         val layoutInflater = LayoutInflater.from(mContext)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_applicant, parent, false)
@@ -47,12 +49,12 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
         fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj)
     }
 
-    inner class ApplicantsViewHolder(val binding: ItemApplicantBinding,
-                                     val mContext: Context) : RecyclerView.ViewHolder(binding.root), View.OnLongClickListener {
+    interface ItemLongClickListener {
+        fun onApplicantLongClick(position: Int)
+    }
 
-        init {
-            itemView.setOnLongClickListener(this)
-        }
+    inner class ApplicantsViewHolder(val binding: ItemApplicantBinding,
+                                     val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindItems(position: Int, coApplicant: Response.CoApplicantsObj) {
             binding.tvApplicants.text = coApplicant.firstName
@@ -63,6 +65,15 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
                 }
             }
 
+            itemView.setOnLongClickListener {
+                if (mLongClickListener != null) {
+                    selectedPosition = adapterPosition
+                    mLongClickListener!!.onApplicantLongClick(position)
+                    selectedPosition = adapterPosition - 1
+                }
+                false
+            }
+
             if (selectedPosition == adapterPosition) {
                 binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.black))
                 binding.tvApplicants.setBackgroundResource(R.drawable.selected_applicant_tab)
@@ -70,43 +81,6 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
                 binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.white))
                 binding.tvApplicants.setBackgroundResource(R.drawable.unselected_applicant_tab)
             }
-        }
-
-        override fun onLongClick(v: View?): Boolean {
-            if (adapterPosition != 0) {
-                showAlertDialog()
-            }
-            return true
-        }
-
-        private fun showAlertDialog() {
-            val deleteDialogView = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null)
-            val progressDialog = ProgressDialog(mContext)
-            val mBuilder = AlertDialog.Builder(mContext)
-                    .setView(deleteDialogView)
-                    .setTitle("Delete Applicant")
-            val deleteDialog = mBuilder.show()
-
-            deleteDialogView.tvDeleteConfirm.setOnClickListener {
-                progressDialog.setMessage("Deleting Applicant")
-                progressDialog.show()
-                Handler().postDelayed({
-                    deleteApplicant()
-                    deleteDialog.dismiss()
-                    progressDialog.dismiss()
-                }, 1000)
-            }
-
-            deleteDialogView.tvDonotDelete.setOnClickListener {
-                deleteDialog.dismiss()
-            }
-        }
-
-        private fun deleteApplicant() {
-            applicants.removeAt(adapterPosition)
-            notifyItemRemoved(adapterPosition)
-            notifyItemRangeChanged(adapterPosition, applicants.size)
-            selectedPosition = adapterPosition - 1
         }
     }
 }

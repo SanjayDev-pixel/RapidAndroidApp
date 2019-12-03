@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
@@ -31,6 +32,7 @@ import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
+import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -44,7 +46,8 @@ import javax.inject.Inject
 
 class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp, PinCodeDetailConnector.PinCode,
-        ApplicantsAdapter.ItemClickListener, DistrictCityConnector.District,
+        ApplicantsAdapter.ItemClickListener, ApplicantsAdapter.ItemLongClickListener,
+        DistrictCityConnector.District,
         DistrictCityConnector.City {
 
     private lateinit var binding: FragmentPersonalBinding
@@ -173,8 +176,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
         applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
-        applicantAdapter!!.setOnItemClickListener(this)
         binding.rcApplicants.adapter = applicantAdapter
+        applicantAdapter!!.setOnItemClickListener(this)
+        applicantAdapter!!.setOnLongClickListener(this)
     }
 
     private fun onAddCoApplicantClick() {
@@ -964,6 +968,39 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun getKycData() {
         kycList.add(kyc)
         showKycDetail()
+    }
+
+    override fun onApplicantLongClick(position: Int) {
+        showAlertDialog(position)
+    }
+
+    private fun showAlertDialog(position: Int) {
+        val deleteDialogView = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null)
+        val progressDialog = ProgressDialog(mContext)
+        val mBuilder = AlertDialog.Builder(mContext)
+                .setView(deleteDialogView)
+                .setTitle("Delete Applicant")
+        val deleteDialog = mBuilder.show()
+
+        deleteDialogView.tvDeleteConfirm.setOnClickListener {
+            progressDialog.setMessage("Deleting Applicant")
+            progressDialog.show()
+            Handler().postDelayed({
+                deleteApplicant(position)
+                deleteDialog.dismiss()
+                progressDialog.dismiss()
+            }, 1000)
+        }
+
+        deleteDialogView.tvDonotDelete.setOnClickListener {
+            deleteDialog.dismiss()
+        }
+    }
+
+    private fun deleteApplicant(position: Int) {
+        applicantTab!!.removeAt(position)
+        applicantAdapter!!.notifyItemRemoved(position)
+        applicantAdapter!!.notifyItemRangeChanged(position, applicantTab!!.size)
     }
 
     private fun showKycDetail() {
