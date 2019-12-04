@@ -30,6 +30,7 @@
                     android:layout_width="wrap_content"
                     android:id="@+id/rcApplicants"
                     android:orientation="horizontal"
+                    android:layout_marginEnd="100sp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_height="wrap_content"/>
 
@@ -38,9 +39,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_toEndOf="@id/rcApplicants"
                     android:text="@string/add_icon"
-                    android:layout_marginStart="5sp"
+                    android:layout_alignParentEnd="true"
                     android:textSize="@dimen/button_text_size"
                     android:textColor="@color/black"
                     android:background="@drawable/selected_applicant_tab" />
