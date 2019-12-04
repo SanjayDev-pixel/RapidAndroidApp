@@ -19,10 +19,7 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.connector.PropertyNatureConnector
 import com.finance.app.presenter.presenter.*
-import com.finance.app.utility.LeadAndLoanDetail
-import com.finance.app.utility.RequestConversion
-import com.finance.app.utility.ResponseConversion
-import com.finance.app.utility.SetPropertyMandatoryField
+import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.Spinner.*
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
@@ -250,6 +247,10 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             } else showToast(getString(R.string.validation_error))
         }
         pinCodeListener(binding.etPinCode)
+        AmountTextFormat(binding.etCashOcr)
+        AmountTextFormat(binding.etOcr)
+        AmountTextFormat(binding.etMvProperty)
+        AmountTextFormat(binding.etAgreementValue)
     }
 
     private fun pinCodeListener(pinCodeField: TextInputEditText?) {

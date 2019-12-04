@@ -296,6 +296,10 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             } else showToast(getString(R.string.validation_error))
         }
+        AmountTextFormat(binding.etValue)
+        AmountTextFormat(binding.layoutObligations.etLoanAmount)
+        AmountTextFormat(binding.layoutObligations.etEmiAmount)
+
     }
 
     private fun saveCurrentObligations() {

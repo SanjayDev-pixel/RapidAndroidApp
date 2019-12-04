@@ -224,6 +224,14 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         senpIncomeListener(binding.layoutSenp.etCurrentYearIncome, AppEnums.INCOME_TYPE.CURRENT_YEAR_INCOME)
         pinCodeListener(binding.layoutSenp.layoutAddress.etPinCode, AppEnums.ADDRESS_TYPE.SENP)
         pinCodeListener(binding.layoutSalary.layoutAddress.etPinCode, AppEnums.ADDRESS_TYPE.SALARY)
+
+        AmountTextFormat(binding.layoutSalary.etGrossIncome)
+        AmountTextFormat(binding.layoutSalary.etNetIncome)
+        AmountTextFormat(binding.layoutSalary.etDeduction)
+        AmountTextFormat(binding.layoutSenp.etLastYearIncome)
+        AmountTextFormat(binding.layoutSenp.etCurrentYearIncome)
+        AmountTextFormat(binding.layoutSenp.etAverageMonthlyIncome)
+        AmountTextFormat(binding.layoutSenp.etMonthlyIncome)
     }
 
     private fun salaryIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {

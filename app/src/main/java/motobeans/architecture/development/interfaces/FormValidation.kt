@@ -17,7 +17,6 @@ interface FormValidation {
     fun validateCards(binding: LayoutCreditCardDetailsBinding):Boolean
     fun validateObligations(binding: LayoutObligationBinding):Boolean
     fun validateAssetLiabilityForm(binding: FragmentAssetLiablityBinding):Boolean
-    fun disablePersonalFields(binding: FragmentPersonalBinding)
     fun disableEmploymentFields(binding: FragmentEmploymentBinding)
     fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding)
     fun disableBankDetailFields(binding: FragmentBankDetailBinding)

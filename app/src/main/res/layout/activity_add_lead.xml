@@ -158,13 +158,14 @@
                     android:id="@+id/input_layout_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/address"
+                    android:hint="@string/area"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etAddress"
+                        android:id="@+id/etArea"
                         android:layout_width="match_parent"
+                        android:inputType= "textCapSentences"
                         android:layout_height="wrap_content"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />

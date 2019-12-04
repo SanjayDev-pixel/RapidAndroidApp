@@ -103,7 +103,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
         get() {
             val loanProduct = getSelectedLoanProductMasterType()
             val branch = getSelectedBranchType()
-            return Requests.RequestAddLead(applicantAddress = binding.etAddress.text.toString(),
+            return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
                     applicantEmail = binding.etEmail.text.toString(),
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),

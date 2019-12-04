@@ -16,7 +16,7 @@
         android:name="motobeans.architecture.application.ArchitectureApp"
         android:allowBackup="false"
         android:fullBackupOnly="false"
-        android:hardwareAccelerated="false"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:largeHeap="true"

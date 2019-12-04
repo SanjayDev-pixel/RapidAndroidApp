@@ -76,6 +76,7 @@
                     android:id="@+id/etCurrentAddress"
                     android:layout_width="match_parent"
                     android:singleLine="true"
+                    android:inputType= "textCapSentences"
                     android:layout_height="wrap_content"
                     android:hint="Current Address"
                     android:minWidth="200dp"
@@ -94,6 +95,7 @@
                     android:id="@+id/etCurrentLandmark"
                     android:layout_width="match_parent"
                     android:singleLine="true"
+                    android:inputType= "textCapSentences"
                     android:layout_height="wrap_content"
                     android:hint="@string/landmark"
                     android:minWidth="200dp"
@@ -316,6 +318,7 @@
                     android:id="@+id/etPermanentAddress"
                     android:layout_width="match_parent"
                     android:singleLine="true"
+                    android:inputType= "textCapSentences"
                     android:layout_height="wrap_content"
                     android:hint="@string/permanent_address"
                     android:minWidth="200dp"
@@ -336,7 +339,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:hint="@string/landmark"
-                    android:inputType="text"
+                    android:inputType= "textCapSentences"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
 

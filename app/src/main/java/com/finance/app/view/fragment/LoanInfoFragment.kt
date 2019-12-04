@@ -22,10 +22,7 @@ import com.finance.app.presenter.connector.SourceChannelPartnerNameConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.presenter.presenter.SourceChannelPartnerNamePresenter
-import com.finance.app.utility.RequestConversion
-import com.finance.app.utility.ResponseConversion
-import com.finance.app.utility.SetLoanInfoMandatoryField
-import com.finance.app.utility.UploadData
+import com.finance.app.utility.*
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.recycler.Spinner.ChannelPartnerNameSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.LoanProductSpinnerAdapter
@@ -290,6 +287,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             } else showToast(getString(R.string.validation_error))
         }
+        AmountTextFormat(binding.etAmountRequest)
     }
 
     private fun checkPropertySelection() {
@@ -330,6 +328,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override fun getSourceChannelPartnerNameSuccess(value: Response.ResponseSourceChannelPartnerName) {
         if (value.responseObj.size > 0) {
             setChannelPartnerNameDropDown(value.responseObj)
+        } else {
+            binding.spinnerPartnerName.adapter = ChannelPartnerNameSpinnerAdapter(mContext!!, ArrayList())
         }
     }
 

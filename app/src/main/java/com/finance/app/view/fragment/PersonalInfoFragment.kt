@@ -33,8 +33,6 @@ import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.delete_dialog.view.*
-import kotlinx.android.synthetic.main.layout_basic_detail.view.*
-import kotlinx.android.synthetic.main.layout_personal_address.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -49,8 +47,7 @@ import javax.inject.Inject
 class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp, PinCodeDetailConnector.PinCode,
         ApplicantsAdapter.ItemClickListener, ApplicantsAdapter.ItemLongClickListener,
-        DistrictCityConnector.District,
-        DistrictCityConnector.City {
+        DistrictCityConnector.District, DistrictCityConnector.City {
 
     private lateinit var binding: FragmentPersonalBinding
     private lateinit var mContext: Context
@@ -88,6 +85,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     companion object {
         private const val SINGLE_TYPE_DETAIL_ID = 63
         private const val PERMANENT = "Permanent"
+        private const val COMPLETED = "Completed"
         private const val CURRENT = "Current"
         private lateinit var kycList: ArrayList<AddKyc>
         private lateinit var states: List<StatesMaster>
@@ -161,9 +159,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 personalInfoMaster = personalMaster
                 pDraftData = personalInfoMaster?.draftData!!
                 personalApplicantsList = pDraftData.applicantDetails
-                if (personalApplicantsList!!.size < 0) {
-                    personalApplicantsList!!.add(PersonalApplicantsModel())
-                }
             }
             setCoApplicants()
             showData(personalApplicantsList)
@@ -174,6 +169,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (applicantList != null) {
             if (applicantList.size <= 0) {
                 fillFormWithLeadDetail()
+                personalApplicantsList!!.add(PersonalApplicantsModel())
             } else {
                 for (applicant in applicantList) {
                     if (applicant.isMainApplicant!!) {
@@ -224,6 +220,10 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             binding.basicInfoLayout.etSpouseMiddleName.setText(currentApplicant.spouseMiddleName)
             binding.basicInfoLayout.etSpouseFirstName.setText(currentApplicant.spouseFirstName)
             binding.basicInfoLayout.etSpouseLastName.setText(currentApplicant.spouseLastName)
+        }
+
+        if (mLead!!.status == COMPLETED) {
+            DisablePersonalForm(binding)
         }
     }
 
@@ -654,6 +654,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
         pinCodeListener(binding.personalAddressLayout.etCurrentPinCode, AppEnums.ADDRESS_TYPE.CURRENT)
         pinCodeListener(binding.personalAddressLayout.etPermanentPinCode, AppEnums.ADDRESS_TYPE.PERMANENT)
+        AmountTextFormat(binding.personalAddressLayout.etPermanentRentAmount)
+        AmountTextFormat(binding.personalAddressLayout.etCurrentRentAmount)
     }
 
     private fun pinCodeListener(pinCodeField: TextInputEditText?, addressType: AppEnums.ADDRESS_TYPE? = null) {
@@ -914,7 +916,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun setCoApplicants() {
         val applicantsList = sharedPreferences.getCoApplicantsList()
         if (applicantsList == null || applicantsList.size <= 0) {
-            applicantTab?.add(getDefaultCoApplicant())
+            applicantTab?.add(getDefaultApplicant())
         } else applicantTab = applicantsList
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
@@ -928,7 +930,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (formValidation.validatePersonalInfo(binding)) {
             personalApplicantsList!!.add(PersonalApplicantsModel())
             applicantTab!!.add(getDefaultCoApplicant())
-            applicantAdapter!!.notifyItemRangeChanged(applicantTab!!.size - 1, applicantTab!!.size)
+//            applicantAdapter!!.notifyItemRangeChanged(applicantTab!!.size - 1, applicantTab!!.size)
             binding.rcApplicants.adapter!!.notifyDataSetChanged()
         } else showToast(getString(R.string.mandatory_field_missing))
     }
@@ -938,34 +940,43 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             saveCurrentApplicant()
             ClearPersonalForm(binding, mContext, allMasterDropDown, states)
             currentPosition = position
-            waitFor1Sec(position)
+            waitFor1Sec(position, coApplicant)
         } else showToast(getString(R.string.mandatory_field_missing))
     }
 
-    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
+    private fun getDefaultApplicant(): Response.CoApplicantsObj {
         return Response.CoApplicantsObj(firstName = "Applicant", isMainApplicant = currentPosition == 0,
                 leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
     }
 
-    private fun waitFor1Sec(position: Int) {
+    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
+        return Response.CoApplicantsObj(firstName = "CoApplicant ${currentPosition + 1}",
+                isMainApplicant = currentPosition == 0,
+                leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
+    }
+
+    private fun waitFor1Sec(position: Int, coApplicant: Response.CoApplicantsObj) {
         val progress = ProgressDialog(mContext)
         progress.setMessage(getString(R.string.msg_saving))
         progress.setCancelable(false)
         progress.show()
         val handler = Handler()
         handler.postDelayed({
-            getParticularApplicantData(position)
+            getParticularApplicantData(position, coApplicant)
             progress.dismiss()
         }, 1000)
         applicantAdapter!!.notifyDataSetChanged()
     }
 
-    private fun getParticularApplicantData(position: Int) {
+    private fun getParticularApplicantData(position: Int, coApplicant: Response.CoApplicantsObj) {
         currentApplicant = if (position >= personalApplicantsList!!.size) {
             PersonalApplicantsModel()
         } else {
             personalApplicantsList!![position]
         }
+        currentApplicant.isMainApplicant = coApplicant.isMainApplicant
+        currentApplicant.leadApplicantNumber = coApplicant.leadApplicantNumber
+        currentApplicant.firstName = coApplicant.firstName
         contactDetail = currentApplicant.contactDetail
         personalAddressDetail = currentApplicant.addressDetailList
         fillFormWithCurrentApplicant(currentApplicant)
@@ -974,25 +985,28 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun onApplicantLongClick(position: Int) = showAlertDialog(position)
 
     private fun showAlertDialog(position: Int) {
-        val deleteDialogView = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null)
-        val progressDialog = ProgressDialog(mContext)
-        val mBuilder = AlertDialog.Builder(mContext)
-                .setView(deleteDialogView)
-                .setTitle("Delete Applicant")
-        val deleteDialog = mBuilder.show()
+        if (mLead!!.status == COMPLETED) {
+            return
+        } else {
+            val deleteDialogView = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null)
+            val progressDialog = ProgressDialog(mContext)
+            val mBuilder = AlertDialog.Builder(mContext)
+                    .setView(deleteDialogView)
+                    .setTitle("Delete Applicant")
+            val deleteDialog = mBuilder.show()
+            deleteDialogView.tvDeleteConfirm.setOnClickListener {
+                progressDialog.setMessage("Deleting Applicant")
+                progressDialog.show()
+                Handler().postDelayed({
+                    deleteApplicant(position)
+                    deleteDialog.dismiss()
+                    progressDialog.dismiss()
+                }, 1000)
+            }
 
-        deleteDialogView.tvDeleteConfirm.setOnClickListener {
-            progressDialog.setMessage("Deleting Applicant")
-            progressDialog.show()
-            Handler().postDelayed({
-                deleteApplicant(position)
+            deleteDialogView.tvDonotDelete.setOnClickListener {
                 deleteDialog.dismiss()
-                progressDialog.dismiss()
-            }, 1000)
-        }
-
-        deleteDialogView.tvDonotDelete.setOnClickListener {
-            deleteDialog.dismiss()
+            }
         }
     }
 

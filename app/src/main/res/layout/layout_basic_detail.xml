@@ -434,6 +434,7 @@
                         android:id="@+id/etFatherFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textAllCaps="true"
                         android:singleLine="true"
                         android:hint="@string/father_s_first_name"
                         android:minWidth="200dp"
@@ -453,6 +454,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textAllCaps="true"
                         android:hint="@string/father_middle_name"
                         android:singleLine="true"
                         android:minWidth="200dp"
@@ -473,6 +475,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:singleLine="true"
+                        android:textAllCaps="true"
                         android:hint="@string/father_last_name"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
@@ -497,6 +500,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etSpouseFirstName"
                         android:layout_width="match_parent"
+                        android:textAllCaps="true"
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:singleLine="true"
@@ -517,6 +521,7 @@
                         android:id="@+id/etSpouseMiddleName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textAllCaps="true"
                         android:singleLine="true"
                         android:inputType="text"
                         android:hint="@string/spouse_middle_name"
@@ -538,6 +543,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/spouse_last_name"
                         android:singleLine="true"
+                        android:textAllCaps="true"
                         android:inputType="text"
                         android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
