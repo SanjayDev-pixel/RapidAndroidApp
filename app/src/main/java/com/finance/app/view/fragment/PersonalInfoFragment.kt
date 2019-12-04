@@ -31,6 +31,7 @@ import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
@@ -49,6 +50,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         ApplicantsAdapter.ItemClickListener, ApplicantsAdapter.ItemLongClickListener,
         DistrictCityConnector.District, DistrictCityConnector.City {
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
+    @Inject
+    lateinit var formValidation: FormValidation
+    @Inject
+    lateinit var dataBase: DataBaseUtil
     private lateinit var binding: FragmentPersonalBinding
     private lateinit var mContext: Context
     private var mLead: AllLeadMaster? = null
@@ -74,16 +81,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var pDraftData = PersonalApplicantList()
     private lateinit var allMasterDropDown: AllMasterDropDown
     private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
-
-    @Inject
-    lateinit var sharedPreferences: SharedPreferencesUtil
-    @Inject
-    lateinit var formValidation: FormValidation
-    @Inject
-    lateinit var dataBase: DataBaseUtil
+    private var relationshipList: ArrayList<DropdownMaster> = ArrayList()
 
     companion object {
-        private const val SINGLE_TYPE_DETAIL_ID = 63
+        private const val SINGLE = 63
+        private const val SELF = 221
+        private const val RENTED = 253
         private const val PERMANENT = "Permanent"
         private const val COMPLETED = "Completed"
         private const val CURRENT = "Current"
@@ -144,6 +147,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
             masterDrownDownValues.let {
                 allMasterDropDown = it
+                setRelationshipList(allMasterDropDown.Relationship)
                 setMasterDropDownValue(allMasterDropDown)
             }
         })
@@ -151,6 +155,16 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             states = it
             setStateDropDownValue(states)
         })
+    }
+
+    private fun setRelationshipList(dropDowns: ArrayList<DropdownMaster>?) {
+        for (dropdown in dropDowns!!) {
+            if (dropdown.typeDetailID == SELF) {
+                break
+            } else {
+                relationshipList.add(dropdown)
+            }
+        }
     }
 
     private fun getDataFromDB() {
@@ -216,12 +230,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             binding.personalAddressLayout.etCurrentAddress.setText(mLead!!.applicantAddress)
             binding.personalAddressLayout.etPermanentAddress.setText(mLead!!.applicantAddress)
         }
-        if (currentApplicant.maritialStatusTypeDetailID != SINGLE_TYPE_DETAIL_ID) {
+        if (currentApplicant.maritialStatusTypeDetailID != SINGLE) {
             binding.basicInfoLayout.etSpouseMiddleName.setText(currentApplicant.spouseMiddleName)
             binding.basicInfoLayout.etSpouseFirstName.setText(currentApplicant.spouseFirstName)
             binding.basicInfoLayout.etSpouseLastName.setText(currentApplicant.spouseLastName)
         }
-
         if (mLead!!.status == COMPLETED) {
             DisablePersonalForm(binding)
         }
@@ -237,16 +250,51 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.spinnerCaste.adapter = MasterSpinnerAdapter(mContext, dropDown.Caste!!)
         binding.basicInfoLayout.spinnerQualification.adapter = MasterSpinnerAdapter(mContext, dropDown.Qualification!!)
         binding.basicInfoLayout.spinnerDetailQualification.adapter = MasterSpinnerAdapter(mContext, dropDown.DetailQualification!!)
-        binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, dropDown.Relationship!!)
         binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(mContext, dropDown.AddressProof!!)
         binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, dropDown.AddressProof!!)
-        binding.personalAddressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(mContext, dropDown.ResidenceType!!)
-        binding.personalAddressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(mContext, dropDown.ResidenceType!!)
         binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, dropDown.LivingStandardIndicators!!)
         setMaritalStatus(dropDown)
         fillValueInMasterDropDown()
+        setUpResidenceTypeDropDown(binding.personalAddressLayout.spinnerCurrentResidenceType,
+                dropDown.ResidenceType!!, binding.personalAddressLayout.inputLayoutCurrentRentAmount)
+        setUpResidenceTypeDropDown(binding.personalAddressLayout.spinnerPermanentResidenceType,
+                dropDown.ResidenceType!!, binding.personalAddressLayout.inputLayoutPermanentRentAmount)
         if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
             fillAddressInfo(personalAddressDetail!!)
+        }
+        if (currentPosition == 0) {
+            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Relationship!!)
+            selectDefaultRelationshipValue(binding.basicInfoLayout.spinnerRelationship)
+        } else {
+            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, relationshipList)
+        }
+    }
+
+    private fun setUpResidenceTypeDropDown(spinner: Spinner, residenceType: ArrayList<DropdownMaster>, field: TextInputLayout) {
+        spinner.adapter = MasterSpinnerAdapter(mContext, residenceType)
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    val residence = parent.selectedItem as DropdownMaster
+                    if (residence.typeDetailID == RENTED) {
+                        field.visibility = View.VISIBLE
+                    } else {
+                        field.visibility = View.GONE
+                    }
+                }
+            }
+        }
+    }
+
+    private fun selectDefaultRelationshipValue(spinner: Spinner) {
+        for (index in 0 until spinner.count - 1) {
+            val obj = spinner.getItemAtPosition(index) as DropdownMaster
+            if (obj.typeDetailID == SELF) {
+                spinner.setSelection(index + 1)
+                spinner.isClickable = false
+                return
+            }
         }
     }
 
@@ -376,7 +424,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
                     maritalStatus = parent.selectedItem as DropdownMaster
-                    if (maritalStatus!!.typeDetailID == SINGLE_TYPE_DETAIL_ID) {
+                    if (maritalStatus!!.typeDetailID == SINGLE) {
                         binding.basicInfoLayout.llSpouse.visibility = View.GONE
                     } else {
                         binding.basicInfoLayout.llSpouse.visibility = View.VISIBLE
@@ -626,11 +674,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun setClickListeners() {
-        binding.ivUploadKyc.setOnClickListener {
-            UploadData(frag, mContext)
-        }
-        binding.basicInfoLayout.btnVerifyOTP.setOnClickListener {
-        }
+        binding.ivUploadKyc.setOnClickListener { UploadData(frag, mContext) }
+        binding.basicInfoLayout.btnVerifyOTP.setOnClickListener {}
         binding.btnAddKYC.setOnClickListener {
             getKycData()
             clearKycData()

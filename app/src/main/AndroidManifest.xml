@@ -73,7 +73,7 @@
         <activity
             android:name=".view.activity.NotificationActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.UploadDataActivity" />
+        <activity android:name=".view.activity.UploadDocumentActivity" />
 
     </application>
 

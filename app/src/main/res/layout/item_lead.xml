@@ -82,7 +82,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/black"
-                    android:background="@drawable/oval_drawable_unselected"
                     android:gravity="center"
                     android:padding="5sp"
                     android:text="Type Of Loan: Home Loan"

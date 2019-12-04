@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.finance.app.R
-import com.finance.app.databinding.ActivityUploadDataBinding
+import com.finance.app.databinding.ActivityUploadDocumentBinding
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.presenter.connector.DocumentUploadConnector
 import com.finance.app.presenter.presenter.DocumentUploadPresenter
@@ -19,13 +19,10 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import retrofit2.http.Multipart
 import javax.inject.Inject
 
-
-class UploadDataActivity : BaseAppCompatActivity(), DocumentUploadConnector.ViewOpt {
-
+class UploadDocumentActivity : BaseAppCompatActivity(), DocumentUploadConnector.ViewOpt {
     // used to bind element of layout to activity
-    private val binding: ActivityUploadDataBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_upload_data)
-
+    private val binding: ActivityUploadDocumentBinding by ActivityBindingProviderDelegate(
+            this, R.layout.activity_upload_document)
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
@@ -37,7 +34,7 @@ class UploadDataActivity : BaseAppCompatActivity(), DocumentUploadConnector.View
     companion object {
         private const val KEY_DOCUMENT_TYPE = "documentType"
         fun start(context: Context, dropDowns: ArrayList<DropdownMaster>) {
-            val intent = Intent(context, UploadDataActivity::class.java)
+            val intent = Intent(context, UploadDocumentActivity::class.java)
             val bundle = Bundle()
             bundle.putSerializable(KEY_DOCUMENT_TYPE, dropDowns)
             intent.putExtras(bundle)
@@ -65,7 +62,6 @@ class UploadDataActivity : BaseAppCompatActivity(), DocumentUploadConnector.View
 
     private fun setDropDownValue(documentType: ArrayList<DropdownMaster>) {
         binding.spinnerDocumentType.adapter = MasterSpinnerAdapter(this, documentType)
-
     }
 
     private fun setClickListeners() {

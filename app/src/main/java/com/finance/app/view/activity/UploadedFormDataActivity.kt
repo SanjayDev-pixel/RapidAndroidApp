@@ -17,8 +17,6 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import java.io.IOException
 
 class UploadedFormDataActivity : BaseAppCompatActivity() {
-
-    // used to bind element of layout to activity
     private val binding: ActivityUploadedFormDataBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_uploaded_form_data)
     private var bundle: Bundle? = null
