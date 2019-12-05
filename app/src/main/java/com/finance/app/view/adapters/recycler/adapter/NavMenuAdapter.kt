@@ -23,7 +23,7 @@ interface NavMenuConnector {
 class NavMenuAdapter(private val mContext: Context, private val navListItem: List<AppEnums.ScreenLoanInfo>) : RecyclerView.Adapter<NavDrawerViewHolder>(), NavMenuConnector {
 
     private lateinit var binding: ItemNavBinding
-    private var isExpanded = true
+    private var isExpanded = false
 
     private var selectedNavString = ""
 

@@ -225,13 +225,13 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         pinCodeListener(binding.layoutSenp.layoutAddress.etPinCode, AppEnums.ADDRESS_TYPE.SENP)
         pinCodeListener(binding.layoutSalary.layoutAddress.etPinCode, AppEnums.ADDRESS_TYPE.SALARY)
 
-        AmountTextFormat(binding.layoutSalary.etGrossIncome)
-        AmountTextFormat(binding.layoutSalary.etNetIncome)
-        AmountTextFormat(binding.layoutSalary.etDeduction)
-        AmountTextFormat(binding.layoutSenp.etLastYearIncome)
-        AmountTextFormat(binding.layoutSenp.etCurrentYearIncome)
-        AmountTextFormat(binding.layoutSenp.etAverageMonthlyIncome)
-        AmountTextFormat(binding.layoutSenp.etMonthlyIncome)
+        CurrencyConversion().convertToCurrencyType(binding.layoutSalary.etGrossIncome)
+        CurrencyConversion().convertToCurrencyType(binding.layoutSalary.etNetIncome)
+        CurrencyConversion().convertToCurrencyType(binding.layoutSalary.etDeduction)
+        CurrencyConversion().convertToCurrencyType(binding.layoutSenp.etLastYearIncome)
+        CurrencyConversion().convertToCurrencyType(binding.layoutSenp.etCurrentYearIncome)
+        CurrencyConversion().convertToCurrencyType(binding.layoutSenp.etAverageMonthlyIncome)
+        CurrencyConversion().convertToCurrencyType(binding.layoutSenp.etMonthlyIncome)
     }
 
     private fun salaryIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
@@ -316,6 +316,10 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun setStateDropDownValue() {
+        binding.layoutSalary.layoutAddress.spinnerDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
+        binding.layoutSenp.layoutAddress.spinnerDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
+        binding.layoutSalary.layoutAddress.spinnerCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
+        binding.layoutSenp.layoutAddress.spinnerCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
         setDropDownForState(binding.layoutSalary.layoutAddress.spinnerState, AppEnums.ADDRESS_TYPE.SALARY)
         setDropDownForState(binding.layoutSenp.layoutAddress.spinnerState, AppEnums.ADDRESS_TYPE.SENP)
     }
@@ -459,10 +463,10 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         binding.etBusinessName.setText(currentApplicant.companyName)
         binding.etGstRegistration.setText(currentApplicant.gstRegistration)
         binding.etBusinessVintage.setText(currentApplicant.businessVinatgeInYear.toString())
-        binding.etLastYearIncome.setText(currentApplicant.lastYearIncome)
-        binding.etCurrentYearIncome.setText(currentApplicant.currentYearIncome)
-        binding.etAverageMonthlyIncome.setText(currentApplicant.averageMonthlyIncome)
-        binding.etMonthlyIncome.setText(currentApplicant.monthlyIncome)
+        binding.etLastYearIncome.setText(currentApplicant.lastYearIncome.toString())
+        binding.etCurrentYearIncome.setText(currentApplicant.currentYearIncome.toString())
+        binding.etAverageMonthlyIncome.setText(currentApplicant.averageMonthlyIncome.toString())
+        binding.etMonthlyIncome.setText(currentApplicant.monthlyIncome.toString())
         binding.cbAllEarningMember.isChecked = currentApplicant.allEarningMembers
         selectMasterDropdownValue(binding.spinnerBusinessSetUpType, applicant.businessSetupTypeDetailID)
         selectMasterDropdownValue(binding.spinnerConstitution, applicant.constitutionTypeDetailID)
@@ -479,9 +483,9 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         binding.etEmployeeId.setText(currentApplicant.employeeID)
         binding.etCompanyName.setText(currentApplicant.companyName)
         binding.cbIsPensioner.isChecked = currentApplicant.isPensioner
-        binding.etGrossIncome.setText(currentApplicant.grossIncome)
-        binding.etDeduction.setText(currentApplicant.deduction)
-        binding.etNetIncome.setText(currentApplicant.netIncome)
+        binding.etGrossIncome.setText(currentApplicant.grossIncome.toString())
+        binding.etDeduction.setText(currentApplicant.deduction.toString())
+        binding.etNetIncome.setText(currentApplicant.netIncome.toString())
         selectMasterDropdownValue(binding.spinnerSector, applicant.sectorTypeDetailID)
         selectMasterDropdownValue(binding.spinnerEmploymentType, applicant.employmentTypeDetailID)
         selectMasterDropdownValue(binding.spinnerIndustry, applicant.industryTypeDetailID)
@@ -672,10 +676,10 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         applicant.retirementAge = binding.etRetirementAge.text.toString().toInt()
         applicant.officialMailID = binding.etOfficialMailId.text.toString()
         applicant.addressBean = getAddress(binding.layoutAddress)
-        applicant.grossIncome = binding.etGrossIncome.text.toString()
-        applicant.deduction = binding.etDeduction.text.toString()
+        applicant.grossIncome = CurrencyConversion().convertToNormalValue(binding.etGrossIncome.text.toString())
+        applicant.deduction = CurrencyConversion().convertToNormalValue(binding.etDeduction.text.toString())
         applicant.employeeID = binding.etEmployeeId.text.toString()
-        applicant.netIncome = binding.etNetIncome.text.toString()
+        applicant.netIncome = CurrencyConversion().convertToNormalValue(binding.etNetIncome.text.toString())
         return applicant
     }
 
@@ -691,10 +695,10 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         applicant.gstRegistration = binding.etGstRegistration.text.toString()
         applicant.businessVinatgeInYear = binding.etBusinessVintage.text.toString().toInt()
         applicant.addressBean = getAddress(binding.layoutAddress)
-        applicant.monthlyIncome = binding.etMonthlyIncome.text.toString()
-        applicant.averageMonthlyIncome = binding.etAverageMonthlyIncome.text.toString()
-        applicant.lastYearIncome = binding.etLastYearIncome.text.toString()
-        applicant.currentYearIncome = binding.etCurrentYearIncome.text.toString()
+        applicant.monthlyIncome = CurrencyConversion().convertToNormalValue(binding.etMonthlyIncome.text.toString())
+        applicant.averageMonthlyIncome = CurrencyConversion().convertToNormalValue(binding.etAverageMonthlyIncome.text.toString())
+        applicant.lastYearIncome = CurrencyConversion().convertToNormalValue(binding.etLastYearIncome.text.toString())
+        applicant.currentYearIncome = CurrencyConversion().convertToNormalValue(binding.etCurrentYearIncome.text.toString())
         applicant.allEarningMembers = binding.cbAllEarningMember.isChecked
         return applicant
     }

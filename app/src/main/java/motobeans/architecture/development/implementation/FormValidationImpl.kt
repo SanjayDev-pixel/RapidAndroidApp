@@ -4,6 +4,7 @@ import com.finance.app.databinding.*
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
+import com.finance.app.utility.CurrencyConversion
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
@@ -88,7 +89,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
 
     override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean {
         var errorCount = 0
-        val loanAmount = binding.etAmountRequest.text.toString()
+        val loanAmount = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString())
         val emi = binding.etEmi.text.toString()
         val tenure = binding.etTenure.text.toString()
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
@@ -445,7 +446,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateAddLead(binding: ActivityAddLeadBinding): Boolean {
+    override fun validateAddLead(binding: ActivityCreateLeadBinding): Boolean {
         var errorCount = 0
 
         val address = binding.etArea.toString()
@@ -579,12 +580,13 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.etOcr.error = "Cannot be grater than cash OCR"
         }
 
-        if (propertyMv.toDouble() < agreementValue.toDouble()) {
+        if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
             errorCount++
             binding.etOcr.error = "Cannot be grater than MV of property"
         }
 
-        if (ocr.toDouble() > propertyMv.toDouble() || ocr.toDouble() > agreementValue.toDouble()) {
+        if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
+                CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
             errorCount++
             binding.etOcr.error = "Cannot be grater than MV of Property or agreement value"
         }

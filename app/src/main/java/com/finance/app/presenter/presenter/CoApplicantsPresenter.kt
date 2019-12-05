@@ -28,7 +28,7 @@ class CoApplicantsPresenter(private val coApplicant: CoApplicantsConnector.CoApp
     }
 
     private fun callCoApplicantsList() {
-        val requestApi = apiProject.api.getCoApplicantsList(coApplicant.leadId)
+        val requestApi = apiProject.api.getCoApplicantsList(coApplicant.leadIdForApplicant)
 
         requestApi
                 .subscribeOn(Schedulers.io())

@@ -296,9 +296,9 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             } else showToast(getString(R.string.validation_error))
         }
-        AmountTextFormat(binding.etValue)
-        AmountTextFormat(binding.layoutObligations.etLoanAmount)
-        AmountTextFormat(binding.layoutObligations.etEmiAmount)
+        CurrencyConversion().convertToCurrencyType(binding.etValue)
+        CurrencyConversion().convertToCurrencyType(binding.layoutObligations.etLoanAmount)
+        CurrencyConversion().convertToCurrencyType(binding.layoutObligations.etEmiAmount)
 
     }
 
@@ -480,11 +480,11 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         currentObligation.numberOfBouncesInLastNineMonth = binding.layoutObligations.etBouncesInLastNineMonths.text.toString().toInt()
         currentObligation.numberOfBouncesInLastSixMonth = binding.layoutObligations.etBouncesInLastSixMonths.text.toString().toInt()
         currentObligation.financerName = binding.layoutObligations.etFinancierName.text.toString()
-        currentObligation.loanAmount = binding.layoutObligations.etLoanAmount.text.toString().toInt()
+        currentObligation.loanAmount = CurrencyConversion().convertToNormalValue(binding.layoutObligations.etLoanAmount.text.toString()).toInt()
+        currentObligation.emiAmount = CurrencyConversion().convertToNormalValue(binding.layoutObligations.etEmiAmount.text.toString()).toInt()
         currentObligation.loanAccountNumber = binding.layoutObligations.etAccountNum.text.toString()
         currentObligation.tenure = binding.layoutObligations.etTenure.text.toString().toInt()
         currentObligation.balanceTenure = binding.layoutObligations.etBalanceTenure.text.toString().toInt()
-        currentObligation.emiAmount = binding.layoutObligations.etEmiAmount.text.toString().toInt()
         currentObligation.loanOwnershipTypeDetailID = loanOwnership?.typeDetailID
         currentObligation.obligateTypeDetailID = obligate?.typeDetailID
         currentObligation.loanTypeTypeDetailID = loanType?.typeDetailID
@@ -512,7 +512,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
         val documentProof = binding.spinnerDocumentProof.selectedItem as DropdownMaster?
 
-        currentAsset.assetValue = binding.etValue.text.toString().toInt()
+        currentAsset.assetValue = CurrencyConversion().convertToNormalValue(binding.etValue.text.toString()).toInt()
         currentAsset.assetDetailsTypeDetailID = assetType?.typeDetailID
         currentAsset.subTypeOfAssetTypeDetailID = assetSubType?.typeDetailID
         currentAsset.ownershipTypeDetailID = ownership?.typeDetailID

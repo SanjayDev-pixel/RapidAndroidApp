@@ -7,13 +7,21 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
-class AmountTextFormat(val editText: TextInputEditText) {
+class CurrencyConversion {
 
-    init {
-        editText.addTextChangedListener(onTextChangedListener())
+    fun convertToCurrencyType(editText: TextInputEditText) {
+        editText.addTextChangedListener(onTextChangedListener(editText))
     }
 
-    private fun onTextChangedListener(): TextWatcher {
+    fun convertToNormalValue(value: String): String {
+        var amount = ""
+        if (value.contains(",")) {
+            amount = value.replace(",".toRegex(), "")
+        }
+        return amount
+    }
+
+    private fun onTextChangedListener(editText: TextInputEditText): TextWatcher {
         return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 

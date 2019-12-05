@@ -30,7 +30,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private var leadContact:Long = 0
 
     companion object {
-        private const val KEY_LEAD_ID = "leadId"
+        private const val KEY_LEAD_ID = "leadIdForApplicant"
         fun start(context: Context, leadID: Int?) {
             val intent = Intent(context, LeadDetailActivity::class.java)
             val bundle = Bundle()

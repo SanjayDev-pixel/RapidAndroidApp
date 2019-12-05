@@ -247,10 +247,10 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             } else showToast(getString(R.string.validation_error))
         }
         pinCodeListener(binding.etPinCode)
-        AmountTextFormat(binding.etCashOcr)
-        AmountTextFormat(binding.etOcr)
-        AmountTextFormat(binding.etMvProperty)
-        AmountTextFormat(binding.etAgreementValue)
+        CurrencyConversion().convertToCurrencyType(binding.etCashOcr)
+        CurrencyConversion().convertToCurrencyType(binding.etOcr)
+        CurrencyConversion().convertToCurrencyType(binding.etMvProperty)
+        CurrencyConversion().convertToCurrencyType(binding.etAgreementValue)
     }
 
     private fun pinCodeListener(pinCodeField: TextInputEditText?) {
@@ -393,11 +393,11 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         propertyModel.pinCode = binding.etPinCode.text.toString()
         propertyModel.distanceFromBranch = binding.etDistanceFromBranch.text.toString()
         propertyModel.numberOfTenants = binding.etNumOfTenants.text.toString().toInt()
-        propertyModel.cashOCRValue = binding.etCashOcr.text.toString().toDouble()
-        propertyModel.ocrValue = binding.etOcr.text.toString().toDouble()
+        propertyModel.cashOCRValue = CurrencyConversion().convertToNormalValue(binding.etCashOcr.text.toString()).toDouble()
+        propertyModel.ocrValue = CurrencyConversion().convertToNormalValue(binding.etOcr.text.toString()).toDouble()
         propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
-        propertyModel.mvOfProperty = binding.etMvProperty.text.toString()
-        propertyModel.agreementValue = binding.etAgreementValue.text.toString().toDouble()
+        propertyModel.mvOfProperty = CurrencyConversion().convertToNormalValue(binding.etMvProperty.text.toString())
+        propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
         propertyModel.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1)
         propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
         propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()

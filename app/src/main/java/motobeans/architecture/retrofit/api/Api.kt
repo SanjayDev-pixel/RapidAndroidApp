@@ -28,14 +28,14 @@ interface Api {
     @POST("api/v1/loan/applicant/loan/information/")
     fun postLoanInfo(@Body requestPost: LoanInfoMaster): Observable<Response.ResponseLoanApplication>
 
-    @GET("api/v1/loan/applicant/loan/information/{leadId}")
-    fun getLoanInfo(@Path("leadId") leadId: String): Observable<Response.ResponseGetLoanInfo>
+    @GET("api/v1/loan/applicant/loan/information/{leadIdForApplicant}")
+    fun getLoanInfo(@Path("leadIdForApplicant") leadId: String): Observable<Response.ResponseGetLoanInfo>
 
     @POST("api/v1/loan/application/applicant/personal/detail/")
     fun postPersonalInfo(@Body requestPost: PersonalInfoMaster): Observable<Response.ResponseLoanApplication>
 
-    @GET("api/v1/loan/application/applicant/personal/detail/{leadId}")
-    fun getPersonalInfo(@Path("leadId") leadId: String): Observable<Response.ResponseGetPersonalInfo>
+    @GET("api/v1/loan/application/applicant/personal/detail/{leadIdForApplicant}")
+    fun getPersonalInfo(@Path("leadIdForApplicant") leadId: String): Observable<Response.ResponseGetPersonalInfo>
 
     @POST("api/v1/lead/")
     fun addLead(@Body request: Requests.RequestAddLead): Observable<Response.ResponseAddLead>
@@ -49,8 +49,8 @@ interface Api {
     @GET("api/v1/master/branchID/{branchId}/channelType/{channelType}/employeeID/{employeeId}/")
     fun sourceChannelPartnerName(@Path("branchId") branchId: String, @Path("channelType") channelType: String, @Path("employeeId") employeeId: String): Observable<Response.ResponseSourceChannelPartnerName>
 
-    @PUT("api/v1/loan/application/reference/detail/draft/{leadId}/")
-    fun postReference(@Path("leadId") leadId: String?, @Body requestPost: ArrayList<ReferenceMaster>): Observable<Response.ResponseLoanApplication>
+    @PUT("api/v1/loan/application/reference/detail/draft/{leadIdForApplicant}/")
+    fun postReference(@Path("leadIdForApplicant") leadId: String?, @Body requestPost: ArrayList<ReferenceMaster>): Observable<Response.ResponseLoanApplication>
 
     @GET("api/v1/pincode/{pinCode}/")
     fun getPinCodeDetail(@Path("pinCode") pinCode: String?): Observable<Response.ResponsePinCodeDetail>
@@ -58,8 +58,8 @@ interface Api {
     @POST("api/v1/loan/application/postEmployment/")
     fun postEmployment(@Body requestPost: Requests.RequestPostEmployment): Observable<Response.ResponseLoanApplication>
 
-    @POST("api/v1/loan/obligation/card/asset/reference/detail/draft/{leadId}")
-    fun postAssetLiability(@Path("leadId") leadId: String?, @Body request: ArrayList<AssetLiabilityMaster>): Observable<Response.ResponseLoanApplication>
+    @POST("api/v1/loan/obligation/card/asset/reference/detail/draft/{leadIdForApplicant}")
+    fun postAssetLiability(@Path("leadIdForApplicant") leadId: String?, @Body request: ArrayList<AssetLiabilityMaster>): Observable<Response.ResponseLoanApplication>
 
     @POST("api/v1/loan/application/applicant/bank-details/")
     fun postBankDetail(@Body request: BankDetailMaster): Observable<Response.ResponseLoanApplication>
@@ -68,14 +68,14 @@ interface Api {
     @POST("api/v1/file/upload/")
     fun uploadDocument(@Part("document") document: String): Observable<Response.ResponseDocumentUpload>
 
-    @GET("api/v1/loan/application/applicant/bank-details?leadID={leadId}&loanApplicationID=&bankDetailID=0")
-    fun getBankDetail(@Path("leadId") leadId: String): Observable<Response.ResponseGetBankDetail>
+    @GET("api/v1/loan/application/applicant/bank-details?leadID={leadIdForApplicant}&loanApplicationID=&bankDetailID=0")
+    fun getBankDetail(@Path("leadIdForApplicant") leadId: String): Observable<Response.ResponseGetBankDetail>
 
     @GET("api/v1/lead/")
     fun getAllLeads(): Observable<Response.ResponseGetAllLeads>
 
     @GET("api/v1/lead/")
-    fun getEmployment(@Path("leadId") leadId: String): Observable<Response.ResponseGetEmployment>
+    fun getEmployment(@Path("leadIdForApplicant") leadId: String): Observable<Response.ResponseGetEmployment>
 
     @GET("api/v1/master/states/")
     fun getStates(): Observable<Response.ResponseStatesDropdown>
@@ -92,10 +92,10 @@ interface Api {
     @POST("api/v1/loan/application/draft/")
     fun postLoanApp(@Body requestPost: LoanApplicationRequest): Observable<Response.ResponseGetLoanApplication>
 
-    @GET("api/v1/loan/application/draft/lead/{leadId}/type/{storageType}/")
-    fun getLoanApp(@Path("leadId") leadId: String, @Path("storageType") storageType: String): Observable<Response.ResponseGetLoanApplication>
+    @GET("api/v1/loan/application/draft/lead/{leadIdForApplicant}/type/{storageType}/")
+    fun getLoanApp(@Path("leadIdForApplicant") leadId: String, @Path("storageType") storageType: String): Observable<Response.ResponseGetLoanApplication>
 
-    @GET("api/v1/loan/applicant/{leadId}/")
-    fun getCoApplicantsList(@Path("leadId") leadId: String): Observable<Response.ResponseCoApplicants>
+    @GET("api/v1/loan/applicant/{leadIdForApplicant}/")
+    fun getCoApplicantsList(@Path("leadIdForApplicant") leadId: String): Observable<Response.ResponseCoApplicants>
 
 }

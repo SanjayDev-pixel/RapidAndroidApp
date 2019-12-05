@@ -1,5 +1,6 @@
 package com.finance.app.utility
 
+import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -14,12 +15,14 @@ class ConvertDate {
     }
 
     fun convertToAppFormat(mDate: String): String {
-        val pattern = "yyyy-MM-dd"
-        val desirablePattern = "dd-MMM-yyyy"
-        val sdf = SimpleDateFormat(pattern)
-        val date = sdf.parse(mDate)
-        val desiredSdf = SimpleDateFormat(desirablePattern)
-        return desiredSdf.format(date)
+        return if (mDate.exIsNotEmptyOrNullOrBlank()) {
+            val pattern = "yyyy-MM-dd"
+            val desirablePattern = "dd-MMM-yyyy"
+            val sdf = SimpleDateFormat(pattern)
+            val date = sdf.parse(mDate)
+            val desiredSdf = SimpleDateFormat(desirablePattern)
+            desiredSdf.format(date)
+        } else ""
     }
 
     fun getDifferenceFromDate(date: String): String {
