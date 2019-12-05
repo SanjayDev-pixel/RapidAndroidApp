@@ -2,11 +2,9 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
-import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import com.finance.app.R
-import com.finance.app.databinding.ActivityAddLeadBinding
+import com.finance.app.databinding.ActivityCreateLeadBinding
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.presenter.connector.AddLeadConnector
 import com.finance.app.presenter.presenter.AddLeadPresenter
@@ -23,10 +21,10 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
+class LeadCreationActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
-    private val binding: ActivityAddLeadBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_add_lead)
+    private val binding: ActivityCreateLeadBinding by ActivityBindingProviderDelegate(
+            this, R.layout.activity_create_lead)
     private val presenterOpt = AddLeadPresenter(this)
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -37,7 +35,7 @@ class AddLeadActivity : BaseAppCompatActivity(), AddLeadConnector.ViewOpt {
 
     companion object {
         fun start(context: Context) {
-            val intent = Intent(context, AddLeadActivity::class.java)
+            val intent = Intent(context, LeadCreationActivity::class.java)
             context.startActivity(intent)
         }
     }

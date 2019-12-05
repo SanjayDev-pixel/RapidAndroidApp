@@ -82,10 +82,12 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
       R.id.dashboard -> {
         DashboardActivity.start(this)
       }
+      R.id.createLead -> {
+        LeadCreationActivity.start(this)
+      }
       R.id.logout -> {
         LoginActivity.start(this)
         sharedPreferencesUtil.clearAll()
-//        mDataBase.provideDataBaseSource().deleteAllTableDataFromDBAsycn()
       }
       R.id.assignedLeads -> {
         AllLeadActivity.start(this)

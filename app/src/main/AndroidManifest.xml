@@ -21,9 +21,10 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="lollipop">
+
         <activity
             android:name=".view.activity.SplashScreen"
             android:screenOrientation="portrait"
@@ -34,14 +35,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.ForgetPasswordActivity"/>
-        <activity android:name=".view.activity.OtpVerifyActivity"/>
-        <activity android:name=".view.activity.ResetPasswordActivity"/>
+
+        <activity android:name=".view.activity.ForgetPasswordActivity" />
+        <activity android:name=".view.activity.OtpVerifyActivity" />
+        <activity android:name=".view.activity.ResetPasswordActivity" />
         <activity
             android:name=".view.activity.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.AddLeadActivity"
+            android:name=".view.activity.LeadCreationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.UploadedFormDataActivity"

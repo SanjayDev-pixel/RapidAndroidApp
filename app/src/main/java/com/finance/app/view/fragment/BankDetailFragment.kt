@@ -213,6 +213,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         if (bankDetailBeanList!!.size > 0) {
             bankDetailBeanList!![currentPosition] = getCurrentBean()
         } else bankDetailBeanList!!.add(currentPosition, getCurrentBean())
+        setUpBankDetailAdapter(bankDetailBeanList!!)
     }
 
     private fun getDropDownsFromDB() {
