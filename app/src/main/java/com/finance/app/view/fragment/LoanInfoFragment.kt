@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentLoanInformationBinding
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.SourceChannelPartnerNameConnector
@@ -358,7 +359,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getLoanInfoMaster())
-        gotoNextFragment()
+        AppEvents.fireEventLoanAppChangeNavFragmentNext()
+//        gotoNextFragment()
     }
 
     private fun gotoNextFragment() {

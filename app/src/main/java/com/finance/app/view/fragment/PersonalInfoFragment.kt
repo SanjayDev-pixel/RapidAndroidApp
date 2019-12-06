@@ -644,7 +644,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-            AppEvents.fireEventLoanAppChangeNavFragmentNext()
             if (formValidation.validatePersonalInfo(binding)) {
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
@@ -807,7 +806,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getPersonalInfoMaster())
         coApplicantsPresenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST)
-        gotoNextFragment()
+        AppEvents.fireEventLoanAppChangeNavFragmentNext()
+//        gotoNextFragment() 
     }
 
     override fun getLoanAppPostFailure(msg: String) {

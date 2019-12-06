@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.FragmentReferenceBinding
 import com.finance.app.databinding.LayoutEmploymentAddressBinding
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.DistrictCityConnector
@@ -219,7 +220,7 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
                 clearPinCodeData()
             }
         }
-        binding.btnPrevious.setOnClickListener {}
+        binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
             if (formValidation.validateReference(binding = binding)) {
                 referencesList?.add(getReferenceModel())
@@ -383,7 +384,8 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getReferenceMaster())
-        gotoNextFragment()
+        AppEvents.fireEventLoanAppChangeNavFragmentNext()
+//        gotoNextFragment()
     }
 
     private fun gotoNextFragment() {

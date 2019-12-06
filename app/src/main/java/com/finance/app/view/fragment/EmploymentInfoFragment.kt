@@ -18,6 +18,7 @@ import com.finance.app.databinding.FragmentEmploymentBinding
 import com.finance.app.databinding.LayoutEmploymentAddressBinding
 import com.finance.app.databinding.LayoutSalaryBinding
 import com.finance.app.databinding.LayoutSenpBinding
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.DistrictCityConnector
@@ -221,9 +222,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun setClickListeners() {
-        binding.btnPrevious.setOnClickListener {
-
-        }
+        binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
             saveCurrentApplicant()
             when (formType) {
@@ -753,7 +752,8 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getEmploymentMaster())
-        gotoNextFragment()
+        AppEvents.fireEventLoanAppChangeNavFragmentNext()
+//        gotoNextFragment()
     }
 
     override fun getLoanAppPostFailure(msg: String) {

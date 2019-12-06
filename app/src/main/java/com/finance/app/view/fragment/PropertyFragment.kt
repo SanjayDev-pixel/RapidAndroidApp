@@ -12,6 +12,7 @@ import android.widget.Spinner
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPropertyInfoBinding
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.DistrictCityConnector
@@ -241,7 +242,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun setClickListeners() {
-        binding.btnPrevious.setOnClickListener {}
+        binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
             if (formValidation.validateProperty(binding)) {
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
@@ -421,7 +422,8 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getPropertyMaster())
-        gotoNextFragment()
+        AppEvents.fireEventLoanAppChangeNavFragmentNext()
+//        gotoNextFragment()
     }
 
     private fun gotoNextFragment() {

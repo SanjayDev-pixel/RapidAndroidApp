@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.FragmentBankDetailBinding
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
@@ -207,8 +208,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             } else showToast(getString(R.string.validation_error))
         }
-        binding.btnPrevious.setOnClickListener {
-            }
+        binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
 
     }
 
@@ -282,7 +282,8 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getBankDetailMaster())
-        gotoNextFragment()
+        AppEvents.fireEventLoanAppChangeNavFragmentNext()
+//        gotoNextFragment()
     }
 
     private fun gotoNextFragment() {
