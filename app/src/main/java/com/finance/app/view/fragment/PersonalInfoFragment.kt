@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalBinding
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.model.Modals.AddKyc
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
@@ -640,8 +641,10 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
         binding.basicInfoLayout.ivUploadDobProof.setOnClickListener { UploadData(frag, mContext) }
         binding.btnAddApplicant.setOnClickListener { onAddCoApplicantClick() }
-        binding.btnPrevious.setOnClickListener {  }
+
+        binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
+            AppEvents.fireEventLoanAppChangeNavFragmentNext()
             if (formValidation.validatePersonalInfo(binding)) {
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
