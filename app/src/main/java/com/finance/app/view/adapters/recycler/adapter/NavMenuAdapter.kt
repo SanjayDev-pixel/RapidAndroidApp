@@ -13,11 +13,15 @@ import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.view.adapters.recycler.Holder.NavDrawerViewHolder
 import com.finance.app.view.fragment.*
+import java.lang.Exception
 
 interface NavMenuConnector {
     fun isMenuExpanded(): Boolean
     fun getSelectionScreenName(): String
     fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanInfo)
+    fun rootViewClicked(position: Int)
+    fun nextFragment()
+    fun previousFragment()
 }
 
 class NavMenuAdapter(private val mContext: Context, private val navListItem: List<AppEnums.ScreenLoanInfo>) : RecyclerView.Adapter<NavDrawerViewHolder>(), NavMenuConnector {
@@ -25,6 +29,7 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
     private lateinit var binding: ItemNavBinding
     private var isExpanded = false
 
+    private var selectedNavPosition = -1
     private var selectedNavString = ""
 
     init {
@@ -46,7 +51,35 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
         holder.bindItems(position = position, navItem = navItem)
     }
 
+    override fun nextFragment() {
+        val position = (selectedNavPosition + 1)
+        val nextPosition = when(navListItem.size > position) {
+            true -> position
+            false -> navListItem.size - 1
+        }
+        rootViewClicked(nextPosition)
+    }
+
+    override fun previousFragment() {
+        val position = (selectedNavPosition - 1)
+        val previousPosition = when((position) >= 0) {
+            true -> position
+            false -> 0
+        }
+        rootViewClicked(previousPosition)
+    }
+
+    override fun rootViewClicked(position: Int) {
+        try {
+            val navItem = navListItem[position]
+            rootViewClicked(position = position, navItem = navItem)
+        } catch (e: Exception) {
+
+        }
+    }
+
     override fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanInfo) {
+        selectedNavPosition = position
         selectedNavString = navItem.screenName
         navigateToAnotherFragmentOnIconCLick(navItem)
         if(isMenuExpanded()) {

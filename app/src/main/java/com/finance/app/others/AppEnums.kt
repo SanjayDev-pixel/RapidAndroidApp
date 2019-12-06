@@ -45,6 +45,43 @@ class AppEnums {
                     else -> DEFAULT
                 }
             }
+
+            fun getPosition(screenName: String?): Int {
+                val screen = getData(screenName = screenName)
+                return screen.ordinal
+            }
+
+            fun getPosition(screen: ScreenLoanInfo): Int {
+                return screen.ordinal
+            }
+
+            fun getNextPosition(screenName: String?): Int {
+                val screen = getData(screenName = screenName)
+                return getNextPosition(screen = screen)
+            }
+
+            fun getNextPosition(screen: ScreenLoanInfo): Int {
+                var position = getPosition(screen) + 1
+                val nextPosition = when(values().size > position) {
+                    true -> position
+                    else -> values().size
+                }
+                return nextPosition
+            }
+
+            fun getPreviousPosition(screenName: String?): Int {
+                val screen = getData(screenName)
+                return getPreviousPosition(screen = screen)
+            }
+
+            fun getPreviousPosition(screen: ScreenLoanInfo): Int {
+                var position = getPosition(screen) - 1
+                val previousPosition = when(position >= 0) {
+                    true -> position
+                    else -> 0
+                }
+                return previousPosition
+            }
         }
     }
 
@@ -57,4 +94,10 @@ class AppEnums {
         GROSS_INCOME("GROSS_INCOME"), DEDUCTION("DEDUCTION"),
         LAST_YEAR_INCOME("LAST_YEAR_INCOME"), CURRENT_YEAR_INCOME("CURRENT_YEAR_INCOME")
     }
+
+
+    enum class EnumEventChangeLoanApplicationFragmentNavigation {
+        NEXT, PREVIOUS
+    }
+
 }
