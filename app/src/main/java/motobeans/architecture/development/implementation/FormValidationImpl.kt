@@ -5,6 +5,12 @@ import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.utility.CurrencyConversion
+import kotlinx.android.synthetic.main.fragment_property_info.view.*
+import kotlinx.android.synthetic.main.layout_basic_detail.view.*
+import kotlinx.android.synthetic.main.layout_credit_card_details.view.*
+import kotlinx.android.synthetic.main.layout_employment_address.view.*
+import kotlinx.android.synthetic.main.layout_obligation.view.*
+import kotlinx.android.synthetic.main.layout_personal_address.view.*
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
@@ -45,9 +51,9 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.personalAddressLayout.etCurrentPinCode.error = "Pin code can not be blank"
         }
 
-        if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying != "") {
+        if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying != "" && currentStaying.toInt() > 99) {
             errorCount++
-            binding.personalAddressLayout.etCurrentStaying.error = "Required field"
+            binding.personalAddressLayout.etCurrentStaying.error = "Required field missing or Invalid Entry"
         }
 
         if (!binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
@@ -74,7 +80,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.personalAddressLayout.etPermanentPinCode.error = "Pin code can not be blank"
         }
 
-        if (!permanentStaying.exIsNotEmptyOrNullOrBlank() && permanentStaying != "") {
+        if (!permanentStaying.exIsNotEmptyOrNullOrBlank() && permanentStaying != "" && permanentStaying.toFloat() > 99) {
             binding.personalAddressLayout.etPermanentStaying.error = "Required field"
             errorCount++
         }
@@ -477,7 +483,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     }
 
     private fun isValidMobile(mobile: String): Boolean {
-        if (mobile.exIsNotEmptyOrNullOrBlank()) {
+        if (mobile.exIsNotEmptyOrNullOrBlank() && mobile.length == 10) {
             return android.util.Patterns.PHONE.matcher(mobile).matches()
         }
         return false

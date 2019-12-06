@@ -267,8 +267,9 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun getIncomeValue(amount: String): Float {
-        if (amount.exIsNotEmptyOrNullOrBlank()) {
-            val income = amount.toFloat()
+        if (amount.exIsNotEmptyOrNullOrBlank() && amount == "") {
+            val stringAmount = CurrencyConversion().convertToNormalValue(amount)
+            val income = stringAmount.toFloat()
             counter++
             return income
         }
@@ -402,6 +403,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         }
         binding.layoutSalary.llSalary.visibility = View.VISIBLE
         binding.layoutSenp.llSenp.visibility = View.GONE
+        ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSenpForm()
     }
 
     private fun showSenpForm(id: Int) {
@@ -418,6 +420,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         }
         binding.layoutSenp.llSenp.visibility = View.VISIBLE
         binding.layoutSalary.llSalary.visibility = View.GONE
+        ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSalaryForm()
     }
 
     private fun setSalaryDropDown(binding: LayoutSalaryBinding, dropDown: AllMasterDropDown) {
