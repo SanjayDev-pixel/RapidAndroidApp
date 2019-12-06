@@ -241,7 +241,8 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun setClickListeners() {
-        binding.btnSaveAndContinue.setOnClickListener {
+        binding.btnPrevious.setOnClickListener {}
+        binding.btnNext.setOnClickListener {
             if (formValidation.validateProperty(binding)) {
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             } else showToast(getString(R.string.validation_error))

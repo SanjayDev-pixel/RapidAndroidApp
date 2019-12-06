@@ -210,7 +210,10 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun setClickListeners() {
-        binding.btnSaveAndContinue.setOnClickListener {
+        binding.btnPrevious.setOnClickListener {
+
+        }
+        binding.btnNext.setOnClickListener {
             saveCurrentApplicant()
             when (formType) {
                 SALARY -> validateSalary()

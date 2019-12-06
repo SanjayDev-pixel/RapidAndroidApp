@@ -219,7 +219,8 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
                 clearPinCodeData()
             }
         }
-        binding.btnSaveAndContinue.setOnClickListener {
+        binding.btnPrevious.setOnClickListener {}
+        binding.btnNext.setOnClickListener {
             if (formValidation.validateReference(binding = binding)) {
                 referencesList?.add(getReferenceModel())
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)

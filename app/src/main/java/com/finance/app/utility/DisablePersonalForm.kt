@@ -13,7 +13,8 @@ class DisablePersonalForm(private val binding: FragmentPersonalBinding) {
         binding.etIdNum.isEnabled = false
         binding.etExpiryDate.isEnabled = false
         binding.etIssueDate.isEnabled = false
-        binding.btnSaveAndContinue.isEnabled = false
+        binding.btnNext.isEnabled = false
+        binding.btnPrevious.isEnabled = false
         binding.ivUploadKyc.isClickable = false
         binding.btnAddKYC.isEnabled = false
         binding.spinnerVerifiedStatus.isEnabled = false

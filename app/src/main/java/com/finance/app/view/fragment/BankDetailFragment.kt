@@ -200,13 +200,16 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 ClearBankForm(binding, mContext, allMasterDropDown)
             } else showToast(getString(R.string.validation_error))
         }
-        binding.btnSaveAndContinue.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             if (formValidation.validateBankDetail(binding)) {
                 saveCurrentBean()
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             } else showToast(getString(R.string.validation_error))
         }
+        binding.btnPrevious.setOnClickListener {
+            }
+
     }
 
     private fun saveCurrentBean() {

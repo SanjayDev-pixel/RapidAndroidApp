@@ -179,17 +179,30 @@
                 <include android:id="@+id/layoutObligations"
                     layout="@layout/layout_obligation"/>
 
-                <Button
-                    android:id="@+id/btnSaveAndContinue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/margin_50"
-                    android:background="@drawable/button_theme_style"
-                    android:layout_gravity="center"
-                    android:text="@string/save_and_continue"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
+                    android:layout_height="wrap_content">
 
+                    <Button
+                        android:id="@+id/btnPrevious"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_theme_style"
+                        android:text="@string/previous"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/button_text_size" />
+
+                    <Button
+                        android:id="@+id/btnNext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_theme_style"
+                        android:text="@string/next"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/button_text_size" />
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

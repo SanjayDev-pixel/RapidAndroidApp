@@ -640,7 +640,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
         binding.basicInfoLayout.ivUploadDobProof.setOnClickListener { UploadData(frag, mContext) }
         binding.btnAddApplicant.setOnClickListener { onAddCoApplicantClick() }
-        binding.btnSaveAndContinue.setOnClickListener {
+        binding.btnPrevious.setOnClickListener {  }
+        binding.btnNext.setOnClickListener {
             if (formValidation.validatePersonalInfo(binding)) {
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)

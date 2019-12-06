@@ -281,7 +281,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.ivThumbnail.setOnClickListener {
             UploadedFormDataActivity.start(mContext!!, image, pdf)
         }
-        binding.btnSaveAndContinue.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             if (formValidation.validateLoanInformation(binding, selectedLoanProduct)) {
                 checkPropertySelection()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)

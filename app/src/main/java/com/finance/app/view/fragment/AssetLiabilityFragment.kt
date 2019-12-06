@@ -290,7 +290,12 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearObligationForm(binding.layoutObligations)
             } else showToast(getString(R.string.validation_error))
         }
-        binding.btnSaveAndContinue.setOnClickListener {
+        binding.btnPrevious.setOnClickListener {
+
+
+        }
+
+        binding.btnNext.setOnClickListener {
             if (formValidation.validateAssetLiabilityForm(binding)) {
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
