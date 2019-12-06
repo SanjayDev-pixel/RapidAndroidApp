@@ -17,6 +17,7 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.databinding.LayoutCreditCardDetailsBinding
 import com.finance.app.databinding.LayoutObligationBinding
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
@@ -290,10 +291,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearObligationForm(binding.layoutObligations)
             } else showToast(getString(R.string.validation_error))
         }
-        binding.btnPrevious.setOnClickListener {
-
-
-        }
+        binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
 
         binding.btnNext.setOnClickListener {
             if (formValidation.validateAssetLiabilityForm(binding)) {
@@ -371,7 +369,8 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getAssetLiabilityMaster())
-        gotoNextFragment()
+        AppEvents.fireEventLoanAppChangeNavFragmentNext()
+//        gotoNextFragment()
     }
 
     override fun getLoanAppPostFailure(msg: String) {

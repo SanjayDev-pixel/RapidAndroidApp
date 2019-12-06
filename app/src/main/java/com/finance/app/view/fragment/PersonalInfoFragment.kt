@@ -807,7 +807,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         saveDataToDB(getPersonalInfoMaster())
         coApplicantsPresenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST)
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
-//        gotoNextFragment() 
+//        gotoNextFragment()
     }
 
     override fun getLoanAppPostFailure(msg: String) {
