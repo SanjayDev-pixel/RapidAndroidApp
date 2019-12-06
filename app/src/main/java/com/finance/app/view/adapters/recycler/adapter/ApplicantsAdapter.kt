@@ -1,17 +1,13 @@
 package com.finance.app.view.adapters.recycler.adapter
 
-import android.app.ProgressDialog
 import android.content.Context
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemApplicantBinding
-import kotlinx.android.synthetic.main.delete_dialog.view.*
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
@@ -33,6 +29,7 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
     fun setOnLongClickListener(longListener: ItemLongClickListener) {
         mLongClickListener = longListener
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ApplicantsViewHolder {
         val layoutInflater = LayoutInflater.from(mContext)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_applicant, parent, false)
@@ -53,24 +50,28 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
         fun onApplicantLongClick(position: Int)
     }
 
+    fun onClickItem(position: Int, coApplicant: Response.CoApplicantsObj) {
+        selectedPosition = position
+        mClickListener?.onApplicantClick(position, coApplicant)
+    }
+
+    fun onLongClickItem(position: Int) {
+        selectedPosition = position
+        mLongClickListener?.onApplicantLongClick(position)
+        selectedPosition = position - 1
+    }
+
     inner class ApplicantsViewHolder(val binding: ItemApplicantBinding,
                                      val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindItems(position: Int, coApplicant: Response.CoApplicantsObj) {
             binding.tvApplicants.text = coApplicant.firstName
             binding.tvApplicants.setOnClickListener {
-                if (mClickListener != null) {
-                    selectedPosition = adapterPosition
-                    mClickListener!!.onApplicantClick(position, coApplicant)
-                }
+                onClickItem(position, coApplicant)
             }
 
             itemView.setOnLongClickListener {
-                if (mLongClickListener != null) {
-                    selectedPosition = adapterPosition
-                    mLongClickListener!!.onApplicantLongClick(position)
-                    selectedPosition = adapterPosition - 1
-                }
+                onLongClickItem(position)
                 false
             }
 

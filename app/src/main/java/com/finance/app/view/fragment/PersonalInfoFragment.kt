@@ -838,6 +838,15 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             applicantTab!!.add(getDefaultCoApplicant())
 //            applicantAdapter!!.notifyItemRangeChanged(applicantTab!!.size - 1, applicantTab!!.size)
             binding.rcApplicants.adapter!!.notifyDataSetChanged()
+
+
+            try {
+                val lastIndex = applicantTab!!.lastIndex
+                applicantAdapter?.onClickItem(lastIndex, applicantTab!![lastIndex])
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         } else showToast(getString(R.string.mandatory_field_missing))
     }
 
@@ -916,12 +925,22 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    private fun deleteApplicant(position: Int) {
-        applicantTab!!.removeAt(position)
-        applicantAdapter!!.notifyItemRemoved(position)
-        applicantAdapter!!.notifyItemRangeChanged(position, applicantTab!!.size)
+    private fun deleteApplicant(deletePosition: Int) {
+        applicantTab!!.removeAt(deletePosition)
+        applicantAdapter!!.notifyItemRemoved(deletePosition)
+        applicantAdapter!!.notifyItemRangeChanged(deletePosition, applicantTab!!.size)
         binding.rcApplicants.adapter!!.notifyDataSetChanged()
-        currentApplicant = personalApplicantsList!![position-1]
+
+        try {
+            val currentApplicantPosition = when(personalApplicantsList!!.size > deletePosition) {
+                true -> deletePosition
+                else -> personalApplicantsList!!.size
+            }
+
+            currentApplicant = personalApplicantsList!![currentApplicantPosition - 1]
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         fillFormWithCurrentApplicant(currentApplicant)
     }
 
