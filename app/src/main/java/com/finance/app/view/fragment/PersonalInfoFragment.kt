@@ -853,7 +853,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
         if (formValidation.validatePersonalInfo(binding)) {
             saveCurrentApplicant()
-//            ClearPersonalForm(binding, mContext, allMasterDropDown, states)
+            ClearPersonalForm(binding, mContext, allMasterDropDown, states)
             currentPosition = position
             waitFor1Sec(position, coApplicant)
         } else showToast(getString(R.string.mandatory_field_missing))

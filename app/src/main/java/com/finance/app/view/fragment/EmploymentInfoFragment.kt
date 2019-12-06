@@ -70,6 +70,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var eDraftData = EmploymentApplicantList()
     private var eApplicantList: ArrayList<EmploymentApplicantsModel>? = ArrayList()
     private var currentApplicant: EmploymentApplicantsModel = EmploymentApplicantsModel()
+    private lateinit var currentTab: Response.CoApplicantsObj
     private var eAddressDetail: AddressDetail = AddressDetail()
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mPinCode: String = ""
@@ -138,9 +139,16 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     private fun showData(applicantList: ArrayList<EmploymentApplicantsModel>?) {
         if (applicantList != null) {
+            if (applicantList.size < applicantTab!!.size) {
+                for (tab in applicantList.size..applicantTab!!.size) {
+                    applicantList.add(EmploymentApplicantsModel())
+                }
+            }
             for (applicant in applicantList) {
                 if (applicant.isMainApplicant) {
                     currentApplicant = applicant
+                    currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
+                    currentApplicant.isMainApplicant = currentTab.isMainApplicant
                     eAddressDetail = currentApplicant.addressBean!!
                 }
             }
@@ -152,8 +160,11 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private fun setCoApplicants() {
         val applicantsList = sharedPreferences.getCoApplicantsList()
         if (applicantsList == null || applicantsList.size <= 0) {
-            applicantTab?.add(getDefaultCoApplicant())
-        }else applicantTab = applicantsList
+            applicantTab?.add(getDefaultApplicant())
+        } else {
+            applicantTab = applicantsList
+        }
+        currentTab = applicantTab!![0]
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
         applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
@@ -171,7 +182,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         }
     }
 
-    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
+    private fun getDefaultApplicant(): Response.CoApplicantsObj {
         return Response.CoApplicantsObj( firstName = "Applicant", isMainApplicant = currentPosition == 0,
                 leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
     }
@@ -659,8 +670,8 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         val subProfile = binding.spinnerSubProfile.selectedItem as DropdownMaster?
         applicant.profileSegmentTypeDetailID = profile?.typeDetailID
         applicant.subProfileTypeDetailID = subProfile?.typeDetailID
-        applicant.isMainApplicant = currentPosition == 0
-        applicant.leadApplicantNumber = currentApplicant.leadApplicantNumber
+        applicant.isMainApplicant = currentTab.isMainApplicant
+        applicant.leadApplicantNumber = currentTab.leadApplicantNumber
         when (formType) {
             SALARY -> return getSalaryForm(binding.layoutSalary, applicant)
             SENP -> return getSenpForm(binding.layoutSenp, applicant)
