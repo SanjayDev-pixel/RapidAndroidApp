@@ -216,19 +216,9 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
-        loanScheme = ArrayList()
-        interestType = ArrayList()
-        channelPartnerName = ArrayList()
-        sourcingChannelPartner = ArrayList()
-        loanScheme = allMasterDropDown.LoanScheme!!
-        binding.spinnerLoanScheme.adapter = MasterSpinnerAdapter(mContext!!, loanScheme)
-
-        interestType = allMasterDropDown.LoanInformationInterestType!!
-        binding.spinnerInterestType.adapter = MasterSpinnerAdapter(mContext!!, interestType)
-
-        sourcingChannelPartner = allMasterDropDown.SourcingChannelPartner!!
-        binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(mContext!!, sourcingChannelPartner)
-
+        binding.spinnerLoanScheme.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanScheme)
+        binding.spinnerInterestType.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanInformationInterestType)
+        binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.SourcingChannelPartner)
         binding.spinnerSourcingChannelPartner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {

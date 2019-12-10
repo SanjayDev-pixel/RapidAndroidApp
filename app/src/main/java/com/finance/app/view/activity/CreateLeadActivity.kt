@@ -21,7 +21,7 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class LeadCreationActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
+class CreateLeadActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
 
     private val binding: ActivityLeadCreateBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_create)
@@ -35,7 +35,7 @@ class LeadCreationActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
 
     companion object {
         fun start(context: Context) {
-            val intent = Intent(context, LeadCreationActivity::class.java)
+            val intent = Intent(context, CreateLeadActivity::class.java)
             context.startActivity(intent)
         }
     }
@@ -52,37 +52,6 @@ class LeadCreationActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
         }
     }
 
-    private fun isValidToProceed(): Boolean {
-
-        var isValid = true
-        val isValidBinding = formValidation.validateAddLead(binding)
-
-        val selectedLoan = getSelectedLoanProductMasterType()
-        val isLoanValid = selectedLoan != null && selectedLoan.productID > 0
-        binding.spinnerLoanProduct.isEnableErrorLabel = !isLoanValid
-        when(isLoanValid) {
-            false -> {
-                binding.spinnerLoanProduct.error = "Select Loan"
-            }
-        }
-
-        val selectedBranch = getSelectedBranchType()
-        val isBranchValid = selectedBranch != null && selectedBranch.branchID > 0
-        binding.spinnerBranches.isEnableErrorLabel = !isBranchValid
-        when(isBranchValid) {
-            false -> {
-                binding.spinnerBranches.error = "Select Branch"
-            }
-        }
-        isValid = isValidBinding && isLoanValid && isBranchValid
-        return isValid
-    }
-
-    private fun setBranchesDropDownValue() {
-        val branchList = sharedPreferences.getUserBranches()!!
-        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, branchList)
-    }
-
     private fun getLoanProductFromDB() {
         dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProducts ->
             loanProducts?.let {
@@ -91,6 +60,11 @@ class LeadCreationActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
                 setProductDropDownValue(arrayListOfLoanProducts)
             }
         })
+    }
+
+    private fun setBranchesDropDownValue() {
+        val branchList = sharedPreferences.getUserBranches()
+        binding.spinnerBranches.adapter = UserBranchesSpinnerAdapter(this, branchList!!)
     }
 
     private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
@@ -113,12 +87,34 @@ class LeadCreationActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
     override val addLeadRequest: Requests.RequestAddLead
         get() = leadRequest
 
+    override fun getAddLeadFailure(msg: String) = showToast(msg)
+
     override fun getAddLeadSuccess(value: Response.ResponseAddLead) {
         AllLeadActivity.start(this)
         showToast("success")
     }
 
-    override fun getAddLeadFailure(msg: String) = showToast(msg)
+    private fun isValidToProceed(): Boolean {
+        val isValidBinding = formValidation.validateAddLead(binding)
+        val selectedLoan = getSelectedLoanProductMasterType()
+        val isLoanValid = selectedLoan != null && selectedLoan.productID > 0
+        binding.spinnerLoanProduct.isEnableErrorLabel = !isLoanValid
+        when (isLoanValid) {
+            false -> {
+                binding.spinnerLoanProduct.error = "Select Loan"
+            }
+        }
+
+        val selectedBranch = getSelectedBranchType()
+        val isBranchValid = selectedBranch != null && selectedBranch.branchID > 0
+        binding.spinnerBranches.isEnableErrorLabel = !isBranchValid
+        when (isBranchValid) {
+            false -> {
+                binding.spinnerBranches.error = "Select Branch"
+            }
+        }
+        return isValidBinding && isLoanValid && isBranchValid
+    }
 
     private fun getSelectedLoanProductMasterType(): LoanProductMaster? {
         return try {
@@ -135,4 +131,5 @@ class LeadCreationActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
             null
         }
     }
+
 }

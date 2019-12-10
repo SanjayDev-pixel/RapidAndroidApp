@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
+import com.finance.app.utility.ClearAssetLiabilityForm
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
@@ -47,6 +48,8 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
 
     override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
         saveCurrentApplicant()
+//        ClearAssetLiabilityForm(binding, mContext, allMasterDropDown)
+        currentPosition = position
         getParticularApplicantData(position)
     }
 
@@ -54,7 +57,6 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
     }
 
     private fun getParticularApplicantData(position: Int) {
-
     }
 
     private fun setClickListeners() {
@@ -70,7 +72,7 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
         val applicantsList = sharedPreferences.getCoApplicantsList()
         if (applicantsList == null || applicantsList.size <= 0) {
             applicantTab?.add(getDefaultCoApplicant())
-        }
+        } else applicantTab = applicantsList
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
         applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)

@@ -9,7 +9,6 @@
         <LinearLayout
             android:id="@+id/llSenp"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -47,6 +46,7 @@
                 android:minWidth="@dimen/text_min_width"
                 app:ms_arrowColor="@color/black"
                 android:textSize="@dimen/text_size"
+                android:layout_marginTop="@dimen/fields_margin"
                 app:ms_arrowSize="@dimen/arrow_size"
                 app:ms_floatingLabelColor="@color/hint_color"
                 app:ms_floatingLabelText="Constitution*"

@@ -34,6 +34,7 @@ class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, privat
         binding.layoutSalary.layoutAddress.etPinCode.text?.clear()
         binding.layoutSalary.etNetIncome.text?.clear()
         binding.layoutSalary.etGrossIncome.text?.clear()
+        binding.layoutSalary.etDeduction.text?.clear()
         clearSalaryDropdown()
     }
 
@@ -56,10 +57,10 @@ class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, privat
         binding.layoutSenp.layoutAddress.etLandmark.text?.clear()
         binding.layoutSenp.etBusinessVintage.text?.clear()
         binding.layoutSenp.etGstRegistration.text?.clear()
-        binding.layoutSenp.layoutAddress.etPinCode.text?.clear()
         binding.layoutSenp.layoutAddress.etContactNum.text?.clear()
         binding.layoutSenp.layoutAddress.etAddress.text?.clear()
         binding.layoutSenp.etAverageMonthlyIncome.text?.clear()
+        binding.layoutSenp.layoutAddress.etPinCode.text?.clear()
         binding.layoutSenp.etLastYearIncome.text?.clear()
         binding.layoutSenp.etCurrentYearIncome.text?.clear()
         binding.layoutSenp.etMonthlyIncome.text?.clear()

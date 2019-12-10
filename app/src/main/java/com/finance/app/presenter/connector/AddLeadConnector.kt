@@ -8,7 +8,7 @@ import motobeans.architecture.retrofit.response.Response
  */
 interface AddLeadConnector {
 
-    interface ViewOpt : ReusableView {
+    interface AddLead : ReusableView {
         val addLeadRequest: Requests.RequestAddLead
 
         fun getAddLeadSuccess(value: Response.ResponseAddLead)

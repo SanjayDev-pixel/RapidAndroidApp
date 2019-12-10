@@ -29,7 +29,7 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
     private lateinit var binding: ItemNavBinding
     private var isExpanded = false
 
-    private var selectedNavPosition = -1
+    private var selectedNavPosition = 0
     private var selectedNavString = ""
 
     init {

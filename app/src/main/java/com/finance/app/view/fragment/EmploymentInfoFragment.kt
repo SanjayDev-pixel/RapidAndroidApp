@@ -192,32 +192,33 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         if (formValidation.validateSalaryEmployment(binding.layoutSalary) || formValidation.validateSenpEmployment(binding.layoutSenp)) {
             saveCurrentApplicant()
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearAll()
+            currentTab = coApplicant
             currentPosition = position
-            waitFor1Sec(position, coApplicant)
+            waitFor1Sec(position)
         } else showToast(getString(R.string.mandatory_field_missing))
     }
 
-    private fun waitFor1Sec(position: Int, coApplicant: Response.CoApplicantsObj) {
+    private fun waitFor1Sec(position: Int) {
         val progress = ProgressDialog(mContext)
         progress.setMessage(getString(R.string.msg_saving))
         progress.setCancelable(false)
         progress.show()
         val handler = Handler()
         handler.postDelayed({
-            getParticularApplicantData(position, coApplicant)
+            getParticularApplicantData(position)
             progress.dismiss()
         }, 1000)
         applicantAdapter!!.notifyDataSetChanged()
     }
 
-    private fun getParticularApplicantData(position: Int, coApplicant: Response.CoApplicantsObj) {
+    private fun getParticularApplicantData(position: Int) {
         currentApplicant = if (position >= eApplicantList!!.size) {
             EmploymentApplicantsModel()
         } else {
             eApplicantList!![position]
         }
-        currentApplicant.isMainApplicant = coApplicant.isMainApplicant
-        currentApplicant.leadApplicantNumber = coApplicant.leadApplicantNumber
+        currentApplicant.isMainApplicant = currentTab.isMainApplicant
+        currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
         fillFormWithCurrentApplicant(currentApplicant)
     }
 
@@ -256,6 +257,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                     AppEnums.INCOME_TYPE.GROSS_INCOME -> grossIncome = getIncomeValue(amountField.text.toString())
                     AppEnums.INCOME_TYPE.DEDUCTION -> deduction = getIncomeValue(amountField.text.toString())
                 }
+
                 if (grossIncome > deduction) {
                     netIncome = (grossIncome - deduction).toString()
                     binding.layoutSalary.etNetIncome.setText(netIncome)
@@ -280,7 +282,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun getIncomeValue(amount: String): Float {
-        if (amount.exIsNotEmptyOrNullOrBlank() && amount == "") {
+        if (amount.exIsNotEmptyOrNullOrBlank()) {
             val stringAmount = CurrencyConversion().convertToNormalValue(amount)
             val income = stringAmount.toFloat()
             counter++
@@ -449,6 +451,8 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun fillFormWithCurrentApplicant(currentApplicant: EmploymentApplicantsModel) {
+        selectProfileValue(binding.spinnerProfileSegment, currentApplicant)
+        selectSubProfileValue(binding.spinnerSubProfile, currentApplicant)
         fillSenpForm(binding.layoutSenp, currentApplicant)
         fillSalaryForm(binding.layoutSalary, currentApplicant)
     }
@@ -753,7 +757,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getEmploymentMaster())
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
-//        gotoNextFragment()
     }
 
     override fun getLoanAppPostFailure(msg: String) {
@@ -765,12 +768,5 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         GlobalScope.launch {
             dataBase.provideDataBaseSource().employmentDao().insertEmployment(employment)
         }
-    }
-
-    private fun gotoNextFragment() {
-        val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, BankDetailFragment())
-        ft?.addToBackStack(null)
-        ft?.commit()
     }
 }

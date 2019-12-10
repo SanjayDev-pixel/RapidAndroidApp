@@ -124,7 +124,7 @@ class NetworkModule {
       }
       builder.header("Content-Type", "application/json").method(original.method(),
               original.body())
-      builder.header("deviceType", "Android")
+      builder.header("ApplicationUserAgent", "dmi-droid")
       val request = builder.build()
       chain.proceed(request)
     }

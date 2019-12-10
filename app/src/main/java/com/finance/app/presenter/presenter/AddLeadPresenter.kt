@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * Created by munishkumarthakur on 31/12/17.
  */
-class AddLeadPresenter(private val viewOpt: AddLeadConnector.ViewOpt) : AddLeadConnector.PresenterOpt {
+class AddLeadPresenter(private val viewOpt: AddLeadConnector.AddLead) : AddLeadConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject

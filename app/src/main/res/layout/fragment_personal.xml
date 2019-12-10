@@ -42,8 +42,7 @@
                     android:text="@string/add_icon"
                     android:layout_alignParentEnd="true"
                     android:textSize="@dimen/button_text_size"
-                    android:textColor="@color/black"
-                    android:background="@drawable/selected_applicant_tab" />
+                    android:textColor="@color/black" />
 
             </RelativeLayout>
 

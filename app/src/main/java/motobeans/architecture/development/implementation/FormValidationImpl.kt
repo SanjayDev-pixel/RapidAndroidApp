@@ -452,7 +452,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateAddLead(binding: ActivityCreateLeadBinding): Boolean {
+    override fun validateAddLead(binding: ActivityLeadCreateBinding): Boolean {
         var errorCount = 0
 
         val address = binding.etArea.toString()

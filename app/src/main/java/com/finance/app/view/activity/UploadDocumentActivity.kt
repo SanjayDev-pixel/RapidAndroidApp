@@ -88,4 +88,37 @@ class UploadDocumentActivity : BaseAppCompatActivity(), DocumentUploadConnector.
     override fun getDocumentUploadFailure(msg: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    /*
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == GALLERY) {
+                if (data != null) {
+                    val contentURI = data.data
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
+                        image = bitmap
+                        binding.ivUploadKyc.setImageBitmap(bitmap)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(requireContext(), "Failed!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else if (requestCode == CAMERA) {
+                val bitmap = data!!.extras!!.get("data") as Bitmap
+                val stream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
+                val byteArray = stream.toByteArray()
+                val thumbnail = BitmapFactory.decodeByteArray(byteArray, 0,
+                        byteArray.size)
+                binding.ivUploadKyc.setImageBitmap(thumbnail)
+                image = thumbnail
+                Toast.makeText(requireContext(), "Image Saved!", Toast.LENGTH_SHORT).show()
+            }
+            binding.rcKYC.adapter!!.notifyDataSetChanged()
+        }
+    }
+*/
+
 }

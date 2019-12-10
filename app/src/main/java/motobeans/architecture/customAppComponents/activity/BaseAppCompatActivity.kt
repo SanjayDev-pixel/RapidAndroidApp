@@ -83,7 +83,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         DashboardActivity.start(this)
       }
       R.id.createLead -> {
-        LeadCreationActivity.start(this)
+        CreateLeadActivity.start(this)
       }
       R.id.logout -> {
         LoginActivity.start(this)

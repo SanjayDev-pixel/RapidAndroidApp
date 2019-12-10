@@ -166,15 +166,16 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun getParticularApplicantData(position: Int) {
-        currentApplicant = if (position >= aApplicantList!!.size) {
-            AssetLiabilityModel()
-        } else {
-            aApplicantList!![position]
-        }
+        currentApplicant = aApplicantList!![position]
     }
 
     private fun showData(applicantList: ArrayList<AssetLiabilityModel>?) {
         if (applicantList != null) {
+            if (applicantList.size < applicantTab!!.size) {
+                for (tab in applicantList.size..applicantTab!!.size) {
+                    applicantList.add(AssetLiabilityModel())
+                }
+            }
             for (applicant in applicantList) {
                 if (applicant.isMainApplicant) {
                     currentApplicant = applicant

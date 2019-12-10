@@ -75,6 +75,9 @@
         <activity
             android:name=".view.activity.NotificationActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.CreateLeadActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".view.activity.UploadDocumentActivity" />
 
     </application>

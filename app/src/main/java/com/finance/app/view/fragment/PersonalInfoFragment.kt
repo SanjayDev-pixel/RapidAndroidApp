@@ -81,7 +81,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var mDistrictId: String = ""
     private var pinCodeObj: Response.PinCodeObj? = null
     private var pDraftData = PersonalApplicantList()
-    private lateinit var allMasterDropDown: AllMasterDropDown
+    private var allMasterDropDown: AllMasterDropDown = AllMasterDropDown()
     private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
     private var relationshipList: ArrayList<DropdownMaster> = ArrayList()
     private val conversion = CurrencyConversion()
@@ -163,7 +163,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun setRelationshipList(dropDowns: ArrayList<DropdownMaster>?) {
         for (dropdown in dropDowns!!) {
             if (dropdown.typeDetailID == SELF) {
-                break
+                continue
             } else {
                 relationshipList.add(dropdown)
             }
@@ -223,12 +223,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
             fillAddressInfo(personalAddressDetail!!)
         }
-        if (currentPosition == 0) {
-            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Relationship!!)
-            selectDefaultRelationshipValue(binding.basicInfoLayout.spinnerRelationship)
-        } else {
-            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, relationshipList)
-        }
     }
 
     private fun setUpResidenceTypeDropDown(spinner: Spinner, residenceType: ArrayList<DropdownMaster>, field: TextInputLayout) {
@@ -253,7 +247,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
             if (obj.typeDetailID == SELF) {
                 spinner.setSelection(index + 1)
-                spinner.isClickable = false
+                spinner.isEnabled = false
                 return
             }
         }
@@ -320,9 +314,17 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             binding.basicInfoLayout.etSpouseFirstName.setText(currentApplicant.spouseFirstName)
             binding.basicInfoLayout.etSpouseLastName.setText(currentApplicant.spouseLastName)
         }
-        if (mLead!!.status == COMPLETED) {
-            DisablePersonalForm(binding)
+        if (currentPosition == 0) {
+            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Relationship!!)
+            selectDefaultRelationshipValue(binding.basicInfoLayout.spinnerRelationship)
+        } else {
+            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, relationshipList)
         }
+        checkCompletion()
+    }
+
+    private fun checkCompletion() {
+        if (mLead!!.status == COMPLETED) { DisablePersonalForm(binding) }
     }
 
     private fun fillValueInMasterDropDown() {
@@ -509,12 +511,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 return
             }
         }
-    }
-
-    private fun saveCurrentApplicant() {
-        if (personalApplicantsList!!.size > 0) {
-            personalApplicantsList!![currentPosition] = getCurrentApplicant()
-        } else personalApplicantsList!!.add(currentPosition, getCurrentApplicant())
     }
 
     private fun getCurrentApplicant(): PersonalApplicantsModel {
@@ -839,9 +835,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (formValidation.validatePersonalInfo(binding)) {
             personalApplicantsList!!.add(PersonalApplicantsModel())
             applicantTab!!.add(getDefaultCoApplicant())
-//            applicantAdapter!!.notifyItemRangeChanged(applicantTab!!.size - 1, applicantTab!!.size)
             binding.rcApplicants.adapter!!.notifyDataSetChanged()
-
 
             try {
                 val lastIndex = applicantTab!!.lastIndex
@@ -860,6 +854,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             currentPosition = position
             waitFor1Sec(position, coApplicant)
         } else showToast(getString(R.string.mandatory_field_missing))
+    }
+
+    private fun saveCurrentApplicant() {
+        if (personalApplicantsList!!.size > 0) {
+            personalApplicantsList!![currentPosition] = getCurrentApplicant()
+        } else personalApplicantsList!!.add(currentPosition, getCurrentApplicant())
     }
 
     private fun getDefaultApplicant(): Response.CoApplicantsObj {
@@ -887,11 +887,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun getParticularApplicantData(position: Int, coApplicant: Response.CoApplicantsObj) {
-        currentApplicant = if (position >= personalApplicantsList!!.size) {
-            PersonalApplicantsModel()
-        } else {
-            personalApplicantsList!![position]
-        }
+        currentApplicant = personalApplicantsList!![position]
         currentApplicant.isMainApplicant = coApplicant.isMainApplicant
         currentApplicant.leadApplicantNumber = coApplicant.leadApplicantNumber
         currentApplicant.firstName = coApplicant.firstName
@@ -951,19 +947,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     override fun getCoApplicantsListFailure(msg: String) = showToast(msg)
 
-    private fun gotoNextFragment() {
-        val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, EmploymentInfoFragment())
-        ft?.addToBackStack(null)
-        ft?.commit()
-    }
-
-    private fun showKycDetail() {
-        binding.rcKYC.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        kycAdapter = AddKycAdapter(activity!!, kycList)
-//        binding.rcKYC.adapter = kycAdapter
-        binding.rcKYC.visibility = View.VISIBLE
-    }
+    private fun showKycDetail() {}
 
     private fun clearKycData() {
         binding.spinnerIdentificationType.isSelected = false
@@ -991,37 +975,5 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         kycList.add(kyc)
         showKycDetail()
     }
-
-    /*
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GALLERY) {
-                if (data != null) {
-                    val contentURI = data.data
-                    try {
-                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
-                        image = bitmap
-                        binding.ivUploadKyc.setImageBitmap(bitmap)
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                        Toast.makeText(requireContext(), "Failed!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else if (requestCode == CAMERA) {
-                val bitmap = data!!.extras!!.get("data") as Bitmap
-                val stream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
-                val byteArray = stream.toByteArray()
-                val thumbnail = BitmapFactory.decodeByteArray(byteArray, 0,
-                        byteArray.size)
-                binding.ivUploadKyc.setImageBitmap(thumbnail)
-                image = thumbnail
-                Toast.makeText(requireContext(), "Image Saved!", Toast.LENGTH_SHORT).show()
-            }
-            binding.rcKYC.adapter!!.notifyDataSetChanged()
-        }
-    }
-*/
 
 }

@@ -18,6 +18,7 @@ class CurrencyConversion {
         if (value.contains(",")) {
             amount = value.replace(",".toRegex(), "")
         }
+        else { amount = value }
         return amount
     }
 

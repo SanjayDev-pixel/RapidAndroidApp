@@ -276,6 +276,7 @@
                             android:id="@+id/ivUploadDobProof"
                             android:layout_width="50sp"
                             android:layout_height="50sp"
+                            android:visibility="invisible"
                             android:layout_gravity="center"
                             android:src="@drawable/upload_icon" />
 

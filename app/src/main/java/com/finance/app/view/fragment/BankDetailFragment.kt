@@ -129,6 +129,12 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun showData(bankList: ArrayList<BankDetailModel>?) {
         if (bankList != null) {
+            if (bankList.size < applicantTab!!.size) {
+                for (tab in bankList.size..applicantTab!!.size) {
+                    bankList.add(BankDetailModel())
+                }
+            }
+
             for (applicant in bankList) {
                 if (applicant.isMainApplicant) {
                     currentApplicant = applicant
@@ -141,7 +147,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun setUpCurrentApplicantDetails(applicant: BankDetailModel) {
         bankDetailBeanList = applicant.applicantBankDetailsBean
-        if (bankDetailBeanList != null && bankDetailBeanList!!.size > 0) {
+        if (bankDetailBeanList != null || bankDetailBeanList!!.size > 0) {
             setUpBankDetailAdapter(bankDetailBeanList!!)
         }
     }
@@ -160,6 +166,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         saveCurrentApplicant()
         ClearBankForm(binding, mContext, allMasterDropDown)
         getParticularApplicantData(position, coApplicant)
+        bankAdapter.notifyDataSetChanged()
     }
 
     private fun saveCurrentApplicant() {
@@ -209,13 +216,18 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             } else showToast(getString(R.string.validation_error))
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
+        binding.btnUpdate.setOnClickListener { updateCurrentBean() }
+    }
 
+    private fun updateCurrentBean() {
+        bankDetailBeanList!!.add(currentPosition, getCurrentBean())
+        bankAdapter.notifyDataSetChanged()
+        binding.btnAddBankDetail.visibility = View.VISIBLE
+        binding.btnUpdate.visibility = View.GONE
     }
 
     private fun saveCurrentBean() {
-        if (bankDetailBeanList!!.size > 0) {
-            bankDetailBeanList!![currentPosition] = getCurrentBean()
-        } else bankDetailBeanList!!.add(currentPosition, getCurrentBean())
+        bankDetailBeanList!!.add(currentPosition, getCurrentBean())
         setUpBankDetailAdapter(bankDetailBeanList!!)
     }
 
@@ -283,14 +295,6 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getBankDetailMaster())
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
-//        gotoNextFragment()
-    }
-
-    private fun gotoNextFragment() {
-        val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, AssetLiabilityFragment())
-        ft?.addToBackStack(null)
-        ft?.commit()
     }
 
     private fun saveDataToDB(bankDetail: BankDetailMaster) {
@@ -304,6 +308,8 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override fun onBankDetailEditClicked(position: Int, bank: BankDetailBean) {
         currentBean = bank
         fillFormWithCurrentBean(bank)
+        binding.btnAddBankDetail.visibility = View.GONE
+        binding.btnUpdate.visibility = View.VISIBLE
     }
 
     private fun fillFormWithCurrentBean(bank: BankDetailBean) {
