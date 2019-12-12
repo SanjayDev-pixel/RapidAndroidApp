@@ -79,15 +79,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         SetBankDetailMandatoryField(binding)
-        checkIncomeConsideration()
         setClickListeners()
-    }
-
-    private fun checkIncomeConsideration() {
-        /*val selected = sharedPreferences.getIncomeConsideration()
-        if (!selected) {
-            formValidation.disableBankDetailFields(binding)
-        } else*/
         getBankDetail()
     }
 
@@ -150,6 +142,13 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             }
         }
         getDropDownsFromDB()
+        checkIncomeConsideration()
+    }
+
+    private fun checkIncomeConsideration() {
+        if (!currentTab.incomeConsidered!!) {
+            formValidation.disableBankDetailFields(binding)
+        } else showToast(getString(R.string.error_income_not_considered))
     }
 
     private fun setUpCurrentApplicantDetails(applicant: BankDetailModel) {
@@ -196,6 +195,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             setUpBankDetailAdapter(bankDetailBeanList)
         } else setUpBankDetailAdapter(ArrayList())
         applicantAdapter!!.notifyDataSetChanged()
+        checkIncomeConsideration()
     }
 
     private fun getDataFromDB() {
