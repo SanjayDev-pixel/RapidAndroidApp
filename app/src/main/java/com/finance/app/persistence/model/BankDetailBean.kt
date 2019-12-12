@@ -19,7 +19,7 @@ class BankDetailBean {
     var inwardChequeReturn: DecimalFormat? = null
     var loanApplicationID: Int? = 0
     var netMonthlyCredit: DecimalFormat? = null
-    var numberOfCredit: Int? = 0
+    var numberOfCredit: String? = ""
     var numberOfDebit: Int? = 0
     var outwardChequeReturn: DecimalFormat? = null
     var salaryCreditTypeDetailID: Int? = 0

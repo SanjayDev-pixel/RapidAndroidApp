@@ -1,6 +1,7 @@
 package com.finance.app.utility
 
 import android.content.Context
+import android.view.View
 import com.finance.app.databinding.FragmentBankDetailBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
@@ -13,5 +14,6 @@ class ClearBankForm(binding: FragmentBankDetailBinding, context: Context, master
         binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(context, masterDropdown.SalaryCredit!!)
         binding.spinnerAccountType.adapter = MasterSpinnerAdapter(context, masterDropdown.AccountType!!)
         binding.spinnerBankName.adapter = MasterSpinnerAdapter(context, masterDropdown.BankName!!)
+        binding.inputLayoutSalaryCreditInSixMonth.visibility = View.GONE
     }
 }

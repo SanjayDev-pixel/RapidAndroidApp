@@ -138,11 +138,24 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         showData(eApplicantList)
     }
 
+    private fun setCoApplicants() {
+        val applicantsList = sharedPreferences.getCoApplicantsList()
+        if (applicantsList == null || applicantsList.size <= 0) {
+            applicantTab?.add(getDefaultApplicant())
+        } else applicantTab = applicantsList
+        currentTab = applicantTab!![0]
+        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                LinearLayoutManager.HORIZONTAL, false)
+        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
+        applicantAdapter!!.setOnItemClickListener(this)
+        binding.rcApplicants.adapter = applicantAdapter
+    }
+
     private fun showData(applicantList: ArrayList<EmploymentApplicantsModel>?) {
         if (applicantList != null) {
             if (applicantList.size < applicantTab!!.size) {
                 for (tab in applicantList.size..applicantTab!!.size) {
-                    applicantList.add(EmploymentApplicantsModel())
+                    eApplicantList?.add(EmploymentApplicantsModel())
                 }
             }
             for (applicant in applicantList) {
@@ -156,21 +169,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         }
         getDropDownsFromDB()
         fillFormWithCurrentApplicant(currentApplicant)
-    }
-
-    private fun setCoApplicants() {
-        val applicantsList = sharedPreferences.getCoApplicantsList()
-        if (applicantsList == null || applicantsList.size <= 0) {
-            applicantTab?.add(getDefaultApplicant())
-        } else {
-            applicantTab = applicantsList
-        }
-        currentTab = applicantTab!![0]
-        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
-                LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
-        applicantAdapter!!.setOnItemClickListener(this)
-        binding.rcApplicants.adapter = applicantAdapter
     }
 
     private fun setDatePicker() {
@@ -214,12 +212,16 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private fun getParticularApplicantData(position: Int) {
         currentApplicant = if (position >= eApplicantList!!.size) {
             EmploymentApplicantsModel()
-        } else {
-            eApplicantList!![position]
-        }
+        } else eApplicantList!![position]
         currentApplicant.isMainApplicant = currentTab.isMainApplicant
         currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
         fillFormWithCurrentApplicant(currentApplicant)
+    }
+
+    private fun saveCurrentApplicant() {
+        if (eApplicantList!!.size > 0) {
+            eApplicantList!![currentPosition] = getCurrentApplicant()
+        } else eApplicantList!!.add(currentPosition, getCurrentApplicant())
     }
 
     private fun setClickListeners() {
@@ -256,6 +258,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 when (type) {
                     AppEnums.INCOME_TYPE.GROSS_INCOME -> grossIncome = getIncomeValue(amountField.text.toString())
                     AppEnums.INCOME_TYPE.DEDUCTION -> deduction = getIncomeValue(amountField.text.toString())
+                    else -> return
                 }
 
                 if (grossIncome > deduction) {
@@ -274,6 +277,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 when (type) {
                     AppEnums.INCOME_TYPE.LAST_YEAR_INCOME -> lastYearIncome = getIncomeValue(amountField.text.toString())
                     AppEnums.INCOME_TYPE.CURRENT_YEAR_INCOME -> currentYearIncome = getIncomeValue(amountField.text.toString())
+                    else -> return
                 }
                 averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toString()
                 binding.layoutSenp.etAverageMonthlyIncome.setText(averageMonthlyIncome)
@@ -553,10 +557,9 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             when (addressType) {
                 AppEnums.ADDRESS_TYPE.SENP -> selectStateValue(binding.layoutSenp.layoutAddress.spinnerState, AppEnums.ADDRESS_TYPE.SENP)
                 AppEnums.ADDRESS_TYPE.SALARY -> selectStateValue(binding.layoutSalary.layoutAddress.spinnerState, AppEnums.ADDRESS_TYPE.SALARY)
+                else -> return
             }
-        } else {
-            clearPinCodes(addressType?.type)
-        }
+        } else clearPinCodes(addressType?.type)
     }
 
     private fun selectStateValue(spinner: MaterialSpinner, type: AppEnums.ADDRESS_TYPE) {
@@ -607,6 +610,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             when (addressType) {
                 AppEnums.ADDRESS_TYPE.SENP -> setDistrict(binding.layoutSenp.layoutAddress.spinnerDistrict, value, AppEnums.ADDRESS_TYPE.SENP)
                 AppEnums.ADDRESS_TYPE.SALARY -> setDistrict(binding.layoutSalary.layoutAddress.spinnerDistrict, value, AppEnums.ADDRESS_TYPE.SALARY)
+                else -> return
             }
         }
     }
@@ -649,6 +653,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             when (addressType) {
                 AppEnums.ADDRESS_TYPE.SENP -> setCityValue(binding.layoutSenp.layoutAddress.spinnerCity, value.responseObj)
                 AppEnums.ADDRESS_TYPE.SALARY -> setCityValue(binding.layoutSalary.layoutAddress.spinnerCity, value.responseObj)
+                else -> return
             }
         }
     }
@@ -736,12 +741,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         address.stateID = state?.stateID
         address.districtID = district?.districtID
         return address
-    }
-
-    private fun saveCurrentApplicant() {
-        if (eApplicantList!!.size > 0) {
-            eApplicantList!![currentPosition] = getCurrentApplicant()
-        } else eApplicantList!!.add(currentPosition, getCurrentApplicant())
     }
 
     private fun getEmploymentMaster(): EmploymentMaster {

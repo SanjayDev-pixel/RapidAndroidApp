@@ -5,12 +5,6 @@ import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.utility.CurrencyConversion
-import kotlinx.android.synthetic.main.fragment_property_info.view.*
-import kotlinx.android.synthetic.main.layout_basic_detail.view.*
-import kotlinx.android.synthetic.main.layout_credit_card_details.view.*
-import kotlinx.android.synthetic.main.layout_employment_address.view.*
-import kotlinx.android.synthetic.main.layout_obligation.view.*
-import kotlinx.android.synthetic.main.layout_personal_address.view.*
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
@@ -374,11 +368,10 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         }
 
         val accountNum = binding.etAccountNum.text.toString()
-        if (!accountNum.exIsNotEmptyOrNullOrBlank()) {
+        if (!accountNum.exIsNotEmptyOrNullOrBlank() || accountNum.length < 12) {
             errorCount++
-            binding.etAccountNum.error = "Account Num can not be blank"
+            binding.etAccountNum.error = "Account Num not valid"
         }
-
         val accountHolderName = binding.etAccountHolderName.text.toString()
         if (!accountHolderName.exIsNotEmptyOrNullOrBlank()) {
             errorCount++

@@ -202,18 +202,18 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun setMasterDropDownValue(dropDown: AllMasterDropDown) {
-        binding.spinnerIdentificationType.adapter = MasterSpinnerAdapter(mContext, dropDown.IdentificationType!!)
-        binding.spinnerVerifiedStatus.adapter = MasterSpinnerAdapter(mContext, dropDown.VerifiedStatus!!)
-        binding.basicInfoLayout.spinnerGender.adapter = MasterSpinnerAdapter(mContext, dropDown.Gender!!)
-        binding.basicInfoLayout.spinnerNationality.adapter = MasterSpinnerAdapter(mContext, dropDown.Nationality!!)
-        binding.basicInfoLayout.spinnerReligion.adapter = MasterSpinnerAdapter(mContext, dropDown.Religion!!)
-        binding.basicInfoLayout.spinnerDobProof.adapter = MasterSpinnerAdapter(mContext, dropDown.DOBProof!!)
-        binding.basicInfoLayout.spinnerCaste.adapter = MasterSpinnerAdapter(mContext, dropDown.Caste!!)
-        binding.basicInfoLayout.spinnerQualification.adapter = MasterSpinnerAdapter(mContext, dropDown.Qualification!!)
-        binding.basicInfoLayout.spinnerDetailQualification.adapter = MasterSpinnerAdapter(mContext, dropDown.DetailQualification!!)
-        binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(mContext, dropDown.AddressProof!!)
-        binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, dropDown.AddressProof!!)
-        binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, dropDown.LivingStandardIndicators!!)
+        binding.spinnerIdentificationType.adapter = MasterSpinnerAdapter(mContext, dropDown.IdentificationType)
+        binding.spinnerVerifiedStatus.adapter = MasterSpinnerAdapter(mContext, dropDown.VerifiedStatus)
+        binding.basicInfoLayout.spinnerGender.adapter = MasterSpinnerAdapter(mContext, dropDown.Gender)
+        binding.basicInfoLayout.spinnerNationality.adapter = MasterSpinnerAdapter(mContext, dropDown.Nationality)
+        binding.basicInfoLayout.spinnerReligion.adapter = MasterSpinnerAdapter(mContext, dropDown.Religion)
+        binding.basicInfoLayout.spinnerDobProof.adapter = MasterSpinnerAdapter(mContext, dropDown.DOBProof)
+        binding.basicInfoLayout.spinnerCaste.adapter = MasterSpinnerAdapter(mContext, dropDown.Caste)
+        binding.basicInfoLayout.spinnerQualification.adapter = MasterSpinnerAdapter(mContext, dropDown.Qualification)
+        binding.basicInfoLayout.spinnerDetailQualification.adapter = MasterSpinnerAdapter(mContext, dropDown.DetailQualification)
+        binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(mContext, dropDown.AddressProof)
+        binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, dropDown.AddressProof)
+        binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, dropDown.LivingStandardIndicators)
         setMaritalStatus(dropDown)
         fillValueInMasterDropDown()
         setUpResidenceTypeDropDown(binding.personalAddressLayout.spinnerCurrentResidenceType,
@@ -315,7 +315,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             binding.basicInfoLayout.etSpouseLastName.setText(currentApplicant.spouseLastName)
         }
         if (currentPosition == 0) {
-            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Relationship!!)
+            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Relationship)
             selectDefaultRelationshipValue(binding.basicInfoLayout.spinnerRelationship)
         } else {
             binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, relationshipList)
@@ -367,7 +367,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun setMaritalStatus(dropDown: AllMasterDropDown) {
-        binding.basicInfoLayout.spinnerMaritalStatus.adapter = MasterSpinnerAdapter(mContext, dropDown.MaritalStatus!!)
+        binding.basicInfoLayout.spinnerMaritalStatus.adapter = MasterSpinnerAdapter(mContext, dropDown.MaritalStatus)
         binding.basicInfoLayout.spinnerMaritalStatus?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -744,6 +744,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             when (addressType) {
                 AppEnums.ADDRESS_TYPE.PERMANENT -> setUpDistrict(value, binding.personalAddressLayout.spinnerPermanentDistrict, pinCodeObj, AppEnums.ADDRESS_TYPE.PERMANENT)
                 AppEnums.ADDRESS_TYPE.CURRENT -> setUpDistrict(value, binding.personalAddressLayout.spinnerCurrentDistrict, pinCodeObj, AppEnums.ADDRESS_TYPE.CURRENT)
+                else -> return
             }
         }
     }
@@ -783,6 +784,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             when (addressType) {
                 AppEnums.ADDRESS_TYPE.PERMANENT -> setUpCity(binding.personalAddressLayout.spinnerPermanentCity, value)
                 AppEnums.ADDRESS_TYPE.CURRENT -> setUpCity(binding.personalAddressLayout.spinnerCurrentCity, value)
+                else -> return
             }
         }
     }
@@ -803,7 +805,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         saveDataToDB(getPersonalInfoMaster())
         coApplicantsPresenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST)
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
-//        gotoNextFragment()
     }
 
     override fun getLoanAppPostFailure(msg: String) {

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemAssetBinding
 import com.finance.app.databinding.ItemBankBinding
-import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.BankDetailBean
 
 class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayList<BankDetailBean>) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {

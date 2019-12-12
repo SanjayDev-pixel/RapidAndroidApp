@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -20,6 +21,7 @@ import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.BankDetailAdapter
+import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -58,8 +60,10 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var currentApplicant: BankDetailModel = BankDetailModel()
     private var currentBean: BankDetailBean? = BankDetailBean()
     private var currentPosition = 0
+    private lateinit var currentTab: Response.CoApplicantsObj
 
     companion object {
+        private const val SALARIED = 93
         private val leadAndLoanDetail = LeadAndLoanDetail()
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
@@ -117,9 +121,10 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }else applicantTab = applicantsList
         binding.rcApplicants.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false)
+        currentTab = applicantTab!![0]
         applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
-        applicantAdapter!!.setOnItemClickListener(this)
         binding.rcApplicants.adapter = applicantAdapter
+        applicantAdapter!!.setOnItemClickListener(this)
     }
 
     private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
@@ -138,6 +143,8 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             for (applicant in bankList) {
                 if (applicant.isMainApplicant) {
                     currentApplicant = applicant
+                    currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
+                    currentApplicant.isMainApplicant = currentTab.isMainApplicant
                     setUpCurrentApplicantDetails(currentApplicant)
                 }
             }
@@ -152,9 +159,9 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
-    private fun setUpBankDetailAdapter(bankDetails: java.util.ArrayList<BankDetailBean>) {
+    private fun setUpBankDetailAdapter(bankDetails: ArrayList<BankDetailBean>?) {
         binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
-        bankAdapter = BankDetailAdapter(mContext, bankDetails)
+        bankAdapter = BankDetailAdapter(mContext, bankDetails!!)
         binding.rcBank.adapter = bankAdapter
         bankAdapter.setOnBankDetailClickListener(this)
         binding.pageIndicatorAsset.attachTo(binding.rcBank)
@@ -163,10 +170,13 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
-        saveCurrentApplicant()
-        ClearBankForm(binding, mContext, allMasterDropDown)
-        getParticularApplicantData(position, coApplicant)
-        bankAdapter.notifyDataSetChanged()
+        if (bankDetailBeanList != null && bankDetailBeanList!!.size > 0) {
+            saveCurrentApplicant()
+            currentPosition = position
+            currentTab = coApplicant
+            ClearBankForm(binding, mContext, allMasterDropDown)
+            getParticularApplicantData(position)
+        } else showToast(getString(R.string.mandatory_field_missing))
     }
 
     private fun saveCurrentApplicant() {
@@ -175,15 +185,17 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         } else bApplicantsList!!.add(currentPosition, getCurrentApplicant())
     }
 
-    private fun getParticularApplicantData(position: Int, coApplicant: Response.CoApplicantsObj) {
+    private fun getParticularApplicantData(position: Int) {
         currentApplicant = if (position >= bApplicantsList!!.size) {
             BankDetailModel()
-        } else {
-            bApplicantsList!![position]
-        }
-        currentApplicant.isMainApplicant = coApplicant.isMainApplicant
-        currentApplicant.leadApplicantNumber = coApplicant.leadApplicantNumber
+        } else bApplicantsList!![position]
+        currentApplicant.isMainApplicant = currentTab.isMainApplicant
+        currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
         bankDetailBeanList = currentApplicant.applicantBankDetailsBean
+        if (bankDetailBeanList != null || bankDetailBeanList!!.size > 0) {
+            setUpBankDetailAdapter(bankDetailBeanList)
+        } else setUpBankDetailAdapter(ArrayList())
+        applicantAdapter!!.notifyDataSetChanged()
     }
 
     private fun getDataFromDB() {
@@ -209,7 +221,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             } else showToast(getString(R.string.validation_error))
         }
         binding.btnNext.setOnClickListener {
-            if (formValidation.validateBankDetail(binding)) {
+            if (bankDetailBeanList!!.size > 0 || formValidation.validateBankDetail(binding)) {
                 saveCurrentBean()
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
@@ -227,7 +239,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun saveCurrentBean() {
-        bankDetailBeanList!!.add(currentPosition, getCurrentBean())
+        bankDetailBeanList?.add(getCurrentBean())
         setUpBankDetailAdapter(bankDetailBeanList!!)
     }
 
@@ -243,7 +255,21 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
         binding.spinnerBankName.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.BankName!!)
         binding.spinnerAccountType.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.AccountType!!)
-        binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.SalaryCredit!!)
+        setUpSalaryCreditDropDown(binding.spinnerSalaryCredit, allMasterDropDown)
+    }
+
+    private fun setUpSalaryCreditDropDown(spinner: MaterialSpinner, dropDown: AllMasterDropDown) {
+        spinner.adapter = MasterSpinnerAdapter(mContext, dropDown.SalaryCredit!!)
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    val salaryCredit = parent.selectedItem as DropdownMaster
+                    if (salaryCredit.typeDetailID == SALARIED) binding.inputLayoutSalaryCreditInSixMonth.visibility = View.VISIBLE
+                    else binding.inputLayoutSalaryCreditInSixMonth.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
@@ -265,14 +291,15 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         currentBean.accountTypeDetailID = accountType?.typeDetailID
         currentBean.accountHolderName = binding.etAccountHolderName.text.toString()
         currentBean.accountNumber = binding.etAccountNum.text.toString()
-        currentBean.numberOfCredit = binding.etSalaryCreditedInSixMonths.text.toString().toInt()
+        currentBean.numberOfCredit = binding.etSalaryCreditedInSixMonths.text.toString()
         return currentBean
     }
 
     private fun getCurrentApplicant(): BankDetailModel {
         val currentApplicant = BankDetailModel()
-        currentApplicant.isMainApplicant = currentPosition == 0
-        currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1)
+        if (currentPosition > 0) {
+            currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1)
+        }
         currentApplicant.applicantBankDetailsBean = bankDetailBeanList!!
         return currentApplicant
     }
