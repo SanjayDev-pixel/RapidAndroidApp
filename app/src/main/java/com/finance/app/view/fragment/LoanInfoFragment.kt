@@ -51,11 +51,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     lateinit var sharedPreferences: SharedPreferencesUtil
     private lateinit var binding: FragmentLoanInformationBinding
     private val frag: Fragment = this
-    private lateinit var loanScheme: ArrayList<DropdownMaster>
-    private lateinit var interestType: ArrayList<DropdownMaster>
-    private lateinit var channelPartnerName: ArrayList<Response.ChannelPartnerName>
     private lateinit var allMasterDropDown: AllMasterDropDown
-    private lateinit var sourcingChannelPartner: ArrayList<DropdownMaster>
     private var loanProducts: ArrayList<LoanProductMaster> = ArrayList()
     private var selectedLoanProduct: LoanProductMaster? = null
     private val sourcePartnerPresenter = SourceChannelPartnerNamePresenter(this)

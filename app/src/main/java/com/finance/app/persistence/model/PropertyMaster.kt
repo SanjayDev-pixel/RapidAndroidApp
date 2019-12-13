@@ -12,6 +12,6 @@ class PropertyMaster : Serializable {
     var leadID: Int = 0
     var loanApplicationDraftDetailID: Int? = null
     var draftData: PropertyModel? = PropertyModel()
-    var storageType: String = "APPLICATION_PROPERTY_DETAIL"
+    var storageType: String = "APPLICATION_PROPERTY"
     var editable: Boolean? = null
 }

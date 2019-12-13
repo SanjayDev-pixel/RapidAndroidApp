@@ -26,14 +26,41 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_height="wrap_content"/>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/heading_background"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/heading_background"
                     android:text="@string/asset_detail"
                     android:textColor="@color/black"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/expandForm"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_10"
+                    android:layout_alignParentEnd="true"
+                    android:layout_height="wrap_content"
+                    android:src = "@drawable/ic_unfold_more_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/collapseForm"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_10"
+                    android:visibility="gone"
+                    android:layout_alignParentEnd="true"
+                    android:layout_height="wrap_content"
+                    android:src = "@drawable/ic_unfold_less_black_24dp" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/llAssetDetail"
@@ -83,92 +110,92 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:orientation="horizontal">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerOwnership"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="16dp"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="Ownership*"
+                    android:textSize="@dimen/text_size"
+                    app:ms_hint="Ownership*"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerDocumentProof"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minWidth="@dimen/text_min_width"
+                    app:ms_arrowColor="@color/black"
+                    app:ms_arrowSize="16dp"
+                    android:layout_marginStart="@dimen/margin_10"
+                    app:ms_floatingLabelColor="@color/hint_color"
+                    app:ms_floatingLabelText="Document Proof*"
+                    app:ms_hint="Document Proof*"
+                    android:textSize="@dimen/text_size"
+                    app:ms_hintColor="@color/hint_color"
+                    app:ms_hintTextSize="@dimen/hint_size"
+                    app:ms_multiline="false" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColorHint="@color/hint_color">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="true"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:orientation="horizontal">
+                    android:hint="@string/dropdown"
+                    android:maxLength="7"
+                    android:inputType="number"
+                    android:minWidth="200dp"
+                    android:textSize="@dimen/text_size" />
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerOwnership"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="16dp"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Ownership*"
-                        android:textSize="@dimen/text_size"
-                        app:ms_hint="Ownership*"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerDocumentProof"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="16dp"
-                        android:layout_marginStart="@dimen/margin_10"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Document Proof*"
-                        app:ms_hint="Document Proof*"
-                        android:textSize="@dimen/text_size"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+            <Button
+                android:id="@+id/btnAddAsset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:background="@drawable/button_theme_style"
+                android:padding="5sp"
+                android:text="@string/add_asset"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
 
-                </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/rcAsset"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_height="wrap_content"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etValue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/dropdown"
-                        android:maxLength="7"
-                        android:inputType="number"
-                        android:minWidth="200dp"
-                        android:textSize="@dimen/text_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnAddAsset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:background="@drawable/button_theme_style"
-                    android:padding="5sp"
-                    android:text="@string/add_asset"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:id="@+id/rcAsset"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"/>
-
-                <com.chahinem.pageindicator.PageIndicator
-                    android:id="@+id/pageIndicatorAsset"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_height="12sp" />
+            <com.chahinem.pageindicator.PageIndicator
+                android:id="@+id/pageIndicatorAsset"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="12sp" />
 
             </LinearLayout>
 

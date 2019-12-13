@@ -22,17 +22,11 @@ class EmploymentApplicantsModel {
     var leadApplicantNumber: String? = ""
     var incomeConsidered: Boolean = false
     var isPensioner: Boolean = false
-    var grossIncome: String? = ""
-    var netIncome: String? = ""
-    var deduction: String? = ""
-    var lastYearIncome: String? = ""
-    var currentYearIncome: String? = ""
-    var averageMonthlyIncome: String? = ""
-    var monthlyIncome: String? = ""
     var profileSegmentTypeDetailID: Int? = 0
     var retirementAge: Int = 0
     var sectorTypeDetailID: Int? = 0
     var subProfileTypeDetailID: Int? = 0
     var totalExperience: String? = ""
     var designation: String? = ""
+    var incomeDetail: IncomeDetail? = IncomeDetail()
 }

@@ -162,9 +162,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun setRelationshipList(dropDowns: ArrayList<DropdownMaster>?) {
         for (dropdown in dropDowns!!) {
-            if (dropdown.typeDetailID == SELF) {
-                continue
-            } else {
+            if (dropdown.typeDetailID != SELF) {
                 relationshipList.add(dropdown)
             }
         }
@@ -223,6 +221,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
             fillAddressInfo(personalAddressDetail!!)
         }
+        if (currentPosition == 0) {
+            selectDefaultRelationshipValue(binding.basicInfoLayout.spinnerRelationship)
+        } else {
+            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, relationshipList)
+        }
     }
 
     private fun setUpResidenceTypeDropDown(spinner: Spinner, residenceType: ArrayList<DropdownMaster>, field: TextInputLayout) {
@@ -243,6 +246,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun selectDefaultRelationshipValue(spinner: Spinner) {
+        binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Relationship)
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
             if (obj.typeDetailID == SELF) {
@@ -313,12 +317,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             binding.basicInfoLayout.etSpouseMiddleName.setText(currentApplicant.spouseMiddleName)
             binding.basicInfoLayout.etSpouseFirstName.setText(currentApplicant.spouseFirstName)
             binding.basicInfoLayout.etSpouseLastName.setText(currentApplicant.spouseLastName)
-        }
-        if (currentPosition == 0) {
-            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Relationship)
-            selectDefaultRelationshipValue(binding.basicInfoLayout.spinnerRelationship)
-        } else {
-            binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, relationshipList)
         }
         checkCompletion()
     }
@@ -527,7 +525,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         val relationship = binding.basicInfoLayout.spinnerRelationship.selectedItem as DropdownMaster?
 
         currentApplicant.numberOfEarningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString().toInt()
-        currentApplicant.numberOfDependents = binding.basicInfoLayout.etNumOfDependent.text.toString().toInt()
+        currentApplicant.numberOfDependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
         currentApplicant.casteTypeDetailID = caste?.typeDetailID
         currentApplicant.detailQualificationTypeDetailID = detailQualification?.typeDetailID
         currentApplicant.qualificationTypeDetailID = qualification?.typeDetailID
@@ -637,7 +635,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
         binding.basicInfoLayout.ivUploadDobProof.setOnClickListener { UploadData(frag, mContext) }
         binding.btnAddApplicant.setOnClickListener { onAddCoApplicantClick() }
-
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
             if (formValidation.validatePersonalInfo(binding)) {
@@ -836,15 +833,13 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (formValidation.validatePersonalInfo(binding)) {
             personalApplicantsList!!.add(PersonalApplicantsModel())
             applicantTab!!.add(getDefaultCoApplicant())
-            binding.rcApplicants.adapter!!.notifyDataSetChanged()
-
+            applicantAdapter!!.notifyDataSetChanged()
+            ClearPersonalForm(binding, mContext, allMasterDropDown, states)
             try {
                 val lastIndex = applicantTab!!.lastIndex
                 applicantAdapter?.onClickItem(lastIndex, applicantTab!![lastIndex])
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
+                currentPosition = lastIndex
+            } catch (e: Exception){e.printStackTrace()}
         } else showToast(getString(R.string.mandatory_field_missing))
     }
 

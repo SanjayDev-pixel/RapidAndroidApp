@@ -27,7 +27,7 @@ class PersonalApplicantsModel {
     var motherLastName: String? = ""
     var motherMiddleName: String? = ""
     var nationalityTypeDetailID: Int? = 0
-    var numberOfDependents: Int? = 0
+    var numberOfDependents: String? = ""
     var numberOfEarningMembers: Int? = 0
     var numberOfFamilyMembersChildren: Int? = 0
     var numberOfFamilyMembersOthers: Int? = 0

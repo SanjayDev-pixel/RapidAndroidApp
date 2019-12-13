@@ -74,6 +74,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var obligationsList: ArrayList<ObligationDetail>? = ArrayList()
     private var currentObligation: ObligationDetail? = ObligationDetail()
     private var currentPosition = 0
+    private lateinit var currentTab: Response.CoApplicantsObj
 
     companion object {
         private val leadAndLoanDetail = LeadAndLoanDetail()
@@ -148,6 +149,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             saveCurrentApplicant()
             ClearAssetLiabilityForm(binding, mContext, allMasterDropDown)
             currentPosition = position
+            currentTab = coApplicant
             waitFor1Sec(position)
         } else showToast(getString(R.string.mandatory_field_missing))
     }
@@ -213,15 +215,9 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         assetsList = currentApplicant.applicantAssetLiabilityList
         cardDetailList = currentApplicant.applicantCreditCardDetailList
         obligationsList = currentApplicant.applicantExistingObligationList
-        if (assetsList != null && assetsList!!.size > 0) {
-            setUpAssetAdapter(assetsList!!)
-        }
-        if (cardDetailList != null && cardDetailList!!.size > 0) {
-            setUpCardDetailAdapter(cardDetailList!!)
-        }
-        if (obligationsList != null && obligationsList!!.size > 0) {
-            setUpObligationAdapter(obligationsList!!)
-        }
+        setUpAssetAdapter(assetsList!!)
+        setUpCardDetailAdapter(cardDetailList!!)
+        setUpObligationAdapter(obligationsList!!)
     }
 
     private fun setUpAssetAdapter(assets: ArrayList<AssetLiability>) {
@@ -274,36 +270,77 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun setClickListeners() {
-        binding.btnAddAsset.setOnClickListener {
-            if (formValidation.validateAssets(binding)) {
-                saveCurrentAsset()
-                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearAssetForm(binding)
-            } else showToast(getString(R.string.validation_error))
-        }
-        binding.layoutCreditCard.btnAddCreditCard.setOnClickListener {
-            if (formValidation.validateCards(binding.layoutCreditCard)) {
-                saveCurrentCardDetails()
-                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearCardForm(binding.layoutCreditCard)
-            } else showToast(getString(R.string.validation_error))
-        }
-        binding.layoutObligations.btnAddObligation.setOnClickListener {
-            if (formValidation.validateCards(binding.layoutCreditCard)) {
-                saveCurrentObligations()
-                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearObligationForm(binding.layoutObligations)
-            } else showToast(getString(R.string.validation_error))
-        }
+        assetFormListeners(binding)
+        cardDetailFormListeners(binding.layoutCreditCard)
+        obligationFormListeners(binding.layoutObligations)
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
-
         binding.btnNext.setOnClickListener {
             if (formValidation.validateAssetLiabilityForm(binding)) {
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             } else showToast(getString(R.string.validation_error))
         }
-        CurrencyConversion().convertToCurrencyType(binding.etValue)
+    }
+
+    private fun obligationFormListeners(bindingObligation: LayoutObligationBinding) {
+        bindingObligation.collapseForm.setOnClickListener {
+            bindingObligation.formObligation.visibility = View.GONE
+            bindingObligation.collapseForm.visibility = View.GONE
+            bindingObligation.expandForm.visibility = View.VISIBLE
+        }
+        bindingObligation.expandForm.setOnClickListener {
+            bindingObligation.expandForm.visibility = View.GONE
+            bindingObligation.formObligation.visibility = View.VISIBLE
+            bindingObligation.collapseForm.visibility = View.VISIBLE
+        }
         CurrencyConversion().convertToCurrencyType(binding.layoutObligations.etLoanAmount)
         CurrencyConversion().convertToCurrencyType(binding.layoutObligations.etEmiAmount)
+        bindingObligation.btnAddObligation.setOnClickListener {
+            if (formValidation.validateObligations(bindingObligation)) {
+                saveCurrentObligations()
+                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearObligationForm(bindingObligation)
+            } else showToast(getString(R.string.validation_error))
+        }
+    }
 
+    private fun cardDetailFormListeners(bindingCardDetail: LayoutCreditCardDetailsBinding) {
+        bindingCardDetail.collapseForm.setOnClickListener {
+            bindingCardDetail.formCreditCard.visibility = View.GONE
+            bindingCardDetail.collapseForm.visibility = View.GONE
+            bindingCardDetail.expandForm.visibility = View.VISIBLE
+        }
+        bindingCardDetail.expandForm.setOnClickListener {
+            bindingCardDetail.expandForm.visibility = View.GONE
+            bindingCardDetail.collapseForm.visibility = View.VISIBLE
+            bindingCardDetail.formCreditCard.visibility = View.VISIBLE
+        }
+        bindingCardDetail.btnAddCreditCard.setOnClickListener {
+            if (formValidation.validateCards(bindingCardDetail)) {
+                saveCurrentCardDetails()
+                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearCardForm(bindingCardDetail)
+            } else showToast(getString(R.string.validation_error))
+        }
+    }
+
+    private fun assetFormListeners(binding: FragmentAssetLiablityBinding) {
+        binding.collapseForm.setOnClickListener {
+            binding.llAssetDetail.visibility = View.GONE
+            binding.collapseForm.visibility = View.GONE
+            binding.expandForm.visibility = View.VISIBLE
+        }
+        binding.expandForm.setOnClickListener {
+            binding.expandForm.visibility = View.GONE
+            binding.collapseForm.visibility = View.VISIBLE
+            binding.llAssetDetail.visibility = View.VISIBLE
+        }
+
+        binding.btnAddAsset.setOnClickListener {
+            if (formValidation.validateAssets(binding)) {
+                saveCurrentAsset()
+                ClearAssetLiabilityForm(binding, mContext, allMasterDropDown).clearAssetForm(binding)
+            } else showToast(getString(R.string.validation_error))
+        }
+        CurrencyConversion().convertToCurrencyType(binding.etValue)
     }
 
     private fun saveCurrentObligations() {
@@ -321,9 +358,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun saveCurrentAsset() {
-        if (assetsList == null || assetsList!!.size <= 0) {
-            assetsList?.add(getCurrentAsset())
-        } else assetsList!![currentPosition] = getCurrentAsset()
+        assetsList?.add(getCurrentAsset())
         setUpAssetAdapter(assetsList!!)
     }
 

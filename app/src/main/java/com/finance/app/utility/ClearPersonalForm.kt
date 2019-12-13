@@ -5,6 +5,8 @@ import android.view.View
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.StatesMaster
+import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
+import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 
@@ -39,10 +41,20 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
         binding.personalAddressLayout.spinnerCurrentState.adapter = StatesSpinnerAdapter(context, state)
         binding.personalAddressLayout.spinnerPermanentState.adapter = StatesSpinnerAdapter(context, state)
+        binding.personalAddressLayout.spinnerPermanentDistrict.adapter = DistrictSpinnerAdapter(context, ArrayList())
+        binding.personalAddressLayout.spinnerCurrentDistrict.adapter = DistrictSpinnerAdapter(context, ArrayList())
+        binding.personalAddressLayout.spinnerCurrentCity.adapter = CitySpinnerAdapter(context, ArrayList())
+        binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(context, ArrayList())
         binding.personalAddressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(context, masterDropdown.ResidenceType!!)
         binding.personalAddressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(context, masterDropdown.ResidenceType!!)
         binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(context, masterDropdown.AddressProof!!)
         binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(context, masterDropdown.AddressProof!!)
+        binding.personalAddressLayout.spinnerCurrentState.isEnabled = true
+        binding.personalAddressLayout.spinnerPermanentState.isEnabled = true
+        binding.personalAddressLayout.spinnerPermanentDistrict.isEnabled = true
+        binding.personalAddressLayout.spinnerCurrentDistrict.isEnabled = true
+        binding.personalAddressLayout.spinnerCurrentCity.isEnabled = true
+        binding.personalAddressLayout.spinnerPermanentState.isEnabled = true
 
     }
 
@@ -50,6 +62,7 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.basicInfoLayout.otpView.text?.clear()
         binding.basicInfoLayout.etNumOfDependent.text?.clear()
         binding.basicInfoLayout.etAlternateNum.text?.clear()
+        binding.basicInfoLayout.etNumOfEarningMember.text?.clear()
         binding.basicInfoLayout.etMobile.text?.clear()
         binding.basicInfoLayout.etAge.text?.clear()
         binding.basicInfoLayout.etLastName.text?.clear()
@@ -77,5 +90,6 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.basicInfoLayout.spinnerReligion.adapter = MasterSpinnerAdapter(context, masterDropdown.Religion!!)
         binding.basicInfoLayout.spinnerNationality.adapter = MasterSpinnerAdapter(context, masterDropdown.Nationality!!)
         binding.basicInfoLayout.spinnerGender.adapter = MasterSpinnerAdapter(context, masterDropdown.Gender!!)
+        binding.basicInfoLayout.spinnerRelationship.isEnabled = true
     }
 }

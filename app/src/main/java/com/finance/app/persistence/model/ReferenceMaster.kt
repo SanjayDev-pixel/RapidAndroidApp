@@ -11,6 +11,6 @@ class ReferenceMaster:Serializable {
     var leadID: Int = 0
     var loanApplicationDraftDetailID: Int? = null
     var draftData: ReferencesList = ReferencesList()
-    var storageType: String = "APPLICANT_REFERENCE_DETAIL"
+    var storageType: String = "APPLICATION_REFERENCE"
     var editable: Boolean? = null
 }

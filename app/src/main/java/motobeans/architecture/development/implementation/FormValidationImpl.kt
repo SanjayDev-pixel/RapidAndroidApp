@@ -5,6 +5,7 @@ import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.utility.CurrencyConversion
+import kotlinx.android.synthetic.main.layout_basic_detail.view.*
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
@@ -19,6 +20,72 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         val currentPinCode = binding.personalAddressLayout.etCurrentPinCode.text.toString()
         val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
+        val nationality = binding.basicInfoLayout.spinnerNationality.selectedItem as DropdownMaster?
+        val qualification = binding.basicInfoLayout.spinnerQualification.selectedItem as DropdownMaster?
+        val detailQualification = binding.basicInfoLayout.spinnerDetailQualification.selectedItem as DropdownMaster?
+        val maritalStatus = binding.basicInfoLayout.spinnerMaritalStatus.selectedItem as DropdownMaster?
+        val livingStandard = binding.basicInfoLayout.spinnerLivingStandard.selectedItem as DropdownMaster?
+        val relationShip = binding.basicInfoLayout.spinnerRelationship.selectedItem as DropdownMaster?
+        val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
+        val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
+        val dobProof = binding.basicInfoLayout.spinnerDobProof.selectedItem as DropdownMaster?
+        val state = binding.personalAddressLayout.spinnerCurrentState.selectedItem as StatesMaster?
+        val district = binding.personalAddressLayout.spinnerCurrentDistrict.selectedItem as Response.DistrictObj?
+        val city = binding.personalAddressLayout.spinnerCurrentCity.selectedItem as Response.CityObj?
+
+        if (nationality == null) {
+            errorCount++
+            binding.basicInfoLayout.spinnerNationality.error = "Required Field"
+        }
+
+        if (dobProof == null) {
+            errorCount++
+            binding.basicInfoLayout.spinnerDobProof.error = "Required Field"
+        }
+
+        if (detailQualification == null) {
+            errorCount++
+            binding.basicInfoLayout.spinnerDetailQualification.error = "Required Field"
+        }
+        if (maritalStatus == null) {
+            errorCount++
+            binding.basicInfoLayout.spinnerMaritalStatus.error = "Required Field"
+        }
+        if (livingStandard == null) {
+            errorCount++
+            binding.basicInfoLayout.spinnerLivingStandard.error = "Required Field"
+        }
+        if (relationShip == null) {
+            errorCount++
+            binding.basicInfoLayout.spinnerRelationship.error = "Required Field"
+        }
+
+        if (qualification == null) {
+            errorCount++
+            binding.basicInfoLayout.spinnerQualification.error = "Required Field"
+        }
+
+        if (cResidenceType == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerCurrentResidenceType.error = "Required Field"
+        }
+
+        if (cAddressProof == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerCurrentAddressProof.error = "Required Field"
+        }
+        if (state == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerCurrentState.error = "Required Field"
+        }
+        if (district == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerCurrentDistrict.error = "Required Field"
+        }
+        if (city == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerCurrentCity.error = "Required Field"
+        }
 
         if (!firstName.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -63,23 +130,45 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val permanentPinCode = binding.personalAddressLayout.etPermanentPinCode.text.toString()
         val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
         val rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString()
+        val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
+        val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
+        val state = binding.personalAddressLayout.spinnerPermanentState.selectedItem as StatesMaster?
+        val district = binding.personalAddressLayout.spinnerPermanentDistrict.selectedItem as Response.DistrictObj?
+        val city = binding.personalAddressLayout.spinnerPermanentCity.selectedItem as Response.CityObj?
 
+        if (pResidenceType == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerPermanentResidenceType.error = "Required Field"
+        }
+        if (pAddressProof == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerPermanentAddressProof.error = "Required Field"
+        }
+        if (state == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerPermanentState.error = "Required Field"
+        }
+        if (district == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerPermanentDistrict.error = "Required Field"
+        }
+        if (city == null) {
+            errorCount++
+            binding.personalAddressLayout.spinnerPermanentCity.error = "Required Field"
+        }
         if (!permanentAddress.exIsNotEmptyOrNullOrBlank()) {
             binding.personalAddressLayout.etPermanentAddress.error = "Address can not be blank"
             errorCount++
         }
-
         if (!permanentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.personalAddressLayout.etPermanentPinCode.error = "Pin code can not be blank"
         }
-
         if (!permanentStaying.exIsNotEmptyOrNullOrBlank() && permanentStaying != "" && permanentStaying.toFloat() > 99) {
             binding.personalAddressLayout.etPermanentStaying.error = "Required field"
             errorCount++
         }
-
-        if (!rentAmount.exIsNotEmptyOrNullOrBlank() && rentAmount != "") {
+        if (!rentAmount.exIsNotEmptyOrNullOrBlank()) {
             binding.personalAddressLayout.etPermanentRentAmount.error = "Required field"
             errorCount++
         }
@@ -178,15 +267,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         binding.layoutObligations.spinnerEmiPaidInSameMonth.isEnabled = false
         binding.layoutObligations.etDisbursementDate.isEnabled = false
         binding.layoutObligations.btnAddObligation.isEnabled = false
-    }
-
-    override fun disableBankDetailFields(binding: FragmentBankDetailBinding) {
-        binding.spinnerBankName.isEnabled = false
-        binding.spinnerAccountType.isEnabled = false
-        binding.spinnerSalaryCredit.isEnabled = false
-        binding.etAccountNum.isEnabled = false
-        binding.etAccountHolderName.isEnabled = false
-        binding.ivUploadStatement.isClickable = false
     }
 
     override fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding): Boolean {

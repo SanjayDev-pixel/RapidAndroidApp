@@ -12,5 +12,5 @@ class EmploymentMaster : Serializable {
     var leadID: Int = 0
     var loanApplicationDraftDetailID: Int? = null
     var draftData: EmploymentApplicantList = EmploymentApplicantList()
-    var storageType: String = "EMPLOYMENT"
+    var storageType: String = "APPLICATION_EMPLOYMENT"
     var editable: Boolean? = null}

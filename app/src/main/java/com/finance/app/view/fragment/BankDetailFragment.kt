@@ -142,20 +142,18 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             }
         }
         getDropDownsFromDB()
-        checkIncomeConsideration()
+//        checkIncomeConsideration()
     }
 
     private fun checkIncomeConsideration() {
         if (!currentTab.incomeConsidered!!) {
-            formValidation.disableBankDetailFields(binding)
+            DisableBankForm(binding)
         } else showToast(getString(R.string.error_income_not_considered))
     }
 
     private fun setUpCurrentApplicantDetails(applicant: BankDetailModel) {
         bankDetailBeanList = applicant.applicantBankDetailsBean
-        if (bankDetailBeanList != null || bankDetailBeanList!!.size > 0) {
-            setUpBankDetailAdapter(bankDetailBeanList!!)
-        }
+        setUpBankDetailAdapter(bankDetailBeanList!!)
     }
 
     private fun setUpBankDetailAdapter(bankDetails: ArrayList<BankDetailBean>?) {
