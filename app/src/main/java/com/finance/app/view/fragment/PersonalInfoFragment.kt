@@ -125,6 +125,14 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         setDatePicker()
         checkKycDataList()
         setClickListeners()
+
+        setUpCustomViews()
+    }
+
+    private fun setUpCustomViews() {
+        activity?.let {
+            binding.customZipAddressView.attachActivity(activity = activity!!)
+        }
     }
 
     override val leadIdForApplicant: String
@@ -205,6 +213,10 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
         getDropDownsFromDB()
         fillFormWithCurrentApplicant(currentApplicant)
+    }
+
+    private fun updateCustomZipCode(addressDetail: AddressDetail) {
+        binding.customZipAddressView.updateAddressData(addressDetail = addressDetail)
     }
 
     private fun setMasterDropDownValue(dropDown: AllMasterDropDown) {
@@ -334,6 +346,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun fillAddressInfo(addressDetailList: ArrayList<AddressDetail>) {
         fillPermanentAddressInfo(addressDetailList[1])
         fillCurrentAddressInfo(addressDetailList[0])
+
+        updateCustomZipCode(addressDetailList[0])
     }
 
     private fun fillCurrentAddressInfo(addressDetail: AddressDetail) {

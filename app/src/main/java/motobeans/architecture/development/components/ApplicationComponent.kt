@@ -7,6 +7,7 @@ import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.Holder.TempHolder
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
+import com.finance.app.view.customViews.CustomZipAddressView
 import com.finance.app.view.fragment.*
 import com.finance.app.viewModel.TempViewModel
 import com.optcrm.optreporting.AppModule
@@ -105,5 +106,6 @@ interface ApplicationComponent {
     fun inject(other: SuperWorker)
     fun inject(other: UtilWorkersTask)
     fun inject(other: LeadAndLoanDetail)
+    fun inject(other: CustomZipAddressView)
 
 }
