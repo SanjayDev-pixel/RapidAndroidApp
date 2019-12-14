@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/margin_20"
-        android:background="@drawable/background"
+        android:background="@color/white"
         android:fillViewport="true">
 
         <LinearLayout
@@ -28,7 +28,8 @@
                     android:id="@+id/etApplicantFirstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
+                    android:inputType="text"
+                    android:textAllCaps="true"
                     android:singleLine="true"
                     android:hint="@string/applicant_first_name"
                     android:minWidth="200dp"
@@ -46,7 +47,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etApplicantMiddleName"
                     android:layout_width="match_parent"
-                    android:inputType="textCapWords"
+                    android:inputType="text"
+                    android:textAllCaps="true"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="@string/applicant_middle_name"
@@ -65,7 +67,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etApplicantLastName"
                     android:layout_width="match_parent"
-                    android:inputType="textCapWords"
+                    android:inputType="text"
+                    android:textAllCaps="true"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="@string/applicant_last_name"
@@ -137,7 +140,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etArea"
                     android:layout_width="match_parent"
-                    android:inputType= "textCapSentences"
+                    android:inputType="text"
                     android:layout_height="wrap_content"
                     android:minWidth="200dp"
                     app:ms_hintTextSize="@dimen/hint_size" />
@@ -166,15 +169,15 @@
 
             <Button
                 android:id="@+id/btnCreate"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:paddingStart="@dimen/margin_20"
+                android:paddingEnd="@dimen/margin_20"
                 android:layout_marginTop="@dimen/margin_50"
                 android:layout_gravity="center"
-                android:background="@drawable/oval_background"
-                android:padding="5sp"
                 android:text="@string/create"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/button_text_size" />
 
         </LinearLayout>

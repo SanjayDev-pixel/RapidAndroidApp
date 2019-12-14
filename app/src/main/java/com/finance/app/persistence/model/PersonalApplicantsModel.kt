@@ -7,6 +7,7 @@ class PersonalApplicantsModel {
     var applicantID: Int? = 0
     var casteTypeDetailID: Int? = 0
     var contactDetail: ContactDetail? = ContactDetail()
+    var applicantKycList: ArrayList<KYCDetail>? = ArrayList()
     var dateOfBirth: String? = ""
     var leadApplicantNumber: String? = ""
     var detailQualificationTypeDetailID: Int? = 0
@@ -27,7 +28,7 @@ class PersonalApplicantsModel {
     var motherLastName: String? = ""
     var motherMiddleName: String? = ""
     var nationalityTypeDetailID: Int? = 0
-    var numberOfDependents: String? = ""
+    var numberOfDependents: Int? = 0
     var numberOfEarningMembers: Int? = 0
     var numberOfFamilyMembersChildren: Int? = 0
     var numberOfFamilyMembersOthers: Int? = 0

@@ -66,10 +66,7 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
 
         fun bindItems(position: Int, coApplicant: Response.CoApplicantsObj) {
             binding.tvApplicants.text = coApplicant.firstName
-            binding.tvApplicants.setOnClickListener {
-                onClickItem(position, coApplicant)
-            }
-
+            binding.tvApplicants.setOnClickListener { onClickItem(position, coApplicant) }
             itemView.setOnLongClickListener {
                 onLongClickItem(position)
                 false

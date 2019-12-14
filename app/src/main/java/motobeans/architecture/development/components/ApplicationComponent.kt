@@ -65,6 +65,8 @@ interface ApplicationComponent {
      * Presenters
      */
     fun inject(presenter: LoanAppPostPresenter)
+    fun inject(presenter: SendOTPPresenter)
+    fun inject(presenter: VerifyOTPPresenter)
     fun inject(presenter: LoanAppGetPresenter)
     fun inject(presenter: CoApplicantsPresenter)
     fun inject(presenter: TestPresenter)

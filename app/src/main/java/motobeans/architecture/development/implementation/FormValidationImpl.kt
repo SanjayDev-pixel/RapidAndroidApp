@@ -5,7 +5,8 @@ import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.utility.CurrencyConversion
-import kotlinx.android.synthetic.main.layout_basic_detail.view.*
+import com.google.android.material.textfield.TextInputEditText
+import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
@@ -272,50 +273,50 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     override fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding): Boolean {
         var errorCount = 0
         val companyName = salaryBinding.etCompanyName.text.toString()
+        val sector = salaryBinding.spinnerSector.selectedItem as DropdownMaster?
+        val industry = salaryBinding.spinnerIndustry.selectedItem as DropdownMaster?
+        val employmentType = salaryBinding.spinnerEmploymentType.selectedItem as DropdownMaster?
+        val designation = salaryBinding.etDesignation.text.toString()
+        val totalExp = salaryBinding.etTotalExperience.text.toString()
+        val retirementAge = salaryBinding.etRetirementAge.text.toString()
+        val grossIncome = salaryBinding.etGrossIncome.text.toString()
+        val deduction = salaryBinding.etDeduction.text.toString()
+        val employeeId = salaryBinding.etEmployeeId.text.toString()
+
         if (!companyName.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             salaryBinding.etCompanyName.error = "Company can not be blank"
         }
 
-        val designation = salaryBinding.etDesignation.text.toString()
         if (!designation.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             salaryBinding.etDesignation.error = "Designation can not be blank"
         }
 
-        val totalExp = salaryBinding.etTotalExperience.text.toString()
         if (!totalExp.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             salaryBinding.etTotalExperience.error = "Experience can not be blank"
         }
 
-        val retirementAge = salaryBinding.etRetirementAge.text.toString()
         if (!retirementAge.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             salaryBinding.etRetirementAge.error = "Retirement age can not be blank"
         }
 
-        val grossIncome = salaryBinding.etGrossIncome.text.toString()
         if (!grossIncome.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             salaryBinding.etGrossIncome.error = "Required Field"
         }
 
-        val deduction = salaryBinding.etDeduction.text.toString()
         if (!deduction.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             salaryBinding.etDeduction.error = "Required Field"
         }
 
-        val employeeId = salaryBinding.etEmployeeId.text.toString()
         if (!employeeId.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             salaryBinding.etEmployeeId.error = "Required Field"
         }
-
-        val sector = salaryBinding.spinnerSector.selectedItem as DropdownMaster?
-        val industry = salaryBinding.spinnerIndustry.selectedItem as DropdownMaster?
-        val employmentType = salaryBinding.spinnerEmploymentType.selectedItem as DropdownMaster?
 
         if (sector == null) {
             errorCount++
@@ -525,48 +526,28 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateAddLead(binding: ActivityLeadCreateBinding): Boolean {
+    override fun validateAddLead(binding: ActivityLeadCreateBinding): Boolean  {
         var errorCount = 0
-
         val address = binding.etArea.toString()
-        if (!address.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etArea.error = "Address can not be blank"
-        }
-
         val name = binding.etApplicantFirstName.text.toString()
-        if (!name.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etApplicantFirstName.error = "Name can not be blank"
-        }
-
         val email = binding.etEmail.text.toString()
+        val mobile = binding.etContactNum.text.toString()
+
         if (!isValidEmail(email)) {
             errorCount++
             binding.etEmail.error = "Invalid Email"
         }
 
-        val mobile = binding.etContactNum.text.toString()
         if (!isValidMobile(mobile)) {
             errorCount++
             binding.etContactNum.error = "Invalid Mobile Num"
         }
-
+        errorCount.plus(when {
+            !address.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
+            !name.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etApplicantFirstName)
+            else -> 0
+        })
         return isValidForm(errorCount)
-    }
-
-    private fun isValidMobile(mobile: String): Boolean {
-        if (mobile.exIsNotEmptyOrNullOrBlank() && mobile.length == 10) {
-            return android.util.Patterns.PHONE.matcher(mobile).matches()
-        }
-        return false
-    }
-
-    private fun isValidEmail(email: String): Boolean {
-        if (email.exIsNotEmptyOrNullOrBlank()) {
-            return (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
-        }
-        return true
     }
 
     override fun validateProperty(binding: FragmentPropertyInfoBinding): Boolean {
@@ -645,7 +626,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val propertyArea = binding.etPropertyArea.text.toString()
         if (!propertyArea.exIsNotEmptyOrNullOrBlank() || propertyArea.toInt() <= 0) {
             errorCount++
-            binding.etPropertyArea.error = "Required Field"
+            binding.etPropertyArea.error = "Invalid Value"
         }
 
         val agreementValue = binding.etAgreementValue.text.toString()
@@ -699,63 +680,43 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     }
 
     override fun validateAssets(binding: FragmentAssetLiablityBinding): Boolean {
-        var errorCount = 0
         val assetType = binding.spinnerAssetType.selectedItem as DropdownMaster?
         val assetSubType = binding.spinnerAssetSubType.selectedItem as DropdownMaster?
         val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
         val documentProof = binding.spinnerDocumentProof.selectedItem as DropdownMaster?
-
         val value = binding.etValue.text.toString()
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etValue.error = "Required Field"
-        }
-        if (assetSubType == null) {
-            errorCount++
-            binding.spinnerAssetSubType.error = "Required Field"
-        }
 
-        if (assetType == null) {
-            errorCount++
-            binding.spinnerAssetType.error = "Required Field"
-        }
-        if (ownership == null) {
-            errorCount++
-            binding.spinnerOwnership.error = "Required Field"
-        }
-        if (documentProof == null) {
-            errorCount++
-            binding.spinnerDocumentProof.error = "Required Field"
+        val errorCount = when {
+            !value.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etValue)
+            assetSubType == null -> setSpinnerError(binding.spinnerAssetSubType)
+            assetType == null -> setSpinnerError(binding.spinnerAssetType)
+            ownership == null -> setSpinnerError(binding.spinnerOwnership)
+            documentProof == null -> setSpinnerError(binding.spinnerDocumentProof)
+            else -> 0
         }
         return isValidForm(errorCount)
     }
 
     override fun validateCards(binding: LayoutCreditCardDetailsBinding): Boolean {
-        var errorCount = 0
         val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
         val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
-
-        val utilization = binding.etCurrentUtilization.text.toString()
-        if (!utilization.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etCurrentUtilization.error = "Required Field"
-        }
-
         val cardLimit = binding.etCreditCardLimit.text.toString()
-        if (!cardLimit.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etCreditCardLimit.error = "Required Field"
+        val utilization = binding.etCurrentUtilization.text.toString()
+
+        val spinnerError = when {
+            bankName == null -> setSpinnerError(binding.spinnerBankName)
+            obligate == null -> setSpinnerError(binding.spinnerObligate)
+            else -> 0
         }
 
-        if (bankName == null) {
-            errorCount++
-            binding.spinnerBankName.error = "Required Field"
+        val fieldError = when {
+            !utilization.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etCurrentUtilization)
+            !cardLimit.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etCreditCardLimit)
+            CurrencyConversion().convertToNormalValue(cardLimit).toDouble() < CurrencyConversion().convertToNormalValue(utilization).toDouble() ->
+                setFieldError(binding.etCurrentUtilization)
+            else -> 0
         }
-
-        if (obligate == null) {
-            errorCount++
-            binding.spinnerObligate.error = "Required Field"
-        }
+        val errorCount = spinnerError + fieldError
         return isValidForm(errorCount)
     }
 
@@ -765,66 +726,64 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val loanType = binding.spinnerLoanType.selectedItem as DropdownMaster?
         val repaymentBank = binding.spinnerRepaymentBank.selectedItem as DropdownMaster?
         val ownership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
-
-        if (obligate == null) {
-            errorCount++
-            binding.spinnerObligate.error = "Required Field"
-        }
-
-        if (loanType == null) {
-            errorCount++
-            binding.spinnerLoanType.error = "Required Field"
-        }
-        if (repaymentBank == null) {
-            errorCount++
-            binding.spinnerRepaymentBank.error = "Required Field"
-        }
-        if (ownership == null) {
-            errorCount++
-            binding.spinnerLoanOwnership.error = "Required Field"
-        }
-
         val financierName = binding.etFinancierName.text.toString()
-        if (!financierName.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etFinancierName.error = "Required Field"
-        }
         val accountNum = binding.etAccountNum.text.toString()
-        if (!accountNum.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etAccountNum.error = "Required Field"
-        }
-        val tenure = binding.etTenure.text.toString()
-        if (!tenure.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etTenure.error = "Required Field"
-        }
         val balanceTenure = binding.etBalanceTenure.text.toString()
-        if (!balanceTenure.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etBalanceTenure.error = "Required Field"
-        }
+        val tenure = binding.etTenure.text.toString()
         val emiAmount = binding.etEmiAmount.text.toString()
-        if (!emiAmount.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etEmiAmount.error = "Required Field"
-        }
         val bouncesIn6 = binding.etBouncesInLastSixMonths.text.toString()
-        if (!bouncesIn6.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etBouncesInLastSixMonths.error = "Required Field"
-        }
         val bouncesIn9 = binding.etBouncesInLastNineMonths.text.toString()
-        if (!bouncesIn9.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etBouncesInLastNineMonths.error = "Required Field"
+
+        val spinnerError = when {
+            loanType == null -> setSpinnerError(binding.spinnerLoanType)
+            obligate == null -> setSpinnerError(binding.spinnerObligate)
+            repaymentBank == null -> setSpinnerError(binding.spinnerRepaymentBank)
+            ownership == null -> setSpinnerError(binding.spinnerLoanOwnership)
+            else -> 0
         }
+
+        val fieldError = when {
+            !financierName.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etFinancierName)
+            !accountNum.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAccountNum)
+            accountNum.length < 12 -> setFieldError(binding.etAccountNum)
+            !tenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etTenure)
+            !balanceTenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBalanceTenure)
+            !emiAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmiAmount)
+            !bouncesIn6.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastSixMonths)
+            !bouncesIn9.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastNineMonths)
+            else -> 0
+        }
+        errorCount = spinnerError + fieldError
         return isValidForm(errorCount)
+    }
+
+    private fun setSpinnerError(spinner: MaterialSpinner): Int {
+        spinner.error = "Required Field"
+        return 2
+    }
+
+    private fun setFieldError(field: TextInputEditText): Int {
+        field.error = "Required Field"
+        return 2
     }
 
     override fun validateTemp(binding: TempActivityBinding): Boolean {
         val errorCount = 0
         return isValidForm(errorCount)
+    }
+
+    private fun isValidMobile(mobile: String): Boolean {
+        if (mobile.exIsNotEmptyOrNullOrBlank() && mobile.length == 10) {
+            return android.util.Patterns.PHONE.matcher(mobile).matches()
+        }
+        return false
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        if (email.exIsNotEmptyOrNullOrBlank()) {
+            return (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        }
+        return true
     }
 
     private fun isValidForm(errorCount: Int): Boolean {

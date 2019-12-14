@@ -69,7 +69,7 @@
     <string name="basic_details">BASIC DETAILS</string>
     <string name="search">Search</string>
     <string name="back">Back</string>
-    <string name="lead_number">Lead Number :</string>
+    <string name="lead_number">Lead Number : </string>
     <string name="kyc">KYC</string>
     <string name="issue_date">Issue Date</string>
     <string name="expiry_date">Expiry Date</string>
@@ -189,4 +189,7 @@
     <string name="next">Next</string>
     <string name="update">Update</string>
     <string name="error_income_not_considered">Income not considered in Personal  screen for this applicant</string>
+    <string name="enter_otp">Enter received verification code here</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="resend_otp">Resend OTP</string>
 </resources>

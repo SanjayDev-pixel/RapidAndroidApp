@@ -150,7 +150,7 @@
                         android:id="@+id/input__layout_mobile"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:textColorHint="@color/hint_color">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -166,56 +166,25 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <ImageView
+                        android:id="@+id/ivVerifiedStatus"
+                        android:layout_width="50sp"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:layout_height="50sp"
+                        android:src="@drawable/verified_icon"
+                        android:textSize="@dimen/button_text_size" />
+
                     <Button
                         android:id="@+id/btnGetOTP"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/fields_margin"
+                        android:layout_width="50sp"
                         android:layout_weight="1"
-                        android:background="@drawable/button_theme_style"
-                        android:padding="5sp"
-                        android:text="Get OTP"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/button_text_size" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:baselineAligned="true"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <HorizontalScrollView
-                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <com.mukesh.OtpView
-                            android:id="@+id/otp_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:itemBackground="@color/white"
-                            android:textColor="@color/colorPrimary"
-                            app:itemCount="4"
-                            app:itemHeight="35sp"
-                            app:itemWidth="35sp"
-                            app:lineColor="@color/colorPrimary"
-                            app:viewType="rectangle" />
-                    </HorizontalScrollView>
-
-                    <Button
-                        android:id="@+id/btnVerifyOTP"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/fields_margin"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_theme_style"
-                        android:padding="5sp"
-                        android:text="Verify OTP"
-                        android:textColor="@color/white"
+                        android:paddingStart="@dimen/margin_10"
+                        android:layout_marginStart="85sp"
+                        android:paddingEnd="@dimen/margin_10"
+                        android:text="@string/get_otp"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/button_text_size" />
 
                 </LinearLayout>

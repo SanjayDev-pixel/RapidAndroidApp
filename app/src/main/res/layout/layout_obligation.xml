@@ -133,6 +133,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
+                                android:maxLength="10"
                                 android:inputType="number"
                                 android:hint="@string/loan_amount"
                                 android:minWidth="200dp"
@@ -173,6 +174,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/loan_a_c_num"
                             android:singleLine="true"
+                            android:maxLength="18"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
@@ -199,6 +201,7 @@
                                 android:inputType="number"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/tenure"
+                                android:maxLength="3"
                                 android:minWidth="200dp"
                                 app:ms_hintTextSize="@dimen/hint_size" />
 
@@ -216,6 +219,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
+                                android:maxLength="3"
                                 android:inputType="number"
                                 android:hint="@string/balance_tenure"
                                 android:minWidth="200dp"
@@ -261,6 +265,7 @@
                                 android:layout_width="match_parent"
                                 android:singleLine="true"
                                 android:inputType="number"
+                                android:maxLength="7"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/emi_amount"
                                 android:minWidth="200dp"
@@ -283,6 +288,7 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:inputType="number"
+                            android:maxLength="1"
                             android:hint="@string/num_of_check_bounces_in_last_6_months"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
@@ -299,6 +305,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etBouncesInLastNineMonths"
                             android:layout_width="match_parent"
+                            android:maxLength="1"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:inputType="number"

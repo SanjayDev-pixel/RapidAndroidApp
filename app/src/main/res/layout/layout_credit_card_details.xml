@@ -46,22 +46,13 @@
         <LinearLayout
             android:id="@+id/formCreditCard"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:orientation="horizontal">
-
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinnerBankName"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:minWidth="@dimen/text_min_width"
                 app:ms_arrowColor="@color/black"
                 android:textSize="@dimen/text_size"
@@ -73,12 +64,18 @@
                 app:ms_hintTextSize="@dimen/hint_size"
                 app:ms_multiline="false" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:orientation="horizontal">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_credit_card_limit"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textColorHint="@color/hint_color">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -87,32 +84,34 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:inputType="number"
+                    android:maxLength="7"
                     android:hint="@string/credit_card_limit"
                     android:minWidth="200dp"
                     android:textSize="@dimen/text_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_current_utilization"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:textColorHint="@color/hint_color">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCurrentUtilization"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_current_utilization"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="@string/current_utilization"
-                    android:singleLine="true"
-                    android:inputType="number"
-                    android:minWidth="200dp"
-                    android:textSize="@dimen/text_size" />
+                    android:textColorHint="@color/hint_color">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCurrentUtilization"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/current_utilization"
+                        android:singleLine="true"
+                        android:inputType="number"
+                        android:maxLength="7"
+                        android:minWidth="200dp"
+                        android:textSize="@dimen/text_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

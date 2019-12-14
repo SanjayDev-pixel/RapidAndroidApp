@@ -4,7 +4,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:background="@drawable/background"
+            android:background="@color/white"
             xmlns:app="http://schemas.android.com/tools"
             android:layout_height="match_parent">
 
@@ -180,10 +180,10 @@
         android:gravity="center"
         android:layout_marginTop="@dimen/fields_margin"
         android:layout_gravity="center"
-        android:background="@drawable/button_theme_style"
-        android:padding="5sp"
+        android:paddingStart="@dimen/margin_10"
+        android:paddingEnd="@dimen/margin_10"
         android:text="@string/create"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/button_text_size" />
         </LinearLayout>
 

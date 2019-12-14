@@ -20,9 +20,7 @@ class DisablePersonalForm(private val binding: FragmentPersonalBinding) {
         binding.spinnerVerifiedStatus.isEnabled = false
         binding.basicInfoLayout.ivUploadDobProof.isClickable = false
         binding.basicInfoLayout.btnGetOTP.isEnabled = false
-        binding.basicInfoLayout.btnVerifyOTP.isEnabled = false
         binding.basicInfoLayout.etAge.isEnabled = false
-        binding.basicInfoLayout.otpView.isEnabled = false
         binding.basicInfoLayout.etEmail.isEnabled = false
         binding.basicInfoLayout.etFatherFirstName.isEnabled = false
         binding.basicInfoLayout.etFatherMiddleName.isEnabled = false

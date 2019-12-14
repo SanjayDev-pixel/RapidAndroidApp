@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.persistence.model.AllMasterDropDown
+import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
@@ -11,7 +12,8 @@ import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 
 class ClearPersonalForm(private val binding: FragmentPersonalBinding, private val context: Context,
-                        private val masterDropdown: AllMasterDropDown, private val state: List<StatesMaster>) {
+                        private val masterDropdown: AllMasterDropDown, private val state: List<StatesMaster>,
+                        private val relationshipList: ArrayList<DropdownMaster>) {
 
     init {
         binding.etIdNum.text?.clear()
@@ -59,7 +61,6 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
     }
 
     private fun clearBasicInfoForm() {
-        binding.basicInfoLayout.otpView.text?.clear()
         binding.basicInfoLayout.etNumOfDependent.text?.clear()
         binding.basicInfoLayout.etAlternateNum.text?.clear()
         binding.basicInfoLayout.etNumOfEarningMember.text?.clear()
@@ -82,13 +83,13 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
     private fun clearBasicInfoDropdown() {
         binding.basicInfoLayout.spinnerDobProof.adapter = MasterSpinnerAdapter(context, masterDropdown.DOBProof!!)
         binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(context, masterDropdown.LivingStandardIndicators!!)
-        binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(context, masterDropdown.Relationship!!)
         binding.basicInfoLayout.spinnerMaritalStatus.adapter = MasterSpinnerAdapter(context, masterDropdown.MaritalStatus!!)
         binding.basicInfoLayout.spinnerDetailQualification.adapter = MasterSpinnerAdapter(context, masterDropdown.DetailQualification!!)
         binding.basicInfoLayout.spinnerQualification.adapter = MasterSpinnerAdapter(context, masterDropdown.Qualification!!)
         binding.basicInfoLayout.spinnerCaste.adapter = MasterSpinnerAdapter(context, masterDropdown.Caste!!)
         binding.basicInfoLayout.spinnerReligion.adapter = MasterSpinnerAdapter(context, masterDropdown.Religion!!)
         binding.basicInfoLayout.spinnerNationality.adapter = MasterSpinnerAdapter(context, masterDropdown.Nationality!!)
+        binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(context, relationshipList)
         binding.basicInfoLayout.spinnerGender.adapter = MasterSpinnerAdapter(context, masterDropdown.Gender!!)
         binding.basicInfoLayout.spinnerRelationship.isEnabled = true
     }

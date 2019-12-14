@@ -23,7 +23,6 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="wrap_content"
                     android:id="@+id/rcApplicants"
-                    android:layout_marginTop="@dimen/fields_margin"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_height="wrap_content"/>

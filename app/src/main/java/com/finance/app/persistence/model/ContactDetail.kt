@@ -7,4 +7,6 @@ class ContactDetail {
     var enitiyID: Int? = null
     var fax: String? = ""
     var mobile: String? = ""
+    var isEmailVerified: Boolean? = false
+    var isMobileVerified: Boolean? = false
 }
