@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalBinding
+import com.finance.app.databinding.PopUpVerifyOtpBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.model.Modals.AddKyc
 import com.finance.app.others.AppEnums
@@ -44,6 +46,8 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
+import motobeans.architecture.util.exGone
+import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
 class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
@@ -629,7 +633,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun setClickListeners() {
         binding.ivUploadKyc.setOnClickListener { UploadData(frag, mContext) }
-        binding.basicInfoLayout.btnGetOTP.setOnClickListener { sendOTPPresenter.callNetwork(ConstantsApi.CALL_SEND_OTP) }
+        binding.basicInfoLayout.btnGetOTP.setOnClickListener { showVerifyOTPDialog() }
         binding.btnAddKYC.setOnClickListener {
             getKycData()
             clearKycData()
@@ -1004,18 +1008,29 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override val sendOTPRequest: Requests.RequestSendOTP
         get() = otpSendRequest
 
-    override fun getSendOTPFailure(msg: String) = showToast(msg)
+    override fun getSendOTPFailure(msg: String?) {
+        msg?.let {
+            showToast(msg)
+        }
+    }
 
-    override fun getSendOTPSuccess(value: Response.ResponseSendOTP) = showVerifyOTPDialog()
+    override fun getSendOTPSuccess(value: Response.ResponseSendOTP) {
+        value?.responseMsg?.let {
+            showToast(value.responseMsg!!)
+        }
+    }
 
+    private var verifyOTPDialogView: View? = null
     private fun showVerifyOTPDialog() {
-        val verifyOTPDialogView = LayoutInflater.from(mContext).inflate(R.layout.pop_up_verify_otp, null)
+        verifyOTPDialogView = LayoutInflater.from(mContext).inflate(R.layout.pop_up_verify_otp, null)
         val mBuilder = AlertDialog.Builder(mContext)
                 .setView(verifyOTPDialogView)
                 .setTitle("Verify OTP")
+                .setCancelable(false)
+
         verifyOTPDialog = mBuilder.show()
-        val pinEntry = verifyOTPDialogView.etOTP
-        verifyOTPDialogView.btnVerify.setOnClickListener {
+        val pinEntry = verifyOTPDialogView?.etOTP
+        verifyOTPDialogView?.btnVerify?.setOnClickListener {
             pinEntry?.setOnPinEnteredListener { str ->
                 if (str.toString().length == 4) {
                     otp = str.toString().toInt()
@@ -1023,12 +1038,48 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 }
             }
         }
-        verifyOTPDialogView.tvResendOTP.setOnClickListener {
-            sendOTPPresenter.callNetwork(ConstantsApi.CALL_SEND_OTP)
+        verifyOTPDialogView?.tvResendOTP?.setOnClickListener {
+            handleResendOtpEvent()
         }
 
-        verifyOTPDialogView.ivCross.setOnClickListener {
-            verifyOTPDialog.dismiss()
+        verifyOTPDialogView?.ivCross?.setOnClickListener {
+            dismissOtpVerificationDialog()
+        }
+
+        verifyOTPDialogView?.tvResendOTP?.callOnClick()
+
+        timerOtpResend.start()
+    }
+
+    private fun handleResendOtpEvent() {
+        verifyOTPDialogView?.tvResendOTP?.exGone()
+        verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.exVisible()
+        timerOtpResend.start()
+        sendOTPPresenter.callNetwork(ConstantsApi.CALL_SEND_OTP)
+    }
+
+    private fun handleOtpResnedTimerEndEvent() {
+        verifyOTPDialogView?.tvResendOTP?.exVisible()
+        verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.exGone()
+        timerOtpResend.cancel()
+    }
+
+    private fun dismissOtpVerificationDialog() {
+        timerOtpResend.cancel()
+        verifyOTPDialog.dismiss()
+    }
+
+    private val minutes = 1L
+    private val seconds = 60L
+    private val millisecond = 1000L
+    private val timerOtpResend = object: CountDownTimer(minutes * seconds * millisecond, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            val secondsUntilFinish = (millisUntilFinished / millisecond).toInt()
+            verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.text = "$secondsUntilFinish seconds"
+        }
+
+        override fun onFinish() {
+            handleOtpResnedTimerEndEvent()
         }
     }
 
@@ -1042,10 +1093,15 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override val verifyOTPRequest: Requests.RequestVerifyOTP
         get() = otpVerifyRequest
 
-    override fun getVerifyOTPFailure(msg: String) = showToast(msg)
+    override fun getVerifyOTPFailure(msg: String?) {
+        msg?.let {
+            showToast(msg)
+        }
+    }
 
     override fun getVerifyOTPSuccess(value: Response.ResponseVerifyOTP) {
-        verifyOTPDialog.dismiss()
+        dismissOtpVerificationDialog()
+
         binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
         binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
     }

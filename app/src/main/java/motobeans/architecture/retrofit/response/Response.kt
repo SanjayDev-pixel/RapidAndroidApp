@@ -44,6 +44,6 @@ object Response {
                                var incomeConsidered: Boolean? = null, var isMainApplicant: Boolean,
                                var lastName: String? = null, var leadApplicantNumber: String, var middleName: String? = null)
 
-    data class ResponseSendOTP(val errorStack: Any?, val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
-    data class ResponseVerifyOTP(val errorStack: Any?, val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
+    data class ResponseSendOTP(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
+    data class ResponseVerifyOTP(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
 }

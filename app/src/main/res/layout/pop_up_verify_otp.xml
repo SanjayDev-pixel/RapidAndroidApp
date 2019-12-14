@@ -27,7 +27,7 @@
         <ImageView
             android:id="@+id/ivCross"
             android:layout_width="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:tint="@color/md_red_500"
             android:layout_marginStart="@dimen/margin_50"
             android:background="@drawable/rectangular_background"
@@ -55,6 +55,18 @@
             app:pinTextBottomPadding="@dimen/margin_10" />
 
         <TextView
+            android:id="@+id/tvResendOTPTimeLeftInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/margin_50"
+            android:text=""
+            android:textSize="@dimen/small_text_size"
+            android:visibility="gone"
+            />
+
+        <TextView
             android:id="@+id/tvResendOTP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,6 +75,7 @@
             android:layout_marginTop="@dimen/margin_50"
             android:text="@string/resend_otp"
             android:textSize="@dimen/small_text_size"
+            android:visibility="gone"
             />
 
         <Button
