@@ -2,7 +2,9 @@ package motobeans.architecture.application
 
 import android.app.Application
 import android.content.Context
+import com.crashlytics.android.Crashlytics
 import com.optcrm.optreporting.AppModule
+import io.fabric.sdk.android.Fabric
 import motobeans.architecture.development.components.ApplicationComponent
 import motobeans.architecture.development.components.DaggerApplicationComponent
 import motobeans.architecture.development.modules.NetworkModule
@@ -23,11 +25,11 @@ class ArchitectureApp : Application() {
 
     val component: ApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
-            .appModule(AppModule(this))
-            .networkModule(NetworkModule())
-            .utilityModule(UtilityModule())
-            .primitivesModule(PrimitivesModule())
-            .build()
+                .appModule(AppModule(this))
+                .networkModule(NetworkModule())
+                .utilityModule(UtilityModule())
+                .primitivesModule(PrimitivesModule())
+                .build()
     }
 
     override fun attachBaseContext(base: Context?) {
@@ -43,7 +45,7 @@ class ArchitectureApp : Application() {
         instance = this
         component.inject(this)
 
-//        Fabric.with(this, Crashlytics())
+        Fabric.with(this, Crashlytics())
     }
 
     override fun onTerminate() {

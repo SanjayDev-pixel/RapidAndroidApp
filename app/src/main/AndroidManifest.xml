@@ -80,6 +80,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.UploadDocumentActivity" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="dfe6623ccb337c9b9f15d5cc201177c9c4baa0aa" />
     </application>
 
 </manifest>
