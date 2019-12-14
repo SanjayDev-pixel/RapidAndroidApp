@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.finance.app.R
 import com.finance.app.persistence.model.StatesMaster
 
-class StatesSpinnerAdapter(mContext: Context, val value: List<StatesMaster>,
+class StatesSpinnerAdapter(mContext: Context, val value: List<StatesMaster>?,
                            val isMandatory: Boolean = false) : BaseAdapter() {
 
     private var inflater: LayoutInflater = mContext.getSystemService(
@@ -18,7 +18,7 @@ class StatesSpinnerAdapter(mContext: Context, val value: List<StatesMaster>,
     private lateinit var spinnerValue: StatesMaster
 
     override fun getItem(position: Int): Any? {
-        return value[position]
+        return value!![position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -26,7 +26,7 @@ class StatesSpinnerAdapter(mContext: Context, val value: List<StatesMaster>,
     }
 
     override fun getCount(): Int {
-        return value.size
+        return value?.size ?: 0
     }
 
     override
@@ -36,7 +36,7 @@ class StatesSpinnerAdapter(mContext: Context, val value: List<StatesMaster>,
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value[position]
+        spinnerValue = value!![position]
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
@@ -49,7 +49,7 @@ class StatesSpinnerAdapter(mContext: Context, val value: List<StatesMaster>,
     }
 
     fun setItem(position: Int) {
-        spinnerValue = value[position]
+        spinnerValue = value!![position]
         notifyDataSetChanged()
     }
 

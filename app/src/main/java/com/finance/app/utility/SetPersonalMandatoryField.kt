@@ -13,8 +13,6 @@ class SetPersonalMandatoryField(binding: FragmentPersonalBinding) {
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentAddress)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentLandmark)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentLandmark)
-        ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentPinCode)
-        ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentPinCode)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentStaying)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentStaying)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentRentAmount)

@@ -10,9 +10,10 @@ import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
+import com.finance.app.view.customViews.CustomZipAddressView
 
 class ClearPersonalForm(private val binding: FragmentPersonalBinding, private val context: Context,
-                        private val masterDropdown: AllMasterDropDown, private val state: List<StatesMaster>,
+                        private val masterDropdown: AllMasterDropDown,
                         private val relationshipList: ArrayList<DropdownMaster>) {
 
     init {
@@ -25,14 +26,15 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
     }
 
     private fun clearAddressInfoForm() {
+        binding.personalAddressLayout.customCurrentZipAddressView.clearZipCode()
+        binding.personalAddressLayout.customPermanentZipAddressView.clearZipCode()
+
         binding.personalAddressLayout.etPermanentRentAmount.text?.clear()
-        binding.personalAddressLayout.etPermanentPinCode.text?.clear()
         binding.personalAddressLayout.etPermanentLandmark.text?.clear()
         binding.personalAddressLayout.etPermanentStaying.text?.clear()
         binding.personalAddressLayout.etCurrentRentAmount.text?.clear()
         binding.personalAddressLayout.etPermanentAddress.text?.clear()
         binding.personalAddressLayout.etCurrentStaying.text?.clear()
-        binding.personalAddressLayout.etCurrentPinCode.text?.clear()
         binding.personalAddressLayout.etCurrentLandmark.text?.clear()
         binding.personalAddressLayout.etCurrentAddress.text?.clear()
         binding.personalAddressLayout.cbSameAsCurrent.isChecked = false
@@ -41,22 +43,13 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
 
     private fun clearAddressInfoDropdown() {
         binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
-        binding.personalAddressLayout.spinnerCurrentState.adapter = StatesSpinnerAdapter(context, state)
-        binding.personalAddressLayout.spinnerPermanentState.adapter = StatesSpinnerAdapter(context, state)
-        binding.personalAddressLayout.spinnerPermanentDistrict.adapter = DistrictSpinnerAdapter(context, ArrayList())
-        binding.personalAddressLayout.spinnerCurrentDistrict.adapter = DistrictSpinnerAdapter(context, ArrayList())
-        binding.personalAddressLayout.spinnerCurrentCity.adapter = CitySpinnerAdapter(context, ArrayList())
-        binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(context, ArrayList())
         binding.personalAddressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(context, masterDropdown.ResidenceType!!)
         binding.personalAddressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(context, masterDropdown.ResidenceType!!)
         binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(context, masterDropdown.AddressProof!!)
         binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(context, masterDropdown.AddressProof!!)
-        binding.personalAddressLayout.spinnerCurrentState.isEnabled = true
-        binding.personalAddressLayout.spinnerPermanentState.isEnabled = true
-        binding.personalAddressLayout.spinnerPermanentDistrict.isEnabled = true
-        binding.personalAddressLayout.spinnerCurrentDistrict.isEnabled = true
-        binding.personalAddressLayout.spinnerCurrentCity.isEnabled = true
-        binding.personalAddressLayout.spinnerPermanentState.isEnabled = true
+
+        binding.personalAddressLayout.customCurrentZipAddressView.clearPinCodes()
+        binding.personalAddressLayout.customPermanentZipAddressView.clearPinCodes()
 
     }
 

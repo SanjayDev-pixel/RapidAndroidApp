@@ -14,51 +14,51 @@
             android:fillViewport="true">
 
             <LinearLayout
+                android:id="@+id/llPersonalFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/llPersonalFragment"
                 android:orientation="vertical"
                 android:padding="@dimen/margin_10">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="horizontal"
-                android:orientation="horizontal">
-
-            <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/rcApplicants"
-                    android:orientation="horizontal"
-                    android:layout_marginEnd="100sp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btnAddApplicant"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/add_icon"
-                    android:layout_alignParentEnd="true"
-                    android:textSize="@dimen/button_text_size"
-                    android:textColor="@color/black" />
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal">
 
-            </RelativeLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcApplicants"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="100sp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <Button
+                        android:id="@+id/btnAddApplicant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:text="@string/add_icon"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/button_text_size" />
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/llKYC"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin"
                         android:background="@color/heading_background"
                         android:text="@string/kyc"
-                        android:layout_marginTop="@dimen/fields_margin"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -81,11 +81,11 @@
                                 android:id="@+id/etIdNum"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:maxLength="16"
-                                android:inputType="number"
-                                android:singleLine="true"
                                 android:hint="@string/identification_number"
+                                android:inputType="number"
+                                android:maxLength="16"
                                 android:minWidth="200dp"
+                                android:singleLine="true"
                                 app:ms_hintTextSize="@dimen/hint_size" />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -96,10 +96,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:minWidth="@dimen/text_min_width"
+                            android:spinnerMode="dialog"
+                            android:textSize="@dimen/button_text_size"
                             app:ms_arrowColor="@color/black"
                             app:ms_arrowSize="16dp"
-                            android:textSize="@dimen/button_text_size"
-                            android:spinnerMode="dialog"
                             app:ms_floatingLabelColor="@color/hint_color"
                             app:ms_floatingLabelText="Identification Type"
                             app:ms_hint="Identification Type"
@@ -126,12 +126,12 @@
                                 android:id="@+id/etIssueDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_calender"
+                                android:editable="false"
+                                android:focusable="false"
                                 android:hint="@string/issue_date"
                                 android:minWidth="200dp"
-                                app:ms_hintTextSize="@dimen/hint_size"
-                                android:focusable="false" />
+                                app:ms_hintTextSize="@dimen/hint_size" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,8 +146,8 @@
                                 android:id="@+id/etExpiryDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_calender"
+                                android:editable="false"
                                 android:focusable="false"
                                 android:hint="@string/expiry_date"
                                 android:minWidth="200dp"
@@ -170,8 +170,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:minWidth="@dimen/text_min_width"
-                            app:ms_arrowColor="@color/black"
                             android:textSize="@dimen/text_size"
+                            app:ms_arrowColor="@color/black"
                             app:ms_arrowSize="@dimen/arrow_size"
                             app:ms_floatingLabelColor="@color/hint_color"
                             app:ms_floatingLabelText="Verified Status"
@@ -193,8 +193,8 @@
                                 android:layout_width="50sp"
                                 android:layout_height="50sp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/upload_icon"
-                                android:contentDescription="@string/kyc" />
+                                android:contentDescription="@string/kyc"
+                                android:src="@drawable/upload_icon" />
 
                             <Button
                                 android:id="@+id/btnAddKYC"
@@ -211,13 +211,33 @@
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="match_parent"
                         android:id="@+id/rcKYC"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content"/>
+                        android:visibility="gone" />
 
                 </LinearLayout>
+<!--
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Personal Address" />
+
+                    <com.finance.app.view.customViews.CustomZipAddressView
+                        android:id="@+id/customZipAddressView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+-->
 
                 <include
                     android:id="@+id/basicInfoLayout"
@@ -229,8 +249,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/margin_50"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_50">
 
                     <Button
                         android:id="@+id/btnPrevious"
@@ -245,9 +265,9 @@
                         android:id="@+id/btnNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:background="@drawable/button_theme_style"
                         android:text="@string/next"
-                        android:layout_alignParentEnd="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size" />
                 </RelativeLayout>

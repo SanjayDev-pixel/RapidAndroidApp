@@ -49,22 +49,19 @@ class DisablePersonalForm(private val binding: FragmentPersonalBinding) {
         binding.personalAddressLayout.etCurrentAddress.isEnabled = false
         binding.personalAddressLayout.etPermanentAddress.isEnabled = false
         binding.personalAddressLayout.etCurrentLandmark.isEnabled = false
-        binding.personalAddressLayout.etCurrentPinCode.isEnabled = false
-        binding.personalAddressLayout.etPermanentPinCode.isEnabled = false
         binding.personalAddressLayout.etPermanentStaying.isEnabled = false
         binding.personalAddressLayout.etCurrentStaying.isEnabled = false
         binding.personalAddressLayout.spinnerPermanentResidenceType.isEnabled = false
-        binding.personalAddressLayout.spinnerPermanentState.isEnabled = false
-        binding.personalAddressLayout.spinnerPermanentDistrict.isEnabled = false
         binding.personalAddressLayout.spinnerPermanentAddressProof.isEnabled = false
         binding.personalAddressLayout.spinnerCurrentAddressProof.isEnabled = false
-        binding.personalAddressLayout.spinnerCurrentDistrict.isEnabled = false
-        binding.personalAddressLayout.spinnerCurrentState.isEnabled = false
         binding.personalAddressLayout.cbSameAsCurrent.isClickable = false
         binding.basicInfoLayout.cbIncomeConsidered.isClickable = false
         binding.personalAddressLayout.etCurrentRentAmount.isEnabled = false
         binding.personalAddressLayout.spinnerCurrentResidenceType.isEnabled = false
         binding.personalAddressLayout.etPermanentLandmark.isEnabled = false
         binding.personalAddressLayout.etPermanentRentAmount.isEnabled = false
+
+        binding.personalAddressLayout.customCurrentZipAddressView.disableSelf()
+        binding.personalAddressLayout.customPermanentZipAddressView.disableSelf()
     }
 }
