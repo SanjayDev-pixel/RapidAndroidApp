@@ -7,7 +7,7 @@ class DisablePropertyFields(binding: FragmentPropertyInfoBinding) {
     init {
         binding.spinnerUnitType.isEnabled = false
         binding.spinnerOwnership.isEnabled = false
-        binding.spinnerPropertyTransaction.isEnabled = false
+        binding.spinnerPropertyNature.isEnabled = false
         binding.spinnerTransactionCategory.isEnabled = false
         binding.spinnerOwnedProperty.isEnabled = false
         binding.spinnerOccupiedBy.isEnabled = false

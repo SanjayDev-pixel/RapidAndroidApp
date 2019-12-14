@@ -14,24 +14,17 @@ class CurrencyConversion {
     }
 
     fun convertToNormalValue(value: String): String {
-        var amount = ""
-        if (value.contains(",")) {
-            amount = value.replace(",".toRegex(), "")
+        return if (value.contains(",")) {
+            value.replace(",".toRegex(), "")
+        } else {
+            value
         }
-        else { amount = value }
-        return amount
     }
 
     private fun onTextChangedListener(editText: TextInputEditText): TextWatcher {
         return object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-            }
-
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
                 editText.removeTextChangedListener(this)
 

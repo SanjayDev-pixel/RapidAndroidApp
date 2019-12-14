@@ -70,6 +70,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.tvLocation.text = lead?.applicantAddress
         binding.tvPhone.text = lead?.applicantContactNumber
         binding.tvTypeOfLoan.text = lead?.loanProductName
+        binding.tvLeadStatus.text = lead?.status
         leadContact = lead!!.applicantContactNumber!!.toLong()
         setUpRecyclerView()
         setClickListeners()

@@ -11,7 +11,7 @@ class BankDetailBean {
     var applicantID: Int? = 0
     var averageBankBalance: DecimalFormat? = null
     var averageDebitBalance: DecimalFormat? = null
-    var bankDetailID: Int? = 0
+    var bankDetailID: Int? = null
     var bankNameTypeDetailID: Int? = 0
     var bankStatementProof: String? = ""
     var bulkEntryAmount: DecimalFormat? = null

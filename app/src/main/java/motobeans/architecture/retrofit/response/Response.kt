@@ -40,8 +40,8 @@ object Response {
     data class CityObj(val cityID: Int, val cityName: String)
     data class ResponseDistrict(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<DistrictObj>?, val timeStamp: Long)
     data class DistrictObj(val districtID: Int, val districtName: String)
-    data class ResponsePropertyNature(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PropertyNatureObj>, val timeStamp: Long)
-    data class PropertyNatureObj(val propertyNatureTransactionCategory: String, val propertyNatureTransactionCategoryID: Int)
+    data class ResponsePropertyNature(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<TransactionCategoryObj>, val timeStamp: Long)
+    data class TransactionCategoryObj(val propertyNatureTransactionCategory: String, val propertyNatureTransactionCategoryID: Int)
     data class ResponseCoApplicants(val responseCode: String, var responseMsg: String, val responseObj: ArrayList<CoApplicantsObj>, val timeStamp: Long)
     data class CoApplicantsObj(var applicantID: Int? = null, var entityID: Int? = null, var firstName: String? = null,
                                var incomeConsidered: Boolean? = null, var isMainApplicant: Boolean,

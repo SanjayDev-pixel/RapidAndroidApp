@@ -78,13 +78,14 @@
                 android:padding="@dimen/margin_10">
 
                 <TextView
+                    android:id="@+id/tvLoanType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/black"
                     android:gravity="center"
                     android:padding="5sp"
-                    android:text="Type Of Loan: Home Loan"
+                    android:text="Type Of Loan:"
                     android:textSize="@dimen/small_text_size" />
 
                 <TextView
@@ -95,7 +96,7 @@
                     android:layout_alignParentEnd="true"
                     android:padding="5sp"
                     android:textSize="@dimen/small_text_size"
-                    android:text="Type Of Loan: Home Loan" />
+                    android:text="Date" />
 
             </RelativeLayout>
         </LinearLayout>
