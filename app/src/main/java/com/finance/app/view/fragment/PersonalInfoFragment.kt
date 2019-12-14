@@ -19,19 +19,20 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalBinding
-import com.finance.app.databinding.PopUpVerifyOtpBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.model.Modals.AddKyc
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
-import com.finance.app.presenter.connector.*
+import com.finance.app.presenter.connector.CoApplicantsConnector
+import com.finance.app.presenter.connector.LoanApplicationConnector
+import com.finance.app.presenter.connector.OTPConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
+import com.finance.app.view.customViews.CustomZipAddressView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.delete_dialog.view.*
@@ -51,9 +52,8 @@ import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
 class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
-        LoanApplicationConnector.GetLoanApp, PinCodeDetailConnector.PinCode,
+        LoanApplicationConnector.GetLoanApp,
         ApplicantsAdapter.ItemClickListener, ApplicantsAdapter.ItemLongClickListener,
-        DistrictCityConnector.District, DistrictCityConnector.City,
         OTPConnector.SendOTP, OTPConnector.VerifyOTP, CoApplicantsConnector.CoApplicants {
 
     @Inject
@@ -68,11 +68,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private val frag = this
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
-    private val pinCodePresenter = PinCodeDetailPresenter(this)
-    private val districtPresenter = DistrictPresenter(this)
     private val sendOTPPresenter = SendOTPPresenter(this)
     private val verifyOTPPresenter = VerifyOTPPresenter(this)
-    private val cityPresenter = CityPresenter(this)
     private var coApplicantsPresenter = CoApplicantsPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
     private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = ArrayList()
@@ -81,12 +78,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var contactDetail: ContactDetail? = ContactDetail()
     private var image: Bitmap? = null
     private var maritalStatus: DropdownMaster? = null
-    private var mPinCode: String = ""
     private var personalAddressDetail: ArrayList<AddressDetail>? = ArrayList()
     private var currentPosition = 0
-    private var mStateId: String = ""
-    private var mDistrictId: String = ""
-    private var pinCodeObj: Response.PinCodeObj? = null
     private var pDraftData = PersonalApplicantList()
     private var allMasterDropDown: AllMasterDropDown = AllMasterDropDown()
     private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
@@ -103,7 +96,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         private const val COMPLETED = "Completed"
         private const val CURRENT = "Current"
         private lateinit var kycList: ArrayList<AddKyc>
-        private lateinit var states: List<StatesMaster>
         private val leadAndLoanDetail = LeadAndLoanDetail()
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
@@ -132,6 +124,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun setUpCustomViews() {
         activity?.let {
             binding.personalAddressLayout.customCurrentZipAddressView.attachActivity(activity = activity!!)
+            binding.personalAddressLayout.customPermanentZipAddressView.attachActivity(activity = activity!!)
         }
     }
 
@@ -169,10 +162,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 setRelationshipList(allMasterDropDown.Relationship)
                 setMasterDropDownValue(allMasterDropDown)
             }
-        })
-        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer {
-            states = it
-            setStateDropDownValue(states)
         })
     }
 
@@ -215,8 +204,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         fillFormWithCurrentApplicant(currentApplicant)
     }
 
-    private fun updateCustomZipCode(addressDetail: AddressDetail) {
-        binding.personalAddressLayout.customCurrentZipAddressView.updateAddressData(addressDetail = addressDetail)
+    private fun updateCustomZipCode(customZipView: CustomZipAddressView, addressDetail: AddressDetail) {
+        customZipView.updateAddressData(addressDetail = addressDetail)
     }
 
     private fun setMasterDropDownValue(dropDown: AllMasterDropDown) {
@@ -260,25 +249,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    private fun setStateDropDownValue(states: List<StatesMaster>) {
-        binding.personalAddressLayout.spinnerPermanentState.adapter = StatesSpinnerAdapter(mContext, states)
-        binding.personalAddressLayout.spinnerPermanentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
-        binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
-        setUpStateDropdown(binding.personalAddressLayout.spinnerPermanentState, AppEnums.ADDRESS_TYPE.PERMANENT)
-    }
-
-    private fun setUpStateDropdown(spinner: Spinner, type: AppEnums.ADDRESS_TYPE) {
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    val state = parent.selectedItem as StatesMaster
-                    mStateId = state.stateID.toString()
-                    districtPresenter.callDistrictApi(addressType = type)
-                }
-            }
-        }
-    }
 
     private fun fillFormWithLeadDetail() {
         currentApplicant = PersonalApplicantsModel()
@@ -342,8 +312,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun fillAddressInfo(addressDetailList: ArrayList<AddressDetail>) {
         fillPermanentAddressInfo(addressDetailList[1])
         fillCurrentAddressInfo(addressDetailList[0])
-
-        updateCustomZipCode(addressDetailList[0])
     }
 
     private fun fillCurrentAddressInfo(addressDetail: AddressDetail) {
@@ -353,16 +321,19 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
         selectCurrentAddressProofValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail)
         selectResidenceTypeValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail)
+
+        updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
     }
 
     private fun fillPermanentAddressInfo(addressDetail: AddressDetail) {
         binding.personalAddressLayout.etPermanentAddress.setText(addressDetail.address1)
-        binding.personalAddressLayout.etPermanentPinCode.setText(addressDetail.zip)
         binding.personalAddressLayout.etPermanentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears.toString())
         selectResidenceTypeValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail)
         selectPermanentAddressProofValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail)
+
+        updateCustomZipCode(customZipView = binding.personalAddressLayout.customPermanentZipAddressView, addressDetail = addressDetail)
     }
 
     private fun setMaritalStatus(dropDown: AllMasterDropDown) {
@@ -597,9 +568,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
             pAddressDetail = cAddressDetail
         } else {
-            val pCity = binding.personalAddressLayout.spinnerPermanentCity.selectedItem as Response.CityObj?
-            val pState = binding.personalAddressLayout.spinnerPermanentState.selectedItem as StatesMaster?
-            val pDistrict = binding.personalAddressLayout.spinnerPermanentDistrict.selectedItem as Response.DistrictObj?
             val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
             val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
 
@@ -607,12 +575,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             pAddressDetail.stayingInYears = binding.personalAddressLayout.etPermanentStaying.text.toString().toFloat()
             pAddressDetail.address1 = binding.personalAddressLayout.etPermanentAddress.text.toString()
             pAddressDetail.landmark = binding.personalAddressLayout.etPermanentLandmark.text.toString()
-            pAddressDetail.zip = binding.personalAddressLayout.etPermanentPinCode.text.toString()
+            pAddressDetail.zip = binding.personalAddressLayout.customPermanentZipAddressView.pinCode
             pAddressDetail.residenceTypeTypeDetailID = pResidenceType?.typeDetailID
             pAddressDetail.addressTypeDetailID = pAddressProof?.typeDetailID
-            pAddressDetail.stateID = pState?.stateID
-            pAddressDetail.districtID = pDistrict?.districtID
-            pAddressDetail.cityID = pCity?.cityID
+            pAddressDetail.stateID = binding.personalAddressLayout.customPermanentZipAddressView.getStateId()
+            pAddressDetail.districtID = binding.personalAddressLayout.customPermanentZipAddressView.getDistrictId()
+            pAddressDetail.cityID = binding.personalAddressLayout.customPermanentZipAddressView.getCityId()
         }
         pAddressDetail.addressTypeDetail = PERMANENT
         if (personalAddressDetail.isNullOrEmpty()) {
@@ -662,145 +630,12 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
             }
         }
-        pinCodeListener(binding.personalAddressLayout.etPermanentPinCode, AppEnums.ADDRESS_TYPE.PERMANENT)
         conversion.convertToCurrencyType(binding.personalAddressLayout.etPermanentRentAmount)
         conversion.convertToCurrencyType(binding.personalAddressLayout.etCurrentRentAmount)
     }
 
-    private fun pinCodeListener(pinCodeField: TextInputEditText?, addressType: AppEnums.ADDRESS_TYPE) {
-        pinCodeField!!.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (pinCodeField.text!!.length == 6) {
-                    mPinCode = pinCodeField.text.toString()
-                    pinCodePresenter.callPinCodeDetailApi(addressType = addressType)
-                }
-            }
-        })
-    }
-
-    override val pinCode: String
-        get() = mPinCode
-
-    override val stateId: String
-        get() = mStateId
-
-    override val districtId: String
-        get() = mDistrictId
-
     override val loanAppRequestPost: LoanApplicationRequest
         get() = requestConversion.personalInfoRequest(getPersonalInfoMaster())
-
-    private fun clearPermanentPinCodeField() {
-        binding.personalAddressLayout.spinnerPermanentState.isEnabled = true
-        binding.personalAddressLayout.spinnerPermanentDistrict.isEnabled = true
-        binding.personalAddressLayout.spinnerPermanentCity.isEnabled = true
-        binding.personalAddressLayout.spinnerPermanentState.adapter = StatesSpinnerAdapter(mContext, states)
-        binding.personalAddressLayout.spinnerPermanentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
-        binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
-    }
-
-    override fun getPinCodeFailure(msg: String) = clearPinCodes()
-
-    override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail, addressType: AppEnums.ADDRESS_TYPE?) {
-        if (value.responseObj!!.size > 0) {
-            pinCodeObj = value.responseObj[0]
-            when (addressType?.type) {
-                AppEnums.ADDRESS_TYPE.PERMANENT.type -> selectStateValue(binding.personalAddressLayout.spinnerPermanentState, pinCodeObj!!, AppEnums.ADDRESS_TYPE.PERMANENT)
-            }
-        } else {
-            clearPinCodes(addressType?.type)
-        }
-    }
-
-    private fun selectStateValue(spinner: Spinner, pinCodeDetail: Response.PinCodeObj, type: AppEnums.ADDRESS_TYPE) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as StatesMaster
-            if (obj.stateID == pinCodeDetail.stateID) {
-                spinner.setSelection(index + 1)
-                mStateId = pinCodeDetail.stateID.toString()
-                districtPresenter.callDistrictApi(addressType = type)
-                spinner.isEnabled = false
-                return
-            }
-        }
-    }
-
-    private fun clearPinCodes(addressType: String? = null) {
-        when (addressType) {
-            AppEnums.ADDRESS_TYPE.PERMANENT.type -> clearPermanentPinCodeField()
-        }
-    }
-
-    override fun getDistrictFailure(msg: String) = showToast(msg)
-
-    override fun getDistrictSuccess(value: Response.ResponseDistrict, addressType: AppEnums.ADDRESS_TYPE?) {
-        if (value.responseObj != null && value.responseObj.size > 0) {
-            when (addressType) {
-                AppEnums.ADDRESS_TYPE.PERMANENT -> setUpDistrict(value, binding.personalAddressLayout.spinnerPermanentDistrict, pinCodeObj, AppEnums.ADDRESS_TYPE.PERMANENT)
-                else -> clearCity(addressType)
-            }
-        }
-    }
-
-    private fun clearCity(addressType: AppEnums.ADDRESS_TYPE?) {
-        when (addressType) {
-            AppEnums.ADDRESS_TYPE.PERMANENT -> binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
-            else -> return
-        }
-    }
-
-    private fun setUpDistrict(response: Response.ResponseDistrict, spinner: Spinner, pinCodeObj: Response.PinCodeObj?, type: AppEnums.ADDRESS_TYPE) {
-        spinner.adapter = DistrictSpinnerAdapter(mContext, response.responseObj!!)
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    val district = parent.selectedItem as Response.DistrictObj
-                    mDistrictId = district.districtID.toString()
-                    cityPresenter.callCityApi(addressType = type)
-                }
-            }
-        }
-        selectDistrictValue(spinner, pinCodeObj!!, type)
-    }
-
-    private fun selectDistrictValue(spinner: Spinner, pinCodeObj: Response.PinCodeObj, type: AppEnums.ADDRESS_TYPE) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as Response.DistrictObj
-            if (obj.districtID == pinCodeObj.districtID) {
-                spinner.setSelection(index + 1)
-                mDistrictId = obj.districtID.toString()
-                cityPresenter.callCityApi(addressType = type)
-                spinner.isEnabled = false
-                return
-            }
-        }
-    }
-
-    override fun getCityFailure(msg: String) = showToast(msg)
-
-    override fun getCitySuccess(value: Response.ResponseCity, addressType: AppEnums.ADDRESS_TYPE?) {
-        if (value.responseObj != null && value.responseObj.size > 0) {
-            when (addressType) {
-                AppEnums.ADDRESS_TYPE.PERMANENT -> setUpCity(binding.personalAddressLayout.spinnerPermanentCity, value)
-                else -> return
-            }
-        }
-    }
-
-    private fun setUpCity(spinner: Spinner, response: Response.ResponseCity) {
-        spinner.adapter = CitySpinnerAdapter(mContext, response.responseObj!!)
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as Response.CityObj
-            if (obj.cityID == pinCodeObj!!.cityID) {
-                spinner.setSelection(index + 1)
-                spinner.isEnabled = false
-                return
-            }
-        }
-    }
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getPersonalInfoMaster())
@@ -851,7 +686,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             personalApplicantsList!!.add(PersonalApplicantsModel())
             applicantTab!!.add(getDefaultCoApplicant())
             applicantAdapter!!.notifyDataSetChanged()
-            ClearPersonalForm(binding, mContext, allMasterDropDown, states, relationshipList)
+
+            ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
+
             try {
                 val lastIndex = applicantTab!!.lastIndex
                 applicantAdapter?.onClickItem(lastIndex, applicantTab!![lastIndex])
@@ -863,7 +700,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
         if (formValidation.validatePersonalInfo(binding)) {
             saveCurrentApplicant()
-            ClearPersonalForm(binding, mContext, allMasterDropDown, states, relationshipList)
+            ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
             currentPosition = position
             waitFor1Sec(position, coApplicant)
         } else showToast(getString(R.string.mandatory_field_missing))

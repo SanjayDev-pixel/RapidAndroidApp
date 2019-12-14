@@ -19,7 +19,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val dob = binding.basicInfoLayout.etDOB.text.toString()
         val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
         val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
-        val currentPinCode = binding.personalAddressLayout.etCurrentPinCode.text.toString()
         val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
         val nationality = binding.basicInfoLayout.spinnerNationality.selectedItem as DropdownMaster?
         val qualification = binding.basicInfoLayout.spinnerQualification.selectedItem as DropdownMaster?
@@ -30,9 +29,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
         val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
         val dobProof = binding.basicInfoLayout.spinnerDobProof.selectedItem as DropdownMaster?
-        val state = binding.personalAddressLayout.spinnerCurrentState.selectedItem as StatesMaster?
-        val district = binding.personalAddressLayout.spinnerCurrentDistrict.selectedItem as Response.DistrictObj?
-        val city = binding.personalAddressLayout.spinnerCurrentCity.selectedItem as Response.CityObj?
 
         if (nationality == null) {
             errorCount++
@@ -75,18 +71,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             errorCount++
             binding.personalAddressLayout.spinnerCurrentAddressProof.error = "Required Field"
         }
-        if (state == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerCurrentState.error = "Required Field"
-        }
-        if (district == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerCurrentDistrict.error = "Required Field"
-        }
-        if (city == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerCurrentCity.error = "Required Field"
-        }
 
         if (!firstName.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -108,14 +92,13 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.personalAddressLayout.etCurrentLandmark.error = "Landmark can not be blank"
         }
 
-        if (!currentPinCode.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.personalAddressLayout.etCurrentPinCode.error = "Pin code can not be blank"
-        }
-
         if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying != "" && currentStaying.toInt() > 99) {
             errorCount++
             binding.personalAddressLayout.etCurrentStaying.error = "Required field missing or Invalid Entry"
+        }
+
+        if(!binding.personalAddressLayout.customCurrentZipAddressView.validateAndHandleError()) {
+            errorCount++
         }
 
         if (!binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
@@ -128,14 +111,10 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     private fun checkPermanentAddressFields(binding: FragmentPersonalBinding): Int {
         var errorCount = 0
         val permanentAddress = binding.personalAddressLayout.etPermanentAddress.text.toString()
-        val permanentPinCode = binding.personalAddressLayout.etPermanentPinCode.text.toString()
         val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
         val rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString()
         val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
         val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
-        val state = binding.personalAddressLayout.spinnerPermanentState.selectedItem as StatesMaster?
-        val district = binding.personalAddressLayout.spinnerPermanentDistrict.selectedItem as Response.DistrictObj?
-        val city = binding.personalAddressLayout.spinnerPermanentCity.selectedItem as Response.CityObj?
 
         if (pResidenceType == null) {
             errorCount++
@@ -145,25 +124,9 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             errorCount++
             binding.personalAddressLayout.spinnerPermanentAddressProof.error = "Required Field"
         }
-        if (state == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerPermanentState.error = "Required Field"
-        }
-        if (district == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerPermanentDistrict.error = "Required Field"
-        }
-        if (city == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerPermanentCity.error = "Required Field"
-        }
         if (!permanentAddress.exIsNotEmptyOrNullOrBlank()) {
             binding.personalAddressLayout.etPermanentAddress.error = "Address can not be blank"
             errorCount++
-        }
-        if (!permanentPinCode.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.personalAddressLayout.etPermanentPinCode.error = "Pin code can not be blank"
         }
         if (!permanentStaying.exIsNotEmptyOrNullOrBlank() && permanentStaying != "" && permanentStaying.toFloat() > 99) {
             binding.personalAddressLayout.etPermanentStaying.error = "Required field"
@@ -171,6 +134,10 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         }
         if (!rentAmount.exIsNotEmptyOrNullOrBlank()) {
             binding.personalAddressLayout.etPermanentRentAmount.error = "Required field"
+            errorCount++
+        }
+
+        if(!binding.personalAddressLayout.customPermanentZipAddressView.validateAndHandleError()) {
             errorCount++
         }
 

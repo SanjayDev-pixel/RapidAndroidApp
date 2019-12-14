@@ -20,14 +20,17 @@ import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.CityPresenter
 import com.finance.app.presenter.presenter.DistrictPresenter
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
+import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.retrofit.response.Response
+import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import motobeans.architecture.util.exShowToast
 import java.lang.Exception
 import javax.inject.Inject
@@ -74,12 +77,14 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     private var pinCodeObj: Response.PinCodeObj? = null
     private var serverPinCodeObj: Response.PinCodeObj? = null
 
+    private lateinit var inputLayoutCurrentPinCode: TextInputLayout
     private lateinit var etCurrentPinCode: TextInputEditText
     private lateinit var spinnerCurrentState: MaterialSpinner
     private lateinit var spinnerCurrentDistrict: MaterialSpinner
     private lateinit var spinnerCurrentCity: MaterialSpinner
 
     private fun initializeViews(rootView: View) {
+        inputLayoutCurrentPinCode = rootView.findViewById(R.id.inputLayoutCurrentPinCode)
         etCurrentPinCode = rootView.findViewById(R.id.etCurrentPinCode)
         spinnerCurrentState = rootView.findViewById(R.id.spinnerCurrentState)
         spinnerCurrentDistrict = rootView.findViewById(R.id.spinnerCurrentDistrict)
@@ -118,9 +123,14 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
 
         ArchitectureApp.instance.component.inject(this)
 
+        initView()
         pinCodeListener()
         setUpSpinners()
         getDropDownsFromDB()
+    }
+
+    private fun initView() {
+        ShowAsMandatory(inputLayoutCurrentPinCode)
     }
 
     private fun setUpSpinners() {
@@ -161,7 +171,10 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (etCurrentPinCode.text!!.length == 6) {
+                    ++countZipApiHit
                     pinCodePresenter.callPinCodeDetailApi()
+                } else {
+                    clearPinCodes()
                 }
             }
         })
@@ -217,6 +230,8 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     }
 
 
+    var countZipApiHit = 0
+
     override fun showToast(msg: String) {
         msg.exShowToast(activity)
     }
@@ -235,9 +250,17 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
             pinCodeObj = value.responseObj[0]
             selectStateValue()
         } else {
-            this.pinCodeObj = serverPinCodeObj
-            clearPinCodes()
-            selectStateValue()
+            when(countZipApiHit <= 1) {
+                true -> {
+                    this.pinCodeObj = serverPinCodeObj
+                    clearPinCodes()
+                    selectStateValue()
+                }
+                else -> {
+                    this.pinCodeObj = null
+                    clearPinCodes()
+                }
+            }
         }
     }
 
@@ -286,7 +309,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         }
     }
 
-    private fun clearPinCodes() {
+    fun clearPinCodes() {
         spinnerCurrentDistrict.isEnabled = true
         spinnerCurrentCity.isEnabled = true
         spinnerCurrentState.isEnabled = true
@@ -340,5 +363,41 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
                 return
             }
         }
+    }
+
+    fun clearZipCode() {
+        etCurrentPinCode.text?.clear()
+    }
+
+    fun disableSelf() {
+        etCurrentPinCode.isEnabled = false
+        spinnerCurrentCity.isEnabled = false
+        spinnerCurrentDistrict.isEnabled = false
+        spinnerCurrentCity.isEnabled = false
+    }
+
+    fun validateAndHandleError(): Boolean {
+        var errorCount = 0
+        val currentPinCode = etCurrentPinCode.text.toString()
+
+        if (!stateId.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            spinnerCurrentState.error = "Required Field"
+        }
+        if (!districtId.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            spinnerCurrentDistrict.error = "Required Field"
+        }
+        if (!mCityId.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            spinnerCurrentCity.error = "Required Field"
+        }
+
+        if (!currentPinCode.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            etCurrentPinCode.error = "Pin code can not be blank"
+        }
+
+        return errorCount <= 0
     }
 }

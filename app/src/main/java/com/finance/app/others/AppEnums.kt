@@ -86,7 +86,6 @@ class AppEnums {
     }
 
     enum class ADDRESS_TYPE (val type: String) {
-        PERMANENT("PERMANENT"), CURRENT("CURRENT"),
         SENP("SENP"), SALARY("SALARY")
     }
 

@@ -23,13 +23,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <com.finance.app.view.customViews.CustomZipAddressView
-                android:id="@+id/customCurrentZipAddressView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -159,93 +152,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
+
+            <com.finance.app.view.customViews.CustomZipAddressView
+                android:id="@+id/customCurrentZipAddressView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:baselineAligned="true"
-                android:weightSum="2"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_current_pin_code"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etCurrentPinCode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/pin_code"
-                        android:singleLine="true"
-                        android:inputType="number"
-                        android:maxLength="6"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerCurrentState"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="State *"
-                    app:ms_hint="State *"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:baselineAligned="true"
-                android:orientation="horizontal">
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerCurrentDistrict"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="District *"
-                    app:ms_hint="District *"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerCurrentCity"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    android:layout_marginStart="@dimen/margin_10"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="City *"
-                    app:ms_hint="City *"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-            </LinearLayout>
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
         </LinearLayout>
 
@@ -401,93 +313,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <com.finance.app.view.customViews.CustomZipAddressView
+                android:id="@+id/customPermanentZipAddressView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:baselineAligned="true"
-                android:weightSum="2"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_permanent_pin_code"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPermanentPinCode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/pin_code"
-                        android:singleLine="true"
-                        android:inputType="number"
-                        android:maxLength="6"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spinnerPermanentState"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minWidth="@dimen/text_min_width"
-                android:layout_marginTop="@dimen/fields_margin"
-                app:ms_arrowColor="@color/black"
-                app:ms_arrowSize="@dimen/text_size"
-                android:textSize="@dimen/text_size"
-                app:ms_floatingLabelColor="@color/hint_color"
-                app:ms_floatingLabelText="State *"
-                app:ms_hint="State *"
-                app:ms_hintColor="@color/hint_color"
-                app:ms_hintTextSize="@dimen/hint_size"
-                app:ms_multiline="false" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:baselineAligned="true"
-                android:orientation="horizontal">
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerPermanentDistrict"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="District *"
-                    app:ms_hint="District *"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerPermanentCity"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    android:layout_marginStart="@dimen/margin_10"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="City *"
-                    app:ms_hint="City *"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-            </LinearLayout>
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
         </LinearLayout>
     </LinearLayout>
