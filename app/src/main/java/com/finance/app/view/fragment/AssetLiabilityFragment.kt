@@ -1,6 +1,7 @@
 package com.finance.app.view.fragment
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
@@ -9,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
-import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +29,6 @@ import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.CardDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.ObligationAdapter
 import kotlinx.android.synthetic.main.delete_dialog.view.*
-import kotlinx.android.synthetic.main.fragment_asset_liablity.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -75,6 +74,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var currentObligation: ObligationDetail? = ObligationDetail()
     private var currentPosition = 0
     private lateinit var currentTab: Response.CoApplicantsObj
+    private lateinit var deleteDialog: Dialog
 
     companion object {
         private val leadAndLoanDetail = LeadAndLoanDetail()
@@ -275,7 +275,8 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         obligationFormListeners(binding.layoutObligations)
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-            if (formValidation.validateAssetLiabilityForm(binding)) {
+            if (formValidation.validateAssetLiabilityForm(binding) || assetsList!!.size > 0
+                    || cardDetailList!!.size > 0 || obligationsList!!.size > 0) {
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             } else showToast(getString(R.string.validation_error))
@@ -363,9 +364,6 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun saveCurrentApplicant() {
-        saveCurrentAsset()
-        saveCurrentCardDetails()
-        saveCurrentObligations()
         if (aApplicantList!!.size > 0) {
             aApplicantList!![currentPosition] = getCurrentApplicant()
         } else aApplicantList!!.add(currentPosition, getCurrentApplicant())
@@ -406,7 +404,6 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getAssetLiabilityMaster())
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
-//        gotoNextFragment()
     }
 
     override fun getLoanAppPostFailure(msg: String) {
@@ -418,13 +415,6 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         GlobalScope.launch {
             dataBase.provideDataBaseSource().assetLiabilityDao().insertAssetLiability(assetLiability)
         }
-    }
-
-    private fun gotoNextFragment() {
-        val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, ReferenceFragment())
-        ft?.addToBackStack(null)
-        ft?.commit()
     }
 
     override fun onAssetDeleteClicked(position: Int) = showAlertDialog(position, ASSET)
@@ -480,33 +470,33 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         val mBuilder = AlertDialog.Builder(mContext)
                 .setView(deleteDialogView)
                 .setTitle("Delete Detail")
-        val deleteDialog = mBuilder.show()
+        deleteDialog = mBuilder.show()
         deleteDialogView.tvDeleteConfirm.setOnClickListener {
             when (formType) {
                 ASSET -> deleteAsset(position)
                 CARD -> deleteCard(position)
                 OBLIGATION -> deleteObligation(position)
             }
-            deleteDialogView.tvDonotDelete.setOnClickListener { deleteDialog.dismiss() }
         }
+        deleteDialogView.tvDonotDelete.setOnClickListener { deleteDialog.dismiss() }
     }
 
     private fun deleteAsset(position: Int) {
         assetsList!!.removeAt(position)
         binding.rcAsset.adapter!!.notifyItemRemoved(position)
-        binding.rcAsset.adapter!!.notifyItemRangeChanged(position, rcAsset!!.size)
+        deleteDialog.dismiss()
     }
 
     private fun deleteCard(position: Int) {
         cardDetailList!!.removeAt(position)
         binding.layoutCreditCard.rcCreditCard.adapter!!.notifyItemRemoved(position)
-        binding.layoutCreditCard.rcCreditCard.adapter!!.notifyItemRangeChanged(position, cardDetailList!!.size)
+        deleteDialog.dismiss()
     }
 
     private fun deleteObligation(position: Int) {
         obligationsList!!.removeAt(position)
         binding.layoutObligations.rcObligation.adapter!!.notifyItemRemoved(position)
-        binding.layoutObligations.rcObligation.adapter!!.notifyItemRangeChanged(position, obligationsList!!.size)
+        deleteDialog.dismiss()
     }
 
     private fun getCurrentObligation(): ObligationDetail {

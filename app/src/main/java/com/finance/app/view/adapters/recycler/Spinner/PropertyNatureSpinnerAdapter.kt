@@ -7,16 +7,15 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
-import com.finance.app.persistence.model.DropdownMaster
 import motobeans.architecture.retrofit.response.Response
 
-class PropertyNatureSpinnerAdapter(mContext: Context, val value: ArrayList<Response.PropertyNatureObj>,
+class PropertyNatureSpinnerAdapter(mContext: Context, val value: ArrayList<Response.TransactionCategoryObj>,
                                    val isMandatory: Boolean = false) : BaseAdapter() {
 
     private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: Response.PropertyNatureObj
+    private lateinit var spinnerValue: Response.TransactionCategoryObj
 
     override fun getItem(position: Int): Any? {
         return value[position]

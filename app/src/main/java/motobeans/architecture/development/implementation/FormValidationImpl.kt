@@ -449,7 +449,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         }
 
         val accountNum = binding.etAccountNum.text.toString()
-        if (!accountNum.exIsNotEmptyOrNullOrBlank() || accountNum.length < 12) {
+        if (!accountNum.exIsNotEmptyOrNullOrBlank() || accountNum.length < 6) {
             errorCount++
             binding.etAccountNum.error = "Account Num not valid"
         }
@@ -555,7 +555,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val unitType = binding.spinnerUnitType.selectedItem as DropdownMaster?
         val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
         val ownedProperty = binding.spinnerOwnedProperty.selectedItem as DropdownMaster?
-        val propertyTransaction = binding.spinnerPropertyTransaction.selectedItem as DropdownMaster?
+        val propertyTransaction = binding.spinnerPropertyNature.selectedItem as DropdownMaster?
         val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
         val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
         val state = binding.spinnerState.selectedItem as StatesMaster?
@@ -569,7 +569,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
 
         if (propertyTransaction == null) {
             errorCount++
-            binding.spinnerPropertyTransaction.error = "Required Field"
+            binding.spinnerPropertyNature.error = "Required Field"
         }
         if (occupiedBy == null) {
             errorCount++

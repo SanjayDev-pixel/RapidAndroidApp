@@ -232,6 +232,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private fun updateCurrentBean() {
         bankDetailBeanList!!.add(currentPosition, getCurrentBean())
         bankAdapter.notifyDataSetChanged()
+        ClearBankForm(binding, mContext, allMasterDropDown)
         binding.btnAddBankDetail.visibility = View.VISIBLE
         binding.btnUpdate.visibility = View.GONE
     }
@@ -284,12 +285,15 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         val currentBean = BankDetailBean()
         val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
         val accountType = binding.spinnerAccountType.selectedItem as DropdownMaster?
+        val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
 
-        currentBean.bankDetailID = bankName?.typeDetailID
+        currentBean.bankNameTypeDetailID = bankName?.typeDetailID
         currentBean.accountTypeDetailID = accountType?.typeDetailID
+        currentBean.salaryCreditTypeDetailID = salaryCredit?.typeDetailID
         currentBean.accountHolderName = binding.etAccountHolderName.text.toString()
         currentBean.accountNumber = binding.etAccountNum.text.toString()
         currentBean.numberOfCredit = binding.etSalaryCreditedInSixMonths.text.toString()
+        currentBean.salaryCreditTypeDetailID = salaryCredit?.typeDetailID
         return currentBean
     }
 
@@ -331,19 +335,18 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override fun onBankDetailDeleteClicked(position: Int) = showAlertDialog(position)
 
     override fun onBankDetailEditClicked(position: Int, bank: BankDetailBean) {
-        currentBean = bank
         fillFormWithCurrentBean(bank)
         binding.btnAddBankDetail.visibility = View.GONE
         binding.btnUpdate.visibility = View.VISIBLE
     }
 
     private fun fillFormWithCurrentBean(bank: BankDetailBean) {
-        binding.etAccountNum.setText(bank.accountNumber)
-        binding.etAccountHolderName.setText(bank.accountHolderName)
-        binding.etSalaryCreditedInSixMonths.setText(bank.numberOfCredit.toString())
         selectMasterDropdownValue(binding.spinnerSalaryCredit, bank.salaryCreditTypeDetailID)
         selectMasterDropdownValue(binding.spinnerBankName, bank.bankNameTypeDetailID)
         selectMasterDropdownValue(binding.spinnerAccountType, bank.accountTypeDetailID)
+        binding.etAccountNum.setText(bank.accountNumber)
+        binding.etAccountHolderName.setText(bank.accountHolderName)
+        binding.etSalaryCreditedInSixMonths.setText(bank.numberOfCredit.toString())
     }
 
     private fun showAlertDialog(position: Int) {
@@ -352,13 +355,15 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 .setView(deleteDialogView)
                 .setTitle("Delete Bank Detail")
         val deleteDialog = mBuilder.show()
-        deleteDialogView.tvDeleteConfirm.setOnClickListener { deleteBankDetail(position) }
+        deleteDialogView.tvDeleteConfirm.setOnClickListener {
+            deleteBankDetail(position)
+            deleteDialog.dismiss()
+        }
         deleteDialogView.tvDonotDelete.setOnClickListener { deleteDialog.dismiss() }
     }
 
     private fun deleteBankDetail(position: Int) {
         bankDetailBeanList!!.removeAt(position)
         binding.rcBank.adapter!!.notifyItemRemoved(position)
-        binding.rcBank.adapter!!.notifyItemRangeChanged(position, bankDetailBeanList!!.size)
     }
 }

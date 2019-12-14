@@ -73,7 +73,7 @@ interface ApplicationComponent {
     fun inject(presenter: TempSyncPresenter)
     fun inject(presenter: LoginPresenter)
     fun inject(presenter: AddLeadPresenter)
-    fun inject(presenter: PropertyNaturePresenter)
+    fun inject(presenter: TransactionCategoryPresenter)
     fun inject(presenter: AllMasterDropdownPresenter)
     fun inject(presenter: SourceChannelPartnerNamePresenter)
     fun inject(presenter: LoanProductPresenter)

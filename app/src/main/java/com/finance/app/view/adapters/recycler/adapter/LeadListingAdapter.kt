@@ -33,6 +33,7 @@ class LeadListingAdapter(private val mContext: Context, private val leads: Array
         fun bindItems(lead: AllLeadMaster) {
             binding.tvLeadName.text = lead.applicantFirstName
             binding.tvLeadStatus.text = lead.status
+            binding.tvLoanType.text = lead.loanProductName
             binding.tvLeadAddress.text = lead.applicantAddress
             convertToHumanFormat(lead.lastModifiedOn!!)
             binding.leadCard.setOnClickListener {

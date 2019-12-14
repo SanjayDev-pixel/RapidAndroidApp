@@ -187,7 +187,7 @@
                             android:id="@+id/tvLeadStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/md_red_500"
+                            android:textColor="@color/gradient_black"
                             android:layout_marginStart="5sp"
                             android:text="Pending"
                             android:textSize="18sp" />

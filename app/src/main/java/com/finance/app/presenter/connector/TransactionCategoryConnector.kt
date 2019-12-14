@@ -2,14 +2,14 @@ package com.finance.app.presenter.connector
 
 import motobeans.architecture.retrofit.response.Response
 
-interface PropertyNatureConnector {
+interface TransactionCategoryConnector {
 
-    interface PropertyNature : ReusableView {
+    interface TransactionCategory : ReusableView {
         val ownershipId: String
         val transactionId: String
 
-        fun getPropertyNatureSuccess(value: Response.ResponsePropertyNature)
-        fun getPropertyNatureFailure(msg: String)
+        fun getTransactionCategorySuccess(value: Response.ResponsePropertyNature)
+        fun getTransactionCategoryFailure(msg: String)
 
     }
 
