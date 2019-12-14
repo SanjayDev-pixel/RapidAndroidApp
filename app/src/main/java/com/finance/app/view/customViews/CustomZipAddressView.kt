@@ -29,6 +29,7 @@ import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exShowToast
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -242,8 +243,28 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
 
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
+    private fun parseAddressInt(value: String): Int {
+        try {
+            return value.toInt()
+        } catch (e: Exception) {
+            return -1
+        }
+    }
+
+    fun getStateId(): Int {
+        return parseAddressInt(value = stateId)
+    }
+
+    fun getDistrictId(): Int {
+        return parseAddressInt(value = districtId)
+    }
+
+    fun getCityId(): Int {
+        return parseAddressInt(value = mCityId)
+    }
+
     override val stateId: String
-        get() = mStateId //To change initializer of created properties use File | Settings | File Templates.
+        get() = mStateId
 
     override fun getDistrictFailure(msg: String) = showToast(msg)
 
@@ -255,6 +276,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
 
     override val districtId: String
         get() = mDistrictId
+
 
     override fun getCityFailure(msg: String) = showToast(msg)
 

@@ -131,7 +131,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun setUpCustomViews() {
         activity?.let {
-            binding.customZipAddressView.attachActivity(activity = activity!!)
+            binding.personalAddressLayout.customCurrentZipAddressView.attachActivity(activity = activity!!)
         }
     }
 
@@ -216,7 +216,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun updateCustomZipCode(addressDetail: AddressDetail) {
-        binding.customZipAddressView.updateAddressData(addressDetail = addressDetail)
+        binding.personalAddressLayout.customCurrentZipAddressView.updateAddressData(addressDetail = addressDetail)
     }
 
     private fun setMasterDropDownValue(dropDown: AllMasterDropDown) {
@@ -261,13 +261,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun setStateDropDownValue(states: List<StatesMaster>) {
-        binding.personalAddressLayout.spinnerCurrentState.adapter = StatesSpinnerAdapter(mContext, states)
-        binding.personalAddressLayout.spinnerCurrentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
-        binding.personalAddressLayout.spinnerCurrentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
         binding.personalAddressLayout.spinnerPermanentState.adapter = StatesSpinnerAdapter(mContext, states)
         binding.personalAddressLayout.spinnerPermanentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
         binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
-        setUpStateDropdown(binding.personalAddressLayout.spinnerCurrentState, AppEnums.ADDRESS_TYPE.CURRENT)
         setUpStateDropdown(binding.personalAddressLayout.spinnerPermanentState, AppEnums.ADDRESS_TYPE.PERMANENT)
     }
 
@@ -352,7 +348,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun fillCurrentAddressInfo(addressDetail: AddressDetail) {
         binding.personalAddressLayout.etCurrentAddress.setText(addressDetail.address1)
-        binding.personalAddressLayout.etCurrentPinCode.setText(addressDetail.zip)
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
@@ -583,9 +578,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun getAddressDetailList(): ArrayList<AddressDetail>? {
         val cAddressDetail = AddressDetail()
-        val cCity = binding.personalAddressLayout.spinnerCurrentCity.selectedItem as Response.CityObj?
-        val cState = binding.personalAddressLayout.spinnerCurrentState.selectedItem as StatesMaster?
-        val cDistrict = binding.personalAddressLayout.spinnerCurrentDistrict.selectedItem as Response.DistrictObj?
         val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
         val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
 
@@ -593,11 +585,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         cAddressDetail.stayingInYears = binding.personalAddressLayout.etCurrentStaying.text.toString().toFloat()
         cAddressDetail.address1 = binding.personalAddressLayout.etCurrentAddress.text.toString()
         cAddressDetail.landmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
-        cAddressDetail.zip = binding.personalAddressLayout.etCurrentPinCode.text.toString()
+        cAddressDetail.zip = binding.personalAddressLayout.customCurrentZipAddressView.pinCode
         cAddressDetail.addressTypeDetail = CURRENT
-        cAddressDetail.stateID = cState?.stateID
-        cAddressDetail.districtID = cDistrict?.districtID
-        cAddressDetail.cityID = cCity?.cityID
+        cAddressDetail.stateID = binding.personalAddressLayout.customCurrentZipAddressView.getStateId()
+        cAddressDetail.districtID = binding.personalAddressLayout.customCurrentZipAddressView.getDistrictId()
+        cAddressDetail.cityID = binding.personalAddressLayout.customCurrentZipAddressView.getCityId()
         cAddressDetail.residenceTypeTypeDetailID = cResidenceType?.typeDetailID
         cAddressDetail.addressTypeDetailID = cAddressProof?.typeDetailID
 
@@ -670,7 +662,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
             }
         }
-        pinCodeListener(binding.personalAddressLayout.etCurrentPinCode, AppEnums.ADDRESS_TYPE.CURRENT)
         pinCodeListener(binding.personalAddressLayout.etPermanentPinCode, AppEnums.ADDRESS_TYPE.PERMANENT)
         conversion.convertToCurrencyType(binding.personalAddressLayout.etPermanentRentAmount)
         conversion.convertToCurrencyType(binding.personalAddressLayout.etCurrentRentAmount)
@@ -710,15 +701,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
     }
 
-    private fun clearCurrentPinCodeField() {
-        binding.personalAddressLayout.spinnerCurrentDistrict.isEnabled = true
-        binding.personalAddressLayout.spinnerCurrentCity.isEnabled = true
-        binding.personalAddressLayout.spinnerCurrentState.isEnabled = true
-        binding.personalAddressLayout.spinnerCurrentState.adapter = StatesSpinnerAdapter(mContext, states)
-        binding.personalAddressLayout.spinnerCurrentDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
-        binding.personalAddressLayout.spinnerCurrentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
-    }
-
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
     override fun getPinCodeSuccess(value: Response.ResponsePinCodeDetail, addressType: AppEnums.ADDRESS_TYPE?) {
@@ -726,7 +708,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             pinCodeObj = value.responseObj[0]
             when (addressType?.type) {
                 AppEnums.ADDRESS_TYPE.PERMANENT.type -> selectStateValue(binding.personalAddressLayout.spinnerPermanentState, pinCodeObj!!, AppEnums.ADDRESS_TYPE.PERMANENT)
-                AppEnums.ADDRESS_TYPE.CURRENT.type -> selectStateValue(binding.personalAddressLayout.spinnerCurrentState, pinCodeObj!!, AppEnums.ADDRESS_TYPE.CURRENT)
             }
         } else {
             clearPinCodes(addressType?.type)
@@ -749,7 +730,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun clearPinCodes(addressType: String? = null) {
         when (addressType) {
             AppEnums.ADDRESS_TYPE.PERMANENT.type -> clearPermanentPinCodeField()
-            AppEnums.ADDRESS_TYPE.CURRENT.type -> clearCurrentPinCodeField()
         }
     }
 
@@ -759,7 +739,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (value.responseObj != null && value.responseObj.size > 0) {
             when (addressType) {
                 AppEnums.ADDRESS_TYPE.PERMANENT -> setUpDistrict(value, binding.personalAddressLayout.spinnerPermanentDistrict, pinCodeObj, AppEnums.ADDRESS_TYPE.PERMANENT)
-                AppEnums.ADDRESS_TYPE.CURRENT -> setUpDistrict(value, binding.personalAddressLayout.spinnerCurrentDistrict, pinCodeObj, AppEnums.ADDRESS_TYPE.CURRENT)
                 else -> clearCity(addressType)
             }
         }
@@ -768,7 +747,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private fun clearCity(addressType: AppEnums.ADDRESS_TYPE?) {
         when (addressType) {
             AppEnums.ADDRESS_TYPE.PERMANENT -> binding.personalAddressLayout.spinnerPermanentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
-            AppEnums.ADDRESS_TYPE.CURRENT -> binding.personalAddressLayout.spinnerCurrentCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
             else -> return
         }
     }
@@ -807,7 +785,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (value.responseObj != null && value.responseObj.size > 0) {
             when (addressType) {
                 AppEnums.ADDRESS_TYPE.PERMANENT -> setUpCity(binding.personalAddressLayout.spinnerPermanentCity, value)
-                AppEnums.ADDRESS_TYPE.CURRENT -> setUpCity(binding.personalAddressLayout.spinnerCurrentCity, value)
                 else -> return
             }
         }
