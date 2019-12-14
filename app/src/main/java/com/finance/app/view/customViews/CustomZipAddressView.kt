@@ -65,6 +65,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var mCityId: String = ""
+
     private var listStatesDB: ArrayList<StatesMaster> = ArrayList()
     private var listStates: ArrayList<StatesMaster> = ArrayList()
     private var listDistrict: ArrayList<Response.DistrictObj> = ArrayList()
