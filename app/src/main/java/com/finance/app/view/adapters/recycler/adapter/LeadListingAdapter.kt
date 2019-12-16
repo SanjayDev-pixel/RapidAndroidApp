@@ -1,7 +1,6 @@
 package com.finance.app.view.adapters.recycler.adapter
 
 import android.content.Context
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -10,6 +9,7 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemLeadBinding
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.view.activity.LeadDetailActivity
+import java.text.SimpleDateFormat
 import java.util.*
 
 class LeadListingAdapter(private val mContext: Context, private val leads: ArrayList<AllLeadMaster>) :
@@ -35,17 +35,24 @@ class LeadListingAdapter(private val mContext: Context, private val leads: Array
             binding.tvLeadStatus.text = lead.status
             binding.tvLoanType.text = lead.loanProductName
             binding.tvLeadAddress.text = lead.applicantAddress
-            convertToHumanFormat(lead.lastModifiedOn!!)
+            binding.tvDateAndTime.text = convertDate(lead.createdOn!!)
+
             binding.leadCard.setOnClickListener {
                 LeadDetailActivity.start(mContext, lead.leadID)
             }
         }
 
-        private fun convertToHumanFormat(timeStamp: Long) {
-            val cal = Calendar.getInstance(Locale.ENGLISH)
-            cal.timeInMillis = timeStamp * 1000L
-            val date = DateFormat.format("dd MMM : hh:mm", cal).toString()
-            binding.tvDateAndTime.text = date
+        private fun convertDate(mDate: String): String {
+            return try {
+                val pattern = "yyyy-MM-dd"
+                val desirablePattern = "dd MMM : hh:mm"
+                val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
+                val date = sdf.parse(mDate)
+                val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
+                desiredSdf.format(date)
+            } catch (e: Exception) {
+                ""
+            }
         }
     }
 }

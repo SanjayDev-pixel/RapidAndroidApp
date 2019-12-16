@@ -1,7 +1,9 @@
 package com.finance.app.view.activity
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAllLeadsBinding
 import com.finance.app.persistence.model.AllLeadMaster
@@ -56,18 +58,25 @@ class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
     }
 
     override fun getAllLeadsSuccess(value: Response.ResponseGetAllLeads){
-        saveDataToDB(value.responseObj)
-        setUpLeadFragments()
+        GlobalScope.launch {
+            dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster()
+        }
+        val progress = ProgressDialog(this)
+        progress.setMessage("Getting Leads")
+        progress.show()
+        Handler().postDelayed({
+            saveDataToDB(value.responseObj)
+            progress.dismiss()
+        }, 1000)
     }
 
-    override fun getAllLeadsFailure(msg: String) {
-        setUpLeadFragments()
-    }
+    override fun getAllLeadsFailure(msg: String) = setUpLeadFragments()
 
     private fun saveDataToDB(leads: ArrayList<AllLeadMaster>) {
         GlobalScope.launch {
             dataBase.provideDataBaseSource().allLeadsDao().insertLeadsList(leads)
         }
+        setUpLeadFragments()
     }
 
     private fun setUpLeadFragments() {

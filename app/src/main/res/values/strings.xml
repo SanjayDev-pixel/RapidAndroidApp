@@ -192,4 +192,6 @@
     <string name="enter_otp">Enter received verification code here</string>
     <string name="get_otp">Get OTP</string>
     <string name="resend_otp">Resend OTP</string>
+    <string name="error_required_field">Required Field</string>
+    <string name="error_pin_code">Pin code can not be blank</string>
 </resources>

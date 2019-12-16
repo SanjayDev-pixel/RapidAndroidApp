@@ -92,7 +92,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.personalAddressLayout.etCurrentLandmark.error = "Landmark can not be blank"
         }
 
-        if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying != "" && currentStaying.toInt() > 99) {
+        if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying == "" && currentStaying.toInt() > 99) {
             errorCount++
             binding.personalAddressLayout.etCurrentStaying.error = "Required field missing or Invalid Entry"
         }

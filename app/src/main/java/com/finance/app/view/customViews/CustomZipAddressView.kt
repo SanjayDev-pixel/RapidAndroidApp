@@ -32,13 +32,12 @@ import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import motobeans.architecture.util.exShowToast
-import java.lang.Exception
 import javax.inject.Inject
 
-
 /**
- * Created by munishkumarthakur on 12/03/18.
+ * Created by munishkumarthakur on 14/12/19.
  */
+
 class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCodeDetailConnector.PinCode, DistrictCityConnector.City {
 
     private val TAG = "CustomSignatureView"
@@ -49,7 +48,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     @JvmOverloads
     constructor(context: Context, attrs: AttributeSet? = null) : super(context,
             attrs) {
-        orientation = LinearLayout.HORIZONTAL
+        orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -65,6 +64,8 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var mCityId: String = ""
+
+    var countZipApiHit = 0
 
     private var listStatesDB: ArrayList<StatesMaster> = ArrayList()
     private var listStates: ArrayList<StatesMaster> = ArrayList()
@@ -101,7 +102,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         proceedFurther()
     }
 
-    fun updatePinCodeData(serverPinCodeObj: Response.PinCodeObj? = null) {
+    private fun updatePinCodeData(serverPinCodeObj: Response.PinCodeObj? = null) {
         this.serverPinCodeObj = serverPinCodeObj
         handleUserSpecificPinCode()
     }
@@ -113,7 +114,6 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
                     cityID = addressDetail.cityID!!, cityName = addressDetail.cityName!!, pincodeID = -1)
             updatePinCodeData(serverPinCodeObj = serverPinCodeObj)
         }
-
     }
 
     fun isMandatory(isMandatory: Boolean) {
@@ -121,7 +121,6 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     }
 
     private fun proceedFurther() {
-
         ArchitectureApp.instance.component.inject(this)
 
         initView()
@@ -130,9 +129,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         getDropDownsFromDB()
     }
 
-    private fun initView() {
-        ShowAsMandatory(inputLayoutCurrentPinCode)
-    }
+    private fun initView() = ShowAsMandatory(inputLayoutCurrentPinCode)
 
     private fun setUpSpinners() {
         adapterState = StatesSpinnerAdapter(activity, listStates)
@@ -158,8 +155,8 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
-                    val district = parent.selectedItem as Response.DistrictObj
-                    mDistrictId = district.districtID.toString()
+                    val district = parent.selectedItem as Response.DistrictObj?
+                    mDistrictId = district?.districtID.toString()
                     cityPresenter.callCityApi()
                 }
             }
@@ -167,7 +164,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     }
 
     private fun pinCodeListener() {
-        etCurrentPinCode!!.addTextChangedListener(object : TextWatcher {
+        etCurrentPinCode.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -182,7 +179,6 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     }
 
     private fun getDropDownsFromDB() {
-
         dataBase.provideDataBaseSource().statesDao().getAllStates().observe(activity, Observer {
             it?.let {
                 listStatesDB.clear()
@@ -194,7 +190,47 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     }
 
     private fun handleUserSpecificPinCode() {
-        etCurrentPinCode.setText("${serverPinCodeObj?.pincode}")
+        serverPinCodeObj?.pincode?.let {
+            etCurrentPinCode.setText("${serverPinCodeObj?.pincode}")
+        }
+    }
+
+    private fun selectCityFromServer(id: Int?) {
+        for (index in 0 until listStatesDB.size - 1) {
+            val obj = listStatesDB[index]
+            if (obj.stateID == id) {
+                spinnerCurrentState.setSelection(index + 1)
+                mStateId = pinCodeObj?.stateID.toString()
+
+                districtPresenter.callDistrictApi()
+                return
+            }
+        }
+    }
+
+    private fun selectDistrictFromServer(id: Int?) {
+        for (index in 0 until listDistrict.size - 1) {
+            val obj = listDistrict[index]
+            if (obj.districtID == id) {
+                spinnerCurrentDistrict.setSelection(index + 1)
+                mDistrictId = obj.districtID.toString()
+
+                cityPresenter.callCityApi()
+                return
+            }
+        }
+    }
+
+    private fun selectStateFromServer(id: Int?) {
+        for (index in 0 until listCity.size - 1) {
+            val obj = listCity[index]
+            if (obj.cityID == id) {
+                spinnerCurrentCity.setSelection(index + 1)
+                mCityId = obj.cityID.toString()
+                spinnerCurrentCity.isEnabled = false
+                return
+            }
+        }
     }
 
     private fun updateStates(statesList: List<StatesMaster>?, isReset: Boolean = false) {
@@ -230,18 +266,11 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         adapterCity.notifyDataSetChanged()
     }
 
+    override fun showToast(msg: String) = msg.exShowToast(activity)
 
-    var countZipApiHit = 0
+    override fun showProgressDialog() {}
 
-    override fun showToast(msg: String) {
-        msg.exShowToast(activity)
-    }
-
-    override fun showProgressDialog() {
-    }
-
-    override fun hideProgressDialog() {
-    }
+    override fun hideProgressDialog() {}
 
     override val pinCode: String
         get() = etCurrentPinCode.text.toString()
@@ -268,39 +297,32 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
     private fun parseAddressInt(value: String): Int {
-        try {
-            return value.toInt()
+        return try {
+            value.toInt()
         } catch (e: Exception) {
-            return -1
+            -1
         }
     }
 
-    fun getStateId(): Int {
-        return parseAddressInt(value = stateId)
-    }
+    fun getStateId(): Int = parseAddressInt(value = stateId)
 
-    fun getDistrictId(): Int {
-        return parseAddressInt(value = districtId)
-    }
+    fun getDistrictId(): Int = parseAddressInt(value = districtId)
 
-    fun getCityId(): Int {
-        return parseAddressInt(value = mCityId)
-    }
+    fun getCityId(): Int = parseAddressInt(value = mCityId)
 
     override val stateId: String
         get() = mStateId
 
     override fun getDistrictFailure(msg: String) = showToast(msg)
 
-    override fun getDistrictSuccess(response: Response.ResponseDistrict, addressType: AppEnums.ADDRESS_TYPE?) {
-        if (response.responseObj != null && response.responseObj.size > 0) {
-            setUpDistrict(response)
+    override fun getDistrictSuccess(value: Response.ResponseDistrict, addressType: AppEnums.ADDRESS_TYPE?) {
+        if (value.responseObj != null && value.responseObj.size > 0) {
+            setUpDistrict(value)
         }
     }
 
     override val districtId: String
         get() = mDistrictId
-
 
     override fun getCityFailure(msg: String) = showToast(msg)
 
@@ -318,6 +340,14 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         updateStates(listStatesDB, isReset = true)
         updateDistrict(ArrayList())
         updateCity(ArrayList())
+        serverPinCodeObj?.let {
+            filValueWithServerObj(serverPinCodeObj!!)
+        }
+    }
+
+    private fun filValueWithServerObj(obj: Response.PinCodeObj) {
+        pinCodeObj = obj
+        selectStateValue()
     }
 
     private fun setUpDistrict(response: Response.ResponseDistrict) {
@@ -366,9 +396,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         }
     }
 
-    fun clearZipCode() {
-        etCurrentPinCode.text?.clear()
-    }
+    fun clearZipCode() = etCurrentPinCode.text?.clear()
 
     fun disableSelf() {
         etCurrentPinCode.isEnabled = false
@@ -380,25 +408,26 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     fun validateAndHandleError(): Boolean {
         var errorCount = 0
         val currentPinCode = etCurrentPinCode.text.toString()
+        val city = spinnerCurrentCity.selectedItem as Response.CityObj?
+        val district = spinnerCurrentDistrict.selectedItem as Response.DistrictObj?
+        val state = spinnerCurrentState.selectedItem as StatesMaster?
 
-        if (!stateId.exIsNotEmptyOrNullOrBlank()) {
+        if (city == null) {
             errorCount++
-            spinnerCurrentState.error = "Required Field"
+            spinnerCurrentState.error = context.getString(R.string.error_required_field)
         }
-        if (!districtId.exIsNotEmptyOrNullOrBlank()) {
+        if (district == null) {
             errorCount++
-            spinnerCurrentDistrict.error = "Required Field"
+            spinnerCurrentDistrict.error = context.getString(R.string.error_required_field)
         }
-        if (!mCityId.exIsNotEmptyOrNullOrBlank()) {
+        if (state == null) {
             errorCount++
-            spinnerCurrentCity.error = "Required Field"
+            spinnerCurrentCity.error = context.getString(R.string.error_required_field)
         }
-
         if (!currentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            etCurrentPinCode.error = "Pin code can not be blank"
+            etCurrentPinCode.error = context.getString(R.string.error_pin_code)
         }
-
         return errorCount <= 0
     }
 }

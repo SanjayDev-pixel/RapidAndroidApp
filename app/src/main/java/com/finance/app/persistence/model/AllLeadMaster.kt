@@ -24,7 +24,7 @@ class AllLeadMaster : Serializable {
     var dsaID: String? = null
     var estimatedCompletionDate: String? = null
     var isConvertedToLoanApplication = false
-    var lastModifiedOn: Long? = 0
+    var lastModifiedOn: String? = ""
     var leadFailedReason: String? = ""
     var leadNumber: String? = ""
     var leadOwnershipEntityID: String? = null

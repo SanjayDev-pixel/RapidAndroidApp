@@ -6,42 +6,42 @@ import java.util.*
 
 class ConvertDate {
     fun convertToApiFormat(mDate: String): String {
-        try {
+        return try {
             val desirablePattern = "yyyy-MM-dd"
             val pattern = "dd-MMM-yyyy"
             val sdf = SimpleDateFormat(pattern)
             val date = sdf.parse(mDate)
             val desiredSdf = SimpleDateFormat(desirablePattern)
-            return desiredSdf.format(date)
+            desiredSdf.format(date)
         } catch (e: Exception) {
-            return ""
+            ""
         }
     }
 
     fun convertToAppFormat(mDate: String): String {
-        try {
-            return if (mDate.exIsNotEmptyOrNullOrBlank()) {
+        return try {
+            if (mDate.exIsNotEmptyOrNullOrBlank()) {
                 val pattern = "yyyy-MM-dd"
                 val desirablePattern = "dd-MMM-yyyy"
-                val sdf = SimpleDateFormat(pattern)
+                val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
                 val date = sdf.parse(mDate)
-                val desiredSdf = SimpleDateFormat(desirablePattern)
+                val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
                 desiredSdf.format(date)
             } else ""
         } catch (e: Exception) {
-            return getDifferenceFromDate(date = mDate)
+            getDifferenceFromDate(date = mDate)
         }
     }
 
-    fun getDifferenceFromDate(date: String): String {
-        try {
-            val myFormat = SimpleDateFormat("dd-MMM-yyyy")
+    private fun getDifferenceFromDate(date: String): String {
+        return try {
+            val myFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             val selectedDate = myFormat.parse(date)
             val todayDate = Date()
             val difference = todayDate.year - selectedDate.year
-            return difference.toString()
+            difference.toString()
         } catch (e: Exception) {
-            return ""
+            ""
         }
     }
 }

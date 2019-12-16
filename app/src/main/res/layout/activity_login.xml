@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:maxLength="100"
                 android:hint="@string/user_name"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -43,8 +44,8 @@
                 android:inputType="textWebPassword"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:singleLine="true"
-                />
+                android:maxLength="50"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

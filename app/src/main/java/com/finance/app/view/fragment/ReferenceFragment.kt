@@ -222,7 +222,7 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-            if (formValidation.validateReference(binding = binding)) {
+            if (referencesList!!.size > 0 || formValidation.validateReference(binding = binding)) {
                 referencesList?.add(getReferenceModel())
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
             }
