@@ -414,7 +414,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
 
         if (city == null) {
             errorCount++
-            spinnerCurrentState.error = context.getString(R.string.error_required_field)
+            spinnerCurrentCity.error = context.getString(R.string.error_required_field)
         }
         if (district == null) {
             errorCount++
@@ -422,7 +422,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         }
         if (state == null) {
             errorCount++
-            spinnerCurrentCity.error = context.getString(R.string.error_required_field)
+            spinnerCurrentState.error = context.getString(R.string.error_required_field)
         }
         if (!currentPinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
