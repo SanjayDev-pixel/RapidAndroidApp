@@ -1,7 +1,5 @@
 package motobeans.architecture.development.interfaces
 
-import com.finance.app.model.Modals
-import com.finance.app.model.Modals.ApplicantPersonal
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoModel

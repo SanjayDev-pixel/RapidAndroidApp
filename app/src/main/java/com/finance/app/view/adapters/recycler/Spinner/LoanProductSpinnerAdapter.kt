@@ -17,7 +17,7 @@ class LoanProductSpinnerAdapter(val mContext: Context, val value: ArrayList<Loan
     init {
         val userSelectTextBranch = LoanProductMaster()
         userSelectTextBranch.productID = -1
-        userSelectTextBranch.productName = "Select Loan"
+        userSelectTextBranch.productName = "Select Loan *"
 
         value.add(0, userSelectTextBranch)
     }

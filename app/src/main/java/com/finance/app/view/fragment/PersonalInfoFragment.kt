@@ -7,8 +7,6 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,19 +19,15 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.model.Modals.AddKyc
-import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.CoApplicantsConnector
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.OTPConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.customViews.CustomZipAddressView
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
@@ -50,6 +44,7 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
+
 
 class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp,
@@ -117,7 +112,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         setDatePicker()
         checkKycDataList()
         setClickListeners()
-
         setUpCustomViews()
     }
 
@@ -275,6 +269,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.etAlternateNum.setText(currentApplicant.alternateContact.toString())
         binding.basicInfoLayout.etEmail.setText(contactDetail!!.email)
         binding.basicInfoLayout.etMobile.setText(contactDetail!!.mobile)
+        if(currentApplicant.contactDetail?.isMobileVerified!!){
+            binding.basicInfoLayout.etMobile.isEnabled =false
+            binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
+            binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
+        }
         if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
             fillAddressInfo(personalAddressDetail!!)
         } else {
@@ -843,29 +842,30 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     override fun getSendOTPSuccess(value: Response.ResponseSendOTP) {
-        value?.responseMsg?.let {
-            showToast(value.responseMsg!!)
+        value.responseMsg?.let {
+            showToast(value.responseMsg)
         }
     }
 
     private var verifyOTPDialogView: View? = null
+
     private fun showVerifyOTPDialog() {
         verifyOTPDialogView = LayoutInflater.from(mContext).inflate(R.layout.pop_up_verify_otp, null)
         val mBuilder = AlertDialog.Builder(mContext)
                 .setView(verifyOTPDialogView)
-                .setTitle("Verify OTP")
                 .setCancelable(false)
 
         verifyOTPDialog = mBuilder.show()
         val pinEntry = verifyOTPDialogView?.etOTP
-        verifyOTPDialogView?.btnVerify?.setOnClickListener {
-            pinEntry?.setOnPinEnteredListener { str ->
-                if (str.toString().length == 4) {
-                    otp = str.toString().toInt()
-                    verifyOTPPresenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP)
-                }
+        pinEntry?.setOnPinEnteredListener { pin ->
+            if (pin.toString().length == 4) {
+                otp = pin.toString().toInt()
+                verifyOTPPresenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP)
+            } else {
+                pinEntry.text = null
             }
         }
+
         verifyOTPDialogView?.tvResendOTP?.setOnClickListener {
             handleResendOtpEvent()
         }
@@ -930,6 +930,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun getVerifyOTPSuccess(value: Response.ResponseVerifyOTP) {
         dismissOtpVerificationDialog()
 
+        binding.basicInfoLayout.etMobile.isEnabled = false
         binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
         binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
     }
