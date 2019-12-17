@@ -198,44 +198,6 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         }
     }
 
-    private fun selectCityFromServer(id: Int?) {
-        for (index in 0 until listStatesDB.size - 1) {
-            val obj = listStatesDB[index]
-            if (obj.stateID == id) {
-                spinnerCurrentState.setSelection(index + 1)
-                mStateId = pinCodeObj?.stateID.toString()
-
-                districtPresenter.callDistrictApi()
-                return
-            }
-        }
-    }
-
-    private fun selectDistrictFromServer(id: Int?) {
-        for (index in 0 until listDistrict.size - 1) {
-            val obj = listDistrict[index]
-            if (obj.districtID == id) {
-                spinnerCurrentDistrict.setSelection(index + 1)
-                mDistrictId = obj.districtID.toString()
-
-                cityPresenter.callCityApi()
-                return
-            }
-        }
-    }
-
-    private fun selectStateFromServer(id: Int?) {
-        for (index in 0 until listCity.size - 1) {
-            val obj = listCity[index]
-            if (obj.cityID == id) {
-                spinnerCurrentCity.setSelection(index + 1)
-                mCityId = obj.cityID.toString()
-                spinnerCurrentCity.isEnabled = false
-                return
-            }
-        }
-    }
-
     private fun updateStates(statesList: List<StatesMaster>?, isReset: Boolean = false) {
         listStates.clear()
         statesList?.let {
@@ -283,19 +245,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
             pinCodeObj = value.responseObj[0]
             selectStateValue()
         } else {
-
             setServerCodes()
-            /*when(zipApiHitGotSuccess) {
-                true -> {
-                    this.pinCodeObj = serverPinCodeObj
-                    clearPinCodes()
-                    selectStateValue()
-                }
-                else -> {
-                    this.pinCodeObj = null
-                    clearPinCodes()
-                }
-            }*/
         }
     }
 
@@ -310,11 +260,12 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
     private fun parseAddressInt(value: String): Int {
-        return try {
-            value.toInt()
-        } catch (e: Exception) {
-            return -1
-        }
+        return value.toInt()
+//        return try {
+//            value.toInt()
+//        } catch (e: Exception) {
+//            return -1
+//        }
     }
 
     fun getStateId(): Int = parseAddressInt(value = stateId)
@@ -353,15 +304,6 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         updateStates(listStatesDB, isReset = true)
         updateDistrict(ArrayList())
         updateCity(ArrayList())
-        /*
-        serverPinCodeObj?.let {
-            filValueWithServerObj(serverPinCodeObj!!)
-        }*/
-    }
-
-    private fun filValueWithServerObj(obj: Response.PinCodeObj) {
-        pinCodeObj = obj
-        selectStateValue()
     }
 
     private fun setUpDistrict(response: Response.ResponseDistrict) {

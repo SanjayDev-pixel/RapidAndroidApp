@@ -33,9 +33,9 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
 
-        if (age.toInt() in 99 downTo 14) {
+        if (age.toInt() !in 99 downTo 14) {
             errorCount++
-            binding.basicInfoLayout.etFirstName.error = "Name can not be blank"
+            binding.basicInfoLayout.etAge.error = "Invalid Age"
         }
 
         if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying == "" && currentStaying.toInt() > 99) {
@@ -70,7 +70,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             !firstName.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.basicInfoLayout.etFirstName)
             !currentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentAddress)
             !isValidEmail(email) -> setFieldError(binding.basicInfoLayout.etEmail)
-            !isValidEmail(mobile) -> setFieldError(binding.basicInfoLayout.etMobile)
+            !isValidMobile(mobile) -> setFieldError(binding.basicInfoLayout.etMobile)
             else -> 0
         }
         val error = spinnerError + fieldError + errorCount

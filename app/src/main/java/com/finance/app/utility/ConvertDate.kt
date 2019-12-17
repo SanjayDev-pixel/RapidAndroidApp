@@ -1,7 +1,6 @@
 package com.finance.app.utility
 
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,12 +48,13 @@ class ConvertDate {
     fun convertDate(mDate: String): String {
         return try {
             val pattern = "yyyy-MM-dd"
-            val desirablePattern = "dd MMM : kk:mm:ss"
             val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
+            val ts = sdf.parse(mDate).time /1000
             val date = sdf.parse(mDate)
-//            val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
-//            desiredSdf.format(date)
-            DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date)
+
+            val desirablePattern = "dd MMM : HH:mm"
+            val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
+            desiredSdf.format(ts)
         } catch (e: Exception) {
             ""
         }
