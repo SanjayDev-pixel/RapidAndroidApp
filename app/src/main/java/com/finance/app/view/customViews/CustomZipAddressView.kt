@@ -65,8 +65,6 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     private var mDistrictId: String = ""
     private var mCityId: String = ""
 
-    var countZipApiHit = 0
-
     private var listStatesDB: ArrayList<StatesMaster> = ArrayList()
     private var listStates: ArrayList<StatesMaster> = ArrayList()
     private var listDistrict: ArrayList<Response.DistrictObj> = ArrayList()
@@ -109,9 +107,9 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
 
     fun updateAddressData(addressDetail: AddressDetail? = null) {
         addressDetail?.let {
-            val serverPinCodeObj = Response.PinCodeObj(pincode = addressDetail.zip, stateID = addressDetail.stateID!!, stateName = addressDetail.stateName!!,
-                    districtID = addressDetail.districtID!!, districtName = addressDetail.districtName!!,
-                    cityID = addressDetail.cityID!!, cityName = addressDetail.cityName!!, pincodeID = -1)
+            val serverPinCodeObj = Response.PinCodeObj(pincode = addressDetail.zip, stateID = addressDetail.stateID, stateName = addressDetail.stateName,
+                    districtID = addressDetail.districtID, districtName = addressDetail.districtName,
+                    cityID = addressDetail.cityID, cityName = addressDetail.cityName, pincodeID = -1)
             updatePinCodeData(serverPinCodeObj = serverPinCodeObj)
         }
     }
@@ -163,16 +161,20 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         }
     }
 
+    private var userAutomaticValueSet = false
     private fun pinCodeListener() {
         etCurrentPinCode.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (etCurrentPinCode.text!!.length == 6) {
-                    ++countZipApiHit
-                    pinCodePresenter.callPinCodeDetailApi()
-                } else {
-                    clearPinCodes()
+                    if(!userAutomaticValueSet) {
+                        pinCodePresenter.callPinCodeDetailApi()
+                    } else {
+                        userAutomaticValueSet = false
+                        setServerCodes()
+                    }
+                } else {clearPinCodes()
                 }
             }
         })
@@ -191,6 +193,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
 
     private fun handleUserSpecificPinCode() {
         serverPinCodeObj?.pincode?.let {
+            userAutomaticValueSet = true
             etCurrentPinCode.setText("${serverPinCodeObj?.pincode}")
         }
     }
@@ -280,7 +283,9 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
             pinCodeObj = value.responseObj[0]
             selectStateValue()
         } else {
-            when(countZipApiHit <= 1) {
+
+            setServerCodes()
+            /*when(zipApiHitGotSuccess) {
                 true -> {
                     this.pinCodeObj = serverPinCodeObj
                     clearPinCodes()
@@ -290,8 +295,16 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
                     this.pinCodeObj = null
                     clearPinCodes()
                 }
-            }
+            }*/
         }
+    }
+
+    private fun setServerCodes() {
+        this.pinCodeObj = serverPinCodeObj
+        clearPinCodes()
+        selectStateValue()
+
+        serverPinCodeObj = null
     }
 
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
@@ -300,7 +313,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         return try {
             value.toInt()
         } catch (e: Exception) {
-            -1
+            return -1
         }
     }
 
@@ -340,9 +353,10 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         updateStates(listStatesDB, isReset = true)
         updateDistrict(ArrayList())
         updateCity(ArrayList())
+        /*
         serverPinCodeObj?.let {
             filValueWithServerObj(serverPinCodeObj!!)
-        }
+        }*/
     }
 
     private fun filValueWithServerObj(obj: Response.PinCodeObj) {
