@@ -5,12 +5,7 @@ import android.view.View
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.StatesMaster
-import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
-import com.finance.app.view.customViews.CustomZipAddressView
 
 class ClearPersonalForm(private val binding: FragmentPersonalBinding, private val context: Context,
                         private val masterDropdown: AllMasterDropDown,
@@ -28,7 +23,6 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
     private fun clearAddressInfoForm() {
         binding.personalAddressLayout.customCurrentZipAddressView.clearZipCode()
         binding.personalAddressLayout.customPermanentZipAddressView.clearZipCode()
-
         binding.personalAddressLayout.etPermanentRentAmount.text?.clear()
         binding.personalAddressLayout.etPermanentLandmark.text?.clear()
         binding.personalAddressLayout.etPermanentStaying.text?.clear()
@@ -47,17 +41,14 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.personalAddressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(context, masterDropdown.ResidenceType!!)
         binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(context, masterDropdown.AddressProof!!)
         binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(context, masterDropdown.AddressProof!!)
-
         binding.personalAddressLayout.customCurrentZipAddressView.clearPinCodes()
         binding.personalAddressLayout.customPermanentZipAddressView.clearPinCodes()
-
     }
 
     private fun clearBasicInfoForm() {
         binding.basicInfoLayout.etNumOfDependent.text?.clear()
         binding.basicInfoLayout.etAlternateNum.text?.clear()
         binding.basicInfoLayout.etNumOfEarningMember.text?.clear()
-        binding.basicInfoLayout.etMobile.text?.clear()
         binding.basicInfoLayout.etAge.text?.clear()
         binding.basicInfoLayout.etLastName.text?.clear()
         binding.basicInfoLayout.etMiddleName.text?.clear()
@@ -70,6 +61,10 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
         binding.basicInfoLayout.etFatherLastName.text?.clear()
         binding.basicInfoLayout.etEmail.text?.clear()
         binding.basicInfoLayout.etDOB.text?.clear()
+        binding.basicInfoLayout.etMobile.text?.clear()
+        binding.basicInfoLayout.etMobile.isEnabled = true
+        binding.basicInfoLayout.btnGetOTP.visibility = View.VISIBLE
+        binding.basicInfoLayout.ivVerifiedStatus.visibility = View.GONE
         clearBasicInfoDropdown()
     }
 

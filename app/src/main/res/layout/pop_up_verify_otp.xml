@@ -86,6 +86,7 @@
             android:layout_marginTop="@dimen/fields_margin"
             android:gravity="center"
             android:padding="5sp"
+            android:visibility="gone"
             android:paddingStart="@dimen/margin_10"
             android:paddingEnd="@dimen/margin_10"
             android:text="@string/verify"

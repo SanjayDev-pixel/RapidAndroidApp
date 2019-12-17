@@ -8,6 +8,8 @@ import com.finance.app.databinding.ActivityLeadCreateBinding
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.presenter.connector.AddLeadConnector
 import com.finance.app.presenter.presenter.AddLeadPresenter
+import com.finance.app.utility.SetBankDetailMandatoryField
+import com.finance.app.utility.SetCreateLeadMandatoryField
 import com.finance.app.view.adapters.recycler.Spinner.LoanProductSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.UserBranchesSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -43,6 +45,7 @@ class CreateLeadActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         hideSecondaryToolbar()
+        SetCreateLeadMandatoryField(binding)
         getLoanProductFromDB()
         setBranchesDropDownValue()
         binding.btnCreate.setOnClickListener {

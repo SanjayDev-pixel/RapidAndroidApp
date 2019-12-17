@@ -12,9 +12,6 @@ import motobeans.architecture.sharedPreferences.SharedPreferencesCustom
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import com.google.gson.reflect.TypeToken
 
-
-
-
 class SharedPreferencesUtilImpl(private var context: Context) : SharedPreferencesUtil {
 
     override fun saveCoApplicantsList(coApplicants: ArrayList<Response.CoApplicantsObj>) {
@@ -61,7 +58,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
 
     override fun getUserBranches(): List<Response.UserBranches>? {
         val userBranches = ArrayList<Response.UserBranches>()
-        val userSelectTextBranch = Response.UserBranches(branchID = -1, branchName = "Branch")
+        val userSelectTextBranch = Response.UserBranches(branchID = -1, branchName = "Branch*")
         userBranches.add(userSelectTextBranch)
         getLoginData()?.responseObj?.userDetails?.userBranches?.let {
             userBranches.addAll(getLoginData()!!.responseObj.userDetails.userBranches)
