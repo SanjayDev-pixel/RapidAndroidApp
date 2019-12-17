@@ -1,6 +1,7 @@
 package com.finance.app.utility
 
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +41,20 @@ class ConvertDate {
             val todayDate = Date()
             val difference = todayDate.year - selectedDate.year
             difference.toString()
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
+    fun convertDate(mDate: String): String {
+        return try {
+            val pattern = "yyyy-MM-dd"
+            val desirablePattern = "dd MMM : kk:mm:ss"
+            val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
+            val date = sdf.parse(mDate)
+//            val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
+//            desiredSdf.format(date)
+            DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date)
         } catch (e: Exception) {
             ""
         }

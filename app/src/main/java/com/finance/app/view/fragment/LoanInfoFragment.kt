@@ -167,26 +167,16 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
 
         if (loanInfo != null) {
-            selectProductValue(binding.spinnerLoanProduct, loanInfo!!)
+            selectProductValue(binding.spinnerLoanProduct, loanInfo?.productID!!)
         }else{
-            selectProductValueFromLead(binding.spinnerLoanProduct, mLead!!)
+            selectProductValue(binding.spinnerLoanProduct, mLead?.loanProductID!!)
         }
     }
 
-    private fun selectProductValue(spinner: Spinner, value: LoanInfoModel) {
+    private fun selectProductValue(spinner: Spinner, id: Int) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as LoanProductMaster
-            if (obj.productID == value.productID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectProductValueFromLead(spinner: Spinner, value: AllLeadMaster) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as LoanProductMaster
-            if (obj.productID == value.loanProductID) {
+            if (obj.productID == id) {
                 spinner.setSelection(index + 1)
                 return
             }
@@ -225,36 +215,16 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             }
         }
         if (loanInfo != null) {
-            selectLoanSchemeValue(binding.spinnerLoanScheme)
-            selectInterestTypeValue(binding.spinnerInterestType)
-            selectSourcingChannelPartnerValue(binding.spinnerSourcingChannelPartner)
+            selectMasterValue(binding.spinnerLoanScheme, loanInfo!!.loanSchemeTypeDetailID!!)
+            selectMasterValue(binding.spinnerInterestType, loanInfo!!.interestTypeTypeDetailID!!)
+            selectMasterValue(binding.spinnerSourcingChannelPartner, loanInfo!!.sourcingChannelPartnerTypeDetailID!!)
         }
     }
 
-    private fun selectSourcingChannelPartnerValue(spinner: Spinner) {
+    private fun selectMasterValue(spinner: Spinner, id: Int) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == loanInfo!!.sourcingChannelPartnerTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectInterestTypeValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == loanInfo!!.interestTypeTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectLoanSchemeValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == loanInfo!!.loanSchemeTypeDetailID) {
+            if (obj.typeDetailID == id) {
                 spinner.setSelection(index + 1)
                 return
             }
@@ -346,14 +316,6 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getLoanInfoMaster())
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
-//        gotoNextFragment()
-    }
-
-    private fun gotoNextFragment() {
-        val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, PersonalInfoFragment())
-        ft?.addToBackStack(null)
-        ft?.commit()
     }
 
     override fun getLoanAppPostFailure(msg: String) {

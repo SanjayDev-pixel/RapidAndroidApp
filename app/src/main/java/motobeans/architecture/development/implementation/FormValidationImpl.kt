@@ -29,67 +29,13 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
         val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
         val dobProof = binding.basicInfoLayout.spinnerDobProof.selectedItem as DropdownMaster?
+        val email = binding.basicInfoLayout.etEmail.text.toString()
+        val age = binding.basicInfoLayout.etAge.text.toString()
+        val mobile = binding.basicInfoLayout.etMobile.text.toString()
 
-        if (nationality == null) {
-            errorCount++
-            binding.basicInfoLayout.spinnerNationality.error = "Required Field"
-        }
-
-        if (dobProof == null) {
-            errorCount++
-            binding.basicInfoLayout.spinnerDobProof.error = "Required Field"
-        }
-
-        if (detailQualification == null) {
-            errorCount++
-            binding.basicInfoLayout.spinnerDetailQualification.error = "Required Field"
-        }
-        if (maritalStatus == null) {
-            errorCount++
-            binding.basicInfoLayout.spinnerMaritalStatus.error = "Required Field"
-        }
-        if (livingStandard == null) {
-            errorCount++
-            binding.basicInfoLayout.spinnerLivingStandard.error = "Required Field"
-        }
-        if (relationShip == null) {
-            errorCount++
-            binding.basicInfoLayout.spinnerRelationship.error = "Required Field"
-        }
-
-        if (qualification == null) {
-            errorCount++
-            binding.basicInfoLayout.spinnerQualification.error = "Required Field"
-        }
-
-        if (cResidenceType == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerCurrentResidenceType.error = "Required Field"
-        }
-
-        if (cAddressProof == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerCurrentAddressProof.error = "Required Field"
-        }
-
-        if (!firstName.exIsNotEmptyOrNullOrBlank()) {
+        if (age.toInt() in 99 downTo 14) {
             errorCount++
             binding.basicInfoLayout.etFirstName.error = "Name can not be blank"
-        }
-
-        if (!dob.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.basicInfoLayout.etDOB.error = "DOB can not be blank"
-        }
-
-        if (!currentAddress.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.personalAddressLayout.etCurrentAddress.error = "Address can not be blank"
-        }
-
-        if (!currentLandmark.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.personalAddressLayout.etCurrentLandmark.error = "Landmark can not be blank"
         }
 
         if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying == "" && currentStaying.toInt() > 99) {
@@ -105,7 +51,31 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             errorCount.plus(checkPermanentAddressFields(binding))
         }
 
-        return isValidForm(errorCount)
+        val spinnerError = when {
+            cAddressProof == null -> setSpinnerError(binding.personalAddressLayout.spinnerCurrentAddressProof)
+            cResidenceType == null -> setSpinnerError(binding.personalAddressLayout.spinnerCurrentResidenceType)
+            qualification == null -> setSpinnerError(binding.basicInfoLayout.spinnerQualification)
+            relationShip == null -> setSpinnerError(binding.basicInfoLayout.spinnerRelationship)
+            livingStandard == null -> setSpinnerError(binding.basicInfoLayout.spinnerLivingStandard)
+            maritalStatus == null -> setSpinnerError(binding.basicInfoLayout.spinnerLivingStandard)
+            detailQualification == null -> setSpinnerError(binding.basicInfoLayout.spinnerDetailQualification)
+            dobProof == null -> setSpinnerError(binding.basicInfoLayout.spinnerDobProof)
+            nationality == null -> setSpinnerError(binding.basicInfoLayout.spinnerNationality)
+            else -> 0
+        }
+
+        val fieldError = when {
+            !currentLandmark.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentLandmark)
+            !dob.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.basicInfoLayout.etDOB)
+            !firstName.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.basicInfoLayout.etFirstName)
+            !currentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentAddress)
+            !isValidEmail(email) -> setFieldError(binding.basicInfoLayout.etEmail)
+            !isValidEmail(mobile) -> setFieldError(binding.basicInfoLayout.etMobile)
+            else -> 0
+        }
+        val error = spinnerError + fieldError + errorCount
+
+        return isValidForm(error)
     }
 
     private fun checkPermanentAddressFields(binding: FragmentPersonalBinding): Int {
@@ -116,32 +86,22 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
         val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
 
-        if (pResidenceType == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerPermanentResidenceType.error = "Required Field"
-        }
-        if (pAddressProof == null) {
-            errorCount++
-            binding.personalAddressLayout.spinnerPermanentAddressProof.error = "Required Field"
-        }
-        if (!permanentAddress.exIsNotEmptyOrNullOrBlank()) {
-            binding.personalAddressLayout.etPermanentAddress.error = "Address can not be blank"
-            errorCount++
-        }
-        if (!permanentStaying.exIsNotEmptyOrNullOrBlank() && permanentStaying != "" && permanentStaying.toFloat() > 99) {
-            binding.personalAddressLayout.etPermanentStaying.error = "Required field"
-            errorCount++
-        }
-        if (!rentAmount.exIsNotEmptyOrNullOrBlank()) {
-            binding.personalAddressLayout.etPermanentRentAmount.error = "Required field"
-            errorCount++
-        }
-
         if(!binding.personalAddressLayout.customPermanentZipAddressView.validateAndHandleError()) {
             errorCount++
         }
+        val spinnerError = when {
+            pAddressProof == null -> setSpinnerError(binding.personalAddressLayout.spinnerPermanentAddressProof)
+            pResidenceType == null -> setSpinnerError(binding.personalAddressLayout.spinnerPermanentResidenceType)
+            else -> 0
+        }
 
-        return errorCount
+        val fieldError = when {
+            !permanentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentAddress)
+            !permanentStaying.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentStaying)
+            !rentAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentRentAmount)
+            else -> 0
+        }
+        return spinnerError + fieldError + errorCount
     }
 
     override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean {
@@ -388,7 +348,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         }
 
         val contact = binding.etContactNum.text.toString()
-        if (!contact.exIsNotEmptyOrNullOrBlank()) {
+        if (isValidMobile(contact)) {
             errorCount++
             binding.etContactNum.error = "Required Field"
         }
@@ -494,24 +454,17 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     }
 
     override fun validateAddLead(binding: ActivityLeadCreateBinding): Boolean  {
-        var errorCount = 0
+        val errorCount = 0
         val address = binding.etArea.toString()
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()
         val mobile = binding.etContactNum.text.toString()
 
-        if (!isValidEmail(email)) {
-            errorCount++
-            binding.etEmail.error = "Invalid Email"
-        }
-
-        if (!isValidMobile(mobile)) {
-            errorCount++
-            binding.etContactNum.error = "Invalid Mobile Num"
-        }
         errorCount.plus(when {
             !address.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
             !name.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etApplicantFirstName)
+            !isValidMobile(mobile) -> setFieldError(binding.etContactNum)
+            !isValidMobile(email) -> setFieldError(binding.etEmail)
             else -> 0
         })
         return isValidForm(errorCount)
@@ -688,7 +641,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
     }
 
     override fun validateObligations(binding: LayoutObligationBinding): Boolean {
-        var errorCount = 0
         val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
         val loanType = binding.spinnerLoanType.selectedItem as DropdownMaster?
         val repaymentBank = binding.spinnerRepaymentBank.selectedItem as DropdownMaster?
@@ -712,7 +664,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val fieldError = when {
             !financierName.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etFinancierName)
             !accountNum.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAccountNum)
-            accountNum.length < 12 -> setFieldError(binding.etAccountNum)
             !tenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etTenure)
             !balanceTenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBalanceTenure)
             !emiAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmiAmount)
@@ -720,7 +671,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             !bouncesIn9.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastNineMonths)
             else -> 0
         }
-        errorCount = spinnerError + fieldError
+        val errorCount = spinnerError + fieldError
         return isValidForm(errorCount)
     }
 

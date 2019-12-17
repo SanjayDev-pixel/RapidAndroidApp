@@ -929,7 +929,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     override fun getVerifyOTPSuccess(value: Response.ResponseVerifyOTP) {
         dismissOtpVerificationDialog()
-
+        currentApplicant.contactDetail!!.isMobileVerified = true
         binding.basicInfoLayout.etMobile.isEnabled = false
         binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
         binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
