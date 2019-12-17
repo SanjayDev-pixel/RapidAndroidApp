@@ -30,7 +30,7 @@ object Response {
     data class LoanPurpose(val loanPurposeID: Int, val loanPurposeName: String)
     data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PinCodeObj>?, val timeStamp: Long)
 
-    data class PinCodeObj(val cityID: Int, val cityName: String, val districtID: Int, val districtName: String, val pincode: String?, val pincodeID: Int, val stateID: Int, val stateName: String)
+    data class PinCodeObj(val cityID: Int?, val cityName: String?, val districtID: Int?, val districtName: String?, val pincode: String?, val pincodeID: Int?, val stateID: Int?, val stateName: String?)
 
     data class ResponseDocumentUpload(val responseCode: String, val responseMsg: String, val responseObj: DocumentUploadObj, val timeStamp: Long)
     data class DocumentUploadObj(val applicationDocumentID: Any, val documentName: String, val documentType: Any, val documentTypeDetailID: Int, val uploadedDocumentPath: String)
