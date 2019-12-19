@@ -29,7 +29,7 @@ class GenericTypeTestActivity : BaseAppCompatActivity(), IBaseConnector {
     @Inject
     lateinit var formValidation: FormValidation
 
-    private val loginPresenter = BasePresenter(this)
+    private val basePresenter = BasePresenter(this)
 
     companion object {
         fun start(context: Context) {
@@ -49,7 +49,7 @@ class GenericTypeTestActivity : BaseAppCompatActivity(), IBaseConnector {
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, mLoginRequestLogin, null)
+            basePresenter.callNetwork(ConstantsApi.CALL_LOGIN, mLoginRequestLogin, null)
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -59,7 +59,7 @@ class GenericTypeTestActivity : BaseAppCompatActivity(), IBaseConnector {
     override fun <Response> getApiSuccess(value: Response) {
         value as motobeans.architecture.retrofit.response.Response.ResponseLogin
         DashboardActivity.start(this)
-        showToast(value.toString())
+        showToast(value.responseObj.toString())
     }
 
     private val mCompany: Requests.Company

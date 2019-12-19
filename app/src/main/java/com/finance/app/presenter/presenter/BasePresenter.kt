@@ -35,13 +35,25 @@ class BasePresenter(private val dmiApiConnector: IBaseConnector) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { dmiApiConnector.showProgressDialog() }
                 .doFinally { dmiApiConnector.hideProgressDialog() }
-                .subscribe { response -> onApiResponse(response) }
+                .subscribe { response -> onApiResponse(response, api) }
     }
 
-    private fun <T> onApiResponse(response: T) {
-        response as Response.ResponseLoginTest<*>
-        when (response.responseCode) {
-            "200" -> dmiApiConnector.getApiSuccess(response)
+    private fun <T> onApiResponse(response: T, api: ConstantsApi) {
+        when (api) {
+            ConstantsApi.CALL_LOGIN -> {
+                response as Response.ResponseLogin
+                if (checkApiResult(response, response.responseCode)) {
+                    sharedPreferencesUtil.saveLoginData(response)
+                }
+            }
+            else -> return
         }
+    }
+
+    private fun <T> checkApiResult(response: T, responseCode: String): Boolean {
+        return if (responseCode == "200") {
+            dmiApiConnector.getApiSuccess(response)
+            true
+        } else false
     }
 }
