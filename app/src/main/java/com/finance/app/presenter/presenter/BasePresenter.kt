@@ -11,6 +11,10 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
+/**
+ * Created by VishalRathi on 19/12/19.
+ */
+
 class BasePresenter(private val dmiApiConnector: IBaseConnector) {
 
     @Inject
@@ -42,18 +46,13 @@ class BasePresenter(private val dmiApiConnector: IBaseConnector) {
         when (api) {
             ConstantsApi.CALL_LOGIN -> {
                 response as Response.ResponseLogin
-                if (checkApiResult(response, response.responseCode)) {
-                    sharedPreferencesUtil.saveLoginData(response)
+                if (checkApiResult(response.responseCode)) {
+                    dmiApiConnector.getApiSuccess(response)
                 }
             }
             else -> return
         }
     }
 
-    private fun <T> checkApiResult(response: T, responseCode: String): Boolean {
-        return if (responseCode == "200") {
-            dmiApiConnector.getApiSuccess(response)
-            true
-        } else false
-    }
+    private fun checkApiResult(responseCode: String): Boolean = responseCode == "200"
 }

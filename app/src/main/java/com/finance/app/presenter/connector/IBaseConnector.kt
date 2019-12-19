@@ -6,5 +6,4 @@ package com.finance.app.presenter.connector
 
 interface IBaseConnector : ReusableView {
     fun <Response> getApiSuccess(value: Response)
-//    fun <Request> callNetwork(api: ConstantsApi, request: Request, ids: List<String>?)
 }

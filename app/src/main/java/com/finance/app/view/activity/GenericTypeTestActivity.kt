@@ -13,7 +13,6 @@ import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
@@ -59,7 +58,7 @@ class GenericTypeTestActivity : BaseAppCompatActivity(), IBaseConnector {
     override fun <Response> getApiSuccess(value: Response) {
         value as motobeans.architecture.retrofit.response.Response.ResponseLogin
         DashboardActivity.start(this)
-        showToast(value.responseObj.toString())
+        sharedPreferencesUtil.saveLoginData(value)
     }
 
     private val mCompany: Requests.Company
