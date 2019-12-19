@@ -53,7 +53,6 @@ class LeadCreationActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
     }
 
     private fun isValidToProceed(): Boolean {
-
         var isValid = true
         val isValidBinding = formValidation.validateAddLead(binding)
 

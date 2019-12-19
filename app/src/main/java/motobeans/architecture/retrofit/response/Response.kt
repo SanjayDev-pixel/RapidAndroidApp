@@ -10,6 +10,8 @@ object Response {
     data class ResponseAddLead(val error: String, val responseCode: String, val responseMsg: String,
                                val responseObj: Any? = null, val timeStamp: Long)
 
+    data class ResponseLoginTest<T>(val responseCode: String, val responseMsg: String, val responseObj: T, val timeStamp: Long)
+
     data class ResponseLogin(val responseCode: String, val responseMsg: String, val responseObj: LoginObj, val timeStamp: Long)
     data class LoginObj(val token: String, val userDetails: UserDetails)
     data class UserDetails(val roleList: ArrayList<Role>, val rolePrivilegesList: ArrayList<RolePrivileges>, val userBasicDetails: UserBasicDetails, val userBranches: List<UserBranches>, val userSpecialPermissions: ArrayList<Any>)

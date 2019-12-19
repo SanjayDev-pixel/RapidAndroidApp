@@ -7,4 +7,5 @@ interface ReusableView {
     fun showToast(msg: String)
     fun showProgressDialog()
     fun hideProgressDialog()
+    fun getApiFailure(msg: String)
 }

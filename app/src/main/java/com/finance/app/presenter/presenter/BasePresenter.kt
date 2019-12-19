@@ -1,10 +1,47 @@
 package com.finance.app.presenter.presenter
 
-import com.finance.app.presenter.connector.IBasePresenter
+import com.finance.app.presenter.connector.IBaseConnector
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
+import motobeans.architecture.development.interfaces.ApiProject
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.request.Requests
+import motobeans.architecture.retrofit.response.Response
+import javax.inject.Inject
 
-class BasePresenter : IBasePresenter {
-    override fun callNetwork(type: ConstantsApi, postData: JvmType.Object) {
+class BasePresenter(private val dmiApiConnector: IBaseConnector) {
+
+    @Inject
+    lateinit var apiProject: ApiProject
+    @Inject
+    lateinit var sharedPreferencesUtil: SharedPreferencesUtil
+
+    init { ArchitectureApp.instance.component.inject(this) }
+
+    fun <Request> callNetwork(api: ConstantsApi, request: Request, ids: List<String>?) {
+        val requestApi = when (api) {
+            ConstantsApi.CALL_ADD_LEAD -> apiProject.api.addLead(request)
+            ConstantsApi.CALL_ALL_MASTER_VALUE -> apiProject.api.getAllMasterValue()
+            ConstantsApi.CALL_LOGIN -> {
+                request as Requests.RequestLogin
+                apiProject.api.loginUser(request)
+            }
+            else -> return
+        }
+
+        requestApi.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { dmiApiConnector.showProgressDialog() }
+                .doFinally { dmiApiConnector.hideProgressDialog() }
+                .subscribe { response -> onApiResponse(response) }
+    }
+
+    private fun <T> onApiResponse(response: T) {
+        response as Response.ResponseLoginTest<*>
+        when (response.responseCode) {
+            "200" -> dmiApiConnector.getApiSuccess(response)
+        }
     }
 }

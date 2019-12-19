@@ -22,7 +22,7 @@ import com.finance.app.persistence.db.MasterDB
 /**
  * Created by munishkumarthakur on 09/12/17.
  */
-class TempViewModel(private val activity: androidx.fragment.app.FragmentActivity, private val database: MasterDB)
+class TempViewModel(private val activity: FragmentActivity, private val database: MasterDB)
     : BaseViewModel(activity){
 
 

@@ -1,13 +1,13 @@
 package motobeans.architecture.customAppComponents.activity
 
 import android.app.ProgressDialog
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.annotation.CallSuper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import com.afollestad.assent.Assent
 import com.finance.app.presenter.connector.ReusableView
 import motobeans.architecture.util.DialogFactory
@@ -62,5 +62,9 @@ abstract class BaseFragment : Fragment(), ReusableView {
     super.onPause()
     if (activity != null && activity!!.isFinishing)
       Assent.setFragment(this, null)
+  }
+
+  override fun getApiFailure(msg: String) {
+    showToast(msg)
   }
 }

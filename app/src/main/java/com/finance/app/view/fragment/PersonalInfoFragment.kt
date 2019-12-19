@@ -45,7 +45,6 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
-
 class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp,
         ApplicantsAdapter.ItemClickListener, ApplicantsAdapter.ItemLongClickListener,
@@ -67,7 +66,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private val verifyOTPPresenter = VerifyOTPPresenter(this)
     private var coApplicantsPresenter = CoApplicantsPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
-    private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = ArrayList()
+    private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = null
     private var personalInfoMaster: PersonalInfoMaster? = PersonalInfoMaster()
     private var currentApplicant: PersonalApplicantsModel = PersonalApplicantsModel()
     private var contactDetail: ContactDetail? = ContactDetail()
@@ -88,12 +87,10 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         private const val SELF = 221
         private const val RENTED = 253
         private const val PERMANENT = "Permanent"
-        private const val COMPLETED = "Completed"
+        private const val SUBMITTED = "Submitted"
         private const val CURRENT = "Current"
         private lateinit var kycList: ArrayList<AddKyc>
         private val leadAndLoanDetail = LeadAndLoanDetail()
-        private val responseConversion = ResponseConversion()
-        private val requestConversion = RequestConversion()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -133,7 +130,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
         value.responseObj?.let {
-            personalInfoMaster = responseConversion.toPersonalMaster(value.responseObj)
+            personalInfoMaster = ResponseConversion().toPersonalMaster(value.responseObj)
             pDraftData = personalInfoMaster?.draftData!!
             personalApplicantsList = pDraftData.applicantDetails
         }
@@ -286,11 +283,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             binding.basicInfoLayout.etSpouseLastName.setText(currentApplicant.spouseLastName)
         }
         fillValueInMasterDropDown()
-        checkCompletion()
+        checkSubmission()
     }
 
-    private fun checkCompletion() {
-        if (mLead!!.status == COMPLETED) {
+    private fun checkSubmission() {
+        if (mLead!!.status == SUBMITTED) {
             DisablePersonalForm(binding)
         }
     }
@@ -634,7 +631,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     override val loanAppRequestPost: LoanApplicationRequest
-        get() = requestConversion.personalInfoRequest(getPersonalInfoMaster())
+        get() = RequestConversion().getRequest(getPersonalInfoMaster())
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getPersonalInfoMaster())
@@ -681,28 +678,45 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun onAddCoApplicantClick() {
-        if (formValidation.validatePersonalInfo(binding)) {
-            personalApplicantsList!!.add(PersonalApplicantsModel())
-            applicantTab!!.add(getDefaultCoApplicant())
-            applicantAdapter!!.notifyDataSetChanged()
+        when (SUBMITTED) {
+            mLead!!.status -> {
+            }
+            else -> if (formValidation.validatePersonalInfo(binding)) {
+                personalApplicantsList!!.add(PersonalApplicantsModel())
+                applicantTab!!.add(getDefaultCoApplicant())
+                applicantAdapter!!.notifyDataSetChanged()
 
-            ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
+                ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
 
-            try {
-                val lastIndex = applicantTab!!.lastIndex
-                applicantAdapter?.onClickItem(lastIndex, applicantTab!![lastIndex])
-                currentPosition = lastIndex
-            } catch (e: Exception){e.printStackTrace()}
-        } else showToast(getString(R.string.mandatory_field_missing))
+                try {
+                    val lastIndex = applicantTab!!.lastIndex
+                    applicantAdapter?.onClickItem(lastIndex, applicantTab!![lastIndex])
+                    currentPosition = lastIndex
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            } else showToast(getString(R.string.mandatory_field_missing))
+        }
     }
 
     override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
-        if (formValidation.validatePersonalInfo(binding)) {
-            saveCurrentApplicant()
-            ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
-            currentPosition = position
-            waitFor1Sec(position, coApplicant)
-        } else showToast(getString(R.string.mandatory_field_missing))
+        when (SUBMITTED) {
+            mLead!!.status -> {
+                saveCurrentApplicant()
+                ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
+                currentPosition = position
+                waitFor1Sec(position, coApplicant)
+            }
+            else -> when {
+                formValidation.validatePersonalInfo(binding) -> {
+                    saveCurrentApplicant()
+                    ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
+                    currentPosition = position
+                    waitFor1Sec(position, coApplicant)
+                }
+                else -> showToast(getString(R.string.mandatory_field_missing))
+            }
+        }
     }
 
     private fun saveCurrentApplicant() {
@@ -748,7 +762,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun onApplicantLongClick(position: Int) = showAlertDialog(position)
 
     private fun showAlertDialog(position: Int) {
-        if (mLead!!.status == COMPLETED || currentPosition == 0) {
+        if (mLead!!.status == SUBMITTED || currentPosition == 0) {
             return
         } else {
             val deleteDialogView = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null)

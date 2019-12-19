@@ -19,6 +19,7 @@ import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
@@ -36,6 +37,9 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+    @Inject
+    lateinit var formValidation: FormValidation
+
     private val loginPresenter = LoginPresenter(this)
     private val loanProductPresenter = LoanProductPresenter(this)
     private val masterPresenter = AllMasterDropdownPresenter(this)
@@ -59,7 +63,9 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
+            if (formValidation.validateLogin(binding)) {
+                loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
+            }
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -73,8 +79,8 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
 
     private val mLoginRequestLogin: Requests.RequestLogin
         get() {
-//            binding.etUserName.setText("kuldeep.saini@gmail.com")
-//            binding.etPassword.setText("Default@123")
+            binding.etUserName.setText("kuldeep.saini@gmail.com")
+            binding.etPassword.setText("Default@123")
             val username = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
             val company = mCompany

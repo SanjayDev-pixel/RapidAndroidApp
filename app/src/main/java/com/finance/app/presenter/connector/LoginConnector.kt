@@ -13,7 +13,6 @@ interface LoginConnector {
 
         fun getLoginSuccess(value: Response.ResponseLogin)
         fun getLoginFailure(msg: String)
-
     }
     interface PresenterOpt : ReusableNetworkConnector
 }

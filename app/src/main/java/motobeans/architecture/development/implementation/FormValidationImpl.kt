@@ -13,6 +13,17 @@ import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
 class FormValidationImpl(private val mContext: Context) : FormValidation {
 
+    override fun validateLogin(binding: ActivityLoginBinding): Boolean {
+        val userName = binding.etUserName.text.toString()
+        val pwd = binding.etPassword.text.toString()
+        val error = when {
+            !userName.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etUserName)
+            !pwd.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etPassword)
+            else -> 0
+        }
+        return isValidForm(error)
+    }
+
     override fun validatePersonalInfo(binding: FragmentPersonalBinding): Boolean {
         var errorCount = 0
         val firstName = binding.basicInfoLayout.etFirstName.text.toString()
@@ -348,9 +359,9 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         }
 
         val contact = binding.etContactNum.text.toString()
-        if (isValidMobile(contact)) {
+        if (!isValidMobile(contact)) {
             errorCount++
-            binding.etContactNum.error = "Required Field"
+            binding.etContactNum.error = "Invalid Mobile"
         }
 
         return errorCount

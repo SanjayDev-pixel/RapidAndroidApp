@@ -16,7 +16,7 @@ interface Api {
     fun loginUser(@Body request: Requests.RequestLogin): Observable<Response.ResponseLogin>
 
     @POST("api/v1/lead/")
-    fun addLead(@Body request: Requests.RequestAddLead): Observable<Response.ResponseAddLead>
+    fun <T> addLead(@Body request: T): Observable<Response.ResponseAddLead>
 
     @GET("api/v1/master/all/")
     fun getAllMasterValue(): Observable<Response.ResponseAllMasterDropdown>

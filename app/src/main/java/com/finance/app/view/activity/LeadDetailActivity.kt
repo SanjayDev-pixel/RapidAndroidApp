@@ -65,13 +65,14 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private fun fillDataOnScreen(lead: AllLeadMaster?) {
         binding.tvEmail.text = lead?.applicantEmail
         val leadName = lead?.applicantFirstName + " " + lead?.applicantLastName
+        setLeadNum(lead?.leadNumber!!)
         binding.tvLeadName.text = leadName
-        binding.tvLeadNumber.text = lead?.leadNumber
-        binding.tvLocation.text = lead?.applicantAddress
-        binding.tvPhone.text = lead?.applicantContactNumber
-        binding.tvTypeOfLoan.text = lead?.loanProductName
-        binding.tvLeadStatus.text = lead?.status
-        leadContact = lead!!.applicantContactNumber!!.toLong()
+        binding.tvLeadNumber.text = lead.leadNumber
+        binding.tvLocation.text = lead.applicantAddress
+        binding.tvPhone.text = lead.applicantContactNumber
+        binding.tvTypeOfLoan.text = lead.loanProductName
+        binding.tvLeadStatus.text = lead.status
+        leadContact = lead.applicantContactNumber!!.toLong()
         setUpRecyclerView()
         setClickListeners()
     }

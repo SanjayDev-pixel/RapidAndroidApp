@@ -17,6 +17,7 @@ import com.google.android.material.navigation.NavigationView
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
@@ -33,6 +34,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   lateinit var sharedPreferencesUtil: SharedPreferencesUtil
   @Inject
   lateinit var mDataBase: DataBaseUtil
+  @Inject
+  lateinit var formValidations: FormValidation
 
   companion object {
     internal var progressDialog: ProgressDialog? = null
@@ -191,5 +194,9 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   fun getParentBinding(): ActivityBaseBinding {
     return bindingParent
+  }
+
+  override fun getApiFailure(msg: String) {
+    showToast(msg)
   }
 }
