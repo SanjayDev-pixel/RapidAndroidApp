@@ -48,7 +48,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private lateinit var mContext: Context
     private lateinit var allMasterDropDown: AllMasterDropDown
     private var mLead: AllLeadMaster? = null
-    private val loanAppGetPresenter = LoanAppGetPresenter(this)
+    private val loanAppGetPresenter = LoanAppGetPresenter(GetLoanApp = this)
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
     private lateinit var bankAdapter: BankDetailAdapter

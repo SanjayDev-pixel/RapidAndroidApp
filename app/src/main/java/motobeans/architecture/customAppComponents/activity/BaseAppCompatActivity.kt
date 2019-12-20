@@ -192,4 +192,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   fun getParentBinding(): ActivityBaseBinding {
     return bindingParent
   }
+
+  override fun getApiFailure(msg: String) {
+    showToast(msg)
+  }
 }

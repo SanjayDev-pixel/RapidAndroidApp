@@ -63,4 +63,8 @@ abstract class BaseFragment : Fragment(), ReusableView {
     if (activity != null && activity!!.isFinishing)
       Assent.setFragment(this, null)
   }
+
+  override fun getApiFailure(msg: String) {
+    showToast(msg)
+  }
 }
