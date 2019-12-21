@@ -18,7 +18,9 @@ import motobeans.architecture.customAppComponents.jetpack.SuperWorker
 import motobeans.architecture.development.modules.NetworkModule
 import motobeans.architecture.development.modules.PrimitivesModule
 import motobeans.architecture.development.modules.UtilityModule
+import java.util.*
 import javax.inject.Singleton
+import com.finance.app.presenter.presenter.Presenter as Presenter1
 
 /**
  * Created by munishkumarthakur on 04/11/17.
@@ -109,5 +111,6 @@ interface ApplicationComponent {
     fun inject(other: UtilWorkersTask)
     fun inject(other: LeadAndLoanDetail)
     fun inject(other: CustomZipAddressView)
+    fun inject(presenter: Presenter1)
 
 }

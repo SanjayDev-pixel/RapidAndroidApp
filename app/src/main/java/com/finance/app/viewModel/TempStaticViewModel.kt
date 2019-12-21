@@ -79,4 +79,8 @@ class TempStaticViewModel(private val activity: FragmentActivity, private val da
     private fun isEmptyList(isEmptyData: Boolean) {
         viewState.value = currentViewState().copy(isEmptyData = isEmptyData)
     }
+
+    override fun getApiFailure(msg: String) {
+        showToast(msg = msg)
+    }
 }
