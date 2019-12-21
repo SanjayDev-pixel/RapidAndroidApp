@@ -5,12 +5,12 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-class PersonalInfoMaster : Serializable, GenericTestMaster<PersonalApplicantList>() {
+class PersonalInfoMaster : Serializable {
 
     @PrimaryKey
-    override var leadID: Int = 0
-    override var loanApplicationDraftDetailID: Int? = null
-    override var draftData: PersonalApplicantList? = PersonalApplicantList()
-    override var storageType: String = "APPLICANT_PERSONAL"
-    override var editable: Boolean? = null
+    var leadID: Int = 0
+    var loanApplicationDraftDetailID: Int? = null
+    var draftData: PersonalApplicantList = PersonalApplicantList()
+    var storageType: String = "APPLICANT_PERSONAL"
+    var editable: Boolean? = null
 }

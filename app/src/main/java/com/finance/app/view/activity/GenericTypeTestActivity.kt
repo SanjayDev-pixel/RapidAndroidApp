@@ -6,7 +6,6 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.presenter.connector.IBaseConnector
 import com.finance.app.presenter.presenter.BasePresenter
-import com.finance.app.utility.FetchDropdownData
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -60,7 +59,6 @@ class GenericTypeTestActivity : BaseAppCompatActivity(), IBaseConnector {
         value as motobeans.architecture.retrofit.response.Response.ResponseLogin
         DashboardActivity.start(this)
         sharedPreferencesUtil.saveLoginData(value)
-        FetchDropdownData()
     }
 
     private val mCompany: Requests.Company
