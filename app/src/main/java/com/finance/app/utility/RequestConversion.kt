@@ -5,9 +5,8 @@ import com.google.gson.Gson
 
 class RequestConversion {
 
-    fun <Vish> getRequest(master: Vish): LoanApplicationRequest {
+    fun getRequest(master: GenericTestMaster<*>): LoanApplicationRequest {
         val request = LoanApplicationRequest()
-        master as LoanInfoMaster
         request.draftData = Gson().toJson(master.draftData)
         request.leadID = master.leadID
         request.storageType = master.storageType
