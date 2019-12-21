@@ -1,8 +1,6 @@
 package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
-import android.os.Parcel
-import android.os.Parcelable
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.persistence.model.AllMasterDropDown
@@ -11,8 +9,10 @@ import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.presenter.connector.AllMasterValueConnector
 import com.finance.app.presenter.connector.Connector
 import com.finance.app.presenter.connector.LoanProductConnector
-import com.finance.app.presenter.connector.LoginConnector
-import com.finance.app.presenter.presenter.*
+import com.finance.app.presenter.presenter.AllMasterDropdownPresenter
+import com.finance.app.presenter.presenter.LoanProductPresenter
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.StateDropdownPresenter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -48,7 +48,6 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
     private val masterPresenter = AllMasterDropdownPresenter(this)
     private val statePresenter = StateDropdownPresenter(this)
 
-
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, LoginActivity::class.java)
@@ -67,9 +66,9 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            if (formValidation.validateLogin(binding)) {
+//            if (formValidation.validateLogin(binding)) {
                 loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, this)
-            }
+//            }
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -135,9 +134,10 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
         get() = mLoginRequestLogin
 
     override fun getApiSuccess(value: ResponseLogin) {
-        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
-        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
-        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
+//        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
+//        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
+//        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
+        showToast("Success")
+        DashboardActivity.start(this)
     }
-
 }

@@ -9,13 +9,11 @@ import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.development.interfaces.ApiProject
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
-import motobeans.architecture.retrofit.response.Response
 import java.util.*
 import javax.inject.Inject
 
-
 /**
- * Created by munishkumarthakur on 31/12/17.
+ * Created by munishkumarthakur on 21/12/19.
  */
 class Presenter{
 
@@ -28,14 +26,13 @@ class Presenter{
         ArchitectureApp.instance.component.inject(this)
     }
 
-    fun <RequestApi, ResponseApi> callNetwork(type: ConstantsApi, viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>) {
+    fun <RequestApi, ResponseApi> callNetwork(type: ConstantsApi, dmiConnector: Connector.ViewOpt<RequestApi, ResponseApi>) {
         when(type) {
-            ConstantsApi.CALL_LOGIN -> callLoginApi(viewOpt)
+            ConstantsApi.CALL_LOGIN -> callLoginApi(dmiConnector)
         }
     }
 
     private fun <RequestApi, ResponseApi> callLoginApi(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>) {
-        //val requestApi = apiProject.api.loginUser(viewOpt.apiRequest as Requests.RequestLogin)
 
         val requestNew = apiProject.api.loginUser(viewOpt.apiRequest as Requests.RequestLogin)
         var newRequest = requestNew.map { it as Objects }
@@ -52,11 +49,10 @@ class Presenter{
                 .subscribe({ response -> apiSuccess(viewOpt, response) },
                         { e -> apiFailure(viewOpt, e) })
 
-        //dispose.dispose()
     }
 
     private fun <RequestApi, ResponseApi> apiSuccess(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, response: Objects?) {
-        viewOpt.getApiSuccess(response as ResponseApi)
+        viewOpt.getApiSuccess(value = response as ResponseApi)
     }
 
     private fun <RequestApi, ResponseApi> apiFailure(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, e: Throwable?) {

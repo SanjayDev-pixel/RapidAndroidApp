@@ -27,9 +27,6 @@ import motobeans.architecture.util.exShowToast
  */
 open class BaseViewModel(private val activity: androidx.fragment.app.FragmentActivity,
                          private val masterDB: MasterDB? = null) : ViewModel(), ReusableView {
-    override fun getApiFailure(msg: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private var progressCounter = 0
     init {

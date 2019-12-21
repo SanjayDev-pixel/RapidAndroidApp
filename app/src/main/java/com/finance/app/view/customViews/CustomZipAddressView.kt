@@ -39,9 +39,6 @@ import javax.inject.Inject
  */
 
 class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCodeDetailConnector.PinCode, DistrictCityConnector.City {
-    override fun getApiFailure(msg: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private val TAG = "CustomSignatureView"
 
@@ -391,5 +388,6 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
     }
 
     override fun getApiFailure(msg: String) {
+        showToast(msg)
     }
 }
