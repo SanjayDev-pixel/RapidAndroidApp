@@ -389,4 +389,7 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
         }
         return errorCount <= 0
     }
+
+    override fun getApiFailure(msg: String) {
+    }
 }

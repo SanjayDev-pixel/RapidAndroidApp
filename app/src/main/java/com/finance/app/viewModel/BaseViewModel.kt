@@ -54,5 +54,7 @@ open class BaseViewModel(private val activity: androidx.fragment.app.FragmentAct
         progressDialog?.hide()
     }
 
-
+    override fun getApiFailure(msg: String) {
+        showToast(msg = msg)
+    }
 }
