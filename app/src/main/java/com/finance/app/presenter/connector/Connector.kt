@@ -9,7 +9,7 @@ class Connector {
         val apiRequest: Request
 
         fun getApiSuccess(value: Response)
-
     }
-    interface PresenterOpt : ReusableNetworkConnector
+
+    interface PresenterOpt
 }

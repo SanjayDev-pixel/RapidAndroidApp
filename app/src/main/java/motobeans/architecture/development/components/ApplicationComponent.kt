@@ -110,6 +110,6 @@ interface ApplicationComponent {
     fun inject(other: UtilWorkersTask)
     fun inject(other: LeadAndLoanDetail)
     fun inject(other: CustomZipAddressView)
-    fun <RequestApi, ResponseApi> inject(presenter: Presenter1<RequestApi, ResponseApi>)
+    fun inject(presenter: Presenter1)
 
 }

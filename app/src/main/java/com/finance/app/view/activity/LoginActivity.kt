@@ -28,6 +28,7 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
 class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, ResponseLogin>,
+
         AllMasterValueConnector.MasterDropdown, LoanProductConnector.ViewOpt,
         AllMasterValueConnector.StateDropdown {
 
@@ -38,7 +39,7 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
-    private val loginPresenter = Presenter(this)
+    private val loginPresenter = Presenter()
     private val loanProductPresenter = LoanProductPresenter(this)
     private val masterPresenter = AllMasterDropdownPresenter(this)
     private val statePresenter = StateDropdownPresenter(this)
@@ -62,7 +63,9 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
+            //loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, this)
+
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -124,9 +127,6 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
 
     override fun getLoanProductFailure(msg: String) = showToast(msg)
 
-    override fun getApiFailure(msg: String) {
-    }
-
     override val apiRequest: RequestLogin
         get() = mLoginRequestLogin
 
@@ -135,4 +135,5 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
         loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
         statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
     }
+
 }
