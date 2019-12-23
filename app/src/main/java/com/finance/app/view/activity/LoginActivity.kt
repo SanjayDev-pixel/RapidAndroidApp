@@ -7,11 +7,11 @@ import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.presenter.connector.AllMasterValueConnector
-import com.finance.app.presenter.connector.Connector
 import com.finance.app.presenter.connector.LoanProductConnector
+import com.finance.app.presenter.connector.LoginConnector
 import com.finance.app.presenter.presenter.AllMasterDropdownPresenter
 import com.finance.app.presenter.presenter.LoanProductPresenter
-import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.LoginPresenter
 import com.finance.app.presenter.presenter.StateDropdownPresenter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,10 +28,10 @@ import motobeans.architecture.retrofit.response.Response.ResponseLogin
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, ResponseLogin>,
+class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
+        AllMasterValueConnector.StateDropdown, AllMasterValueConnector.MasterDropdown,
+        LoanProductConnector.ViewOpt {
 
-        AllMasterValueConnector.MasterDropdown, LoanProductConnector.ViewOpt,
-        AllMasterValueConnector.StateDropdown {
 
     // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
@@ -42,7 +42,7 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
     lateinit var formValidation: FormValidation
-    private val loginPresenter = Presenter()
+    private val loginPresenter = LoginPresenter(this)
 
     private val loanProductPresenter = LoanProductPresenter(this)
     private val masterPresenter = AllMasterDropdownPresenter(this)
@@ -63,11 +63,25 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
         setClickListeners()
     }
 
+    override val loginRequest: RequestLogin
+        get() = mLoginRequestLogin
+
+    override fun getLoginSuccess(value: ResponseLogin) {
+        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
+        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
+        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
+        showToast("Success")
+        DashboardActivity.start(this)
+    }
+
+    override fun getLoginFailure(msg: String) = showToast(msg)
+
+
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
 //            if (formValidation.validateLogin(binding)) {
-                loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, this)
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
 //            }
         }
         binding.tvForgotPassword.setOnClickListener {
@@ -129,15 +143,4 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
     override fun getAllMasterDropdownFailure(msg: String) = showToast(msg)
 
     override fun getLoanProductFailure(msg: String) = showToast(msg)
-
-    override val apiRequest: RequestLogin
-        get() = mLoginRequestLogin
-
-    override fun getApiSuccess(value: ResponseLogin) {
-//        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
-//        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
-//        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
-        showToast("Success")
-        DashboardActivity.start(this)
-    }
 }
