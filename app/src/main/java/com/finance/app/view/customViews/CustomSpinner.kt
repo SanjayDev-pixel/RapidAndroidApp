@@ -76,11 +76,11 @@ class CustomSpinner : LinearLayout, AdapterView.OnItemSelectedListener, Validati
         spinnerType.onItemSelectedListener = this
     }
 
-    private fun <T> proceedFurther() {
-        val adapterExpendeType = MasterSpinnerAdapter<T>(activity,
-                R.layout.spinner_textbox, ArrayList())
-        spinnerType.adapter = adapterExpendeType
-    }
+//    private fun <T> proceedFurther() {
+//        val adapterExpendeType = MasterSpinnerAdapter<T>(activity,
+//                R.layout.spinner_textbox, ArrayList())
+//        spinnerType.adapter = adapterExpendeType
+//    }
 
     fun setHeading(msg: String) {
         tvHeading.text = msg
