@@ -9,10 +9,7 @@ import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.presenter.connector.AllMasterValueConnector
 import com.finance.app.presenter.connector.Connector
 import com.finance.app.presenter.connector.LoanProductConnector
-import com.finance.app.presenter.presenter.AllMasterDropdownPresenter
-import com.finance.app.presenter.presenter.LoanProductPresenter
-import com.finance.app.presenter.presenter.Presenter
-import com.finance.app.presenter.presenter.StateDropdownPresenter
+import com.finance.app.presenter.presenter.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -67,11 +64,23 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
 //            if (formValidation.validateLogin(binding)) {
-                loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, this)
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, this)
 //            }
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
+        }
+    }
+
+    private fun munishTempApiCalls() {
+        loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = loginApiCall())
+    }
+
+    inner class loginApiCall: ViewGeneric<RequestLogin, ResponseLogin>(context = this) {
+        override val apiRequest: RequestLogin
+            get() = mLoginRequestLogin
+
+        override fun getApiSuccess(value: ResponseLogin) {
         }
     }
 
