@@ -60,21 +60,19 @@
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerLoanScheme"
+                <LinearLayout
+                    android:id="@+id/llCustomSpinnerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Loan Scheme*"
-                    app:ms_hint="Loan Scheme*"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:orientation="vertical">
+
+                    <com.finance.app.view.customViews.CustomSpinnerView
+                        android:id="@+id/spinnerLoanScheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -135,21 +133,11 @@
                     android:layout_marginTop="@dimen/fields_margin"
                     android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
+                    <com.finance.app.view.customViews.CustomSpinnerView
                         android:id="@+id/spinnerInterestType"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="16dp"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Interest Type  "
-                        android:textSize="@dimen/text_size"
-                        app:ms_hint="Interest Type "
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_emi"

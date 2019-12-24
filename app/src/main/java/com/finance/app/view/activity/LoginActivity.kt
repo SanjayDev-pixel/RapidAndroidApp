@@ -10,6 +10,11 @@ import com.finance.app.presenter.connector.AllMasterValueConnector
 import com.finance.app.presenter.connector.Connector
 import com.finance.app.presenter.connector.LoanProductConnector
 import com.finance.app.presenter.presenter.*
+import com.finance.app.presenter.connector.LoginConnector
+import com.finance.app.presenter.presenter.AllMasterDropdownPresenter
+import com.finance.app.presenter.presenter.LoanProductPresenter
+import com.finance.app.presenter.presenter.LoginPresenter
+import com.finance.app.presenter.presenter.StateDropdownPresenter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -25,10 +30,9 @@ import motobeans.architecture.retrofit.response.Response.ResponseLogin
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, ResponseLogin>,
-
-        AllMasterValueConnector.MasterDropdown, LoanProductConnector.ViewOpt,
-        AllMasterValueConnector.StateDropdown {
+class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
+        AllMasterValueConnector.StateDropdown, AllMasterValueConnector.MasterDropdown,
+        LoanProductConnector.ViewOpt {
 
     // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
@@ -64,16 +68,11 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
 //            if (formValidation.validateLogin(binding)) {
-            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, this)
-//            }
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = loginApiCall())
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
         }
-    }
-
-    private fun munishTempApiCalls() {
-        loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = loginApiCall())
     }
 
     inner class loginApiCall: ViewGeneric<RequestLogin, ResponseLogin>(context = this) {
@@ -81,6 +80,7 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
             get() = mLoginRequestLogin
 
         override fun getApiSuccess(value: ResponseLogin) {
+            getLoginSuccess(value)
         }
     }
 
@@ -99,6 +99,17 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
             return RequestLogin(username = username, password = password, company = company)
         }
 
+    override val loginRequest: RequestLogin
+        get() = mLoginRequestLogin
+
+    override fun getLoginFailure(msg: String) = showToast(msg)
+
+    override fun getLoginSuccess(value: ResponseLogin) {
+        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
+        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
+        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
+        DashboardActivity.start(this)
+    }
 
     override fun getAllMasterDropdownSuccess(dropdown: Response.ResponseAllMasterDropdown) {
         saveMasterDataToDB(dropdown.responseObj)
@@ -138,15 +149,4 @@ class LoginActivity : BaseAppCompatActivity(), Connector.ViewOpt<RequestLogin, R
     override fun getAllMasterDropdownFailure(msg: String) = showToast(msg)
 
     override fun getLoanProductFailure(msg: String) = showToast(msg)
-
-    override val apiRequest: RequestLogin
-        get() = mLoginRequestLogin
-
-    override fun getApiSuccess(value: ResponseLogin) {
-//        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
-//        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
-//        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
-        showToast("Success")
-        DashboardActivity.start(this)
-    }
 }

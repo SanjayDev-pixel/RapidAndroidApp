@@ -25,19 +25,15 @@ class LoginPresenter(private val viewOpt: LoginConnector.ViewOpt) : LoginConnect
     }
 
     override fun callNetwork(type: ConstantsApi) {
-        callLoginApi()
-    }
+        val requestApi = apiProject.api.loginUser(viewOpt.loginRequest)
 
-    private fun callLoginApi() {
-//        val requestApi = apiProject.api.loginUser(viewOpt.loginRequest)
-//
-//        requestApi
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
-//                .doFinally { viewOpt.hideProgressDialog() }
-//                .subscribe({ resposne -> onNextLogin(resposne) },
-//                        { e -> viewOpt.getLoginFailure(e?.message ?: "") })
+        val x = requestApi
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { viewOpt.showProgressDialog() }
+                .doFinally { viewOpt.hideProgressDialog() }
+                .subscribe({ response -> onNextLogin(response) },
+                        { e -> viewOpt.getLoginFailure(e?.message ?: "") })
     }
 
     private fun onNextLogin(response: Response.ResponseLogin) {

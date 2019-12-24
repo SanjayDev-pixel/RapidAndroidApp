@@ -13,4 +13,8 @@ class LoanInfoMaster : Serializable {
     var draftData: LoanInfoModel? = null
     var storageType: String = "LOAN_INFORMATION"
     var editable: Boolean? = false
+
+    override fun toString(): String {
+        return super.toString()
+    }
 }
