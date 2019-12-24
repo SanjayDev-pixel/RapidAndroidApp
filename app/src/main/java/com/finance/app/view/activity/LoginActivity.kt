@@ -32,7 +32,6 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
         AllMasterValueConnector.StateDropdown, AllMasterValueConnector.MasterDropdown,
         LoanProductConnector.ViewOpt {
 
-
     // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_login)
@@ -63,26 +62,13 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
         setClickListeners()
     }
 
-    override val loginRequest: RequestLogin
-        get() = mLoginRequestLogin
-
-    override fun getLoginSuccess(value: ResponseLogin) {
-        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
-        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
-        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
-        showToast("Success")
-        DashboardActivity.start(this)
-    }
-
-    override fun getLoginFailure(msg: String) = showToast(msg)
-
-
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
 //            if (formValidation.validateLogin(binding)) {
-            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
+//            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
 //            }
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN)
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -104,6 +90,17 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
             return RequestLogin(username = username, password = password, company = company)
         }
 
+    override val loginRequest: RequestLogin
+        get() = mLoginRequestLogin
+
+    override fun getLoginFailure(msg: String) = showToast(msg)
+
+    override fun getLoginSuccess(value: ResponseLogin) {
+        masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
+        loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
+        statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
+        DashboardActivity.start(this)
+    }
 
     override fun getAllMasterDropdownSuccess(dropdown: Response.ResponseAllMasterDropdown) {
         saveMasterDataToDB(dropdown.responseObj)

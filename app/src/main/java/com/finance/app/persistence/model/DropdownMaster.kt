@@ -13,4 +13,8 @@ class DropdownMaster : Serializable {
     var typeDetailLogicalCode: String? = ""
     var sequence: String? = ""
     var typeDetailDescription: String? = ""
+
+    override fun toString(): String {
+        return "$typeDetailCode"
+    }
 }

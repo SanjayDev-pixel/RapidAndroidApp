@@ -1,39 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/llHeadingBlock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_marginBottom="@dimen/margin_10"
-            >
-
-            <TextView
-                android:id="@+id/tvHeading"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="8"
-                android:text="Hellos"
-                android:gravity="center_vertical"
-                />
-
-        </LinearLayout>
-
-
-        <Spinner
+        <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinnerType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
+            android:minWidth="@dimen/text_min_width"
+            android:textSize="@dimen/button_text_size"
+            app:ms_arrowColor="@color/black"
+            app:ms_arrowSize="16dp"
+            app:ms_floatingLabelColor="@color/hint_color"
+            app:ms_hintColor="@color/hint_color"
+            app:ms_hintTextSize="@dimen/hint_size"
+            app:ms_multiline="false" />
 
         <LinearLayout
             android:id="@+id/llErrorBlock"
@@ -41,16 +25,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_half_vertical_margin"
             android:orientation="vertical"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvErrorText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/error_text"
-                android:text="@string/verify"
-                />
+                android:text="@string/verify" />
         </LinearLayout>
+
     </LinearLayout>
 </layout>

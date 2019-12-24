@@ -202,9 +202,13 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
-        binding.spinnerLoanScheme.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanScheme)
-        binding.spinnerInterestType.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanInformationInterestType)
+//        binding.spinnerLoanScheme.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanScheme)
+        //binding.spinnerInterestType.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanInformationInterestType)
         binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.SourcingChannelPartner)
+
+        binding.spinnerLoanScheme.attachActivity(activity = this, dropdownValue = allMasterDropDown.LoanScheme!!, label = "Loan Scheme")
+        binding.spinnerInterestType.attachActivity(activity = this, dropdownValue = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type")
+
         binding.spinnerSourcingChannelPartner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -215,8 +219,8 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             }
         }
         if (loanInfo != null) {
-            selectMasterValue(binding.spinnerLoanScheme, loanInfo!!.loanSchemeTypeDetailID!!)
-            selectMasterValue(binding.spinnerInterestType, loanInfo!!.interestTypeTypeDetailID!!)
+//            selectMasterValue(binding.spinnerLoanScheme, loanInfo!!.loanSchemeTypeDetailID!!)
+            //selectMasterValue(binding.spinnerInterestType, loanInfo!!.interestTypeTypeDetailID!!)
             selectMasterValue(binding.spinnerSourcingChannelPartner, loanInfo!!.sourcingChannelPartnerTypeDetailID!!)
         }
     }
@@ -331,16 +335,16 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 Response.ChannelPartnerName?
         val loanProduct = binding.spinnerLoanProduct.selectedItem as
                 LoanProductMaster?
-        val interestType = binding.spinnerInterestType.selectedItem as DropdownMaster?
+        val interestType = binding.spinnerInterestType.getSelectedType() as DropdownMaster
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
-        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
+        val loanScheme = binding.spinnerLoanScheme.getSelectedType() as DropdownMaster
 
         loanInfoObj.leadID = leadId.toInt()
         loanInfoObj.productID = loanProduct?.productID
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
         loanInfoObj.loanPurposeID = loanPurpose?.loanPurposeID
-        loanInfoObj.loanSchemeTypeDetailID = loanScheme?.typeDetailID
-        loanInfoObj.interestTypeTypeDetailID = interestType?.typeDetailID
+        loanInfoObj.loanSchemeTypeDetailID = loanScheme.typeDetailID
+        loanInfoObj.interestTypeTypeDetailID = interestType.typeDetailID
         loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner?.typeDetailID
         loanInfoObj.isPropertySelected = binding.cbPropertySelected.isChecked
         loanInfoObj.loanAmountRequest = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString()).toInt()

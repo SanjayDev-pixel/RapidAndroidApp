@@ -121,7 +121,7 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         val emi = binding.etEmi.text.toString()
         val tenure = binding.etTenure.text.toString()
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
-        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
+//        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
         val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as DropdownMaster?
 
         if (loanProduct != null && tenure != "" && loanAmount != "") {
@@ -154,10 +154,10 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
             binding.spinnerLoanPurpose.error = "Loan Purpose Cannot be empty"
         }
 
-        if (loanScheme == null) {
-            errorCount++
-            binding.spinnerLoanScheme.error = "Loan Scheme Cannot be empty"
-        }
+//        if (loanScheme == null) {
+//            errorCount++
+//            binding.spinnerLoanScheme.error = "Loan Scheme Cannot be empty"
+//        }
 
         if (sourcingChannelPartner == null) {
             errorCount++
