@@ -27,14 +27,14 @@
 
   <style name="spinner_style">
 
-    <item name="android:paddingLeft">2dp</item>
-    <item name="android:paddingRight">2dp</item>
-    <item name="android:dropDownWidth">100dp</item>
-    <item name="android:showDividers">none</item>
+    <item name="android:paddingLeft">5dp</item>
+    <item name="android:paddingTop">10dp</item>
+    <item name="android:paddingBottom">10dp</item>
+    <item name="android:paddingRight">5dp</item>
     <item name="android:dividerHeight">2dp</item>
     <item name="android:dropDownHeight">100dp</item>
     <item name="android:scrollbarAlwaysDrawVerticalTrack">false</item>
-    <item name="android:dropDownSelector">@android:color/white</item>
+    <item name="android:dropDownSelector">@android:color/holo_green_dark</item>
 
   </style>
 </resources>

@@ -60,19 +60,11 @@
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-                <LinearLayout
-                    android:id="@+id/llCustomSpinnerView"
+                <com.finance.app.view.customViews.CustomSpinnerView
+                    android:id="@+id/spinnerLoanScheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.finance.app.view.customViews.CustomSpinnerView
-                        android:id="@+id/spinnerLoanScheme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        />
-                </LinearLayout>
+                    android:layout_marginTop="@dimen/activity_vertical_margin" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -155,7 +147,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:singleLine="true"
-                            android:maxLength="5"
+                            android:maxLength="6"
                             android:hint="@string/affordable_emi"
                             android:minWidth="@dimen/text_min_width"
                             android:textSize="@dimen/text_size" />

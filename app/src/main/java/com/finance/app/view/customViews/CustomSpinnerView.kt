@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.presenter.connector.ValidationHandler
+import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible

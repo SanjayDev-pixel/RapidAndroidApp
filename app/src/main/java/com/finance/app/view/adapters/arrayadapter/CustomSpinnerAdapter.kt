@@ -1,4 +1,4 @@
-package com.finance.app.view.customViews
+package com.finance.app.view.adapters.arrayadapter
 
 import android.content.Context
 import android.view.LayoutInflater
