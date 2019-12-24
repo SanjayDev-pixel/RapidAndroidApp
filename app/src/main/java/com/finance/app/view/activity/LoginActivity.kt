@@ -28,7 +28,9 @@ import motobeans.architecture.retrofit.request.Requests.RequestLogin
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.retrofit.response.Response.ResponseLogin
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
         AllMasterValueConnector.StateDropdown, AllMasterValueConnector.MasterDropdown,
@@ -68,14 +70,15 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
 //            if (formValidation.validateLogin(binding)) {
-            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = loginApiCall())
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT, dmiConnector = LoginApiCallNew())
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
         }
     }
 
-    inner class loginApiCall: ViewGeneric<RequestLogin, ResponseLogin>(context = this) {
+    inner class LoginApiCall: ViewGeneric<RequestLogin, ResponseLogin>(context = this) {
         override val apiRequest: RequestLogin
             get() = mLoginRequestLogin
 
@@ -83,6 +86,15 @@ class LoginActivity : BaseAppCompatActivity(), LoginConnector.ViewOpt,
             getLoginSuccess(value)
         }
     }
+
+    inner class LoginApiCallNew: ViewGeneric<Objects, Response.ResponseLoanProduct>(context = this) {
+        override val apiRequest: Objects?
+            get() = null
+
+        override fun getApiSuccess(value: Response.ResponseLoanProduct) {
+        }
+    }
+
 
     private val mCompany: Requests.Company
         get() {
