@@ -6,7 +6,7 @@ package com.finance.app.presenter.connector
 class Connector {
 
     interface ViewOpt<Request, Response> : ReusableView {
-        val apiRequest: Request
+        val apiRequest: Request?
         fun getApiSuccess(value: Response)
     }
     interface PresenterOpt
