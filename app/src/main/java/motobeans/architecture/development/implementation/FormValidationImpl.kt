@@ -1,17 +1,18 @@
 package motobeans.architecture.development.implementation
-import android.content.Context
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.utility.CurrencyConversion
+import com.finance.app.view.customViews.CustomSpinnerView
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
+import java.util.regex.Pattern
 
-class FormValidationImpl(private val mContext: Context) : FormValidation {
+class FormValidationImpl : FormValidation {
 
     override fun validateLogin(binding: ActivityLoginBinding): Boolean {
         val userName = binding.etUserName.text.toString()
@@ -134,7 +135,9 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
                 errorCount++
                 binding.etAmountRequest.error = "Range:${loanProduct.minAmount} - ${loanProduct.maxAmount}"
             }
-        } else if (loanProduct == null) {
+        }
+
+        if (loanProduct == null) {
             errorCount++
             binding.spinnerLoanProduct.error = "Loan Product Cannot be empty"
         }
@@ -464,23 +467,6 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateAddLead(binding: ActivityLeadCreateBinding): Boolean  {
-        val errorCount = 0
-        val address = binding.etArea.toString()
-        val name = binding.etApplicantFirstName.text.toString()
-        val email = binding.etEmail.text.toString()
-        val mobile = binding.etContactNum.text.toString()
-
-        errorCount.plus(when {
-            !address.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
-            !name.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etApplicantFirstName)
-            !isValidMobile(mobile) -> setFieldError(binding.etContactNum)
-            !isValidMobile(email) -> setFieldError(binding.etEmail)
-            else -> 0
-        })
-        return isValidForm(errorCount)
-    }
-
     override fun validateProperty(binding: FragmentPropertyInfoBinding): Boolean {
         var errorCount = 0
         val unitType = binding.spinnerUnitType.selectedItem as DropdownMaster?
@@ -686,13 +672,43 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
+    override fun validateAddLead(binding: ActivityLeadCreateBinding): Boolean {
+        val area = binding.etArea.text.toString()
+        val name = binding.etApplicantFirstName.text.toString()
+        val email = binding.etEmail.text.toString()
+        val contact = binding.etContactNum.text.toString()
+        val loan = binding.spinnerLoanProduct.getSelectedType() as LoanProductMaster?
+        val branch = binding.spinnerBranches.getSelectedType()
+
+        val spinnerError = when {
+            loan == null -> setCustomSpinnerError(binding.spinnerLoanProduct)
+            branch == null -> setCustomSpinnerError(binding.spinnerBranches)
+            else -> 0
+        }
+
+        val fieldError = (when {
+            !area.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
+            !name.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etApplicantFirstName)
+//            !isValidMobile(contact) -> setFieldError(binding.etContactNum)
+            !isValidEmail(email) -> setFieldError(binding.etEmail)
+            else -> 0
+        })
+        val errorCount = spinnerError + fieldError
+        return isValidForm(errorCount)
+    }
+
+    private fun setCustomSpinnerError(spinner: CustomSpinnerView<*>): Int {
+        spinner.setError("Required Field")
+        return 2
+    }
+
     private fun setSpinnerError(spinner: MaterialSpinner): Int {
         spinner.error = "Required Field"
         return 2
     }
 
     private fun setFieldError(field: TextInputEditText): Int {
-        field.error = "Required Field"
+        field.error = "Invalid Input"
         return 2
     }
 
@@ -701,11 +717,13 @@ class FormValidationImpl(private val mContext: Context) : FormValidation {
         return isValidForm(errorCount)
     }
 
-    private fun isValidMobile(mobile: String): Boolean {
-        if (mobile.exIsNotEmptyOrNullOrBlank() && mobile.length == 10) {
-            return android.util.Patterns.PHONE.matcher(mobile).matches()
-        }
-        return false
+    private fun isValidMobile(phone: String): Boolean {
+        return if (!phone.exIsNotEmptyOrNullOrBlank()) {
+            val expression = "^([3-9+]|\\(\\d{1,3}\\))[0-9\\-. ]{9}$"
+            val pattern = Pattern.compile(expression)
+            val matcher = pattern.matcher(phone)
+            matcher.matches()
+        } else false
     }
 
     private fun isValidEmail(email: String): Boolean {

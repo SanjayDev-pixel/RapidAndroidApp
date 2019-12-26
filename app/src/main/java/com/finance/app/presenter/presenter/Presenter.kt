@@ -12,7 +12,6 @@ import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.ApiProject
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
 import java.util.*
@@ -21,6 +20,7 @@ import javax.inject.Inject
 /**
  * Created by munishkumarthakur on 21/12/19.
  */
+@Suppress("UNCHECKED_CAST")
 class Presenter{
 
     @Inject
@@ -33,24 +33,23 @@ class Presenter{
     }
 
     fun <RequestApi, ResponseApi> callNetwork(type: ConstantsApi, dmiConnector: Connector.ViewOpt<RequestApi, ResponseApi>) {
-        when(type) {
-            ConstantsApi.CALL_LOGIN -> callLoginApi(dmiConnector)
+        val requestApi = when (type) {
+            ConstantsApi.CALL_ADD_LEAD -> apiProject.api.addLead(dmiConnector.apiRequest as Requests.RequestAddLead)
+            ConstantsApi.CALL_ALL_MASTER_VALUE -> apiProject.api.getAllMasterValue()
+            ConstantsApi.CALL_LOGIN -> apiProject.api.loginUser(dmiConnector.apiRequest as Requests.RequestLogin)
+            else -> return
         }
-    }
 
-    private fun <RequestApi, ResponseApi> callLoginApi(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>) {
+        val newRequest = requestApi.map { it as Objects }
+        callApi(dmiConnector, requestApi = newRequest)
 
-        val requestNew = apiProject.api.loginUser(viewOpt.apiRequest as Requests.RequestLogin)
-        var newRequest = requestNew.map { it as Objects }
-
-        callApi(viewOpt, newRequest)
     }
 
     private fun <RequestApi, ResponseApi> callApi(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, requestApi: Observable<Objects>) {
         val dispose = requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> viewOpt.showProgressDialog() }
+                .doOnSubscribe { viewOpt.showProgressDialog() }
                 .doFinally { viewOpt.hideProgressDialog() }
                 .subscribe({ response -> apiSuccess(viewOpt, response) },
                         { e -> apiFailure(viewOpt, e) })

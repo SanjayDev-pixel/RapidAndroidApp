@@ -38,24 +38,13 @@ import javax.inject.Inject
  * Created by munishkumarthakur on 14/12/19.
  */
 
-class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCodeDetailConnector.PinCode, DistrictCityConnector.City {
+class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context,
+        attrs), DistrictCityConnector.District, PinCodeDetailConnector.PinCode, DistrictCityConnector.City {
 
     private val TAG = "CustomSignatureView"
 
     @Inject
     lateinit var dataBase: DataBaseUtil
-
-    @JvmOverloads
-    constructor(context: Context, attrs: AttributeSet? = null) : super(context,
-            attrs) {
-        orientation = HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
-        val inflater = context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val rootView = inflater.inflate(R.layout.layout_zip_address, this, true)
-
-        initializeViews(rootView)
-    }
 
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private val districtPresenter = DistrictPresenter(this)
@@ -389,5 +378,14 @@ class CustomZipAddressView : LinearLayout, DistrictCityConnector.District, PinCo
 
     override fun getApiFailure(msg: String) {
         showToast(msg)
+    }
+
+    init {
+        orientation = HORIZONTAL
+        gravity = Gravity.CENTER_VERTICAL
+        val inflater = context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val rootView = inflater.inflate(R.layout.layout_zip_address, this, true)
+        initializeViews(rootView)
     }
 }

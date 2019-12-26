@@ -3,6 +3,7 @@ package motobeans.architecture.development.interfaces
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoModel
+import com.finance.app.persistence.model.UserBranches
 import motobeans.architecture.retrofit.response.Response
 
 interface SharedPreferencesUtil {
@@ -24,7 +25,7 @@ interface SharedPreferencesUtil {
     fun getLoanAppID():Int?
     fun getLeadNum():String
     fun getPropertySelection(): Boolean
-    fun getUserBranches(): List<Response.UserBranches>?
+    fun getUserBranches(): ArrayList<UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
     fun getNavMenuItem(): List<AppEnums.ScreenLoanInfo>?
     fun clearAll()
