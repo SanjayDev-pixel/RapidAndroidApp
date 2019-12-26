@@ -43,9 +43,6 @@
             android:name=".view.activity.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.LeadCreationActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.UploadedFormDataActivity"
             android:screenOrientation="portrait" />
         <activity
