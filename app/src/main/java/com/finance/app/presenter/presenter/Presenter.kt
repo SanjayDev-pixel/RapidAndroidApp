@@ -21,7 +21,7 @@ import javax.inject.Inject
  * Created by munishkumarthakur on 21/12/19.
  */
 @Suppress("UNCHECKED_CAST")
-class Presenter{
+class Presenter {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -40,24 +40,26 @@ class Presenter{
             else -> return
         }
 
-        val newRequest = requestApi.map { it as Objects }
-        callApi(dmiConnector, requestApi = newRequest)
+        //val newRequest = requestApi.map { it as Objects }
+        callApi(dmiConnector, requestApi = requestApi)
 
     }
 
-    private fun <RequestApi, ResponseApi> callApi(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, requestApi: Observable<Objects>) {
+    private fun <RequestApi, ResponseApi> callApi(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, requestApi: Observable<out Any>) {
         val dispose = requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewOpt.showProgressDialog() }
                 .doFinally { viewOpt.hideProgressDialog() }
-                .subscribe({ response -> apiSuccess(viewOpt, response) },
-                        { e -> apiFailure(viewOpt, e) })
+
+
+        dispose.subscribe({ response -> response?.let { apiSuccess(viewOpt, response as ResponseApi) } },
+                { e -> apiFailure(viewOpt, e) })
 
     }
 
-    private fun <RequestApi, ResponseApi> apiSuccess(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, response: Objects?) {
-        viewOpt.getApiSuccess(value = response as ResponseApi)
+    private fun <RequestApi, ResponseApi> apiSuccess(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, response: ResponseApi) {
+        viewOpt.getApiSuccess(value = response)
     }
 
     private fun <RequestApi, ResponseApi> apiFailure(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, e: Throwable?) {
@@ -66,7 +68,7 @@ class Presenter{
 }
 
 
-abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context): Connector.ViewOpt<RequestApi, ResponseApi> {
+abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context) : Connector.ViewOpt<RequestApi, ResponseApi> {
 
     internal var progressDialog: ProgressDialog? = null
 
@@ -87,6 +89,7 @@ abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context): Conne
     }
 
     override fun getApiFailure(msg: String) {
+        print("Munish Thakur -> getApiFailure() -> $msg")
         showToast(msg)
     }
 }
