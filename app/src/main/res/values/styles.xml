@@ -7,6 +7,7 @@
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>
     <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+    <item name="buttonStyle">@style/button_style</item>
     <item name="windowActionBar">false</item>
     <item name="windowNoTitle">true</item>
   </style>
@@ -35,6 +36,28 @@
     <item name="android:dropDownHeight">100dp</item>
     <item name="android:scrollbarAlwaysDrawVerticalTrack">false</item>
     <item name="android:dropDownSelector">@android:color/white</item>
+
+  </style>
+
+  <style name="button_style">
+
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingRight">2dp</item>
+    <item name="android:paddingBottom">10dp</item>
+    <item name="android:paddingTop">10dp</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+   <item name="android:background">@drawable/button_theme_style</item>
+    <item name="android:gravity">center</item>
+    <item name="android:shadowDx">0</item>
+    <item name="android:shadowDy">-1</item>
+    <item name="android:shadowRadius">0.2</item>
+    <item name="android:layout_marginLeft">@dimen/_20sdp</item>
+    <item name="android:elevation">@dimen/_6sdp</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:textSize">@dimen/_12sdp</item>
+    <item name="android:textAllCaps">true</item>
+    <item name="android:layout_gravity">center</item>
 
   </style>
 </resources>
