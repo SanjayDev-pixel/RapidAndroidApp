@@ -40,8 +40,8 @@ class DistrictSpinnerAdapter(mContext: Context, val value: ArrayList<Response.Di
         spinnerValue = value[position]
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.spinner_textbox, parent, false)
-            val textView = view.findViewById<View>(R.id.tvDropdownText) as TextView
+            view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
+            val textView = view.findViewById<View>(R.id.tvSpinnerValue) as TextView
             textView.text = spinnerValue.districtName
         } else {
             view = convertView

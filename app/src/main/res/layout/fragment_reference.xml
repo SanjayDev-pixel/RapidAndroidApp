@@ -65,6 +65,7 @@
                         app:ms_arrowSize="@dimen/text_size"
                         android:textSize="@dimen/text_size"
                         app:ms_floatingLabelColor="@color/hint_color"
+                        android:theme="@style/MatchSpinnerTheme"
                         app:ms_floatingLabelText="Relation  "
                         app:ms_hint="Relation "
                         app:ms_hintColor="@color/hint_color"
@@ -79,6 +80,7 @@
                         android:layout_marginStart="@dimen/margin_10"
                         android:layout_weight="1"
                         app:ms_arrowColor="@color/black"
+                        android:theme="@style/MatchSpinnerTheme"
                         app:ms_arrowSize="@dimen/text_size"
                         android:textSize="@dimen/text_size"
                         app:ms_floatingLabelColor="@color/hint_color"
@@ -134,12 +136,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:background="@drawable/button_theme_style"
-                    android:padding="5sp"
                     android:text="@string/add_reference"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/button_text_size" />
 
                <RelativeLayout
@@ -151,19 +151,17 @@
                     android:id="@+id/btnPrevious"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_theme_style"
                     android:text="@string/previous"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/button_text_size" />
 
                    <Button
                        android:id="@+id/btnNext"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:background="@drawable/button_theme_style"
                        android:text="@string/next"
                        android:layout_alignParentEnd="true"
-                       android:textColor="@color/white"
+                       android:textColor="@color/black"
                        android:textSize="@dimen/button_text_size" />
                </RelativeLayout>
             </LinearLayout>

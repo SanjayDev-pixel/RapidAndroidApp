@@ -9,7 +9,7 @@ import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.view.adapters.recycler.adapter.NavMenuConnector
 
-class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context, val navMenuConnector: NavMenuConnector) : RecyclerView.ViewHolder(binding.root) {
+class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context, private val navMenuConnector: NavMenuConnector) : RecyclerView.ViewHolder(binding.root) {
 
     fun bindItems(position: Int, navItem: AppEnums.ScreenLoanInfo) {
         val navIcon = navItem.icon

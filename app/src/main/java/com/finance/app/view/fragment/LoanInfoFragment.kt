@@ -107,7 +107,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             loanMaster = responseConversion.toLoanMaster(value.responseObj)
             loanInfo = loanMaster?.draftData
         }
-            showData(loanInfo)
+        showData(loanInfo)
     }
 
     private fun showData(loanInfo: LoanInfoModel?) {
@@ -345,16 +345,16 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 Response.ChannelPartnerName?
         val loanProduct = binding.spinnerLoanProduct.selectedItem as
                 LoanProductMaster?
-        val interestType = binding.spinnerInterestType.getSelectedType() as DropdownMaster
+        val interestType = binding.spinnerInterestType.getSelectedType() as DropdownMaster?
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
-        val loanScheme = binding.spinnerLoanScheme.getSelectedType() as DropdownMaster
+        val loanScheme = binding.spinnerLoanScheme.getSelectedType() as DropdownMaster?
 
         loanInfoObj.leadID = leadId.toInt()
         loanInfoObj.productID = loanProduct?.productID
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
         loanInfoObj.loanPurposeID = loanPurpose?.loanPurposeID
-        loanInfoObj.loanSchemeTypeDetailID = loanScheme.typeDetailID
-        loanInfoObj.interestTypeTypeDetailID = interestType.typeDetailID
+        loanInfoObj.loanSchemeTypeDetailID = loanScheme?.typeDetailID
+        loanInfoObj.interestTypeTypeDetailID = interestType?.typeDetailID
         loanInfoObj.sourcingChannelPartnerTypeDetailID = sourcingChannelPartner?.typeDetailID
         loanInfoObj.isPropertySelected = binding.cbPropertySelected.isChecked
         loanInfoObj.loanAmountRequest = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString()).toInt()

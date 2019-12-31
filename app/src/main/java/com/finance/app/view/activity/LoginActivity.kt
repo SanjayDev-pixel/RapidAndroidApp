@@ -77,6 +77,7 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
             masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
             loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
             statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
+            sharedPreferences.saveLoginData(value)
             DashboardActivity.start(this@LoginActivity)
         }
     }

@@ -2,12 +2,14 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -75,20 +77,30 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         leadContact = lead.applicantContactNumber!!.toLong()
         setUpRecyclerView()
         setClickListeners()
+        fillColor(lead)
+    }
+
+    private fun fillColor(lead: AllLeadMaster) {
+        when (lead.status) {
+            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(Color.YELLOW)
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvLeadStatus.setTextColor(Color.BLUE)
+            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvLeadStatus.setTextColor(Color.RED)
+            else -> binding.tvLeadStatus.setTextColor(Color.GREEN)
+        }
     }
 
     private fun setClickListeners() {
-        binding.btnUpdateApplication.setOnClickListener {
+        binding.llLeadDetail.setOnClickListener {
             LoanApplicationActivity.start(this)
         }
 
-        binding.btnCallToCustomer.setOnClickListener {
+        binding.ivCall.setOnClickListener {
             val callIntent = Intent(Intent.ACTION_CALL)
             callIntent.data = Uri.parse("tel: +91${leadContact}")
             startActivity(callIntent)
         }
 
-        binding.btnCallUpdates.setOnClickListener {
+        binding.ivCallUpdate.setOnClickListener {
             UpdateCallActivity.start(this)
         }
 

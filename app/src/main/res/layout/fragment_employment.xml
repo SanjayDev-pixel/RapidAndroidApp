@@ -54,6 +54,7 @@
                         app:ms_floatingLabelColor="@color/hint_color"
                         app:ms_floatingLabelText="Profile Segment*"
                         android:textSize="@dimen/text_size"
+                        android:theme="@style/MatchSpinnerTheme"
                         app:ms_hint="Profile Segment*"
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
@@ -67,6 +68,7 @@
                         android:layout_weight="1"
                         android:textSize="@dimen/text_size"
                         android:minWidth="@dimen/text_min_width"
+                        android:theme="@style/MatchSpinnerTheme"
                         app:ms_arrowColor="@color/black"
                         app:ms_arrowSize="16dp"
                         app:ms_floatingLabelColor="@color/hint_color"
@@ -104,19 +106,17 @@
                         android:id="@+id/btnPrevious"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_theme_style"
                         android:text="@string/previous"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/button_text_size" />
 
                     <Button
                         android:id="@+id/btnNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_theme_style"
                         android:text="@string/next"
                         android:layout_alignParentEnd="true"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/button_text_size" />
                 </RelativeLayout>
 

@@ -54,10 +54,10 @@ class CreateLeadActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
     }
 
     private fun getLoanProductFromDB() {
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProducts ->
-            loanProducts?.let {
+        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProductValue ->
+            loanProductValue.let {
                 val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
-                arrayListOfLoanProducts.addAll(loanProducts)
+                arrayListOfLoanProducts.addAll(loanProductValue)
                 setProductDropDownValue(arrayListOfLoanProducts)
             }
         })

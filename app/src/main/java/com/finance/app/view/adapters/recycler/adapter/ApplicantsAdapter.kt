@@ -73,10 +73,10 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
             }
 
             if (selectedPosition == adapterPosition) {
-                binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.black))
+                binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.white))
                 binding.tvApplicants.setBackgroundResource(R.drawable.selected_applicant_tab)
             } else {
-                binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.white))
+                binding.tvApplicants.setTextColor(ContextCompat.getColor(mContext, R.color.black))
                 binding.tvApplicants.setBackgroundResource(R.drawable.unselected_applicant_tab)
             }
         }

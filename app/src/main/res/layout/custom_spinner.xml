@@ -13,6 +13,7 @@
             android:minWidth="@dimen/text_min_width"
             android:textSize="@dimen/button_text_size"
             app:ms_arrowColor="@color/black"
+            android:theme="@style/MatchSpinnerTheme"
             app:ms_arrowSize="16dp"
             app:ms_floatingLabelColor="@color/hint_color"
             app:ms_hintColor="@color/hint_color"

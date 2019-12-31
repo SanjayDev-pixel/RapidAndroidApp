@@ -3,6 +3,7 @@ import com.finance.app.databinding.*
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
+import com.finance.app.persistence.model.UserBranches
 import com.finance.app.utility.CurrencyConversion
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.google.android.material.textfield.TextInputEditText
@@ -45,12 +46,14 @@ class FormValidationImpl : FormValidation {
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
 
-        if (age.toInt() !in 99 downTo 14) {
-            errorCount++
-            binding.basicInfoLayout.etAge.error = "Invalid Age"
+        if(age.exIsNotEmptyOrNullOrBlank()){
+            if (age.toInt() !in 99 downTo 14) {
+                errorCount++
+                binding.basicInfoLayout.etAge.error = "Invalid Age"
+            }
         }
 
-        if (!currentStaying.exIsNotEmptyOrNullOrBlank() && currentStaying == "" && currentStaying.toInt() > 99) {
+        if (!currentStaying.exIsNotEmptyOrNullOrBlank() || currentStaying == "" || currentStaying.toFloat() > 99) {
             errorCount++
             binding.personalAddressLayout.etCurrentStaying.error = "Required field missing or Invalid Entry"
         }
@@ -677,8 +680,14 @@ class FormValidationImpl : FormValidation {
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()
         val contact = binding.etContactNum.text.toString()
-        val loan = binding.spinnerLoanProduct.getSelectedType() as LoanProductMaster?
-        val branch = binding.spinnerBranches.getSelectedType()
+        var loan: LoanProductMaster? = null
+        var branch: UserBranches? = null
+        binding.spinnerLoanProduct.getSelectedType()?.let {
+            loan = binding.spinnerLoanProduct.getSelectedType() as LoanProductMaster?
+        }
+        binding.spinnerBranches.getSelectedType()?.let {
+            branch = binding.spinnerBranches.getSelectedType() as UserBranches?
+        }
 
         val spinnerError = when {
             loan == null -> setCustomSpinnerError(binding.spinnerLoanProduct)
@@ -689,10 +698,11 @@ class FormValidationImpl : FormValidation {
         val fieldError = (when {
             !area.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
             !name.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etApplicantFirstName)
-//            !isValidMobile(contact) -> setFieldError(binding.etContactNum)
+            !isValidMobile(contact) -> setFieldError(binding.etContactNum)
             !isValidEmail(email) -> setFieldError(binding.etEmail)
             else -> 0
         })
+
         val errorCount = spinnerError + fieldError
         return isValidForm(errorCount)
     }
@@ -718,11 +728,8 @@ class FormValidationImpl : FormValidation {
     }
 
     private fun isValidMobile(phone: String): Boolean {
-        return if (!phone.exIsNotEmptyOrNullOrBlank()) {
-            val expression = "^([3-9+]|\\(\\d{1,3}\\))[0-9\\-. ]{9}$"
-            val pattern = Pattern.compile(expression)
-            val matcher = pattern.matcher(phone)
-            matcher.matches()
+        return if (phone.exIsNotEmptyOrNullOrBlank()) {
+            return android.util.Patterns.PHONE.matcher(phone).matches()
         } else false
     }
 

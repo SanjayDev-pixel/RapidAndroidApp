@@ -15,6 +15,8 @@ import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by Vishal Rathi on 23/12/19.
@@ -39,7 +41,7 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
         initializeViews(rootView)
     }
 
-    fun attachActivity(mContext: Context, dropdownValue: ArrayList<Type>, label: String, isMandatory: Boolean = this.isMandatory) {
+    fun attachActivity(mContext: Context, dropdownValue: ArrayList<Type>?, label: String, isMandatory: Boolean = this.isMandatory) {
         this.mContext = mContext
         this.isMandatory = isMandatory
         this.dropDowns = dropdownValue
@@ -60,9 +62,11 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
     }
 
     private fun proceedFurther() {
-        val adapterExpendedType = CustomSpinnerAdapter(context,
-                R.layout.item_custom_spinner, dropDowns!!)
-        spinnerType.adapter = adapterExpendedType
+        dropDowns?.let {
+            val adapterExpendedType = CustomSpinnerAdapter(context,
+                    R.layout.item_custom_spinner, dropDowns!!)
+            spinnerType.adapter = adapterExpendedType
+        }
     }
 
     private fun setDropdownLabel(msg: String) {
@@ -101,10 +105,10 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
     }
 
     fun getSelectedType(): Type? {
-        return try {
-            spinnerType.selectedView.tag as Type
-        } catch (e: Exception) {
-            null
+        val type = spinnerType.selectedView.tag as Type
+        return when {
+            type != null -> spinnerType.selectedView.tag as Type
+            else -> null
         }
     }
 

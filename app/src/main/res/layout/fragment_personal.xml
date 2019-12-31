@@ -236,9 +236,8 @@
                         android:id="@+id/btnPrevious"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_theme_style"
                         android:text="@string/previous"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/button_text_size" />
 
                     <Button
@@ -246,9 +245,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:background="@drawable/button_theme_style"
                         android:text="@string/next"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/button_text_size" />
                 </RelativeLayout>
             </LinearLayout>

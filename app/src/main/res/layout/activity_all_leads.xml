@@ -33,19 +33,16 @@
                 android:layout_above="@id/btnCreate"
                 android:layout_height="match_parent" />
 
-            <Button
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnCreate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:layout_gravity="center"
+                android:gravity="end"
+                android:layout_margin="@dimen/margin_20"
+                android:src="@drawable/ic_vector_add"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/button_theme_style"
-                android:padding="5sp"
                 android:text="@string/create_lead"
-                android:textColor="@color/white"
                 android:textSize="@dimen/button_text_size" />
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

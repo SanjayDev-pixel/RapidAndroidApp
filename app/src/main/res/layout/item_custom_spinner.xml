@@ -2,9 +2,8 @@
 <layout>
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent"
+      android:background="@color/white"
       android:layout_height="wrap_content"
-      android:paddingTop="@dimen/margin_10"
-      android:paddingBottom="@dimen/margin_10"
       android:orientation="vertical">
 
     <TextView
@@ -12,9 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/verify"
-        android:paddingStart="@dimen/margin_10"
-        android:paddingEnd="@dimen/margin_10"
-        android:text="Login"
+        style="@style/spinner_style"
+        android:text="@string/verify"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size" />
 

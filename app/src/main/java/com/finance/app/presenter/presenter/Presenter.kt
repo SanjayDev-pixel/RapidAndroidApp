@@ -2,6 +2,7 @@ package com.finance.app.presenter.presenter
 
 import android.app.ProgressDialog
 import android.content.Context
+import com.finance.app.R
 import com.finance.app.presenter.connector.Connector
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -40,9 +41,7 @@ class Presenter {
             else -> return
         }
 
-        //val newRequest = requestApi.map { it as Objects }
         callApi(dmiConnector, requestApi = requestApi)
-
     }
 
     private fun <RequestApi, ResponseApi> callApi(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, requestApi: Observable<out Any>) {
@@ -51,9 +50,7 @@ class Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewOpt.showProgressDialog() }
                 .doFinally { viewOpt.hideProgressDialog() }
-
-
-        dispose.subscribe({ response -> response?.let { apiSuccess(viewOpt, response as ResponseApi) } },
+                .subscribe({ response -> response?.let { apiSuccess(viewOpt, response as ResponseApi) } },
                 { e -> apiFailure(viewOpt, e) })
 
     }
@@ -67,11 +64,9 @@ class Presenter {
     }
 }
 
-
 abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context) : Connector.ViewOpt<RequestApi, ResponseApi> {
 
     internal var progressDialog: ProgressDialog? = null
-
 
     override fun showToast(msg: String) {
         msg.exShowToast(context)
@@ -89,7 +84,6 @@ abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context) : Conn
     }
 
     override fun getApiFailure(msg: String) {
-        print("Munish Thakur -> getApiFailure() -> $msg")
-        showToast(msg)
+        showToast(context.getString(R.string.error_api_failure))
     }
 }
