@@ -127,33 +127,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <!--<fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerInterestType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/MatchSpinnerTheme"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
-                    android:visibility="gone"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Channel Partner Name  "
-                    android:textSize="@dimen/text_size"
-                    app:ms_hint="Channel Partner Name  "
-                    android:focusable="false"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
--->
-                <!--
-                                <com.finance.app.view.customViews.CustomSpinnerView
-                                    android:id="@+id/spinnerInterestType"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fields_margin" />
-                -->
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_emi"
                     android:layout_width="match_parent"
