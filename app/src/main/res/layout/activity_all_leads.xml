@@ -42,17 +42,12 @@
                 android:src="@drawable/ic_vector_add"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-<<<<<<< HEAD
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:text="@string/create_lead"
                 android:textColor="@color/white"
                  />
-=======
-                android:text="@string/create_lead"
-                android:textSize="@dimen/button_text_size" />
->>>>>>> Vishal-spinners
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
