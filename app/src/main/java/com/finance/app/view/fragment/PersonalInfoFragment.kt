@@ -68,7 +68,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var applicantAdapter: ApplicantsAdapter? = null
     private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = null
     private var personalInfoMaster: PersonalInfoMaster? = PersonalInfoMaster()
-    private var currentApplicant: PersonalApplicantsModel = PersonalApplicantsModel()
+    private var currentApplicant: PersonalApplicantsModel? = PersonalApplicantsModel()
     private var contactDetail: ContactDetail? = ContactDetail()
     private var image: Bitmap? = null
     private var maritalStatus: DropdownMaster? = null
@@ -177,22 +177,19 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun showData(applicantList: ArrayList<PersonalApplicantsModel>?) {
-        if (applicantList != null) {
-            if (applicantList.size <= 0) {
-                fillFormWithLeadDetail()
-                personalApplicantsList!!.add(PersonalApplicantsModel())
+        if (applicantList == null || applicantList.size <= 0) {
+            getApplicantFromLead()
             } else {
                 for (applicant in applicantList) {
                     if (applicant.isMainApplicant!!) {
                         currentApplicant = applicant
-                        personalAddressDetail = currentApplicant.addressDetailList
-                        contactDetail = currentApplicant.contactDetail
+                        personalAddressDetail = currentApplicant?.addressDetailList
+                        contactDetail = currentApplicant?.contactDetail
                     }
                 }
             }
-        }
         getDropDownsFromDB()
-        fillFormWithCurrentApplicant(currentApplicant)
+        fillFormWithCurrentApplicant(currentApplicant!!)
     }
 
     private fun updateCustomZipCode(customZipView: CustomZipAddressView, addressDetail: AddressDetail) {
@@ -200,18 +197,21 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun setMasterDropDownValue(dropDown: AllMasterDropDown) {
-        binding.spinnerIdentificationType.adapter = MasterSpinnerAdapter(mContext, dropDown.IdentificationType)
-        binding.spinnerVerifiedStatus.adapter = MasterSpinnerAdapter(mContext, dropDown.VerifiedStatus)
-        binding.basicInfoLayout.spinnerGender.adapter = MasterSpinnerAdapter(mContext, dropDown.Gender)
-        binding.basicInfoLayout.spinnerNationality.adapter = MasterSpinnerAdapter(mContext, dropDown.Nationality)
-        binding.basicInfoLayout.spinnerReligion.adapter = MasterSpinnerAdapter(mContext, dropDown.Religion)
-        binding.basicInfoLayout.spinnerDobProof.adapter = MasterSpinnerAdapter(mContext, dropDown.DOBProof)
-        binding.basicInfoLayout.spinnerCaste.adapter = MasterSpinnerAdapter(mContext, dropDown.Caste)
-        binding.basicInfoLayout.spinnerQualification.adapter = MasterSpinnerAdapter(mContext, dropDown.Qualification)
-        binding.basicInfoLayout.spinnerDetailQualification.adapter = MasterSpinnerAdapter(mContext, dropDown.DetailQualification)
-        binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(mContext, dropDown.AddressProof)
-        binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, dropDown.AddressProof)
-        binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, dropDown.LivingStandardIndicators)
+        binding.basicInfoLayout.spinnerDobProof.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.DOBProof!!)
+        binding.basicInfoLayout.spinnerLivingStandard.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.LivingStandardIndicators!!)
+        binding.basicInfoLayout.spinnerMaritalStatus.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.MaritalStatus!!)
+        binding.basicInfoLayout.spinnerDetailQualification.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.DetailQualification!!)
+        binding.basicInfoLayout.spinnerQualification.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Qualification!!)
+        binding.basicInfoLayout.spinnerCaste.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Caste!!)
+        binding.basicInfoLayout.spinnerReligion.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Religion!!)
+        binding.basicInfoLayout.spinnerNationality.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Nationality!!)
+        binding.basicInfoLayout.spinnerRelationship.adapter = MasterSpinnerAdapter(mContext, relationshipList)
+        binding.basicInfoLayout.spinnerGender.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Gender!!)
+        binding.personalAddressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.ResidenceType!!)
+        binding.personalAddressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.ResidenceType!!)
+        binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.AddressProof!!)
+        binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.AddressProof!!)
+
         setMaritalStatus(dropDown)
         setUpResidenceTypeDropDown(binding.personalAddressLayout.spinnerCurrentResidenceType,
                 dropDown.ResidenceType!!, binding.personalAddressLayout.inputLayoutCurrentRentAmount)
@@ -220,7 +220,9 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
             fillAddressInfo(personalAddressDetail!!)
         }
-        fillValueInMasterDropDown()
+        currentApplicant?.let {
+            fillValueInMasterDropDown(currentApplicant!!)
+        }
     }
 
     private fun setUpResidenceTypeDropDown(spinner: Spinner, residenceType: ArrayList<DropdownMaster>, field: TextInputLayout) {
@@ -241,18 +243,35 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
 
-    private fun fillFormWithLeadDetail() {
+    private fun getApplicantFromLead() :PersonalApplicantsModel{
         currentApplicant = PersonalApplicantsModel()
-        currentApplicant.firstName = mLead!!.applicantFirstName
-        currentApplicant.middleName = mLead!!.applicantMiddleName
-        currentApplicant.lastName = mLead!!.applicantLastName
-        personalAddressDetail = currentApplicant.addressDetailList
+        currentApplicant!!.firstName = mLead!!.applicantFirstName
+        currentApplicant!!.middleName = mLead!!.applicantMiddleName
+        currentApplicant!!.lastName = mLead!!.applicantLastName
+        personalAddressDetail = currentApplicant!!.addressDetailList
         contactDetail!!.mobile = mLead!!.applicantContactNumber
         contactDetail!!.email = mLead!!.applicantEmail
+        personalApplicantsList?.add(currentApplicant!!)
+
+        return currentApplicant!!
     }
 
-    private fun fillFormWithCurrentApplicant(currentApplicant: PersonalApplicantsModel) {
-        binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormat(currentApplicant.dateOfBirth!!))
+    private fun fillFormWithCurrentApplicant(currentApplicant: PersonalApplicantsModel?) {
+        currentApplicant?.let {
+            fillValueInMasterDropDown(currentApplicant)
+
+            contactDetail?.let {
+                binding.basicInfoLayout.etEmail.setText(contactDetail!!.email)
+                binding.basicInfoLayout.etMobile.setText(contactDetail!!.mobile)
+                if (currentApplicant.contactDetail!!.isMobileVerified!!) {
+                    binding.basicInfoLayout.etMobile.isEnabled = false
+                    binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
+                    binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormat(currentApplicant?.dateOfBirth!!))
         binding.basicInfoLayout.cbIncomeConsidered.isChecked = currentApplicant.incomeConsidered!!
         binding.basicInfoLayout.etFatherLastName.setText(currentApplicant.fatherLastName)
         binding.basicInfoLayout.etFatherMiddleName.setText(currentApplicant.fatherMiddleName)
@@ -264,13 +283,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
         binding.basicInfoLayout.etAge.setText(currentApplicant.age.toString())
         binding.basicInfoLayout.etAlternateNum.setText(currentApplicant.alternateContact.toString())
-        binding.basicInfoLayout.etEmail.setText(contactDetail!!.email)
-        binding.basicInfoLayout.etMobile.setText(contactDetail!!.mobile)
-        if(currentApplicant.contactDetail?.isMobileVerified!!){
-            binding.basicInfoLayout.etMobile.isEnabled =false
-            binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
-            binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
-        }
         if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
             fillAddressInfo(personalAddressDetail!!)
         } else {
@@ -282,7 +294,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             binding.basicInfoLayout.etSpouseFirstName.setText(currentApplicant.spouseFirstName)
             binding.basicInfoLayout.etSpouseLastName.setText(currentApplicant.spouseLastName)
         }
-        fillValueInMasterDropDown()
         checkSubmission()
     }
 
@@ -292,17 +303,17 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    private fun fillValueInMasterDropDown() {
-        selectGenderValue(binding.basicInfoLayout.spinnerGender)
-        selectNationalityValue(binding.basicInfoLayout.spinnerNationality)
-        selectReligionValue(binding.basicInfoLayout.spinnerReligion)
-        selectCasteValue(binding.basicInfoLayout.spinnerCaste)
-        selectDobProofValue(binding.basicInfoLayout.spinnerDobProof)
-        selectQualificationValue(binding.basicInfoLayout.spinnerQualification)
-        selectDetailQualificationValue(binding.basicInfoLayout.spinnerDetailQualification)
-        selectMaritalStatusValue(binding.basicInfoLayout.spinnerMaritalStatus)
+    private fun fillValueInMasterDropDown(currentApplicant: PersonalApplicantsModel) {
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerGender, currentApplicant.genderTypeDetailID!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerNationality, currentApplicant.nationalityTypeDetailID!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerReligion, currentApplicant.religionTypeDetailID!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerCaste, currentApplicant.casteTypeDetailID!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerDobProof, currentApplicant.dobProofTypeDetailID!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerQualification, currentApplicant.qualificationTypeDetailID!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerDetailQualification, currentApplicant.detailQualificationTypeDetailID!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerLivingStandard, currentApplicant.livingStandardTypeDetailId!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerMaritalStatus, currentApplicant.maritialStatusTypeDetailID!!)
         setUpRelationshipValue(binding.basicInfoLayout.spinnerRelationship)
-        selectLivingStandardValue(binding.basicInfoLayout.spinnerLivingStandard)
     }
 
     private fun fillAddressInfo(addressDetailList: ArrayList<AddressDetail>) {
@@ -315,8 +326,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
-        selectCurrentAddressProofValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail)
-        selectResidenceTypeValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail)
+        selectMasterDropdownValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail.addressTypeDetailID!!)
+        selectMasterDropdownValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail.residenceTypeTypeDetailID!!)
 
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
     }
@@ -326,8 +337,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etPermanentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears.toString())
-        selectResidenceTypeValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail)
-        selectPermanentAddressProofValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail)
+        selectMasterDropdownValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail.residenceTypeTypeDetailID!!)
+        selectMasterDropdownValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail.addressTypeDetailID!!)
 
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customPermanentZipAddressView, addressDetail = addressDetail)
     }
@@ -349,56 +360,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    private fun selectGenderValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.genderTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectDobProofValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.dobProofTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectLivingStandardValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.livingStandardTypeDetailId) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectNationalityValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.nationalityTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectReligionValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.religionTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
     private fun setUpRelationshipValue(spinner: Spinner) {
         if (currentPosition == 0) {
             spinner.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Relationship)
@@ -406,7 +367,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             spinner.isEnabled = false
         } else {
             spinner.adapter = MasterSpinnerAdapter(mContext, relationshipList)
-            selectRelationshipValue(spinner, currentApplicant.relationshipTypeDetailId)
+            selectRelationshipValue(spinner, currentApplicant!!.relationshipTypeDetailId)
         }
     }
 
@@ -420,70 +381,10 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    private fun selectCasteValue(spinner: Spinner) {
+    private fun selectMasterDropdownValue(spinner: Spinner, id: Int) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.casteTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectCurrentAddressProofValue(spinner: Spinner, address: AddressDetail) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == address.addressTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectPermanentAddressProofValue(spinner: Spinner, address: AddressDetail) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == address.addressTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectResidenceTypeValue(spinner: Spinner, address: AddressDetail) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == address.residenceTypeTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectMaritalStatusValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.maritialStatusTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectQualificationValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.qualificationTypeDetailID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-    private fun selectDetailQualificationValue(spinner: Spinner) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == currentApplicant.detailQualificationTypeDetailID) {
+            if (obj.typeDetailID == id) {
                 spinner.setSelection(index + 1)
                 return
             }
@@ -631,7 +532,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     override val loanAppRequestPost: LoanApplicationRequest
-        get() = RequestConversion().getRequest(getPersonalInfoMaster())
+        get() = RequestConversion().personalInfoRequest(getPersonalInfoMaster())
 
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getPersonalInfoMaster())
@@ -678,9 +579,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun onAddCoApplicantClick() {
-        when (SUBMITTED) {
-            mLead!!.status -> {
-            }
+        when (mLead!!.status) {
+            SUBMITTED -> showToast(getString(R.string.error_add_co_applicant))
             else -> if (formValidation.validatePersonalInfo(binding)) {
                 personalApplicantsList!!.add(PersonalApplicantsModel())
                 applicantTab!!.add(getDefaultCoApplicant())
@@ -751,11 +651,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun getParticularApplicantData(position: Int, coApplicant: Response.CoApplicantsObj) {
         currentApplicant = personalApplicantsList!![position]
-        currentApplicant.isMainApplicant = coApplicant.isMainApplicant
-        currentApplicant.leadApplicantNumber = coApplicant.leadApplicantNumber
-        currentApplicant.firstName = coApplicant.firstName
-        contactDetail = currentApplicant.contactDetail
-        personalAddressDetail = currentApplicant.addressDetailList
+        currentApplicant!!.isMainApplicant = coApplicant.isMainApplicant
+        currentApplicant!!.leadApplicantNumber = coApplicant.leadApplicantNumber
+        currentApplicant!!.firstName = coApplicant.firstName
+        contactDetail = currentApplicant!!.contactDetail
+        personalAddressDetail = currentApplicant!!.addressDetailList
         fillFormWithCurrentApplicant(currentApplicant)
     }
 
@@ -914,6 +814,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private val minutes = 1L
     private val seconds = 60L
     private val millisecond = 1000L
+
     private val timerOtpResend = object: CountDownTimer(minutes * seconds * millisecond, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             val secondsUntilFinish = (millisUntilFinished / millisecond).toInt()
@@ -943,7 +844,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     override fun getVerifyOTPSuccess(value: Response.ResponseVerifyOTP) {
         dismissOtpVerificationDialog()
-        currentApplicant.contactDetail!!.isMobileVerified = true
+        currentApplicant?.contactDetail!!.isMobileVerified = true
         binding.basicInfoLayout.etMobile.isEnabled = false
         binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
         binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE

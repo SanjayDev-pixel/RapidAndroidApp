@@ -94,6 +94,9 @@ class AppEnums {
         LAST_YEAR_INCOME("LAST_YEAR_INCOME"), CURRENT_YEAR_INCOME("CURRENT_YEAR_INCOME")
     }
 
+    enum class LEAD_TYPE(val type: String) {
+        PENDING("Pending"), REJECTED("Rejected"), SUBMITTED("Submitted")
+    }
 
     enum class EnumEventChangeLoanApplicationFragmentNavigation {
         NEXT, PREVIOUS

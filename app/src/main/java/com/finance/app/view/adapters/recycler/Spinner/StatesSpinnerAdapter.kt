@@ -39,8 +39,8 @@ class StatesSpinnerAdapter(mContext: Context, val value: List<StatesMaster>?,
         spinnerValue = value!![position]
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.layout_custom_spinner, parent, false)
-            val textView = view.findViewById<View>(R.id.dropdown) as TextView
+            view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
+            val textView = view.findViewById<View>(R.id.tvSpinnerValue) as TextView
             textView.text = spinnerValue.stateName
         } else {
             view = convertView

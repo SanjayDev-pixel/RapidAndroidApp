@@ -25,7 +25,7 @@ class UtilityModule {
     @Provides
     @Singleton
     internal fun provideFormvalidation(application: Application): FormValidation {
-        return FormValidationImpl(application)
+        return FormValidationImpl()
     }
 
     @Provides

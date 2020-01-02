@@ -26,16 +26,23 @@
     <item name="android:textColorSecondary">@color/white</item>
   </style>
 
-  <style name="spinner_style">
-
-    <item name="android:paddingLeft">2dp</item>
-    <item name="android:paddingRight">2dp</item>
-    <item name="android:dropDownWidth">100dp</item>
-    <item name="android:showDividers">none</item>
+  <style name="MatchSpinnerStyle" parent="android:style/Widget.ListView.DropDown">
+    <item name="android:divider">@color/md_grey_300</item>
+    <item name="android:dropDownSelector">@color/colorPrimary</item>
     <item name="android:dividerHeight">2dp</item>
-    <item name="android:dropDownHeight">100dp</item>
-    <item name="android:scrollbarAlwaysDrawVerticalTrack">false</item>
-    <item name="android:dropDownSelector">@android:color/white</item>
+  </style>
+
+  <style name="MatchSpinnerTheme" parent="AppTheme">
+    <item name="android:dropDownListViewStyle">@style/MatchSpinnerStyle</item>
+  </style>
+
+  <style name="spinner_style">
+    <item name="android:paddingLeft">10dp</item>
+    <item name="android:paddingTop">10dp</item>
+    <item name="android:paddingBottom">10dp</item>
+    <item name="android:paddingRight">10dp</item>
+    <item name="android:dividerHeight">2dp</item>
+    <item name="android:dropDownSelector">@color/colorPrimary</item>
 
   </style>
 

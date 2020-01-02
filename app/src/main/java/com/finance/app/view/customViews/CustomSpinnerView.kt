@@ -8,22 +8,29 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import com.finance.app.R
+import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.presenter.connector.ValidationHandler
+import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by Vishal Rathi on 23/12/19.
  */
+@Suppress("UNCHECKED_CAST")
 class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context,
         attrs), AdapterView.OnItemSelectedListener, ValidationHandler {
 
-    private lateinit var activity: Fragment
+    private lateinit var mContext: Context
     private var isMandatory: Boolean = true
     private var dropDowns: ArrayList<Type>? = null
+    private lateinit var spinnerType: MaterialSpinner
+    private lateinit var tvErrorText: TextView
+    private lateinit var llErrorBlock: LinearLayout
 
     init {
         orientation = HORIZONTAL
@@ -34,8 +41,8 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
         initializeViews(rootView)
     }
 
-    fun attachActivity(activity: Fragment, dropdownValue: ArrayList<Type>, label: String, isMandatory: Boolean = this.isMandatory) {
-        this.activity = activity
+    fun attachActivity(mContext: Context, dropdownValue: ArrayList<Type>?, label: String, isMandatory: Boolean = this.isMandatory) {
+        this.mContext = mContext
         this.isMandatory = isMandatory
         this.dropDowns = dropdownValue
         proceedFurther()
@@ -46,10 +53,6 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
         this.isMandatory = isMandatory
     }
 
-    private lateinit var spinnerType: MaterialSpinner
-    private lateinit var tvErrorText: TextView
-    private lateinit var llErrorBlock: LinearLayout
-
     private fun initializeViews(rootView: View) {
         spinnerType = rootView.findViewById(R.id.spinnerType)
         tvErrorText = rootView.findViewById(R.id.tvErrorText)
@@ -59,22 +62,16 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
     }
 
     private fun proceedFurther() {
-        val adapterExpendedType = CustomSpinnerAdapter(context,
-                R.layout.item_custom_spinner, dropDowns!!)
-        spinnerType.adapter = adapterExpendedType
+        dropDowns?.let {
+            val adapterExpendedType = CustomSpinnerAdapter(context,
+                    R.layout.item_custom_spinner, dropDowns!!)
+            spinnerType.adapter = adapterExpendedType
+        }
     }
 
     private fun setDropdownLabel(msg: String) {
         spinnerType.hint = msg
         spinnerType.floatingLabelText = msg
-    }
-
-    fun getSelectedType(): Type? {
-        return try {
-            spinnerType.selectedView.tag as Type
-        } catch (e: Exception) {
-            null
-        }
     }
 
     override fun resetValidation() {
@@ -107,7 +104,22 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
         return true
     }
 
-    fun setError(msg: String = "Required Field") {
+    fun getSelectedType(): Type? {
+        val type = spinnerType.selectedView.tag as Type
+        return when {
+            type != null -> spinnerType.selectedView.tag as Type
+            else -> null
+        }
+    }
+
+    fun selectValue(id: Int?) {
+        for (index in 0 until spinnerType.count - 1) {
+            val obj = spinnerType.getItemAtPosition(index) as DropdownMaster
+            if (obj.typeDetailID == id) {
+                spinnerType.setSelection(index + 1)
+                return
+            }
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -117,5 +129,9 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
     }
 
     override fun getErrorMessage(): String = "Error"
+
+    fun setError(msg: String) {
+        spinnerType.error = msg
+    }
 
 }

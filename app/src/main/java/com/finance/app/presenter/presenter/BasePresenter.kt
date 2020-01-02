@@ -26,7 +26,7 @@ class BasePresenter(private val dmiApiConnector: IBaseConnector) {
 
     fun <Request> callNetwork(api: ConstantsApi, request: Request, ids: List<String>?) {
         val requestApi = when (api) {
-            ConstantsApi.CALL_ADD_LEAD -> apiProject.api.addLead(request)
+            ConstantsApi.CALL_ADD_LEAD -> apiProject.api.addLead(request as Requests.RequestAddLead)
             ConstantsApi.CALL_ALL_MASTER_VALUE -> apiProject.api.getAllMasterValue()
             ConstantsApi.CALL_LOGIN -> {
                 request as Requests.RequestLogin
@@ -35,7 +35,7 @@ class BasePresenter(private val dmiApiConnector: IBaseConnector) {
             else -> return
         }
 
-        requestApi.subscribeOn(Schedulers.io())
+        val d = requestApi.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { dmiApiConnector.showProgressDialog() }
                 .doFinally { dmiApiConnector.hideProgressDialog() }

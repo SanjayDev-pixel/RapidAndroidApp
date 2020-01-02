@@ -3,13 +3,8 @@
     android:insetBottom="-2dp">
 
     <shape android:shape="rectangle">
-        <corners
-            android:topLeftRadius="10dp"
-            android:topRightRadius="10dp" />
-        <solid android:color="@color/white" />
-        <stroke
-            android:width="2dp"
-            android:color="@color/theme_light_blue"
-            android:drawable="@android:color/transparent" />
+        <corners android:radius="5sp" />
+        <solid android:color="@color/md_grey_400" />
+
     </shape>
 </inset>

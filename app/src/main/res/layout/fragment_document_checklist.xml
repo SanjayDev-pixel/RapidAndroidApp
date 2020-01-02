@@ -60,8 +60,13 @@
                     android:layout_marginTop="@dimen/margin_50"
                     android:layout_gravity="center"
                     android:text="@string/submit"
+<<<<<<< HEAD
                     android:textColor="@color/white"
                     />
+=======
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/button_text_size" />
+>>>>>>> Vishal-spinners
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

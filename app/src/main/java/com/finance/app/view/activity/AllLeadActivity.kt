@@ -47,7 +47,7 @@ class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
         presenter.callNetwork(ConstantsApi.CALL_GET_ALL_LEADS)
         refreshPage()
         binding.btnCreate.setOnClickListener {
-            LeadCreationActivity.start(this)
+            CreateLeadActivity.start(this)
         }
     }
 

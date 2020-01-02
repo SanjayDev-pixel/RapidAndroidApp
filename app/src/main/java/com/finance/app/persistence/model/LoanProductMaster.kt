@@ -19,4 +19,8 @@ class LoanProductMaster : Serializable {
     var minTenure: Int = 0
     var productName: String? = null
     var toDate: String? = null
+
+    override fun toString(): String {
+        return "$productName"
+    }
 }

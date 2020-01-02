@@ -1,15 +1,22 @@
 package motobeans.architecture.util
 
 import android.content.Context
-import com.google.android.material.textfield.TextInputLayout
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat.getColor
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.textfield.TextInputLayout
 import java.math.BigDecimal
 import java.util.regex.Pattern
+
 
 /**
  * Created by munishkumarthakur on 04/11/17.
@@ -44,6 +51,11 @@ fun String.exToInt(): Int {
   }
 }
 
+fun TextView.setDrawableColor(@ColorRes color: Int) {
+  compoundDrawables.filterNotNull().forEach {
+    it.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_IN)
+  }
+}
 
 fun Int?.isGreaterThanZero(): Boolean {
   try {

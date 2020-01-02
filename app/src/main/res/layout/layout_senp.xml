@@ -52,6 +52,7 @@
                 app:ms_floatingLabelColor="@color/hint_color"
                 app:ms_floatingLabelText="Constitution*"
                 app:ms_hint="Constitution* "
+                android:theme="@style/MatchSpinnerTheme"
                 app:ms_hintColor="@color/hint_color"
                 app:ms_hintTextSize="@dimen/hint_size"
                 app:ms_multiline="false" />
@@ -67,6 +68,7 @@
                     android:id="@+id/spinnerIndustry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:theme="@style/MatchSpinnerTheme"
                     android:layout_weight="1"
                     android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
@@ -90,6 +92,7 @@
                     android:layout_marginStart="@dimen/margin_10"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_floatingLabelText="Business Setup Type*"
+                    android:theme="@style/MatchSpinnerTheme"
                     app:ms_hint="Business Setup Type*"
                     app:ms_hintColor="@color/hint_color"
                     app:ms_hintTextSize="@dimen/hint_size"

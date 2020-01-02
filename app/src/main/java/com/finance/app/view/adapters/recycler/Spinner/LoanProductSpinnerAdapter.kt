@@ -14,14 +14,6 @@ import motobeans.architecture.retrofit.response.Response
 
 class LoanProductSpinnerAdapter(val mContext: Context, val value: ArrayList<LoanProductMaster>) : BaseAdapter() {
 
-    init {
-        val userSelectTextBranch = LoanProductMaster()
-        userSelectTextBranch.productID = -1
-        userSelectTextBranch.productName = "Select Loan *"
-
-        value.add(0, userSelectTextBranch)
-    }
-
     private var inflater: LayoutInflater = mContext.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private lateinit var spinnerValue: LoanProductMaster
 
@@ -41,8 +33,8 @@ class LoanProductSpinnerAdapter(val mContext: Context, val value: ArrayList<Loan
         spinnerValue = value[position]
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.spinner_textbox, parent, false)
-            val textView = view.findViewById<View>(R.id.tvDropdownText) as TextView
+            view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
+            val textView = view.findViewById<View>(R.id.tvSpinnerValue) as TextView
             textView.text = spinnerValue.productName
         } else {
             view = convertView

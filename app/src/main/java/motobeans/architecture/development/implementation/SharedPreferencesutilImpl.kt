@@ -4,6 +4,7 @@ import android.content.Context
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoModel
+import com.finance.app.persistence.model.UserBranches
 import com.google.gson.Gson
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
@@ -56,10 +57,8 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.tablePrimaryID.toString()
     }
 
-    override fun getUserBranches(): List<Response.UserBranches>? {
-        val userBranches = ArrayList<Response.UserBranches>()
-        val userSelectTextBranch = Response.UserBranches(branchID = -1, branchName = "Branch*")
-        userBranches.add(userSelectTextBranch)
+    override fun getUserBranches(): ArrayList<UserBranches>? {
+        val userBranches = ArrayList<UserBranches>()
         getLoginData()?.responseObj?.userDetails?.userBranches?.let {
             userBranches.addAll(getLoginData()!!.responseObj.userDetails.userBranches)
         }

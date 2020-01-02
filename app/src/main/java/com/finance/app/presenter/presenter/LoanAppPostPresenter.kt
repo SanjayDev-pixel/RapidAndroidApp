@@ -30,10 +30,10 @@ class LoanAppPostPresenter(private val PostLoanApp: LoanApplicationConnector.Pos
     private fun callLoanAppPostApi() {
         val requestApi = apiProject.api.postLoanApp(PostLoanApp.loanAppRequestPost)
 
-        requestApi
+        val d = requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _ -> PostLoanApp.showProgressDialog() }
+                .doOnSubscribe { PostLoanApp.showProgressDialog() }
                 .doFinally { PostLoanApp.hideProgressDialog() }
                 .subscribe({ response -> onLoanAppPost(response) },
                         { e -> PostLoanApp.getLoanAppPostFailure(e?.message ?: "") })

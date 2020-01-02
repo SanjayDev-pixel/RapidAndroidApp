@@ -6,40 +6,87 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
-import com.finance.app.databinding.ItemLeadBinding
+import com.finance.app.databinding.ItemNewLeadBinding
+import com.finance.app.databinding.ItemPendingLeadBinding
+import com.finance.app.databinding.ItemRejectedLeadBinding
+import com.finance.app.databinding.ItemSubmittedLeadBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.utility.ConvertDate
-import com.finance.app.view.activity.LeadDetailActivity
-import java.text.SimpleDateFormat
-import java.util.*
+import com.finance.app.view.adapters.recycler.Holder.NewLeadHolder
+import com.finance.app.view.adapters.recycler.Holder.PendingLeadHolder
+import com.finance.app.view.adapters.recycler.Holder.RejectedLeadHolder
+import com.finance.app.view.adapters.recycler.Holder.SubmittedLeadHolder
 
 class LeadListingAdapter(private val mContext: Context, private val leads: ArrayList<AllLeadMaster>) :
-        RecyclerView.Adapter<LeadListingAdapter.LeadManagementViewHolder>() {
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var binding: ItemLeadBinding
+    companion object {
+        const val PENDING = 1
+        const val SUBMITTED = 2
+        const val REJECTED = 3
+        const val NEW = 4
+    }
 
-    override fun onBindViewHolder(holder: LeadManagementViewHolder, position: Int) {
-        holder.bindItems(leads[position])
+    private lateinit var newLeadBinding: ItemNewLeadBinding
+    private lateinit var submittedLeadBinding: ItemSubmittedLeadBinding
+    private lateinit var rejectedLeadBinding: ItemRejectedLeadBinding
+    private lateinit var pendingLeadBinding: ItemPendingLeadBinding
+
+    override fun getItemViewType(position: Int): Int {
+        return when(leads[position].status) {
+            AppEnums.LEAD_TYPE.PENDING.type -> PENDING
+            AppEnums.LEAD_TYPE.REJECTED.type -> REJECTED
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> SUBMITTED
+            else -> NEW
+        }
     }
 
     override fun getItemCount() = leads.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeadManagementViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_lead, parent, false)
-        return LeadManagementViewHolder(binding)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder.itemViewType) {
+            PENDING -> initLayoutPending(holder as PendingLeadHolder, position)
+            SUBMITTED -> initLayoutSubmitted(holder as SubmittedLeadHolder, position)
+            REJECTED -> initLayoutRejected(holder as RejectedLeadHolder, position)
+            NEW -> initLayoutNew(holder as NewLeadHolder, position)
+        }
     }
 
-    inner class LeadManagementViewHolder(val binding: ItemLeadBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bindItems(lead: AllLeadMaster) {
-            binding.tvLeadName.text = lead.applicantFirstName
-            binding.tvLeadStatus.text = lead.status
-            binding.tvLoanType.text = lead.loanProductName
-            binding.tvLeadAddress.text = lead.applicantAddress
-            binding.tvDateAndTime.text = ConvertDate().convertDate(lead.createdOn!!)
+    private fun initLayoutPending(holder: PendingLeadHolder, pos: Int) {
+        holder.bindItems(leads[pos])
+    }
 
-            binding.leadCard.setOnClickListener {
-                LeadDetailActivity.start(mContext, lead.leadID)
+    private fun initLayoutSubmitted(holder: SubmittedLeadHolder, pos: Int) {
+        holder.bindItems(leads[pos])
+    }
+
+    private fun initLayoutRejected(holder: RejectedLeadHolder, pos: Int) {
+        holder.bindItems(leads[pos])
+    }
+
+    private fun initLayoutNew(holder: NewLeadHolder, pos: Int) {
+        holder.bindItems(leads[pos])
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+
+        return when (viewType) {
+            PENDING -> {
+                pendingLeadBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_pending_lead, parent, false)
+                PendingLeadHolder(pendingLeadBinding, mContext)
+            }
+            REJECTED -> {
+                rejectedLeadBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_rejected_lead, parent, false)
+                RejectedLeadHolder(rejectedLeadBinding, mContext)
+            }
+            SUBMITTED -> {
+                submittedLeadBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_submitted_lead, parent, false)
+                SubmittedLeadHolder(submittedLeadBinding, mContext)
+            }
+            else -> {
+                newLeadBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_new_lead, parent, false)
+                NewLeadHolder(newLeadBinding, mContext)
             }
         }
     }

@@ -165,12 +165,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_20"
-                android:background="@drawable/button_theme_style"
-                android:padding="5sp"
                 android:text="@string/add_credit_card"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/button_text_size" />
 
             <androidx.recyclerview.widget.RecyclerView

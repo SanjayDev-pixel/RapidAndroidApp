@@ -37,6 +37,7 @@
                     android:layout_weight="1"
                     android:minWidth="@dimen/text_min_width"
                     app:ms_arrowColor="@color/black"
+                    android:theme="@style/MatchSpinnerTheme"
                     app:ms_arrowSize="@dimen/text_size"
                     android:textSize="@dimen/text_size"
                     app:ms_floatingLabelColor="@color/hint_color"
@@ -50,6 +51,7 @@
                     android:id="@+id/spinnerCurrentAddressProof"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:theme="@style/MatchSpinnerTheme"
                     android:layout_marginStart="@dimen/margin_10"
                     android:layout_weight="1"
                     android:minWidth="@dimen/text_min_width"
@@ -193,6 +195,7 @@
 
                 <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerPermanentResidenceType"
+                    android:theme="@style/MatchSpinnerTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -214,6 +217,7 @@
                     android:layout_marginStart="@dimen/margin_10"
                     android:layout_weight="1"
                     android:minWidth="@dimen/text_min_width"
+                    android:theme="@style/MatchSpinnerTheme"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="@dimen/text_size"
                     android:textSize="@dimen/text_size"

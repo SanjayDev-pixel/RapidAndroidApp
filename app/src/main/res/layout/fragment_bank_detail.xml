@@ -180,14 +180,11 @@
                     android:id="@+id/btnAddBankDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_50"
-                    android:background="@drawable/oval_background"
-                    android:padding="5sp"
                     android:text="@string/add_bank_detail"
                     android:gravity="center"
-                    android:textAllCaps="true"
+                    android:layout_marginTop="@dimen/margin_50"
                     android:layout_gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/button_text_size" />
 
                 <Button
@@ -195,14 +192,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_50"
-                    android:background="@drawable/oval_background"
-                    android:padding="5sp"
                     android:visibility="gone"
-                    android:textAllCaps="true"
                     android:text="@string/update"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/button_text_size" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -220,35 +214,28 @@
                     android:layout_gravity="center"
                     android:layout_height="12sp" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:gravity="end"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/margin_50"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_50">
 
                     <Button
                         android:id="@+id/btnPrevious"
-                        android:layout_weight="1"
-                        android:layout_width="0sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/oval_background"
                         android:text="@string/previous"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/button_text_size" />
 
                     <Button
                         android:id="@+id/btnNext"
-                        android:layout_weight="1"
-                        android:layout_width="0sp"
-                        android:padding="0sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_20"
-                        android:background="@drawable/oval_background"
+                        android:layout_alignParentEnd="true"
                         android:text="@string/next"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/button_text_size" />
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
         </ScrollView>
