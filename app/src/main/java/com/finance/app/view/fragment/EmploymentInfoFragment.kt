@@ -459,6 +459,13 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         selectSubProfileValue(binding.spinnerSubProfile, currentApplicant)
         fillSenpForm(binding.layoutSenp, currentApplicant)
         fillSalaryForm(binding.layoutSalary, currentApplicant)
+        checkSubmission()
+    }
+
+    private fun checkSubmission() {
+        if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+            DisableEmploymentForm(binding)
+        }
     }
 
     private fun selectProfileValue(spinner: Spinner, currentApplicant: EmploymentApplicantsModel) {

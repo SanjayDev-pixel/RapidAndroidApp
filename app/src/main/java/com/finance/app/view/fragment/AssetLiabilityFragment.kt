@@ -94,6 +94,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
+        setClickListeners()
         getAssetLiabilityInfo()
         SetAssetLiabilityMandatoryField(binding)
         setDatePicker()
@@ -181,10 +182,10 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             for (applicant in applicantList) {
                 if (applicant.isMainApplicant) {
                     currentApplicant = applicant
-                    setUpCurrentApplicantDetails(currentApplicant)
                 }
             }
         }
+        setUpCurrentApplicantDetails(currentApplicant)
         getDropDownsFromDB()
     }
 
@@ -234,7 +235,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         binding.layoutCreditCard.rcCreditCard.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
         cardDetailAdapter = CardDetailAdapter(mContext, cards)
         binding.layoutCreditCard.rcCreditCard.adapter = cardDetailAdapter
-        assetAdapter.setOnAssetClickListener(this)
+        cardDetailAdapter.setOnCardClickListener(this)
         binding.pageIndicatorAsset.attachTo(binding.layoutCreditCard.rcCreditCard)
         binding.pageIndicatorAsset.visibility = View.VISIBLE
         binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
@@ -345,22 +346,18 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun saveCurrentObligations() {
-        if (obligationsList == null || obligationsList!!.size <= 0) {
-            obligationsList?.add(getCurrentObligation())
-        } else obligationsList!![currentPosition] = getCurrentObligation()
-        setUpObligationAdapter(obligationsList!!)
+        obligationsList?.add(getCurrentObligation())
+        obligationAdapter.notifyDataSetChanged()
     }
 
     private fun saveCurrentCardDetails() {
-        if (cardDetailList == null || cardDetailList!!.size <= 0) {
-            cardDetailList?.add(getCurrentCardDetail())
-        } else cardDetailList!![currentPosition] = getCurrentCardDetail()
-        setUpCardDetailAdapter(cardDetailList!!)
+        cardDetailList?.add(getCurrentCardDetail())
+        cardDetailAdapter.notifyDataSetChanged()
     }
 
     private fun saveCurrentAsset() {
         assetsList?.add(getCurrentAsset())
-        setUpAssetAdapter(assetsList!!)
+        assetAdapter.notifyDataSetChanged()
     }
 
     private fun saveCurrentApplicant() {

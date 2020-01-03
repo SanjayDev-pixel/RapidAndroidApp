@@ -170,6 +170,13 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         selectMasterDropdownValue(binding.spinnerRelation, currentReference.relationTypeDetailID)
         selectMasterDropdownValue(binding.spinnerOccupation, currentReference.occupationTypeDetailID)
         fillAddressFields(binding.referenceAddressLayout, currentReference.addressBean)
+        checkSubmission()
+    }
+
+    private fun checkSubmission() {
+        if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+            DisableReferenceForm(binding)
+        }
     }
 
     private fun fillAddressFields(binding: LayoutEmploymentAddressBinding, address: ReferenceAddressDetail?) {

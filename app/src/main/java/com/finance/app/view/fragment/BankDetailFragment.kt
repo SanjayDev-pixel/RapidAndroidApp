@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.FragmentBankDetailBinding
 import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
@@ -347,6 +348,14 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.etAccountNum.setText(bank.accountNumber)
         binding.etAccountHolderName.setText(bank.accountHolderName)
         binding.etSalaryCreditedInSixMonths.setText(bank.numberOfCredit.toString())
+
+        checkSubmission()
+    }
+
+    private fun checkSubmission() {
+        if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+            DisableBankForm(binding)
+        }
     }
 
     private fun showAlertDialog(position: Int) {

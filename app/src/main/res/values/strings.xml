@@ -196,4 +196,5 @@
     <string name="error_pin_code">Pin code can not be blank</string>
     <string name="error_add_co_applicant">Cannot add Co-Applicant after submission</string>
     <string name="error_api_failure">Unable to process request</string>
+    <string name="cancel">Cancel</string>
 </resources>

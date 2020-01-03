@@ -180,11 +180,6 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun disableEmploymentFields(binding: FragmentEmploymentBinding) {
-        binding.spinnerProfileSegment.isEnabled = false
-        binding.spinnerSubProfile.isEnabled = false
-    }
-
     override fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding) {
         binding.spinnerAssetType.isEnabled = false
         binding.spinnerAssetSubType.isEnabled = false

@@ -3,6 +3,7 @@ import android.content.Context
 import android.content.Intent
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
@@ -12,6 +13,7 @@ import com.finance.app.presenter.presenter.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -61,8 +63,9 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-//            if (formValidation.validateLogin(binding)) {
-            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
+            if (formValidation.validateLogin(binding)) {
+                loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
+            }
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -74,11 +77,15 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
             get() = mLoginRequestLogin
 
         override fun getApiSuccess(value: ResponseLogin) {
-            masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
-            loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
-            statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
-            sharedPreferences.saveLoginData(value)
-            DashboardActivity.start(this@LoginActivity)
+            if (value.responseCode == Constants.SUCCESS) {
+                masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
+                loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
+                statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
+                sharedPreferences.saveLoginData(value)
+                DashboardActivity.start(this@LoginActivity)
+            } else {
+                showToast(value.responseMsg)
+            }
         }
     }
 
@@ -89,8 +96,8 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
 
     private val mLoginRequestLogin: RequestLogin
         get() {
-            binding.etUserName.setText("kuldeep.saini@gmail.com")
-            binding.etPassword.setText("Default@123")
+//            binding.etUserName.setText("kuldeep.saini@gmail.com")
+//            binding.etPassword.setText("Default@123")
             val username = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
             val company = mCompany

@@ -98,6 +98,10 @@ class AppEnums {
         PENDING("Pending"), REJECTED("Rejected"), SUBMITTED("Submitted")
     }
 
+    enum class RESPONSEAPI(val type: String) {
+        SUCCESS("200")
+    }
+
     enum class EnumEventChangeLoanApplicationFragmentNavigation {
         NEXT, PREVIOUS
     }

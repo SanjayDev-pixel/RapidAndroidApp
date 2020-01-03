@@ -15,7 +15,6 @@ import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -107,10 +106,12 @@ class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: Array
     }
 
     fun getSelectedType(): Type? {
-        val type = spinnerType.selectedView.tag as Type
-        return when {
-            type != null -> spinnerType.selectedView.tag as Type
-            else -> null
+        return when (val type = spinnerType.selectedView.tag) {
+            is Int -> null
+            else -> when {
+                type != null -> spinnerType.selectedView.tag as Type
+                else -> null
+            }
         }
     }
 

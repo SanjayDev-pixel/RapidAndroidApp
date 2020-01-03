@@ -153,6 +153,13 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.etPinCode.setText(property.pinCode)
         binding.etMvProperty.setText(property.mvOfProperty)
         binding.etAgreementValue.setText(property.agreementValue.toString())
+        checkSubmission()
+    }
+
+    private fun checkSubmission() {
+        if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+            DisablePropertyFields(binding)
+        }
     }
 
     private fun setMasterDropDown(allMasterDropDown: AllMasterDropDown) {

@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:visibility="gone"
                 android:padding="5sp"
                 android:layout_margin="@dimen/margin_10"
                 android:background="@drawable/button_theme_style"

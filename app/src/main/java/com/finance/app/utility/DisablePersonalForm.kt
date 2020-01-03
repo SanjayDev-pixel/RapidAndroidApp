@@ -2,13 +2,9 @@ package com.finance.app.utility
 
 import com.finance.app.databinding.FragmentPersonalBinding
 
-class DisablePersonalForm(private val binding: FragmentPersonalBinding) {
+class DisablePersonalForm(binding: FragmentPersonalBinding) {
 
     init {
-        disablePersonalFields(binding)
-    }
-
-    private fun disablePersonalFields(binding: FragmentPersonalBinding) {
         binding.spinnerIdentificationType.isEnabled = false
         binding.etIdNum.isEnabled = false
         binding.etExpiryDate.isEnabled = false

@@ -19,6 +19,7 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.model.Modals.AddKyc
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.CoApplicantsConnector
 import com.finance.app.presenter.connector.LoanApplicationConnector
@@ -87,7 +88,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         private const val SELF = 221
         private const val RENTED = 253
         private const val PERMANENT = "Permanent"
-        private const val SUBMITTED = "Submitted"
         private const val CURRENT = "Current"
         private lateinit var kycList: ArrayList<AddKyc>
         private val leadAndLoanDetail = LeadAndLoanDetail()
@@ -298,7 +298,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun checkSubmission() {
-        if (mLead!!.status == SUBMITTED) {
+        if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
             DisablePersonalForm(binding)
         }
     }
@@ -580,7 +580,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun onAddCoApplicantClick() {
         when (mLead!!.status) {
-            SUBMITTED -> showToast(getString(R.string.error_add_co_applicant))
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> showToast(getString(R.string.error_add_co_applicant))
             else -> if (formValidation.validatePersonalInfo(binding)) {
                 personalApplicantsList!!.add(PersonalApplicantsModel())
                 applicantTab!!.add(getDefaultCoApplicant())
@@ -600,7 +600,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
-        when (SUBMITTED) {
+        when (AppEnums.LEAD_TYPE.SUBMITTED.type) {
             mLead!!.status -> {
                 saveCurrentApplicant()
                 ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
@@ -662,7 +662,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun onApplicantLongClick(position: Int) = showAlertDialog(position)
 
     private fun showAlertDialog(position: Int) {
-        if (mLead!!.status == SUBMITTED || currentPosition == 0) {
+        if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type || currentPosition == 0) {
             return
         } else {
             val deleteDialogView = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null)

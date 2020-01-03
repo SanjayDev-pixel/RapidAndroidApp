@@ -14,17 +14,19 @@ class DisablePropertyFields(binding: FragmentPropertyInfoBinding) {
         binding.spinnerState.isEnabled = false
         binding.spinnerDistrict.isEnabled = false
         binding.spinnerCity.isEnabled = false
-        binding.etNumOfTenants.isClickable = false
-        binding.etCashOcr.isClickable = false
-        binding.etOcr.isClickable = false
-        binding.etPropertyArea.isClickable = false
-        binding.etMvProperty.isClickable = false
-        binding.etAgreementValue.isClickable = false
-        binding.etDistanceFromBranch.isClickable = false
-        binding.etDistanceFromResidence.isClickable = false
-        binding.etPropertyAddress.isClickable = false
-        binding.etLandmark.isClickable = false
-        binding.etPinCode.isClickable = false
+        binding.etNumOfTenants.isEnabled = false
+        binding.etCashOcr.isEnabled = false
+        binding.etOcr.isEnabled = false
+        binding.etPropertyArea.isEnabled = false
+        binding.etMvProperty.isEnabled = false
+        binding.etAgreementValue.isEnabled = false
+        binding.etDistanceFromBranch.isEnabled = false
+        binding.etDistanceFromResidence.isEnabled = false
+        binding.etPropertyAddress.isEnabled = false
+        binding.etLandmark.isEnabled = false
+        binding.etPinCode.isEnabled = false
+        binding.btnPrevious.isEnabled = false
+        binding.btnNext.isEnabled = false
 
     }
 }
