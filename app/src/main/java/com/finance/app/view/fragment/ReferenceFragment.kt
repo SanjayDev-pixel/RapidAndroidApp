@@ -392,14 +392,6 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getReferenceMaster())
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
-//        gotoNextFragment()
-    }
-
-    private fun gotoNextFragment() {
-        val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, DocumentCheckListFragment())
-        ft?.addToBackStack(null)
-        ft?.commit()
     }
 
     private fun saveDataToDB(reference: ReferenceMaster) {
@@ -421,13 +413,16 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
                 .setView(deleteDialogView)
                 .setTitle("Delete Reference")
         val deleteDialog = mBuilder.show()
-        deleteDialogView.tvDeleteConfirm.setOnClickListener { deleteReference(position) }
+        deleteDialogView.tvDeleteConfirm.setOnClickListener { deleteReference(position, deleteDialog) }
         deleteDialogView.tvDonotDelete.setOnClickListener { deleteDialog.dismiss() }
     }
 
-    private fun deleteReference(position: Int) {
-        referencesList!!.removeAt(position)
+    private fun deleteReference(position: Int, deleteDialog: AlertDialog) {
+        referencesList?.removeAt(position)
         binding.rcReference.adapter!!.notifyItemRemoved(position)
-        binding.rcReference.adapter!!.notifyItemRangeChanged(position, referencesList!!.size)
+        deleteDialog.dismiss()
+        if (referencesList!!.size > 0) binding.pageIndicatorAsset.visibility = View.GONE
+        else binding.pageIndicatorAsset.visibility = View.GONE
+
     }
 }

@@ -139,14 +139,16 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
+<!--
                 <LinearLayout
                     android:id="@+id/layout_interest_type"
                     android:orientation="vertical"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+-->
 
-                <!--<fr.ganfra.materialspinner.MaterialSpinner
+                <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerInterestType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,7 +165,6 @@
                     app:ms_hintColor="@color/hint_color"
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
-                -->
                 <!--
                                 <com.finance.app.view.customViews.CustomSpinnerView
                                     android:id="@+id/spinnerInterestType"

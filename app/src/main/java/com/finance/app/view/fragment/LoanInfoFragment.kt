@@ -205,11 +205,11 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private lateinit var interestType: CustomSpinnerViewTest<DropdownMaster>
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
 //        binding.spinnerLoanScheme.attachActivity(mContext = mContext!!, dropdownValue = allMasterDropDown.LoanScheme!!, label = "Loan Scheme")
-        interestType = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type")
-        binding.layoutInterestType.addView(interestType)
+//        interestType = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type")
+//        binding.layoutInterestType.addView(interestType)
 //        binding.spinnerInterestType.attachActivity(mContext = mContext!!, dropdownValue = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type")
 
-//        binding.spinnerInterestType.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanInformationInterestType)
+        binding.spinnerInterestType.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanInformationInterestType)
         binding.spinnerLoanScheme.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.LoanScheme)
 
         binding.spinnerSourcingChannelPartner.adapter = MasterSpinnerAdapter(mContext!!, allMasterDropDown.SourcingChannelPartner)
@@ -224,9 +224,9 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
         if (loanInfo != null) {
 //            binding.spinnerLoanScheme.selectValue(loanInfo!!.loanSchemeTypeDetailID)
-            interestType.selectValue(loanInfo!!.interestTypeTypeDetailID)
+//            interestType.selectValue(loanInfo!!.interestTypeTypeDetailID)
             selectMasterValue(binding.spinnerSourcingChannelPartner, loanInfo!!.sourcingChannelPartnerTypeDetailID!!)
-//            selectMasterValue(binding.spinnerInterestType, loanInfo!!.interestTypeTypeDetailID!!)
+            selectMasterValue(binding.spinnerInterestType, loanInfo!!.interestTypeTypeDetailID!!)
             selectMasterValue(binding.spinnerLoanScheme, loanInfo!!.loanSchemeTypeDetailID!!)
         }
         checkSubmission()
@@ -362,7 +362,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 Response.ChannelPartnerName?
         val loanProduct = binding.spinnerLoanProduct.selectedItem as
                 LoanProductMaster?
-        val iType = interestType.getSelectedType()
+        val iType = binding.spinnerLoanProduct.selectedItem as DropdownMaster?
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
         val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
 

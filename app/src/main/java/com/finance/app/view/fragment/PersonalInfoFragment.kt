@@ -67,7 +67,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private val verifyOTPPresenter = VerifyOTPPresenter(this)
     private var coApplicantsPresenter = CoApplicantsPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
-    private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = null
+    private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = ArrayList()
     private var personalInfoMaster: PersonalInfoMaster? = PersonalInfoMaster()
     private var currentApplicant: PersonalApplicantsModel? = PersonalApplicantsModel()
     private var contactDetail: ContactDetail? = ContactDetail()
@@ -492,7 +492,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun setDatePicker() {
         binding.basicInfoLayout.etDOB.setOnClickListener {
-            DateDifference(mContext, binding.basicInfoLayout.etDOB, binding.basicInfoLayout.etAge)
+            SelectDOB(mContext, binding.basicInfoLayout.etDOB, binding.basicInfoLayout.etAge)
         }
         binding.etIssueDate.setOnClickListener {
             SelectDate(binding.etIssueDate, mContext)

@@ -479,19 +479,19 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun deleteAsset(position: Int) {
-        assetsList!!.removeAt(position)
+        assetsList?.removeAt(position)
         binding.rcAsset.adapter!!.notifyItemRemoved(position)
         deleteDialog.dismiss()
     }
 
     private fun deleteCard(position: Int) {
-        cardDetailList!!.removeAt(position)
+        cardDetailList?.removeAt(position)
         binding.layoutCreditCard.rcCreditCard.adapter!!.notifyItemRemoved(position)
         deleteDialog.dismiss()
     }
 
     private fun deleteObligation(position: Int) {
-        obligationsList!!.removeAt(position)
+        obligationsList?.removeAt(position)
         binding.layoutObligations.rcObligation.adapter!!.notifyItemRemoved(position)
         deleteDialog.dismiss()
     }

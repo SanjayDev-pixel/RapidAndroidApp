@@ -11,7 +11,6 @@ import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import java.util.regex.Pattern
 
 class FormValidationImpl : FormValidation {
 
@@ -675,14 +674,8 @@ class FormValidationImpl : FormValidation {
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()
         val contact = binding.etContactNum.text.toString()
-        var loan: LoanProductMaster? = null
-        var branch: UserBranches? = null
-        binding.spinnerLoanProduct.getSelectedType()?.let {
-            loan = binding.spinnerLoanProduct.getSelectedType() as LoanProductMaster?
-        }
-        binding.spinnerBranches.getSelectedType()?.let {
-            branch = binding.spinnerBranches.getSelectedType() as UserBranches?
-        }
+        val loan = binding.spinnerLoanProduct.getSelectedType() as LoanProductMaster?
+        val branch = binding.spinnerBranches.getSelectedType() as UserBranches?
 
         val spinnerError = when {
             loan == null -> setCustomSpinnerError(binding.spinnerLoanProduct)

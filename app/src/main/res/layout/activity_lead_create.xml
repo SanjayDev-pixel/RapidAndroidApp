@@ -54,7 +54,7 @@
                     android:id="@+id/etApplicantFirstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="textCapCharacters"
                     android:textAllCaps="true"
                     android:singleLine="true"
                     android:maxLength="50"
@@ -68,6 +68,7 @@
                 android:id="@+id/input_layout_applicant_middle_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
                 android:layout_marginTop="@dimen/fields_margin"
                 android:textColorHint="@color/hint_color">
 
@@ -88,6 +89,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_applicant_last_name"
                 android:layout_width="match_parent"
+                android:inputType="textCapCharacters"
                 android:layout_height="wrap_content"
                 android:maxLength="50"
                 android:layout_marginTop="@dimen/fields_margin"
