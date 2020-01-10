@@ -53,7 +53,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
     private lateinit var bankAdapter: BankDetailAdapter
-    private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
+    private var applicantTab: ArrayList<CoApplicantsList>? = ArrayList()
     private var bankDetailMaster: BankDetailMaster = BankDetailMaster()
     private var bDraftData = BankDetailList()
     private var bApplicantsList: ArrayList<BankDetailModel>? = ArrayList()
@@ -61,7 +61,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private var currentApplicant: BankDetailModel = BankDetailModel()
     private var currentBean: BankDetailBean? = BankDetailBean()
     private var currentPosition = 0
-    private lateinit var currentTab: Response.CoApplicantsObj
+    private lateinit var currentTab: CoApplicantsList
 
     companion object {
         private const val SALARIED = 93
@@ -108,21 +108,22 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun setCoApplicants() {
-        val applicantsList = sharedPreferences.getCoApplicantsList()
-        if (applicantsList == null || applicantsList.size <= 0) {
-            applicantTab?.add(getDefaultCoApplicant())
-        }else applicantTab = applicantsList
-        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
-                LinearLayoutManager.HORIZONTAL, false)
-        currentTab = applicantTab!![0]
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
-        binding.rcApplicants.adapter = applicantAdapter
-        applicantAdapter!!.setOnItemClickListener(this)
-    }
+        dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
+            coApplicantsMaster.let {
+                if (coApplicantsMaster.coApplicantsList!!.isEmpty()) {
+                    applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, mLead!!.leadNumber!!))
+                } else {
+                    applicantTab = coApplicantsMaster.coApplicantsList
+                }
 
-    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
-        return Response.CoApplicantsObj(firstName = "Applicant",
-                isMainApplicant = true, leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
+                binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                        LinearLayoutManager.HORIZONTAL, false)
+                applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
+                binding.rcApplicants.adapter = applicantAdapter
+                applicantAdapter!!.setOnItemClickListener(this)
+                currentTab = applicantTab!![0]
+            }
+        })
     }
 
     private fun showData(bankList: ArrayList<BankDetailModel>?) {
@@ -137,7 +138,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 if (applicant.isMainApplicant) {
                     currentApplicant = applicant
                     currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
-                    currentApplicant.isMainApplicant = currentTab.isMainApplicant
+                    currentApplicant.isMainApplicant = currentTab.isMainApplicant!!
                     setUpCurrentApplicantDetails(currentApplicant)
                 }
             }
@@ -167,7 +168,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.rcBank.visibility = View.VISIBLE
     }
 
-    override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
+    override fun onApplicantClick(position: Int, coApplicant: CoApplicantsList) {
         if (bankDetailBeanList != null && bankDetailBeanList!!.size > 0) {
             saveCurrentApplicant()
             currentPosition = position
@@ -187,7 +188,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         currentApplicant = if (position >= bApplicantsList!!.size) {
             BankDetailModel()
         } else bApplicantsList!![position]
-        currentApplicant.isMainApplicant = currentTab.isMainApplicant
+        currentApplicant.isMainApplicant = currentTab.isMainApplicant!!
         currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
         bankDetailBeanList = currentApplicant.applicantBankDetailsBean
         if (bankDetailBeanList != null || bankDetailBeanList!!.size > 0) {
@@ -301,7 +302,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private fun getCurrentApplicant(): BankDetailModel {
         val currentApplicant = BankDetailModel()
         if (currentPosition > 0) {
-            currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1)
+            currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1, mLead!!.leadNumber!!)
         }
         currentApplicant.applicantBankDetailsBean = bankDetailBeanList!!
         return currentApplicant

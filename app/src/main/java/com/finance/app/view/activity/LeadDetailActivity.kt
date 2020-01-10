@@ -11,11 +11,20 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.CoApplicantsList
+import com.finance.app.persistence.model.CoApplicantsMaster
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
@@ -30,6 +39,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private var bundle: Bundle? = null
     private var leadID = 0
     private var leadContact:Long = 0
+    private val presenter = Presenter()
 
     companion object {
         private const val KEY_LEAD_ID = "leadIdForApplicant"
@@ -46,6 +56,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 //        showLeadOptionsMenu()
         ArchitectureApp.instance.component.inject(this)
         getLeadId()
+        presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList())
     }
 
     private fun getLeadId() {
@@ -112,5 +123,25 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private fun setUpRecyclerView() {
         binding.rcActivities.layoutManager = LinearLayoutManager(this)
         binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
+    }
+
+    inner class CallCoApplicantList : ViewGeneric<String, Response.ResponseCoApplicants>(context = this) {
+        override val apiRequest: String
+            get() = leadID.toString()
+
+        override fun getApiSuccess(value: Response.ResponseCoApplicants) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveApplicantToDB(value.responseObj)
+            }
+        }
+
+        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
+            GlobalScope.launch {
+                val coApplicantMaster = CoApplicantsMaster()
+                coApplicantMaster.coApplicantsList = responseObj
+                coApplicantMaster.leadID = leadID
+                dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
+            }
+        }
     }
 }

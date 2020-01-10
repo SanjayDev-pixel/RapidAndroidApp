@@ -15,7 +15,6 @@ import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
-import kotlin.collections.ArrayList
 
 /**
  * Created by Vishal Rathi on 23/12/19.
@@ -124,6 +123,20 @@ class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: Array
             }
         }
     }
+
+/*
+    fun <Dropdown> select1Value(id: Int?) {
+        id.let {
+            for (index in 0 until dropDowns!!.size) {
+                if (id!!.equals(dropDowns[index].) {
+                            spinnerType.setSelection((spinnerType.adapter as CustomSpinnerAdapter<Type?>).getPosition(index))
+
+                        }
+            }
+
+        }
+    }
+*/
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 

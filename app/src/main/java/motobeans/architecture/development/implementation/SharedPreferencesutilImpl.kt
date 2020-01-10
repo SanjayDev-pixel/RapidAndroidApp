@@ -113,13 +113,6 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return leadDetail.leadID.toString()
     }
 
-    override fun getLeadNum(): String {
-        val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
-        val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
-        val leadDetail = Gson().fromJson(leadJson, AllLeadMaster::class.java)
-        return leadDetail.leadNumber!!
-    }
-
     override fun getLoanAppID(): Int? {
         val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)

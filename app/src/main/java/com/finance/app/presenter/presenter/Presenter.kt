@@ -2,6 +2,7 @@ package com.finance.app.presenter.presenter
 
 import android.app.ProgressDialog
 import android.content.Context
+import com.bumptech.glide.request.Request
 import com.finance.app.R
 import com.finance.app.presenter.connector.Connector
 import io.reactivex.Observable
@@ -38,6 +39,7 @@ class Presenter {
             ConstantsApi.CALL_ADD_LEAD -> apiProject.api.addLead(dmiConnector.apiRequest as Requests.RequestAddLead)
             ConstantsApi.CALL_ALL_MASTER_VALUE -> apiProject.api.getAllMasterValue()
             ConstantsApi.CALL_LOGIN -> apiProject.api.loginUser(dmiConnector.apiRequest as Requests.RequestLogin)
+            ConstantsApi.CALL_COAPPLICANTS_LIST-> apiProject.api.getCoApplicantsList(dmiConnector.apiRequest as String)
             else -> return
         }
 

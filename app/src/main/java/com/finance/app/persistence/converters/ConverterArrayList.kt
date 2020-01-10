@@ -102,6 +102,25 @@ class ConverterArrayList {
         return null
     }
 
+    @TypeConverter
+    fun fromStringToArrayListCoApplicantMaster(value: String?): ArrayList<CoApplicantsMaster>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<CoApplicantsMaster>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<CoApplicantsMaster>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromCoApplicantsMasterArrayListToString(ArrayList: ArrayList<CoApplicantsMaster>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
 
     @TypeConverter
     fun fromStringToArrayListAssetDetail(value: String?): ArrayList<AssetLiability>? {
@@ -255,7 +274,16 @@ class ConverterArrayList {
     }
 
     @TypeConverter
-    fun fromBankDetailModelArrayListToString(arrayModel: ArrayList<AssetLiabilityModel>?): String? {
+    fun fromBankDetailModelArrayListToString(ArrayList: ArrayList<BankDetailModel>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromAssetLiabilityModelArrayListToString(arrayModel: ArrayList<AssetLiabilityModel>?): String? {
         arrayModel?.let {
             val gson = Gson()
             return gson.toJson(arrayModel)
@@ -275,12 +303,23 @@ class ConverterArrayList {
     }
 
     @TypeConverter
-    fun fromAssetLibilityModelArrayListToString(ArrayList: ArrayList<BankDetailModel>?): String? {
-        ArrayList?.let {
+    fun fromCoApplicantListArrayListToString(arrayModel: ArrayList<CoApplicantsList>?): String? {
+        arrayModel?.let {
             val gson = Gson()
-            return gson.toJson(ArrayList)
+            return gson.toJson(arrayModel)
         }
         return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListCoApplicantsList(value: String?): ArrayList<CoApplicantsList>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<CoApplicantsList>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<CoApplicantsList>>(value, arrayListType)
     }
 
     @TypeConverter

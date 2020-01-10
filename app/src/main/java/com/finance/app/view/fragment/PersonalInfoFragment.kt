@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -60,8 +61,10 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private lateinit var binding: FragmentPersonalBinding
     private lateinit var mContext: Context
     private var mLead: AllLeadMaster? = null
+    private var leadNumber: String = ""
     private val frag = this
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
+    private val presenter = Presenter()
     private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private val sendOTPPresenter = SendOTPPresenter(this)
     private val verifyOTPPresenter = VerifyOTPPresenter(this)
@@ -77,7 +80,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private var currentPosition = 0
     private var pDraftData = PersonalApplicantList()
     private var allMasterDropDown: AllMasterDropDown = AllMasterDropDown()
-    private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
+    private var applicantTab: ArrayList<CoApplicantsList>? = ArrayList()
     private var relationshipList: ArrayList<DropdownMaster> = ArrayList()
     private val conversion = CurrencyConversion()
     private lateinit var verifyOTPDialog: Dialog
@@ -102,6 +105,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         mLead = sharedPreferences.getLeadDetail()
+        leadNumber = mLead!!.leadNumber!!
         kycList = ArrayList()
         mContext = context!!
         loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
@@ -304,15 +308,15 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun fillValueInMasterDropDown(currentApplicant: PersonalApplicantsModel) {
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerGender, currentApplicant.genderTypeDetailID!!)
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerNationality, currentApplicant.nationalityTypeDetailID!!)
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerReligion, currentApplicant.religionTypeDetailID!!)
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerCaste, currentApplicant.casteTypeDetailID!!)
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerDobProof, currentApplicant.dobProofTypeDetailID!!)
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerQualification, currentApplicant.qualificationTypeDetailID!!)
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerDetailQualification, currentApplicant.detailQualificationTypeDetailID!!)
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerLivingStandard, currentApplicant.livingStandardTypeDetailId!!)
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerMaritalStatus, currentApplicant.maritialStatusTypeDetailID!!)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerGender, currentApplicant.genderTypeDetailID)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerNationality, currentApplicant.nationalityTypeDetailID)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerReligion, currentApplicant.religionTypeDetailID)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerCaste, currentApplicant.casteTypeDetailID)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerDobProof, currentApplicant.dobProofTypeDetailID)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerQualification, currentApplicant.qualificationTypeDetailID)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerDetailQualification, currentApplicant.detailQualificationTypeDetailID)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerLivingStandard, currentApplicant.livingStandardTypeDetailId)
+        selectMasterDropdownValue(binding.basicInfoLayout.spinnerMaritalStatus, currentApplicant.maritialStatusTypeDetailID)
         setUpRelationshipValue(binding.basicInfoLayout.spinnerRelationship)
     }
 
@@ -326,8 +330,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
-        selectMasterDropdownValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail.addressTypeDetailID!!)
-        selectMasterDropdownValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail.residenceTypeTypeDetailID!!)
+        selectMasterDropdownValue(binding.personalAddressLayout.spinnerCurrentAddressProof, addressDetail.addressTypeDetailID)
+        selectMasterDropdownValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail.residenceTypeTypeDetailID)
 
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
     }
@@ -337,8 +341,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.personalAddressLayout.etPermanentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears.toString())
-        selectMasterDropdownValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail.residenceTypeTypeDetailID!!)
-        selectMasterDropdownValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail.addressTypeDetailID!!)
+        selectMasterDropdownValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail.residenceTypeTypeDetailID)
+        selectMasterDropdownValue(binding.personalAddressLayout.spinnerPermanentAddressProof, addressDetail.addressTypeDetailID)
 
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customPermanentZipAddressView, addressDetail = addressDetail)
     }
@@ -372,21 +376,25 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     }
 
     private fun selectRelationshipValue(spinner: Spinner, id: Int?) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == id) {
-                spinner.setSelection(index + 1)
-                return
+        id?.let {
+            for (index in 0 until spinner.count - 1) {
+                val obj = spinner.getItemAtPosition(index) as DropdownMaster
+                if (obj.typeDetailID == id) {
+                    spinner.setSelection(index + 1)
+                    return
+                }
             }
         }
     }
 
-    private fun selectMasterDropdownValue(spinner: Spinner, id: Int) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == id) {
-                spinner.setSelection(index + 1)
-                return
+    private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
+        id?.let {
+            for (index in 0 until spinner.count - 1) {
+                val obj = spinner.getItemAtPosition(index) as DropdownMaster
+                if (obj.typeDetailID == id) {
+                    spinner.setSelection(index + 1)
+                    return
+                }
             }
         }
     }
@@ -416,7 +424,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         currentApplicant.relationshipTypeDetailId = relationship?.typeDetailID
         currentApplicant.maritialStatusTypeDetailID = maritalStatus?.typeDetailID
         currentApplicant.livingStandardTypeDetailId = livingStandard?.typeDetailID
-        currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1)
+        currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1, leadNumber)
         currentApplicant.numberOfEarningMembers = if (earningMembers == "") 0 else earningMembers.toInt()
         currentApplicant.numberOfDependents = if (dependents == "") 0 else dependents.toInt()
         currentApplicant.firstName = binding.basicInfoLayout.etFirstName.text.toString()
@@ -537,6 +545,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getPersonalInfoMaster())
         coApplicantsPresenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST)
+        presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList())
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
     }
 
@@ -552,46 +561,78 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         return personalInfoMaster!!
     }
 
-    private fun setCoApplicants() {
-        val applicantsList = sharedPreferences.getCoApplicantsList()
-        if (applicantsList == null || applicantsList.size <= 0) {
-            if (personalApplicantsList == null || personalApplicantsList!!.size <= 0) applicantTab?.add(getDefaultApplicant())
-            else getTabListFromApplicantList()
-        } else applicantTab = applicantsList
-        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
-                LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
-        binding.rcApplicants.adapter = applicantAdapter
-        applicantAdapter!!.setOnItemClickListener(this)
-        applicantAdapter!!.setOnLongClickListener(this)
+    inner class CallCoApplicantList : ViewGeneric<String, Response.ResponseCoApplicants>(context = mContext) {
+        override val apiRequest: String
+            get() = mLead!!.leadID.toString()
+
+        override fun getApiSuccess(value: Response.ResponseCoApplicants) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveApplicantToDB(value.responseObj)
+            }
+        }
+
+        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
+            GlobalScope.launch {
+                val coApplicantMaster = CoApplicantsMaster()
+                coApplicantMaster.coApplicantsList = responseObj
+                coApplicantMaster.leadID = mLead!!.leadID
+                dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
+            }
+        }
     }
 
-    private fun getTabListFromApplicantList() {
+    private fun setCoApplicants() {
+        dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
+            coApplicantsMaster.let {
+                val list = coApplicantsMaster.coApplicantsList
+                if (list.isNullOrEmpty()) {
+                    applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, leadNumber))
+                } else {
+                    applicantTab = coApplicantsMaster.coApplicantsList
+                }
+
+                binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                        LinearLayoutManager.HORIZONTAL, false)
+                applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
+                binding.rcApplicants.adapter = applicantAdapter
+                applicantAdapter!!.setOnItemClickListener(this)
+                applicantAdapter!!.setOnLongClickListener(this)
+            }
+        })
+    }
+
+   /* private fun getTabListFromApplicantList() {
         for (index in 0 until personalApplicantsList!!.size) {
             val lNum = personalApplicantsList!![index].leadApplicantNumber
             val iConsider = personalApplicantsList!![index].incomeConsidered
             val mApplicant = personalApplicantsList!![index].isMainApplicant
             val fName = personalApplicantsList!![index].firstName
-            val coApplicant = Response.CoApplicantsObj(leadApplicantNumber = lNum!!,
-                    incomeConsidered = iConsider, isMainApplicant = mApplicant!!, firstName = fName)
+            val coApplicant = CoApplicantsList()
+            coApplicant.firstName = fName
+            coApplicant.isMainApplicant = mApplicant
+            coApplicant.leadApplicantNumber = lNum
+            coApplicant.incomeConsidered = iConsider
             applicantTab!!.add(coApplicant)
         }
-    }
+    }*/
 
     private fun onAddCoApplicantClick() {
         when (mLead!!.status) {
             AppEnums.LEAD_TYPE.SUBMITTED.type -> showToast(getString(R.string.error_add_co_applicant))
             else -> if (formValidation.validatePersonalInfo(binding)) {
-                personalApplicantsList!!.add(PersonalApplicantsModel())
-                applicantTab!!.add(getDefaultCoApplicant())
-                applicantAdapter!!.notifyDataSetChanged()
-
-                ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
+                saveCurrentApplicant()
 
                 try {
                     val lastIndex = applicantTab!!.lastIndex
                     applicantAdapter?.onClickItem(lastIndex, applicantTab!![lastIndex])
                     currentPosition = lastIndex
+                    personalApplicantsList!!.add(lastIndex, PersonalApplicantsModel())
+                    applicantTab!!.add(leadAndLoanDetail.getDefaultCoApplicant(currentPosition, leadNumber))
+                    applicantAdapter!!.notifyDataSetChanged()
+
+                    ClearPersonalForm(binding = binding, context = mContext,
+                            masterDropdown = allMasterDropDown, relationshipList = relationshipList)
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -599,7 +640,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-    override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
+    override fun onApplicantClick(position: Int, coApplicant: CoApplicantsList) {
         when (AppEnums.LEAD_TYPE.SUBMITTED.type) {
             mLead!!.status -> {
                 saveCurrentApplicant()
@@ -625,18 +666,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         } else personalApplicantsList!!.add(currentPosition, getCurrentApplicant())
     }
 
-    private fun getDefaultApplicant(): Response.CoApplicantsObj {
-        return Response.CoApplicantsObj(firstName = "Applicant", isMainApplicant = currentPosition == 0,
-                leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
-    }
-
-    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
-        return Response.CoApplicantsObj(firstName = "CoApplicant ${currentPosition + 1}",
-                isMainApplicant = currentPosition == 0,
-                leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
-    }
-
-    private fun waitFor1Sec(position: Int, coApplicant: Response.CoApplicantsObj) {
+    private fun waitFor1Sec(position: Int, coApplicant: CoApplicantsList) {
         val progress = ProgressDialog(mContext)
         progress.setMessage(getString(R.string.msg_saving))
         progress.setCancelable(false)
@@ -649,7 +679,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         applicantAdapter!!.notifyDataSetChanged()
     }
 
-    private fun getParticularApplicantData(position: Int, coApplicant: Response.CoApplicantsObj) {
+    private fun getParticularApplicantData(position: Int, coApplicant: CoApplicantsList) {
         currentApplicant = personalApplicantsList!![position]
         currentApplicant!!.isMainApplicant = coApplicant.isMainApplicant
         currentApplicant!!.leadApplicantNumber = coApplicant.leadApplicantNumber

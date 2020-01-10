@@ -23,7 +23,6 @@ interface SharedPreferencesUtil {
     fun getUserId():String?
     fun getEmpId(): String?
     fun getLoanAppID():Int?
-    fun getLeadNum():String
     fun getPropertySelection(): Boolean
     fun getUserBranches(): ArrayList<UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?

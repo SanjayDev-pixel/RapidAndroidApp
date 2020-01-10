@@ -43,8 +43,8 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     }
 
     private fun setLeadNumber() {
-        val leadNum = sharedPreferences.getLeadNum()
-        setLeadNum(leadNum)
+        val lead = sharedPreferences.getLeadDetail()
+        setLeadNum(lead.leadNumber!!)
     }
 
     private fun setNavFragment() {

@@ -63,9 +63,9 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            if (formValidation.validateLogin(binding)) {
+//            if (formValidation.validateLogin(binding)) {
                 loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
-            }
+//            }
         }
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
@@ -78,10 +78,10 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
 
         override fun getApiSuccess(value: ResponseLogin) {
             if (value.responseCode == Constants.SUCCESS) {
+                sharedPreferences.saveLoginData(value)
                 masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
                 loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
                 statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
-                sharedPreferences.saveLoginData(value)
                 DashboardActivity.start(this@LoginActivity)
             } else {
                 showToast(value.responseMsg)
@@ -96,8 +96,8 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
 
     private val mLoginRequestLogin: RequestLogin
         get() {
-//            binding.etUserName.setText("kuldeep.saini@gmail.com")
-//            binding.etPassword.setText("Default@123")
+            binding.etUserName.setText("kuldeep.saini@gmail.com")
+            binding.etPassword.setText("Default@123")
             val username = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
             val company = mCompany

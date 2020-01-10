@@ -5,28 +5,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
-import com.finance.app.utility.ClearAssetLiabilityForm
+import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.CoApplicantsList
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
+import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+    @Inject
+    lateinit var dataBase: DataBaseUtil
     private lateinit var binding: FragmentDocumentChecklistBinding
     private lateinit var mContext: Context
     private var applicantAdapter: ApplicantsAdapter? = null
-    private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
+    private var applicantTab: ArrayList<CoApplicantsList>? = ArrayList()
     private var currentPosition = 0
+    private var mLead: AllLeadMaster? = null
 
     companion object {
         private val leadAndLoanDetail = LeadAndLoanDetail()
@@ -43,10 +48,11 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
         mContext=requireContext()
         showDocumentList()
         setCoApplicants()
+        mLead = sharedPreferences.getLeadDetail()
         setClickListeners()
     }
 
-    override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
+    override fun onApplicantClick(position: Int, coApplicant: CoApplicantsList) {
         saveCurrentApplicant()
 //        ClearAssetLiabilityForm(binding, mContext, allMasterDropDown)
         currentPosition = position
@@ -69,20 +75,19 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
     }
 
     private fun setCoApplicants() {
-        val applicantsList = sharedPreferences.getCoApplicantsList()
-        if (applicantsList == null || applicantsList.size <= 0) {
-            applicantTab?.add(getDefaultCoApplicant())
-        } else applicantTab = applicantsList
-        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
-                LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
-        applicantAdapter!!.setOnItemClickListener(this)
-        binding.rcApplicants.adapter = applicantAdapter
+        dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
+            coApplicantsMaster.let {
+                if (coApplicantsMaster.coApplicantsList!!.isEmpty()) {
+                    applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, mLead!!.leadNumber!!))
+                } else {
+                    applicantTab = coApplicantsMaster.coApplicantsList
+                }
+                binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                        LinearLayoutManager.HORIZONTAL, false)
+                applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
+                applicantAdapter!!.setOnItemClickListener(this)
+                binding.rcApplicants.adapter = applicantAdapter
+            }
+        })
     }
-
-    private fun getDefaultCoApplicant(): Response.CoApplicantsObj {
-        return Response.CoApplicantsObj(firstName = "Applicant",
-                isMainApplicant = true, leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
-    }
-
 }

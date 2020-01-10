@@ -434,7 +434,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
         propertyModel.mvOfProperty = CurrencyConversion().convertToNormalValue(binding.etMvProperty.text.toString())
         propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
-        propertyModel.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1)
+        propertyModel.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1, mLead!!.leadNumber!!)
         propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
         propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
         return propertyModel

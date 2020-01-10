@@ -32,6 +32,7 @@ import com.finance.app.view.customViews.CustomSpinnerViewTest
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -225,9 +226,9 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         if (loanInfo != null) {
 //            binding.spinnerLoanScheme.selectValue(loanInfo!!.loanSchemeTypeDetailID)
 //            interestType.selectValue(loanInfo!!.interestTypeTypeDetailID)
-            selectMasterValue(binding.spinnerSourcingChannelPartner, loanInfo!!.sourcingChannelPartnerTypeDetailID!!)
-            selectMasterValue(binding.spinnerInterestType, loanInfo!!.interestTypeTypeDetailID!!)
-            selectMasterValue(binding.spinnerLoanScheme, loanInfo!!.loanSchemeTypeDetailID!!)
+            selectMasterValue(binding.spinnerSourcingChannelPartner, loanInfo!!.sourcingChannelPartnerTypeDetailID)
+            selectMasterValue(binding.spinnerInterestType, loanInfo!!.interestTypeTypeDetailID)
+            selectMasterValue(binding.spinnerLoanScheme, loanInfo!!.loanSchemeTypeDetailID)
         }
         checkSubmission()
     }
@@ -238,12 +239,14 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
-    private fun selectMasterValue(spinner: Spinner, id: Int) {
-        for (index in 0 until spinner.count - 1) {
-            val obj = spinner.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == id) {
-                spinner.setSelection(index + 1)
-                return
+    private fun selectMasterValue(spinner: Spinner, id: Int?) {
+        id?.let {
+            for (index in 0 until spinner.count - 1) {
+                val obj = spinner.getItemAtPosition(index) as DropdownMaster
+                if (obj.typeDetailID == id) {
+                    spinner.setSelection(index + 1)
+                    return
+                }
             }
         }
     }
@@ -270,11 +273,13 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             get() = requestConversion.loanInfoRequest(getLoanInfoMaster())
 
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
-            value.responseObj?.let {
-                loanMaster = responseConversion.toLoanMaster(value.responseObj)
-                loanInfo = loanMaster?.draftData
+            if (value.responseCode == Constants.SUCCESS) {
+                value.responseObj?.let {
+                    loanMaster = responseConversion.toLoanMaster(value.responseObj)
+                    loanInfo = loanMaster?.draftData
+                }
+                showData(loanInfo)
             }
-            showData(loanInfo)
         }
     }
 
@@ -362,7 +367,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
                 Response.ChannelPartnerName?
         val loanProduct = binding.spinnerLoanProduct.selectedItem as
                 LoanProductMaster?
-        val iType = binding.spinnerLoanProduct.selectedItem as DropdownMaster?
+        val iType = binding.spinnerInterestType.selectedItem as DropdownMaster?
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
         val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
 

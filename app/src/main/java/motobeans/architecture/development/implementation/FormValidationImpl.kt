@@ -549,7 +549,7 @@ class FormValidationImpl : FormValidation {
             binding.etAgreementValue.error = "Required Field"
         }
 
-        if (ocr.toDouble() < cashOcr.toDouble()) {
+        if (CurrencyConversion().convertToNormalValue(ocr).toDouble() < CurrencyConversion().convertToNormalValue(cashOcr).toDouble()) {
             errorCount++
             binding.etOcr.error = "Cannot be grater than cash OCR"
         }
@@ -718,14 +718,13 @@ class FormValidationImpl : FormValidation {
     private fun isValidMobile(phone: String): Boolean {
         return if (phone.exIsNotEmptyOrNullOrBlank()) {
             return android.util.Patterns.PHONE.matcher(phone).matches()
-        } else false
+        } else true
     }
 
     private fun isValidEmail(email: String): Boolean {
-        if (email.exIsNotEmptyOrNullOrBlank()) {
-            return (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
-        }
-        return true
+        return if (email.exIsNotEmptyOrNullOrBlank()) {
+            (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        } else true
     }
 
     private fun isValidForm(errorCount: Int): Boolean {

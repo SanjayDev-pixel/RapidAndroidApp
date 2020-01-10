@@ -112,6 +112,26 @@ class Converters {
     }
 
     @TypeConverter
+    fun fromStringToCoApplicantMaster(value: String?): CoApplicantsMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<CoApplicantsMaster>() {
+
+        }.type
+        return Gson().fromJson<CoApplicantsMaster>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromCoApplicantMasterToString(lead: CoApplicantsMaster?): String? {
+        lead?.let {
+            val gson = Gson()
+            return gson.toJson(lead)
+        }
+        return null
+    }
+
+    @TypeConverter
     fun fromStringToLoanInfoMaster(value: String?): LoanInfoMaster? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null

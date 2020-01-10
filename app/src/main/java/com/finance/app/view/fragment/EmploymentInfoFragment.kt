@@ -66,12 +66,12 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private val districtPresenter = DistrictPresenter(this)
     private val cityPresenter = CityPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
-    private var applicantTab: ArrayList<Response.CoApplicantsObj>? = ArrayList()
+    private var applicantTab: ArrayList<CoApplicantsList>? = ArrayList()
     private var employmentMaster: EmploymentMaster = EmploymentMaster()
     private var eDraftData = EmploymentApplicantList()
     private var eApplicantList: ArrayList<EmploymentApplicantsModel>? = ArrayList()
     private var currentApplicant: EmploymentApplicantsModel = EmploymentApplicantsModel()
-    private lateinit var currentTab: Response.CoApplicantsObj
+    private lateinit var currentTab: CoApplicantsList
     private var eAddressDetail: AddressDetail = AddressDetail()
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mPinCode: String = ""
@@ -139,16 +139,22 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun setCoApplicants() {
-        val applicantsList = sharedPreferences.getCoApplicantsList()
-        if (applicantsList == null || applicantsList.size <= 0) {
-            applicantTab?.add(getDefaultApplicant())
-        } else applicantTab = applicantsList
-        currentTab = applicantTab!![0]
-        binding.rcApplicants.layoutManager = LinearLayoutManager(context,
-                LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
-        applicantAdapter!!.setOnItemClickListener(this)
-        binding.rcApplicants.adapter = applicantAdapter
+        dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
+            coApplicantsMaster.let {
+                if (coApplicantsMaster.coApplicantsList!!.isEmpty()) {
+                    applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, mLead!!.leadNumber!!))
+                } else {
+                    applicantTab = coApplicantsMaster.coApplicantsList
+                }
+
+                binding.rcApplicants.layoutManager = LinearLayoutManager(context,
+                        LinearLayoutManager.HORIZONTAL, false)
+                applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
+                binding.rcApplicants.adapter = applicantAdapter
+                applicantAdapter!!.setOnItemClickListener(this)
+                currentTab = applicantTab!![0]
+            }
+        })
     }
 
     private fun showData(applicantList: ArrayList<EmploymentApplicantsModel>?) {
@@ -162,7 +168,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
                 if (applicant.isMainApplicant) {
                     currentApplicant = applicant
                     currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
-                    currentApplicant.isMainApplicant = currentTab.isMainApplicant
+                    currentApplicant.isMainApplicant = currentTab.isMainApplicant!!
                     eAddressDetail = currentApplicant.addressBean!!
                 }
             }
@@ -181,12 +187,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         }
     }
 
-    private fun getDefaultApplicant(): Response.CoApplicantsObj {
-        return Response.CoApplicantsObj( firstName = "Applicant", isMainApplicant = currentPosition == 0,
-                leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1))
-    }
-
-    override fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj) {
+    override fun onApplicantClick(position: Int, coApplicant: CoApplicantsList) {
         if (formValidation.validateSalaryEmployment(binding.layoutSalary) || formValidation.validateSenpEmployment(binding.layoutSenp)) {
             saveCurrentApplicant()
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearAll()
@@ -213,7 +214,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         currentApplicant = if (position >= eApplicantList!!.size) {
             EmploymentApplicantsModel()
         } else eApplicantList!![position]
-        currentApplicant.isMainApplicant = currentTab.isMainApplicant
+        currentApplicant.isMainApplicant = currentTab.isMainApplicant!!
         currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
         fillFormWithCurrentApplicant(currentApplicant)
     }
@@ -685,7 +686,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         val subProfile = binding.spinnerSubProfile.selectedItem as DropdownMaster?
         applicant.profileSegmentTypeDetailID = profile?.typeDetailID
         applicant.subProfileTypeDetailID = subProfile?.typeDetailID
-        applicant.isMainApplicant = currentTab.isMainApplicant
+        applicant.isMainApplicant = currentTab.isMainApplicant!!
         applicant.leadApplicantNumber = currentTab.leadApplicantNumber
         when (formType) {
             SALARY -> return getSalaryForm(binding.layoutSalary, applicant)

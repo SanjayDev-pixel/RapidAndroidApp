@@ -375,7 +375,7 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     private fun getReferenceMaster(): ReferenceMaster {
         rDraftData.referenceDetails = referencesList
         rDraftData.isMainApplicant = true
-        rDraftData.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1)
+        rDraftData.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1, mLead!!.leadNumber!!)
         referenceMaster.draftData = rDraftData
         referenceMaster.leadID = leadId.toInt()
         return referenceMaster

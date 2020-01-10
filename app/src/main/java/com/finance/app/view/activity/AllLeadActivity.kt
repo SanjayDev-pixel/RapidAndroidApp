@@ -15,6 +15,7 @@ import com.finance.app.view.fragment.PendingLeadsFragment
 import com.finance.app.view.fragment.RejectedLeadFragment
 import com.finance.app.view.fragment.SubmittedLeadFragment
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
@@ -61,12 +62,15 @@ class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
         GlobalScope.launch {
             dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster()
         }
+
         val progress = ProgressDialog(this)
         progress.setMessage("Getting Leads")
         progress.show()
         Handler().postDelayed({
             saveDataToDB(value.responseObj)
-            progress.dismiss()
+            if (progress.isShowing) {
+                progress.dismiss()
+            } else { }
         }, 1000)
     }
 
