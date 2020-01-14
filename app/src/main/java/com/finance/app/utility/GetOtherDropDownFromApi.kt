@@ -1,9 +1,6 @@
-package motobeans.architecture.customAppComponents.jetpack
+package com.finance.app.utility
 
-import android.annotation.SuppressLint
 import android.content.Context
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import kotlinx.coroutines.GlobalScope
@@ -16,7 +13,7 @@ import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-abstract class SuperWorker(context : Context, params : WorkerParameters) : Worker(context, params) {
+class GetOtherDropDownFromApi(private val mContext: Context) {
     @Inject
     lateinit var dataBase: DataBaseUtil
     @Inject
@@ -29,18 +26,13 @@ abstract class SuperWorker(context : Context, params : WorkerParameters) : Worke
         getDataFromApi()
     }
 
-    @SuppressLint("RestrictedApi", "CheckResult")
-    override fun doWork(): Result {
-        return Result.success()
-    }
-
     private fun getDataFromApi() {
         presenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE, dmiConnector = AllMasterDropdownData())
         presenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT, dmiConnector = LoanProductsDropdown())
         presenter.callNetwork(ConstantsApi.CALL_ALL_STATES, dmiConnector = AllStatesList())
     }
 
-    inner class AllMasterDropdownData : ViewGeneric<String?, Response.ResponseAllMasterDropdown>(context = applicationContext) {
+    inner class AllMasterDropdownData : ViewGeneric<String?, Response.ResponseAllMasterDropdown>(context = mContext) {
         override val apiRequest: String?
             get() = null
 
@@ -55,7 +47,7 @@ abstract class SuperWorker(context : Context, params : WorkerParameters) : Worke
         }
     }
 
-    inner class LoanProductsDropdown : ViewGeneric<String?, Response.ResponseLoanProduct>(context = applicationContext) {
+    inner class LoanProductsDropdown : ViewGeneric<String?, Response.ResponseLoanProduct>(context = mContext) {
         override val apiRequest: String?
             get() = null
 
@@ -70,7 +62,7 @@ abstract class SuperWorker(context : Context, params : WorkerParameters) : Worke
         }
     }
 
-    inner class AllStatesList : ViewGeneric<String?, Response.ResponseStatesDropdown>(context = applicationContext) {
+    inner class AllStatesList : ViewGeneric<String?, Response.ResponseStatesDropdown>(context = mContext) {
         override val apiRequest: String?
             get() = null
 
@@ -84,5 +76,4 @@ abstract class SuperWorker(context : Context, params : WorkerParameters) : Worke
             }
         }
     }
-
 }

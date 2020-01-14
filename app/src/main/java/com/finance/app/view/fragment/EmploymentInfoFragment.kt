@@ -71,7 +71,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var eDraftData = EmploymentApplicantList()
     private var eApplicantList: ArrayList<EmploymentApplicantsModel>? = ArrayList()
     private var currentApplicant: EmploymentApplicantsModel = EmploymentApplicantsModel()
-    private lateinit var currentTab: CoApplicantsList
+    private var currentTab = CoApplicantsList()
     private var eAddressDetail: AddressDetail = AddressDetail()
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mPinCode: String = ""

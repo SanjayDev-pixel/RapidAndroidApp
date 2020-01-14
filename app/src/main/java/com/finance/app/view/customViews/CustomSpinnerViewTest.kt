@@ -8,8 +8,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.finance.app.R
-import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.presenter.connector.Ispinner
 import com.finance.app.presenter.connector.ValidationHandler
 import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
 import fr.ganfra.materialspinner.MaterialSpinner
@@ -19,13 +20,14 @@ import motobeans.architecture.util.exVisible
 /**
  * Created by Vishal Rathi on 23/12/19.
  */
-class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: ArrayList<Type>?, private val isMandatory: Boolean=true, private val label: String, attrs: AttributeSet? = null) : LinearLayout(context,
+class CustomSpinnerViewTest<Type : Ispinner>(context: Context, private val dropDowns: ArrayList<Type>?, private val isMandatory: Boolean = true, private val label: String, attrs: AttributeSet? = null) : LinearLayout(context,
         attrs), AdapterView.OnItemSelectedListener, ValidationHandler {
 
-//    private var dropDowns: ArrayList<Type>? = null
     private lateinit var spinnerType: MaterialSpinner
     private lateinit var tvErrorText: TextView
     private lateinit var llErrorBlock: LinearLayout
+    private lateinit var adapterExpendedType: CustomSpinnerAdapter<Type>
+    private var mClickListener: ItemClickListener? = null
 
     init {
         orientation = HORIZONTAL
@@ -38,16 +40,13 @@ class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: Array
         setDropdownLabel(label)
     }
 
-/*
-    fun attachActivity(mContext: Context, dropdownValue: ArrayList<Type>?, label: String, isMandatory: Boolean = this.isMandatory) {
-        this.mContext = mContext
-        this.isMandatory = isMandatory
-        this.dropDowns = dropdownValue
-        proceedFurther()
-        setDropdownLabel(label)
+    interface ItemClickListener {
+        fun getSelectedValue(value: String)
     }
-*/
 
+    fun setOnItemClickListener(listener: ItemClickListener) {
+        mClickListener = listener
+    }
 
     override fun isMandatory(isMandatory: Boolean) {
 //        this.isMandatory = isMandatory
@@ -63,10 +62,31 @@ class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: Array
 
     private fun proceedFurther() {
         dropDowns?.let {
-            val adapterExpendedType = CustomSpinnerAdapter(context,
-                    R.layout.item_custom_spinner, dropDowns)
+            adapterExpendedType = CustomSpinnerAdapter(context, R.layout.item_custom_spinner, dropDowns)
             spinnerType.adapter = adapterExpendedType
         }
+
+//        setListenerForSpinner()
+    }
+
+    fun getSelectedId(): Int {
+        var idToReturn: Int? = null
+        spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    val value = parent.getItemAtPosition(position) as Type
+                    idToReturn = returnId(value.getCompareValue())
+                    Toast.makeText(context, "$idToReturn", Toast.LENGTH_SHORT).show()
+//                    mClickListener?.getSelectedValue(value.getCompareValue())
+                }
+            }
+        }
+        return idToReturn ?: 0
+    }
+
+    fun returnId(value: String): Int {
+        return value.toInt()
     }
 
     private fun setDropdownLabel(msg: String) {
@@ -94,7 +114,7 @@ class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: Array
     }
 
     private fun validate(): Boolean {
-        val type = getSelectedType()
+        val type = getSelectedObj()
         if (isMandatory && type == null) {
             showError(true)
             return false
@@ -104,7 +124,7 @@ class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: Array
         return true
     }
 
-    fun getSelectedType(): Type? {
+    fun getSelectedObj(): Type? {
         return when (val type = spinnerType.selectedView.tag) {
             is Int -> null
             else -> when {
@@ -114,29 +134,15 @@ class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: Array
         }
     }
 
-    fun selectValue(id: Int?) {
-        for (index in 0 until spinnerType.count - 1) {
-            val obj = spinnerType.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == id) {
-                spinnerType.setSelection(index + 1)
-                return
-            }
-        }
-    }
-
-/*
-    fun <Dropdown> select1Value(id: Int?) {
+    fun setSelection(id: Int?) {
         id.let {
-            for (index in 0 until dropDowns!!.size) {
-                if (id!!.equals(dropDowns[index].) {
-                            spinnerType.setSelection((spinnerType.adapter as CustomSpinnerAdapter<Type?>).getPosition(index))
-
-                        }
+            for (dd in dropDowns!!) {
+                if (dd.getCompareValue() == id.toString()) {
+                    spinnerType.setSelection((spinnerType.adapter as CustomSpinnerAdapter<Type?>).getPosition(dd) + 1)
+                }
             }
-
         }
     }
-*/
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
@@ -150,4 +156,12 @@ class CustomSpinnerViewTest<Type>(context: Context, private val dropDowns: Array
         spinnerType.error = msg
     }
 
+    fun disableSelf() {
+        spinnerType.isEnabled = false
+    }
+
+    fun clearSpinner() {
+        spinnerType.setSelection(0)
+//        proceedFurther()
+    }
 }

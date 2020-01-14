@@ -3,6 +3,7 @@ package motobeans.architecture.development.components
 import android.app.Application
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
+import com.finance.app.utility.GetOtherDropDownFromApi
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.Holder.TempHolder
@@ -18,7 +19,6 @@ import motobeans.architecture.customAppComponents.jetpack.SuperWorker
 import motobeans.architecture.development.modules.NetworkModule
 import motobeans.architecture.development.modules.PrimitivesModule
 import motobeans.architecture.development.modules.UtilityModule
-import java.util.*
 import javax.inject.Singleton
 import com.finance.app.presenter.presenter.Presenter as Presenter1
 
@@ -111,5 +111,5 @@ interface ApplicationComponent {
     fun inject(other: LeadAndLoanDetail)
     fun inject(other: CustomZipAddressView)
     fun inject(presenter: Presenter1)
-
+    fun inject(other: GetOtherDropDownFromApi)
 }

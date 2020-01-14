@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
+import com.finance.app.persistence.model.ChannelPartnerName
 import motobeans.architecture.retrofit.response.Response
 
-class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<Response.ChannelPartnerName>?,
+class ChannelPartnerNameSpinnerAdapter(context1: Context, val value: ArrayList<ChannelPartnerName>?,
                                        val isMandatory: Boolean = false) : BaseAdapter() {
 
     private var inflater: LayoutInflater = context1.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private var spinnerValue: Response.ChannelPartnerName? = null
+    private var spinnerValue: ChannelPartnerName? = null
 
     override fun getItem(position: Int): Any? {
         return value?.get(position)

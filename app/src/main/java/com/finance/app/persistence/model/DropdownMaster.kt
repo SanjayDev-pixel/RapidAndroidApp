@@ -1,8 +1,9 @@
 package com.finance.app.persistence.model
 
+import com.finance.app.presenter.connector.Ispinner
 import java.io.Serializable
 
-class DropdownMaster : Serializable {
+class DropdownMaster : Serializable, Ispinner {
     var typeDetailCode: String? = ""
     var typeMasterID: Int? = 0
     var typeDetailID: Int? = 0
@@ -13,6 +14,10 @@ class DropdownMaster : Serializable {
     var typeDetailLogicalCode: String? = ""
     var sequence: String? = ""
     var typeDetailDescription: String? = ""
+
+    override fun getCompareValue(): String {
+        return "$typeDetailID"
+    }
 
     override fun toString(): String {
         return "$typeDetailCode"

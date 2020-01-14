@@ -125,7 +125,7 @@ class FormValidationImpl : FormValidation {
         val tenure = binding.etTenure.text.toString()
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
 //        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
-        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as DropdownMaster?
+//        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as DropdownMaster?
 
         if (loanProduct != null && tenure != "" && loanAmount != "") {
             if (tenure.toInt() > loanProduct.maxTenure || tenure.toInt() < loanProduct.minTenure) {
@@ -164,10 +164,12 @@ class FormValidationImpl : FormValidation {
 //            binding.spinnerLoanScheme.error = "Loan Scheme Cannot be empty"
 //        }
 
+/*
         if (sourcingChannelPartner == null) {
             errorCount++
             binding.spinnerSourcingChannelPartner.error = "Sourcing channel partner Cannot be empty"
         }
+*/
 
         if (!emi.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
@@ -369,18 +371,18 @@ class FormValidationImpl : FormValidation {
 
     override fun validateBankDetail(binding: FragmentBankDetailBinding): Boolean {
         var errorCount = 0
-        val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
-        val accountType = binding.spinnerAccountType.selectedItem as DropdownMaster?
+//        val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
+//        val accountType = binding.spinnerAccountType.selectedItem as DropdownMaster?
         val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
 
-        if (bankName == null) {
-            errorCount++
-            binding.spinnerBankName.error = "Required Field"
-        }
-        if (accountType == null) {
-            errorCount++
-            binding.spinnerAccountType.error = "Required Field"
-        }
+//        if (bankName == null) {
+//            errorCount++
+//            binding.spinnerBankName.error = "Required Field"
+//        }
+//        if (accountType == null) {
+//            errorCount++
+//            binding.spinnerAccountType.error = "Required Field"
+//        }
         if (salaryCredit == null) {
             errorCount++
             binding.spinnerSalaryCredit.error = "Required Field"

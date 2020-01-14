@@ -6,8 +6,8 @@ class DisableBankForm(binding: FragmentBankDetailBinding) {
 
     init {
 
-        binding.spinnerBankName.isEnabled = false
-        binding.spinnerAccountType.isEnabled = false
+//        binding.spinnerBankName.isEnabled = false
+//        binding.spinnerAccountType.isEnabled = false
         binding.spinnerSalaryCredit.isEnabled = false
         binding.etAccountNum.isEnabled = false
         binding.etAccountHolderName.isEnabled = false
