@@ -185,7 +185,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-<!--
                 <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerPartnerName"
                     android:layout_width="match_parent"
@@ -204,7 +203,6 @@
                     app:ms_hintColor="@color/hint_color"
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
--->
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbPropertySelected"

@@ -1,4 +1,6 @@
 package motobeans.architecture.development.implementation
+
+import androidx.core.view.get
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
@@ -32,15 +34,15 @@ class FormValidationImpl : FormValidation {
         val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
         val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
-        val nationality = binding.basicInfoLayout.spinnerNationality.selectedItem as DropdownMaster?
-        val qualification = binding.basicInfoLayout.spinnerQualification.selectedItem as DropdownMaster?
-        val detailQualification = binding.basicInfoLayout.spinnerDetailQualification.selectedItem as DropdownMaster?
-        val maritalStatus = binding.basicInfoLayout.spinnerMaritalStatus.selectedItem as DropdownMaster?
-        val livingStandard = binding.basicInfoLayout.spinnerLivingStandard.selectedItem as DropdownMaster?
-        val relationShip = binding.basicInfoLayout.spinnerRelationship.selectedItem as DropdownMaster?
-        val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
-        val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
-        val dobProof = binding.basicInfoLayout.spinnerDobProof.selectedItem as DropdownMaster?
+//        val nationality = binding.basicInfoLayout.spinnerNationality.selectedItem as DropdownMaster?
+//        val qualification = binding.basicInfoLayout.spinnerQualification.selectedItem as DropdownMaster?
+//        val detailQualification = binding.basicInfoLayout.spinnerDetailQualification.selectedItem as DropdownMaster?
+//        val maritalStatus = binding.basicInfoLayout.spinnerMaritalStatus.selectedItem as DropdownMaster?
+//        val livingStandard = binding.basicInfoLayout.spinnerLivingStandard.selectedItem as DropdownMaster?
+//        val relationShip = binding.basicInfoLayout.spinnerRelationship.selectedItem as DropdownMaster?
+//        val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
+//        val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
+//        val dobProof = binding.basicInfoLayout.spinnerDobProof.selectedItem as DropdownMaster?
         val email = binding.basicInfoLayout.etEmail.text.toString()
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
@@ -65,18 +67,18 @@ class FormValidationImpl : FormValidation {
             errorCount.plus(checkPermanentAddressFields(binding))
         }
 
-        val spinnerError = when {
-            cAddressProof == null -> setSpinnerError(binding.personalAddressLayout.spinnerCurrentAddressProof)
-            cResidenceType == null -> setSpinnerError(binding.personalAddressLayout.spinnerCurrentResidenceType)
-            qualification == null -> setSpinnerError(binding.basicInfoLayout.spinnerQualification)
-            relationShip == null -> setSpinnerError(binding.basicInfoLayout.spinnerRelationship)
-            livingStandard == null -> setSpinnerError(binding.basicInfoLayout.spinnerLivingStandard)
-            maritalStatus == null -> setSpinnerError(binding.basicInfoLayout.spinnerLivingStandard)
-            detailQualification == null -> setSpinnerError(binding.basicInfoLayout.spinnerDetailQualification)
-            dobProof == null -> setSpinnerError(binding.basicInfoLayout.spinnerDobProof)
-            nationality == null -> setSpinnerError(binding.basicInfoLayout.spinnerNationality)
-            else -> 0
-        }
+//        val spinnerError = when {
+//            cAddressProof == null -> setSpinnerError(binding.personalAddressLayout.spinnerCurrentAddressProof)
+//            cResidenceType == null -> setSpinnerError(binding.personalAddressLayout.spinnerCurrentResidenceType)
+//            qualification == null -> setSpinnerError(binding.basicInfoLayout.spinnerQualification)
+//            relationShip == null -> setSpinnerError(binding.basicInfoLayout.spinnerRelationship)
+//            livingStandard == null -> setSpinnerError(binding.basicInfoLayout.spinnerLivingStandard)
+//            maritalStatus == null -> setSpinnerError(binding.basicInfoLayout.spinnerLivingStandard)
+//            detailQualification == null -> setSpinnerError(binding.basicInfoLayout.spinnerDetailQualification)
+//            dobProof == null -> setSpinnerError(binding.basicInfoLayout.spinnerDobProof)
+//            nationality == null -> setSpinnerError(binding.basicInfoLayout.spinnerNationality)
+//            else -> 0
+//        }
 
         val fieldError = when {
             !currentLandmark.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentLandmark)
@@ -87,9 +89,9 @@ class FormValidationImpl : FormValidation {
             !isValidMobile(mobile) -> setFieldError(binding.basicInfoLayout.etMobile)
             else -> 0
         }
-        val error = spinnerError + fieldError + errorCount
+//        val error = spinnerError + fieldError + errorCount
 
-        return isValidForm(error)
+        return isValidForm(fieldError)
     }
 
     private fun checkPermanentAddressFields(binding: FragmentPersonalBinding): Int {
@@ -98,13 +100,13 @@ class FormValidationImpl : FormValidation {
         val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
         val rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString()
         val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
-        val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
+//        val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
 
         if(!binding.personalAddressLayout.customPermanentZipAddressView.validateAndHandleError()) {
             errorCount++
         }
         val spinnerError = when {
-            pAddressProof == null -> setSpinnerError(binding.personalAddressLayout.spinnerPermanentAddressProof)
+//            pAddressProof == null -> setSpinnerError(binding.personalAddressLayout.spinnerPermanentAddressProof)
             pResidenceType == null -> setSpinnerError(binding.personalAddressLayout.spinnerPermanentResidenceType)
             else -> 0
         }
@@ -676,14 +678,12 @@ class FormValidationImpl : FormValidation {
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()
         val contact = binding.etContactNum.text.toString()
-        val loan = binding.spinnerLoanProduct.getSelectedType() as LoanProductMaster?
-        val branch = binding.spinnerBranches.getSelectedType() as UserBranches?
-
-        val spinnerError = when {
-            loan == null -> setCustomSpinnerError(binding.spinnerLoanProduct)
-            branch == null -> setCustomSpinnerError(binding.spinnerBranches)
-            else -> 0
-        }
+        val bLayout = binding.layoutBranches[0]
+//        val spinnerError = when {
+//            b. == null -> setCustomSpinnerError(binding.spinnerLoanProduct)
+//            branch == null -> setCustomSpinnerError(binding.spinnerBranches)
+//            else -> 0
+//        }
 
         val fieldError = (when {
             !area.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
@@ -693,8 +693,8 @@ class FormValidationImpl : FormValidation {
             else -> 0
         })
 
-        val errorCount = spinnerError + fieldError
-        return isValidForm(errorCount)
+//        val errorCount = spinnerError + fieldError
+        return isValidForm(fieldError)
     }
 
     private fun setCustomSpinnerError(spinner: CustomSpinnerView<*>): Int {

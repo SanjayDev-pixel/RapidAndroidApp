@@ -299,7 +299,7 @@ class LoanInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.layoutLoanScheme.addView(loanScheme)
         sourcingPartner = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.SourcingChannelPartner!!, label = "Sourcing Channel Partner *")
         binding.layoutSourcingPartner.addView(sourcingPartner)
-        channelId = sourcingPartner.getSelectedId().toString()
+//        channelId = sourcingPartner.getSelectedId().toString()
     }
 
     override val branchId: String

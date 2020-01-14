@@ -47,23 +47,13 @@
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerCurrentAddressProof"
+                <LinearLayout
+                    android:id="@+id/layoutCurrentAddressProof"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:theme="@style/MatchSpinnerTheme"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:layout_weight="1"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Address Proof *"
-                    app:ms_hint="Address Proof *"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -210,23 +200,13 @@
                     app:ms_hintTextSize="@dimen/hint_size"
                     app:ms_multiline="false" />
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerPermanentAddressProof"
+                <LinearLayout
+                    android:id="@+id/layoutPermanentAddressProof"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:layout_weight="1"
-                    android:minWidth="@dimen/text_min_width"
-                    android:theme="@style/MatchSpinnerTheme"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Address Proof *"
-                    app:ms_hint="Address Proof *"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:layout_weight="1" />
 
             </LinearLayout>
 

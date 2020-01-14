@@ -128,17 +128,19 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.finance.app.view.customViews.CustomSpinnerView
-                android:id="@+id/spinnerLoanProduct"
+            <LinearLayout
+                android:id="@+id/layoutLoanProduct"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/fields_margin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin" />
+                android:layout_height="wrap_content" />
 
-            <com.finance.app.view.customViews.CustomSpinnerView
-                android:id="@+id/spinnerBranches"
+            <LinearLayout
+                android:id="@+id/layoutBranches"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/fields_margin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin" />
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_address"
