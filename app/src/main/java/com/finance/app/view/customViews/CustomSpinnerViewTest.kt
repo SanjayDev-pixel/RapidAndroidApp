@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.finance.app.R
 import com.finance.app.presenter.connector.Ispinner
+import com.finance.app.presenter.connector.IspinnerClick
 import com.finance.app.presenter.connector.ValidationHandler
 import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
 import fr.ganfra.materialspinner.MaterialSpinner
@@ -19,7 +20,7 @@ import motobeans.architecture.util.exVisible
 /**
  * Created by Vishal Rathi on 23/12/19.
  */
-class CustomSpinnerViewTest<Type : Ispinner>(context: Context, private val dropDowns: ArrayList<Type>?, isMandatory: Boolean = true, label: String, attrs: AttributeSet? = null) : LinearLayout(context,
+class CustomSpinnerViewTest<Type : Ispinner>(context: Context, private val dropDowns: ArrayList<Type>?, label: String, attrs: AttributeSet? = null) : LinearLayout(context,
         attrs), AdapterView.OnItemSelectedListener, ValidationHandler {
 
     private lateinit var spinnerType: MaterialSpinner
@@ -27,7 +28,7 @@ class CustomSpinnerViewTest<Type : Ispinner>(context: Context, private val dropD
     private var isMandatory: Boolean = true
     private lateinit var llErrorBlock: LinearLayout
     private lateinit var adapterExpendedType: CustomSpinnerAdapter<Type>
-    private var mClickListener: ItemClickListener? = null
+    private var mClickListener: IspinnerClick? = null
 
     init {
         orientation = HORIZONTAL
@@ -40,11 +41,7 @@ class CustomSpinnerViewTest<Type : Ispinner>(context: Context, private val dropD
         setDropdownLabel(label)
     }
 
-    interface ItemClickListener {
-        fun getSelectedValue(value: String)
-    }
-
-    fun setOnItemClickListener(listener: ItemClickListener) {
+    fun setOnItemClickListener(listener: IspinnerClick) {
         mClickListener = listener
     }
 
@@ -65,7 +62,6 @@ class CustomSpinnerViewTest<Type : Ispinner>(context: Context, private val dropD
             adapterExpendedType = CustomSpinnerAdapter(context, R.layout.item_custom_spinner, dropDowns)
             spinnerType.adapter = adapterExpendedType
         }
-
         setListenerForSpinner()
     }
 
@@ -77,14 +73,10 @@ class CustomSpinnerViewTest<Type : Ispinner>(context: Context, private val dropD
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
                     value = parent.getItemAtPosition(position) as Type
-//                    mClickListener?.getSelectedValue(value.getCompareValue())
+                    mClickListener?.getSelectedValue(returnId(value!!.getCompareValue()))
                 }
             }
         }
-    }
-
-    fun getSelectedId(): Int {
-        return returnId(value!!.getCompareValue())
     }
 
     private fun returnId(value: String): Int {

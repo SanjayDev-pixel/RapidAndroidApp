@@ -90,6 +90,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                 showToast(value.responseMsg)
             }
         }
+
     }
 
     private val leadRequest: Requests.RequestAddLead

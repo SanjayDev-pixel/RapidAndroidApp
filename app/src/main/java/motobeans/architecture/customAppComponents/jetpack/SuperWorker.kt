@@ -35,11 +35,12 @@ abstract class SuperWorker(context : Context, params : WorkerParameters) : Worke
     }
 
     private fun getDataFromApi() {
-        presenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE, dmiConnector = AllMasterDropdownData())
-        presenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT, dmiConnector = LoanProductsDropdown())
-        presenter.callNetwork(ConstantsApi.CALL_ALL_STATES, dmiConnector = AllStatesList())
+//        presenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE, dmiConnector = AllMasterDropdownData())
+//        presenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT, dmiConnector = LoanProductsDropdown())
+//        presenter.callNetwork(ConstantsApi.CALL_ALL_STATES, dmiConnector = AllStatesList())
     }
 
+/*
     inner class AllMasterDropdownData : ViewGeneric<String?, Response.ResponseAllMasterDropdown>(context = applicationContext) {
         override val apiRequest: String?
             get() = null
@@ -84,5 +85,6 @@ abstract class SuperWorker(context : Context, params : WorkerParameters) : Worke
             }
         }
     }
+*/
 
 }

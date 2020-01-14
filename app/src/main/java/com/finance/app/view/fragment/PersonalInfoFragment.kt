@@ -205,7 +205,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 }
             }
         getDropDownsFromDB()
-//        fillFormWithCurrentApplicant(currentApplicant!!)
     }
 
     private fun updateCustomZipCode(customZipView: CustomZipAddressView, addressDetail: AddressDetail) {
@@ -225,9 +224,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         setUpResidenceTypeDropDown(binding.personalAddressLayout.spinnerPermanentResidenceType,
                 dropDown.ResidenceType!!, binding.personalAddressLayout.inputLayoutPermanentRentAmount)
 
-        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
-            fillAddressInfo(personalAddressDetail!!)
-        }
         currentApplicant?.let {
             fillValueInMasterDropDown(currentApplicant!!)
         }
@@ -273,7 +269,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         }
     }
 
-
     private fun getApplicantFromLead() :PersonalApplicantsModel{
         currentApplicant = PersonalApplicantsModel()
         currentApplicant!!.firstName = mLead!!.applicantFirstName
@@ -289,8 +284,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun fillFormWithCurrentApplicant(currentApplicant: PersonalApplicantsModel?) {
         currentApplicant?.let {
-            fillValueInMasterDropDown(currentApplicant)
-
             contactDetail?.let {
                 binding.basicInfoLayout.etEmail.setText(contactDetail!!.email)
                 binding.basicInfoLayout.etMobile.setText(contactDetail!!.mobile)
@@ -314,12 +307,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
         binding.basicInfoLayout.etAge.setText(currentApplicant.age.toString())
         binding.basicInfoLayout.etAlternateNum.setText(currentApplicant.alternateContact.toString())
-        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
-            fillAddressInfo(personalAddressDetail!!)
-        } else {
-            binding.personalAddressLayout.etCurrentAddress.setText(mLead!!.applicantAddress)
-            binding.personalAddressLayout.etPermanentAddress.setText(mLead!!.applicantAddress)
-        }
         if (currentApplicant.maritialStatusTypeDetailID != SINGLE) {
             binding.basicInfoLayout.etSpouseMiddleName.setText(currentApplicant.spouseMiddleName)
             binding.basicInfoLayout.etSpouseFirstName.setText(currentApplicant.spouseFirstName)
@@ -345,6 +332,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         livingStandard.setSelection(currentApplicant.livingStandardTypeDetailId)
         relationship.setSelection(currentApplicant.relationshipTypeDetailId)
         selectMasterDropdownValue(binding.basicInfoLayout.spinnerMaritalStatus, currentApplicant.maritialStatusTypeDetailID)
+
+        fillFormWithCurrentApplicant(currentApplicant)
+        if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
+            fillAddressInfo(personalAddressDetail!!)
+        }
     }
 
     private fun fillAddressInfo(addressDetailList: ArrayList<AddressDetail>) {
@@ -620,21 +612,6 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         })
     }
 
-   /* private fun getTabListFromApplicantList() {
-        for (index in 0 until personalApplicantsList!!.size) {
-            val lNum = personalApplicantsList!![index].leadApplicantNumber
-            val iConsider = personalApplicantsList!![index].incomeConsidered
-            val mApplicant = personalApplicantsList!![index].isMainApplicant
-            val fName = personalApplicantsList!![index].firstName
-            val coApplicant = CoApplicantsList()
-            coApplicant.firstName = fName
-            coApplicant.isMainApplicant = mApplicant
-            coApplicant.leadApplicantNumber = lNum
-            coApplicant.incomeConsidered = iConsider
-            applicantTab!!.add(coApplicant)
-        }
-    }*/
-
     private fun onAddCoApplicantClick() {
         when (mLead!!.status) {
             AppEnums.LEAD_TYPE.SUBMITTED.type -> showToast(getString(R.string.error_add_co_applicant))
@@ -642,11 +619,11 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 saveCurrentApplicant()
 
                 try {
+                    applicantTab!!.add(leadAndLoanDetail.getDefaultCoApplicant(currentPosition, leadNumber))
                     val lastIndex = applicantTab!!.lastIndex
                     applicantAdapter?.onClickItem(lastIndex, applicantTab!![lastIndex])
                     currentPosition = lastIndex
                     personalApplicantsList!!.add(lastIndex, PersonalApplicantsModel())
-                    applicantTab!!.add(leadAndLoanDetail.getDefaultCoApplicant(currentPosition, leadNumber))
                     applicantAdapter!!.notifyDataSetChanged()
 
                     ClearPersonalForm(binding = binding, context = mContext,
@@ -666,6 +643,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
                 currentPosition = position
                 waitFor1Sec(position, coApplicant)
+                DisablePersonalForm(binding)
             }
             else -> when {
                 formValidation.validatePersonalInfo(binding) -> {
@@ -705,7 +683,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         currentApplicant!!.firstName = coApplicant.firstName
         contactDetail = currentApplicant!!.contactDetail
         personalAddressDetail = currentApplicant!!.addressDetailList
-        fillFormWithCurrentApplicant(currentApplicant)
+        fillValueInMasterDropDown(currentApplicant!!)
     }
 
     override fun onApplicantLongClick(position: Int) = showAlertDialog(position)

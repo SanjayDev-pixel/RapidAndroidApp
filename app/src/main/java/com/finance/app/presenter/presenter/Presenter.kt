@@ -40,6 +40,11 @@ class Presenter {
             ConstantsApi.CALL_ALL_STATES -> apiProject.api.getStates()
             ConstantsApi.CALL_LOGIN -> apiProject.api.loginUser(dmiConnector.apiRequest as Requests.RequestLogin)
             ConstantsApi.CALL_COAPPLICANTS_LIST-> apiProject.api.getCoApplicantsList(dmiConnector.apiRequest as String)
+            ConstantsApi.CALL_GET_LOAN_APP -> {
+                val strings = dmiConnector.apiRequest as ArrayList<String>
+                apiProject.api.getLoanApp(strings[0], strings[1])
+            }
+
             else -> return
         }
 

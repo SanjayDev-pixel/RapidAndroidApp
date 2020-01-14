@@ -45,6 +45,7 @@ class GetOtherDropDownFromApi(private val mContext: Context) {
                 showToast(value.responseMsg)
             }
         }
+
     }
 
     inner class LoanProductsDropdown : ViewGeneric<String?, Response.ResponseLoanProduct>(context = mContext) {
