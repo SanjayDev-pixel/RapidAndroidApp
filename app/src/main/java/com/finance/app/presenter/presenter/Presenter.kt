@@ -3,6 +3,7 @@ package com.finance.app.presenter.presenter
 import android.app.ProgressDialog
 import android.content.Context
 import com.finance.app.R
+import com.finance.app.persistence.model.LoanApplicationRequest
 import com.finance.app.presenter.connector.Connector
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -40,6 +41,16 @@ class Presenter {
             ConstantsApi.CALL_ALL_STATES -> apiProject.api.getStates()
             ConstantsApi.CALL_LOGIN -> apiProject.api.loginUser(dmiConnector.apiRequest as Requests.RequestLogin)
             ConstantsApi.CALL_COAPPLICANTS_LIST-> apiProject.api.getCoApplicantsList(dmiConnector.apiRequest as String)
+            ConstantsApi.CALL_GET_LOAN_APP -> {
+                val strings = dmiConnector.apiRequest as ArrayList<String>
+                apiProject.api.getLoanApp(strings[0], strings[1])
+            }
+            ConstantsApi.CALL_POST_LOAN_APP -> apiProject.api.postLoanApp(dmiConnector.apiRequest as LoanApplicationRequest)
+            ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME -> {
+                val strings = dmiConnector.apiRequest as ArrayList<String>
+                apiProject.api.sourceChannelPartnerName(strings[0], strings[1], strings[2])
+            }
+
             else -> return
         }
 
