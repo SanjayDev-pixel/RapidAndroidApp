@@ -2,18 +2,17 @@ package com.finance.app.persistence.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.finance.app.presenter.connector.Ispinner
-import motobeans.architecture.retrofit.response.Response
+import com.finance.app.view.customViews.Interfaces.IspinnerModel
 import java.io.Serializable
 import java.util.*
 
 @Entity
-class LoanProductMaster : Serializable, Ispinner {
+class LoanProductMaster : Serializable, IspinnerModel {
 
     @PrimaryKey
     var productID: Int = 0
     var fromDate: String? = null
-    var loanPurposeList: ArrayList<Response.LoanPurpose>? = null
+    var loanPurposeList: ArrayList<LoanPurpose>? = null
     var maxAmount: Int = 0
     var maxTenure: Int = 0
     var minAmount: Int = 0

@@ -1,9 +1,9 @@
 package com.finance.app.persistence.model
 
-import com.finance.app.presenter.connector.Ispinner
+import com.finance.app.view.customViews.Interfaces.IspinnerModel
 import java.io.Serializable
 
-class DropdownMaster : Serializable, Ispinner {
+class DropdownMaster : Serializable, IspinnerModel {
     var typeDetailCode: String? = ""
     var typeMasterID: Int? = 0
     var typeDetailID: Int? = 0

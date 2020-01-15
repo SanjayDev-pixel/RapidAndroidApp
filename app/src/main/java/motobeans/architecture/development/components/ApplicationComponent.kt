@@ -60,11 +60,9 @@ interface ApplicationComponent {
     fun inject(fragment: AssetLiabilityFragment)
     fun inject(fragment: ReferenceFragment)
     fun inject(fragment: AllLeadsFragment)
-    fun inject(fragment: PendingLeadsFragment)
-    fun inject(fragment: SubmittedLeadFragment)
-    fun inject(fragment: RejectedLeadFragment)
     fun inject(fragment: DocumentCheckListFragment)
     fun inject(fragment: PropertyFragment)
+    fun inject(fragment: LeadsListingFragment)
     /**
      * Presenters
      */

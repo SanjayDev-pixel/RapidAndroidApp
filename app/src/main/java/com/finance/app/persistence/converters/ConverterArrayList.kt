@@ -63,26 +63,6 @@ class ConverterArrayList {
     }
 
     @TypeConverter
-    fun fromStringToArrayListLoanPurpose(value: String?): ArrayList<Response.LoanPurpose>? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val arrayListType = object : TypeToken<ArrayList<Response.LoanPurpose>>() {
-
-        }.type
-        return Gson().fromJson<ArrayList<Response.LoanPurpose>>(value, arrayListType)
-    }
-
-    @TypeConverter
-    fun fromLoanPurposeArrayListToString(ArrayList: ArrayList<Response.LoanPurpose>?): String? {
-        ArrayList?.let {
-            val gson = Gson()
-            return gson.toJson(ArrayList)
-        }
-        return null
-    }
-
-    @TypeConverter
     fun fromStringToArrayListAllLeadMaster(value: String?): ArrayList<AllLeadMaster>? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
@@ -235,6 +215,26 @@ class ConverterArrayList {
 
     @TypeConverter
     fun fromEmploymentApplicantModelArrayListToString(ArrayList: ArrayList<EmploymentApplicantsModel>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListLoanPurpose(value: String?): ArrayList<LoanPurpose>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<LoanPurpose>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<LoanPurpose>>(value, arrayListType)
+    }
+
+    @TypeConverter
+    fun fromLoanPurposeArrayListToString(ArrayList: ArrayList<LoanPurpose>?): String? {
         ArrayList?.let {
             val gson = Gson()
             return gson.toJson(ArrayList)

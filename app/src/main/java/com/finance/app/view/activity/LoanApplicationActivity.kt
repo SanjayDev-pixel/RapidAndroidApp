@@ -38,7 +38,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         }
         setLeadNumber()
         setNavFragment()
-        secondaryFragment = LoanInfoFragment()
+        secondaryFragment = LoanInfoFragment.newInstance()
         setSecondaryFragment(secondaryFragment)
     }
 

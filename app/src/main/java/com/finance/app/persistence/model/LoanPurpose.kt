@@ -3,14 +3,17 @@ package com.finance.app.persistence.model
 import com.finance.app.view.customViews.Interfaces.IspinnerModel
 import java.io.Serializable
 
-class UserBranches : Serializable, IspinnerModel {
-    var branchName: String? = ""
-    var branchID: Int = 0
+class LoanPurpose : Serializable, IspinnerModel {
+
+    var loanPurposeName: String? = null
+    var loanPurposeID: Int = 0
+
     override fun getCompareValue(): String {
-        return "$branchID"
+        return "$loanPurposeID"
     }
 
     override fun toString(): String {
-        return "$branchName"
+        return "$loanPurposeName"
     }
+
 }
