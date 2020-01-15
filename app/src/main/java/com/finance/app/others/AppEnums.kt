@@ -6,6 +6,7 @@ import com.finance.app.R
  * Created by munishkumarthakur on 02/01/18.
  */
 class AppEnums {
+
     enum class Temp(val id: Int, val dataName: String) {
         Val1(1001, "Value1001");
 
@@ -95,7 +96,7 @@ class AppEnums {
     }
 
     enum class LEAD_TYPE(val type: String) {
-        PENDING("Pending"), REJECTED("Rejected"), SUBMITTED("Submitted")
+        PENDING ("Pending"), SUBMITTED("Submitted"), REJECTED("Rejected"), NEW ("New"), ALL ("All")
     }
 
     enum class RESPONSEAPI(val type: String) {
