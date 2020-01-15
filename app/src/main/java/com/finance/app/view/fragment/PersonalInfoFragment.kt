@@ -323,15 +323,15 @@ class PersonalInfoFragment : BaseFragment(),
     }
 
     private fun fillValueInMasterDropDown(currentApplicant: PersonalApplicantsModel) {
-        gender.setSelection(currentApplicant.genderTypeDetailID)
-        nationality.setSelection(currentApplicant.nationalityTypeDetailID)
-        religion.setSelection(currentApplicant.religionTypeDetailID)
-        caste.setSelection(currentApplicant.casteTypeDetailID)
-        dobProof.setSelection(currentApplicant.dobProofTypeDetailID)
-        qualification.setSelection(currentApplicant.qualificationTypeDetailID)
-        detailQualification.setSelection(currentApplicant.detailQualificationTypeDetailID)
-        livingStandard.setSelection(currentApplicant.livingStandardTypeDetailId)
-        relationship.setSelection(currentApplicant.relationshipTypeDetailId)
+        gender.setSelection(currentApplicant.genderTypeDetailID?.toString())
+        nationality.setSelection(currentApplicant.nationalityTypeDetailID?.toString())
+        religion.setSelection(currentApplicant.religionTypeDetailID?.toString())
+        caste.setSelection(currentApplicant.casteTypeDetailID?.toString())
+        dobProof.setSelection(currentApplicant.dobProofTypeDetailID?.toString())
+        qualification.setSelection(currentApplicant.qualificationTypeDetailID?.toString())
+        detailQualification.setSelection(currentApplicant.detailQualificationTypeDetailID?.toString())
+        livingStandard.setSelection(currentApplicant.livingStandardTypeDetailId?.toString())
+        relationship.setSelection(currentApplicant.relationshipTypeDetailId?.toString())
         selectMasterDropdownValue(binding.basicInfoLayout.spinnerMaritalStatus, currentApplicant.maritialStatusTypeDetailID)
 
         fillFormWithCurrentApplicant(currentApplicant)
@@ -350,7 +350,7 @@ class PersonalInfoFragment : BaseFragment(),
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
-        currentAddressProof.setSelection(addressDetail.addressTypeDetailID)
+        currentAddressProof.setSelection(addressDetail.addressTypeDetailID?.toString())
         selectMasterDropdownValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail.residenceTypeTypeDetailID)
 
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
@@ -361,7 +361,7 @@ class PersonalInfoFragment : BaseFragment(),
         binding.personalAddressLayout.etPermanentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears.toString())
-        permanentAddressProof.setSelection(addressDetail.addressTypeDetailID)
+        permanentAddressProof.setSelection(addressDetail.addressTypeDetailID?.toString())
         selectMasterDropdownValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail.residenceTypeTypeDetailID)
 
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customPermanentZipAddressView, addressDetail = addressDetail)
@@ -389,13 +389,13 @@ class PersonalInfoFragment : BaseFragment(),
             relationship = CustomSpinnerViewTest(context = mContext, dropDowns = allMasterDropDown.Relationship!!, label = "Relationship")
             binding.basicInfoLayout.layoutRelationShip.addView(relationship)
 
-            relationship.setSelection(SELF)
+            relationship.setSelection(SELF.toString())
             relationship.disableSelf()
         } else {
             relationship = CustomSpinnerViewTest(context = mContext, dropDowns = relationshipList, label = "Relationship")
             binding.basicInfoLayout.layoutRelationShip.addView(relationship)
 
-            relationship.setSelection(currentApplicant!!.relationshipTypeDetailId)
+            relationship.setSelection(currentApplicant!!.relationshipTypeDetailId?.toString())
         }
     }
 
@@ -413,16 +413,16 @@ class PersonalInfoFragment : BaseFragment(),
 
     private fun getCurrentApplicant(): PersonalApplicantsModel {
         val currentApplicant = PersonalApplicantsModel()
-        val casteDD = caste.getSelectedObj()
-        val dQualificationDD = detailQualification.getSelectedObj()
-        val qDD =qualification.getSelectedObj()
-        val dobProofDD = dobProof.getSelectedObj()
-        val genderDD =gender.getSelectedObj()
-        val nationalityDD = nationality.getSelectedObj()
-        val religionDD = religion.getSelectedObj()
+        val casteDD = caste.getSelectedValue()
+        val dQualificationDD = detailQualification.getSelectedValue()
+        val qDD =qualification.getSelectedValue()
+        val dobProofDD = dobProof.getSelectedValue()
+        val genderDD =gender.getSelectedValue()
+        val nationalityDD = nationality.getSelectedValue()
+        val religionDD = religion.getSelectedValue()
         val maritalStatus = binding.basicInfoLayout.spinnerMaritalStatus.selectedItem as DropdownMaster?
-        val livingStandardDD = livingStandard.getSelectedObj()
-        val relationshipDD = relationship.getSelectedObj()
+        val livingStandardDD = livingStandard.getSelectedValue()
+        val relationshipDD = relationship.getSelectedValue()
         val dependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
         val earningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString()
 
@@ -467,7 +467,7 @@ class PersonalInfoFragment : BaseFragment(),
     private fun getAddressDetailList(): ArrayList<AddressDetail>? {
         val cAddressDetail = AddressDetail()
         val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
-        val cAddressProof = currentAddressProof.getSelectedObj()
+        val cAddressProof = currentAddressProof.getSelectedValue()
 
         cAddressDetail.rentAmount = CurrencyConversion().convertToNormalValue(binding.personalAddressLayout.etCurrentRentAmount.text.toString())
         cAddressDetail.stayingInYears = binding.personalAddressLayout.etCurrentStaying.text.toString().toFloat()
@@ -486,7 +486,7 @@ class PersonalInfoFragment : BaseFragment(),
             pAddressDetail = cAddressDetail
         } else {
             val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
-            val pAddressProof = permanentAddressProof.getSelectedObj()
+            val pAddressProof = permanentAddressProof.getSelectedValue()
 
             pAddressDetail.rentAmount = CurrencyConversion().convertToNormalValue(binding.personalAddressLayout.etPermanentRentAmount.text.toString())
             pAddressDetail.stayingInYears = binding.personalAddressLayout.etPermanentStaying.text.toString().toFloat()

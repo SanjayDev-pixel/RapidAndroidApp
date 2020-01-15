@@ -290,8 +290,8 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun getCurrentBean(): BankDetailBean {
         val currentBean = BankDetailBean()
-        val bName = bankName.getSelectedObj()
-        val aType = accountType.getSelectedObj()
+        val bName = bankName.getSelectedValue()
+        val aType = accountType.getSelectedValue()
         val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
 
         currentBean.bankNameTypeDetailID = bName?.typeDetailID
@@ -348,8 +348,8 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun fillFormWithCurrentBean(bank: BankDetailBean) {
         selectMasterDropdownValue(binding.spinnerSalaryCredit, bank.salaryCreditTypeDetailID)
-        bankName.setSelection(bank.bankNameTypeDetailID)
-        accountType.setSelection(bank.accountTypeDetailID)
+        bankName.setSelection(bank.bankNameTypeDetailID?.toString())
+        accountType.setSelection(bank.accountTypeDetailID?.toString())
         binding.etAccountNum.setText(bank.accountNumber)
         binding.etAccountHolderName.setText(bank.accountHolderName)
         binding.etSalaryCreditedInSixMonths.setText(bank.numberOfCredit.toString())

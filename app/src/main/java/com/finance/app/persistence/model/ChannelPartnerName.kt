@@ -1,9 +1,9 @@
 package com.finance.app.persistence.model
 
-import com.finance.app.presenter.connector.Ispinner
+import com.finance.app.view.customViews.Interfaces.IspinnerModel
 import java.io.Serializable
 
-class ChannelPartnerName : Serializable, Ispinner {
+class ChannelPartnerName : Serializable, IspinnerModel {
 
     var entityID: Int? = 0
     var isActive: Boolean = true

@@ -1,9 +1,9 @@
 package com.finance.app.persistence.model
 
-import com.finance.app.presenter.connector.Ispinner
+import com.finance.app.view.customViews.Interfaces.IspinnerModel
 import java.io.Serializable
 
-class UserBranches : Serializable, Ispinner {
+class UserBranches : Serializable, IspinnerModel {
     var branchName: String? = ""
     var branchID: Int = 0
     override fun getCompareValue(): String {

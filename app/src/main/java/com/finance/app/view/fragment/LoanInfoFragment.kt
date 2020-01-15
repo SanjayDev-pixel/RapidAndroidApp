@@ -19,7 +19,7 @@ import com.finance.app.databinding.FragmentLoanInformationBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
-import com.finance.app.presenter.connector.IspinnerClick
+import com.finance.app.view.customViews.Interfaces.IspinnerCustomView
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
@@ -27,6 +27,7 @@ import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.adapters.recycler.Spinner.LoanProductSpinnerAdapter
 import com.finance.app.view.adapters.recycler.Spinner.LoanPurposeSpinnerAdapter
 import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.Interfaces.IspinnerMainView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -42,6 +43,26 @@ import kotlin.properties.Delegates
 
 class LoanInfoFragment : BaseFragment() {
 
+    companion object {
+        private lateinit var mBranchId: String
+        private const val SELECT_PDF_CODE = 1
+        private const val DIRECT = 53
+        private const val CLICK_IMAGE_CODE = 2
+        private const val SELECT_IMAGE_CODE = 3
+        private var image: Bitmap? = null
+        private var pdf: Uri? = null
+        private val responseConversion = ResponseConversion()
+        private val requestConversion = RequestConversion()
+
+        fun newInstance(): LoanInfoFragment {
+            val args = Bundle()
+
+            val fragment = LoanInfoFragment()
+            fragment.arguments = args
+
+            return fragment
+        }
+    }
     @Inject
     lateinit var formValidation: FormValidation
     @Inject
@@ -64,20 +85,6 @@ class LoanInfoFragment : BaseFragment() {
     private lateinit var loanScheme: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var partnerName: CustomSpinnerViewTest<ChannelPartnerName>
     private lateinit var sourcingPartner: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var sourcingPartnerClick: IspinnerClick
-
-    companion object {
-        private lateinit var mBranchId: String
-        private const val SELECT_PDF_CODE = 1
-        private const val DIRECT = 53
-        private const val CLICK_IMAGE_CODE = 2
-        private const val SELECT_IMAGE_CODE = 3
-        private var image: Bitmap? = null
-        private var pdf: Uri? = null
-        private val responseConversion = ResponseConversion()
-        private val requestConversion = RequestConversion()
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_loan_information)
         init()
@@ -225,9 +232,9 @@ class LoanInfoFragment : BaseFragment() {
 
     private fun selectSpinnerValue() {
 //        selectMasterValue(binding.spinnerSourcingChannelPartner, loanInfo!!.sourcingChannelPartnerTypeDetailID)
-        interestType.setSelection(loanInfo!!.interestTypeTypeDetailID)
-        loanScheme.setSelection(loanInfo!!.loanSchemeTypeDetailID)
-        sourcingPartner.setSelection(loanInfo!!.sourcingChannelPartnerTypeDetailID)
+        interestType.setSelection(loanInfo?.interestTypeTypeDetailID?.toString())
+        loanScheme.setSelection(loanInfo?.loanSchemeTypeDetailID?.toString())
+        sourcingPartner.setSelection(loanInfo?.sourcingChannelPartnerTypeDetailID?.toString())
 
     }
 
@@ -288,7 +295,12 @@ class LoanInfoFragment : BaseFragment() {
     }
 
     private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown) {
-        interestType = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type")
+        interestType = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type", ispinnerMainView = object : IspinnerMainView<DropdownMaster> {
+            override fun getSelectedValue(value: DropdownMaster) {
+                print("Vishal Rathi -> interestType -> ${value.toString()}")
+            }
+        })
+
         binding.layoutInterestType.addView(interestType)
         loanScheme = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.LoanScheme!!, label = "Loan Scheme")
         binding.layoutLoanScheme.addView(loanScheme)
@@ -342,30 +354,19 @@ class LoanInfoFragment : BaseFragment() {
         binding.layoutPartnerName.addView(partnerName)
 
         if (loanInfo != null) {
-            partnerName.setSelection(loanInfo!!.channelPartnerDsaID)
+            partnerName.setSelection(loanInfo?.channelPartnerDsaID?.toString())
         }
     }
-
-    /*private fun selectPartnerNameValue(spinner: Spinner, channelPartners: ArrayList<Response.ChannelPartnerName>) {
-        for (index in 0 until channelPartners.size) {
-            val obj = spinner.getItemAtPosition(index) as Response.ChannelPartnerName
-            if (obj.dsaID == loanInfo!!.channelPartnerDsaID) {
-                spinner.setSelection(index + 1)
-                return
-            }
-        }
-    }
-    */
 
     private fun getLoanInfoObj(): LoanInfoModel {
         val loanInfoObj = LoanInfoModel()
-        val sPartner = sourcingPartner.getSelectedObj()
-//        val cPartnerName = partnerName.getSelectedObj()
+        val sPartner = sourcingPartner.getSelectedValue()
+//        val cPartnerName = partnerName.getSelectedValue()
         val loanProduct = binding.spinnerLoanProduct.selectedItem as
                 LoanProductMaster?
         val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
-        val lScheme = loanScheme.getSelectedObj()
-        val iType = interestType.getSelectedObj()
+        val lScheme = loanScheme.getSelectedValue()
+        val iType = interestType.getSelectedValue()
 
         loanInfoObj.leadID = mLead!!.leadID!!.toInt()
         loanInfoObj.productID = loanProduct?.productID
