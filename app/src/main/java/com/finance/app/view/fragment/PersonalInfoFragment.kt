@@ -828,7 +828,7 @@ class PersonalInfoFragment : BaseFragment(),
         sendOTPPresenter.callNetwork(ConstantsApi.CALL_SEND_OTP)
     }
 
-    private fun handleOtpResnedTimerEndEvent() {
+    private fun handleOtbResendTimerEndEvent() {
         verifyOTPDialogView?.tvResendOTP?.exVisible()
         verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.exGone()
         timerOtpResend.cancel()
@@ -846,11 +846,11 @@ class PersonalInfoFragment : BaseFragment(),
     private val timerOtpResend = object: CountDownTimer(minutes * seconds * millisecond, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             val secondsUntilFinish = (millisUntilFinished / millisecond).toInt()
-            verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.text = "$secondsUntilFinish seconds"
+            verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.text = "$secondsUntilFinish ${getString(R.string.seconds)}"
         }
 
         override fun onFinish() {
-            handleOtpResnedTimerEndEvent()
+            handleOtbResendTimerEndEvent()
         }
     }
 

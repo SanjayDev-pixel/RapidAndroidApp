@@ -5,8 +5,6 @@ import com.finance.app.databinding.FragmentLoanInformationBinding
 class DisableLoanInfoForm(binding: FragmentLoanInformationBinding) {
 
     init {
-        binding.spinnerLoanProduct.isEnabled = false
-        binding.spinnerLoanPurpose.isEnabled = false
 //        binding.spinnerLoanScheme.isEnabled = false
 //        binding.spinnerInterestType.isEnabled = false
 //        binding.spinnerSourcingChannelPartner.isEnabled = false

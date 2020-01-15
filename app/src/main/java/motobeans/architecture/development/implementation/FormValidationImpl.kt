@@ -125,7 +125,6 @@ class FormValidationImpl : FormValidation {
         val loanAmount = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString())
         val emi = binding.etEmi.text.toString()
         val tenure = binding.etTenure.text.toString()
-        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
 //        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
 //        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as DropdownMaster?
 
@@ -141,11 +140,6 @@ class FormValidationImpl : FormValidation {
             }
         }
 
-        if (loanProduct == null) {
-            errorCount++
-            binding.spinnerLoanProduct.error = "Loan Product Cannot be empty"
-        }
-
         if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etAmountRequest.error = "Amount can not be blank"
@@ -154,11 +148,6 @@ class FormValidationImpl : FormValidation {
         if (!tenure.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etTenure.error = "Tenure can not be blank"
-        }
-
-        if (loanPurpose == null) {
-            errorCount++
-            binding.spinnerLoanPurpose.error = "Loan Purpose Cannot be empty"
         }
 
 //        if (loanScheme == null) {
