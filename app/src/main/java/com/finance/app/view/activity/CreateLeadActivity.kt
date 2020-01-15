@@ -95,8 +95,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
     private val leadRequest: Requests.RequestAddLead
         get() {
-            val lProductDD = loanProduct.getSelectedObj()
-            val branchDD = branches.getSelectedObj()
+            val lProductDD = loanProduct.getSelectedValue()
+            val branchDD = branches.getSelectedValue()
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),

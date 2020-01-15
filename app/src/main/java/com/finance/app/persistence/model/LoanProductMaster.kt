@@ -2,13 +2,13 @@ package com.finance.app.persistence.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.finance.app.presenter.connector.Ispinner
+import com.finance.app.view.customViews.Interfaces.IspinnerModel
 import motobeans.architecture.retrofit.response.Response
 import java.io.Serializable
 import java.util.*
 
 @Entity
-class LoanProductMaster : Serializable, Ispinner {
+class LoanProductMaster : Serializable, IspinnerModel {
 
     @PrimaryKey
     var productID: Int = 0
