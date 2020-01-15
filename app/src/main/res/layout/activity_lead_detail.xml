@@ -18,65 +18,9 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/colorPrimaryDark"
-                    android:orientation="horizontal"
-                    android:paddingStart="5dp"
-                    android:paddingTop="@dimen/margin_10"
-                    android:paddingEnd="@dimen/margin_20"
-                    android:paddingBottom="@dimen/margin_10">
-
-                    <LinearLayout
-                        android:id="@+id/lytBack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_back_white_48dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/back"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="right">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/lead_number"
-                            android:textColor="@color/white" />
-
-                        <TextView
-                            android:id="@+id/tvLeadNumber"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            tools:text="00003"
-                            android:textColor="@color/white" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
+                <include
+                    android:id="@+id/header"
+                    layout="@layout/layout_header_with_back_btn" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -120,7 +64,8 @@
                                     android:id="@+id/ivEdit"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="right|center_vertical" />
+                                    android:layout_gravity="right|center_vertical"
+                                    android:src="@drawable/ic_edit_grey" />
 
                             </FrameLayout>
 
@@ -140,7 +85,7 @@
                                         android:layout_width="25sp"
                                         android:layout_height="25sp"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/ic_location" />
+                                        android:src="@drawable/ic_location_red" />
 
                                     <TextView
                                         android:id="@+id/tvLocation"
@@ -176,7 +121,7 @@
                                         android:id="@+id/ivPhone"
                                         android:layout_width="25sp"
                                         android:layout_height="25sp"
-                                        android:src="@drawable/call_icon" />
+                                        android:src="@drawable/ic_call" />
 
                                     <TextView
                                         android:id="@+id/tvPhone"
@@ -268,9 +213,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="5sp"
                                         android:text="Pending"
-                                        android:textColor="@color/colorAccent"
                                         android:textSize="21sp"
-                                        android:textStyle="bold" />
+                                        android:textStyle="bold"
+                                        tools:textColor="@color/colorAccent" />
 
                                 </LinearLayout>
 
@@ -288,7 +233,7 @@
                             android:visibility="visible">
 
                             <Button
-                                android:id="@+id/btnCallToCustomer"
+                                android:id="@+id/btnUpdateCall"
                                 style="?android:attr/buttonBarButtonStyle"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"

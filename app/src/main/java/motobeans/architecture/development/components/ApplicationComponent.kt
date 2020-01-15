@@ -46,6 +46,7 @@ interface ApplicationComponent {
     fun inject(creationActivity: CreateLeadActivity)
     fun inject(activity: AllLeadActivity)
     fun inject(activity: LeadDetailActivity)
+    fun inject(activity: UpdateCallActivity)
 
     /**
      * Fragment

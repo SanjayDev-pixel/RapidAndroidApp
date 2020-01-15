@@ -16,6 +16,8 @@ import com.finance.app.persistence.model.CoApplicantsMaster
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
+import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
+
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -82,7 +84,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         val leadName = lead?.applicantFirstName + " " + lead?.applicantLastName
         setLeadNum(lead?.leadNumber!!)
         binding.tvLeadName.text = leadName
-        binding.tvLeadNumber.text = lead.leadNumber
+        binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLocation.text = lead.applicantAddress
         binding.tvPhone.text = lead.applicantContactNumber
         binding.tvTypeOfLoan.text = lead.loanProductName
@@ -103,7 +105,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun setClickListeners() {
-        binding.lytBack.setOnClickListener { onBackPressed() }
+        binding.header.lytBack.setOnClickListener { onBackPressed() }
 
         binding.llLeadDetail.setOnClickListener {
             LoanApplicationActivity.start(this)
@@ -115,8 +117,9 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             startActivity(callIntent)
         }
 
-        binding.ivCallUpdate.setOnClickListener {
-            UpdateCallActivity.start(this)
+        binding.btnUpdateCall.setOnClickListener {
+
+            UpdateCallActivity.start(this, leadID)
         }
 
         binding.btnAddTask.setOnClickListener {
