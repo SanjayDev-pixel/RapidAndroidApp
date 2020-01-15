@@ -45,16 +45,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/back"
-                            android:textSize="@dimen/_15sdp"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_15sdp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
                         android:gravity="right">
 
                         <TextView
@@ -69,7 +69,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text="00003"
+                            tools:text="00003"
                             android:textColor="@color/white" />
 
 
@@ -100,17 +100,29 @@
                             android:orientation="vertical"
                             android:padding="@dimen/margin_10">
 
-                            <TextView
-                                android:id="@+id/tvLeadName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:textAllCaps="true"
-                                android:textColor="@color/black"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                tools:text="Virendra Sehwag" />
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tvLeadName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center|center_vertical"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/black"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    tools:text="Virendra Sehwag" />
+
+                                <ImageView
+                                    android:id="@+id/ivEdit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical" />
+
+                            </FrameLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -230,9 +242,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="5sp"
                                         android:text="Home Loan"
-                                        android:textStyle="bold"
                                         android:textColor="@color/black"
-                                        android:textSize="21sp" />
+                                        android:textSize="21sp"
+                                        android:textStyle="bold" />
 
                                 </LinearLayout>
 
@@ -257,8 +269,8 @@
                                         android:layout_marginStart="5sp"
                                         android:text="Pending"
                                         android:textColor="@color/colorAccent"
-                                        android:textStyle="bold"
-                                        android:textSize="21sp" />
+                                        android:textSize="21sp"
+                                        android:textStyle="bold" />
 
                                 </LinearLayout>
 
