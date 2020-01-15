@@ -94,7 +94,6 @@ class LoanInfoFragment : BaseFragment() {
 
     private fun getLoanInfo() {
         mLead = sharedPreferences.getLeadDetail()
-        empId = sharedPreferences.getLoginData()!!.responseObj.userDetails.userBasicDetails.tablePrimaryID.toString()
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
     }
 
