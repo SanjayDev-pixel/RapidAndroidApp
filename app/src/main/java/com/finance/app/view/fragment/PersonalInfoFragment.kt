@@ -48,7 +48,8 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
-class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
+class PersonalInfoFragment : BaseFragment(),
+        LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp,
         ApplicantsAdapter.ItemClickListener, ApplicantsAdapter.ItemLongClickListener,
         OTPConnector.SendOTP, OTPConnector.VerifyOTP, CoApplicantsConnector.CoApplicants {
