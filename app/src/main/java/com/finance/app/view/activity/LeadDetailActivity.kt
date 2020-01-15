@@ -38,7 +38,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferencesUtil
     private var bundle: Bundle? = null
     private var leadID = 0
-    private var leadContact:Long = 0
+    private var leadContact: Long = 0
     private val presenter = Presenter()
 
     companion object {
@@ -55,6 +55,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     override fun init() {
 //        showLeadOptionsMenu()
         ArchitectureApp.instance.component.inject(this)
+        hideToolbar()
+        hideSecondaryToolbar()
         getLeadId()
         presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList())
     }
@@ -101,6 +103,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun setClickListeners() {
+        binding.lytBack.setOnClickListener { onBackPressed() }
+
         binding.llLeadDetail.setOnClickListener {
             LoanApplicationActivity.start(this)
         }
