@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +31,9 @@ import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.customViews.CustomZipAddressView
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_lead_detail.view.*
 import kotlinx.android.synthetic.main.delete_dialog.view.*
+import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,7 +48,11 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
+
 
 class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp,
@@ -85,6 +92,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
     private val conversion = CurrencyConversion()
     private lateinit var verifyOTPDialog: Dialog
     private var otp: Int? = 0
+    private val coApplicant2:CoApplicantsList= CoApplicantsList()
 
     companion object {
         private const val SINGLE = 63
@@ -96,8 +104,16 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         private val leadAndLoanDetail = LeadAndLoanDetail()
     }
 
+
+     fun onCreate() {
+        //super.onCreate()
+        EventBus.getDefault().register(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_personal)
+
+
         init()
         return binding.root
     }
@@ -114,12 +130,19 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         checkKycDataList()
         setClickListeners()
         setUpCustomViews()
+
+
+
+
     }
 
     private fun setUpCustomViews() {
         activity?.let {
             binding.personalAddressLayout.customCurrentZipAddressView.attachActivity(activity = activity!!)
             binding.personalAddressLayout.customPermanentZipAddressView.attachActivity(activity = activity!!)
+
+
+
         }
     }
 
@@ -137,6 +160,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
             personalInfoMaster = ResponseConversion().toPersonalMaster(value.responseObj)
             pDraftData = personalInfoMaster?.draftData!!
             personalApplicantsList = pDraftData.applicantDetails
+
         }
         setCoApplicants()
         showData(personalApplicantsList)
@@ -271,6 +295,8 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                     binding.basicInfoLayout.etMobile.isEnabled = false
                     binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
                     binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
+
+
                 }
             }
         }
@@ -512,7 +538,15 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private fun setClickListeners() {
         binding.ivUploadKyc.setOnClickListener { UploadData(frag, mContext) }
-        binding.basicInfoLayout.btnGetOTP.setOnClickListener { showVerifyOTPDialog() }
+        binding.basicInfoLayout.btnGetOTP.setOnClickListener {
+            val mobileNo:String=binding.basicInfoLayout.etMobile.text.toString()
+            if(mobileNo.length>0 && mobileNo.length==10){
+                showVerifyOTPDialog()
+            } else {
+                showToast(getString(R.string.mandatory_field_missing))
+            }
+
+        }
         binding.btnAddKYC.setOnClickListener {
             getKycData()
             clearKycData()
@@ -646,14 +680,21 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                 saveCurrentApplicant()
                 ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
                 currentPosition = position
+                val mobileno: String? =contactDetail?.mobile
+                coApplicant.mobile=mobileno
                 waitFor1Sec(position, coApplicant)
+                EventBus.getDefault().post(coApplicant)
             }
             else -> when {
                 formValidation.validatePersonalInfo(binding) -> {
                     saveCurrentApplicant()
                     ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
                     currentPosition = position
+                    val mobileno: String? =contactDetail?.mobile
+                    coApplicant.mobile=mobileno
+                    coApplicant.applicantType=if(position==0) "Applicant" else "CoApplicant"+position
                     waitFor1Sec(position, coApplicant)
+                    EventBus.getDefault().post(coApplicant)
                 }
                 else -> showToast(getString(R.string.mandatory_field_missing))
             }
@@ -801,13 +842,27 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
         verifyOTPDialog = mBuilder.show()
         val pinEntry = verifyOTPDialogView?.etOTP
-        pinEntry?.setOnPinEnteredListener { pin ->
+       /* pinEntry?.setOnPinEnteredListener { pin ->
             if (pin.toString().length == 4) {
                 otp = pin.toString().toInt()
-                verifyOTPPresenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP)
+             //   verifyOTPPresenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP)
             } else {
                 pinEntry.text = null
             }
+        }*/
+        verifyOTPDialog.tvMobileno.setText("+91 "+binding.basicInfoLayout.etMobile.text.toString())
+        verifyOTPDialog.verifyotp.setOnClickListener(){
+         val myOtp:String=   verifyOTPDialog.etOTP.text.toString()
+            if(myOtp.toString().length==4){
+
+                otp=myOtp.toString().toInt()
+                verifyOTPPresenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP)
+            }else{
+                verifyOTPDialog.etOTP.setText("")
+
+            }
+
+
         }
 
         verifyOTPDialogView?.tvResendOTP?.setOnClickListener {
@@ -821,17 +876,18 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         verifyOTPDialogView?.tvResendOTP?.callOnClick()
 
         timerOtpResend.start()
+
     }
 
     private fun handleResendOtpEvent() {
-        verifyOTPDialogView?.tvResendOTP?.exGone()
+      //  verifyOTPDialogView?.tvResendOTP?.exGone()
         verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.exVisible()
         timerOtpResend.start()
         sendOTPPresenter.callNetwork(ConstantsApi.CALL_SEND_OTP)
     }
 
     private fun handleOtpResnedTimerEndEvent() {
-        verifyOTPDialogView?.tvResendOTP?.exVisible()
+     //   verifyOTPDialogView?.tvResendOTP?.exVisible()
         verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.exGone()
         timerOtpResend.cancel()
     }
@@ -858,6 +914,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
 
     private val otpVerifyRequest: Requests.RequestVerifyOTP
         get() {
+
             val leadId = mLead!!.leadID!!.toInt()
             val mobile = binding.basicInfoLayout.etMobile.text.toString()
             return Requests.RequestVerifyOTP(leadID = leadId, mobile = mobile, otpValue = otp!!)
@@ -879,4 +936,17 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
         binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
         binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
     }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun customEventReceived(event: PersonalInfoFragment?) {
+       // Toast.makeText(mContext,"custom event",Toast.LENGTH_SHORT)
+    }
 }
+
+

@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
@@ -43,6 +45,9 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
@@ -100,6 +105,12 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         private const val BANK_SALARY = 119
     }
 
+    fun onCreate() {
+        //super.onCreate()
+        EventBus.getDefault().register(this)
+    }
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_employment)
         init()
@@ -113,6 +124,8 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         getEmploymentInfo()
         setDatePicker()
         setClickListeners()
+
+
     }
 
     private fun getEmploymentInfo() {
@@ -194,6 +207,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             currentTab = coApplicant
             currentPosition = position
             waitFor1Sec(position)
+            EventBus.getDefault().post(coApplicant)
         } else showToast(getString(R.string.mandatory_field_missing))
     }
 
@@ -787,5 +801,10 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         GlobalScope.launch {
             dataBase.provideDataBaseSource().employmentDao().insertEmployment(employment)
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun customEventReceived(event: EmploymentInfoFragment?) {
+       // Toast.makeText(mContext,"custom event", Toast.LENGTH_SHORT)
     }
 }

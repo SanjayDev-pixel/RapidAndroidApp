@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,9 @@ import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
@@ -68,6 +72,11 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         private val leadAndLoanDetail = LeadAndLoanDetail()
         private val responseConversion = ResponseConversion()
         private val requestConversion = RequestConversion()
+    }
+
+    fun onCreate() {
+        //super.onCreate()
+        EventBus.getDefault().register(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -375,5 +384,10 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private fun deleteBankDetail(position: Int) {
         bankDetailBeanList!!.removeAt(position)
         binding.rcBank.adapter!!.notifyItemRemoved(position)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun customEventReceived(event: BankDetailFragment?) {
+        //Toast.makeText(mContext,"custom event", Toast.LENGTH_SHORT)
     }
 }
