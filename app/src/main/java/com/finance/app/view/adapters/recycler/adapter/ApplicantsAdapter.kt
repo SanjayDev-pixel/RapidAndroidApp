@@ -65,7 +65,13 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
                                      val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindItems(position: Int, coApplicant: CoApplicantsList) {
-            binding.tvApplicants.text = coApplicant.firstName
+            if (position==0){
+
+                binding.tvApplicants.text = "Applicant"
+            }else{
+                binding.tvApplicants.text="Co-Applicant"+position
+            }
+           // binding.tvApplicants.text = coApplicant.firstName
             binding.tvApplicants.setOnClickListener { onClickItem(position, coApplicant) }
             itemView.setOnLongClickListener {
                 onLongClickItem(position)

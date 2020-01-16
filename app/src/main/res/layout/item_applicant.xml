@@ -4,8 +4,11 @@
         android:id="@+id/tvApplicants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5sp"
+        android:padding="5dp"
         android:textColor="@color/black"
         android:text="@string/applicant"
-        android:textAppearance="?android:textAppearanceSmall" />
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_marginLeft="5dp"
+        android:background="@color/white"
+        />
 </layout>

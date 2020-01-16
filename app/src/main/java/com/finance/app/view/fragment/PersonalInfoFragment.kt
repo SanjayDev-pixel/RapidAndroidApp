@@ -692,7 +692,7 @@ class PersonalInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanAp
                     currentPosition = position
                     val mobileno: String? =contactDetail?.mobile
                     coApplicant.mobile=mobileno
-                    coApplicant.applicantType=if(position==0) "Applicant" else "CoApplicant"+position
+                    coApplicant.applicantType=if(position==0) "Applicant" else "Co-Applicant"+position
                     waitFor1Sec(position, coApplicant)
                     EventBus.getDefault().post(coApplicant)
                 }

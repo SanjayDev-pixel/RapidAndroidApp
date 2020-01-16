@@ -39,4 +39,6 @@
 
   <color name="web_link">@color/md_blue_500</color>
     <color name="theme_light_blue">#7198EC</color>
+  <color name="greenbutton">#1db427</color>
+
 </resources>

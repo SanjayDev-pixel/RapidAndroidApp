@@ -30,4 +30,5 @@
     <dimen name="margin_50">50sp</dimen>
     <dimen name="edit_spinner_margin">8sp</dimen>
     <dimen name="spinner_date_margin">5sp</dimen>
+    <dimen name="margin18dp">18dp</dimen>
 </resources>

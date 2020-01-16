@@ -75,6 +75,7 @@
                     android:text="12345" />
 
             </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/llInflatorContainer"
                 android:layout_width="match_parent"
