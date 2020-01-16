@@ -6,7 +6,7 @@ import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.GetOtherDropDownFromApi
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.*
-import com.finance.app.view.adapters.recycler.Holder.TempHolder
+import com.finance.app.view.adapters.recycler.holder.TempHolder
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.customViews.CustomZipAddressView
 import com.finance.app.view.fragment.*

@@ -6,18 +6,19 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
-import com.finance.app.databinding.ItemNewLeadBinding
+import com.finance.app.databinding.ItemLeadsBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.view.adapters.recycler.Holder.LeadsListingHolder
+import com.finance.app.view.adapters.recycler.holder.LeadsListingHolder
 
-class LeadListingAdapter(private val mContext: Context, private val leads: ArrayList<AllLeadMaster>?) :
+class LeadListingAdapter(private val mContext: Context, private val leads: ArrayList<AllLeadMaster>?, private val adapterFor: AppEnums.LEAD_TYPE?) :
         RecyclerView.Adapter<LeadsListingHolder>() {
 
-    private lateinit var binding: ItemNewLeadBinding
+    private lateinit var binding: ItemLeadsBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeadsListingHolder {
         val layoutInflater = LayoutInflater.from(mContext)
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_new_lead, parent, false)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_leads, parent, false)
         return LeadsListingHolder(binding, mContext)
     }
 
@@ -25,7 +26,7 @@ class LeadListingAdapter(private val mContext: Context, private val leads: Array
 
     override fun onBindViewHolder(holder: LeadsListingHolder, position: Int) {
         if (!leads.isNullOrEmpty()) {
-            holder.bindItems(leads[position])
+            holder.bindItems(leads[position],adapterFor)
         }
     }
 }

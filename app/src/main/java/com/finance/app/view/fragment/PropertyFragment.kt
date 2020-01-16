@@ -21,7 +21,7 @@ import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.connector.TransactionCategoryConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.Spinner.*
+import com.finance.app.view.adapters.recycler.spinner.*
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.coroutines.GlobalScope

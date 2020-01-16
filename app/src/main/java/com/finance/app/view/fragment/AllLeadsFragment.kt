@@ -47,7 +47,7 @@ class AllLeadsFragment : BaseFragment() {
     }
 
     private fun setUpRecyclerView(allLeadList: ArrayList<AllLeadMaster>) {
-        binding.rcAllLeads.layoutManager = LinearLayoutManager(this.activity)
-        binding.rcAllLeads.adapter = LeadListingAdapter(this.requireActivity(), allLeadList)
+//        binding.rcAllLeads.layoutManager = LinearLayoutManager(this.activity)
+//        binding.rcAllLeads.adapter = LeadListingAdapter(this.requireActivity(), allLeadList)
     }
 }

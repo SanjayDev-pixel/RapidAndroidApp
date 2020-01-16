@@ -21,9 +21,9 @@ import com.finance.app.presenter.presenter.CityPresenter
 import com.finance.app.presenter.presenter.DistrictPresenter
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
 import com.finance.app.utility.ShowAsMandatory
-import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import fr.ganfra.materialspinner.MaterialSpinner

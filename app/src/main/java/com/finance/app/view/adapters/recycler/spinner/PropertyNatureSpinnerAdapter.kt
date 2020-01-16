@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.Spinner
+package com.finance.app.view.adapters.recycler.spinner
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,16 +9,16 @@ import android.widget.TextView
 import com.finance.app.R
 import motobeans.architecture.retrofit.response.Response
 
-class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response.LoanPurpose>?,
-                                val isMandatory: Boolean = false) : BaseAdapter() {
+class PropertyNatureSpinnerAdapter(mContext: Context, val value: ArrayList<Response.TransactionCategoryObj>,
+                                   val isMandatory: Boolean = false) : BaseAdapter() {
 
-    private var inflater: LayoutInflater = context1.getSystemService(
+    private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: Response.LoanPurpose
+    private lateinit var spinnerValue: Response.TransactionCategoryObj
 
     override fun getItem(position: Int): Any? {
-        return value?.get(position)
+        return value[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -26,7 +26,7 @@ class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response
     }
 
     override fun getCount(): Int {
-        return value?.size ?: 0
+        return value.size
     }
 
     override
@@ -36,18 +36,22 @@ class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value?.get(position)?: value?.get(0)!!
+        spinnerValue = value[position]
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
-            val textView = view.findViewById<View>(R.id.tvSpinnerValue) as TextView
-            textView.text = spinnerValue.loanPurposeName
+            view = inflater.inflate(R.layout.spinner_textbox, parent, false)
+            val textView = view.findViewById<View>(R.id.tvDropdownText) as TextView
+            textView.text = spinnerValue.propertyNatureTransactionCategory
         } else {
             view = convertView
         }
         return view
     }
 
+    fun setItem(position: Int) {
+        spinnerValue = value[position]
+        notifyDataSetChanged()
+    }
     override
     fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getCustomView(position, convertView, parent)

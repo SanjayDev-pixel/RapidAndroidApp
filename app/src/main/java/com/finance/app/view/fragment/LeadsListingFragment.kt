@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
@@ -20,10 +19,10 @@ import javax.inject.Inject
 class LeadsListingFragment : BaseFragment() {
     @Inject
     lateinit var dataBase: DataBaseUtil
-    private lateinit var binding:FragmentLeadPendingBinding
+    private lateinit var binding: FragmentLeadPendingBinding
+    private var leadStatusEnum: AppEnums.LEAD_TYPE? = null
 
     companion object {
-
         const val KEY_LEAD_STATUS = "leadStatus"
         fun newInstance(leadStatusEnum: AppEnums.LEAD_TYPE): LeadsListingFragment {
             val args = Bundle()
@@ -36,15 +35,11 @@ class LeadsListingFragment : BaseFragment() {
         }
     }
 
-    private var leadStatusEnum: AppEnums.LEAD_TYPE? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_lead_pending)
         init()
         return binding.root
     }
-
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
@@ -58,10 +53,9 @@ class LeadsListingFragment : BaseFragment() {
     }
 
     private fun getLeadsFromDB() {
-
         leadStatusEnum?.let {
 
-            var liveDataLeads = when(leadStatusEnum) {
+            var liveDataLeads = when (leadStatusEnum) {
                 AppEnums.LEAD_TYPE.ALL -> dataBase.provideDataBaseSource().allLeadsDao().getAllLeads()
                 else -> dataBase.provideDataBaseSource().allLeadsDao().getLeadsByStatus(leadStatusEnum!!.type)
             }
@@ -79,7 +73,7 @@ class LeadsListingFragment : BaseFragment() {
 
     private fun setUpRecyclerView(allLeadList: ArrayList<AllLeadMaster>) {
         binding.rcPendingLeads.layoutManager = LinearLayoutManager(this.activity)
-        binding.rcPendingLeads.adapter = LeadListingAdapter(this.requireActivity(), allLeadList)
+        binding.rcPendingLeads.adapter = LeadListingAdapter(this.requireActivity(), allLeadList,leadStatusEnum)
     }
 
 }

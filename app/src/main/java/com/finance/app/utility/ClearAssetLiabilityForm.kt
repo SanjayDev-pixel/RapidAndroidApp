@@ -5,7 +5,7 @@ import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.databinding.LayoutCreditCardDetailsBinding
 import com.finance.app.databinding.LayoutObligationBinding
 import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 
 class ClearAssetLiabilityForm(private val binding: FragmentAssetLiablityBinding, val context: Context, private val masterDropdown: AllMasterDropDown) {
 

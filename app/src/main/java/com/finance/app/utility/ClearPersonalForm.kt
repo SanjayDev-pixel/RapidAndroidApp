@@ -5,7 +5,7 @@ import android.view.View
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 
 class ClearPersonalForm(private val binding: FragmentPersonalBinding, private val context: Context,
                         private val masterDropdown: AllMasterDropDown,

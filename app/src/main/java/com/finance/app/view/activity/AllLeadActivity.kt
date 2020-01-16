@@ -11,9 +11,8 @@ import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.presenter.connector.AllLeadsConnector
 import com.finance.app.presenter.presenter.GetAllLeadsPresenter
 import com.finance.app.view.adapters.recycler.adapter.LeadPagerAdapter
-import com.finance.app.view.fragment.*
+import com.finance.app.view.fragment.LeadsListingFragment
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
@@ -53,13 +52,12 @@ class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
     private fun refreshPage() {
         binding.refresh.setOnRefreshListener {
             presenter.callNetwork(ConstantsApi.CALL_GET_ALL_LEADS)
-            binding.refresh.isRefreshing = false }
+            binding.refresh.isRefreshing = false
+        }
     }
 
-    override fun getAllLeadsSuccess(value: Response.ResponseGetAllLeads){
-        GlobalScope.launch {
-            dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster()
-        }
+    override fun getAllLeadsSuccess(value: Response.ResponseGetAllLeads) {
+        GlobalScope.launch { dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster() }
 
         val progress = ProgressDialog(this)
         progress.setMessage("Getting Leads")
@@ -68,7 +66,8 @@ class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
             saveDataToDB(value.responseObj)
             if (progress.isShowing) {
                 progress.dismiss()
-            } else { }
+            } else {
+            }
         }, 1000)
     }
 
