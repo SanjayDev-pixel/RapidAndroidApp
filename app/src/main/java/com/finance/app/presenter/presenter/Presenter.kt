@@ -41,15 +41,17 @@ class Presenter {
             ConstantsApi.CALL_ALL_STATES -> apiProject.api.getStates()
             ConstantsApi.CALL_LOGIN -> apiProject.api.loginUser(dmiConnector.apiRequest as Requests.RequestLogin)
             ConstantsApi.CALL_COAPPLICANTS_LIST-> apiProject.api.getCoApplicantsList(dmiConnector.apiRequest as String)
+            ConstantsApi.CALL_SEND_OTP -> apiProject.api.sendOTP(dmiConnector.apiRequest as Requests.RequestSendOTP)
+            ConstantsApi.CALL_VERIFY_OTP -> apiProject.api.verifyOTP(dmiConnector.apiRequest as Requests.RequestVerifyOTP)
+            ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME -> {
+                val strings = dmiConnector.apiRequest as ArrayList<String>
+                apiProject.api.sourceChannelPartnerName(strings[0], strings[1], strings[2])
+            }
             ConstantsApi.CALL_GET_LOAN_APP -> {
                 val strings = dmiConnector.apiRequest as ArrayList<String>
                 apiProject.api.getLoanApp(strings[0], strings[1])
             }
             ConstantsApi.CALL_POST_LOAN_APP -> apiProject.api.postLoanApp(dmiConnector.apiRequest as LoanApplicationRequest)
-            ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME -> {
-                val strings = dmiConnector.apiRequest as ArrayList<String>
-                apiProject.api.sourceChannelPartnerName(strings[0], strings[1], strings[2])
-            }
 
             else -> return
         }

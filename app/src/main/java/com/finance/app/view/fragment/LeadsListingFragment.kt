@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
-import com.finance.app.databinding.FragmentLeadPendingBinding
+import com.finance.app.databinding.FragmentLeadListingBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.view.adapters.recycler.adapter.LeadListingAdapter
@@ -19,10 +19,10 @@ import javax.inject.Inject
 class LeadsListingFragment : BaseFragment() {
     @Inject
     lateinit var dataBase: DataBaseUtil
-    private lateinit var binding: FragmentLeadPendingBinding
-    private var leadStatusEnum: AppEnums.LEAD_TYPE? = null
+    private lateinit var binding: FragmentLeadListingBinding
 
     companion object {
+
         const val KEY_LEAD_STATUS = "leadStatus"
         fun newInstance(leadStatusEnum: AppEnums.LEAD_TYPE): LeadsListingFragment {
             val args = Bundle()
@@ -35,11 +35,15 @@ class LeadsListingFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.fragment_lead_pending)
+    private var leadStatusEnum: AppEnums.LEAD_TYPE? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        binding = initBinding(inflater, container, R.layout.fragment_lead_listing)
         init()
         return binding.root
     }
+
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
@@ -55,12 +59,12 @@ class LeadsListingFragment : BaseFragment() {
     private fun getLeadsFromDB() {
         leadStatusEnum?.let {
 
-            var liveDataLeads = when (leadStatusEnum) {
+            val liveDataLeads = when (leadStatusEnum) {
                 AppEnums.LEAD_TYPE.ALL -> dataBase.provideDataBaseSource().allLeadsDao().getAllLeads()
                 else -> dataBase.provideDataBaseSource().allLeadsDao().getLeadsByStatus(leadStatusEnum!!.type)
             }
-            liveDataLeads
-                    .observe(viewLifecycleOwner, Observer { leads ->
+
+            liveDataLeads.observe(viewLifecycleOwner, Observer { leads ->
                         leads.let {
                             val allLeadList = ArrayList(it)
                             if (allLeadList.size > 0) {

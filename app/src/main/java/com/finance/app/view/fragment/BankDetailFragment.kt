@@ -192,9 +192,7 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         if (bankDetailBeanList != null || bankDetailBeanList!!.size > 0) {
             bankAdapter.notifyDataSetChanged()
         }
-//        else setUpBankDetailAdapter()
         applicantAdapter!!.notifyDataSetChanged()
-//        checkIncomeConsideration()
     }
 
     private fun getDataFromDB() {

@@ -62,25 +62,16 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
         setListenerForSpinner()
     }
 
-    private var value: Type? = null
-
     private fun setListenerForSpinner() {
         spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
-                    value = parent.getItemAtPosition(position) as Type
-
-                    value?.let {
-                        ispinnerMainView?.getSelectedValue(value!!)
-                    }
+                    val value = parent.getItemAtPosition(position) as Type
+                    ispinnerMainView?.getSelectedValue(value)
                 }
             }
         }
-    }
-
-    private fun returnId(value: String): Int {
-        return value.toInt()
     }
 
     private fun setDropdownLabel(msg: String) {
@@ -148,10 +139,10 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
     }
 
     override fun getSelectedValue(): Type? {
-        try {
-            return spinnerType.selectedView.tag as Type
+        return try {
+            spinnerType.selectedView.tag as Type
         } catch (e: Exception) {
-            return null
+            null
         }
     }
 }

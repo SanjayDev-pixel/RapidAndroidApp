@@ -57,8 +57,8 @@ class LoanInfoFragment : BaseFragment() {
     private var mChannelTypeId: String = ""
     private lateinit var interestType: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var loanScheme: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var partnerName: CustomSpinnerViewTest<ChannelPartnerName>
     private lateinit var sourcingPartner: CustomSpinnerViewTest<DropdownMaster>
+    private lateinit var partnerName: CustomSpinnerViewTest<ChannelPartnerName>
     private lateinit var loanProduct: CustomSpinnerViewTest<LoanProductMaster>
     private lateinit var loanPurpose: CustomSpinnerViewTest<LoanPurpose>
 
@@ -100,23 +100,6 @@ class LoanInfoFragment : BaseFragment() {
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
     }
 
-    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext!!) {
-
-        override val apiRequest: ArrayList<String>?
-            get() = arrayListOf(mLead!!.leadID.toString(), loanMaster?.storageType!!)
-
-        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
-            if (value.responseCode == Constants.SUCCESS) {
-                value.responseObj?.let {
-                    loanMaster = responseConversion.toLoanMaster(value.responseObj)
-                    loanInfo = loanMaster?.draftData
-                }
-                showData(loanInfo)
-            } else getDataFromDB()
-
-        }
-    }
-
     private fun showData(loanInfo: LoanInfoModel?) {
         getDropDownsFromDB()
         if (loanInfo != null) {
@@ -143,7 +126,7 @@ class LoanInfoFragment : BaseFragment() {
                 val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
                 arrayListOfLoanProducts.addAll(loanProductValue)
                 loanProducts = arrayListOfLoanProducts
-                setProductPurposeValue(loanProducts)
+                setLoanProductDropdown(loanProducts)
             }
         })
     }
@@ -158,26 +141,30 @@ class LoanInfoFragment : BaseFragment() {
         })
     }
 
-    private fun setProductPurposeValue(products: ArrayList<LoanProductMaster>) {
+    private fun setLoanProductDropdown(products: ArrayList<LoanProductMaster>) {
         loanProduct = CustomSpinnerViewTest(context = mContext!!, dropDowns = products, label = "Loan Product *", ispinnerMainView = object : IspinnerMainView<LoanProductMaster> {
             override fun getSelectedValue(value: LoanProductMaster) {
-                setLoanPurposeDropdown(value.productID)
+                setLoanPurposeDropdown(value)
             }
         })
         binding.layoutLoanProduct.addView(loanProduct)
 
         if (loanInfo != null) {
             loanProduct.setSelection(loanInfo?.productID.toString())
-        }else{
-            loanProduct.setSelection(mLead?.loanProductID.toString())
-        }
+        } else loanProduct.setSelection(mLead?.loanProductID.toString())
     }
 
-    private fun setLoanPurposeDropdown(position: Int) {
-        val loanPurposeList = loanProducts[position].loanPurposeList
-        loanPurpose = CustomSpinnerViewTest(context = mContext!!, dropDowns = loanPurposeList, label = "Loan Purpose")
-        binding.layoutLoanProduct.addView(loanProduct)
+    private fun setLoanPurposeDropdown(loan: LoanProductMaster?) {
+        loan?.let {
+            binding.layoutLoanPurpose.removeAllViews()
+            loanPurpose = CustomSpinnerViewTest(context = mContext!!, dropDowns = loan.loanPurposeList, label = "Loan Purpose")
+            binding.layoutLoanPurpose.addView(loanPurpose)
+        }
 
+        loanInfo?.loanPurposeID?.let {
+            loanPurpose.setSelection(loanInfo?.loanPurposeID.toString())
+            loanInfo?.loanPurposeID = null
+        }
     }
 
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
@@ -215,19 +202,6 @@ class LoanInfoFragment : BaseFragment() {
         CurrencyConversion().convertToCurrencyType(binding.etAmountRequest)
     }
 
-
-    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext!!) {
-        override val apiRequest: LoanApplicationRequest
-            get() = requestConversion.loanInfoRequest(getLoanInfoMaster())
-
-        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
-            if (value.responseCode == Constants.SUCCESS) {
-                saveDataToDB(getLoanInfoMaster())
-                AppEvents.fireEventLoanAppChangeNavFragmentNext()
-            } else saveDataToDB(getLoanInfoMaster())
-        }
-    }
-
     private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
         binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toString())
         binding.etEmi.setText(loanInfo.affordableEMI!!.toInt().toString())
@@ -246,7 +220,6 @@ class LoanInfoFragment : BaseFragment() {
             }
         })
         binding.layoutSourcingPartner.addView(sourcingPartner)
-
     }
 
     private fun getPartnerNameFromApi(channelId: String) {
@@ -258,25 +231,6 @@ class LoanInfoFragment : BaseFragment() {
             binding.layoutPartnerName.visibility = View.VISIBLE
         } else {
             binding.layoutPartnerName.visibility = View.GONE
-        }
-    }
-
-    inner class CallSourcingPartnerName : ViewGeneric<ArrayList<String>, Response.ResponseSourceChannelPartnerName>(context = mContext!!) {
-        override val apiRequest: ArrayList<String>
-            get() = arrayListOf(mBranchId, mChannelTypeId, empId!!)
-
-        override fun getApiSuccess(value: Response.ResponseSourceChannelPartnerName) {
-            if (value.responseCode == Constants.SUCCESS) {
-                setChannelPartnerNameDropDown(value.responseObj)
-            } else saveDataToDB(getLoanInfoMaster())
-        }
-    }
-
-    private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
-        partnerName = CustomSpinnerViewTest(context = mContext!!, dropDowns = channelPartners, label = "Channel Partner Name")
-        binding.layoutPartnerName.addView(partnerName)
-        if (loanInfo != null) {
-            partnerName.setSelection(loanInfo?.channelPartnerDsaID?.toString())
         }
     }
 
@@ -342,4 +296,56 @@ class LoanInfoFragment : BaseFragment() {
             sharedPreferences.setPropertySelection("No")
         }
     }
+
+    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext!!) {
+
+        override val apiRequest: ArrayList<String>?
+            get() = arrayListOf(mLead!!.leadID.toString(), loanMaster?.storageType!!)
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                value.responseObj?.let {
+                    loanMaster = responseConversion.toLoanMaster(value.responseObj)
+                    loanInfo = loanMaster?.draftData
+                }
+                showData(loanInfo)
+            } else getDataFromDB()
+
+        }
+    }
+
+    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext!!) {
+        override val apiRequest: LoanApplicationRequest
+            get() = requestConversion.loanInfoRequest(getLoanInfoMaster())
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveDataToDB(getLoanInfoMaster())
+                AppEvents.fireEventLoanAppChangeNavFragmentNext()
+            } else saveDataToDB(getLoanInfoMaster())
+        }
+    }
+
+    inner class CallSourcingPartnerName : ViewGeneric<ArrayList<String>, Response.ResponseSourceChannelPartnerName>(context = mContext!!) {
+        override val apiRequest: ArrayList<String>
+            get() = arrayListOf(mBranchId, mChannelTypeId, empId!!)
+
+        override fun getApiSuccess(value: Response.ResponseSourceChannelPartnerName) {
+            if (value.responseCode == Constants.SUCCESS) {
+                binding.layoutPartnerName.removeAllViews()
+                setChannelPartnerNameDropDown(value.responseObj)
+            }
+        }
+
+        private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
+            partnerName = CustomSpinnerViewTest(context = mContext!!, dropDowns = channelPartners, label = "Channel Partner Name")
+            binding.layoutPartnerName.addView(partnerName)
+
+            loanInfo?.channelPartnerDsaID?.let {
+                partnerName.setSelection(loanInfo!!.channelPartnerDsaID.toString())
+                loanInfo?.channelPartnerDsaID = null
+            }
+        }
+    }
+
 }

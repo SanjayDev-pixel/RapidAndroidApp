@@ -66,7 +66,6 @@ class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
             saveDataToDB(value.responseObj)
             if (progress.isShowing) {
                 progress.dismiss()
-            } else {
             }
         }, 1000)
     }
