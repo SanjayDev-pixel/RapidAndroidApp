@@ -68,20 +68,25 @@ class LoginActivity : BaseAppCompatActivity() {
         override val apiRequest: RequestLogin
             get() = mLoginRequestLogin
 
-        private val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
+        private val mLoginRequestLogin: RequestLogin
+            get() {
+                binding.etUserName.setText("kuldeep.saini@gmail.com")
+                binding.etPassword.setText("Default@123")
+                val username = binding.etUserName.text.toString()
+                val password = binding.etPassword.text.toString()
+                val company = mCompany
+                return RequestLogin(username = username, password = password, company = company)
+            }
 
-        private val workRequest = OneTimeWorkRequest.Builder(SuperWorker::class.java)
-                .setConstraints(constraints.build())
-                .build()
+        private val mCompany: Requests.Company
+            get() {
+                return Requests.Company(1, "comp1")
+            }
 
         override fun getApiSuccess(value: ResponseLogin) {
             if (value.responseCode == Constants.SUCCESS) {
                 sharedPreferences.saveLoginData(value)
-
                 getOtherDropdownValue()
-
-//                WorkManager.getInstance().enqueueUniqueWork("App Data", ExistingWorkPolicy.KEEP, workRequest)
                 DashboardActivity.start(this@LoginActivity)
             } else {
                 showToast(value.responseMsg)
@@ -97,19 +102,4 @@ class LoginActivity : BaseAppCompatActivity() {
             }
         }
     }
-
-    private val mCompany: Requests.Company
-        get() {
-            return Requests.Company(1, "comp1")
-        }
-
-    private val mLoginRequestLogin: RequestLogin
-        get() {
-            binding.etUserName.setText("kuldeep.saini@gmail.com")
-            binding.etPassword.setText("Default@123")
-            val username = binding.etUserName.text.toString()
-            val password = binding.etPassword.text.toString()
-            val company = mCompany
-            return RequestLogin(username = username, password = password, company = company)
-        }
 }

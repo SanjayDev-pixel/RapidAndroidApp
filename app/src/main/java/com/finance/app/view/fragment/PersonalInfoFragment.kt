@@ -22,9 +22,11 @@ import com.finance.app.model.Modals.AddKyc
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.CoApplicantsConnector
-import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.OTPConnector
-import com.finance.app.presenter.presenter.*
+import com.finance.app.presenter.presenter.CoApplicantsPresenter
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.VerifyOTPPresenter
+import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
@@ -48,11 +50,8 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
-class PersonalInfoFragment : BaseFragment(),
-        LoanApplicationConnector.PostLoanApp,
-        LoanApplicationConnector.GetLoanApp,
-        ApplicantsAdapter.ItemClickListener, ApplicantsAdapter.ItemLongClickListener,
-        OTPConnector.SendOTP, OTPConnector.VerifyOTP, CoApplicantsConnector.CoApplicants {
+class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
+        ApplicantsAdapter.ItemLongClickListener{
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -65,12 +64,7 @@ class PersonalInfoFragment : BaseFragment(),
     private var mLead: AllLeadMaster? = null
     private var leadNumber: String = ""
     private val frag = this
-    private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private val presenter = Presenter()
-    private val loanAppGetPresenter = LoanAppGetPresenter(this)
-    private val sendOTPPresenter = SendOTPPresenter(this)
-    private val verifyOTPPresenter = VerifyOTPPresenter(this)
-    private var coApplicantsPresenter = CoApplicantsPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
     private var personalApplicantsList: ArrayList<PersonalApplicantsModel>? = ArrayList()
     private var personalInfoMaster: PersonalInfoMaster? = PersonalInfoMaster()
@@ -121,7 +115,7 @@ class PersonalInfoFragment : BaseFragment(),
         leadNumber = mLead!!.leadNumber!!
         kycList = ArrayList()
         mContext = context!!
-        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
+        getLoanInfo()
         SetPersonalMandatoryField(binding)
         setDatePicker()
         checkKycDataList()
@@ -129,33 +123,19 @@ class PersonalInfoFragment : BaseFragment(),
         setUpCustomViews()
     }
 
+    private fun getLoanInfo() {
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
+    }
+
+    private val leadIdForApplicant: String
+        get() = mLead!!.leadID.toString()
+
     private fun setUpCustomViews() {
         activity?.let {
             binding.personalAddressLayout.customCurrentZipAddressView.attachActivity(activity = activity!!)
             binding.personalAddressLayout.customPermanentZipAddressView.attachActivity(activity = activity!!)
         }
     }
-
-    override val leadIdForApplicant: String
-        get() = mLead!!.leadID.toString()
-
-    override val leadId: String
-        get() = mLead!!.leadID.toString()
-
-    override val storageType: String
-        get() = personalInfoMaster?.storageType!!
-
-    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
-        value.responseObj?.let {
-            personalInfoMaster = ResponseConversion().toPersonalMaster(value.responseObj)
-            pDraftData = personalInfoMaster?.draftData!!
-            personalApplicantsList = pDraftData.applicantDetails
-        }
-        setCoApplicants()
-        showData(personalApplicantsList)
-    }
-
-    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
 
     private fun saveDataToDB(personalInfo: PersonalInfoMaster) {
         GlobalScope.launch {
@@ -535,7 +515,7 @@ class PersonalInfoFragment : BaseFragment(),
         binding.btnNext.setOnClickListener {
             if (formValidation.validatePersonalInfo(binding)) {
                 saveCurrentApplicant()
-                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+                presenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP, dmiConnector = CallPostLoanApp())
             } else {
                 showToast(getString(R.string.mandatory_field_missing))
             }
@@ -551,46 +531,11 @@ class PersonalInfoFragment : BaseFragment(),
         conversion.convertToCurrencyType(binding.personalAddressLayout.etCurrentRentAmount)
     }
 
-    override val loanAppRequestPost: LoanApplicationRequest
-        get() = RequestConversion().personalInfoRequest(getPersonalInfoMaster())
-
-    override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
-        saveDataToDB(getPersonalInfoMaster())
-        coApplicantsPresenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST)
-        presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList())
-        AppEvents.fireEventLoanAppChangeNavFragmentNext()
-    }
-
-    override fun getLoanAppPostFailure(msg: String) {
-        saveDataToDB(getPersonalInfoMaster())
-        showToast(msg)
-    }
-
     private fun getPersonalInfoMaster(): PersonalInfoMaster {
         pDraftData.applicantDetails = personalApplicantsList
         personalInfoMaster?.draftData = pDraftData
         personalInfoMaster!!.leadID = leadIdForApplicant.toInt()
         return personalInfoMaster!!
-    }
-
-    inner class CallCoApplicantList : ViewGeneric<String, Response.ResponseCoApplicants>(context = mContext) {
-        override val apiRequest: String
-            get() = mLead!!.leadID.toString()
-
-        override fun getApiSuccess(value: Response.ResponseCoApplicants) {
-            if (value.responseCode == Constants.SUCCESS) {
-                saveApplicantToDB(value.responseObj)
-            }
-        }
-
-        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
-            GlobalScope.launch {
-                val coApplicantMaster = CoApplicantsMaster()
-                coApplicantMaster.coApplicantsList = responseObj
-                coApplicantMaster.leadID = mLead!!.leadID
-                dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
-            }
-        }
     }
 
     private fun setCoApplicants() {
@@ -734,10 +679,6 @@ class PersonalInfoFragment : BaseFragment(),
         fillFormWithCurrentApplicant(currentApplicant)
     }
 
-    override fun getCoApplicantsListSuccess(value: Response.ResponseCoApplicants) {}
-
-    override fun getCoApplicantsListFailure(msg: String) = showToast(msg)
-
     private fun showKycDetail() {}
 
     private fun clearKycData() {
@@ -767,28 +708,6 @@ class PersonalInfoFragment : BaseFragment(),
         showKycDetail()
     }
 
-    private val otpSendRequest: Requests.RequestSendOTP
-        get() {
-            val leadId = mLead!!.leadID!!.toInt()
-            val mobile = binding.basicInfoLayout.etMobile.text.toString()
-            return Requests.RequestSendOTP(leadID = leadId, mobile = mobile)
-        }
-
-    override val sendOTPRequest: Requests.RequestSendOTP
-        get() = otpSendRequest
-
-    override fun getSendOTPFailure(msg: String?) {
-        msg?.let {
-            showToast(msg)
-        }
-    }
-
-    override fun getSendOTPSuccess(value: Response.ResponseSendOTP) {
-        value.responseMsg?.let {
-            showToast(value.responseMsg)
-        }
-    }
-
     private var verifyOTPDialogView: View? = null
 
     private fun showVerifyOTPDialog() {
@@ -802,22 +721,15 @@ class PersonalInfoFragment : BaseFragment(),
         pinEntry?.setOnPinEnteredListener { pin ->
             if (pin.toString().length == 4) {
                 otp = pin.toString().toInt()
-                verifyOTPPresenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP)
+                presenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP, CallVerifyOTP())
             } else {
                 pinEntry.text = null
             }
         }
 
-        verifyOTPDialogView?.tvResendOTP?.setOnClickListener {
-            handleResendOtpEvent()
-        }
-
-        verifyOTPDialogView?.ivCross?.setOnClickListener {
-            dismissOtpVerificationDialog()
-        }
-
+        verifyOTPDialogView?.tvResendOTP?.setOnClickListener { handleResendOtpEvent() }
+        verifyOTPDialogView?.ivCross?.setOnClickListener { dismissOtpVerificationDialog() }
         verifyOTPDialogView?.tvResendOTP?.callOnClick()
-
         timerOtpResend.start()
     }
 
@@ -825,7 +737,7 @@ class PersonalInfoFragment : BaseFragment(),
         verifyOTPDialogView?.tvResendOTP?.exGone()
         verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.exVisible()
         timerOtpResend.start()
-        sendOTPPresenter.callNetwork(ConstantsApi.CALL_SEND_OTP)
+        presenter.callNetwork(ConstantsApi.CALL_SEND_OTP, CallSendOTP())
     }
 
     private fun handleOtbResendTimerEndEvent() {
@@ -854,27 +766,94 @@ class PersonalInfoFragment : BaseFragment(),
         }
     }
 
-    private val otpVerifyRequest: Requests.RequestVerifyOTP
-        get() {
-            val leadId = mLead!!.leadID!!.toInt()
-            val mobile = binding.basicInfoLayout.etMobile.text.toString()
-            return Requests.RequestVerifyOTP(leadID = leadId, mobile = mobile, otpValue = otp!!)
-        }
+    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext!!) {
 
-    override val verifyOTPRequest: Requests.RequestVerifyOTP
-        get() = otpVerifyRequest
+        override val apiRequest: ArrayList<String>?
+            get() = arrayListOf(mLead!!.leadID.toString(), personalInfoMaster?.storageType!!)
 
-    override fun getVerifyOTPFailure(msg: String?) {
-        msg?.let {
-            showToast(msg)
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                value.responseObj?.let {
+                    personalInfoMaster = ResponseConversion().toPersonalMaster(value.responseObj)
+                    pDraftData = personalInfoMaster?.draftData!!
+                    personalApplicantsList = pDraftData.applicantDetails
+                }
+                setCoApplicants()
+                showData(personalApplicantsList)
+            } else getDataFromDB()
         }
     }
 
-    override fun getVerifyOTPSuccess(value: Response.ResponseVerifyOTP) {
-        dismissOtpVerificationDialog()
-        currentApplicant?.contactDetail!!.isMobileVerified = true
-        binding.basicInfoLayout.etMobile.isEnabled = false
-        binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
-        binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
+    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext!!) {
+        override val apiRequest: LoanApplicationRequest
+            get() = RequestConversion().personalInfoRequest(getPersonalInfoMaster())
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveDataToDB(getPersonalInfoMaster())
+                presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList())
+                AppEvents.fireEventLoanAppChangeNavFragmentNext()
+            } else saveDataToDB(getPersonalInfoMaster())
+        }
+    }
+
+    inner class CallCoApplicantList : ViewGeneric<String, Response.ResponseCoApplicants>(context = mContext) {
+        override val apiRequest: String
+            get() = mLead!!.leadID.toString()
+
+        override fun getApiSuccess(value: Response.ResponseCoApplicants) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveApplicantToDB(value.responseObj)
+            }
+        }
+
+        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
+            GlobalScope.launch {
+                val coApplicantMaster = CoApplicantsMaster()
+                coApplicantMaster.coApplicantsList = responseObj
+                coApplicantMaster.leadID = mLead!!.leadID
+                dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
+            }
+        }
+    }
+
+    inner class CallSendOTP : ViewGeneric<Requests.RequestSendOTP, Response.ResponseSendOTP>(context = mContext) {
+        override val apiRequest: Requests.RequestSendOTP
+            get() = otpSendRequest
+
+        private val otpSendRequest: Requests.RequestSendOTP
+            get() {
+                val leadId = mLead!!.leadID!!.toInt()
+                val mobile = binding.basicInfoLayout.etMobile.text.toString()
+                return Requests.RequestSendOTP(leadID = leadId, mobile = mobile)
+            }
+
+        override fun getApiSuccess(value: Response.ResponseSendOTP) {
+            value.responseMsg?.let {
+                showToast(value.responseMsg)
+            }
+        }
+    }
+
+    inner class CallVerifyOTP : ViewGeneric<Requests.RequestVerifyOTP, Response.ResponseVerifyOTP>(context = mContext) {
+        override val apiRequest: Requests.RequestVerifyOTP
+            get() = otpVerifyRequest
+
+        private val otpVerifyRequest: Requests.RequestVerifyOTP
+            get() {
+                val leadId = mLead!!.leadID!!.toInt()
+                val mobile = binding.basicInfoLayout.etMobile.text.toString()
+                return Requests.RequestVerifyOTP(leadID = leadId, mobile = mobile, otpValue = otp!!)
+            }
+
+        override fun getApiSuccess(value: Response.ResponseVerifyOTP) {
+            if (value.responseCode == Constants.SUCCESS) {
+                dismissOtpVerificationDialog()
+                currentApplicant?.contactDetail!!.isMobileVerified = true
+                binding.basicInfoLayout.etMobile.isEnabled = false
+                binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
+                binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
+            }
+        }
     }
 }

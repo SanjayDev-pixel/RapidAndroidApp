@@ -44,7 +44,7 @@ class NavMenuFragment : Fragment() {
         navMenuAdapter.setMenuExpanded()
     }
 
-    public override fun onStart() {
+    override fun onStart() {
         super.onStart()
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
