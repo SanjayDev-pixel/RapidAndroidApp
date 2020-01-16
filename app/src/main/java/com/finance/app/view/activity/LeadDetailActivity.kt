@@ -2,7 +2,6 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -17,7 +16,6 @@ import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
 import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
-
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -75,7 +73,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         dataBase.provideDataBaseSource().allLeadsDao().getLead(leadID)
                 .observe(this, Observer { lead ->
                     fillDataOnScreen(lead)
-                    sharedPreferences.saveLeadDetail(lead)
                 })
     }
 
@@ -97,10 +94,10 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun fillColor(lead: AllLeadMaster) {
         when (lead.status) {
-            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(Color.YELLOW)
-            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvLeadStatus.setTextColor(Color.BLUE)
-            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvLeadStatus.setTextColor(Color.RED)
-            else -> binding.tvLeadStatus.setTextColor(Color.GREEN)
+            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_pending))
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_submitted))
+            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_rejected))
+            else -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_new))
         }
     }
 

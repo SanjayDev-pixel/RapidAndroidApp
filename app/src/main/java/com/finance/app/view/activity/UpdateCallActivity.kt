@@ -1,5 +1,6 @@
 package com.finance.app.view.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +10,10 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityUpdateCallBinding
+import com.finance.app.others.AppEnums
+import com.finance.app.others.setTextVertically
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.utility.ConvertDate
 import kotlinx.android.synthetic.main.activity_update_call.*
 import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
 import motobeans.architecture.application.ArchitectureApp
@@ -107,11 +111,26 @@ class UpdateCallActivity : BaseAppCompatActivity() {
         dataBase.provideDataBaseSource().allLeadsDao().getLead(leadID)
                 .observe(this, Observer { lead ->
                     setLeadDetailsToViews(lead)
-                    sharedPreferences.saveLeadDetail(lead)
                 })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setLeadDetailsToViews(lead: AllLeadMaster) {
         binding.header.tvLeadNumber.text = lead.leadNumber
+        binding.leadDetails.tvStatusLine.setTextVertically(lead.status)
+
+        binding.leadDetails.tvLeadName.text = lead.applicantFirstName
+        binding.leadDetails.tvLeadID.text = "Lead Id : ${lead.leadID.toString()}"
+        binding.leadDetails.tvLoanType.text = "Loan Type : ${lead.loanProductName}"
+        binding.leadDetails.tvCreatedDate.text = "Created Date : ${ConvertDate().convertDate(lead.createdOn!!)}"
+        binding.leadDetails.tvUpdatedDate.text = ConvertDate().convertDate(lead.createdOn!!)
+
+        when (lead.status) {
+            AppEnums.LEAD_TYPE.NEW.type -> binding.leadDetails.tvStatusLine.setBackgroundColor(resources.getColor(R.color.lead_status_new))
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.leadDetails.tvStatusLine.setBackgroundColor(resources.getColor(R.color.lead_status_submitted))
+            AppEnums.LEAD_TYPE.PENDING.type -> binding.leadDetails.tvStatusLine.setBackgroundColor(resources.getColor(R.color.lead_status_pending))
+            AppEnums.LEAD_TYPE.REJECTED.type -> binding.leadDetails.tvStatusLine.setBackgroundColor(resources.getColor(R.color.lead_status_rejected))
+        }
+
     }
 }

@@ -6,11 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="3dp"
-        android:background="@color/white"
+        android:background="@android:color/transparent"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -18,11 +14,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardBackgroundColor="@android:color/white"
-            card_view:cardCornerRadius="3sp">
+            card_view:cardCornerRadius="3sp"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:minHeight="130dp"
                 android:orientation="horizontal">
@@ -39,9 +37,10 @@
                     android:paddingBottom="5dp"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     android:textStyle="bold"
-                    tools:background="@color/md_green_300" />
+                    tools:background="@color/md_green_300"
+                    tools:text="S\nu\nb\nm\ni\nt\nt\ne\nd" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
