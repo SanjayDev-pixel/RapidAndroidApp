@@ -30,7 +30,6 @@
                 android:id="@+id/viewPager"
                 android:layout_below="@id/tabLead"
                 android:layout_width="match_parent"
-                android:layout_above="@id/btnCreate"
                 android:layout_height="match_parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

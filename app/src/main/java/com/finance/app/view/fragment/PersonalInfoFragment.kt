@@ -10,8 +10,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,18 +19,13 @@ import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.model.Modals.AddKyc
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
-import com.finance.app.presenter.connector.CoApplicantsConnector
-import com.finance.app.presenter.connector.OTPConnector
-import com.finance.app.presenter.presenter.CoApplicantsPresenter
 import com.finance.app.presenter.presenter.Presenter
-import com.finance.app.presenter.presenter.VerifyOTPPresenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.customViews.CustomSpinnerViewTest
 import com.finance.app.view.customViews.CustomZipAddressView
-import com.google.android.material.textfield.TextInputLayout
+import com.finance.app.view.customViews.Interfaces.IspinnerMainView
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import kotlinx.coroutines.GlobalScope
@@ -71,7 +64,6 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     private var currentApplicant: PersonalApplicantsModel? = PersonalApplicantsModel()
     private var contactDetail: ContactDetail? = ContactDetail()
     private var image: Bitmap? = null
-    private var maritalStatus: DropdownMaster? = null
     private var personalAddressDetail: ArrayList<AddressDetail>? = ArrayList()
     private var currentPosition = 0
     private var pDraftData = PersonalApplicantList()
@@ -92,6 +84,9 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     private lateinit var relationship: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var currentAddressProof: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var permanentAddressProof: CustomSpinnerViewTest<DropdownMaster>
+    private lateinit var maritalStatus: CustomSpinnerViewTest<DropdownMaster>
+    private lateinit var permanentResidenceType: CustomSpinnerViewTest<DropdownMaster>
+    private lateinit var currentResidenceType: CustomSpinnerViewTest<DropdownMaster>
 
     companion object {
         private const val SINGLE = 63
@@ -193,18 +188,8 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     }
 
     private fun setMasterDropDownValue(dropDown: AllMasterDropDown) {
-        setCustomSpinner(allMasterDropDown)
+        setCustomSpinner(dropDown)
         setUpRelationshipValue()
-        binding.personalAddressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.ResidenceType!!)
-        binding.personalAddressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.ResidenceType!!)
-        binding.basicInfoLayout.spinnerMaritalStatus.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.MaritalStatus!!)
-
-        setMaritalStatus(dropDown)
-        setUpResidenceTypeDropDown(binding.personalAddressLayout.spinnerCurrentResidenceType,
-                dropDown.ResidenceType!!, binding.personalAddressLayout.inputLayoutCurrentRentAmount)
-        setUpResidenceTypeDropDown(binding.personalAddressLayout.spinnerPermanentResidenceType,
-                dropDown.ResidenceType!!, binding.personalAddressLayout.inputLayoutPermanentRentAmount)
-
         currentApplicant?.let {
             fillValueInMasterDropDown(currentApplicant!!)
         }
@@ -231,23 +216,40 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         binding.personalAddressLayout.layoutPermanentAddressProof.addView(permanentAddressProof)
         currentAddressProof = CustomSpinnerViewTest(context = mContext, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof")
         binding.personalAddressLayout.layoutCurrentAddressProof.addView(currentAddressProof)
-    }
+        maritalStatus = CustomSpinnerViewTest(context = mContext, dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status", ispinnerMainView = object : IspinnerMainView<DropdownMaster> {
+            override fun getSelectedValue(value: DropdownMaster) {
+                if (value.typeDetailID == SINGLE) {
+                    binding.basicInfoLayout.llSpouse.visibility = View.GONE
+                } else {
+                    binding.basicInfoLayout.llSpouse.visibility = View.VISIBLE
+                }
+                binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
+            }
+        })
+        binding.basicInfoLayout.layoutMaritalStatus.addView(maritalStatus)
 
-    private fun setUpResidenceTypeDropDown(spinner: Spinner, residenceType: ArrayList<DropdownMaster>, field: TextInputLayout) {
-        spinner.adapter = MasterSpinnerAdapter(mContext, residenceType)
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    val residence = parent.selectedItem as DropdownMaster
-                    if (residence.typeDetailID == RENTED) {
-                        field.visibility = View.VISIBLE
-                    } else {
-                        field.visibility = View.GONE
-                    }
+        permanentResidenceType = CustomSpinnerViewTest(context = mContext, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type", ispinnerMainView = object : IspinnerMainView<DropdownMaster> {
+            override fun getSelectedValue(value: DropdownMaster) {
+                if (value.typeDetailID == RENTED) {
+                    binding.personalAddressLayout.inputLayoutPermanentRentAmount.visibility = View.VISIBLE
+                } else {
+                    binding.personalAddressLayout.inputLayoutPermanentRentAmount.visibility = View.GONE
                 }
             }
-        }
+        })
+
+        binding.personalAddressLayout.layoutPermanentResidenceType.addView(permanentResidenceType)
+        currentResidenceType = CustomSpinnerViewTest(context = mContext, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type", ispinnerMainView = object : IspinnerMainView<DropdownMaster> {
+            override fun getSelectedValue(value: DropdownMaster) {
+                if (value.typeDetailID == RENTED) {
+                    binding.personalAddressLayout.inputLayoutCurrentRentAmount.visibility = View.VISIBLE
+                } else {
+                    binding.personalAddressLayout.inputLayoutCurrentRentAmount.visibility = View.GONE
+                }
+            }
+        })
+        binding.personalAddressLayout.layoutCurrentResidenceType.addView(currentResidenceType)
+
     }
 
     private fun getApplicantFromLead() :PersonalApplicantsModel{
@@ -312,7 +314,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         detailQualification.setSelection(currentApplicant.detailQualificationTypeDetailID?.toString())
         livingStandard.setSelection(currentApplicant.livingStandardTypeDetailId?.toString())
         relationship.setSelection(currentApplicant.relationshipTypeDetailId?.toString())
-        selectMasterDropdownValue(binding.basicInfoLayout.spinnerMaritalStatus, currentApplicant.maritialStatusTypeDetailID)
+        maritalStatus.setSelection(currentApplicant.maritialStatusTypeDetailID?.toString())
 
         fillFormWithCurrentApplicant(currentApplicant)
         if (personalAddressDetail != null && personalAddressDetail!!.size > 0) {
@@ -331,8 +333,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
         currentAddressProof.setSelection(addressDetail.addressTypeDetailID?.toString())
-        selectMasterDropdownValue(binding.personalAddressLayout.spinnerCurrentResidenceType, addressDetail.residenceTypeTypeDetailID)
-
+        currentResidenceType.setSelection(addressDetail.residenceTypeTypeDetailID.toString())
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
     }
 
@@ -342,26 +343,8 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount.toString())
         binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears.toString())
         permanentAddressProof.setSelection(addressDetail.addressTypeDetailID?.toString())
-        selectMasterDropdownValue(binding.personalAddressLayout.spinnerPermanentResidenceType, addressDetail.residenceTypeTypeDetailID)
-
+        permanentResidenceType.setSelection(addressDetail.residenceTypeTypeDetailID?.toString())
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customPermanentZipAddressView, addressDetail = addressDetail)
-    }
-
-    private fun setMaritalStatus(dropDown: AllMasterDropDown) {
-        binding.basicInfoLayout.spinnerMaritalStatus.adapter = MasterSpinnerAdapter(mContext, dropDown.MaritalStatus)
-        binding.basicInfoLayout.spinnerMaritalStatus?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    maritalStatus = parent.selectedItem as DropdownMaster
-                    if (maritalStatus!!.typeDetailID == SINGLE) {
-                        binding.basicInfoLayout.llSpouse.visibility = View.GONE
-                    } else {
-                        binding.basicInfoLayout.llSpouse.visibility = View.VISIBLE
-                    }
-                }
-            }
-        }
     }
 
     private fun setUpRelationshipValue() {
@@ -379,18 +362,6 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         }
     }
 
-    private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
-        id?.let {
-            for (index in 0 until spinner.count - 1) {
-                val obj = spinner.getItemAtPosition(index) as DropdownMaster
-                if (obj.typeDetailID == id) {
-                    spinner.setSelection(index + 1)
-                    return
-                }
-            }
-        }
-    }
-
     private fun getCurrentApplicant(): PersonalApplicantsModel {
         val currentApplicant = PersonalApplicantsModel()
         val casteDD = caste.getSelectedValue()
@@ -400,7 +371,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         val genderDD =gender.getSelectedValue()
         val nationalityDD = nationality.getSelectedValue()
         val religionDD = religion.getSelectedValue()
-        val maritalStatus = binding.basicInfoLayout.spinnerMaritalStatus.selectedItem as DropdownMaster?
+        val mStatusDD = maritalStatus.getSelectedValue()
         val livingStandardDD = livingStandard.getSelectedValue()
         val relationshipDD = relationship.getSelectedValue()
         val dependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
@@ -414,7 +385,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         currentApplicant.nationalityTypeDetailID = nationalityDD?.typeDetailID
         currentApplicant.religionTypeDetailID = religionDD?.typeDetailID
         currentApplicant.relationshipTypeDetailId = relationshipDD?.typeDetailID
-        currentApplicant.maritialStatusTypeDetailID = maritalStatus?.typeDetailID
+        currentApplicant.maritialStatusTypeDetailID = mStatusDD?.typeDetailID
         currentApplicant.livingStandardTypeDetailId = livingStandardDD?.typeDetailID
         currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1, leadNumber)
         currentApplicant.numberOfEarningMembers = if (earningMembers == "") 0 else earningMembers.toInt()
@@ -446,7 +417,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
 
     private fun getAddressDetailList(): ArrayList<AddressDetail>? {
         val cAddressDetail = AddressDetail()
-        val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
+        val cResidenceType = currentAddressProof.getSelectedValue()
         val cAddressProof = currentAddressProof.getSelectedValue()
 
         cAddressDetail.rentAmount = CurrencyConversion().convertToNormalValue(binding.personalAddressLayout.etCurrentRentAmount.text.toString())
@@ -465,7 +436,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
             pAddressDetail = cAddressDetail
         } else {
-            val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
+            val pResidenceType = permanentResidenceType.getSelectedValue()
             val pAddressProof = permanentAddressProof.getSelectedValue()
 
             pAddressDetail.rentAmount = CurrencyConversion().convertToNormalValue(binding.personalAddressLayout.etPermanentRentAmount.text.toString())

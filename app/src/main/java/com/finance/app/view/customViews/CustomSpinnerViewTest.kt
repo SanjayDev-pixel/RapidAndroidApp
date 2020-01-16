@@ -139,10 +139,10 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
     }
 
     override fun getSelectedValue(): Type? {
-        try {
-            return spinnerType.selectedView.tag as Type
+        return try {
+            spinnerType.selectedView.tag as Type
         } catch (e: Exception) {
-            return null
+            null
         }
     }
 }

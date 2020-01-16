@@ -37,10 +37,6 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding, private va
 
     private fun clearAddressInfoDropdown() {
         binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
-        binding.personalAddressLayout.spinnerPermanentResidenceType.adapter = MasterSpinnerAdapter(context, masterDropdown.ResidenceType!!)
-        binding.personalAddressLayout.spinnerCurrentResidenceType.adapter = MasterSpinnerAdapter(context, masterDropdown.ResidenceType!!)
-//        binding.personalAddressLayout.spinnerPermanentAddressProof.adapter = MasterSpinnerAdapter(context, masterDropdown.AddressProof!!)
-//        binding.personalAddressLayout.spinnerCurrentAddressProof.adapter = MasterSpinnerAdapter(context, masterDropdown.AddressProof!!)
         binding.personalAddressLayout.customCurrentZipAddressView.clearPinCodes()
         binding.personalAddressLayout.customPermanentZipAddressView.clearPinCodes()
     }

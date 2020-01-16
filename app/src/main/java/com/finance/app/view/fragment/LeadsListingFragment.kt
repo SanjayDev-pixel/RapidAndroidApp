@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
-import com.finance.app.databinding.FragmentLeadPendingBinding
+import com.finance.app.databinding.FragmentLeadListingBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.view.adapters.recycler.adapter.LeadListingAdapter
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class LeadsListingFragment : BaseFragment() {
     @Inject
     lateinit var dataBase: DataBaseUtil
-    private lateinit var binding:FragmentLeadPendingBinding
+    private lateinit var binding: FragmentLeadListingBinding
 
     companion object {
 
@@ -40,7 +39,7 @@ class LeadsListingFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.fragment_lead_pending)
+        binding = initBinding(inflater, container, R.layout.fragment_lead_listing)
         init()
         return binding.root
     }
@@ -61,12 +60,12 @@ class LeadsListingFragment : BaseFragment() {
 
         leadStatusEnum?.let {
 
-            var liveDataLeads = when(leadStatusEnum) {
+            val liveDataLeads = when (leadStatusEnum) {
                 AppEnums.LEAD_TYPE.ALL -> dataBase.provideDataBaseSource().allLeadsDao().getAllLeads()
                 else -> dataBase.provideDataBaseSource().allLeadsDao().getLeadsByStatus(leadStatusEnum!!.type)
             }
-            liveDataLeads
-                    .observe(viewLifecycleOwner, Observer { leads ->
+
+            liveDataLeads.observe(viewLifecycleOwner, Observer { leads ->
                         leads.let {
                             val allLeadList = ArrayList(it)
                             if (allLeadList.size > 0) {

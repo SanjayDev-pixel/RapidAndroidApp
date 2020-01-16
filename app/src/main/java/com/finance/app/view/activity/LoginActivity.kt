@@ -54,11 +54,10 @@ class LoginActivity : BaseAppCompatActivity() {
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-//            if (formValidation.validateLogin(binding)) {
-                loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
+            //            if (formValidation.validateLogin(binding)) {
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
 //            }
         }
-
         binding.tvForgotPassword.setOnClickListener {
             ForgetPasswordActivity.start(this)
         }
