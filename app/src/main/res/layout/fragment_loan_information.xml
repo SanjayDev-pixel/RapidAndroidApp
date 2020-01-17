@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,63 +27,26 @@
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold" />
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerLoanProduct"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/layoutLoanProduct"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/text_min_width"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:theme="@style/MatchSpinnerTheme"
-                    android:textSize="@dimen/button_text_size"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Loan Product*"
-                    app:ms_hint="Loan Product*"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerLoanPurpose"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/MatchSpinnerTheme"
+                    android:orientation="vertical" />
+
+                <LinearLayout
+                    android:id="@+id/layoutLoanPurpose"
+                    android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
-                    android:textSize="@dimen/text_size"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Loan Purpose*"
-                    app:ms_hint="Loan Purpose*"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-               <!-- <com.finance.app.view.customViews.CustomSpinnerView
-                    android:id="@+id/spinnerLoanScheme"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin" />
--->
+                    android:orientation="vertical" />
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerLoanScheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/MatchSpinnerTheme"
+                <LinearLayout
+                    android:id="@+id/layoutLoanScheme"
+                    android:orientation="vertical"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
-                    android:textSize="@dimen/text_size"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Loan Scheme*"
-                    app:ms_hint="Loan Scheme*"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -139,38 +101,12 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
-             <!--   <LinearLayout
-                    android:id="@+id/layout_interest_type"
+                <LinearLayout
+                    android:id="@+id/layoutInterestType"
                     android:orientation="vertical"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
--->
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerInterestType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/MatchSpinnerTheme"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Interest Type "
-                    android:textSize="@dimen/text_size"
-                    app:ms_hint="Interest Type "
-                    android:focusable="false"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
-
-                <!--
-                                <com.finance.app.view.customViews.CustomSpinnerView
-                                    android:id="@+id/spinnerInterestType"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fields_margin" />
-                -->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_emi"
@@ -193,41 +129,20 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerSourcingChannelPartner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/layoutSourcingPartner"
+                    android:orientation="vertical"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
-                    android:theme="@style/MatchSpinnerTheme"
-                    app:ms_arrowColor="@color/black"
-                    android:textSize="@dimen/text_size"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Sourcing Channel Partner*"
-                    app:ms_hint="Sourcing Channel Partner*"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerPartnerName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/MatchSpinnerTheme"
+                <LinearLayout
+                    android:id="@+id/layoutPartnerName"
+                    android:orientation="vertical"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
                     android:visibility="gone"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Channel Partner Name  "
-                    android:textSize="@dimen/text_size"
-                    app:ms_hint="Channel Partner Name  "
-                    android:focusable="false"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbPropertySelected"

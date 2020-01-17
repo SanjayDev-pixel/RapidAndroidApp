@@ -54,7 +54,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         }
         setLeadNumber()
         setNavFragment()
-        secondaryFragment = LoanInfoFragment()
+        secondaryFragment = LoanInfoFragment.newInstance()
         setSecondaryFragment(secondaryFragment)
 
         val layout_back: LinearLayout=findViewById(R.id.layout_back)

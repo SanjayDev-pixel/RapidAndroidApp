@@ -16,17 +16,11 @@ interface AllLeadsDao {
     @Query("SELECT * FROM AllLeadMaster")
     fun getAllLeads(): LiveData<List<AllLeadMaster>>
 
-    @Query("SELECT * FROM AllLeadMaster WHERE status='Pending'")
-    fun getPendingLeads(): LiveData<List<AllLeadMaster>>
+    @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus")
+    fun getLeadsByStatus(leadStatus: String): LiveData<List<AllLeadMaster>>
 
     @Query("SELECT * FROM AllLeadMaster WHERE leadID=:leadID  LIMIT 1")
     fun getLead(leadID: Int): LiveData<AllLeadMaster>
-
-    @Query("SELECT * FROM AllLeadMaster WHERE status='Submitted'")
-    fun getSubmittedLeads(): LiveData<List<AllLeadMaster>>
-
-    @Query("SELECT * FROM AllLeadMaster WHERE status='Rejected'")
-    fun getRejectedLeads(): LiveData<List<AllLeadMaster>>
 
     @Query("DELETE FROM AllLeadMaster")
     fun deleteAllLeadMaster()

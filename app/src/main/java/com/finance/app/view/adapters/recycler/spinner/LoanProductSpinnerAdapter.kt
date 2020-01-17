@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.Spinner
+package com.finance.app.view.adapters.recycler.spinner
 
 import android.content.Context
 import android.content.Context.LAYOUT_INFLATER_SERVICE
@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import com.finance.app.R
 import com.finance.app.persistence.model.LoanProductMaster
-import motobeans.architecture.retrofit.response.Response
 
 class LoanProductSpinnerAdapter(val mContext: Context, val value: ArrayList<LoanProductMaster>) : BaseAdapter() {
 

@@ -1,9 +1,9 @@
 package motobeans.architecture.development.implementation
+
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.StatesMaster
-import com.finance.app.persistence.model.UserBranches
 import com.finance.app.utility.CurrencyConversion
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.google.android.material.textfield.TextInputEditText
@@ -32,15 +32,6 @@ class FormValidationImpl : FormValidation {
         val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
         val currentLandmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         val currentStaying = binding.personalAddressLayout.etCurrentStaying.text.toString()
-        val nationality = binding.basicInfoLayout.spinnerNationality.selectedItem as DropdownMaster?
-        val qualification = binding.basicInfoLayout.spinnerQualification.selectedItem as DropdownMaster?
-        val detailQualification = binding.basicInfoLayout.spinnerDetailQualification.selectedItem as DropdownMaster?
-        val maritalStatus = binding.basicInfoLayout.spinnerMaritalStatus.selectedItem as DropdownMaster?
-        val livingStandard = binding.basicInfoLayout.spinnerLivingStandard.selectedItem as DropdownMaster?
-        val relationShip = binding.basicInfoLayout.spinnerRelationship.selectedItem as DropdownMaster?
-        val cResidenceType = binding.personalAddressLayout.spinnerCurrentResidenceType.selectedItem as DropdownMaster?
-        val cAddressProof = binding.personalAddressLayout.spinnerCurrentAddressProof.selectedItem as DropdownMaster?
-        val dobProof = binding.basicInfoLayout.spinnerDobProof.selectedItem as DropdownMaster?
         val email = binding.basicInfoLayout.etEmail.text.toString()
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
@@ -65,19 +56,6 @@ class FormValidationImpl : FormValidation {
             errorCount.plus(checkPermanentAddressFields(binding))
         }
 
-        val spinnerError = when {
-            cAddressProof == null -> setSpinnerError(binding.personalAddressLayout.spinnerCurrentAddressProof)
-            cResidenceType == null -> setSpinnerError(binding.personalAddressLayout.spinnerCurrentResidenceType)
-            qualification == null -> setSpinnerError(binding.basicInfoLayout.spinnerQualification)
-            relationShip == null -> setSpinnerError(binding.basicInfoLayout.spinnerRelationship)
-            livingStandard == null -> setSpinnerError(binding.basicInfoLayout.spinnerLivingStandard)
-            maritalStatus == null -> setSpinnerError(binding.basicInfoLayout.spinnerLivingStandard)
-            detailQualification == null -> setSpinnerError(binding.basicInfoLayout.spinnerDetailQualification)
-            dobProof == null -> setSpinnerError(binding.basicInfoLayout.spinnerDobProof)
-            nationality == null -> setSpinnerError(binding.basicInfoLayout.spinnerNationality)
-            else -> 0
-        }
-
         val fieldError = when {
             !currentLandmark.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentLandmark)
             !dob.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.basicInfoLayout.etDOB)
@@ -87,9 +65,8 @@ class FormValidationImpl : FormValidation {
             !isValidMobile(mobile) -> setFieldError(binding.basicInfoLayout.etMobile)
             else -> 0
         }
-        val error = spinnerError + fieldError + errorCount
 
-        return isValidForm(error)
+        return isValidForm(fieldError)
     }
 
     private fun checkPermanentAddressFields(binding: FragmentPersonalBinding): Int {
@@ -97,25 +74,17 @@ class FormValidationImpl : FormValidation {
         val permanentAddress = binding.personalAddressLayout.etPermanentAddress.text.toString()
         val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
         val rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString()
-        val pResidenceType = binding.personalAddressLayout.spinnerPermanentResidenceType.selectedItem as DropdownMaster?
-        val pAddressProof = binding.personalAddressLayout.spinnerPermanentAddressProof.selectedItem as DropdownMaster?
 
         if(!binding.personalAddressLayout.customPermanentZipAddressView.validateAndHandleError()) {
             errorCount++
         }
-        val spinnerError = when {
-            pAddressProof == null -> setSpinnerError(binding.personalAddressLayout.spinnerPermanentAddressProof)
-            pResidenceType == null -> setSpinnerError(binding.personalAddressLayout.spinnerPermanentResidenceType)
-            else -> 0
-        }
 
-        val fieldError = when {
+        return errorCount.plus(when {
             !permanentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentAddress)
             !permanentStaying.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentStaying)
             !rentAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentRentAmount)
             else -> 0
-        }
-        return spinnerError + fieldError + errorCount
+        })
     }
 
     override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean {
@@ -123,9 +92,6 @@ class FormValidationImpl : FormValidation {
         val loanAmount = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString())
         val emi = binding.etEmi.text.toString()
         val tenure = binding.etTenure.text.toString()
-        val loanPurpose = binding.spinnerLoanPurpose.selectedItem as Response.LoanPurpose?
-//        val loanScheme = binding.spinnerLoanScheme.selectedItem as DropdownMaster?
-        val sourcingChannelPartner = binding.spinnerSourcingChannelPartner.selectedItem as DropdownMaster?
 
         if (loanProduct != null && tenure != "" && loanAmount != "") {
             if (tenure.toInt() > loanProduct.maxTenure || tenure.toInt() < loanProduct.minTenure) {
@@ -139,11 +105,6 @@ class FormValidationImpl : FormValidation {
             }
         }
 
-        if (loanProduct == null) {
-            errorCount++
-            binding.spinnerLoanProduct.error = "Loan Product Cannot be empty"
-        }
-
         if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etAmountRequest.error = "Amount can not be blank"
@@ -152,21 +113,6 @@ class FormValidationImpl : FormValidation {
         if (!tenure.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etTenure.error = "Tenure can not be blank"
-        }
-
-        if (loanPurpose == null) {
-            errorCount++
-            binding.spinnerLoanPurpose.error = "Loan Purpose Cannot be empty"
-        }
-
-//        if (loanScheme == null) {
-//            errorCount++
-//            binding.spinnerLoanScheme.error = "Loan Scheme Cannot be empty"
-//        }
-
-        if (sourcingChannelPartner == null) {
-            errorCount++
-            binding.spinnerSourcingChannelPartner.error = "Sourcing channel partner Cannot be empty"
         }
 
         if (!emi.exIsNotEmptyOrNullOrBlank()) {
@@ -369,18 +315,8 @@ class FormValidationImpl : FormValidation {
 
     override fun validateBankDetail(binding: FragmentBankDetailBinding): Boolean {
         var errorCount = 0
-        val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
-        val accountType = binding.spinnerAccountType.selectedItem as DropdownMaster?
         val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
 
-        if (bankName == null) {
-            errorCount++
-            binding.spinnerBankName.error = "Required Field"
-        }
-        if (accountType == null) {
-            errorCount++
-            binding.spinnerAccountType.error = "Required Field"
-        }
         if (salaryCredit == null) {
             errorCount++
             binding.spinnerSalaryCredit.error = "Required Field"
@@ -674,14 +610,6 @@ class FormValidationImpl : FormValidation {
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()
         val contact = binding.etContactNum.text.toString()
-        val loan = binding.spinnerLoanProduct.getSelectedType() as LoanProductMaster?
-        val branch = binding.spinnerBranches.getSelectedType() as UserBranches?
-
-        val spinnerError = when {
-            loan == null -> setCustomSpinnerError(binding.spinnerLoanProduct)
-            branch == null -> setCustomSpinnerError(binding.spinnerBranches)
-            else -> 0
-        }
 
         val fieldError = (when {
             !area.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
@@ -691,8 +619,7 @@ class FormValidationImpl : FormValidation {
             else -> 0
         })
 
-        val errorCount = spinnerError + fieldError
-        return isValidForm(errorCount)
+        return isValidForm(fieldError)
     }
 
     private fun setCustomSpinnerError(spinner: CustomSpinnerView<*>): Int {

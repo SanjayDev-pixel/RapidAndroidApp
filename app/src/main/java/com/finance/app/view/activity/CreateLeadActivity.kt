@@ -7,10 +7,12 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadCreateBinding
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.UserBranches
-import com.finance.app.presenter.connector.AddLeadConnector
-import com.finance.app.presenter.presenter.AddLeadPresenter
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.SetCreateLeadMandatoryField
+import com.finance.app.view.customViews.CustomSpinnerViewTest
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -21,11 +23,13 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
-class CreateLeadActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
+class CreateLeadActivity : BaseAppCompatActivity() {
 
     private val binding: ActivityLeadCreateBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_create)
-    private val presenterOpt = AddLeadPresenter(this)
+    private lateinit var loanProduct: CustomSpinnerViewTest<LoanProductMaster>
+    private lateinit var branches: CustomSpinnerViewTest<UserBranches>
+    private val presenter = Presenter()
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
@@ -40,7 +44,7 @@ class CreateLeadActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
         }
     }
 
-    override fun init()  {
+    override fun init() {
         ArchitectureApp.instance.component.inject(this)
         hideSecondaryToolbar()
         SetCreateLeadMandatoryField(binding)
@@ -48,7 +52,7 @@ class CreateLeadActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
         setBranchesDropDownValue()
         binding.btnCreate.setOnClickListener {
             if (formValidation.validateAddLead(binding)) {
-                presenterOpt.callNetwork(ConstantsApi.CALL_ADD_LEAD)
+                presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
             }
         }
     }
@@ -63,35 +67,43 @@ class CreateLeadActivity : BaseAppCompatActivity(), AddLeadConnector.AddLead {
         })
     }
 
+    private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
+        loanProduct = CustomSpinnerViewTest(context = this, dropDowns = products, label = "Loan Product *")
+        binding.layoutLoanProduct.addView(loanProduct)
+    }
+
     private fun setBranchesDropDownValue() {
         val branchList = sharedPreferences.getUserBranches()
         val branch = ArrayList(branchList!!)
-        binding.spinnerBranches.attachActivity(mContext = this, dropdownValue = branch, label = "Branch *")
+        branches = CustomSpinnerViewTest(context = this, dropDowns = branch, label = "Select Branch *")
+        binding.layoutBranches.addView(branches)
     }
 
-    private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
-        binding.spinnerLoanProduct.attachActivity(mContext = this, dropdownValue = products, label = "Loan Products *")
+    inner class CallCreateLead : ViewGeneric<Requests.RequestAddLead, Response.ResponseAddLead>(context = this) {
+        override val apiRequest: Requests.RequestAddLead
+            get() = leadRequest
+
+        override fun getApiSuccess(value: Response.ResponseAddLead) {
+            if (value.responseCode == Constants.SUCCESS) {
+                AllLeadActivity.start(this@CreateLeadActivity)
+            } else {
+                showToast(value.responseMsg)
+            }
+        }
+
     }
 
     private val leadRequest: Requests.RequestAddLead
         get() {
-            val loanProduct = binding.spinnerLoanProduct.getSelectedType() as LoanProductMaster?
-            val branch = binding.spinnerBranches.getSelectedType() as UserBranches?
+            val lProductDD = loanProduct.getSelectedValue()
+            val branchDD = branches.getSelectedValue()
+
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
                     applicantEmail = binding.etEmail.text.toString(),
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = branch!!.branchID, loanProductID = loanProduct!!.productID)
+                    branchID = branchDD!!.branchID, loanProductID = lProductDD!!.productID)
         }
-
-    override val addLeadRequest: Requests.RequestAddLead
-        get() = leadRequest
-
-    override fun getAddLeadFailure(msg: String) = showToast(msg)
-
-    override fun getAddLeadSuccess(value: Response.ResponseAddLead) {
-        AllLeadActivity.start(this)
-    }
 }

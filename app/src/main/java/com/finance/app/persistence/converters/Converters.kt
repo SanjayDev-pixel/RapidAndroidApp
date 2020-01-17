@@ -5,7 +5,6 @@ import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import motobeans.architecture.retrofit.request.Requests
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import java.util.*
 
@@ -64,26 +63,6 @@ class Converters {
 
     @TypeConverter
     fun fromDropdownMasterToString(list: DropdownMaster?): String? {
-        list?.let {
-            val gson = Gson()
-            return gson.toJson(list)
-        }
-        return null
-    }
-
-    @TypeConverter
-    fun fromStringToLoanPurpose(value: String?): Response.LoanPurpose? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<Response.LoanPurpose>() {
-
-        }.type
-        return Gson().fromJson<Response.LoanPurpose>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromLoanPurposeToString(list: Response.LoanPurpose?): String? {
         list?.let {
             val gson = Gson()
             return gson.toJson(list)
@@ -411,4 +390,25 @@ class Converters {
         }
         return null
     }
+
+    @TypeConverter
+    fun fromStringToLoanPurpose(value: String?): LoanPurpose? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<LoanPurpose>() {
+
+        }.type
+        return Gson().fromJson<LoanPurpose>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromLoanPurposeToString(states: LoanPurpose?): String? {
+        states?.let {
+            val gson = Gson()
+            return gson.toJson(states)
+        }
+        return null
+    }
+
 }

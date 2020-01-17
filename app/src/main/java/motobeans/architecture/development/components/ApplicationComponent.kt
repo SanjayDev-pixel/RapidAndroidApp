@@ -3,9 +3,10 @@ package motobeans.architecture.development.components
 import android.app.Application
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
+import com.finance.app.utility.GetOtherDropDownFromApi
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.*
-import com.finance.app.view.adapters.recycler.Holder.TempHolder
+import com.finance.app.view.adapters.recycler.holder.TempHolder
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.customViews.CustomZipAddressView
 import com.finance.app.view.fragment.*
@@ -18,7 +19,6 @@ import motobeans.architecture.customAppComponents.jetpack.SuperWorker
 import motobeans.architecture.development.modules.NetworkModule
 import motobeans.architecture.development.modules.PrimitivesModule
 import motobeans.architecture.development.modules.UtilityModule
-import java.util.*
 import javax.inject.Singleton
 import com.finance.app.presenter.presenter.Presenter as Presenter1
 
@@ -46,6 +46,7 @@ interface ApplicationComponent {
     fun inject(creationActivity: CreateLeadActivity)
     fun inject(activity: AllLeadActivity)
     fun inject(activity: LeadDetailActivity)
+    fun inject(activity: UpdateCallActivity)
 
     /**
      * Fragment
@@ -59,11 +60,9 @@ interface ApplicationComponent {
     fun inject(fragment: AssetLiabilityFragment)
     fun inject(fragment: ReferenceFragment)
     fun inject(fragment: AllLeadsFragment)
-    fun inject(fragment: PendingLeadsFragment)
-    fun inject(fragment: SubmittedLeadFragment)
-    fun inject(fragment: RejectedLeadFragment)
     fun inject(fragment: DocumentCheckListFragment)
     fun inject(fragment: PropertyFragment)
+    fun inject(fragment: LeadsListingFragment)
     /**
      * Presenters
      */
@@ -111,5 +110,5 @@ interface ApplicationComponent {
     fun inject(other: LeadAndLoanDetail)
     fun inject(other: CustomZipAddressView)
     fun inject(presenter: Presenter1)
-
+    fun inject(other: GetOtherDropDownFromApi)
 }

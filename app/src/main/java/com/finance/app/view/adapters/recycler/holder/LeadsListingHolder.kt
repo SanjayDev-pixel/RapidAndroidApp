@@ -1,0 +1,46 @@
+package com.finance.app.view.adapters.recycler.holder
+
+import android.annotation.SuppressLint
+import android.content.Context
+import androidx.recyclerview.widget.RecyclerView
+import com.finance.app.R
+import com.finance.app.databinding.ItemLeadsBinding
+import com.finance.app.others.AppEnums
+import com.finance.app.others.setTextVertically
+import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.utility.ConvertDate
+import com.finance.app.view.activity.LeadDetailActivity
+
+class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
+
+    @SuppressLint("SetTextI18n")
+    fun bindItems(lead: AllLeadMaster, adapterFor: AppEnums.LEAD_TYPE?) {
+        if (adapterFor == AppEnums.LEAD_TYPE.ALL)
+            binding.tvStatusLine.setTextVertically(lead.status)
+//
+        binding.tvLeadName.text = lead.applicantFirstName
+        binding.tvLeadID.text = "Lead Id : ${lead.leadID.toString()}"
+//        binding.tvLeadStatus.text = lead.status
+        binding.tvLoanType.text = lead.loanProductName
+//        binding.tvLeadAddress.text = lead.applicantAddress
+        binding.tvCreatedDate.text = "Created Date : ${ConvertDate().convertDate(lead.createdOn!!)}"
+        binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.createdOn!!)
+//
+        when (lead.status) {
+            AppEnums.LEAD_TYPE.NEW.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.md_blue_400))
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.md_green_400))
+            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.md_yellow_400))
+            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.md_red_400))
+        }
+//
+//        binding.tvDateAndTime.setDrawableColor(R.color.gradient_black)
+//        binding.tvLeadStatus.setDrawableColor(R.color.md_yellow_400)
+//
+        binding.leadCard.setOnClickListener {
+            LeadDetailActivity.start(mContext, lead.leadID)
+        }
+
+    }
+
+
+}

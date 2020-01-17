@@ -52,7 +52,7 @@ class ConvertDate {
             val ts = sdf.parse(mDate).time /1000
             val date = sdf.parse(mDate)
 
-            val desirablePattern = "dd MMM : HH:mm"
+            val desirablePattern = "dd MMM : hh:mm"
             val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
             desiredSdf.format(ts)
         } catch (e: Exception) {

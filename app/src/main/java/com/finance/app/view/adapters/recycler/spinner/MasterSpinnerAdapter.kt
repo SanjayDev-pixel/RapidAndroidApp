@@ -1,21 +1,20 @@
-package com.finance.app.view.adapters.recycler.Spinner
+package com.finance.app.view.adapters.recycler.spinner
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
+import android.widget.*
 import com.finance.app.R
-import motobeans.architecture.retrofit.response.Response
+import com.finance.app.persistence.model.DropdownMaster
 
-class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response.LoanPurpose>?,
+class MasterSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMaster>?,
                                 val isMandatory: Boolean = false) : BaseAdapter() {
 
     private var inflater: LayoutInflater = context1.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: Response.LoanPurpose
+    private lateinit var spinnerValue: DropdownMaster
 
     override fun getItem(position: Int): Any? {
         return value?.get(position)
@@ -41,7 +40,7 @@ class LoanPurposeSpinnerAdapter(context1: Context, val value: ArrayList<Response
         if (convertView == null) {
             view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.tvSpinnerValue) as TextView
-            textView.text = spinnerValue.loanPurposeName
+            textView.text = spinnerValue.typeDetailCode
         } else {
             view = convertView
         }

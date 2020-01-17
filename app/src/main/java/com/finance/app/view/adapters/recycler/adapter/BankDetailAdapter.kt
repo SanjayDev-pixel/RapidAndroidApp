@@ -6,11 +6,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
-import com.finance.app.databinding.ItemAssetBinding
 import com.finance.app.databinding.ItemBankBinding
 import com.finance.app.persistence.model.BankDetailBean
 
-class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayList<BankDetailBean>) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
+class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayList<BankDetailBean>?) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
     private lateinit var binding: ItemBankBinding
     private var mOnBankDetailClickListener: BankDetailClickListener? = null
 
@@ -20,7 +19,7 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
         return BankDetailViewHolder(binding, c)
     }
 
-    override fun getItemCount() = bankDetails.size
+    override fun getItemCount() = bankDetails?.size ?: 0
 
     fun setOnBankDetailClickListener(listener: BankDetailClickListener) {
         mOnBankDetailClickListener = listener
@@ -32,7 +31,9 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
     }
 
     override fun onBindViewHolder(holder: BankDetailViewHolder, position: Int) {
-        holder.bindItems(position, bankDetails[position])
+        if (!bankDetails.isNullOrEmpty()) {
+            holder.bindItems(position, bankDetails[position])
+        }
     }
 
     inner class BankDetailViewHolder(val binding: ItemBankBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {

@@ -1,49 +1,40 @@
 package com.finance.app.view.activity
+
 import android.content.Context
 import android.content.Intent
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
-import com.finance.app.others.AppEnums
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.LoanProductMaster
-import com.finance.app.persistence.model.StatesMaster
-import com.finance.app.presenter.connector.AllMasterValueConnector
-import com.finance.app.presenter.connector.LoanProductConnector
-import com.finance.app.presenter.presenter.*
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.ViewGeneric
+import com.finance.app.utility.GetOtherDropDownFromApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.customAppComponents.jetpack.SuperWorker
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.request.Requests.RequestLogin
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.retrofit.response.Response.ResponseLogin
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
-import java.util.*
 import javax.inject.Inject
 
-class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDropdown,
-        AllMasterValueConnector.MasterDropdown, LoanProductConnector.ViewOpt {
+class LoginActivity : BaseAppCompatActivity() {
 
     // used to bind element of layout to activity
     private val binding: ActivityLoginBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_login)
     @Inject
-    lateinit var dataBase: DataBaseUtil
-    @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
     lateinit var formValidation: FormValidation
     private val loginPresenter = Presenter()
-
-    private val loanProductPresenter = LoanProductPresenter(this)
-    private val masterPresenter = AllMasterDropdownPresenter(this)
-    private val statePresenter = StateDropdownPresenter(this)
 
     companion object {
         fun start(context: Context) {
@@ -63,8 +54,8 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-//            if (formValidation.validateLogin(binding)) {
-                loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
+            //            if (formValidation.validateLogin(binding)) {
+            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
 //            }
         }
         binding.tvForgotPassword.setOnClickListener {
@@ -76,70 +67,38 @@ class LoginActivity : BaseAppCompatActivity(), AllMasterValueConnector.StateDrop
         override val apiRequest: RequestLogin
             get() = mLoginRequestLogin
 
+        private val mLoginRequestLogin: RequestLogin
+            get() {
+                binding.etUserName.setText("kuldeep.saini@gmail.com")
+                binding.etPassword.setText("Default@123")
+                val username = binding.etUserName.text.toString()
+                val password = binding.etPassword.text.toString()
+                val company = mCompany
+                return RequestLogin(username = username, password = password, company = company)
+            }
+
+        private val mCompany: Requests.Company
+            get() {
+                return Requests.Company(1, "comp1")
+            }
+
         override fun getApiSuccess(value: ResponseLogin) {
             if (value.responseCode == Constants.SUCCESS) {
                 sharedPreferences.saveLoginData(value)
-                masterPresenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE)
-                loanProductPresenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT)
-                statePresenter.callNetwork(ConstantsApi.CALL_ALL_STATES)
+                getOtherDropdownValue()
                 DashboardActivity.start(this@LoginActivity)
             } else {
                 showToast(value.responseMsg)
             }
         }
+
     }
 
-    private val mCompany: Requests.Company
-        get() {
-            return Requests.Company(1, "comp1")
-        }
-
-    private val mLoginRequestLogin: RequestLogin
-        get() {
-            binding.etUserName.setText("kuldeep.saini@gmail.com")
-            binding.etPassword.setText("Default@123")
-            val username = binding.etUserName.text.toString()
-            val password = binding.etPassword.text.toString()
-            val company = mCompany
-            return RequestLogin(username = username, password = password, company = company)
-        }
-
-    override fun getAllMasterDropdownSuccess(dropdown: Response.ResponseAllMasterDropdown) {
-        saveMasterDataToDB(dropdown.responseObj)
-        DashboardActivity.start(this)
-    }
-
-    override fun getLoanProductSuccess(value: Response.ResponseLoanProduct) {
-        saveLoanProductPurposeDataInDB(value.responseObj)
-    }
-
-    override fun getStatesDropdownSuccess(value: Response.ResponseStatesDropdown) {
-        saveStatesDataInDB(value.responseObj)
-    }
-
-    //    Save Data to DB
-    private fun saveMasterDataToDB(masterDropdown: AllMasterDropDown) {
+    private fun getOtherDropdownValue() {
         GlobalScope.launch {
-            dataBase.provideDataBaseSource().allMasterDropDownDao().insertAllMasterDropDownValue(masterDropdown)
+            runOnUiThread {
+                GetOtherDropDownFromApi(getContext())
+            }
         }
     }
-
-    private fun saveLoanProductPurposeDataInDB(productPurpose: ArrayList<LoanProductMaster>) {
-        GlobalScope.launch {
-            dataBase.provideDataBaseSource().loanProductDao().insertLoanProductList(productPurpose)
-        }
-    }
-
-    private fun saveStatesDataInDB(statesObj: ArrayList<StatesMaster>) {
-        GlobalScope.launch {
-            dataBase.provideDataBaseSource().statesDao().insertStates(statesObj)
-        }
-    }
-
-    //    Handle failure of the api
-    override fun getStatesDropdownFailure(msg: String) = showToast(msg)
-
-    override fun getAllMasterDropdownFailure(msg: String) = showToast(msg)
-
-    override fun getLoanProductFailure(msg: String) = showToast(msg)
 }

@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.Holder
+package com.finance.app.view.adapters.recycler.holder
 
 import android.content.Context
 import com.finance.app.databinding.ErrorCommonListBinding

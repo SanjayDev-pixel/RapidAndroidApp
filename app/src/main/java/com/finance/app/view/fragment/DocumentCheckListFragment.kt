@@ -46,9 +46,9 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         mContext=requireContext()
+        mLead = sharedPreferences.getLeadDetail()
         showDocumentList()
         setCoApplicants()
-        mLead = sharedPreferences.getLeadDetail()
         setClickListeners()
     }
 

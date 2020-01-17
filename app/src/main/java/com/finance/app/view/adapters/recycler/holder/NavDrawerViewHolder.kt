@@ -1,10 +1,9 @@
-package com.finance.app.view.adapters.recycler.Holder
+package com.finance.app.view.adapters.recycler.holder
 
 import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
-import com.finance.app.databinding.EmptyCommonListBinding
 import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.view.adapters.recycler.adapter.NavMenuConnector
