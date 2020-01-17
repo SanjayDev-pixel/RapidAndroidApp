@@ -4,14 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
-import com.finance.app.view.adapters.recycler.Holder.NavDrawerViewHolder
+import com.finance.app.view.adapters.recycler.holder.NavDrawerViewHolder
 import com.finance.app.view.fragment.*
 import java.lang.Exception
 

@@ -8,7 +8,7 @@ import com.finance.app.databinding.ActivityUploadDocumentBinding
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.presenter.connector.DocumentUploadConnector
 import com.finance.app.presenter.presenter.DocumentUploadPresenter
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity

@@ -57,7 +57,6 @@ class LeadsListingFragment : BaseFragment() {
     }
 
     private fun getLeadsFromDB() {
-
         leadStatusEnum?.let {
 
             val liveDataLeads = when (leadStatusEnum) {
@@ -78,7 +77,7 @@ class LeadsListingFragment : BaseFragment() {
 
     private fun setUpRecyclerView(allLeadList: ArrayList<AllLeadMaster>) {
         binding.rcPendingLeads.layoutManager = LinearLayoutManager(this.activity)
-        binding.rcPendingLeads.adapter = LeadListingAdapter(this.requireActivity(), allLeadList)
+        binding.rcPendingLeads.adapter = LeadListingAdapter(this.requireActivity(), allLeadList,leadStatusEnum)
     }
 
 }

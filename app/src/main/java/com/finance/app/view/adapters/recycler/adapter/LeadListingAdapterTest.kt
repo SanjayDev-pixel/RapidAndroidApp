@@ -13,7 +13,7 @@ import com.finance.app.databinding.ItemNewLeadBinding
 //import com.finance.app.databinding.ItemSubmittedLeadBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.view.adapters.recycler.Holder.NewLeadHolder
+import com.finance.app.view.adapters.recycler.holder.NewLeadHolder
 
 class LeadListingAdapterTest(private val mContext: Context, private val leads: ArrayList<AllLeadMaster>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {

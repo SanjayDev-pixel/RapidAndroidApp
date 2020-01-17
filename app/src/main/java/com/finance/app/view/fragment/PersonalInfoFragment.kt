@@ -44,7 +44,7 @@ import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
 class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
-        ApplicantsAdapter.ItemLongClickListener{
+        ApplicantsAdapter.ItemLongClickListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -171,15 +171,15 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     private fun showData(applicantList: ArrayList<PersonalApplicantsModel>?) {
         if (applicantList == null || applicantList.size <= 0) {
             getApplicantFromLead()
-            } else {
-                for (applicant in applicantList) {
-                    if (applicant.isMainApplicant!!) {
-                        currentApplicant = applicant
-                        personalAddressDetail = currentApplicant?.addressDetailList
-                        contactDetail = currentApplicant?.contactDetail
-                    }
+        } else {
+            for (applicant in applicantList) {
+                if (applicant.isMainApplicant!!) {
+                    currentApplicant = applicant
+                    personalAddressDetail = currentApplicant?.addressDetailList
+                    contactDetail = currentApplicant?.contactDetail
                 }
             }
+        }
         getDropDownsFromDB()
     }
 
@@ -260,7 +260,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
                 permanentAddressProof)
     }
 
-    private fun getApplicantFromLead() :PersonalApplicantsModel{
+    private fun getApplicantFromLead(): PersonalApplicantsModel {
         currentApplicant = PersonalApplicantsModel()
         currentApplicant!!.firstName = mLead!!.applicantFirstName
         currentApplicant!!.middleName = mLead!!.applicantMiddleName
@@ -373,9 +373,9 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         val currentApplicant = PersonalApplicantsModel()
         val casteDD = caste.getSelectedValue()
         val dQualificationDD = detailQualification.getSelectedValue()
-        val qDD =qualification.getSelectedValue()
+        val qDD = qualification.getSelectedValue()
         val dobProofDD = dobProof.getSelectedValue()
-        val genderDD =gender.getSelectedValue()
+        val genderDD = gender.getSelectedValue()
         val nationalityDD = nationality.getSelectedValue()
         val religionDD = religion.getSelectedValue()
         val mStatusDD = maritalStatus.getSelectedValue()
@@ -645,7 +645,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         binding.rcApplicants.adapter!!.notifyDataSetChanged()
 
         try {
-            val currentApplicantPosition = when(personalApplicantsList!!.size > deletePosition) {
+            val currentApplicantPosition = when (personalApplicantsList!!.size > deletePosition) {
                 true -> deletePosition
                 else -> personalApplicantsList!!.size
             }
@@ -732,7 +732,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     private val seconds = 60L
     private val millisecond = 1000L
 
-    private val timerOtpResend = object: CountDownTimer(minutes * seconds * millisecond, 1000) {
+    private val timerOtpResend = object : CountDownTimer(minutes * seconds * millisecond, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             val secondsUntilFinish = (millisUntilFinished / millisecond).toInt()
             verifyOTPDialogView?.tvResendOTPTimeLeftInfo?.text = "$secondsUntilFinish ${getString(R.string.seconds)}"

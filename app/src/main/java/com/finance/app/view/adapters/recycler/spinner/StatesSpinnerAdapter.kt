@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.Spinner
+package com.finance.app.view.adapters.recycler.spinner
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,19 +7,18 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.finance.app.R
-import com.finance.app.persistence.model.DropdownMaster
-import motobeans.architecture.retrofit.response.Response
+import com.finance.app.persistence.model.StatesMaster
 
-class CitySpinnerAdapter(mContext: Context, val value: ArrayList<Response.CityObj>,
-                         val isMandatory: Boolean = false) : BaseAdapter() {
+class StatesSpinnerAdapter(mContext: Context, val value: List<StatesMaster>?,
+                           val isMandatory: Boolean = false) : BaseAdapter() {
 
     private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: Response.CityObj
+    private lateinit var spinnerValue: StatesMaster
 
     override fun getItem(position: Int): Any? {
-        return value[position]
+        return value!![position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -27,7 +26,7 @@ class CitySpinnerAdapter(mContext: Context, val value: ArrayList<Response.CityOb
     }
 
     override fun getCount(): Int {
-        return value.size
+        return value?.size ?: 0
     }
 
     override
@@ -37,12 +36,12 @@ class CitySpinnerAdapter(mContext: Context, val value: ArrayList<Response.CityOb
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value[position]
+        spinnerValue = value!![position]
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.tvSpinnerValue) as TextView
-            textView.text = spinnerValue.cityName
+            textView.text = spinnerValue.stateName
         } else {
             view = convertView
         }
@@ -50,9 +49,10 @@ class CitySpinnerAdapter(mContext: Context, val value: ArrayList<Response.CityOb
     }
 
     fun setItem(position: Int) {
-        spinnerValue = value[position]
+        spinnerValue = value!![position]
         notifyDataSetChanged()
     }
+
     override
     fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getCustomView(position, convertView, parent)

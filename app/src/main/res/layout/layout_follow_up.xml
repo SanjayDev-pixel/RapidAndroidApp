@@ -1,81 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="match_parent">
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinnerLeadType"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="@dimen/text_min_width"
-            app:ms_arrowColor="@color/black"
-            android:layout_marginTop="@dimen/fields_margin"
-            android:textSize="@dimen/text_size"
-            app:ms_arrowSize="@dimen/arrow_size"
-            app:ms_floatingLabelColor="@color/hint_color"
-            app:ms_floatingLabelText="Lead Type "
-            app:ms_hint="Lead Type "
-            app:ms_hintColor="@color/hint_color"
-            app:ms_hintTextSize="@dimen/hint_size"
-            app:ms_multiline="false" />
+            android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_follow_up_timing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fields_margin"
-            android:textColorHint="@color/hint_color">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etFollowUpTiming"
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinnerLeadType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:focusable="false"
-                android:drawableEnd="@drawable/ic_calender"
-                android:hint="Follow Up Timing"
-                android:minWidth="150dp"
-                android:textSize="@dimen/text_size" />
+                android:layout_marginTop="@dimen/fields_margin"
+                android:minWidth="@dimen/text_min_width"
+                android:textSize="@dimen/text_size"
+                app:ms_arrowColor="@color/black"
+                app:ms_arrowSize="@dimen/arrow_size"
+                app:ms_floatingLabelColor="@color/hint_color"
+                app:ms_floatingLabelText="Lead Type "
+                app:ms_hint="Lead Type "
+                app:ms_hintColor="@color/hint_color"
+                app:ms_hintTextSize="@dimen/hint_size"
+                app:ms_multiline="false" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_write_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fields_margin"
-            android:textColorHint="@color/hint_color">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etMessage"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_follow_up_timing"
                 android:layout_width="match_parent"
-                android:singleLine="true"
                 android:layout_height="wrap_content"
-                android:hint="Write Message"
-                android:minWidth="200dp"
-                app:ms_hintTextSize="@dimen/hint_size" />
+                android:layout_marginTop="@dimen/fields_margin"
+                android:textColorHint="@color/md_grey_700">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFollowUpTiming"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_calender"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Follow Up Timing"
+                    android:minWidth="150dp"
+                    android:textSize="@dimen/text_size" />
 
-        <Button
-            android:id="@+id/btnCloseLead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_20"
-            android:background="@drawable/button_theme_style"
-            android:padding="5sp"
-            android:layout_gravity="center"
-            android:text ="@string/close_lead"
-            android:textColor="@color/white"
-            android:textSize="@dimen/button_text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
-</ScrollView>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_write_message"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:textColorHint="@color/md_grey_700">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|start"
+                    android:hint="Write Message"
+                    android:maxLines="5"
+                    android:minWidth="200dp"
+                    android:minLines="5"
+                    app:ms_hintTextSize="@dimen/hint_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnCloseLead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_20"
+                android:background="@drawable/button_theme_style"
+                android:padding="5sp"
+                android:text="@string/close_lead"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
+    </ScrollView>
 </layout>

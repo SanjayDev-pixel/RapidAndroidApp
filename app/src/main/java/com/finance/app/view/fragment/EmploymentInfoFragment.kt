@@ -25,10 +25,10 @@ import com.finance.app.presenter.connector.DistrictCityConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner

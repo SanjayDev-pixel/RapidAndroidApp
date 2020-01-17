@@ -23,7 +23,7 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.CardDetailAdapter

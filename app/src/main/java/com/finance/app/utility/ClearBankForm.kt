@@ -5,7 +5,7 @@ import android.view.View
 import com.finance.app.databinding.FragmentBankDetailBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.customViews.CustomSpinnerViewTest
 
 class ClearBankForm(binding: FragmentBankDetailBinding, context: Context, masterDropdown: AllMasterDropDown, bankName: CustomSpinnerViewTest<DropdownMaster>, accountType: CustomSpinnerViewTest<DropdownMaster>) {
