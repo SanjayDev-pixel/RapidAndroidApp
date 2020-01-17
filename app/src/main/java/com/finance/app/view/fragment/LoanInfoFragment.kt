@@ -142,7 +142,7 @@ class LoanInfoFragment : BaseFragment() {
     }
 
     private fun setLoanProductDropdown(products: ArrayList<LoanProductMaster>) {
-        loanProduct = CustomSpinnerViewTest(context = mContext!!, dropDowns = products, label = "Loan Product *", ispinnerMainView = object : IspinnerMainView<LoanProductMaster> {
+        loanProduct = CustomSpinnerViewTest(context = mContext!!, dropDowns = products, label = "Loan Product *", iSpinnerMainView = object : IspinnerMainView<LoanProductMaster> {
             override fun getSelectedValue(value: LoanProductMaster) {
                 setLoanPurposeDropdown(value)
             }
@@ -214,7 +214,7 @@ class LoanInfoFragment : BaseFragment() {
         binding.layoutInterestType.addView(interestType)
         loanScheme = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.LoanScheme!!, label = "Loan Scheme")
         binding.layoutLoanScheme.addView(loanScheme)
-        sourcingPartner = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.SourcingChannelPartner!!, label = "Sourcing Channel Partner *", ispinnerMainView = object : IspinnerMainView<DropdownMaster> {
+        sourcingPartner = CustomSpinnerViewTest(context = mContext!!, dropDowns = allMasterDropDown.SourcingChannelPartner!!, label = "Sourcing Channel Partner *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 getPartnerNameFromApi(value.getCompareValue())
             }

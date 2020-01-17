@@ -485,14 +485,14 @@ class FormValidationImpl : FormValidation {
             binding.etAgreementValue.error = "Required Field"
         }
 
-        if (CurrencyConversion().convertToNormalValue(ocr).toDouble() < CurrencyConversion().convertToNormalValue(cashOcr).toDouble()) {
+        if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(cashOcr).toDouble()) {
             errorCount++
             binding.etOcr.error = "Cannot be grater than cash OCR"
         }
 
         if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
             errorCount++
-            binding.etOcr.error = "Cannot be grater than MV of property"
+            binding.etAgreementValue.error = "Cannot be grater than MV of property"
         }
 
         if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||

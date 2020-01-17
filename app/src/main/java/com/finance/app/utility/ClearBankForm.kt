@@ -16,8 +16,6 @@ class ClearBankForm(binding: FragmentBankDetailBinding, context: Context, master
         binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(context, masterDropdown.SalaryCredit!!)
         bankName.clearSpinner()
         accountType.clearSpinner()
-//        binding.spinnerAccountType.adapter = MasterSpinnerAdapter(context, masterDropdown.AccountType!!)
-//        binding.spinnerBankName.adapter = MasterSpinnerAdapter(context, masterDropdown.BankName!!)
         binding.inputLayoutSalaryCreditInSixMonth.visibility = View.GONE
     }
 }

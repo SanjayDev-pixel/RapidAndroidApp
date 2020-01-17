@@ -248,13 +248,8 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
 
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
-    private fun parseAddressInt(value: String): Int {
-        return value.toInt()
-//        return try {
-//            value.toInt()
-//        } catch (e: Exception) {
-//            return -1
-//        }
+    private fun parseAddressInt(value: String?): Int {
+        return if (!value.isNullOrEmpty()) value.toInt() else 0
     }
 
     fun getStateId(): Int = parseAddressInt(value = stateId)

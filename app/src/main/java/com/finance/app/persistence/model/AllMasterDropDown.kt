@@ -63,4 +63,6 @@ class AllMasterDropDown : Serializable {
     var AssetSubType: ArrayList<DropdownMaster>? = null
     var CreditCardObligation: ArrayList<DropdownMaster>? = null
     var AssetOwnership: ArrayList<DropdownMaster>? = null
+    var ReviewerResponseType: ArrayList<DropdownMaster>? = null
+
 }

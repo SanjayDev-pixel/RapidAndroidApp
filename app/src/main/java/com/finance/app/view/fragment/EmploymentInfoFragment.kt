@@ -22,7 +22,6 @@ import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.DistrictCityConnector
-import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
@@ -36,6 +35,7 @@ import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -45,8 +45,8 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import javax.inject.Inject
 
-class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
-        LoanApplicationConnector.GetLoanApp, PinCodeDetailConnector.PinCode,
+class EmploymentInfoFragment : BaseFragment(),
+        PinCodeDetailConnector.PinCode,
         ApplicantsAdapter.ItemClickListener, DistrictCityConnector.District,
         DistrictCityConnector.City {
 
@@ -60,10 +60,9 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private lateinit var mContext: Context
     private var mLead: AllLeadMaster? = null
     private lateinit var allMasterDropDown: AllMasterDropDown
-    private val loanAppPostPresenter = LoanAppPostPresenter(this)
-    private val loanAppGetPresenter = LoanAppGetPresenter(this)
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private val districtPresenter = DistrictPresenter(this)
+    private val presenter = Presenter()
     private val cityPresenter = CityPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
     private var applicantTab: ArrayList<CoApplicantsList>? = ArrayList()
@@ -73,6 +72,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var currentApplicant: EmploymentApplicantsModel = EmploymentApplicantsModel()
     private var currentTab = CoApplicantsList()
     private var eAddressDetail: AddressDetail = AddressDetail()
+    private lateinit var leadIdForApplicant: String
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mPinCode: String = ""
     private var grossIncome: Float = 0.0f
@@ -88,8 +88,6 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var counter = 0
 
     companion object {
-        private val responseConversion = ResponseConversion()
-        private val requestConversion = RequestConversion()
         private val leadAndLoanDetail = LeadAndLoanDetail()
         private lateinit var states: List<StatesMaster>
         private const val SALARY = 0
@@ -108,34 +106,17 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-        SetEmploymentMandatoryField(binding)
+        mLead = sharedPreferences.getLeadDetail()
         mContext = context!!
+        leadIdForApplicant = mLead!!.leadID.toString()
+        SetEmploymentMandatoryField(binding)
         getEmploymentInfo()
         setDatePicker()
         setClickListeners()
     }
 
     private fun getEmploymentInfo() {
-        mLead = sharedPreferences.getLeadDetail()
-        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
-    }
-
-    override val leadId: String
-        get() = mLead!!.leadID.toString()
-
-    override val storageType: String
-        get() = employmentMaster.storageType
-
-    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
-
-    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
-        value.responseObj?.let {
-            employmentMaster = responseConversion.toEmploymentMaster(value.responseObj)
-            eDraftData = employmentMaster.draftData
-            eApplicantList = eDraftData.applicantDetails
-        }
-        setCoApplicants()
-        showData(eApplicantList)
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
     }
 
     private fun setCoApplicants() {
@@ -299,14 +280,14 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private fun validateSalary() {
         if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSenpForm()
-            loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+            presenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP, dmiConnector = CallPostLoanApp())
         } else showToast(getString(R.string.validation_error))
     }
 
     private fun validateSenp() {
         if (formValidation.validateSenpEmployment(binding.layoutSenp)) {
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSalaryForm()
-            loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+            presenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP, dmiConnector = CallPostLoanApp())
         } else showToast(getString(R.string.validation_error))
     }
 
@@ -542,7 +523,7 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun getDataFromDB() {
-        dataBase.provideDataBaseSource().employmentDao().getEmployment(leadId).observe(this, Observer { employmentInfo ->
+        dataBase.provideDataBaseSource().employmentDao().getEmployment(leadIdForApplicant).observe(this, Observer { employmentInfo ->
             employmentInfo?.let {
                 employmentMaster = employmentInfo
                 eDraftData = employmentMaster.draftData
@@ -766,21 +747,8 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private fun getEmploymentMaster(): EmploymentMaster {
         eDraftData.applicantDetails = eApplicantList
         employmentMaster.draftData = eDraftData
-        employmentMaster.leadID = leadId.toInt()
+        employmentMaster.leadID = leadIdForApplicant.toInt()
         return employmentMaster
-    }
-
-    override val loanAppRequestPost: LoanApplicationRequest
-        get() = requestConversion.employmentRequest(getEmploymentMaster())
-
-    override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
-        saveDataToDB(getEmploymentMaster())
-        AppEvents.fireEventLoanAppChangeNavFragmentNext()
-    }
-
-    override fun getLoanAppPostFailure(msg: String) {
-        saveDataToDB(getEmploymentMaster())
-        showToast(msg)
     }
 
     private fun saveDataToDB(employment: EmploymentMaster) {
@@ -788,4 +756,35 @@ class EmploymentInfoFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             dataBase.provideDataBaseSource().employmentDao().insertEmployment(employment)
         }
     }
+
+    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext!!) {
+
+        override val apiRequest: ArrayList<String>?
+            get() = arrayListOf(mLead!!.leadID.toString(), employmentMaster.storageType)
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                value.responseObj?.let {
+                    employmentMaster = ResponseConversion().toEmploymentMaster(value.responseObj)
+                    eDraftData = employmentMaster.draftData
+                    eApplicantList = eDraftData.applicantDetails
+                }
+                setCoApplicants()
+                showData(eApplicantList)
+            } else getDataFromDB()
+        }
+    }
+
+    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext!!) {
+        override val apiRequest: LoanApplicationRequest
+            get() = RequestConversion() .employmentRequest(getEmploymentMaster())
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveDataToDB(getEmploymentMaster())
+                AppEvents.fireEventLoanAppChangeNavFragmentNext()
+            } else saveDataToDB(getEmploymentMaster())
+        }
+    }
+
 }
