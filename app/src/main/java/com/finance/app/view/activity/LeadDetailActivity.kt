@@ -15,7 +15,6 @@ import com.finance.app.persistence.model.CoApplicantsMaster
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
-import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -78,6 +77,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun fillDataOnScreen(lead: AllLeadMaster?) {
+        binding.tvLeadName
         binding.tvEmail.text = lead?.applicantEmail
         val leadName = lead?.applicantFirstName + " " + lead?.applicantLastName
         setLeadNum(lead?.leadNumber!!)
@@ -116,7 +116,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
 
         binding.btnUpdateCall.setOnClickListener {
-
             UpdateCallActivity.start(this, leadID)
         }
 

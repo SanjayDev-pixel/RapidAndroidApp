@@ -17,7 +17,7 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
     fun bindItems(lead: AllLeadMaster, adapterFor: AppEnums.LEAD_TYPE?) {
         if (adapterFor == AppEnums.LEAD_TYPE.ALL)
             binding.tvStatusLine.setTextVertically(lead.status)
-//
+
         binding.tvLeadName.text = lead.applicantFirstName
         binding.tvLeadID.text = "Lead Id : ${lead.leadID.toString()}"
 //        binding.tvLeadStatus.text = lead.status
@@ -25,7 +25,7 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
 //        binding.tvLeadAddress.text = lead.applicantAddress
         binding.tvCreatedDate.text = "Created Date : ${ConvertDate().convertDate(lead.createdOn!!)}"
         binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
-//
+
         when (lead.status) {
             AppEnums.LEAD_TYPE.NEW.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_new))
             AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_submitted))
@@ -35,8 +35,5 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
         binding.leadCard.setOnClickListener {
             LeadDetailActivity.start(mContext, lead.leadID)
         }
-
     }
-
-
 }
