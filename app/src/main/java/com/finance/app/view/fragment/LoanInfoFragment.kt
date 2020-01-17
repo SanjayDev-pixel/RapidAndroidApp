@@ -224,7 +224,7 @@ class LoanInfoFragment : BaseFragment() {
 
     private fun getPartnerNameFromApi(channelId: String) {
         mChannelTypeId = channelId
-        mBranchId = sharedPreferences.getLeadDetail().branchID!!
+        mBranchId = sharedPreferences.getLeadDetail()?.branchID!!
         empId = sharedPreferences.getEmpId()
         if (mChannelTypeId.toInt() != DIRECT) {
             presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName())
