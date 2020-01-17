@@ -111,6 +111,7 @@ class UpdateCallActivity : BaseAppCompatActivity() {
         dataBase.provideDataBaseSource().allLeadsDao().getLead(leadID)
                 .observe(this, Observer { lead ->
                     setLeadDetailsToViews(lead)
+                    sharedPreferences.saveLeadDetail(lead)
                 })
     }
 

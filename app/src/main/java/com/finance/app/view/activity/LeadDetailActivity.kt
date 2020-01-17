@@ -73,6 +73,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         dataBase.provideDataBaseSource().allLeadsDao().getLead(leadID)
                 .observe(this, Observer { lead ->
                     fillDataOnScreen(lead)
+                    sharedPreferences.saveLeadDetail(lead)
                 })
     }
 
