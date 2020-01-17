@@ -298,7 +298,6 @@ class LoanInfoFragment : BaseFragment() {
     }
 
     inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext!!) {
-
         override val apiRequest: ArrayList<String>?
             get() = arrayListOf(mLead!!.leadID.toString(), loanMaster?.storageType!!)
 
@@ -310,7 +309,6 @@ class LoanInfoFragment : BaseFragment() {
                 }
                 showData(loanInfo)
             } else getDataFromDB()
-
         }
     }
 
