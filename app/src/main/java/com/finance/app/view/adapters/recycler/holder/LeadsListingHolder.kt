@@ -24,7 +24,7 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
         binding.tvLoanType.text = "Loan Type : ${lead.loanProductName}"
 //        binding.tvLeadAddress.text = lead.applicantAddress
         binding.tvCreatedDate.text = "Created Date : ${ConvertDate().convertDate(lead.createdOn!!)}"
-        binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.createdOn!!)
+        binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
 //
         when (lead.status) {
             AppEnums.LEAD_TYPE.NEW.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_new))
@@ -32,10 +32,6 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
             AppEnums.LEAD_TYPE.PENDING.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_pending))
             AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_rejected))
         }
-//
-//        binding.tvDateAndTime.setDrawableColor(R.color.gradient_black)
-//        binding.tvLeadStatus.setDrawableColor(R.color.md_yellow_400)
-//
         binding.leadCard.setOnClickListener {
             LeadDetailActivity.start(mContext, lead.leadID)
         }

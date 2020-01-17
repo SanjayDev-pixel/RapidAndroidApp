@@ -123,7 +123,7 @@ class UpdateCallActivity : BaseAppCompatActivity() {
         binding.leadDetails.tvLeadID.text = "Lead Id : ${lead.leadID.toString()}"
         binding.leadDetails.tvLoanType.text = "Loan Type : ${lead.loanProductName}"
         binding.leadDetails.tvCreatedDate.text = "Created Date : ${ConvertDate().convertDate(lead.createdOn!!)}"
-        binding.leadDetails.tvUpdatedDate.text = ConvertDate().convertDate(lead.createdOn!!)
+        binding.leadDetails.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
 
         when (lead.status) {
             AppEnums.LEAD_TYPE.NEW.type -> binding.leadDetails.tvStatusLine.setBackgroundColor(resources.getColor(R.color.lead_status_new))
