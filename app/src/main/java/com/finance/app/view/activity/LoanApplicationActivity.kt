@@ -120,7 +120,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(coApplicantsList: CoApplicantsList){
 
-        binding.applicantName.text=coApplicantsList!!.firstName +" "+coApplicantsList?.middleName
+        binding.applicantName.text=coApplicantsList!!.firstName.plus(" "+coApplicantsList?.middleName)
         binding.tvLeadid.text="Lead Number:".plus(coApplicantsList!!.leadApplicantNumber)
         binding.tvDesignation.text=coApplicantsList.applicantType
         binding.tvMobile.text=coApplicantsList.mobile
