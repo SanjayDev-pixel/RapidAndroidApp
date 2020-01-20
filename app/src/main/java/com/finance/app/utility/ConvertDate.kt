@@ -47,14 +47,13 @@ class ConvertDate {
 
     fun convertDate(mDate: String): String {
         return try {
-            val pattern = "yyyy-MM-dd"
+            val pattern = "yyyy-MM-dd'T'HH:mm:ss"
             val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
-            val ts = sdf.parse(mDate).time /1000
             val date = sdf.parse(mDate)
 
-            val desirablePattern = "dd MMM : hh:mm"
+            val desirablePattern = "dd MMM : hh:mm aa"
             val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
-            desiredSdf.format(ts)
+            desiredSdf.format(date)
         } catch (e: Exception) {
             ""
         }
