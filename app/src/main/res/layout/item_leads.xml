@@ -62,7 +62,6 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-
                             android:fontFamily="@font/roboto_medium"
                             android:textAllCaps="true"
                             android:textColor="@color/black_242424"
