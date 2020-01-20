@@ -17,6 +17,7 @@ import com.finance.app.view.fragment.LoanInfoFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import kotlinx.android.synthetic.main.activity_loan_application.*
 import kotlinx.android.synthetic.main.activity_loan_application.view.*
+import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -57,16 +58,16 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         secondaryFragment = LoanInfoFragment.newInstance()
         setSecondaryFragment(secondaryFragment)
 
-        val layout_back: LinearLayout=findViewById(R.id.layout_back)
+        val layout_back: LinearLayout=findViewById(R.id.lytBack)
         layout_back.setOnClickListener(){
             showDialog()
         }
         val lead = sharedPreferences.getLeadDetail()
         binding.tvMobile.text = lead.applicantContactNumber
-        binding.tvLeadid.text="Lead Number :".plus(lead.leadNumber)
+        binding.header.tvLeadNumber.text=lead.leadNumber
         val leadName = lead?.applicantFirstName + " " + lead?.applicantMiddleName+ " " + lead?.applicantLastName
         binding.applicantName.text=leadName
-        binding.tvDesignation.text="Applicant"
+        binding.tvDesignation.text=getString(R.string.applicant)
 
     }
 
@@ -121,7 +122,8 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     fun onEvent(coApplicantsList: CoApplicantsList){
 
         binding.applicantName.text=coApplicantsList!!.firstName.plus(" "+coApplicantsList?.middleName)
-        binding.tvLeadid.text="Lead Number:".plus(coApplicantsList!!.leadApplicantNumber)
+        //binding.tvLeadid.text="Lead Number:".plus(coApplicantsList!!.leadApplicantNumber)
+        binding.header.tvLeadNumber.text=coApplicantsList!!.leadApplicantNumber
         binding.tvDesignation.text=coApplicantsList.applicantType
         binding.tvMobile.text=coApplicantsList.mobile
 

@@ -32,7 +32,7 @@
                         android:id="@+id/rcApplicants"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="100sp"
+                        android:layout_marginEnd="120sp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:background="@color/white"

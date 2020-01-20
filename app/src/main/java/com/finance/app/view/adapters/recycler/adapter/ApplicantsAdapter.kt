@@ -69,7 +69,7 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
 
                 binding.tvApplicants.text = "Applicant"
             }else{
-                binding.tvApplicants.text="Co-Applicant"+position
+                binding.tvApplicants.text="Co-Applicant".plus(position)
             }
            // binding.tvApplicants.text = coApplicant.firstName
             binding.tvApplicants.setOnClickListener { onClickItem(position, coApplicant) }
