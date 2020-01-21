@@ -16,7 +16,6 @@ import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.DistrictCityConnector
-import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.connector.TransactionCategoryConnector
 import com.finance.app.presenter.presenter.*
@@ -27,6 +26,7 @@ import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -35,9 +35,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class
-PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
-        LoanApplicationConnector.GetLoanApp, TransactionCategoryConnector.TransactionCategory,
+class PropertyFragment : BaseFragment(), TransactionCategoryConnector.TransactionCategory,
         PinCodeDetailConnector.PinCode, DistrictCityConnector.District, DistrictCityConnector.City {
 
     @Inject
@@ -48,14 +46,12 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     lateinit var sharedPreferences: SharedPreferencesUtil
     private lateinit var binding: FragmentPropertyInfoBinding
     private lateinit var mContext: Context
-    private val responseConversion = ResponseConversion()
-    private val requestConversion = RequestConversion()
     private lateinit var allMasterDropDown: AllMasterDropDown
     private lateinit var states: List<StatesMaster>
-    private val loanAppGetPresenter = LoanAppGetPresenter(this)
-    private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private val transactionCategoryPresenter = TransactionCategoryPresenter(this)
     private val pinCodePresenter = PinCodeDetailPresenter(this)
+    private val presenter = Presenter()
+    private lateinit var leadIdForApplicant: String
     private val districtPresenter = DistrictPresenter(this)
     private val cityPresenter = CityPresenter(this)
     private var propertyMaster: PropertyMaster = PropertyMaster()
@@ -78,7 +74,9 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
+        mLead = sharedPreferences.getLeadDetail()
         mContext = context!!
+        leadIdForApplicant = mLead!!.leadID.toString()
         checkPropertySelection()
         SetPropertyMandatoryField(binding)
         setClickListeners()
@@ -91,34 +89,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     }
 
     private fun getPropertyInfo() {
-        mLead = sharedPreferences.getLeadDetail()
-        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
-    }
-
-    override val leadId: String
-        get() = mLead!!.leadID.toString()
-
-    override val storageType: String
-        get() = propertyMaster.storageType
-
-    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
-
-    private fun getDataFromDB() {
-        dataBase.provideDataBaseSource().propertyDao().getProperty(leadId).observe(this, Observer { propertyInfo ->
-            propertyInfo?.let {
-                propertyMaster = propertyInfo
-                propertyModel = propertyMaster.draftData
-            }
-            showData(propertyModel)
-        })
-    }
-
-    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
-        value.responseObj?.let {
-            propertyMaster = responseConversion.toPropertyMaster(value.responseObj)
-            propertyModel = propertyMaster.draftData
-        }
-        showData(propertyModel)
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
     }
 
     private fun showData(property: PropertyModel?) {
@@ -279,7 +250,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
             if (formValidation.validateProperty(binding)) {
-                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+                presenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP, dmiConnector = CallPostLoanApp())
             } else showToast(getString(R.string.validation_error))
         }
         pinCodeListener(binding.etPinCode)
@@ -413,7 +384,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
         val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
 
-        propertyModel.leadID = leadId.toInt()
+        propertyModel.leadID = leadIdForApplicant.toInt()
         propertyModel.cityID = city?.cityID
         propertyModel.districtID = district?.districtID
         propertyModel.stateID = state?.stateID
@@ -442,21 +413,46 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun getPropertyMaster(): PropertyMaster {
         propertyMaster.draftData = getPropertyModel()
-        propertyMaster.leadID = leadId.toInt()
+        propertyMaster.leadID = leadIdForApplicant.toInt()
         return propertyMaster
     }
 
-    override val loanAppRequestPost: LoanApplicationRequest
-        get() = requestConversion.propertyRequest(getPropertyMaster())
+    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext) {
 
-    override fun getLoanAppPostFailure(msg: String) {
-        saveDataToDB(getPropertyMaster())
-        showToast(msg)
+        override val apiRequest: ArrayList<String>?
+            get() = arrayListOf(leadIdForApplicant, propertyMaster.storageType)
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                value.responseObj?.let {
+                    propertyMaster = ResponseConversion().toPropertyMaster(value.responseObj)
+                    propertyModel = propertyMaster.draftData
+                }
+                showData(propertyModel)
+            } else getDataFromDB()
+        }
     }
 
-    override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
-        saveDataToDB(getPropertyMaster())
-        AppEvents.fireEventLoanAppChangeNavFragmentNext()
+    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext) {
+        override val apiRequest: LoanApplicationRequest
+            get() = RequestConversion().propertyRequest(getPropertyMaster())
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveDataToDB(getPropertyMaster())
+                AppEvents.fireEventLoanAppChangeNavFragmentNext()
+            } else saveDataToDB(getPropertyMaster())
+        }
+    }
+
+    private fun getDataFromDB() {
+        dataBase.provideDataBaseSource().propertyDao().getProperty(leadIdForApplicant).observe(this, Observer { propertyInfo ->
+            propertyInfo?.let {
+                propertyMaster = propertyInfo
+                propertyModel = propertyMaster.draftData
+            }
+            showData(propertyModel)
+        })
     }
 
     private fun saveDataToDB(property: PropertyMaster) {
@@ -464,4 +460,5 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             dataBase.provideDataBaseSource().propertyDao().insertProperty(property)
         }
     }
+
 }

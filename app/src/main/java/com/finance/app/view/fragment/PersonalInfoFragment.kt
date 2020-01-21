@@ -222,12 +222,12 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     private fun setCustomSpinnerWithCondition(allMasterDropDown: AllMasterDropDown) {
         maritalStatus = CustomSpinnerViewTest(context = mContext, dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
+                binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
                 if (value.typeDetailID == SINGLE) {
                     binding.basicInfoLayout.llSpouse.visibility = View.GONE
                 } else {
                     binding.basicInfoLayout.llSpouse.visibility = View.VISIBLE
                 }
-                binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
             }
         })
         binding.basicInfoLayout.layoutMaritalStatus.addView(maritalStatus)
@@ -549,9 +549,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
                     personalApplicantsList!!.add(lastIndex, PersonalApplicantsModel())
                     applicantAdapter!!.notifyDataSetChanged()
 
-
                     ClearPersonalForm(binding = binding, spinnerList = spinnerDMList)
-
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -581,7 +579,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     }
 
     private fun saveCurrentApplicant() {
-        if (personalApplicantsList!!.size > 0) {
+        if (personalApplicantsList!!.size > currentPosition) {
             personalApplicantsList!![currentPosition] = getCurrentApplicant()
         } else personalApplicantsList!!.add(currentPosition, getCurrentApplicant())
     }

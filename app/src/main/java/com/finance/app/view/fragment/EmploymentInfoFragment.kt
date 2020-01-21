@@ -25,11 +25,11 @@ import com.finance.app.presenter.connector.DistrictCityConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
+import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
-import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.coroutines.GlobalScope
@@ -201,7 +201,7 @@ class EmploymentInfoFragment : BaseFragment(),
     }
 
     private fun saveCurrentApplicant() {
-        if (eApplicantList!!.size > 0) {
+        if (eApplicantList!!.size > currentPosition) {
             eApplicantList!![currentPosition] = getCurrentApplicant()
         } else eApplicantList!!.add(currentPosition, getCurrentApplicant())
     }
@@ -215,6 +215,7 @@ class EmploymentInfoFragment : BaseFragment(),
                 SENP -> validateSenp()
             }
         }
+
         binding.ivDocumentUpload.setOnClickListener {}
         salaryIncomeListener(binding.layoutSalary.etGrossIncome, AppEnums.INCOME_TYPE.GROSS_INCOME)
         salaryIncomeListener(binding.layoutSalary.etDeduction, AppEnums.INCOME_TYPE.DEDUCTION)
@@ -757,7 +758,7 @@ class EmploymentInfoFragment : BaseFragment(),
         }
     }
 
-    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext!!) {
+    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext) {
 
         override val apiRequest: ArrayList<String>?
             get() = arrayListOf(mLead!!.leadID.toString(), employmentMaster.storageType)
@@ -775,9 +776,9 @@ class EmploymentInfoFragment : BaseFragment(),
         }
     }
 
-    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext!!) {
+    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext) {
         override val apiRequest: LoanApplicationRequest
-            get() = RequestConversion() .employmentRequest(getEmploymentMaster())
+            get() = RequestConversion().employmentRequest(getEmploymentMaster())
 
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {

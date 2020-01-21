@@ -19,9 +19,8 @@ import com.finance.app.databinding.LayoutCreditCardDetailsBinding
 import com.finance.app.databinding.LayoutObligationBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.*
-import com.finance.app.presenter.connector.LoanApplicationConnector
-import com.finance.app.presenter.presenter.LoanAppGetPresenter
-import com.finance.app.presenter.presenter.LoanAppPostPresenter
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
@@ -32,6 +31,7 @@ import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -40,8 +40,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
-        LoanApplicationConnector.GetLoanApp, ApplicantsAdapter.ItemClickListener,
+class AssetLiabilityFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         AssetDetailAdapter.AssetClickListener, CardDetailAdapter.CardClickListener,
         ObligationAdapter.ObligationClickListener {
 
@@ -55,14 +54,14 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private lateinit var mContext: Context
     private var mLead: AllLeadMaster? = null
     private lateinit var allMasterDropDown: AllMasterDropDown
-    private val loanAppPostPresenter = LoanAppPostPresenter(this)
-    private val loanAppGetPresenter = LoanAppGetPresenter(this)
+    private val presenter = Presenter()
     private var applicantAdapter: ApplicantsAdapter? = null
     private lateinit var assetAdapter: AssetDetailAdapter
     private lateinit var cardDetailAdapter: CardDetailAdapter
     private lateinit var obligationAdapter: ObligationAdapter
     private var applicantTab: ArrayList<CoApplicantsList>? = ArrayList()
     private var assetLiabilityMaster: AssetLiabilityMaster = AssetLiabilityMaster()
+    private lateinit var leadIdForApplicant: String
     private var aApplicantList: ArrayList<AssetLiabilityModel>? = ArrayList()
     private var currentApplicant: AssetLiabilityModel = AssetLiabilityModel()
     private var aDraftData = AssetLiabilityList()
@@ -78,8 +77,6 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     companion object {
         private val leadAndLoanDetail = LeadAndLoanDetail()
-        private val responseConversion = ResponseConversion()
-        private val requestConversion = RequestConversion()
         private const val ASSET = 1
         private const val CARD = 2
         private const val OBLIGATION = 3
@@ -94,7 +91,8 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
-        setClickListeners()
+        mLead = sharedPreferences.getLeadDetail()
+        leadIdForApplicant = mLead!!.leadID.toString()
         getAssetLiabilityInfo()
         SetAssetLiabilityMandatoryField(binding)
         setDatePicker()
@@ -102,30 +100,8 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 //        checkIncomeConsideration()
     }
 
-    private fun checkIncomeConsideration() {
-    }
-
     private fun getAssetLiabilityInfo() {
-        mLead = sharedPreferences.getLeadDetail()
-        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
-    }
-
-    override val leadId: String
-        get() = mLead!!.leadID.toString()
-
-    override val storageType: String
-        get() = assetLiabilityMaster.storageType
-
-    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
-
-    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
-        value.responseObj?.let {
-            assetLiabilityMaster = responseConversion.toAssetLiabilityMaster(value.responseObj)
-            aDraftData = assetLiabilityMaster.draftData!!
-            aApplicantList = aDraftData.applicantDetails
-        }
-        setCoApplicants()
-        showData(aApplicantList)
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
     }
 
     private fun setCoApplicants() {
@@ -280,7 +256,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             if (formValidation.validateAssetLiabilityForm(binding) || assetsList!!.size > 0
                     || cardDetailList!!.size > 0 || obligationsList!!.size > 0) {
                 saveCurrentApplicant()
-                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+                presenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP, dmiConnector = CallPostLoanApp())
             } else showToast(getString(R.string.validation_error))
         }
     }
@@ -362,7 +338,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun saveCurrentApplicant() {
-        if (aApplicantList!!.size > 0) {
+        if (aApplicantList!!.size > currentPosition) {
             aApplicantList!![currentPosition] = getCurrentApplicant()
         } else aApplicantList!!.add(currentPosition, getCurrentApplicant())
     }
@@ -378,7 +354,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun getDataFromDB() {
-        dataBase.provideDataBaseSource().assetLiabilityDao().getAssetLiability(leadId).observe(this, Observer { assetInfo ->
+        dataBase.provideDataBaseSource().assetLiabilityDao().getAssetLiability(leadIdForApplicant).observe(this, Observer { assetInfo ->
             assetInfo?.let {
                 assetLiabilityMaster = assetInfo
                 aDraftData = assetLiabilityMaster.draftData!!
@@ -392,21 +368,8 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private fun getAssetLiabilityMaster(): AssetLiabilityMaster {
         aDraftData.applicantDetails = aApplicantList
         assetLiabilityMaster.draftData = aDraftData
-        assetLiabilityMaster.leadID = leadId.toInt()
+        assetLiabilityMaster.leadID = leadIdForApplicant.toInt()
         return assetLiabilityMaster
-    }
-
-    override val loanAppRequestPost: LoanApplicationRequest
-        get() = requestConversion.assetLiabilityRequest(getAssetLiabilityMaster())
-
-    override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
-        saveDataToDB(getAssetLiabilityMaster())
-        AppEvents.fireEventLoanAppChangeNavFragmentNext()
-    }
-
-    override fun getLoanAppPostFailure(msg: String) {
-        saveDataToDB(getAssetLiabilityMaster())
-        showToast(msg)
     }
 
     private fun saveDataToDB(assetLiability: AssetLiabilityMaster) {
@@ -546,5 +509,36 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         currentAsset.ownershipTypeDetailID = ownership?.typeDetailID
         currentAsset.documentedProofTypeDetailID = documentProof?.typeDetailID
         return currentAsset
+    }
+
+
+    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext) {
+
+        override val apiRequest: ArrayList<String>?
+            get() = arrayListOf(mLead!!.leadID.toString(), assetLiabilityMaster.storageType)
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                value.responseObj?.let {
+                    assetLiabilityMaster = ResponseConversion().toAssetLiabilityMaster(value.responseObj)
+                    aDraftData = assetLiabilityMaster.draftData!!
+                    aApplicantList = aDraftData.applicantDetails
+                }
+                setCoApplicants()
+                showData(aApplicantList)
+            } else getDataFromDB()
+        }
+    }
+
+    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext) {
+        override val apiRequest: LoanApplicationRequest
+            get() = RequestConversion().assetLiabilityRequest(getAssetLiabilityMaster())
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveDataToDB(getAssetLiabilityMaster())
+                AppEvents.fireEventLoanAppChangeNavFragmentNext()
+            } else saveDataToDB(getAssetLiabilityMaster())
+        }
     }
 }

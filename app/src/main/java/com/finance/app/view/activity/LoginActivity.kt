@@ -2,9 +2,6 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.presenter.presenter.Presenter
@@ -16,7 +13,6 @@ import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import motobeans.architecture.customAppComponents.jetpack.SuperWorker
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
@@ -54,8 +50,8 @@ class LoginActivity : BaseAppCompatActivity() {
     private fun setClickListeners() {
 //        Call login api on login button
         binding.btnLogin.setOnClickListener {
-            //            if (formValidation.validateLogin(binding)) {
-            loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
+//            if (formValidation.validateLogin(binding)) {
+                loginPresenter.callNetwork(ConstantsApi.CALL_LOGIN, dmiConnector = LoginApiCall())
 //            }
         }
         binding.tvForgotPassword.setOnClickListener {

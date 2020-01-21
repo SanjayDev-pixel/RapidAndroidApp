@@ -230,6 +230,7 @@ class LoanInfoFragment : BaseFragment() {
             presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName())
             binding.layoutPartnerName.visibility = View.VISIBLE
         } else {
+            presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName())
             binding.layoutPartnerName.visibility = View.GONE
         }
     }
