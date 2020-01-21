@@ -42,7 +42,7 @@ class CoApplicantsPresenter(private val coApplicant: CoApplicantsConnector.CoApp
     private fun onCoApplicant(response: Response.ResponseCoApplicants) {
         if (response.responseCode == "200") {
             coApplicant.getCoApplicantsListSuccess(response)
-            sharedPreferencesUtil.saveCoApplicantsList(response.responseObj)
+//            sharedPreferencesUtil.saveCoApplicantsList(response.responseObj)
         } else {
             coApplicant.getCoApplicantsListFailure(response.responseMsg)
         }

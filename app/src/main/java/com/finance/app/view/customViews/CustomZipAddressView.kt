@@ -21,9 +21,9 @@ import com.finance.app.presenter.presenter.CityPresenter
 import com.finance.app.presenter.presenter.DistrictPresenter
 import com.finance.app.presenter.presenter.PinCodeDetailPresenter
 import com.finance.app.utility.ShowAsMandatory
-import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import fr.ganfra.materialspinner.MaterialSpinner
@@ -248,13 +248,8 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
 
     override fun getPinCodeFailure(msg: String) = clearPinCodes()
 
-    private fun parseAddressInt(value: String): Int {
-        return value.toInt()
-//        return try {
-//            value.toInt()
-//        } catch (e: Exception) {
-//            return -1
-//        }
+    private fun parseAddressInt(value: String?): Int {
+        return if (!value.isNullOrEmpty()) value.toInt() else 0
     }
 
     fun getStateId(): Int = parseAddressInt(value = stateId)

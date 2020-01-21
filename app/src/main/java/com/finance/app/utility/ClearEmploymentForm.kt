@@ -4,10 +4,10 @@ import android.content.Context
 import com.finance.app.databinding.FragmentEmploymentBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.StatesMaster
-import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
 
 class ClearEmploymentForm(private val binding: FragmentEmploymentBinding, private val context: Context,
                           private val masterDropdown: AllMasterDropDown, private val state: List<StatesMaster>) {

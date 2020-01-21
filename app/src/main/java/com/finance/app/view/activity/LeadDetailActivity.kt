@@ -2,7 +2,6 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -11,11 +10,20 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.CoApplicantsList
+import com.finance.app.persistence.model.CoApplicantsMaster
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
@@ -29,7 +37,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferencesUtil
     private var bundle: Bundle? = null
     private var leadID = 0
-    private var leadContact:Long = 0
+    private var leadContact: Long = 0
+    private val presenter = Presenter()
 
     companion object {
         private const val KEY_LEAD_ID = "leadIdForApplicant"
@@ -45,7 +54,10 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     override fun init() {
 //        showLeadOptionsMenu()
         ArchitectureApp.instance.component.inject(this)
+        hideToolbar()
+        hideSecondaryToolbar()
         getLeadId()
+        presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList())
     }
 
     private fun getLeadId() {
@@ -65,11 +77,12 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun fillDataOnScreen(lead: AllLeadMaster?) {
+        binding.tvLeadName
         binding.tvEmail.text = lead?.applicantEmail
         val leadName = lead?.applicantFirstName + " " + lead?.applicantLastName
         setLeadNum(lead?.leadNumber!!)
         binding.tvLeadName.text = leadName
-        binding.tvLeadNumber.text = lead.leadNumber
+        binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLocation.text = lead.applicantAddress
         binding.tvPhone.text = lead.applicantContactNumber
         binding.tvTypeOfLoan.text = lead.loanProductName
@@ -82,14 +95,16 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun fillColor(lead: AllLeadMaster) {
         when (lead.status) {
-            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(Color.YELLOW)
-            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvLeadStatus.setTextColor(Color.BLUE)
-            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvLeadStatus.setTextColor(Color.RED)
-            else -> binding.tvLeadStatus.setTextColor(Color.GREEN)
+            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_pending))
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_submitted))
+            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_rejected))
+            else -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_new))
         }
     }
 
     private fun setClickListeners() {
+        binding.header.lytBack.setOnClickListener { onBackPressed() }
+
         binding.llLeadDetail.setOnClickListener {
             LoanApplicationActivity.start(this)
         }
@@ -100,8 +115,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             startActivity(callIntent)
         }
 
-        binding.ivCallUpdate.setOnClickListener {
-            UpdateCallActivity.start(this)
+        binding.btnUpdateCall.setOnClickListener {
+            UpdateCallActivity.start(this, leadID)
         }
 
         binding.btnAddTask.setOnClickListener {
@@ -112,5 +127,25 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private fun setUpRecyclerView() {
         binding.rcActivities.layoutManager = LinearLayoutManager(this)
         binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
+    }
+
+    inner class CallCoApplicantList : ViewGeneric<String, Response.ResponseCoApplicants>(context = this) {
+        override val apiRequest: String
+            get() = leadID.toString()
+
+        override fun getApiSuccess(value: Response.ResponseCoApplicants) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveApplicantToDB(value.responseObj)
+            }
+        }
+
+        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
+            GlobalScope.launch {
+                val coApplicantMaster = CoApplicantsMaster()
+                coApplicantMaster.coApplicantsList = responseObj
+                coApplicantMaster.leadID = leadID
+                dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
+            }
+        }
     }
 }

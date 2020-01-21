@@ -8,11 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemApplicantBinding
+import com.finance.app.persistence.model.CoApplicantsList
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class ApplicantsAdapter(private val mContext: Context, private val applicants: ArrayList<Response.CoApplicantsObj>)
+class ApplicantsAdapter(private val mContext: Context, private val applicants: ArrayList<CoApplicantsList>)
     : RecyclerView.Adapter<ApplicantsAdapter.ApplicantsViewHolder>() {
 
     @Inject
@@ -43,14 +43,14 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
     }
 
     interface ItemClickListener {
-        fun onApplicantClick(position: Int, coApplicant: Response.CoApplicantsObj)
+        fun onApplicantClick(position: Int, coApplicant: CoApplicantsList)
     }
 
     interface ItemLongClickListener {
         fun onApplicantLongClick(position: Int)
     }
 
-    fun onClickItem(position: Int, coApplicant: Response.CoApplicantsObj) {
+    fun onClickItem(position: Int, coApplicant: CoApplicantsList) {
         selectedPosition = position
         mClickListener?.onApplicantClick(position, coApplicant)
     }
@@ -64,7 +64,7 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
     inner class ApplicantsViewHolder(val binding: ItemApplicantBinding,
                                      val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindItems(position: Int, coApplicant: Response.CoApplicantsObj) {
+        fun bindItems(position: Int, coApplicant: CoApplicantsList) {
             binding.tvApplicants.text = coApplicant.firstName
             binding.tvApplicants.setOnClickListener { onClickItem(position, coApplicant) }
             itemView.setOnLongClickListener {

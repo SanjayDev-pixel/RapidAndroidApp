@@ -6,12 +6,12 @@ import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoModel
 import com.finance.app.persistence.model.UserBranches
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.sharedPreferences.SharedPreferencesBean
 import motobeans.architecture.sharedPreferences.SharedPreferencesCustom
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import com.google.gson.reflect.TypeToken
 
 class SharedPreferencesUtilImpl(private var context: Context) : SharedPreferencesUtil {
 
@@ -99,7 +99,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         objSPLead.putString(SharedPreferencesBean.KEY_LEAD_DETAIL, objLead)
     }
 
-    override fun getLeadDetail(): AllLeadMaster {
+    override fun getLeadDetail(): AllLeadMaster? {
         val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
         return Gson().fromJson(leadJson, AllLeadMaster::class.java)
@@ -111,13 +111,6 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadDetail = Gson().fromJson(leadJson, AllLeadMaster::class.java)
         return leadDetail.leadID.toString()
-    }
-
-    override fun getLeadNum(): String {
-        val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
-        val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
-        val leadDetail = Gson().fromJson(leadJson, AllLeadMaster::class.java)
-        return leadDetail.leadNumber!!
     }
 
     override fun getLoanAppID(): Int? {
@@ -142,7 +135,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         val loginSubModules = getRolePrivilege()?.subModuleList
         for (module in loginSubModules!!) {
 
-            val screenData = AppEnums.ScreenLoanInfo.getData(module.screenName)
+            val screenData = AppEnums.ScreenLoanInfo.getData(module.screenDisplayName)
             if (!(navItemList.contains(screenData)) && screenData != AppEnums.ScreenLoanInfo.DEFAULT) {
                 navItemList.add(screenData)
             }

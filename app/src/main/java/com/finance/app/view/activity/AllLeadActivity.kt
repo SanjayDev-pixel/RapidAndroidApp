@@ -6,14 +6,12 @@ import android.content.Intent
 import android.os.Handler
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAllLeadsBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.presenter.connector.AllLeadsConnector
 import com.finance.app.presenter.presenter.GetAllLeadsPresenter
 import com.finance.app.view.adapters.recycler.adapter.LeadPagerAdapter
-import com.finance.app.view.fragment.AllLeadsFragment
-import com.finance.app.view.fragment.PendingLeadsFragment
-import com.finance.app.view.fragment.RejectedLeadFragment
-import com.finance.app.view.fragment.SubmittedLeadFragment
+import com.finance.app.view.fragment.LeadsListingFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -54,19 +52,21 @@ class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
     private fun refreshPage() {
         binding.refresh.setOnRefreshListener {
             presenter.callNetwork(ConstantsApi.CALL_GET_ALL_LEADS)
-            binding.refresh.isRefreshing = false }
+            binding.refresh.isRefreshing = false
+        }
     }
 
-    override fun getAllLeadsSuccess(value: Response.ResponseGetAllLeads){
-        GlobalScope.launch {
-            dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster()
-        }
+    override fun getAllLeadsSuccess(value: Response.ResponseGetAllLeads) {
+        GlobalScope.launch { dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster() }
+
         val progress = ProgressDialog(this)
         progress.setMessage("Getting Leads")
         progress.show()
         Handler().postDelayed({
             saveDataToDB(value.responseObj)
-            progress.dismiss()
+            if (progress.isShowing) {
+                progress.dismiss()
+            }
         }, 1000)
     }
 
@@ -81,10 +81,10 @@ class AllLeadActivity : BaseAppCompatActivity(), AllLeadsConnector.AllLeads {
 
     private fun setUpLeadFragments() {
         pagerAdapter = LeadPagerAdapter(supportFragmentManager)
-        pagerAdapter!!.addFragment(PendingLeadsFragment(), "Pending")
-        pagerAdapter!!.addFragment(SubmittedLeadFragment(), "Submitted")
-        pagerAdapter!!.addFragment(RejectedLeadFragment(), "Rejected")
-        pagerAdapter!!.addFragment(AllLeadsFragment(), "All Leads")
+        pagerAdapter!!.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.PENDING), AppEnums.LEAD_TYPE.PENDING.type)
+        pagerAdapter!!.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.SUBMITTED), AppEnums.LEAD_TYPE.SUBMITTED.type)
+        pagerAdapter!!.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.REJECTED), AppEnums.LEAD_TYPE.REJECTED.type)
+        pagerAdapter!!.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.ALL), AppEnums.LEAD_TYPE.ALL.type)
         binding.viewPager.adapter = pagerAdapter
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }

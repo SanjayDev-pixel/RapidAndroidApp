@@ -2,6 +2,7 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
@@ -15,6 +16,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.roundTo2DecimalPlaces
 import javax.inject.Inject
+
 
 class DashboardActivity : BaseAppCompatActivity() {
     private val binding: ActivityDashboardBinding by ActivityBindingProviderDelegate(
@@ -48,6 +50,17 @@ class DashboardActivity : BaseAppCompatActivity() {
         hideSecondaryToolbar()
         provideDropdownValue()
         setListenersOnDropdown()
+        setVersionName()
+    }
+
+    private fun setVersionName() {
+        try {
+            val pInfo = this.packageManager.getPackageInfo(this.packageName, 0)
+            val version = pInfo.versionName
+            binding.tvVersionName.text = version
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
     }
 
     private fun provideDropdownValue() {

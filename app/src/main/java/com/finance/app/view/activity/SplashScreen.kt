@@ -27,9 +27,6 @@ class SplashScreen : BaseAppCompatActivity() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
 
-        // TEMP CODE - MUNISH THAKUR
-//        LeadDetailActivity.start(this, 2)
-
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
         Handler().postDelayed({

@@ -61,4 +61,8 @@ class AllMasterDropDown : Serializable {
     var SalaryCredit: ArrayList<DropdownMaster>? = null
     var BounceEmiPaidInSameMonth: ArrayList<DropdownMaster>? = null
     var AssetSubType: ArrayList<DropdownMaster>? = null
+    var CreditCardObligation: ArrayList<DropdownMaster>? = null
+    var AssetOwnership: ArrayList<DropdownMaster>? = null
+    var ReviewerResponseType: ArrayList<DropdownMaster>? = null
+
 }

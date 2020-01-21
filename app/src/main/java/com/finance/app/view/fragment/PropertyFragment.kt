@@ -21,7 +21,7 @@ import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.connector.TransactionCategoryConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.Spinner.*
+import com.finance.app.view.adapters.recycler.spinner.*
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.coroutines.GlobalScope
@@ -153,6 +153,13 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         binding.etPinCode.setText(property.pinCode)
         binding.etMvProperty.setText(property.mvOfProperty)
         binding.etAgreementValue.setText(property.agreementValue.toString())
+        checkSubmission()
+    }
+
+    private fun checkSubmission() {
+        if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+            DisablePropertyFields(binding)
+        }
     }
 
     private fun setMasterDropDown(allMasterDropDown: AllMasterDropDown) {
@@ -427,7 +434,7 @@ PropertyFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
         propertyModel.mvOfProperty = CurrencyConversion().convertToNormalValue(binding.etMvProperty.text.toString())
         propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
-        propertyModel.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1)
+        propertyModel.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1, mLead!!.leadNumber!!)
         propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
         propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
         return propertyModel

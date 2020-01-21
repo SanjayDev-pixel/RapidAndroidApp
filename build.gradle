@@ -21,6 +21,7 @@ allprojects {
     maven { url "https://jitpack.io" }
     google()
     jcenter()
+    mavenCentral()
   }
 }
 
@@ -39,7 +40,7 @@ ext {
 
   // Application Versions
   versionCode = 1
-  versionName = "0.0.1"
+  versionName = "0.0.6"
 
   // App dependencies
   supportLibraryVersion = '28.0.0'

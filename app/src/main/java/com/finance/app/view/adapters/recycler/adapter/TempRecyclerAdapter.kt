@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.finance.app.R
-import com.finance.app.view.adapters.recycler.Holder.EmptyCommonListHolder
-import com.finance.app.view.adapters.recycler.Holder.TempHolder
+import com.finance.app.view.adapters.recycler.holder.EmptyCommonListHolder
+import com.finance.app.view.adapters.recycler.holder.TempHolder
 import com.finance.app.databinding.EmptyCommonListBinding
 import com.finance.app.databinding.ItemCommonTempBinding
 import motobeans.architecture.application.ArchitectureApp

@@ -3,6 +3,7 @@ package com.finance.app.presenter.presenter
 import android.app.ProgressDialog
 import android.content.Context
 import com.finance.app.R
+import com.finance.app.persistence.model.LoanApplicationRequest
 import com.finance.app.presenter.connector.Connector
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,7 +16,6 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -37,7 +37,22 @@ class Presenter {
         val requestApi = when (type) {
             ConstantsApi.CALL_ADD_LEAD -> apiProject.api.addLead(dmiConnector.apiRequest as Requests.RequestAddLead)
             ConstantsApi.CALL_ALL_MASTER_VALUE -> apiProject.api.getAllMasterValue()
+            ConstantsApi.CALL_LOAN_PRODUCT -> apiProject.api.getLoanProduct()
+            ConstantsApi.CALL_ALL_STATES -> apiProject.api.getStates()
             ConstantsApi.CALL_LOGIN -> apiProject.api.loginUser(dmiConnector.apiRequest as Requests.RequestLogin)
+            ConstantsApi.CALL_COAPPLICANTS_LIST-> apiProject.api.getCoApplicantsList(dmiConnector.apiRequest as String)
+            ConstantsApi.CALL_SEND_OTP -> apiProject.api.sendOTP(dmiConnector.apiRequest as Requests.RequestSendOTP)
+            ConstantsApi.CALL_VERIFY_OTP -> apiProject.api.verifyOTP(dmiConnector.apiRequest as Requests.RequestVerifyOTP)
+            ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME -> {
+                val strings = dmiConnector.apiRequest as ArrayList<String>
+                apiProject.api.sourceChannelPartnerName(strings[0], strings[1], strings[2])
+            }
+            ConstantsApi.CALL_GET_LOAN_APP -> {
+                val strings = dmiConnector.apiRequest as ArrayList<String>
+                apiProject.api.getLoanApp(strings[0], strings[1])
+            }
+            ConstantsApi.CALL_POST_LOAN_APP -> apiProject.api.postLoanApp(dmiConnector.apiRequest as LoanApplicationRequest)
+
             else -> return
         }
 

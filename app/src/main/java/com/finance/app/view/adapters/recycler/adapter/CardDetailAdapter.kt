@@ -19,7 +19,6 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
         return CreditCardViewHolder(binding, c)
     }
 
-
     override fun getItemCount() = cards.size
 
     fun setOnCardClickListener(listener: CardClickListener) {

@@ -38,13 +38,15 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         }
         setLeadNumber()
         setNavFragment()
-        secondaryFragment = LoanInfoFragment()
+        secondaryFragment = LoanInfoFragment.newInstance()
         setSecondaryFragment(secondaryFragment)
     }
 
     private fun setLeadNumber() {
-        val leadNum = sharedPreferences.getLeadNum()
-        setLeadNum(leadNum)
+        val lead = sharedPreferences.getLeadDetail()
+        lead?.let{
+            setLeadNum(lead.leadNumber!!)
+        }
     }
 
     private fun setNavFragment() {

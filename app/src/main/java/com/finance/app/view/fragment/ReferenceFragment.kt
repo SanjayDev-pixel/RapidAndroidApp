@@ -24,10 +24,10 @@ import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.Spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.DistrictSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.Spinner.StatesSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
+import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
@@ -170,6 +170,13 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         selectMasterDropdownValue(binding.spinnerRelation, currentReference.relationTypeDetailID)
         selectMasterDropdownValue(binding.spinnerOccupation, currentReference.occupationTypeDetailID)
         fillAddressFields(binding.referenceAddressLayout, currentReference.addressBean)
+        checkSubmission()
+    }
+
+    private fun checkSubmission() {
+        if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+            DisableReferenceForm(binding)
+        }
     }
 
     private fun fillAddressFields(binding: LayoutEmploymentAddressBinding, address: ReferenceAddressDetail?) {
@@ -368,7 +375,7 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     private fun getReferenceMaster(): ReferenceMaster {
         rDraftData.referenceDetails = referencesList
         rDraftData.isMainApplicant = true
-        rDraftData.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1)
+        rDraftData.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1, mLead!!.leadNumber!!)
         referenceMaster.draftData = rDraftData
         referenceMaster.leadID = leadId.toInt()
         return referenceMaster
@@ -385,14 +392,6 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
         saveDataToDB(getReferenceMaster())
         AppEvents.fireEventLoanAppChangeNavFragmentNext()
-//        gotoNextFragment()
-    }
-
-    private fun gotoNextFragment() {
-        val ft = fragmentManager?.beginTransaction()
-        ft?.replace(R.id.secondaryFragmentContainer, DocumentCheckListFragment())
-        ft?.addToBackStack(null)
-        ft?.commit()
     }
 
     private fun saveDataToDB(reference: ReferenceMaster) {
@@ -414,13 +413,16 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
                 .setView(deleteDialogView)
                 .setTitle("Delete Reference")
         val deleteDialog = mBuilder.show()
-        deleteDialogView.tvDeleteConfirm.setOnClickListener { deleteReference(position) }
+        deleteDialogView.tvDeleteConfirm.setOnClickListener { deleteReference(position, deleteDialog) }
         deleteDialogView.tvDonotDelete.setOnClickListener { deleteDialog.dismiss() }
     }
 
-    private fun deleteReference(position: Int) {
-        referencesList!!.removeAt(position)
+    private fun deleteReference(position: Int, deleteDialog: AlertDialog) {
+        referencesList?.removeAt(position)
         binding.rcReference.adapter!!.notifyItemRemoved(position)
-        binding.rcReference.adapter!!.notifyItemRangeChanged(position, referencesList!!.size)
+        deleteDialog.dismiss()
+        if (referencesList!!.size > 0) binding.pageIndicatorAsset.visibility = View.GONE
+        else binding.pageIndicatorAsset.visibility = View.GONE
+
     }
 }

@@ -7,8 +7,6 @@ object Response {
     data class ResponseAddLead(val error: String, val responseCode: String, val responseMsg: String,
                                val responseObj: Any? = null, val timeStamp: Long)
 
-    data class ResponseLoginTest<T>(val responseCode: String, val responseMsg: String, val responseObj: T, val timeStamp: Long)
-
     data class ResponseLogin(val responseCode: String, val responseMsg: String, val responseObj: LoginObj, val timeStamp: Long)
     data class LoginObj(val token: String, val userDetails: UserDetails)
     data class UserDetails(val roleList: ArrayList<Role>, val rolePrivilegesList: ArrayList<RolePrivileges>, val userBasicDetails: UserBasicDetails, val userBranches: ArrayList<UserBranches>, val userSpecialPermissions: ArrayList<Any>)
@@ -23,7 +21,6 @@ object Response {
 
     data class ResponseAllMasterDropdown(val responseCode: String, val responseMsg: String, val responseObj: AllMasterDropDown, val timeStamp: Long)
     data class ResponseSourceChannelPartnerName(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<ChannelPartnerName>, val timeStamp: Long)
-    data class ChannelPartnerName(val branchID: Int, val channelTypeTypeDetailID: Int, val companyName: String, val dsaID: Int, val entityID: Int, val isActive: Boolean, val salesOfficerEmpID: Int)
     data class ResponseLoanProduct(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<LoanProductMaster>, val timeStamp: Long)
     data class LoanPurpose(val loanPurposeID: Int, val loanPurposeName: String)
     data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PinCodeObj>?, val timeStamp: Long)
@@ -44,11 +41,10 @@ object Response {
     data class DistrictObj(val districtID: Int, val districtName: String)
     data class ResponsePropertyNature(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<TransactionCategoryObj>, val timeStamp: Long)
     data class TransactionCategoryObj(val propertyNatureTransactionCategory: String, val propertyNatureTransactionCategoryID: Int)
-    data class ResponseCoApplicants(val responseCode: String, var responseMsg: String, val responseObj: ArrayList<CoApplicantsObj>, val timeStamp: Long)
+    data class ResponseCoApplicants(val responseCode: String, var responseMsg: String, val responseObj: ArrayList<CoApplicantsList>, val timeStamp: Long)
     data class CoApplicantsObj(var applicantID: Int? = null, var entityID: Int? = null, var firstName: String? = null,
                                var incomeConsidered: Boolean? = null, var isMainApplicant: Boolean,
                                var lastName: String? = null, var leadApplicantNumber: String, var middleName: String? = null)
 
-    data class ResponseSendOTP(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
-    data class ResponseVerifyOTP(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
+    data class ResponseOTP(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
 }

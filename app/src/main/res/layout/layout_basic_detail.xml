@@ -216,22 +216,12 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerDobProof"
+                    <LinearLayout
+                        android:id="@+id/layoutDobProof"
+                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        android:theme="@style/MatchSpinnerTheme"
-                        app:ms_arrowSize="16dp"
-                        android:textSize="@dimen/text_size"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="DOB Proof*"
-                        app:ms_hint="DOB Proof*"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -260,39 +250,21 @@
                     android:baselineAligned="true"
                     android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerGender"
+                    <LinearLayout
+                        android:id="@+id/layoutGender"
+                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="16dp"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        android:textSize="@dimen/text_size"
-                        android:theme="@style/MatchSpinnerTheme"
-                        app:ms_floatingLabelText="Gender"
-                        app:ms_hint="Gender"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerNationality"
+                    <LinearLayout
+                        android:id="@+id/layoutNationality"
+                        android:orientation="vertical"
+                        android:layout_marginStart="@dimen/margin_10"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_10"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="16dp"
-                        android:textSize="@dimen/text_size"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Nationality*"
-                        app:ms_hint="Nationality*"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -302,58 +274,28 @@
                     android:baselineAligned="true"
                     android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerReligion"
+                    <LinearLayout
+                        android:id="@+id/layoutReligion"
+                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="@dimen/text_size"
-                        android:textSize="@dimen/text_size"
-                        android:theme="@style/MatchSpinnerTheme"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Religion"
-                        app:ms_hint="Religion"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerCaste"
+                    <LinearLayout
+                        android:id="@+id/layoutCaste"
+                        android:orientation="vertical"
+                        android:layout_marginStart="@dimen/margin_10"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_10"
-                        android:theme="@style/MatchSpinnerTheme"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="@dimen/text_size"
-                        android:textSize="@dimen/text_size"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Caste"
-                        app:ms_hint="Caste"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
                 </LinearLayout>
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerQualification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/layoutQualification"
+                    android:orientation="vertical"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:minWidth="@dimen/text_min_width"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    android:textSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Qualification*"
-                    android:theme="@style/MatchSpinnerTheme"
-                    app:ms_hint="Qualification*"
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -362,40 +304,19 @@
                     android:baselineAligned="true"
                     android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerDetailQualification"
+                    <LinearLayout
+                        android:id="@+id/layoutDetailQualification"
+                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="@dimen/text_size"
-                        android:textSize="@dimen/text_size"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Detail Qualification*"
-                        app:ms_hint="Detail Qualification*"
-                        app:ms_hintColor="@color/hint_color"
-                        android:theme="@style/MatchSpinnerTheme"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerMaritalStatus"
+                    <LinearLayout
+                        android:id="@+id/layoutMaritalStatus"
+                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_10"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        android:theme="@style/MatchSpinnerTheme"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="@dimen/text_size"
-                        android:textSize="@dimen/text_size"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Marital Status*"
-                        app:ms_hint="Marital Status*"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
@@ -603,40 +524,20 @@
                     android:baselineAligned="true"
                     android:orientation="horizontal">
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerLivingStandard"
+                    <LinearLayout
+                        android:id="@+id/layoutLivingStandard"
+                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="@dimen/text_size"
-                        android:textSize="@dimen/text_size"
-                        android:theme="@style/MatchSpinnerTheme"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Living Standard*"
-                        app:ms_hint="Living Standard*"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerRelationship"
+                    <LinearLayout
+                        android:id="@+id/layoutRelationShip"
+                        android:orientation="vertical"
+                        android:layout_marginStart="@dimen/margin_10"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_10"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        app:ms_arrowSize="@dimen/text_size"
-                        android:textSize="@dimen/text_size"
-                        android:theme="@style/MatchSpinnerTheme"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Relationship with Applicant*"
-                        app:ms_hint="Relationship with Applicant*"
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 

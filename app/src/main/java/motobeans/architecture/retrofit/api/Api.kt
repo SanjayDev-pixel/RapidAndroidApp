@@ -59,9 +59,12 @@ interface Api {
     fun getCoApplicantsList(@Path("leadIdForApplicant") leadId: String): Observable<Response.ResponseCoApplicants>
 
     @POST("api/v1/common/contact/verification/mobile/get/otp")
-    fun sendOTP(@Body requestPost: Requests.RequestSendOTP): Observable<Response.ResponseSendOTP>
+    fun sendOTP(@Body requestPost: Requests.RequestSendOTP): Observable<Response.ResponseOTP>
 
     @POST("api/v1/common/contact/verification/mobile/verify/otp")
-    fun verifyOTP(@Body requestPost: Requests.RequestVerifyOTP): Observable<Response.ResponseVerifyOTP>
+    fun verifyOTP(@Body requestPost: Requests.RequestVerifyOTP): Observable<Response.ResponseOTP>
+
+    @POST("api/v1/lead/submit/{leadID}")
+    fun finalSubmit(@Path("leadID") leadId: String): Observable<Response.ResponseGetLoanApplication>
 
 }
