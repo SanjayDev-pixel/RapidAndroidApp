@@ -105,6 +105,7 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
     }
 
     fun getSelectedType(): Type? {
+
         try {
             val objectType = spinnerType.selectedView.tag
             val type = objectType as Type

@@ -173,8 +173,9 @@
             android:text="@string/update_call"
             android:textColor="@color/white"
              />
+
           
-    </LinearLayout>
+   </LinearLayout>
 </ScrollView>
 
 </layout>

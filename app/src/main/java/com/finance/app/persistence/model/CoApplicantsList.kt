@@ -9,4 +9,6 @@ class CoApplicantsList {
     var isMainApplicant: Boolean? = false
     var leadApplicantNumber: String? = ""
     var middleName: String? = ""
+    var applicantType: String?=""
+    var mobile: String?=""
 }

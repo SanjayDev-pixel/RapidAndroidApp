@@ -19,17 +19,45 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/enter_otp"
+            android:text="@string/enter_otp_heading"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="@dimen/text_size"
-            android:textStyle="bold" />
+            android:textSize="@dimen/button_text_size"
+            />
 
     </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvMobileno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:textSize="@dimen/button_text_size"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:text="Enter OTP"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:layout_marginRight="10dp"
+                android:paddingRight="20sp"
+                />
 
         <com.alimuzaffar.lib.pin.PinEntryEditText
             android:id="@+id/etOTP"
             android:layout_width="match_parent"
-            android:layout_height="60sp"
+            android:layout_height="50sp"
             android:cursorVisible="true"
             android:inputType="number"
             android:layoutDirection="ltr"
@@ -37,49 +65,96 @@
             android:layout_marginTop="@dimen/fields_margin"
             android:textIsSelectable="false"
             android:textSize="@dimen/button_text_size"
-            app:pinAnimationType="fromBottom"
-            app:pinBackgroundDrawable="@drawable/bg_pin"
-            app:pinBackgroundIsSquare="true"
-            app:pinLineStroke="2dp"
             android:textColor="@color/black"
-            app:pinLineStrokeSelected="4dp"
-            app:pinTextBottomPadding="@dimen/margin_10" />
+            app:pinLineStrokeSelected="2dp"
+            app:pinTextBottomPadding="@dimen/margin_10"
+            android:layout_weight="1"
+            android:layout_marginRight="10sp"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvResendOTPTimeLeftInfo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
-            android:layout_marginTop="@dimen/margin_50"
+            android:layout_marginTop="@dimen/margin_20"
             android:text=""
             android:textSize="@dimen/small_text_size"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_20">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/donotrecieveotp"
+                android:textColor="@color/black"
+                android:gravity="right"
+                android:textSize="@dimen/text_size"
+                />
+
 
         <TextView
             android:id="@+id/tvResendOTP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="left|center"
             android:textColor="@color/colorPrimary"
-            android:layout_marginTop="@dimen/margin_50"
+            android:layout_weight="1"
             android:text="@string/resend_otp"
-            android:textSize="@dimen/small_text_size"
-            android:visibility="gone"
+            android:textSize="@dimen/text_size"
+            android:paddingLeft="10sp"
+            
             />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/ivCross"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="100sp"
-            android:gravity="center"
-            android:padding="@dimen/margin_10"
-            android:src="@drawable/ic_vector_cross"
-            android:text="@string/cancel"
-            android:textColor="@color/md_red_500"
-            android:textSize="@dimen/button_text_size" />
+            android:orientation="horizontal"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/verifyotp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/margin_10"
+                android:background="@color/greenbutton"
+                android:text="@string/verify"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+              android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginRight="10dp"
+
+                />
+            <Button
+                android:id="@+id/ivCross"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/margin_10"
+                android:text="@string/later"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:background="@color/colorPrimary"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </layout>

@@ -88,6 +88,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.tvTypeOfLoan.text = lead.loanProductName
         binding.tvLeadStatus.text = lead.status
         leadContact = lead.applicantContactNumber!!.toLong()
+
         setUpRecyclerView()
         setClickListeners()
         fillColor(lead)

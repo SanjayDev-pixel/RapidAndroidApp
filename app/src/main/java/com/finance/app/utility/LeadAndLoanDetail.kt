@@ -28,7 +28,7 @@ class LeadAndLoanDetail {
 
     fun getDefaultCoApplicant(currentPosition: Int, leadNum: String): CoApplicantsList {
         val coApplicant = CoApplicantsList()
-        coApplicant.firstName = "CoApplicant ${currentPosition + 1}"
+        coApplicant.firstName = "Co-Applicant ${currentPosition + 1}"
         coApplicant.isMainApplicant = false
         coApplicant.leadApplicantNumber = getLeadApplicantNum(currentPosition + 1, leadNum)
         return coApplicant

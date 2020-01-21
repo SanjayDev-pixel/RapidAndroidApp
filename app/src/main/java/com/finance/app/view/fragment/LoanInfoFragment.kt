@@ -34,6 +34,9 @@ import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 class LoanInfoFragment : BaseFragment() {
@@ -82,6 +85,10 @@ class LoanInfoFragment : BaseFragment() {
         }
     }
 
+    fun onCreate() {
+        //super.onCreate()
+        EventBus.getDefault().register(this)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_loan_information)
         init()
@@ -288,6 +295,10 @@ class LoanInfoFragment : BaseFragment() {
                 }
             }
         }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun customEventReceived(event: LoanInfoFragment?) {
+        // Toast.makeText(mContext,"custom event", Toast.LENGTH_SHORT)
     }
 
     private fun checkPropertySelection() {

@@ -191,13 +191,19 @@
     <string name="error_income_not_considered">Income not considered in Personal  screen for this applicant</string>
     <string name="enter_otp">Enter received verification code here</string>
     <string name="get_otp">Get OTP</string>
-    <string name="resend_otp">Resend OTP</string>
+    <string name="resend_otp"><u>Resend OTP</u></string>
     <string name="error_required_field">Required Field</string>
     <string name="error_pin_code">Pin code can not be blank</string>
     <string name="error_add_co_applicant">Cannot add Co-Applicant after submission</string>
     <string name="error_api_failure">Unable to process request</string>
     <string name="cancel">Cancel</string>
+    <string name="enter_otp_heading">OTP has been send to your Mobile Number </string>
+    <string name="donotrecieveotp">Don\'t receive the OTP? Try</string>
+    <string name="later">Later</string>
+
     <string name="update_application">Update Application</string>
     <string name="seconds">seconds</string>
     <string name="amount">Amount : </string>
+    <string name="fillotp">Please fill OTP</string>
+    <string name="coapplicant">Co-Applicant</string>
 </resources>

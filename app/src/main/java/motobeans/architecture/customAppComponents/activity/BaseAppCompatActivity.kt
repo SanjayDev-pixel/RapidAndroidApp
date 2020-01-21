@@ -154,10 +154,12 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   private fun setToolbar() {
     setSupportActionBar(bindingParent.appBarWithLayout.toolbarMain)
+
     supportActionBar?.setLogo(R.drawable.dmi_logo_white)
     bindingParent.navView.inflateMenu(R.menu.menu_lead_action)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     supportActionBar?.setHomeButtonEnabled(true)
+
     bindingParent.appBarWithLayout.tvBackSecondary.setOnClickListener {
       onBackPressed()
     }
