@@ -105,13 +105,18 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
     }
 
     fun getSelectedType(): Type? {
-        return when (val type = spinnerType.selectedView.tag) {
-            is Int -> null
-            else -> when {
+        try {
+            val objectType = spinnerType.selectedView.tag
+            val type = objectType as Type
+            return when {
                 type != null -> spinnerType.selectedView.tag as Type
                 else -> null
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
+        return null
     }
 
     fun selectValue(id: Int?) {

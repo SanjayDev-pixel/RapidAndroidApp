@@ -67,17 +67,14 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btnCloseLead"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_20"
-                android:background="@drawable/button_theme_style"
-                android:padding="5sp"
-                android:text="@string/close_lead"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_text_size" />
+        <Button
+            android:id="@+id/btnCloseLead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_gravity="center"
+            android:text ="@string/close_lead"
+            android:textColor="@color/white"/>
 
         </LinearLayout>
     </ScrollView>

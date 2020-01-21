@@ -188,14 +188,12 @@
 
                 <Button
                     android:id="@+id/btnNext"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:layout_gravity="center"
                     android:text="@string/next"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/button_text_size" />
-
+                    android:textColor="@color/white"
+                  />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
