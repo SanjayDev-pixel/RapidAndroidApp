@@ -33,7 +33,6 @@
                 <LinearLayout
                     android:id="@+id/layoutCurrentResidenceType"
                     android:orientation="vertical"
-                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -177,7 +176,6 @@
                 <LinearLayout
                     android:id="@+id/layoutPermanentResidenceType"
                     android:orientation="vertical"
-                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />

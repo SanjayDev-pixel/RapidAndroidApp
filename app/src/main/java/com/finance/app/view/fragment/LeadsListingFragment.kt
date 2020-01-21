@@ -37,8 +37,7 @@ class LeadsListingFragment : BaseFragment() {
 
     private var leadStatusEnum: AppEnums.LEAD_TYPE? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_lead_listing)
         init()
         return binding.root

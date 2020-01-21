@@ -37,7 +37,7 @@
                     android:id="@+id/etFollowUpTiming"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_calender"
+                    android:drawableEnd="@drawable/ic_calender"showDialogtoAddCreditCard
                     android:editable="false"
                     android:focusable="false"
                     android:hint="Follow Up Timing"
@@ -67,7 +67,9 @@
               
  </com.google.android.material.textfield.TextInputLayout>
 
-          
+            </com.google.android.material.textfield.TextInputLayout>
+
+
         <Button
             android:id="@+id/btnCloseLead"
             android:layout_width="match_parent"
@@ -76,7 +78,9 @@
             android:layout_gravity="center"
             android:text ="@string/close_lead"
             android:textColor="@color/white"/>
-          
-      </LinearLayout>
+
+
+        </LinearLayout>
+
     </ScrollView>
 </layout>

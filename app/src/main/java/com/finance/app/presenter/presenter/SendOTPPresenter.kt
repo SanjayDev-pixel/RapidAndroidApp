@@ -39,7 +39,7 @@ class SendOTPPresenter(private val sendOTP: OTPConnector.SendOTP) : OTPConnector
                         { e -> sendOTP.getSendOTPFailure(e?.message ?: "") })
     }
 
-    private fun onSendOTP(response: Response.ResponseSendOTP) {
+    private fun onSendOTP(response: Response.ResponseOTP) {
         if (response.responseCode == "200") {
             sendOTP.getSendOTPSuccess(response)
         } else {

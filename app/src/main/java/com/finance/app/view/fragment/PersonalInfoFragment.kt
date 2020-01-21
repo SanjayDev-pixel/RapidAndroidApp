@@ -48,7 +48,7 @@ import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
-        ApplicantsAdapter.ItemLongClickListener{
+        ApplicantsAdapter.ItemLongClickListener {
 
         @Inject
         lateinit var sharedPreferences: SharedPreferencesUtil
@@ -262,7 +262,6 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
                 }
             })
             binding.personalAddressLayout.layoutCurrentResidenceType.addView(currentResidenceType)
-
         }
 
         private fun getApplicantFromLead(): PersonalApplicantsModel {
@@ -578,7 +577,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
             when (AppEnums.LEAD_TYPE.SUBMITTED.type) {
                 mLead!!.status -> {
                     saveCurrentApplicant()
-                    ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
+                    ClearPersonalForm(binding = binding, spinnerList = spinnerDMList)
                     currentPosition = position
                     val mobileno: String? = contactDetail?.mobile
                     coApplicant.mobile = mobileno
@@ -749,7 +748,6 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
             verifyOTPDialogView?.ivCross?.setOnClickListener { dismissOtpVerificationDialog() }
             verifyOTPDialogView?.tvResendOTP?.callOnClick()
             timerOtpResend.start()
-
         }
 
         private fun handleResendOtpEvent() {

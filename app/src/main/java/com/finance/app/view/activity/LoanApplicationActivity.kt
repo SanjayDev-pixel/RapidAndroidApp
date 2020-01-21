@@ -79,7 +79,9 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     private fun setLeadNumber() {
 
         val lead = sharedPreferences.getLeadDetail()
-        setLeadNum(lead.leadNumber!!)
+        lead?.let{
+            setLeadNum(lead.leadNumber!!)
+        }
 
     }
 

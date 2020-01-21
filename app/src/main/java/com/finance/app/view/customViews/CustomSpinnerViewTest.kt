@@ -22,7 +22,7 @@ import motobeans.architecture.util.exVisible
  * Created by Vishal Rathi on 23/12/19.
  */
 class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val dropDowns: ArrayList<Type>?, label: String, attrs: AttributeSet? = null,
-                                                  val ispinnerMainView: IspinnerMainView<Type>? = null) : LinearLayout(context,
+                                                  val iSpinnerMainView: IspinnerMainView<Type>? = null) : LinearLayout(context,
         attrs), AdapterView.OnItemSelectedListener, ValidationHandler, IspinnerCustomView<Type> {
 
     private lateinit var spinnerType: MaterialSpinner
@@ -68,7 +68,7 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
                     val value = parent.getItemAtPosition(position) as Type
-                    ispinnerMainView?.getSelectedValue(value)
+                    iSpinnerMainView?.getSelectedValue(value)
                 }
             }
         }
@@ -119,6 +119,10 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
 
     fun disableSelf() {
         spinnerType.isEnabled = false
+    }
+
+    fun enableSelf() {
+        spinnerType.isEnabled = true
     }
 
     fun clearSpinner() {
