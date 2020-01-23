@@ -782,7 +782,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
             }
         }
 
-        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
+        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>?) {
             GlobalScope.launch {
                 val coApplicantMaster = CoApplicantsMaster()
                 coApplicantMaster.coApplicantsList = responseObj

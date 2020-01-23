@@ -12,10 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.finance.app.R
 import com.finance.app.databinding.FragmentLoanInformationBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
+import com.finance.app.others.Injection
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
@@ -23,6 +26,7 @@ import com.finance.app.utility.*
 import com.finance.app.view.activity.UploadedFormDataActivity
 import com.finance.app.view.customViews.CustomSpinnerViewTest
 import com.finance.app.view.customViews.Interfaces.IspinnerMainView
+import com.finance.app.viewModel.AppDataViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -44,6 +48,7 @@ class LoanInfoFragment : BaseFragment() {
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     private lateinit var binding: FragmentLoanInformationBinding
+    private lateinit var appDataViewModel: AppDataViewModel
     private val frag: Fragment = this
     private lateinit var allMasterDropDown: AllMasterDropDown
     private var loanProducts: ArrayList<LoanProductMaster> = ArrayList()
@@ -90,14 +95,27 @@ class LoanInfoFragment : BaseFragment() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
-        getLoanInfo()
-        SetLoanInfoMandatoryField(binding)
-        setClickListeners()
+        val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
+        appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
+        mLead = sharedPreferences.getLeadDetail()
+        mLead?.let {
+            getLoanInfo(mLead?.leadID.toString())
+            getDropDownsFromDB()
+            SetLoanInfoMandatoryField(binding)
+            setClickListeners()
+        }
     }
 
-    private fun getLoanInfo() {
-        mLead = sharedPreferences.getLeadDetail()
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
+    private fun getLoanInfo(leadId: String) {
+        appDataViewModel.getLoanInfo(leadId).observe(this, Observer { loanData ->
+            loanData?.let {
+                loanMaster = loanData
+                loanMaster?.draftData?.let { loanModel ->
+                    fillFormWithLoanData(loanModel)
+                }
+            }
+        })
+//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
     }
 
     private fun showData(loanInfo: LoanInfoModel?) {
@@ -114,14 +132,14 @@ class LoanInfoFragment : BaseFragment() {
     }
 
     private fun getDropDownsFromDB() {
-        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
+        appDataViewModel.getAllMasterDropdown().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
             masterDrownDownValues?.let {
                 allMasterDropDown = masterDrownDownValues
                 setMasterDropDownValue(allMasterDropDown)
             }
         })
 
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProductValue ->
+        appDataViewModel.getLoanProductMaster().observe(viewLifecycleOwner, Observer { loanProductValue ->
             loanProductValue?.let {
                 val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
                 arrayListOfLoanProducts.addAll(loanProductValue)

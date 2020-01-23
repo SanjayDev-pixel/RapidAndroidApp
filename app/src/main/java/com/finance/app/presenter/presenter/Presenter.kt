@@ -100,6 +100,7 @@ abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context) : Conn
     }
 
     override fun getApiFailure(msg: String) {
-        showToast(context.getString(R.string.error_api_failure))
+        showToast(msg)
+//        showToast(context.getString(R.string.error_api_failure))
     }
 }

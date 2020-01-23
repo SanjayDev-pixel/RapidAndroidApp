@@ -10,7 +10,7 @@ import com.finance.app.view.adapters.recycler.adapter.NavMenuConnector
 
 class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context, private val navMenuConnector: NavMenuConnector) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindItems(position: Int, navItem: AppEnums.ScreenLoanInfo) {
+    fun bindItems(position: Int, navItem: AppEnums.ScreenLoanApp) {
         val navIcon = navItem.icon
         val title = if (navMenuConnector.isMenuExpanded()) navItem.screenName else ""
 
@@ -23,7 +23,7 @@ class NavDrawerViewHolder(val binding: ItemNavBinding, val mContext: Context, pr
         changeColorBasedOnSelection(navItem = navItem)
     }
 
-    private fun changeColorBasedOnSelection(navItem: AppEnums.ScreenLoanInfo) {
+    private fun changeColorBasedOnSelection(navItem: AppEnums.ScreenLoanApp) {
 
         val selectedScreenName = navMenuConnector.getSelectionScreenName()
 

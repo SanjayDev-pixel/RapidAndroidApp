@@ -3,10 +3,7 @@ package com.finance.app.viewModel
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import com.finance.app.persistence.db.MasterDB
-import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.LoanProductMaster
-import com.finance.app.persistence.model.StatesMaster
+import com.finance.app.persistence.model.*
 
 class AppDataViewModel(activity: FragmentActivity, private val masterDB: MasterDB) : BaseViewModel(activity, masterDB) {
 
@@ -26,11 +23,16 @@ class AppDataViewModel(activity: FragmentActivity, private val masterDB: MasterD
         return masterDB.allMasterDropDownDao().getMasterDropdownValue()
     }
 
+    fun getLoanInfo(leadId: String): LiveData<LoanInfoMaster?> {
+        return masterDB.loanInfoDao().getLoanInfo(leadId)
+    }
+
+    fun getPersonalInfo(leadId: String): LiveData<PersonalInfoMaster?> {
+        return masterDB.personalInfoDao().getPersonalInfo(leadId)
+    }
+
     fun getLoanProductMaster(): LiveData<List<LoanProductMaster>?> {
         return masterDB.loanProductDao().getAllLoanProduct()
     }
 
-//    fun getLoanProducts(VisualPlanning: VisualPlanning) {
-//        GlobalScope.launch { masterDB.visualPlanningDao().insertPlan(VisualPlanning) }
-//    }
 }

@@ -12,7 +12,7 @@ interface PersonalInfoDao {
     fun insertPersonalInfo(product: PersonalInfoMaster)
 
     @Query("SELECT * FROM PersonalInfoMaster WHERE leadID=:leadID LIMIT 1")
-    fun getPersonalInfo(leadID: String): LiveData<PersonalInfoMaster>
+    fun getPersonalInfo(leadID: String): LiveData<PersonalInfoMaster?>
 
     @Query("DELETE FROM PersonalInfoMaster")
     fun deleteLoanProduct()

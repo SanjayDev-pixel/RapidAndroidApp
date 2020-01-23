@@ -19,10 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.FragmentActivity
 import com.finance.app.persistence.db.MasterDB
-import com.finance.app.viewModel.AppDataViewModel
-import com.finance.app.viewModel.SyncDataViewModel
-import com.finance.app.viewModel.TempStaticViewModel
-import com.finance.app.viewModel.TempViewModel
+import com.finance.app.viewModel.*
 
 /**
  * Factory to wrap each ViewModel with Data access object of Product Entity
@@ -56,6 +53,9 @@ class ViewModelFactory(private val activity: FragmentActivity,
             }
             modelClass.isAssignableFrom(AppDataViewModel::class.java) -> {
                 return AppDataViewModel(activity, dataSource) as T
+            }
+            modelClass.isAssignableFrom(LeadDataViewModel::class.java) -> {
+                return LeadDataViewModel(activity) as T
             }
             modelClass.isAssignableFrom(TempStaticViewModel::class.java) -> {
 

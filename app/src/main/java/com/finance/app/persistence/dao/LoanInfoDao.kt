@@ -11,7 +11,7 @@ interface LoanInfoDao {
     fun insertLoanInfo(product: LoanInfoMaster)
 
     @Query("SELECT * FROM LoanInfoMaster WHERE leadID=:leadID LIMIT 1")
-    fun getLoanInfo(leadID: String): LiveData<LoanInfoMaster>
+    fun getLoanInfo(leadID: String): LiveData<LoanInfoMaster?>
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateLoanInfo(loanInfo: LoanInfoMaster)

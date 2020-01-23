@@ -10,7 +10,7 @@ class ResponseConversion {
         val gson = Gson()
     }
 
-    fun toLoanMaster(response: Response.LoanApplicationGetObj): LoanInfoMaster? {
+    fun toLoanMaster(response: Response.LoanApplicationGetObj): LoanInfoMaster {
         val master = LoanInfoMaster()
         master.leadID = response.leadID
         master.draftData = gson.fromJson(response.draftData, LoanInfoModel::class.java)
