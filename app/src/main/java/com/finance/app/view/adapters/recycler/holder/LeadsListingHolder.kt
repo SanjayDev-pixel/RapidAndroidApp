@@ -15,8 +15,9 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
 
     @SuppressLint("SetTextI18n")
     fun bindItems(lead: AllLeadMaster, adapterFor: AppEnums.LEAD_TYPE?) {
-        if (adapterFor == AppEnums.LEAD_TYPE.ALL)
+        if (adapterFor == AppEnums.LEAD_TYPE.ALL) {
             binding.tvStatusLine.setTextVertically(lead.status)
+        }
 
         binding.tvLeadName.text = lead.applicantFirstName
         binding.tvLeadID.text = "Lead Id : ${lead.leadID.toString()}"
@@ -33,7 +34,7 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
             AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_rejected))
         }
         binding.leadCard.setOnClickListener {
-            LeadDetailActivity.start(mContext, lead.leadID)
+            LeadDetailActivity.start(mContext, lead)
         }
     }
 }

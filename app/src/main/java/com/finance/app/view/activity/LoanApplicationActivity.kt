@@ -39,7 +39,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         setLeadNumber()
         setNavFragment()
         secondaryFragment = LoanInfoFragment.newInstance()
-        setSecondaryFragment(secondaryFragment)
+//        setSecondaryFragment(secondaryFragment)
     }
 
     private fun setLeadNumber() {
@@ -83,9 +83,4 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
             }
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
  }

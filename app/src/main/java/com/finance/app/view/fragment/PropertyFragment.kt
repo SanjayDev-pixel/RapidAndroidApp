@@ -99,15 +99,17 @@ class PropertyFragment : BaseFragment(), TransactionCategoryConnector.Transactio
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 setMasterDropDown(allMasterDropDown)
             }
         })
 
-        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer {
-            states = it
-            setStateDropDown(states)
+        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer { stateMaster ->
+            stateMaster?.let {
+                states = stateMaster
+                setStateDropDown(states)
+            }
         })
     }
 

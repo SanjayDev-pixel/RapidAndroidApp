@@ -115,14 +115,14 @@ class LoanInfoFragment : BaseFragment() {
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 setMasterDropDownValue(allMasterDropDown)
             }
         })
 
         dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(viewLifecycleOwner, Observer { loanProductValue ->
-            loanProductValue.let {
+            loanProductValue?.let {
                 val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
                 arrayListOfLoanProducts.addAll(loanProductValue)
                 loanProducts = arrayListOfLoanProducts

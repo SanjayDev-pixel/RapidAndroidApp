@@ -81,19 +81,9 @@ class LoginActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: ResponseLogin) {
             if (value.responseCode == Constants.SUCCESS) {
                 sharedPreferences.saveLoginData(value)
-                getOtherDropdownValue()
-                DashboardActivity.start(this@LoginActivity)
+                SyncActivity.start(this@LoginActivity)
             } else {
                 showToast(value.responseMsg)
-            }
-        }
-
-    }
-
-    private fun getOtherDropdownValue() {
-        GlobalScope.launch {
-            runOnUiThread {
-                GetOtherDropDownFromApi(getContext())
             }
         }
     }

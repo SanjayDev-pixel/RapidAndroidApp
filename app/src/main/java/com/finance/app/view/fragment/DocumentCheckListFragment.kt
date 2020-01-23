@@ -61,8 +61,8 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 showDocumentList()
             }
         })

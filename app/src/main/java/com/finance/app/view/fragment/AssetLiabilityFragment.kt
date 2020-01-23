@@ -22,11 +22,11 @@ import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.CardDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.ObligationAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -53,7 +53,7 @@ class AssetLiabilityFragment : BaseFragment(), ApplicantsAdapter.ItemClickListen
     private lateinit var binding: FragmentAssetLiablityBinding
     private lateinit var mContext: Context
     private var mLead: AllLeadMaster? = null
-    private lateinit var allMasterDropDown: AllMasterDropDown
+    private var allMasterDropDown: AllMasterDropDown = AllMasterDropDown()
     private val presenter = Presenter()
     private var applicantAdapter: ApplicantsAdapter? = null
     private lateinit var assetAdapter: AssetDetailAdapter
@@ -168,7 +168,7 @@ class AssetLiabilityFragment : BaseFragment(), ApplicantsAdapter.ItemClickListen
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
+            masterDrownDownValues?.let {
                 allMasterDropDown = masterDrownDownValues
                 setMasterDropDownValue(allMasterDropDown)
             }

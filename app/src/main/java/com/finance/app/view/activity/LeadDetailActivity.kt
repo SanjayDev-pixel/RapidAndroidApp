@@ -4,26 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.CoApplicantsList
-import com.finance.app.persistence.model.CoApplicantsMaster
 import com.finance.app.presenter.presenter.Presenter
-import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.finance.app.viewModel.LeadDataViewModel
+import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.Constants
-import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
@@ -31,21 +24,21 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_detail)
+    private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
     @Inject
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     private var bundle: Bundle? = null
-    private var leadID = 0
+    private var lead = AllLeadMaster()
     private var leadContact: Long = 0
-    private val presenter = Presenter()
 
     companion object {
-        private const val KEY_LEAD_ID = "leadIdForApplicant"
-        fun start(context: Context, leadID: Int?) {
+        private const val KEY_LEAD = "leadApplicant"
+        fun start(context: Context, lead: AllLeadMaster) {
             val intent = Intent(context, LeadDetailActivity::class.java)
             val bundle = Bundle()
-            bundle.putInt(KEY_LEAD_ID, leadID!!)
+            bundle.putSerializable(KEY_LEAD, lead)
             intent.putExtras(bundle)
             context.startActivity(intent)
         }
@@ -56,24 +49,17 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
-        getLeadId()
-        presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList())
+        getLead()
     }
 
-    private fun getLeadId() {
+    private fun getLead() {
         bundle = intent.extras
         bundle?.let {
-            leadID = bundle!!.getInt(KEY_LEAD_ID)
+            lead = bundle!!.getSerializable(KEY_LEAD) as AllLeadMaster
+            fillDataOnScreen(lead)
+            sharedPreferences.saveLeadDetail(lead)
+            leadDataViewModel.getLeadData(lead.leadID.toString())
         }
-        getLeadFormDB(leadID)
-    }
-
-    private fun getLeadFormDB(leadID: Int) {
-        dataBase.provideDataBaseSource().allLeadsDao().getLead(leadID)
-                .observe(this, Observer { lead ->
-                    fillDataOnScreen(lead)
-                    sharedPreferences.saveLeadDetail(lead)
-                })
     }
 
     private fun fillDataOnScreen(lead: AllLeadMaster?) {
@@ -116,7 +102,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
 
         binding.btnUpdateCall.setOnClickListener {
-            UpdateCallActivity.start(this, leadID)
+            UpdateCallActivity.start(this, lead)
         }
 
         binding.btnAddTask.setOnClickListener {
@@ -129,23 +115,4 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
     }
 
-    inner class CallCoApplicantList : ViewGeneric<String, Response.ResponseCoApplicants>(context = this) {
-        override val apiRequest: String
-            get() = leadID.toString()
-
-        override fun getApiSuccess(value: Response.ResponseCoApplicants) {
-            if (value.responseCode == Constants.SUCCESS) {
-                saveApplicantToDB(value.responseObj)
-            }
-        }
-
-        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
-            GlobalScope.launch {
-                val coApplicantMaster = CoApplicantsMaster()
-                coApplicantMaster.coApplicantsList = responseObj
-                coApplicantMaster.leadID = leadID
-                dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
-            }
-        }
-    }
 }

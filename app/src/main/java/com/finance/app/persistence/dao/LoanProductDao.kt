@@ -17,10 +17,10 @@ interface LoanProductDao {
     fun insertLoanProductList(product: ArrayList<LoanProductMaster>)
 
     @Query("SELECT * FROM LoanProductMaster")
-    fun getAllLoanProduct(): LiveData<List<LoanProductMaster>>
+    fun getAllLoanProduct(): LiveData<List<LoanProductMaster>?>
 
     @Query("SELECT * FROM LoanProductMaster WHERE productID= :productId LIMIT 1")
-    fun getLoanProductWithId(productId: Int): LiveData<LoanProductMaster>
+    fun getLoanProductWithId(productId: Int): LiveData<LoanProductMaster?>
 
     @Query("DELETE FROM LoanProductMaster")
     fun deleteLoanProduct()

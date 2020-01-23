@@ -307,14 +307,16 @@ class EmploymentInfoFragment : BaseFragment(),
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 setMasterDropDownValue(allMasterDropDown)
             }
         })
-        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer {
-            states = it
-            setStateDropDownValue()
+        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer { stateMaster ->
+            stateMaster?.let {
+                states = stateMaster
+                setStateDropDownValue()
+            }
         })
     }
 

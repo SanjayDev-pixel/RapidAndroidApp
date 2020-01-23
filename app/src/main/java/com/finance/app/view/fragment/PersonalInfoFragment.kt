@@ -140,8 +140,8 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 setRelationshipList(allMasterDropDown.Relationship)
                 setMasterDropDownValue(allMasterDropDown)
             }

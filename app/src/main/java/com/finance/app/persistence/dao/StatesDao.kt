@@ -15,10 +15,10 @@ interface StatesDao {
     fun insertStates(product: ArrayList<StatesMaster>)
 
     @Query("SELECT * FROM StatesMaster")
-    fun getAllStates(): LiveData<List<StatesMaster>>
+    fun getAllStates(): LiveData<List<StatesMaster>?>
 
     @Query("SELECT * FROM StatesMaster WHERE stateID=:stateId LIMIT 1")
-    fun getState(stateId: String): StatesMaster
+    fun getState(stateId: String): StatesMaster?
 
     @Query("DELETE FROM StatesMaster")
     fun deleteAllStates()
