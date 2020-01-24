@@ -141,7 +141,9 @@ class BankDetailDialogFragment : DialogFragment() {
         val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
 
         bankDetails.bankNameTypeDetailID = bName?.typeDetailID
+        bankDetails.bankName = bName?.typeDetailCode
         bankDetails.accountTypeDetailID = aType?.typeDetailID
+        bankDetails.accountTypeName = aType?.typeDetailCode
         bankDetails.salaryCreditTypeDetailID = salaryCredit?.typeDetailID
         bankDetails.accountHolderName = binding.etAccountHolderName.text.toString()
         bankDetails.accountNumber = binding.etAccountNum.text.toString()

@@ -6,12 +6,14 @@ class BankDetailBean {
     var accountHolderName: String? = ""
     var accountNumber: String? = ""
     var accountTypeDetailID: Int? = 0
+    var accountTypeName: String? = ""
     var active: Boolean = true
     var applicantBankTransectionList: Any? = null
     var applicantID: Int? = 0
     var averageBankBalance: DecimalFormat? = null
     var averageDebitBalance: DecimalFormat? = null
     var bankDetailID: Int? = null
+    var bankName: String? = ""
     var bankNameTypeDetailID: Int? = 0
     var bankStatementProof: String? = ""
     var bulkEntryAmount: DecimalFormat? = null

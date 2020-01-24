@@ -13,13 +13,14 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
     private lateinit var binding: ItemBankBinding
     private var mOnBankDetailClickListener: BankDetailClickListener? = null
 
+
+    override fun getItemCount() = bankDetails?.size ?: 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BankDetailViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_bank, parent, false)
         return BankDetailViewHolder(binding, c)
     }
-
-    override fun getItemCount() = bankDetails?.size ?: 0
 
     fun setOnBankDetailClickListener(listener: BankDetailClickListener) {
         mOnBankDetailClickListener = listener
@@ -56,8 +57,10 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
 
     inner class BankDetailViewHolder(val binding: ItemBankBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int, bank: BankDetailBean) {
-            binding.tvAccountHolder.text = bank.accountHolderName.toString()
+            binding.tvBankName.text = bank.bankName.toString()
             binding.tvAccountNum.text = bank.accountNumber.toString()
+            binding.tvAccountHolder.text = bank.accountHolderName.toString()
+            binding.tvAccountType.text = bank.accountTypeName.toString()
             binding.tvSalaryCreditedNum.text = bank.numberOfCredit.toString()
             addClickListener(position, bank)
         }

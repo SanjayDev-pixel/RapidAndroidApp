@@ -338,8 +338,20 @@ class FormValidationImpl : FormValidation {
 
     override fun validateBankDetail(binding: DialogBankDetailFormBinding): Boolean {
         var errorCount = 0
-        val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
 
+        val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
+        if (bankName == null) {
+            errorCount++
+            binding.spinnerBankName.error = "Required Field"
+        }
+
+        val accountType = binding.spinnerAccountType.selectedItem as DropdownMaster?
+        if (accountType == null) {
+            errorCount++
+            binding.spinnerAccountType.error = "Required Field"
+        }
+
+        val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
         if (salaryCredit == null) {
             errorCount++
             binding.spinnerSalaryCredit.error = "Required Field"

@@ -56,6 +56,33 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.3"
                         android:maxWidth="90dp"
+                        android:text="Bank Name :"
+                        android:textColor="@color/black_242424"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvBankName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textSize="13sp"
+                        tools:text="HDFC" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.3"
+                        android:maxWidth="90dp"
                         android:text="Account No. :"
                         android:textColor="@color/black_242424"
                         android:textSize="14sp"
@@ -97,6 +124,34 @@
                         android:singleLine="true"
                         android:textSize="13sp"
                         tools:text="Holder" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.3"
+                        android:maxWidth="90dp"
+                        android:text="Account Type :"
+                        android:textColor="@color/black_242424"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAccountType"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textSize="13sp"
+                        tools:text="Saving" />
 
                 </LinearLayout>
 
