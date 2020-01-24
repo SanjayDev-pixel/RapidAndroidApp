@@ -45,11 +45,11 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
         }
 
         private fun addClickListener(position: Int, bank: BankDetailBean) {
-            binding.btnDelete.setOnClickListener {
+            binding.ivDelete.setOnClickListener {
                 mOnBankDetailClickListener!!.onBankDetailDeleteClicked(position)
             }
 
-            binding.btnEdit.setOnClickListener {
+            binding.ivEdit.setOnClickListener {
                 mOnBankDetailClickListener!!.onBankDetailEditClicked(position, bank)
             }
         }

@@ -336,6 +336,29 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
+    override fun validateBankDetail(binding: DialogBankDetailFormBinding): Boolean {
+        var errorCount = 0
+        val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
+
+        if (salaryCredit == null) {
+            errorCount++
+            binding.spinnerSalaryCredit.error = "Required Field"
+        }
+
+        val accountNum = binding.etAccountNum.text.toString()
+        if (!accountNum.exIsNotEmptyOrNullOrBlank() || accountNum.length < 6) {
+            errorCount++
+            binding.etAccountNum.error = "Account Num not valid"
+        }
+        val accountHolderName = binding.etAccountHolderName.text.toString()
+        if (!accountHolderName.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etAccountHolderName.error = "Account holder name can not be blank"
+        }
+
+        return isValidForm(errorCount)
+    }
+
     override fun validateReference(binding: FragmentReferenceBinding): Boolean {
         var errorCount = 0
         val name = binding.etName.text.toString()

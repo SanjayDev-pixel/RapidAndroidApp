@@ -2,6 +2,7 @@ package motobeans.architecture.development.interfaces
 
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.LoanProductMaster
+import com.finance.app.view.dialogs.BankDetailDialogFragment
 
 interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
@@ -12,6 +13,7 @@ interface FormValidation {
     fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding): Boolean
     fun validateSenpEmployment(senpBinding: LayoutSenpBinding ): Boolean
     fun validateBankDetail(binding: FragmentBankDetailBinding):Boolean
+    fun validateBankDetail(binding: DialogBankDetailFormBinding):Boolean
     fun validateReference(binding: FragmentReferenceBinding):Boolean
     fun validateProperty(binding: FragmentPropertyInfoBinding):Boolean
     fun validateAssets(binding: FragmentAssetLiablityBinding):Boolean

@@ -1,4 +1,5 @@
 package com.finance.app.view.fragment
+
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,11 +19,15 @@ import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
-import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
+import com.finance.app.utility.DisableBankForm
+import com.finance.app.utility.LeadAndLoanDetail
+import com.finance.app.utility.RequestConversion
+import com.finance.app.utility.ResponseConversion
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.BankDetailAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.dialogs.BankDetailDialogFragment
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
@@ -38,7 +43,7 @@ import javax.inject.Inject
 
 class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp, ApplicantsAdapter.ItemClickListener,
-        BankDetailAdapter.BankDetailClickListener {
+        BankDetailAdapter.BankDetailClickListener, BankDetailDialogFragment.OnBankDetailDialogCallback {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -54,17 +59,30 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     private val loanAppPostPresenter = LoanAppPostPresenter(this)
     private var applicantAdapter: ApplicantsAdapter? = null
     private lateinit var bankAdapter: BankDetailAdapter
-    private var applicantTab: ArrayList<CoApplicantsList>? = ArrayList()
+    private var applicantTabList: ArrayList<CoApplicantsList>? = ArrayList()
     private var bankDetailMaster: BankDetailMaster = BankDetailMaster()
-    private var bDraftData = BankDetailList()
-    private var bApplicantsList: ArrayList<BankDetailModel>? = ArrayList()
+    private var bankDetailDraft = BankDetailList()
+    private var applicantsBankDetailList: ArrayList<BankDetailModel>? = ArrayList()
+
     private var bankDetailBeanList: ArrayList<BankDetailBean>? = ArrayList()
+
     private var currentApplicant: BankDetailModel = BankDetailModel()
-    private var currentPosition = 0
-    private lateinit var currentTab: CoApplicantsList
+
+    private var selectedApplicant: CoApplicantsList? = null
+    private var selectedTabPosition = 0
+
     private lateinit var bankName: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var accountType: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var salaryCredit: CustomSpinnerViewTest<DropdownMaster>
+
+    override val leadId: String
+        get() = mLead!!.leadID.toString()
+
+    override val storageType: String
+        get() = bankDetailMaster.storageType
+
+    override val loanAppRequestPost: LoanApplicationRequest
+        get() = requestConversion.bankRequest(getBankDetailMaster())
 
     companion object {
         private const val SALARIED = 93
@@ -73,175 +91,79 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         private val requestConversion = RequestConversion()
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        mContext = context!!
+        ArchitectureApp.instance.component.inject(this)
+        mLead = sharedPreferences.getLeadDetail()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_bank_detail)
-        init()
+
+        initViews()
+        setOnClickListeners()
+
         return binding.root
     }
 
     override fun init() {
-        ArchitectureApp.instance.component.inject(this)
-        mContext = context!!
-        SetBankDetailMandatoryField(binding)
-        setClickListeners()
-        getBankDetail()
     }
 
-    private fun getBankDetail() {
-        mLead = sharedPreferences.getLeadDetail()
-        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
+    private fun initViews() {
+        //Set Applicant Tabs View.
+        setApplicantTabView()
     }
 
-    override val leadId: String
-        get() = mLead!!.leadID.toString()
-
-    override val storageType: String
-        get() = bankDetailMaster.storageType
-
-    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
-
-    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
-        value.responseObj?.let {
-            bankDetailMaster = responseConversion.toBankDetailMaster(value.responseObj)
-            bDraftData = bankDetailMaster.draftData!!
-            bApplicantsList = bDraftData.applicantDetails
-        }
-        setCoApplicants()
-        showData(bApplicantsList)
-    }
-
-    private fun setCoApplicants() {
-        dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
-            coApplicantsMaster.let {
+    private fun setApplicantTabView() {
+        dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(leadId.toInt()).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
+            coApplicantsMaster?.let {
                 if (coApplicantsMaster.coApplicantsList!!.isEmpty()) {
-                    applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, mLead!!.leadNumber!!))
+                    applicantTabList?.add(leadAndLoanDetail.getDefaultApplicant(selectedTabPosition, mLead!!.leadNumber!!))
                 } else {
-                    applicantTab = coApplicantsMaster.coApplicantsList
+                    applicantTabList = coApplicantsMaster.coApplicantsList
                 }
 
-                binding.rcApplicants.layoutManager = LinearLayoutManager(context,
-                        LinearLayoutManager.HORIZONTAL, false)
-                applicantAdapter = ApplicantsAdapter(context!!, applicantTab!!)
+                binding.rcApplicants.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                applicantAdapter = ApplicantsAdapter(mContext, applicantTabList!!)
                 binding.rcApplicants.adapter = applicantAdapter
-                applicantAdapter!!.setOnItemClickListener(this)
-                currentTab = applicantTab!![0]
+                applicantAdapter?.setOnItemClickListener(this)
+                selectedApplicant = applicantTabList!![0]
             }
         })
     }
 
-    private fun showData(applicantList: ArrayList<BankDetailModel>?) {
-        if (!applicantList.isNullOrEmpty()) {
-            if (applicantList.size < applicantTab!!.size) {
-                for (tab in applicantList.size..applicantTab!!.size) {
-                    applicantList.add(BankDetailModel())
-                }
-            }
-
-            for (applicant in applicantList) {
-                if (applicant.isMainApplicant) {
-                    currentApplicant = applicant
-                    currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
-                    currentApplicant.isMainApplicant = currentTab.isMainApplicant!!
-                    bankDetailBeanList = currentApplicant.applicantBankDetailsBean
-                }
-            }
-        }
-        setUpBankDetailAdapter()
-        getDropDownsFromDB()
-    }
-
-    private fun checkIncomeConsideration() {
-        if (!currentTab.incomeConsidered!!) {
-            DisableBankForm(binding)
-        } else showToast(getString(R.string.error_income_not_considered))
-    }
-
-    private fun setUpBankDetailAdapter() {
-        binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
-        bankAdapter = BankDetailAdapter(mContext, bankDetailBeanList)
-        binding.rcBank.adapter = bankAdapter
-        bankAdapter.setOnBankDetailClickListener(this)
-        binding.pageIndicatorAsset.attachTo(binding.rcBank)
-        binding.pageIndicatorAsset.visibility = View.VISIBLE
-        binding.rcBank.visibility = View.VISIBLE
-    }
-
-    override fun onApplicantClick(position: Int, coApplicant: CoApplicantsList) {
-        if (bankDetailBeanList != null && bankDetailBeanList!!.size > 0) {
-            saveCurrentApplicant()
-            currentPosition = position
-            currentTab = coApplicant
-            ClearBankForm(binding, mContext, allMasterDropDown, bankName, accountType)
-            getParticularApplicantData(position)
-        } else showToast(getString(R.string.mandatory_field_missing))
-    }
-
-    private fun saveCurrentApplicant() {
-        if (bApplicantsList!!.size > 0) {
-            bApplicantsList!![currentPosition] = getCurrentApplicant()
-        } else bApplicantsList!!.add(currentPosition, getCurrentApplicant())
-    }
-
-    private fun getParticularApplicantData(position: Int) {
-        currentApplicant = if (position >= bApplicantsList!!.size) {
-            BankDetailModel()
-        } else bApplicantsList!![position]
-        currentApplicant.isMainApplicant = currentTab.isMainApplicant!!
-        currentApplicant.leadApplicantNumber = currentTab.leadApplicantNumber
-        bankDetailBeanList = currentApplicant.applicantBankDetailsBean
-        if (bankDetailBeanList != null || bankDetailBeanList!!.size > 0) {
-            bankAdapter.notifyDataSetChanged()
-        }
-        applicantAdapter!!.notifyDataSetChanged()
-    }
-
-    private fun getDataFromDB() {
-        dataBase.provideDataBaseSource().bankDetailDao().getBankDetail(leadId).observe(this, Observer { bankInfo ->
-            bankInfo?.let {
-                bankDetailMaster = bankInfo
-                bDraftData = bankDetailMaster.draftData!!
-                bApplicantsList = bDraftData.applicantDetails
-                if (bApplicantsList!!.size <= 0) {
-                    bApplicantsList!!.add(BankDetailModel())
-                }
-            }
-            setCoApplicants()
-            showData(bApplicantsList)
-        })
-    }
-
-    private fun setClickListeners() {
-        binding.btnAddBankDetail.setOnClickListener {
-            if (formValidation.validateBankDetail(binding)) {
-                saveCurrentBean()
-                ClearBankForm(binding, mContext, allMasterDropDown, bankName, accountType)
-            } else showToast(getString(R.string.validation_error))
-        }
+    private fun setOnClickListeners() {
+        binding.vwAdd.setOnClickListener { showBankDetailFormDialog(BankDetailDialogFragment.Action.NEW) }
         binding.btnNext.setOnClickListener {
-            if (bankDetailBeanList!!.size > 0 || formValidation.validateBankDetail(binding)) {
-                saveCurrentBean()
-                saveCurrentApplicant()
-                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
-            } else showToast(getString(R.string.validation_error))
+            bankDetailBeanList?.let {
+                if (it.size > 0) {
+//                    saveCurrentBean(getCurrentBean())
+                    saveCurrentApplicant()
+                    loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+                } else showToast(getString(R.string.validation_error))
+            }
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
-        binding.btnUpdate.setOnClickListener { updateCurrentBean() }
+
+//        binding.btnAddBankDetail.setOnClickListener {
+//            if (formValidation.validateBankDetail(binding)) {
+//                saveCurrentBean(getCurrentBean())
+//                ClearBankForm(binding, mContext, allMasterDropDown, bankName, accountType)
+//            } else showToast(getString(R.string.validation_error))
+//        }
+
+//        binding.btnUpdate.setOnClickListener { updateCurrentBean(bankDetail) }
     }
 
-    private fun updateCurrentBean() {
-        bankDetailBeanList!!.add(currentPosition, getCurrentBean())
-        bankAdapter.notifyDataSetChanged()
-        ClearBankForm(binding, mContext, allMasterDropDown, bankName, accountType)
-        binding.btnAddBankDetail.visibility = View.VISIBLE
-        binding.btnUpdate.visibility = View.GONE
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //Now fetch data from where-ever you want....
+        fetchSpinnersDataFromDB()
+        fetchBankDetail()
     }
 
-    private fun saveCurrentBean() {
-        bankDetailBeanList?.add(getCurrentBean())
-        bankAdapter.notifyDataSetChanged()
-    }
-
-    private fun getDropDownsFromDB() {
+    private fun fetchSpinnersDataFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
             masterDrownDownValues.let {
                 allMasterDropDown = it
@@ -249,6 +171,142 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
             }
         })
     }
+
+    private fun fetchBankDetail() {
+        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
+    }
+
+    private fun fetchBankDetailsFromDB() {
+        dataBase.provideDataBaseSource().bankDetailDao().getBankDetail(leadId).observe(this, Observer { bankInfo ->
+            bankInfo?.let {
+                bankDetailMaster = bankInfo
+                bankDetailDraft = bankDetailMaster.draftData!!
+                applicantsBankDetailList = bankDetailDraft.applicantBankDetails
+                //TODO have to implement for failure response....
+//                if (applicantsBankDetailList!!.size <= 0) {
+//                    applicantsBankDetailList!!.add(BankDetailModel())
+//                }
+            }
+//            setApplicantTabView()
+//            showData(applicantsBankDetailList)
+        })
+    }
+
+    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
+        value.responseObj?.let {
+            bankDetailMaster = responseConversion.toBankDetailMaster(value.responseObj)
+            bankDetailDraft = bankDetailMaster.draftData!!
+            applicantsBankDetailList = bankDetailDraft.applicantBankDetails
+
+            //Now inflate data to views...
+            refreshApplicantBankDetails(applicantsBankDetailList)
+        }
+//        setApplicantTabView()
+//        refreshApplicantBankDetails(selectedTabPosition)
+//        showData(applicantsBankDetailList)
+    }
+
+    override fun getLoanAppGetFailure(msg: String) = fetchBankDetailsFromDB()
+
+    private fun showData(applicantList: ArrayList<BankDetailModel>?) {
+        if (!applicantList.isNullOrEmpty()) {
+            if (applicantList.size < applicantTabList!!.size) {
+                for (tab in applicantList.size..applicantTabList!!.size) {
+                    applicantList.add(BankDetailModel())
+                }
+            }
+
+            for (applicant in applicantList) {
+                if (applicant.isMainApplicant) {
+                    currentApplicant = applicant
+                    currentApplicant.leadApplicantNumber = selectedApplicant?.leadApplicantNumber
+                    currentApplicant.isMainApplicant = selectedApplicant?.isMainApplicant!!
+                    bankDetailBeanList = currentApplicant.applicantBankDetailsBeanList
+                }
+            }
+        }
+//        setUpBankDetailAdapter()
+    }
+
+    private fun checkIncomeConsideration() {
+//        if (!selectedApplicant.incomeConsidered!!) {
+//            DisableBankForm(binding)
+//        } else showToast(getString(R.string.error_income_not_considered))
+    }
+
+    private fun setBankDetailAdapter(bankDetailList: ArrayList<BankDetailBean>) {
+        binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
+//        bankAdapter = BankDetailAdapter(mContext, bankDetailBeanList)
+        bankAdapter = BankDetailAdapter(mContext, bankDetailList)
+        binding.rcBank.adapter = bankAdapter
+        bankAdapter.setOnBankDetailClickListener(this)
+        binding.pageIndicatorAsset.attachTo(binding.rcBank)
+        binding.pageIndicatorAsset.visibility = View.VISIBLE
+        binding.rcBank.visibility = View.VISIBLE
+    }
+
+    private fun refreshApplicantBankDetails(allApplicantsBankDetailList: ArrayList<BankDetailModel>?) {
+        allApplicantsBankDetailList?.let { mainList ->
+            val selectedApplicantBankDetailList = mainList.filter { it.leadApplicantNumber.equals(selectedApplicant?.leadApplicantNumber, true) }
+            selectedApplicantBankDetailList?.let { childList ->
+                if (childList.isNotEmpty() && childList[0].applicantBankDetailsBeanList.isNotEmpty()) {
+                    //Always have one item in the list after filtering, for now as developer knows....
+                    setBankDetailAdapter(childList[0].applicantBankDetailsBeanList)
+                }
+            }
+        }
+    }
+
+
+    override fun onApplicantClick(position: Int, coApplicant: CoApplicantsList) {
+        selectedApplicant = coApplicant
+        selectedTabPosition = position
+        refreshApplicantBankDetails(applicantsBankDetailList)
+
+//        if (bankDetailBeanList != null && bankDetailBeanList!!.size > 0) {
+//            saveCurrentApplicant()
+//            selectedTabPosition = position
+//            selectedApplicant = coApplicant
+////            ClearBankForm(binding, mContext, allMasterDropDown, bankName, accountType)
+//            getParticularApplicantData(position)
+//        }
+    }
+
+
+    private fun saveCurrentApplicant() {
+        if (applicantsBankDetailList!!.size > 0) {
+            applicantsBankDetailList!![selectedTabPosition] = getCurrentApplicant()
+        } else applicantsBankDetailList!!.add(selectedTabPosition, getCurrentApplicant())
+    }
+
+    private fun getParticularApplicantData(position: Int) {
+        currentApplicant = if (position >= applicantsBankDetailList!!.size) {
+            BankDetailModel()
+        } else applicantsBankDetailList!![position]
+        currentApplicant.isMainApplicant = selectedApplicant?.isMainApplicant!!
+        currentApplicant.leadApplicantNumber = selectedApplicant?.leadApplicantNumber
+        bankDetailBeanList = currentApplicant.applicantBankDetailsBeanList
+        if (bankDetailBeanList != null || bankDetailBeanList!!.size > 0) {
+            bankAdapter.notifyDataSetChanged()
+        }
+        applicantAdapter!!.notifyDataSetChanged()
+    }
+
+
+    private fun updateCurrentBean(bankDetail: BankDetailBean) {
+        bankDetailBeanList!!.add(selectedTabPosition, bankDetail)
+        bankAdapter.notifyDataSetChanged()
+//        ClearBankForm(binding, mContext, allMasterDropDown, bankName, accountType)
+//        binding.btnAddBankDetail.visibility = View.VISIBLE
+//        binding.btnUpdate.visibility = View.GONE
+    }
+
+    private fun saveCurrentBean(bankDetail: BankDetailBean) {
+//        bankDetailBeanList?.add(getCurrentBean())
+        bankDetailBeanList?.add(bankDetail)
+        bankAdapter.notifyDataSetChanged()
+    }
+
 
     private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown) {
         setCustomSpinner(allMasterDropDown)
@@ -304,21 +362,18 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 
     private fun getCurrentApplicant(): BankDetailModel {
         val currentApplicant = BankDetailModel()
-        currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1, mLead!!.leadNumber!!)
-        currentApplicant.isMainApplicant = currentPosition == 0
-        currentApplicant.applicantBankDetailsBean = bankDetailBeanList!!
+        currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(selectedTabPosition + 1, mLead!!.leadNumber!!)
+        currentApplicant.isMainApplicant = selectedTabPosition == 0
+        currentApplicant.applicantBankDetailsBeanList = bankDetailBeanList!!
         return currentApplicant
     }
 
     private fun getBankDetailMaster(): BankDetailMaster {
-        bDraftData.applicantDetails = bApplicantsList
-        bankDetailMaster.draftData = bDraftData
+        bankDetailDraft.applicantBankDetails = applicantsBankDetailList
+        bankDetailMaster.draftData = bankDetailDraft
         bankDetailMaster.leadID = leadId.toInt()
         return bankDetailMaster
     }
-
-    override val loanAppRequestPost: LoanApplicationRequest
-        get() = requestConversion.bankRequest(getBankDetailMaster())
 
     override fun getLoanAppPostFailure(msg: String) {
         saveDataToDB(getBankDetailMaster())
@@ -339,9 +394,12 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
     override fun onBankDetailDeleteClicked(position: Int) = showAlertDialog(position)
 
     override fun onBankDetailEditClicked(position: Int, bank: BankDetailBean) {
-        fillFormWithCurrentBean(bank)
-        binding.btnAddBankDetail.visibility = View.GONE
-        binding.btnUpdate.visibility = View.VISIBLE
+//        fillFormWithCurrentBean(bank)
+//        binding.btnAddBankDetail.visibility = View.GONE
+//        binding.btnUpdate.visibility = View.VISIBLE
+        showBankDetailFormDialog(
+                if (mLead?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) BankDetailDialogFragment.Action.SUBMITTED
+                else BankDetailDialogFragment.Action.EDIT, bank)
     }
 
     private fun fillFormWithCurrentBean(bank: BankDetailBean) {
@@ -361,6 +419,10 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         }
     }
 
+    private fun showBankDetailFormDialog(action: BankDetailDialogFragment.Action, bankDetail: BankDetailBean? = null) {
+        BankDetailDialogFragment.newInstance(action, this@BankDetailFragment, allMasterDropDown, bankDetail).show(fragmentManager, "Bank Detail")
+    }
+
     private fun showAlertDialog(position: Int) {
         val deleteDialogView = LayoutInflater.from(activity).inflate(R.layout.delete_dialog, null)
         val mBuilder = AlertDialog.Builder(mContext)
@@ -378,4 +440,16 @@ class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         bankDetailBeanList!!.removeAt(position)
         binding.rcBank.adapter!!.notifyItemRemoved(position)
     }
+
+    override fun onSaveBankDetail(bankDetail: BankDetailBean) {
+        saveCurrentBean(bankDetail)
+    }
+
+    override fun onEditBankDetail(bankDetail: BankDetailBean) {
+        updateCurrentBean(bankDetail)
+    }
+
+    override fun onDeleteBankDetail() {
+    }
+
 }

@@ -599,6 +599,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         applicantAdapter!!.notifyDataSetChanged()
     }
 
+
     private fun getParticularApplicantData(position: Int, coApplicant: CoApplicantsList) {
         currentApplicant = personalApplicantsList!![position]
         currentApplicant!!.isMainApplicant = coApplicant.isMainApplicant
