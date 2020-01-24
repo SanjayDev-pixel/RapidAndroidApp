@@ -61,9 +61,7 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
         selectedPosition = position - 1
     }
 
-    inner class ApplicantsViewHolder(val binding: ItemApplicantBinding,
-                                     val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
-
+    inner class ApplicantsViewHolder(val binding: ItemApplicantBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int, coApplicant: CoApplicantsList) {
             binding.tvApplicants.text = coApplicant.firstName
             binding.tvApplicants.setOnClickListener { onClickItem(position, coApplicant) }

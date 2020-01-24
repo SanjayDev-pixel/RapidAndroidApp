@@ -25,9 +25,27 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
         mOnBankDetailClickListener = listener
     }
 
-    interface BankDetailClickListener {
-        fun onBankDetailDeleteClicked(position: Int)
-        fun onBankDetailEditClicked(position: Int, bank: BankDetailBean)
+    fun addItem(position: Int = 0, bankDetail: BankDetailBean) {
+        bankDetails?.let {
+            it.add(position, bankDetail)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun updateItem(position: Int, bankDetail: BankDetailBean) {
+        bankDetails?.let {
+            if (position >= 0 && position <= it.size) {
+                it[position] = bankDetail
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun deleteItem(position: Int) {
+        bankDetails?.let {
+            bankDetails.removeAt(position)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onBindViewHolder(holder: BankDetailViewHolder, position: Int) {
@@ -53,5 +71,10 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
                 mOnBankDetailClickListener!!.onBankDetailEditClicked(position, bank)
             }
         }
+    }
+
+    interface BankDetailClickListener {
+        fun onBankDetailDeleteClicked(position: Int)
+        fun onBankDetailEditClicked(position: Int, bank: BankDetailBean)
     }
 }

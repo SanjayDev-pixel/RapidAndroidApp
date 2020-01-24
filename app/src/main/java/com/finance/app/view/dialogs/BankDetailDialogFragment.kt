@@ -147,13 +147,13 @@ class BankDetailDialogFragment : DialogFragment() {
         bankDetails.accountNumber = binding.etAccountNum.text.toString()
         bankDetails.numberOfCredit = binding.etSalaryCreditedInSixMonths.text.toString()
         bankDetails.salaryCreditTypeDetailID = salaryCredit?.typeDetailID
+
         return bankDetails
     }
 
     interface OnBankDetailDialogCallback {
         fun onSaveBankDetail(bankDetail: BankDetailBean)
         fun onEditBankDetail(bankDetail: BankDetailBean)
-        fun onDeleteBankDetail()
     }
 
 }
