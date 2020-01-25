@@ -44,23 +44,26 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
     private val presenter = Presenter()
 
     val isAllApiCallCompleted = MutableLiveData<Boolean>()
-    private val isLeadSync_LoanInfo = MutableLiveData<Boolean>()
-    private val isLeadSync_PersonalInfo = MutableLiveData<Boolean>()
-    private val isLeadSync_Employment = MutableLiveData<Boolean>()
-    private val isLeadSync_BankDetail = MutableLiveData<Boolean>()
-    private val isLeadSync_LiabilityAndAssets = MutableLiveData<Boolean>()
-    private val isLeadSync_Property = MutableLiveData<Boolean>()
-    private val isLeadSync_Reference = MutableLiveData<Boolean>()
-    private val isLeadSync_DocumentChecklist = MutableLiveData<Boolean>()
+    private val isLeadSyncLoanInfo = MutableLiveData<Boolean>()
+    private val isLeadSyncPersonalInfo = MutableLiveData<Boolean>()
+    private val isLeadSyncEmployment = MutableLiveData<Boolean>()
+    private val isLeadSyncBankDetail = MutableLiveData<Boolean>()
+    private val isLeadSyncLiabilityAndAssets = MutableLiveData<Boolean>()
+    private val isLeadSyncProperty = MutableLiveData<Boolean>()
+    private val isLeadSyncReference = MutableLiveData<Boolean>()
+    private val isLeadSyncDocumentChecklist = MutableLiveData<Boolean>()
 
     private var leadData: AllLeadMaster? = null
 
-    private val listOfToSyncData = listOf(isLeadSync_LoanInfo, isLeadSync_PersonalInfo, isLeadSync_Employment,
-            isLeadSync_BankDetail, isLeadSync_LiabilityAndAssets, isLeadSync_Property, isLeadSync_Reference, isLeadSync_DocumentChecklist)
+    private val listOfToSyncData = listOf(isLeadSyncLoanInfo,
+            isLeadSyncPersonalInfo, isLeadSyncEmployment, isLeadSyncBankDetail,
+            isLeadSyncLiabilityAndAssets, isLeadSyncDocumentChecklist)
+
+//    isLeadSyncProperty,
+//    isLeadSyncReference,
 
     init {
         ArchitectureApp.instance.component.inject(this)
-
         checkIfAppConfiguredSuccessfully()
         setObservers()
     }
@@ -75,7 +78,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
             }
         }
 
-        listOfToSyncData?.forEach {
+        listOfToSyncData.forEach {
             it.observeForever { checkIfAppConfiguredSuccessfully() }
         }
     }
@@ -106,20 +109,21 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.EMPLOYMENT))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.BANKDETAIL))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.LIABILITYASSET))
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.PROPERTY))
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.REFERENCE))
+//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.PROPERTY))
+//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.REFERENCE))
 
     }
 
     private fun saveLead(leadData: AllLeadMaster?) {
         leadData?.let {
             GlobalScope.launch {
-                dataBase.provideDataBaseSource().allLeadsDao().insertLead(leadData!!)
+                dataBase.provideDataBaseSource().allLeadsDao().insertLead(leadData)
             }
         }
     }
 
-    inner class CallGetLoan(private val leadData: AllLeadMaster, private val leadId: String, private val form: AppEnums.FormType) : ViewGeneric<ArrayList<String>?,
+    inner class CallGetLoan(private val leadData: AllLeadMaster, private val leadId: String,
+                            private val form: AppEnums.FormType) : ViewGeneric<ArrayList<String>?,
             Response.ResponseGetLoanApplication>(context = activity) {
         override val apiRequest: ArrayList<String>?
             get() = arrayListOf(leadId, form.type)
@@ -137,38 +141,38 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
             val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form, response = responseObj)
             when (form) {
                 AppEnums.FormType.LOANINFO -> {
-                    setObservableValue(isLeadSync_LoanInfo, true)
+                    setObservableValue(isLeadSyncLoanInfo, true)
                     leadData.loanData = apiResponseObject as LoanInfoModel
                 }
                 AppEnums.FormType.PERSONALINFO -> {
-                    setObservableValue(isLeadSync_PersonalInfo, true)
+                    setObservableValue(isLeadSyncPersonalInfo, true)
                     leadData.personalData = apiResponseObject as PersonalApplicantList
                 }
                 AppEnums.FormType.EMPLOYMENT -> {
-                    setObservableValue(isLeadSync_Employment, true)
+                    setObservableValue(isLeadSyncEmployment, true)
                     leadData.employmentData = apiResponseObject as EmploymentApplicantList
                 }
                 AppEnums.FormType.BANKDETAIL -> {
-                    setObservableValue(isLeadSync_BankDetail, true)
+                    setObservableValue(isLeadSyncBankDetail, true)
                     leadData.bankData = apiResponseObject as BankDetailList
                 }
                 AppEnums.FormType.LIABILITYASSET -> {
-                    setObservableValue(isLeadSync_LiabilityAndAssets, true)
+                    setObservableValue(isLeadSyncLiabilityAndAssets, true)
                     leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList
                 }
                 AppEnums.FormType.PROPERTY -> {
-                    setObservableValue(isLeadSync_Property, true)
+                    setObservableValue(isLeadSyncProperty, true)
                     leadData.propertyData = apiResponseObject as PropertyModel
                 }
                 AppEnums.FormType.REFERENCE -> {
-                    setObservableValue(isLeadSync_Reference, true)
+                    setObservableValue(isLeadSyncReference, true)
                     leadData.referenceData = apiResponseObject as ReferencesList
                 }
             }
         }
 
-        private fun setObservableValue(observaleSync: MutableLiveData<Boolean>, isSync: Boolean) {
-            observaleSync.value = isSync
+        private fun setObservableValue(observableSync: MutableLiveData<Boolean>, isSync: Boolean) {
+            observableSync.value = isSync
         }
     }
 }

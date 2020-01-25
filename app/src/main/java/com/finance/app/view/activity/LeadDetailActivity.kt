@@ -69,7 +69,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private fun getLead() {
         bundle = intent.extras
         bundle?.let {
-            var leadBundleData = bundle?.getSerializable(KEY_LEAD)
+            val leadBundleData = bundle?.getSerializable(KEY_LEAD)
 
             leadBundleData?.let {
                 lead = leadBundleData as AllLeadMaster
@@ -84,9 +84,9 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun fillDataOnScreen(lead: AllLeadMaster) {
         binding.tvLeadName
-        binding.tvEmail.text = lead?.applicantEmail
-        val leadName = lead?.applicantFirstName + " " + lead?.applicantLastName
-        setLeadNum(lead?.leadNumber!!)
+        binding.tvEmail.text = lead.applicantEmail
+        val leadName = lead.applicantFirstName + " " + lead.applicantLastName
+        setLeadNum(lead.leadNumber!!)
         binding.tvLeadName.text = leadName
         binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLocation.text = lead.applicantAddress
