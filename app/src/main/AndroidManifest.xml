@@ -82,6 +82,7 @@
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.SyncActivity" />
+        <activity android:name=".view.activity.TempActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
