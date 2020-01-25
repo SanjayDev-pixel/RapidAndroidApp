@@ -93,7 +93,7 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
 
     private fun setCoApplicants() {
         dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
-            coApplicantsMaster.let {
+            coApplicantsMaster?.let {
                 if (coApplicantsMaster.coApplicantsList!!.isEmpty()) {
                     applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, mLead!!.leadNumber!!))
                 } else {

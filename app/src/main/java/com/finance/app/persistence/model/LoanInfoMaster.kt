@@ -15,7 +15,4 @@ class LoanInfoMaster : Serializable {
     var storageType: String = AppEnums.FormType.LOANINFO.type
     var editable: Boolean? = false
 
-    override fun toString(): String {
-        return super.toString()
-    }
 }

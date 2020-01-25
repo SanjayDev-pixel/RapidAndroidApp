@@ -9,6 +9,7 @@ import com.finance.app.view.adapters.recycler.adapter.LeadPagerAdapter
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.viewModel.SyncDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
+import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -23,7 +24,7 @@ class AllLeadActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var dataBase: DataBaseUtil
     private var pagerAdapter: LeadPagerAdapter? = null
-    private val syncDataViewModel: SyncDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
+    private val syncDataViewModel: SyncDataViewModel by viewModelProvider(this, ViewModelType.WITH_DAO)
 
     companion object {
         fun start(context: Context) {

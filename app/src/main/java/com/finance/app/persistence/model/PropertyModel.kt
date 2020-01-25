@@ -1,6 +1,8 @@
 package com.finance.app.persistence.model
 
-class PropertyModel {
+import java.io.Serializable
+
+class PropertyModel:Serializable {
     var leadID: Int? = null
     var applicantContactNumber: String? = ""
     var branchID: String? = null

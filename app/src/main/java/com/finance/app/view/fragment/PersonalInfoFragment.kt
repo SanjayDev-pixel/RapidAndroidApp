@@ -518,7 +518,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
 
     private fun setCoApplicants() {
         dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
-            coApplicantsMaster.let {
+            coApplicantsMaster?.let {
                 val list = coApplicantsMaster.coApplicantsList
                 if (list.isNullOrEmpty()) {
                     applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, leadNumber))

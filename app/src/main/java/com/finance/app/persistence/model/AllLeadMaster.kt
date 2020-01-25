@@ -35,4 +35,13 @@ class AllLeadMaster : Serializable {
     var loanProductName: String? = ""
     var remarks: String? = ""
     var status: String? = ""
+    var personalData: ArrayList<PersonalApplicantsModel>? = ArrayList()
+    var loanData: LoanInfoModel? = null
+    var employmentData: ArrayList<EmploymentApplicantsModel>? = ArrayList()
+    var bankData: ArrayList<BankDetailModel>? = ArrayList()
+    var assetLiabilityData: ArrayList<AssetLiabilityModel>? = ArrayList()
+    var propertyData: PropertyModel? = PropertyModel()
+    var referenceData: ArrayList<ReferenceModel>? = ArrayList()
+
+
 }

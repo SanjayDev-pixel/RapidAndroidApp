@@ -35,4 +35,12 @@ class AppDataViewModel(activity: FragmentActivity, private val masterDB: MasterD
         return masterDB.loanProductDao().getAllLoanProduct()
     }
 
+    fun getCoapplicantsList(leadId: Int): LiveData<CoApplicantsMaster?> {
+        return masterDB.coApplicantsDao().getCoApplicants(leadId)
+    }
+
+    fun getLeadData(leadId: Int): LiveData<AllLeadMaster?> {
+        return masterDB.allLeadsDao().getLead(leadId)
+    }
+
 }

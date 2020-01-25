@@ -9,7 +9,6 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
 import com.finance.app.viewModel.LeadDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
@@ -92,7 +91,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
 
         binding.llLeadDetail.setOnClickListener {
-            LoanApplicationActivity.start(this)
+            LoanApplicationActivity.start(this, lead.leadID)
         }
 
         binding.ivCall.setOnClickListener {

@@ -63,6 +63,8 @@ interface ApplicationComponent {
     fun inject(fragment: EmploymentInfoFragment)
     fun inject(fragment: AssetLiabilityFragment)
     fun inject(fragment: ReferenceFragment)
+    fun inject(fragment: PersonalFormFragment)
+    fun inject(fragment: PersonalMainFragment)
     fun inject(fragment: DocumentCheckListFragment)
     fun inject(fragment: PropertyFragment)
     fun inject(fragment: LeadsListingFragment)

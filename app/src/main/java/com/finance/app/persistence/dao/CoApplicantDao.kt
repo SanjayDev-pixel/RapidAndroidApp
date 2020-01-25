@@ -15,7 +15,7 @@ interface CoApplicantDao {
     fun insertCoApplicants(applicants: CoApplicantsMaster)
 
     @Query("SELECT * FROM CoApplicantsMaster WHERE leadID=:leadID ")
-    fun getCoApplicants(leadID: Int): LiveData<CoApplicantsMaster>
+    fun getCoApplicants(leadID: Int): LiveData<CoApplicantsMaster?>
 
     @Query("DELETE FROM CoApplicantsMaster")
     fun deletePropertyMaster()

@@ -56,7 +56,7 @@ class LeadsListingFragment : BaseFragment() {
     }
 
     private fun setUpRecyclerView(appDataViewModel: AppDataViewModel, leadStatusEnum: AppEnums.LEAD_TYPE) {
-        binding.rcPendingLeads.layoutManager = LinearLayoutManager(this.activity)
-        binding.rcPendingLeads.adapter = LeadListingAdapter(this.requireActivity(), appDataViewModel, leadStatusEnum)
+        binding.rcLeads.layoutManager = LinearLayoutManager(this.activity)
+        binding.rcLeads.adapter = LeadListingAdapter(this.requireActivity(), appDataViewModel, leadStatusEnum)
     }
 }

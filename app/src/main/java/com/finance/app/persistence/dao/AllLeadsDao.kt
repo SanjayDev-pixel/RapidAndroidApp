@@ -13,6 +13,9 @@ interface AllLeadsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLeadsList(product: ArrayList<AllLeadMaster>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertLead(product: AllLeadMaster)
+
     @Query("SELECT * FROM AllLeadMaster")
     fun getAllLeads(): LiveData<List<AllLeadMaster>?>
 

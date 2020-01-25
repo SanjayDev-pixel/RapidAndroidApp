@@ -99,8 +99,8 @@ class LoanInfoFragment : BaseFragment() {
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
         mLead = sharedPreferences.getLeadDetail()
         mLead?.let {
-            getLoanInfo(mLead?.leadID.toString())
             getDropDownsFromDB()
+            getLoanInfo(mLead?.leadID.toString())
             SetLoanInfoMandatoryField(binding)
             setClickListeners()
         }

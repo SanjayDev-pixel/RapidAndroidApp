@@ -17,6 +17,7 @@ package com.finance.app.viewModel
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
@@ -50,6 +51,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
     private var assetLiabilityMaster = AssetLiabilityMaster()
     private var propertyMaster = PropertyMaster()
     private var referenceMaster = ReferenceMaster()
+    private var lead: AllLeadMaster? = null
 
     init {
         ArchitectureApp.instance.component.inject(this)
@@ -84,15 +86,25 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         presenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT, dmiConnector = LoanProductsDropdown())
         presenter.callNetwork(ConstantsApi.CALL_ALL_STATES, dmiConnector = AllStatesList())
         presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList(leadId))
-        getLoanApplicationData(leadId)
+        getLeadFromDB(leadId)
+
+    }
+
+    private fun getLeadFromDB(leadId: String) {
+        dataBase.provideDataBaseSource().allLeadsDao().getLead(leadId.toInt()).observe(activity, Observer {
+            lead = it
+            lead?.let {
+                getLoanApplicationData(leadId)
+            }
+        })
     }
 
     private fun getLoanApplicationData(leadId: String) {
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, loanMaster.storageType))
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, personalInfoMaster.storageType))
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, bankDetailMaster.storageType))
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, employmentMaster.storageType))
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, assetLiabilityMaster.storageType))
+//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, loanMaster.storageType))
+//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, personalInfoMaster.storageType))
+//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, bankDetailMaster.storageType))
+//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, employmentMaster.storageType))
+//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, assetLiabilityMaster.storageType))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, propertyMaster.storageType))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, referenceMaster.storageType))
     }
@@ -155,74 +167,65 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    saveDataToDB(value.responseObj)
+                    saveDataToLead(value.responseObj)
                     counter++
+                }
+                if (counter >= 4) {
+                    saveLead()
                 }
             }
         }
 
-        private fun saveDataToDB(responseObj: Response.LoanApplicationGetObj) {
+        private fun saveDataToLead(responseObj: Response.LoanApplicationGetObj) {
             when (form) {
-                AppEnums.FormType.LOANINFO.type -> saveLoanInfo(responseObj)
-                AppEnums.FormType.PERSONALINFO.type -> savePersonalInfo(responseObj)
-                AppEnums.FormType.EMPLOYMENT.type -> saveEmploymentInfo(responseObj)
-                AppEnums.FormType.BANKDETAIL.type -> saveBankInfo(responseObj)
-                AppEnums.FormType.LIABILITYASSET.type -> saveAssetLiabilityInfo(responseObj)
-                AppEnums.FormType.PROPERTY.type -> savePropertyInfo(responseObj)
-                AppEnums.FormType.REFERENCE.type -> saveReferenceInfo(responseObj)
+                AppEnums.FormType.LOANINFO.type -> saveLoanData(responseObj)
+                AppEnums.FormType.PERSONALINFO.type -> savePersonalData(responseObj)
+                AppEnums.FormType.EMPLOYMENT.type -> saveEmploymentData(responseObj)
+                AppEnums.FormType.BANKDETAIL.type -> saveBankData(responseObj)
+                AppEnums.FormType.LIABILITYASSET.type -> saveAssetLiabilityData(responseObj)
+                AppEnums.FormType.PROPERTY.type -> savePropertyData(responseObj)
+                AppEnums.FormType.REFERENCE.type -> saveReferenceData(responseObj)
             }
         }
 
-        private fun saveLoanInfo(responseObj: Response.LoanApplicationGetObj) {
+        private fun saveLoanData(responseObj: Response.LoanApplicationGetObj) {
             loanMaster = ResponseConversion().toLoanMaster(responseObj)
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().loanInfoDao().insertLoanInfo(loanMaster)
-            }
+            lead!!.loanData = loanMaster.draftData
         }
 
-        private fun savePersonalInfo(responseObj: Response.LoanApplicationGetObj) {
+        private fun savePersonalData(responseObj: Response.LoanApplicationGetObj) {
             personalInfoMaster = ResponseConversion().toPersonalMaster(responseObj)
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().personalInfoDao().insertPersonalInfo(personalInfoMaster)
-            }
+            lead!!.personalData = personalInfoMaster.draftData.applicantDetails
         }
 
-        private fun saveEmploymentInfo(responseObj: Response.LoanApplicationGetObj) {
+        private fun saveEmploymentData(responseObj: Response.LoanApplicationGetObj) {
             employmentMaster = ResponseConversion().toEmploymentMaster(responseObj)
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().employmentDao().insertEmployment(employmentMaster)
-
-            }
+            lead!!.employmentData = employmentMaster.draftData.applicantDetails
         }
 
-        private fun saveBankInfo(responseObj: Response.LoanApplicationGetObj) {
+        private fun saveBankData(responseObj: Response.LoanApplicationGetObj) {
             bankDetailMaster = ResponseConversion().toBankDetailMaster(responseObj)
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().bankDetailDao().insertBankDetail(bankDetailMaster)
-            }
+            lead!!.bankData = bankDetailMaster.draftData?.applicantDetails
         }
 
-        private fun saveAssetLiabilityInfo(responseObj: Response.LoanApplicationGetObj) {
+        private fun saveAssetLiabilityData(responseObj: Response.LoanApplicationGetObj) {
             assetLiabilityMaster = ResponseConversion().toAssetLiabilityMaster(responseObj)
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().assetLiabilityDao().insertAssetLiability(assetLiabilityMaster)
-
-            }
+            lead!!.assetLiabilityData = assetLiabilityMaster.draftData?.applicantDetails
         }
 
-        private fun savePropertyInfo(responseObj: Response.LoanApplicationGetObj) {
+        private fun savePropertyData(responseObj: Response.LoanApplicationGetObj) {
             propertyMaster = ResponseConversion().toPropertyMaster(responseObj)
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().propertyDao().insertProperty(propertyMaster)
-
-            }
+            lead!!.propertyData = propertyMaster.draftData
         }
 
-        private fun saveReferenceInfo(responseObj: Response.LoanApplicationGetObj) {
+        private fun saveReferenceData(responseObj: Response.LoanApplicationGetObj) {
             referenceMaster = ResponseConversion().toReferenceMaster(responseObj)
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().referenceDao().insertReference(referenceMaster)
+            lead!!.referenceData = referenceMaster.draftData.referenceDetails
+        }
 
+        private fun saveLead() {
+            GlobalScope.launch {
+                dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead!!)
             }
         }
     }

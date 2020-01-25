@@ -163,8 +163,10 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     }
   }
 
-  fun setLeadNum(leadNum: String) {
-    bindingParent.appBarWithLayout.tvLeadNumber.text = leadNum
+  fun setLeadNum(leadNum: String?) {
+    leadNum?.let {
+      bindingParent.appBarWithLayout.tvLeadNumber.text = leadNum
+    }
   }
 
   private fun setUpHeaderView() {
