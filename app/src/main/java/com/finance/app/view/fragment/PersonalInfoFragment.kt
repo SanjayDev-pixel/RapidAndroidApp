@@ -43,9 +43,6 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
-class PersonalInfoFragment {
-
-}
 
 /*
 

@@ -35,5 +35,6 @@ class Constants {
 
     companion object APP {
         const val SUCCESS = "200"
+        const val DIRECT = 53
     }
 }

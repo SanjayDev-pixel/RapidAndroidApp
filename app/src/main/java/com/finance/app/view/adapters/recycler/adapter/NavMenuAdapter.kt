@@ -11,8 +11,7 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.view.adapters.recycler.holder.NavDrawerViewHolder
-import com.finance.app.view.fragment.*
-import com.finance.app.view.fragment.LeadInfoFragments.*
+import com.finance.app.view.fragment.loanApplicationFragments.*
 import java.lang.Exception
 
 interface NavMenuConnector {

@@ -4,6 +4,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import com.finance.app.persistence.db.MasterDB
 import com.finance.app.persistence.model.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class AppDataViewModel(activity: FragmentActivity, private val masterDB: MasterDB) : BaseViewModel(activity, masterDB) {
 
@@ -35,4 +37,9 @@ class AppDataViewModel(activity: FragmentActivity, private val masterDB: MasterD
         return masterDB.allLeadsDao().getLead(leadId)
     }
 
+    fun saveLead(lead: AllLeadMaster) {
+        GlobalScope.launch {
+            masterDB.allLeadsDao().insertLead(lead)
+        }
+    }
 }

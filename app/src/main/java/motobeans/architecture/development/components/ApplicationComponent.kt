@@ -7,10 +7,13 @@ import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.recycler.holder.TempHolder
+import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomPersonalInfoView
 import com.finance.app.view.customViews.CustomZipAddressView
-import com.finance.app.view.fragment.*
-import com.finance.app.view.fragment.LeadInfoFragments.*
+import com.finance.app.view.fragment.LeadsListingFragment
+import com.finance.app.view.fragment.NavMenuFragment
+import com.finance.app.view.fragment.PersonalFormFragment
+import com.finance.app.view.fragment.loanApplicationFragments.*
 import com.finance.app.viewModel.AppDataViewModel
 import com.finance.app.viewModel.LeadDataViewModel
 import com.finance.app.viewModel.SyncDataViewModel
@@ -119,5 +122,6 @@ interface ApplicationComponent {
     fun inject(other: LeadAndLoanDetail)
     fun inject(other: CustomPersonalInfoView)
     fun inject(other: CustomZipAddressView)
+    fun inject(other: CustomChannelPartnerView)
     fun inject(presenter: Presenter1)
 }

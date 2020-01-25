@@ -1,11 +1,11 @@
-package com.finance.app.view.fragment.LeadInfoFragments
+package com.finance.app.view.fragment.loanApplicationFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.R
-import com.finance.app.databinding.FragmentAssetLiablityBinding
+import com.finance.app.databinding.FragmentEmploymentBinding
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -15,11 +15,11 @@ import javax.inject.Inject
 /**
  * Created by motobeans on 2/16/2018.
  */
-class AssetLiabilityFragmentNew : BaseFragment(){
+class EmploymentInfoFragmentNew : BaseFragment(){
 
     companion object {
-        fun newInstance(): AssetLiabilityFragmentNew {
-            val fragment = AssetLiabilityFragmentNew()
+        fun newInstance(): EmploymentInfoFragmentNew {
+            val fragment = EmploymentInfoFragmentNew()
             return fragment
         }
     }
@@ -27,7 +27,7 @@ class AssetLiabilityFragmentNew : BaseFragment(){
     @Inject
     lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
-    private lateinit var binding: FragmentAssetLiablityBinding
+    private lateinit var binding: FragmentEmploymentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class AssetLiabilityFragmentNew : BaseFragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = initBinding(inflater, container, R.layout.fragment_asset_liablity)
+        binding = initBinding(inflater, container, R.layout.fragment_employment)
         binding.setLifecycleOwner(this)
         init()
         return view

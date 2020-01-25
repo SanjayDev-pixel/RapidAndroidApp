@@ -1,14 +1,11 @@
-package com.finance.app.view.fragment.LeadInfoFragments
+package com.finance.app.view.fragment.loanApplicationFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.R
-import com.finance.app.databinding.FragmentAssetLiablityBinding
-import com.finance.app.databinding.FragmentLoanInformationBinding
 import com.finance.app.databinding.FragmentPropertyInfoBinding
-import com.finance.app.databinding.FragmentReferenceBinding
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil

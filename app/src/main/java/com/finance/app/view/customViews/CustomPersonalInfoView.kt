@@ -42,7 +42,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun initializeViews(rootView: View) {
-
         binding.basicInfoLayout.etFirstName.setText("Vish")
         spinnerCurrentCity = rootView.findViewById(R.id.spinnerCurrentCity)
         proceedFurther()

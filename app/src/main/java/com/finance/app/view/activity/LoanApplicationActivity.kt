@@ -9,9 +9,8 @@ import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.view.fragment.LeadInfoFragments.LoanInfoFragmentNew
-import com.finance.app.view.fragment.LoanInfoFragment
 import com.finance.app.view.fragment.NavMenuFragment
+import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
 import com.finance.app.viewModel.AppDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.appDelegates.viewModelProvider
@@ -31,7 +30,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferencesUtil
     private lateinit var navFragment: NavMenuFragment
     private lateinit var secondaryFragment: Fragment
-    private var bundle: Bundle? = null
 
     companion object {
         var leadMaster: AllLeadMaster? = null
@@ -39,7 +37,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         fun start(context: Context, leadId: Int?) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
             val bundle = Bundle()
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             bundle.putInt(KEY_LEAD_ID, leadId!!)
             intent.putExtras(bundle)
             context.startActivity(intent)
@@ -48,19 +45,23 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-        binding.collapseImageView.setOnClickListener {
-            navFragment.toggleMenu()
-        }
         getLeadId()
         setNavFragment()
+        setClickListeners()
         secondaryFragment = LoanInfoFragmentNew.newInstance()
         setSecondaryFragment(secondaryFragment)
     }
 
+    private fun setClickListeners() {
+        binding.collapseImageView.setOnClickListener {
+            navFragment.toggleMenu()
+        }
+    }
+
     private fun getLeadId() {
-        bundle = intent.extras
+        val bundle = intent.extras
         bundle?.let {
-            val leadId = bundle!!.getInt(KEY_LEAD_ID)
+            val leadId = bundle.getInt(KEY_LEAD_ID)
             getLeadFromDB(leadId)
         }
     }
@@ -72,6 +73,10 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
                 setLeadNum(LeadMaster.leadNumber)
             }
         })
+    }
+
+    fun getLead(): AllLeadMaster? {
+        return leadMaster
     }
 
     private fun setNavFragment() {
