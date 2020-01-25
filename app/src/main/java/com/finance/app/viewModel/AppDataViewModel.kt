@@ -23,14 +23,6 @@ class AppDataViewModel(activity: FragmentActivity, private val masterDB: MasterD
         return masterDB.allMasterDropDownDao().getMasterDropdownValue()
     }
 
-    fun getLoanInfo(leadId: String): LiveData<LoanInfoMaster?> {
-        return masterDB.loanInfoDao().getLoanInfo(leadId)
-    }
-
-    fun getPersonalInfo(leadId: String): LiveData<PersonalInfoMaster?> {
-        return masterDB.personalInfoDao().getPersonalInfo(leadId)
-    }
-
     fun getLoanProductMaster(): LiveData<List<LoanProductMaster>?> {
         return masterDB.loanProductDao().getAllLoanProduct()
     }

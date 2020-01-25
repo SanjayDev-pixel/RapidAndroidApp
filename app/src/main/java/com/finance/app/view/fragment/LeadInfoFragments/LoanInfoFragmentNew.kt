@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetLiablityBinding
+import com.finance.app.databinding.FragmentLoanInformationBinding
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -27,7 +28,7 @@ class LoanInfoFragmentNew : BaseFragment(){
     @Inject
     lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
-    private lateinit var binding: FragmentAssetLiablityBinding
+    private lateinit var binding: FragmentLoanInformationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class LoanInfoFragmentNew : BaseFragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = initBinding(inflater, container, R.layout.fragment_asset_liablity)
+        binding = initBinding(inflater, container, R.layout.fragment_loan_information)
         binding.setLifecycleOwner(this)
         init()
         return view

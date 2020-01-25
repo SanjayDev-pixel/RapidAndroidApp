@@ -12,6 +12,7 @@ import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.view.adapters.recycler.holder.NavDrawerViewHolder
 import com.finance.app.view.fragment.*
+import com.finance.app.view.fragment.LeadInfoFragments.*
 import java.lang.Exception
 
 interface NavMenuConnector {
@@ -88,17 +89,19 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
     }
 
     private fun navigateToAnotherFragmentOnIconCLick(navData: AppEnums.ScreenLoanApp) {
-        when (navData) {
-            AppEnums.ScreenLoanApp.LOAN_INFORMATION -> updateSecondaryFragment(LoanInfoFragment())
-            AppEnums.ScreenLoanApp.PERSONAL -> updateSecondaryFragment(PersonalMainFragment())
-            AppEnums.ScreenLoanApp.EMPLOYMENT -> updateSecondaryFragment(EmploymentInfoFragment())
-            AppEnums.ScreenLoanApp.BANK_DETAIL -> updateSecondaryFragment(BankDetailFragment())
-            AppEnums.ScreenLoanApp.LIABILITY_AND_ASSET -> updateSecondaryFragment(AssetLiabilityFragment())
-            AppEnums.ScreenLoanApp.REFERENCE -> updateSecondaryFragment(ReferenceFragment())
-            AppEnums.ScreenLoanApp.PROPERTY -> updateSecondaryFragment(PropertyFragment())
-            AppEnums.ScreenLoanApp.DOCUMENT_CHECKLIST -> updateSecondaryFragment(DocumentCheckListFragment())
+        val fragment = when (navData) {
+            AppEnums.ScreenLoanApp.LOAN_INFORMATION -> LoanInfoFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.PERSONAL -> PersonalMainFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.EMPLOYMENT -> EmploymentInfoFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.BANK_DETAIL -> BankDetailFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.LIABILITY_AND_ASSET -> AssetLiabilityFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.REFERENCE -> ReferenceFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.PROPERTY -> PropertyFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.DOCUMENT_CHECKLIST -> DocumentCheckListFragmentNew.newInstance()
             else -> return
         }
+
+        updateSecondaryFragment(fragment = fragment)
     }
 
     private fun updateSecondaryFragment(fragment: Fragment) {

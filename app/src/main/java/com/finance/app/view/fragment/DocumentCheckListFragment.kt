@@ -25,6 +25,11 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
+class DocumentCheckListFragment {
+
+}
+/*
+
 class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener {
 
     @Inject
@@ -116,4 +121,4 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
             showToast(value.responseMsg)
         }
     }
-}
+}*/

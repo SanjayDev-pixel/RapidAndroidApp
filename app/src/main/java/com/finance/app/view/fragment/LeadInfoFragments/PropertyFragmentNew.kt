@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetLiablityBinding
 import com.finance.app.databinding.FragmentLoanInformationBinding
+import com.finance.app.databinding.FragmentPropertyInfoBinding
 import com.finance.app.databinding.FragmentReferenceBinding
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
@@ -17,11 +18,11 @@ import javax.inject.Inject
 /**
  * Created by motobeans on 2/16/2018.
  */
-class ReferenceFragmentNew : BaseFragment(){
+class PropertyFragmentNew : BaseFragment(){
 
     companion object {
-        fun newInstance(): ReferenceFragmentNew {
-            val fragment = ReferenceFragmentNew()
+        fun newInstance(): PropertyFragmentNew {
+            val fragment = PropertyFragmentNew()
             return fragment
         }
     }
@@ -29,7 +30,7 @@ class ReferenceFragmentNew : BaseFragment(){
     @Inject
     lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
-    private lateinit var binding: FragmentReferenceBinding
+    private lateinit var binding: FragmentPropertyInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class ReferenceFragmentNew : BaseFragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = initBinding(inflater, container, R.layout.fragment_reference)
+        binding = initBinding(inflater, container, R.layout.fragment_property_info)
         binding.setLifecycleOwner(this)
         init()
         return view

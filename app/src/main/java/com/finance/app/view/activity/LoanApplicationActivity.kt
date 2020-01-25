@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.view.fragment.LeadInfoFragments.LoanInfoFragmentNew
 import com.finance.app.view.fragment.LoanInfoFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.viewModel.AppDataViewModel
@@ -52,7 +53,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         }
         getLeadId()
         setNavFragment()
-        secondaryFragment = LoanInfoFragment.newInstance()
+        secondaryFragment = LoanInfoFragmentNew.newInstance()
         setSecondaryFragment(secondaryFragment)
     }
 

@@ -34,7 +34,7 @@ class PersonalMainFragment : BaseFragment() {
     }
 
     override fun init() {
-        ArchitectureApp.instance.component.inject(this)
+        //ArchitectureApp.instance.component.inject(this)
         val leadData = leadMaster
         leadData?.let {
             getCoApplicantsList(leadData)
@@ -43,9 +43,9 @@ class PersonalMainFragment : BaseFragment() {
 
     private fun getCoApplicantsList(lead: AllLeadMaster) {
         val personalApplicants = lead.personalData
-        if (personalApplicants.isNullOrEmpty())
+        if ((personalApplicants?.applicantDetails ?: ArrayList()).isNullOrEmpty())
             coApplicantsList.add(LeadAndLoanDetail().getApplicant(lead.leadNumber))
-        else coApplicantsList.addAll(personalApplicants)
+        else coApplicantsList.addAll(personalApplicants!!.applicantDetails!!)
         setCoApplicantInTabs()
     }
 

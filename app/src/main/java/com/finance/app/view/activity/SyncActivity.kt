@@ -45,7 +45,7 @@ class SyncActivity : BaseAppCompatActivity() {
 
     private fun setOnClickListener() {
         binding.btnSync.setOnClickListener {
-            viewModel.getOtherDropdownValue()
+            getAllAppRelatedDataFromApi()
         }
 
         binding.btnSkip.setOnClickListener {

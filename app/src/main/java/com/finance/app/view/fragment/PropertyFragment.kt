@@ -35,6 +35,11 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
+class PropertyFragment {
+
+}
+/*
+
 class PropertyFragment : BaseFragment(), TransactionCategoryConnector.TransactionCategory,
         PinCodeDetailConnector.PinCode, DistrictCityConnector.District, DistrictCityConnector.City {
 
@@ -84,8 +89,6 @@ class PropertyFragment : BaseFragment(), TransactionCategoryConnector.Transactio
 
     private fun checkPropertySelection() {
         getPropertyInfo()
-//        if (sharedPreferences.getPropertySelection()) getPropertyInfo()
-//        else DisablePropertyFields(binding)
     }
 
     private fun getPropertyInfo() {
@@ -427,7 +430,7 @@ class PropertyFragment : BaseFragment(), TransactionCategoryConnector.Transactio
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    propertyMaster = ResponseConversion().toPropertyMaster(value.responseObj)
+                    propertyMaster = LeadRequestResponseConversion().toPropertyMaster(value.responseObj)
                     propertyModel = propertyMaster.draftData
                 }
                 showData(propertyModel)
@@ -463,4 +466,4 @@ class PropertyFragment : BaseFragment(), TransactionCategoryConnector.Transactio
         }
     }
 
-}
+}*/

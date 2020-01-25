@@ -43,6 +43,12 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
+class PersonalInfoFragment {
+
+}
+
+/*
+
 class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         ApplicantsAdapter.ItemLongClickListener {
 
@@ -749,7 +755,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    personalInfoMaster = ResponseConversion().toPersonalMaster(value.responseObj)
+                    personalInfoMaster = LeadRequestResponseConversion().toPersonalMaster(value.responseObj)
                     pDraftData = personalInfoMaster?.draftData!!
                     personalApplicantsList = pDraftData.applicantDetails
                 }
@@ -832,3 +838,4 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         }
     }
 }
+*/

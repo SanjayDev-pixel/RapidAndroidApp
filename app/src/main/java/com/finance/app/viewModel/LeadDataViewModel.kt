@@ -17,12 +17,11 @@ package com.finance.app.viewModel
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
-import com.finance.app.utility.ResponseConversion
+import com.finance.app.utility.LeadRequestResponseConversion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -42,191 +41,134 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var api: ApiProject
-    private val viewState: MutableLiveData<ProductViewState> = MutableLiveData()
     private val presenter = Presenter()
-    private var loanMaster: LoanInfoMaster = LoanInfoMaster()
-    private var personalInfoMaster: PersonalInfoMaster = PersonalInfoMaster()
-    private var bankDetailMaster: BankDetailMaster = BankDetailMaster()
-    private var employmentMaster = EmploymentMaster()
-    private var assetLiabilityMaster = AssetLiabilityMaster()
-    private var propertyMaster = PropertyMaster()
-    private var referenceMaster = ReferenceMaster()
-    private var lead: AllLeadMaster? = null
+
+    val isAllApiCallCompleted = MutableLiveData<Boolean>()
+    private val isLeadSync_LoanInfo = MutableLiveData<Boolean>()
+    private val isLeadSync_PersonalInfo = MutableLiveData<Boolean>()
+    private val isLeadSync_Employment = MutableLiveData<Boolean>()
+    private val isLeadSync_BankDetail = MutableLiveData<Boolean>()
+    private val isLeadSync_LiabilityAndAssets = MutableLiveData<Boolean>()
+    private val isLeadSync_Property = MutableLiveData<Boolean>()
+    private val isLeadSync_Reference = MutableLiveData<Boolean>()
+    private val isLeadSync_DocumentChecklist = MutableLiveData<Boolean>()
+
+    private var leadData: AllLeadMaster? = null
+
+    private val listOfToSyncData = listOf(isLeadSync_LoanInfo, isLeadSync_PersonalInfo, isLeadSync_Employment,
+            isLeadSync_BankDetail, isLeadSync_LiabilityAndAssets, isLeadSync_Property, isLeadSync_Reference, isLeadSync_DocumentChecklist)
 
     init {
         ArchitectureApp.instance.component.inject(this)
-        viewState.value = ProductViewState()
+
+        checkIfAppConfiguredSuccessfully()
+        setObservers()
     }
 
-    companion object {
-        private var counter = 0
-    }
-
-    private fun currentViewState(): ProductViewState = viewState.value!!
-
-    data class ProductViewState(var isNoDataFound: Boolean = false,
-                                val isLoading: Boolean = false,
-                                val isError: Boolean = false,
-                                val isEmptyData: Boolean = false,
-                                val errorMessage: String? = null)
-
-    private fun isLoading(isLoading: Boolean) {
-        viewState.value = currentViewState().copy(isLoading = isLoading)
-    }
-
-    private fun isError(isError: Boolean, errorMessage: String?) {
-        viewState.value = currentViewState().copy(isError = isError, errorMessage = errorMessage)
-    }
-
-    private fun isEmptyList(isEmptyData: Boolean) {
-        viewState.value = currentViewState().copy(isEmptyData = isEmptyData)
-    }
-
-    fun getLeadData(leadId: String) {
-        presenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT, dmiConnector = LoanProductsDropdown())
-        presenter.callNetwork(ConstantsApi.CALL_ALL_STATES, dmiConnector = AllStatesList())
-        presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList(leadId))
-        getLeadFromDB(leadId)
-
-    }
-
-    private fun getLeadFromDB(leadId: String) {
-        dataBase.provideDataBaseSource().allLeadsDao().getLead(leadId.toInt()).observe(activity, Observer {
-            lead = it
-            lead?.let {
-                getLoanApplicationData(leadId)
-            }
-        })
-    }
-
-    private fun getLoanApplicationData(leadId: String) {
-//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, loanMaster.storageType))
-//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, personalInfoMaster.storageType))
-//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, bankDetailMaster.storageType))
-//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, employmentMaster.storageType))
-//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, assetLiabilityMaster.storageType))
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, propertyMaster.storageType))
-        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadId, referenceMaster.storageType))
-    }
-
-    inner class LoanProductsDropdown : ViewGeneric<String?, Response.ResponseLoanProduct>(context = activity) {
-        override val apiRequest: String?
-            get() = null
-
-        override fun getApiSuccess(value: Response.ResponseLoanProduct) {
-            if (value.responseCode == Constants.SUCCESS) {
-                GlobalScope.launch {
-                    dataBase.provideDataBaseSource().loanProductDao().insertLoanProductList(value.responseObj)
+    private fun setObservers() {
+        isAllApiCallCompleted.observeForever {
+            when (it) {
+                true -> {
+                    leadData?.isDetailAlreadySync = true
+                    saveLead(leadData)
                 }
-            } else {
-                showToast(value.responseMsg)
             }
+        }
+
+        listOfToSyncData?.forEach {
+            it.observeForever { checkIfAppConfiguredSuccessfully() }
         }
     }
 
-    inner class AllStatesList : ViewGeneric<String?, Response.ResponseStatesDropdown>(context = activity) {
-        override val apiRequest: String?
-            get() = null
+    private fun checkIfAppConfiguredSuccessfully() {
 
-        override fun getApiSuccess(value: Response.ResponseStatesDropdown) {
-            if (value.responseCode == Constants.SUCCESS) {
-                GlobalScope.launch {
-                    dataBase.provideDataBaseSource().statesDao().insertStates(value.responseObj)
-                }
-            } else {
-                showToast(value.responseMsg)
+        var isAllApiCallsCompletedValue = true
+
+        permissionLoop@ for (observable in listOfToSyncData) {
+            val isSyncCompleted = getBoolean(observable)
+            if (!isSyncCompleted) {
+                isAllApiCallsCompletedValue = false
+                break@permissionLoop
             }
         }
+
+        isAllApiCallCompleted.value = isAllApiCallsCompletedValue
     }
 
-    inner class CallCoApplicantList(private val leadId: String) : ViewGeneric<String, Response.ResponseCoApplicants>(context = activity) {
-        override val apiRequest: String
-            get() = leadId
+    private fun getBoolean(liveData: MutableLiveData<Boolean>) = liveData.value ?: false
 
-        override fun getApiSuccess(value: Response.ResponseCoApplicants) {
-            if (value.responseCode == Constants.SUCCESS) {
-                saveApplicantToDB(value.responseObj)
-            }
-        }
+    fun getLeadData(leadData: AllLeadMaster) {
+        this.leadData = leadData
 
-        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>?) {
+        val leadId = (leadData.leadID ?: "").toString()
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.LOANINFO))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.PERSONALINFO))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.EMPLOYMENT))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.BANKDETAIL))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.LIABILITYASSET))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.PROPERTY))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.REFERENCE))
+
+    }
+
+    private fun saveLead(leadData: AllLeadMaster?) {
+        leadData?.let {
             GlobalScope.launch {
-                val coApplicantMaster = CoApplicantsMaster()
-                coApplicantMaster.coApplicantsList = responseObj
-                coApplicantMaster.leadID = leadId.toInt()
-                dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
+                dataBase.provideDataBaseSource().allLeadsDao().insertLead(leadData!!)
             }
         }
     }
 
-    inner class CallGetLoan(private val leadId: String, private val form: String) : ViewGeneric<ArrayList<String>?,
+    inner class CallGetLoan(private val leadData: AllLeadMaster, private val leadId: String, private val form: AppEnums.FormType) : ViewGeneric<ArrayList<String>?,
             Response.ResponseGetLoanApplication>(context = activity) {
         override val apiRequest: ArrayList<String>?
-            get() = arrayListOf(leadId, form)
+            get() = arrayListOf(leadId, form.type)
 
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
                     saveDataToLead(value.responseObj)
-                    counter++
-                }
-                if (counter >= 4) {
-                    saveLead()
                 }
             }
         }
 
         private fun saveDataToLead(responseObj: Response.LoanApplicationGetObj) {
+
+            val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form, response = responseObj)
             when (form) {
-                AppEnums.FormType.LOANINFO.type -> saveLoanData(responseObj)
-                AppEnums.FormType.PERSONALINFO.type -> savePersonalData(responseObj)
-                AppEnums.FormType.EMPLOYMENT.type -> saveEmploymentData(responseObj)
-                AppEnums.FormType.BANKDETAIL.type -> saveBankData(responseObj)
-                AppEnums.FormType.LIABILITYASSET.type -> saveAssetLiabilityData(responseObj)
-                AppEnums.FormType.PROPERTY.type -> savePropertyData(responseObj)
-                AppEnums.FormType.REFERENCE.type -> saveReferenceData(responseObj)
+                AppEnums.FormType.LOANINFO -> {
+                    setObservableValue(isLeadSync_LoanInfo, true)
+                    leadData.loanData = apiResponseObject as LoanInfoModel
+                }
+                AppEnums.FormType.PERSONALINFO -> {
+                    setObservableValue(isLeadSync_PersonalInfo, true)
+                    leadData.personalData = apiResponseObject as PersonalApplicantList
+                }
+                AppEnums.FormType.EMPLOYMENT -> {
+                    setObservableValue(isLeadSync_Employment, true)
+                    leadData.employmentData = apiResponseObject as EmploymentApplicantList
+                }
+                AppEnums.FormType.BANKDETAIL -> {
+                    setObservableValue(isLeadSync_BankDetail, true)
+                    leadData.bankData = apiResponseObject as BankDetailList
+                }
+                AppEnums.FormType.LIABILITYASSET -> {
+                    setObservableValue(isLeadSync_LiabilityAndAssets, true)
+                    leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList
+                }
+                AppEnums.FormType.PROPERTY -> {
+                    setObservableValue(isLeadSync_Property, true)
+                    leadData.propertyData = apiResponseObject as PropertyModel
+                }
+                AppEnums.FormType.REFERENCE -> {
+                    setObservableValue(isLeadSync_Reference, true)
+                    leadData.referenceData = apiResponseObject as ReferencesList
+                }
             }
         }
 
-        private fun saveLoanData(responseObj: Response.LoanApplicationGetObj) {
-            loanMaster = ResponseConversion().toLoanMaster(responseObj)
-            lead!!.loanData = loanMaster.draftData
-        }
-
-        private fun savePersonalData(responseObj: Response.LoanApplicationGetObj) {
-            personalInfoMaster = ResponseConversion().toPersonalMaster(responseObj)
-            lead!!.personalData = personalInfoMaster.draftData.applicantDetails
-        }
-
-        private fun saveEmploymentData(responseObj: Response.LoanApplicationGetObj) {
-            employmentMaster = ResponseConversion().toEmploymentMaster(responseObj)
-            lead!!.employmentData = employmentMaster.draftData.applicantDetails
-        }
-
-        private fun saveBankData(responseObj: Response.LoanApplicationGetObj) {
-            bankDetailMaster = ResponseConversion().toBankDetailMaster(responseObj)
-            lead!!.bankData = bankDetailMaster.draftData?.applicantDetails
-        }
-
-        private fun saveAssetLiabilityData(responseObj: Response.LoanApplicationGetObj) {
-            assetLiabilityMaster = ResponseConversion().toAssetLiabilityMaster(responseObj)
-            lead!!.assetLiabilityData = assetLiabilityMaster.draftData?.applicantDetails
-        }
-
-        private fun savePropertyData(responseObj: Response.LoanApplicationGetObj) {
-            propertyMaster = ResponseConversion().toPropertyMaster(responseObj)
-            lead!!.propertyData = propertyMaster.draftData
-        }
-
-        private fun saveReferenceData(responseObj: Response.LoanApplicationGetObj) {
-            referenceMaster = ResponseConversion().toReferenceMaster(responseObj)
-            lead!!.referenceData = referenceMaster.draftData.referenceDetails
-        }
-
-        private fun saveLead() {
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead!!)
-            }
+        private fun setObservableValue(observaleSync: MutableLiveData<Boolean>, isSync: Boolean) {
+            observaleSync.value = isSync
         }
     }
 }

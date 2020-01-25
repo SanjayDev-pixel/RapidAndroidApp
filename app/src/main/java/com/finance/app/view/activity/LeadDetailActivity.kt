@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
@@ -29,7 +30,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     private var bundle: Bundle? = null
-    private var lead = AllLeadMaster()
+    private var lead: AllLeadMaster? = null
+
     private var leadContact: Long = 0
 
     companion object {
@@ -49,19 +51,38 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         hideToolbar()
         hideSecondaryToolbar()
         getLead()
+
+        setObservables()
+    }
+
+    private fun setObservables() {
+        leadDataViewModel.isAllApiCallCompleted.observe(this, Observer {
+            when(it) {
+                true -> {
+                    // ToDo()
+                }
+            }
+        })
+
     }
 
     private fun getLead() {
         bundle = intent.extras
         bundle?.let {
-            lead = bundle!!.getSerializable(KEY_LEAD) as AllLeadMaster
-            fillDataOnScreen(lead)
-            sharedPreferences.saveLeadDetail(lead)
-            leadDataViewModel.getLeadData(lead.leadID.toString())
+            var leadBundleData = bundle?.getSerializable(KEY_LEAD)
+
+            leadBundleData?.let {
+                lead = leadBundleData as AllLeadMaster
+                lead?.let {
+                    fillDataOnScreen(lead!!)
+                    sharedPreferences.saveLeadDetail(lead!!)
+                    leadDataViewModel.getLeadData(lead!!)
+                }
+            }
         }
     }
 
-    private fun fillDataOnScreen(lead: AllLeadMaster?) {
+    private fun fillDataOnScreen(lead: AllLeadMaster) {
         binding.tvLeadName
         binding.tvEmail.text = lead?.applicantEmail
         val leadName = lead?.applicantFirstName + " " + lead?.applicantLastName
@@ -74,7 +95,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.tvLeadStatus.text = lead.status
         leadContact = lead.applicantContactNumber!!.toLong()
         setUpRecyclerView()
-        setClickListeners()
+        setClickListeners(lead)
         fillColor(lead)
     }
 
@@ -87,11 +108,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
     }
 
-    private fun setClickListeners() {
+    private fun setClickListeners(lead: AllLeadMaster) {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
 
         binding.llLeadDetail.setOnClickListener {
-            LoanApplicationActivity.start(this, lead.leadID)
+            checkAndStartLoanApplication(lead)
         }
 
         binding.ivCall.setOnClickListener {
@@ -106,6 +127,16 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
         binding.btnAddTask.setOnClickListener {
             AddTaskActivity.start(this)
+        }
+    }
+
+    private fun checkAndStartLoanApplication(lead: AllLeadMaster) {
+        val isLeadInfoAlreadySync = leadDataViewModel.isAllApiCallCompleted.value ?: false
+        val isLeadOfflineDataSync = lead.isDetailAlreadySync
+
+        when(isLeadInfoAlreadySync || isLeadOfflineDataSync) {
+            true -> LoanApplicationActivity.start(this, lead.leadID)
+            false -> showToast("Lead info detail is missing, We are trying to sync")
         }
     }
 

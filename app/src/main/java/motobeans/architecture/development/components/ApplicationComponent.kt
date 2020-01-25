@@ -3,7 +3,6 @@ package motobeans.architecture.development.components
 import android.app.Application
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
-import com.finance.app.utility.GetOtherDropDownFromApi
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
@@ -11,6 +10,7 @@ import com.finance.app.view.adapters.recycler.holder.TempHolder
 import com.finance.app.view.customViews.CustomPersonalInfoView
 import com.finance.app.view.customViews.CustomZipAddressView
 import com.finance.app.view.fragment.*
+import com.finance.app.view.fragment.LeadInfoFragments.*
 import com.finance.app.viewModel.AppDataViewModel
 import com.finance.app.viewModel.LeadDataViewModel
 import com.finance.app.viewModel.SyncDataViewModel
@@ -55,19 +55,19 @@ interface ApplicationComponent {
     /**
      * Fragment
      */
-    fun inject(fragment: TestFragment)
-    fun inject(fragment: PersonalInfoFragment)
     fun inject(fragment: NavMenuFragment)
-    fun inject(fragment: LoanInfoFragment)
-    fun inject(fragment: BankDetailFragment)
-    fun inject(fragment: EmploymentInfoFragment)
-    fun inject(fragment: AssetLiabilityFragment)
-    fun inject(fragment: ReferenceFragment)
     fun inject(fragment: PersonalFormFragment)
-    fun inject(fragment: PersonalMainFragment)
-    fun inject(fragment: DocumentCheckListFragment)
-    fun inject(fragment: PropertyFragment)
     fun inject(fragment: LeadsListingFragment)
+
+
+    fun inject(fragment: LoanInfoFragmentNew)
+    fun inject(fragment: PersonalMainFragmentNew)
+    fun inject(fragment: EmploymentInfoFragmentNew)
+    fun inject(fragment: BankDetailFragmentNew)
+    fun inject(fragment: AssetLiabilityFragmentNew)
+    fun inject(fragment: PropertyFragmentNew)
+    fun inject(fragment: ReferenceFragmentNew)
+    fun inject(fragment: DocumentCheckListFragmentNew)
     /**
      * Presenters
      */
@@ -120,5 +120,4 @@ interface ApplicationComponent {
     fun inject(other: CustomPersonalInfoView)
     fun inject(other: CustomZipAddressView)
     fun inject(presenter: Presenter1)
-    fun inject(other: GetOtherDropDownFromApi)
 }

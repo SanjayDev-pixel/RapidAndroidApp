@@ -1,62 +1,30 @@
 package com.finance.app.utility
 
+import com.finance.app.others.AppEnums
+import com.finance.app.others.AppEnums.FormType.*
 import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 import motobeans.architecture.retrofit.response.Response
+import java.io.Serializable
+import java.util.*
 
-class ResponseConversion {
+class LeadRequestResponseConversion {
 
     companion object {
         val gson = Gson()
     }
 
-    fun toLoanMaster(response: Response.LoanApplicationGetObj): LoanInfoMaster {
-        val master = LoanInfoMaster()
-        master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, LoanInfoModel::class.java)
-        return master
-    }
+    fun getResponseObject(form: AppEnums.FormType, response: Response.LoanApplicationGetObj): Serializable {
+        val objectGeneric = when(form) {
+            LOANINFO -> gson.fromJson(response.draftData, LoanInfoModel::class.java)
+            PERSONALINFO -> gson.fromJson(response.draftData, PersonalApplicantList::class.java)
+            EMPLOYMENT -> gson.fromJson(response.draftData, EmploymentApplicantList::class.java)
+            BANKDETAIL -> gson.fromJson(response.draftData, BankDetailList::class.java)
+            LIABILITYASSET -> gson.fromJson(response.draftData, AssetLiabilityList::class.java)
+            PROPERTY -> gson.fromJson(response.draftData, PropertyModel::class.java)
+            REFERENCE -> gson.fromJson(response.draftData, ReferencesList::class.java)
+        }
 
-    fun toPersonalMaster(response: Response.LoanApplicationGetObj): PersonalInfoMaster {
-        val master = PersonalInfoMaster()
-        master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, PersonalApplicantList::class.java)
-        return master
+        return objectGeneric
     }
-
-    fun toEmploymentMaster(response: Response.LoanApplicationGetObj): EmploymentMaster {
-        val master = EmploymentMaster()
-        master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, EmploymentApplicantList::class.java)
-        return master
-    }
-
-    fun toBankDetailMaster(response: Response.LoanApplicationGetObj): BankDetailMaster {
-        val master = BankDetailMaster()
-        master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, BankDetailList::class.java)
-        return master
-    }
-
-    fun toPropertyMaster(response: Response.LoanApplicationGetObj): PropertyMaster {
-        val master = PropertyMaster()
-        master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, PropertyModel::class.java)
-        return master
-    }
-
-    fun toReferenceMaster(response: Response.LoanApplicationGetObj): ReferenceMaster {
-        val master = ReferenceMaster()
-        master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, ReferencesList::class.java)
-        return master
-    }
-
-    fun toAssetLiabilityMaster(response: Response.LoanApplicationGetObj): AssetLiabilityMaster {
-        val master = AssetLiabilityMaster()
-        master.leadID = response.leadID
-        master.draftData = gson.fromJson(response.draftData, AssetLiabilityList::class.java)
-        return master
-    }
-
 }

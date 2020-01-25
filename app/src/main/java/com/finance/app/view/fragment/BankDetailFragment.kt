@@ -36,6 +36,11 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
+class BankDetailFragment {
+
+}
+/*
+
 class BankDetailFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         BankDetailAdapter.BankDetailClickListener {
 
@@ -129,12 +134,12 @@ class BankDetailFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         getDropDownsFromDB()
     }
 
-    /*private fun checkIncomeConsideration() {
+    private fun checkIncomeConsideration() {
         if (!currentTab.incomeConsidered!!) {
             DisableBankForm(binding)
         } else showToast(getString(R.string.error_income_not_considered))
     }
-*/
+
     private fun setUpBankDetailAdapter() {
         binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
         bankAdapter = BankDetailAdapter(mContext, bankDetailBeanList)
@@ -353,7 +358,7 @@ class BankDetailFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    bankDetailMaster = ResponseConversion().toBankDetailMaster(value.responseObj)
+                    bankDetailMaster = LeadRequestResponseConversion().toBankDetailMaster(value.responseObj)
                     bDraftData = bankDetailMaster.draftData!!
                     bApplicantsList = bDraftData.applicantDetails
                 }
@@ -375,3 +380,4 @@ class BankDetailFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         }
     }
 }
+*/

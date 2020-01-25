@@ -45,6 +45,12 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import javax.inject.Inject
 
+class EmploymentInfoFragment {
+
+}
+
+/*
+
 class EmploymentInfoFragment : BaseFragment(),
         PinCodeDetailConnector.PinCode,
         ApplicantsAdapter.ItemClickListener, DistrictCityConnector.District,
@@ -768,7 +774,7 @@ class EmploymentInfoFragment : BaseFragment(),
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    employmentMaster = ResponseConversion().toEmploymentMaster(value.responseObj)
+                    employmentMaster = LeadRequestResponseConversion().toEmploymentMaster(value.responseObj)
                     eDraftData = employmentMaster.draftData
                     eApplicantList = eDraftData.applicantDetails
                 }
@@ -791,3 +797,4 @@ class EmploymentInfoFragment : BaseFragment(),
     }
 
 }
+*/

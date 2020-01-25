@@ -43,6 +43,11 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
+class ReferenceFragment {
+
+}
+
+/*
 class ReferenceFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         ReferenceAdapter.ItemClickListener, DistrictCityConnector.District,
         DistrictCityConnector.City {
@@ -383,7 +388,7 @@ class ReferenceFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    referenceMaster = ResponseConversion().toReferenceMaster(value.responseObj)
+                    referenceMaster = LeadRequestResponseConversion().toReferenceMaster(value.responseObj)
                     rDraftData = referenceMaster.draftData
                     referencesList = rDraftData.referenceDetails
                 }
@@ -424,4 +429,4 @@ class ReferenceFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         }
     }
 
-}
+}*/

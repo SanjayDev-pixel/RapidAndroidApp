@@ -6,9 +6,6 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
-import com.finance.app.utility.GetOtherDropDownFromApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi

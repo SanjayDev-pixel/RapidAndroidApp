@@ -40,6 +40,12 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
+class AssetLiabilityFragment {
+
+}
+
+/*
+
 class AssetLiabilityFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         AssetDetailAdapter.AssetClickListener, CardDetailAdapter.CardClickListener,
         ObligationAdapter.ObligationClickListener {
@@ -520,7 +526,7 @@ class AssetLiabilityFragment : BaseFragment(), ApplicantsAdapter.ItemClickListen
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    assetLiabilityMaster = ResponseConversion().toAssetLiabilityMaster(value.responseObj)
+                    assetLiabilityMaster = LeadRequestResponseConversion().toAssetLiabilityMaster(value.responseObj)
                     aDraftData = assetLiabilityMaster.draftData!!
                     aApplicantList = aDraftData.applicantDetails
                 }
@@ -541,4 +547,4 @@ class AssetLiabilityFragment : BaseFragment(), ApplicantsAdapter.ItemClickListen
             } else saveDataToDB(getAssetLiabilityMaster())
         }
     }
-}
+}*/

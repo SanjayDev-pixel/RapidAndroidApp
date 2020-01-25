@@ -135,15 +135,15 @@ class SyncDataViewModel(private val activity: FragmentActivity, private val data
             if (value.responseCode == Constants.SUCCESS) {
                 GlobalScope.launch { dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster() }
 
-                val progress = ProgressDialog(activity)
+               /* val progress = ProgressDialog(activity)
                 progress.setMessage("Getting Leads")
-                progress.show()
+                progress.show()*/
                 Handler().postDelayed({
                     saveDataToDB(value.responseObj)
-                    if (progress.isShowing) {
+                    /*if (progress.isShowing) {
                         progress.dismiss()
-                    }
-                }, 1000)
+                    }*/
+                }, 2000)
             }
         }
 
