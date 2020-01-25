@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context,
         attrs){
-    private val TAG = "CustomSignatureView"
+    private val TAG = this.javaClass.canonicalName
 
     private var binding: LayoutCustomViewPersonalBinding
 

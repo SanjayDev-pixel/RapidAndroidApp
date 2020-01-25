@@ -31,6 +31,7 @@ import motobeans.architecture.development.interfaces.ApiProject
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
+import java.io.Serializable
 import javax.inject.Inject
 
 class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(activity) {
@@ -57,7 +58,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
     private val listOfToSyncData = listOf(isLeadSyncLoanInfo,
             isLeadSyncPersonalInfo, isLeadSyncEmployment, isLeadSyncBankDetail,
-            isLeadSyncLiabilityAndAssets, isLeadSyncDocumentChecklist)
+            isLeadSyncLiabilityAndAssets)
 
 //    isLeadSyncProperty,
 //    isLeadSyncReference,
@@ -85,17 +86,28 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
     private fun checkIfAppConfiguredSuccessfully() {
 
+        println("Munish Thakur -> ---------- START -----------")
+
         var isAllApiCallsCompletedValue = true
 
+        var count = 0
         permissionLoop@ for (observable in listOfToSyncData) {
             val isSyncCompleted = getBoolean(observable)
+
+            ++count
+
+            println("Munish Thakur -> $count). $isSyncCompleted")
             if (!isSyncCompleted) {
                 isAllApiCallsCompletedValue = false
                 break@permissionLoop
             }
         }
 
+
+        println("Munish Thakur -> isAllApiCallCompleted -> $isAllApiCallCompleted")
         isAllApiCallCompleted.value = isAllApiCallsCompletedValue
+
+        println("Munish Thakur -> ---------- END -----------")
     }
 
     private fun getBoolean(liveData: MutableLiveData<Boolean>) = liveData.value ?: false
@@ -130,45 +142,78 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
-                value.responseObj?.let {
-                    saveDataToLead(value.responseObj)
-                }
+                saveDataToLead(value.responseObj)
             }
         }
 
-        private fun saveDataToLead(responseObj: Response.LoanApplicationGetObj) {
+        private fun saveDataToLead(responseObj: Response.LoanApplicationGetObj?) {
 
             val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form, response = responseObj)
             when (form) {
-                AppEnums.FormType.LOANINFO -> {
-                    setObservableValue(isLeadSyncLoanInfo, true)
-                    leadData.loanData = apiResponseObject as LoanInfoModel
-                }
-                AppEnums.FormType.PERSONALINFO -> {
-                    setObservableValue(isLeadSyncPersonalInfo, true)
-                    leadData.personalData = apiResponseObject as PersonalApplicantList
-                }
-                AppEnums.FormType.EMPLOYMENT -> {
-                    setObservableValue(isLeadSyncEmployment, true)
-                    leadData.employmentData = apiResponseObject as EmploymentApplicantList
-                }
-                AppEnums.FormType.BANKDETAIL -> {
-                    setObservableValue(isLeadSyncBankDetail, true)
-                    leadData.bankData = apiResponseObject as BankDetailList
-                }
-                AppEnums.FormType.LIABILITYASSET -> {
-                    setObservableValue(isLeadSyncLiabilityAndAssets, true)
-                    leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList
-                }
-                AppEnums.FormType.PROPERTY -> {
-                    setObservableValue(isLeadSyncProperty, true)
-                    leadData.propertyData = apiResponseObject as PropertyModel
-                }
-                AppEnums.FormType.REFERENCE -> {
-                    setObservableValue(isLeadSyncReference, true)
-                    leadData.referenceData = apiResponseObject as ReferencesList
-                }
+                AppEnums.FormType.LOANINFO -> handleLoanInfoResponse(apiResponseObject)
+                AppEnums.FormType.PERSONALINFO -> handlePersonalResponse(apiResponseObject)
+                AppEnums.FormType.EMPLOYMENT ->  handleEmploymentResponse(apiResponseObject)
+                AppEnums.FormType.BANKDETAIL -> handleBankDetailResponse(apiResponseObject)
+                AppEnums.FormType.LIABILITYASSET -> handleAssetsAndLiabilityResponse(apiResponseObject)
+                AppEnums.FormType.PROPERTY -> handlePropertyResponse(apiResponseObject)
+                AppEnums.FormType.REFERENCE -> handleReferenceResponse(apiResponseObject)
             }
+        }
+
+        private fun handleLoanInfoResponse(apiResponseObject: Serializable?) {
+            apiResponseObject?.let {
+                leadData.loanData = apiResponseObject as LoanInfoModel
+            }
+
+            setObservableValue(isLeadSyncLoanInfo, true)
+        }
+
+        private fun handlePersonalResponse(apiResponseObject: Serializable?) {
+            apiResponseObject?.let {
+                leadData.personalData = apiResponseObject as PersonalApplicantList
+            }
+
+            setObservableValue(isLeadSyncPersonalInfo, true)
+        }
+
+        private fun handleEmploymentResponse(apiResponseObject: Serializable?) {
+            apiResponseObject?.let {
+                leadData.employmentData = apiResponseObject as EmploymentApplicantList
+            }
+
+            setObservableValue(isLeadSyncEmployment, true)
+        }
+
+        private fun handleBankDetailResponse(apiResponseObject: Serializable?) {
+            apiResponseObject?.let {
+                leadData.bankData = apiResponseObject as BankDetailList
+            }
+
+            setObservableValue(isLeadSyncBankDetail, true)
+        }
+
+        private fun handleAssetsAndLiabilityResponse(apiResponseObject: Serializable?) {
+            apiResponseObject?.let {
+                leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList
+            }
+
+            setObservableValue(isLeadSyncLiabilityAndAssets, true)
+        }
+
+        private fun handlePropertyResponse(apiResponseObject: Serializable?) {
+            apiResponseObject?.let {
+                leadData.propertyData = apiResponseObject as PropertyModel
+            }
+
+            setObservableValue(isLeadSyncProperty, true)
+        }
+
+        private fun handleReferenceResponse(apiResponseObject: Serializable?) {
+            apiResponseObject?.let {
+                leadData.referenceData = apiResponseObject as ReferencesList
+            }
+
+            setObservableValue(isLeadSyncReference, true)
         }
 
         private fun setObservableValue(observableSync: MutableLiveData<Boolean>, isSync: Boolean) {
