@@ -9,13 +9,9 @@ import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.ChannelPartnerName
-import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.LoanInfoModel
+import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
 import com.finance.app.view.customViews.Interfaces.IspinnerMainView
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -157,6 +153,7 @@ class CustomChannelPartnerView @JvmOverloads constructor(private val mContext: C
             }
         }
 
+        val leadMaster = AllLeadMaster()
         private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
             partnerName = CustomSpinnerViewTest(context = mContext, dropDowns = channelPartners, label = "Channel Partner Name")
             layoutPartnerName.addView(partnerName)

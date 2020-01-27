@@ -2,8 +2,6 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -11,13 +9,8 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.CoApplicantsList
-import com.finance.app.persistence.model.ContactDetail
-import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.view.fragment.LoanInfoFragment
 import com.finance.app.view.fragment.NavMenuFragment
-import kotlinx.android.synthetic.main.activity_loan_application.*
-import kotlinx.android.synthetic.main.activity_loan_application.view.*
-import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
+import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -26,7 +19,6 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
-
 
 class LoanApplicationActivity : BaseAppCompatActivity() {
     private val binding: ActivityLoanApplicationBinding by ActivityBindingProviderDelegate(
@@ -39,6 +31,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
 
 
     companion object {
+        var leadMaster: AllLeadMaster? = null
         fun start(context: Context) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -55,7 +48,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         }
         setLeadNumber()
         setNavFragment()
-        secondaryFragment = LoanInfoFragment.newInstance()
+        secondaryFragment = LoanInfoFragmentNew.newInstance()
         setSecondaryFragment(secondaryFragment)
 
         val layout_back: LinearLayout=findViewById(R.id.lytBack)
@@ -63,8 +56,8 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
             showDialog()
         }
         val lead = sharedPreferences.getLeadDetail()
-        binding.tvMobile.text = lead.applicantContactNumber
-        binding.header.tvLeadNumber.text=lead.leadNumber
+        binding.tvMobile.text = lead?.applicantContactNumber
+        binding.header.tvLeadNumber.text = lead?.leadNumber
         val leadName = lead?.applicantFirstName + " " + lead?.applicantMiddleName+ " " + lead?.applicantLastName
         binding.applicantName.text=leadName
         binding.tvDesignation.text=getString(R.string.applicant)
@@ -123,9 +116,9 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(coApplicantsList: CoApplicantsList){
 
-        binding.applicantName.text=coApplicantsList!!.firstName.plus(" "+coApplicantsList?.middleName)
+        binding.applicantName.text = coApplicantsList.firstName.plus(" " + coApplicantsList.middleName)
         //binding.tvLeadid.text="Lead Number:".plus(coApplicantsList!!.leadApplicantNumber)
-        binding.header.tvLeadNumber.text=coApplicantsList!!.leadApplicantNumber
+        binding.header.tvLeadNumber.text = coApplicantsList.leadApplicantNumber
         binding.tvDesignation.text=coApplicantsList.applicantType
         binding.tvMobile.text=coApplicantsList.mobile
 
