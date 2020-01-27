@@ -1,6 +1,8 @@
 package com.finance.app.persistence.model
 
-class ContactDetail {
+import java.io.Serializable
+
+class ContactDetail : Serializable {
     var contactID: Int? = null
     var contactTypeDetailID: Int? = null
     var email: String? = ""
