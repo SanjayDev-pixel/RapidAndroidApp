@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
@@ -28,6 +29,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private var pagerAdapter: PersonalPagerAdapter? = null
 
     companion object {
+        private var count = 0
         fun newInstance(): PersonalInfoFragmentNew {
             return PersonalInfoFragmentNew()
         }
@@ -60,9 +62,18 @@ class PersonalInfoFragmentNew : BaseFragment() {
     }
 
     private fun checkValidationAndProceed() {
-        val mFragment: PersonalFormFragmentNew = pagerAdapter?.getItem(binding.viewPager.currentItem) as PersonalFormFragmentNew
-        //Todo()
-        if (mFragment.isValidFragment()) {
+
+        // This code need to be changed
+        for (index in 0 until leadMaster!!.personalData.applicantDetails!!.size) {
+            val page: Fragment? = childFragmentManager.findFragmentByTag("android:switcher:" + binding.viewPager.toString() + ":" + index)
+            page?.let {
+                val tab = page as PersonalFormFragmentNew
+                if (tab.isValidFragment()) {
+                    ++count
+                }
+            }
+        }
+        if (count == leadMaster!!.personalData.applicantDetails!!.size) {
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
         }
     }
@@ -71,15 +82,17 @@ class PersonalInfoFragmentNew : BaseFragment() {
         binding.btnAddApplicant.visibility = View.VISIBLE
         binding.btnAddApplicant.setOnClickListener {
             LeadAndLoanDetail().addApplicants(leadMaster!!)
+            binding.viewPager.adapter?.notifyDataSetChanged()
         }
     }
 
     private fun setCoApplicantInTabs(coApplicantsList: ArrayList<PersonalApplicantsModel>) {
         pagerAdapter = PersonalPagerAdapter(fragmentManager!!)
-        binding.viewPager.adapter = pagerAdapter
-        binding.tabLead.setupWithViewPager(binding.viewPager)
         for (index in 0 until coApplicantsList.size) {
             pagerAdapter!!.addFragment(PersonalFormFragmentNew.newInstance(coApplicantsList[index], index), "CoApplicant ${index + 1}")
         }
+        binding.viewPager.adapter = pagerAdapter
+        binding.tabLead.setupWithViewPager(binding.viewPager)
+
     }
 }

@@ -69,6 +69,8 @@ class PersonalFormFragmentNew : BaseFragment() {
     }
 
     private fun saveCurrentApplicant(applicant: PersonalApplicantsModel) {
-    //Todo()
+        //Todo() Code to save Personal Applicant
+
+
     }
 }

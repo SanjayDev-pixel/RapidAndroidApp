@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.R
-import com.finance.app.databinding.*
+import com.finance.app.databinding.FragmentDocumentChecklistBinding
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -19,8 +19,7 @@ class DocumentCheckListFragmentNew : BaseFragment(){
 
     companion object {
         fun newInstance(): DocumentCheckListFragmentNew {
-            val fragment = DocumentCheckListFragmentNew()
-            return fragment
+            return DocumentCheckListFragmentNew()
         }
     }
 
@@ -29,22 +28,17 @@ class DocumentCheckListFragmentNew : BaseFragment(){
 
     private lateinit var binding: FragmentDocumentChecklistBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = initBinding(inflater, container, R.layout.fragment_document_checklist)
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         init()
         return view
     }
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-
         // ToDo()
     }
 }

@@ -11,16 +11,11 @@ import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-
-/**
- * Created by motobeans on 2/16/2018.
- */
 class ReferenceFragmentNew : BaseFragment(){
 
     companion object {
         fun newInstance(): ReferenceFragmentNew {
-            val fragment = ReferenceFragmentNew()
-            return fragment
+            return ReferenceFragmentNew()
         }
     }
 
@@ -29,22 +24,17 @@ class ReferenceFragmentNew : BaseFragment(){
 
     private lateinit var binding: FragmentReferenceBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = initBinding(inflater, container, R.layout.fragment_reference)
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         init()
         return view
     }
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-
         // ToDo()
     }
 }

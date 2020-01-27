@@ -11,16 +11,11 @@ import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-
-/**
- * Created by motobeans on 2/16/2018.
- */
 class PropertyFragmentNew : BaseFragment(){
 
     companion object {
         fun newInstance(): PropertyFragmentNew {
-            val fragment = PropertyFragmentNew()
-            return fragment
+            return PropertyFragmentNew()
         }
     }
 
@@ -29,15 +24,11 @@ class PropertyFragmentNew : BaseFragment(){
 
     private lateinit var binding: FragmentPropertyInfoBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = initBinding(inflater, container, R.layout.fragment_property_info)
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         init()
         return view
     }

@@ -19,8 +19,7 @@ class AssetLiabilityFragmentNew : BaseFragment(){
 
     companion object {
         fun newInstance(): AssetLiabilityFragmentNew {
-            val fragment = AssetLiabilityFragmentNew()
-            return fragment
+            return AssetLiabilityFragmentNew()
         }
     }
 
@@ -28,10 +27,6 @@ class AssetLiabilityFragmentNew : BaseFragment(){
     lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
     private lateinit var binding: FragmentAssetLiablityBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
