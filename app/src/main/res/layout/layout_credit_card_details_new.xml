@@ -7,42 +7,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/heading_background"
-            android:layout_marginTop="@dimen/margin_20"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/credit_card_details"
-                android:textColor="@color/black"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/collapseForm"
-                android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margin_10"
-                android:visibility="gone"
-                android:layout_alignParentEnd="true"
-                android:layout_height="wrap_content"
-                android:src = "@drawable/ic_unfold_less_black_24dp" />
-
-            <ImageView
-                android:id="@+id/expandForm"
-                android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margin_10"
-                android:layout_alignParentEnd="true"
-                android:layout_height="wrap_content"
-                android:src = "@drawable/ic_unfold_more_black_24dp" />
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,15 +18,14 @@
             <TextView
                 android:id="@+id/tv_assetdetail"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="@string/credit_card_details"
-                android:textColor="@color/black_242424"
+                android:textColor="@color/black"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"/>
+                android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/creditcardcounter"
+                android:id="@+id/assetcounter"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_toRightOf="@+id/tv_assetdetail"
@@ -76,26 +39,23 @@
                 android:gravity="center"/>
 
             <ImageView
-                android:id="@+id/addcreditdilaog"
+                android:id="@+id/addcreditcard"
                 android:layout_width="40dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_add_black_24dp"
-                />
+                android:background="@drawable/ic_add_black_24dp"
+                android:backgroundTint="@color/md_grey_500"/>
 
         </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/md_grey_500"/>
 
         <LinearLayout
             android:id="@+id/formCreditCard"
             android:layout_width="match_parent"
             android:visibility="gone"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="@dimen/margin20dp">
 
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinnerBankName"
@@ -119,25 +79,25 @@
                 android:layout_marginTop="@dimen/fields_margin"
                 android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_credit_card_limit"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/hint_color">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCreditCardLimit"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_credit_card_limit"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="number"
-                    android:maxLength="7"
-                    android:hint="@string/credit_card_limit"
-                    android:minWidth="200dp"
-                    android:textSize="@dimen/text_size" />
+                    android:textColorHint="@color/hint_color">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCreditCardLimit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:inputType="number"
+                        android:maxLength="7"
+                        android:hint="@string/credit_card_limit"
+                        android:minWidth="200dp"
+                        android:textSize="@dimen/text_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_current_utilization"
@@ -218,22 +178,19 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/button_text_size" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/rcCreditCard"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_height="wrap_content"/>
 
-    </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:id="@+id/rcCreditCard"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-
-        <com.chahinem.pageindicator.PageIndicator
-            android:id="@+id/pageIndicatorCreditCard"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="12sp"
-            android:visibility="gone"/>
+            <com.chahinem.pageindicator.PageIndicator
+                android:id="@+id/pageIndicatorCreditCard"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

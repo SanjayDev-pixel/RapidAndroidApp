@@ -580,8 +580,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
                     saveCurrentApplicant()
                     ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
                     currentPosition = position
-                    val mobileno: String? = contactDetail?.mobile
-                    coApplicant.mobile = mobileno
+                    coApplicant.mobile = contactDetail?.mobile
                     waitFor1Sec(position, coApplicant)
                     DisablePersonalForm(binding)
                     EventBus.getDefault().post(coApplicant)
@@ -591,8 +590,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
                         saveCurrentApplicant()
                         ClearPersonalForm(binding = binding, context = mContext, masterDropdown = allMasterDropDown, relationshipList = relationshipList)
                         currentPosition = position
-                        val mobileno: String? = contactDetail?.mobile
-                        coApplicant.mobile = mobileno
+                        coApplicant.mobile = contactDetail?.mobile
                         coApplicant.applicantType = if (position == 0) "Applicant" else "Co-Applicant" + position
                         waitFor1Sec(position, coApplicant)
                         EventBus.getDefault().post(coApplicant)
@@ -729,12 +727,12 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
                  }
              }*/
 
-            verifyOTPDialog.tvMobileno.setText("+91 ".plus(binding.basicInfoLayout.etMobile.text.toString()))
+            verifyOTPDialog.tvMobileno.setText(getString(R.string.mprefix).plus(binding.basicInfoLayout.etMobile.text.toString()))
             verifyOTPDialog.verifyotp.setOnClickListener() {
                 val myOtp: String = verifyOTPDialog.etOTP.text.toString()
-                if (myOtp.toString().length == 4) {
+                if (myOtp.length == 4) {
 
-                    otp = myOtp.toString().toInt()
+                    otp = myOtp.toInt()
                     presenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP,CallVerifyOTP())
                 } else {
                    // verifyOTPDialog.etOTP.setText("")

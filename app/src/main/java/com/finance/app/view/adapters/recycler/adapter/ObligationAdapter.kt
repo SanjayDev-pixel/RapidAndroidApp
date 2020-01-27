@@ -43,6 +43,7 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
             binding.tvBalanceTenure.text = obligation.balanceTenure.toString()
             binding.tvNumOfBouncesInSixMonths.text = obligation.numberOfBouncesInLastSixMonth.toString()
             binding.tvNumOfBouncesInNineMonths.text = obligation.numberOfBouncesInLastNineMonth.toString()
+            binding.tvLoanAcNum.text=obligation.loanAmount.toString()
             addClickListener(position, obligation)
         }
 
@@ -54,6 +55,8 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
             binding.btnEdit.setOnClickListener {
                 mOnObligationClickListener!!.onObligationEditClicked(position, obligation)
             }
+
+
         }
     }
 }

@@ -6,28 +6,33 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
+import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
-import com.finance.app.databinding.FragmentAssetLiablityBinding
-import com.finance.app.databinding.LayoutCreditCardDetailsBinding
-import com.finance.app.databinding.LayoutObligationBinding
+import com.finance.app.databinding.*
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.presenter.LoanAppGetPresenter
 import com.finance.app.presenter.presenter.LoanAppPostPresenter
 import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.CardDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.ObligationAdapter
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
+import kotlinx.android.synthetic.main.add_assests_dialog.cancel_bttn
+import kotlinx.android.synthetic.main.add_obligation_dialog.*
+import kotlinx.android.synthetic.main.asset_creditcard_dialog.*
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -38,6 +43,9 @@ import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
@@ -75,6 +83,11 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private var currentPosition = 0
     private lateinit var currentTab: CoApplicantsList
     private lateinit var deleteDialog: Dialog
+    private lateinit var addAssestsDialog: Dialog
+    private lateinit var addCreditCardDialog: Dialog
+    private lateinit var addObligationDialog: Dialog
+    private lateinit var obligationItemDetailDialog: Dialog
+    var obligationCounter:Int=0
 
     companion object {
         private val leadAndLoanDetail = LeadAndLoanDetail()
@@ -85,6 +98,10 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         private const val OBLIGATION = 3
     }
 
+    fun onCreate() {
+        //super.onCreate()
+        EventBus.getDefault().register(this)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_asset_liablity)
         init()
@@ -147,13 +164,14 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     override fun onApplicantClick(position: Int, coApplicant: CoApplicantsList) {
-        if (formValidation.validateAssetLiabilityForm(binding)) {
+        //if (formValidation.validateAssetLiabilityForm(binding)) {
             saveCurrentApplicant()
             ClearAssetLiabilityForm(binding, mContext, allMasterDropDown)
             currentPosition = position
             currentTab = coApplicant
             waitFor1Sec(position)
-        } else showToast(getString(R.string.mandatory_field_missing))
+        EventBus.getDefault().post(coApplicant)
+       // } else showToast(getString(R.string.mandatory_field_missing))
     }
 
     private fun waitFor1Sec(position: Int) {
@@ -170,7 +188,10 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun getParticularApplicantData(position: Int) {
+
+
         currentApplicant = aApplicantList!![position]
+
     }
 
     private fun showData(applicantList: ArrayList<AssetLiabilityModel>?) {
@@ -220,6 +241,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         setUpAssetAdapter(assetsList!!)
         setUpCardDetailAdapter(cardDetailList!!)
         setUpObligationAdapter(obligationsList!!)
+
     }
 
     private fun setUpAssetAdapter(assets: ArrayList<AssetLiability>) {
@@ -228,8 +250,9 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         binding.rcAsset.adapter = assetAdapter
         assetAdapter.setOnAssetClickListener(this)
         binding.pageIndicatorAsset.attachTo(binding.rcAsset)
-        binding.pageIndicatorAsset.visibility = View.VISIBLE
-        binding.rcAsset.visibility = View.VISIBLE
+      //  binding.pageIndicatorAsset.visibility = View.VISIBLE
+      //  binding.rcAsset.visibility = View.VISIBLE
+        binding.assetcounter.setText(assets.size.toString())
     }
 
     private fun setUpCardDetailAdapter(cards: ArrayList<CardDetail>) {
@@ -237,9 +260,11 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         cardDetailAdapter = CardDetailAdapter(mContext, cards)
         binding.layoutCreditCard.rcCreditCard.adapter = cardDetailAdapter
         cardDetailAdapter.setOnCardClickListener(this)
-        binding.pageIndicatorAsset.attachTo(binding.layoutCreditCard.rcCreditCard)
-        binding.pageIndicatorAsset.visibility = View.VISIBLE
-        binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
+        binding.layoutCreditCard.pageIndicatorCreditCard.attachTo(binding.layoutCreditCard.rcCreditCard)
+       // binding.pageIndicatorAsset.visibility = View.VISIBLE
+        //binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
+        binding.layoutCreditCard.creditcardcounter.setText(cards.size.toString())
+
     }
 
     private fun setUpObligationAdapter(obligations: ArrayList<ObligationDetail>) {
@@ -247,9 +272,12 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         obligationAdapter = ObligationAdapter(mContext, obligations)
         binding.layoutObligations.rcObligation.adapter = obligationAdapter
         obligationAdapter.setOnObligationClickListener(this)
-        binding.pageIndicatorAsset.attachTo(binding.layoutObligations.rcObligation)
-        binding.pageIndicatorAsset.visibility = View.VISIBLE
-        binding.layoutObligations.rcObligation.visibility = View.VISIBLE
+        binding.layoutObligations.pageIndicatorObligation.attachTo(binding.layoutObligations.rcObligation)
+       // binding.pageIndicatorAsset.visibility = View.VISIBLE
+       // binding.layoutObligations.rcObligation.visibility = View.VISIBLE
+        binding.layoutObligations.obligationcounter.setText(obligations.size.toString())
+
+
     }
 
     private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
@@ -277,7 +305,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         obligationFormListeners(binding.layoutObligations)
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-            if (formValidation.validateAssetLiabilityForm(binding) || assetsList!!.size > 0
+            if (assetsList!!.size > 0
                     || cardDetailList!!.size > 0 || obligationsList!!.size > 0) {
                 saveCurrentApplicant()
                 loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
@@ -290,11 +318,14 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             bindingObligation.formObligation.visibility = View.GONE
             bindingObligation.collapseForm.visibility = View.GONE
             bindingObligation.expandForm.visibility = View.VISIBLE
+
+            showDialogtoAddObligation()
         }
         bindingObligation.expandForm.setOnClickListener {
             bindingObligation.expandForm.visibility = View.GONE
             bindingObligation.formObligation.visibility = View.VISIBLE
             bindingObligation.collapseForm.visibility = View.VISIBLE
+            showDialogtoAddObligation()
         }
         CurrencyConversion().convertToCurrencyType(binding.layoutObligations.etLoanAmount)
         CurrencyConversion().convertToCurrencyType(binding.layoutObligations.etEmiAmount)
@@ -311,11 +342,14 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             bindingCardDetail.formCreditCard.visibility = View.GONE
             bindingCardDetail.collapseForm.visibility = View.GONE
             bindingCardDetail.expandForm.visibility = View.VISIBLE
+
         }
         bindingCardDetail.expandForm.setOnClickListener {
             bindingCardDetail.expandForm.visibility = View.GONE
             bindingCardDetail.collapseForm.visibility = View.VISIBLE
             bindingCardDetail.formCreditCard.visibility = View.VISIBLE
+
+
         }
         bindingCardDetail.btnAddCreditCard.setOnClickListener {
             if (formValidation.validateCards(bindingCardDetail)) {
@@ -330,6 +364,8 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             binding.llAssetDetail.visibility = View.GONE
             binding.collapseForm.visibility = View.GONE
             binding.expandForm.visibility = View.VISIBLE
+
+
         }
         binding.expandForm.setOnClickListener {
             binding.expandForm.visibility = View.GONE
@@ -344,7 +380,64 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
             } else showToast(getString(R.string.validation_error))
         }
         CurrencyConversion().convertToCurrencyType(binding.etValue)
+
+        // changes due t0 new Design
+        binding.addasset.setOnClickListener() {
+
+            //show dialog
+            showDialogtoAddAssests()
+
+        }
+
+        binding.layoutCreditCard.addcreditdilaog.setOnClickListener(){
+
+            showDialogtoAddCreditCard()
+        }
+
+        binding.layoutObligations.addcreditdilaog.setOnClickListener(){
+
+            showDialogtoAddObligation()
+
+        }
+
+        binding.assetcounter.setOnClickListener() {
+            binding.llAssetDetail.visibility = View.VISIBLE
+            binding.pageIndicatorAsset.visibility = View.VISIBLE
+            binding.rcAsset.visibility = View.VISIBLE
+
+            binding.layoutObligations.pageIndicatorObligation.visibility=View.GONE
+            binding.layoutObligations.rcObligation.visibility = View.GONE
+
+            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+            binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
+        }
+
+        binding.layoutObligations.obligationcounter.setOnClickListener(){
+            binding.layoutObligations.pageIndicatorObligation.visibility=View.VISIBLE
+            binding.layoutObligations.rcObligation.visibility = View.VISIBLE
+
+
+            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+            binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
+            binding.pageIndicatorAsset.visibility = View.GONE
+            binding.rcAsset.visibility = View.GONE
+        }
+        binding.layoutCreditCard.creditcardcounter.setOnClickListener(){
+
+                binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
+                binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
+
+
+                binding.pageIndicatorAsset.visibility = View.GONE
+                binding.rcAsset.visibility = View.GONE
+
+                binding.layoutObligations.pageIndicatorObligation.visibility=View.GONE
+                binding.layoutObligations.rcObligation.visibility = View.GONE
+
+        }
+
     }
+
 
     private fun saveCurrentObligations() {
         obligationsList?.add(getCurrentObligation())
@@ -360,6 +453,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         assetsList?.add(getCurrentAsset())
         assetAdapter.notifyDataSetChanged()
     }
+
 
     private fun saveCurrentApplicant() {
         if (aApplicantList!!.size > 0) {
@@ -431,10 +525,75 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         fillCardDetailFormWithCurrentCard(binding.layoutCreditCard, currentCardDetail!!)
     }
 
+
     override fun onObligationEditClicked(position: Int, obligation: ObligationDetail) {
         currentObligation = obligation
-        fillObligationFormWithCurrentObligation(binding.layoutObligations, currentObligation!!)
+       // fillObligationFormWithCurrentObligation(binding.layoutObligations, currentObligation!!)
+        /*obligationItemDetail = LayoutInflater.from(mContext).inflate(R.layout.obligation_item_dialog, null)
+        val mBuilder = androidx.appcompat.app.AlertDialog.Builder(mContext)
+                .setView(obligationItemDetail)
+                .setCancelable(true)*/
+
+        var   binding: ObligationItemDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.obligation_item_dialog, null, true)
+
+
+        val mBuilder = androidx.appcompat.app.AlertDialog.Builder(mContext)
+                .setView(binding.root)
+                .setCancelable(true)
+
+
+        obligationItemDetailDialog = mBuilder.show()
+       // binding.tvLoanOwnership.setText(allMasterDropDown.LoanOwnership?.get(position)?.typeDetailCode)
+        for (i in 0 until allMasterDropDown.LoanOwnership!!.size) {
+
+            if (obligation.loanOwnershipTypeDetailID == allMasterDropDown.LoanOwnership?.get(i)?.typeDetailID) {
+
+                binding.tvLoanOwnership.setText(allMasterDropDown.LoanOwnership?.get(i)?.typeDetailCode)
+
+            }
+        }
+
+
+
+        for (i in 0 until allMasterDropDown.LoanType!!.size) {
+
+            if (obligation.loanTypeTypeDetailID == allMasterDropDown.LoanType?.get(i)?.typeDetailID) {
+                //binding.tvObligate.setText(allMasterDropDown.Obligate?.get(i)?.typeDetailCode)
+                binding.tvLoanType.setText(allMasterDropDown.LoanType?.get(i)?.typeDetailCode)
+
+            }
+        }
+
+        for (i in 0 until allMasterDropDown.Obligate!!.size) {
+
+            if (obligation.obligateTypeDetailID == allMasterDropDown.Obligate?.get(i)?.typeDetailID) {
+                binding.tvObligate.setText(allMasterDropDown.Obligate?.get(i)?.typeDetailCode)
+
+            }
+        }
+
+        binding.tvFinancerName.setText(obligation.financerName)
+        binding.tvTenure.setText(obligation.tenure.toString())
+        binding.tvBalanceTenure.setText(obligation.balanceTenure.toString())
+        binding.tvEMI.setText(obligation.emiAmount.toString())
+        binding.tvNumOfBouncesInSixMonths.setText(obligation.numberOfBouncesInLastSixMonth.toString())
+        binding.tvNumOfBouncesInNineMonths.setText(obligation.numberOfBouncesInLastNineMonth.toString())
+        binding.tvLoanAcNum.setText(obligation.loanAccountNumber)
+        binding.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
+        binding.tvLoanAmount.setText(obligation.loanAmount.toString())
+       // binding.tvDisbursementDate.setText(obligation.)
+        for (i in 0 until allMasterDropDown.RepaymentBank!!.size) {
+
+            if(obligation.repaymentBankTypeDetailID==allMasterDropDown.RepaymentBank?.get(i)?.typeDetailID){
+                binding.tvRepaymentBank.setText(allMasterDropDown.RepaymentBank?.get(i)?.typeDetailCode)
+
+            }
+
+
+        }
+
     }
+
 
     private fun fillAssetFormWithCurrentAsset(currentAsset: AssetLiability) {
         binding.etValue.setText(currentAsset.assetValue.toString())
@@ -442,6 +601,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         selectMasterDropdownValue(binding.spinnerAssetType, currentAsset.assetDetailsTypeDetailID)
         selectMasterDropdownValue(binding.spinnerAssetSubType, currentAsset.subTypeOfAssetTypeDetailID)
         selectMasterDropdownValue(binding.spinnerDocumentProof, currentAsset.documentedProofTypeDetailID)
+
     }
 
     private fun fillCardDetailFormWithCurrentCard(binding: LayoutCreditCardDetailsBinding, currentCardDetail: CardDetail) {
@@ -461,6 +621,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         binding.etEmiAmount.setText(currentObligation.emiAmount.toString())
         binding.etBouncesInLastSixMonths.setText(currentObligation.numberOfBouncesInLastSixMonth.toString())
         binding.etBouncesInLastNineMonths.setText(currentObligation.numberOfBouncesInLastNineMonth.toString())
+
     }
 
     private fun showAlertDialog(position: Int, formType: Int) {
@@ -546,5 +707,182 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
         currentAsset.ownershipTypeDetailID = ownership?.typeDetailID
         currentAsset.documentedProofTypeDetailID = documentProof?.typeDetailID
         return currentAsset
+    }
+
+
+    private fun showDialogtoAddAssests() {
+
+
+        val binding:AddAssestsDialogBinding =DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.add_assests_dialog, null, true)
+
+
+        val mBuilder = androidx.appcompat.app.AlertDialog.Builder(mContext)
+                .setView(binding.root)
+                .setCancelable(false)
+
+
+        addAssestsDialog = mBuilder.show()
+        addAssestsDialog.cancel_bttn.setOnClickListener() {
+
+            addAssestsDialog.dismiss()
+        }
+
+
+        binding.spinnerAssetType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.AssetDetail!!)
+        binding.spinnerAssetSubType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.AssetSubType!!)
+        binding.spinnerOwnership.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.AssetOwnership!!)
+        binding.spinnerDocumentProof.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown!!.DocumentProof!!)
+
+
+        binding.btnAddAsset.setOnClickListener() {
+             if (formValidation.validateAssetsDialog(binding)) {
+            val currentAsset = AssetLiability()
+            val assetType = binding.spinnerAssetType.selectedItem as DropdownMaster?
+            val assetSubType = binding.spinnerAssetSubType.selectedItem as DropdownMaster?
+            val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
+            val documentProof = binding.spinnerDocumentProof.selectedItem as DropdownMaster?
+            currentAsset.assetValue = CurrencyConversion().convertToNormalValue(binding.etValue.text.toString()).toInt()
+            currentAsset.assetDetailsTypeDetailID = assetType?.typeDetailID
+            currentAsset.subTypeOfAssetTypeDetailID = assetSubType?.typeDetailID
+            currentAsset.ownershipTypeDetailID = ownership?.typeDetailID
+            currentAsset.documentedProofTypeDetailID = documentProof?.typeDetailID
+
+
+            assetsList?.add(currentAsset)
+            assetAdapter.notifyDataSetChanged()
+            addAssestsDialog.dismiss()
+            showToast("Asset add sucessfully")
+
+
+            setUpAssetAdapter(assetsList!!)
+
+
+            } else showToast(getString(R.string.validation_error))
+
+        }
+
+    }
+
+
+    private fun showDialogtoAddCreditCard() {
+
+        val   binding:AssetCreditcardDialogBinding= DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.asset_creditcard_dialog, null, true)
+
+        val mBuilder = androidx.appcompat.app.AlertDialog.Builder(mContext)
+                .setView(binding.root)
+                .setCancelable(false)
+
+        addCreditCardDialog = mBuilder.show()
+        addCreditCardDialog.cancel_bttn.setOnClickListener() {
+
+            addCreditCardDialog.dismiss()
+        }
+
+        binding.spinnerBankName.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.BankName!!)
+        binding.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.CreditCardObligation!!)
+
+        binding.etLastPaymentDate.setOnClickListener() {
+            SelectDate(addCreditCardDialog.etLastPaymentDate, mContext)
+        }
+
+        addCreditCardDialog.btnAddCreditCard.setOnClickListener() {
+
+
+
+            if(formValidation.validateCardsDialog(binding)) {
+
+                val currentCard = CardDetail()
+                val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
+                val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
+                currentCard.lastPaymentDate = binding.etLastPaymentDate.text.toString()
+                currentCard.cardLimit = binding.etCreditCardLimit!!.text.toString().toInt()
+                currentCard.currentUtilization = binding.etCurrentUtilization!!.text.toString().toInt()
+                currentCard.bankNameTypeDetailID = bankName?.typeDetailID
+                currentCard.obligateTypeDetail = obligate?.typeDetailID
+
+                cardDetailList?.add(currentCard)
+                cardDetailAdapter.notifyDataSetChanged()
+            addCreditCardDialog.dismiss()
+        }else{
+                showToast(getString(R.string.validation_error))
+            }
+        }
+
+
+    }
+
+
+    private fun showDialogtoAddObligation() {
+      var   binding: AddObligationDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.add_obligation_dialog, null, true)
+
+
+        val mBuilder = androidx.appcompat.app.AlertDialog.Builder(mContext)
+                .setView(binding.root)
+                .setCancelable(false)
+
+        addObligationDialog = mBuilder.show()
+
+
+        binding.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Obligate!!)
+        binding.spinnerObligate.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.Obligate!!)
+        binding.spinnerLoanOwnership.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.LoanOwnership!!)
+        binding.spinnerLoanType.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.LoanType!!)
+        binding.spinnerRepaymentBank.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.RepaymentBank!!)
+        binding.spinnerEmiPaidInSameMonth.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.BounceEmiPaidInSameMonth!!)
+
+        addObligationDialog.etDisbursementDate.setOnClickListener() {
+            SelectDate(addObligationDialog.etDisbursementDate, mContext)
+        }
+
+        addObligationDialog.cancel_bttn.setOnClickListener() {
+
+            addObligationDialog.dismiss()
+        }
+        addObligationDialog.btnAddObligation.setOnClickListener() {
+
+
+
+            if(formValidation.validateObligations(binding)) {
+
+                val currentObligation = ObligationDetail()
+                val loanOwnership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
+                val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
+                val loanType = binding.spinnerLoanType.selectedItem as DropdownMaster?
+                val repaymentBank = binding.spinnerRepaymentBank.selectedItem as DropdownMaster?
+                val emiPaidInSameMonth = binding.spinnerEmiPaidInSameMonth.selectedItem as DropdownMaster?
+                currentObligation.numberOfBouncesInLastNineMonth = binding.etBouncesInLastNineMonths.text.toString().toInt()
+                currentObligation.numberOfBouncesInLastSixMonth = binding.etBouncesInLastSixMonths.text.toString().toInt()
+                currentObligation.financerName = binding.etFinancierName.text.toString()
+                currentObligation.loanAmount = CurrencyConversion().convertToNormalValue(binding.etLoanAmount.text.toString()).toInt()
+                currentObligation.emiAmount = CurrencyConversion().convertToNormalValue(binding.etEmiAmount.text.toString()).toInt()
+                currentObligation.loanAccountNumber = binding.etAccountNum.text.toString()
+                currentObligation.tenure = binding.etTenure.text.toString().toInt()
+                currentObligation.balanceTenure = binding.etBalanceTenure.text.toString().toInt()
+                currentObligation.loanOwnershipTypeDetailID = loanOwnership?.typeDetailID
+                currentObligation.obligateTypeDetailID = obligate?.typeDetailID
+                currentObligation.loanTypeTypeDetailID = loanType?.typeDetailID
+                currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
+                currentObligation.bounseEmiPaidInSameMonth = emiPaidInSameMonth?.typeDetailID
+
+                obligationsList?.add(currentObligation)
+                obligationAdapter.notifyDataSetChanged()
+                addObligationDialog.dismiss()
+
+            }else{
+
+                showToast(getString(R.string.validation_error))
+            }
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun customEventReceived(event: AssetLiabilityFragment?) {
+        // Toast.makeText(mContext,"custom event",Toast.LENGTH_SHORT)
     }
 }

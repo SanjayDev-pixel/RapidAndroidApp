@@ -206,4 +206,12 @@
     <string name="amount">Amount : </string>
     <string name="fillotp">Please fill OTP</string>
     <string name="coapplicant">Co-Applicant</string>
+    <string name="mprefix">+91 </string>
+
+    <string name="bank_name_colon">Bank Name:</string>
+    <string name="card_limit_colon">Card Limit:</string>
+    <string name="current_utilization_colon">Current Utilization:</string>
+    <string name="last_payment_date_colon">Last Payment Date:</string>
+    <string name="obligate_colon">Obligate:</string>
+    <string name="more"><u>More</u></string>
 </resources>
