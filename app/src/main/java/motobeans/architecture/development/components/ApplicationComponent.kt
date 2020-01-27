@@ -64,13 +64,14 @@ interface ApplicationComponent {
 
 
     fun inject(fragment: LoanInfoFragmentNew)
-    fun inject(fragment: PersonalMainFragmentNew)
+    fun inject(fragment: PersonalInfoFragmentNew)
     fun inject(fragment: EmploymentInfoFragmentNew)
     fun inject(fragment: BankDetailFragmentNew)
     fun inject(fragment: AssetLiabilityFragmentNew)
     fun inject(fragment: PropertyFragmentNew)
     fun inject(fragment: ReferenceFragmentNew)
     fun inject(fragment: DocumentCheckListFragmentNew)
+    fun inject(fragment: PersonalFormFragmentNew)
     /**
      * Presenters
      */

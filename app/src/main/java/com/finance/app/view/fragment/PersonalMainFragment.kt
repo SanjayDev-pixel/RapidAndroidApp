@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.R
-import com.finance.app.databinding.FragmentMainPersonalBinding
+import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
 import com.finance.app.view.adapters.recycler.adapter.PersonalPagerAdapter
-import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -22,22 +21,21 @@ class PersonalMainFragment : BaseFragment() {
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
-    private lateinit var binding: FragmentMainPersonalBinding
+    private lateinit var binding: FragmentPersonalInfoNewBinding
     private var pagerAdapter: PersonalPagerAdapter? = null
     private var coApplicantsList: ArrayList<PersonalApplicantsModel> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.fragment_main_personal)
+        binding = initBinding(inflater, container, R.layout.fragment_personal_info_new)
         init()
         return binding.root
     }
 
     override fun init() {
         //ArchitectureApp.instance.component.inject(this)
-        val leadData = leadMaster
-        leadData?.let {
-            getCoApplicantsList(leadData)
+        leadMaster?.let {
+            getCoApplicantsList(leadMaster!!)
         }
     }
 

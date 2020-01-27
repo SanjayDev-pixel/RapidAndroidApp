@@ -16,6 +16,7 @@ import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
 import com.finance.app.utility.DisableLoanInfoForm
 import com.finance.app.utility.SetLoanInfoMandatoryField
+import com.finance.app.view.activity.LoanApplicationActivity
 import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerViewTest

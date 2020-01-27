@@ -21,7 +21,7 @@ class PersonalApplicantsModel:Serializable {
     var fatherMiddleName: String? = ""
     var firstName: String? = ""
     var genderTypeDetailID: Int? = 0
-    var isMainApplicant:Boolean? = false
+    var isMainApplicant:Boolean = false
     var lastName: String? = ""
     var loanApplicationID: Int? = 0
     var maritialStatusTypeDetailID: Int? = 0

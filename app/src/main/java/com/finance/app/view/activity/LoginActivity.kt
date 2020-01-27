@@ -83,5 +83,9 @@ class LoginActivity : BaseAppCompatActivity() {
                 showToast(value.responseMsg)
             }
         }
+
+        override fun getApiFailure(msg: String) {
+            showToast(msg)
+        }
     }
 }

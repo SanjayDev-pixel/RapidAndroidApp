@@ -8,8 +8,9 @@
         android:orientation="vertical">
 
         <com.finance.app.view.customViews.CustomPersonalInfoView
-            android:id="@+id/layoutCustomPersonal"
+            android:id="@+id/customPersonalView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </LinearLayout>
 </layout>

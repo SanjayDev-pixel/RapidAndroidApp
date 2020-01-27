@@ -21,6 +21,7 @@ import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
+import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.utility.LeadRequestResponseConversion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -96,18 +97,13 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
             ++count
 
-            println("Munish Thakur -> $count). $isSyncCompleted")
             if (!isSyncCompleted) {
                 isAllApiCallsCompletedValue = false
                 break@permissionLoop
             }
         }
 
-
-        println("Munish Thakur -> isAllApiCallCompleted -> $isAllApiCallCompleted")
         isAllApiCallCompleted.value = isAllApiCallsCompletedValue
-
-        println("Munish Thakur -> ---------- END -----------")
     }
 
     private fun getBoolean(liveData: MutableLiveData<Boolean>) = liveData.value ?: false
@@ -165,39 +161,38 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
                 leadData.loanData = apiResponseObject as LoanInfoModel
             }
 
-            setObservableValue(isLeadSyncLoanInfo, true)
+            setObservableValueTrue(isLeadSyncLoanInfo)
         }
 
         private fun handlePersonalResponse(apiResponseObject: Serializable?) {
-            apiResponseObject?.let {
-                leadData.personalData = apiResponseObject as PersonalApplicantList
-            }
+            if (apiResponseObject == null) {
+                LeadAndLoanDetail().addPersonalApplicant(leadMaster = leadData)
+            } else leadData.personalData = apiResponseObject as PersonalApplicantList
 
-            setObservableValue(isLeadSyncPersonalInfo, true)
+            setObservableValueTrue(isLeadSyncPersonalInfo)
         }
 
         private fun handleEmploymentResponse(apiResponseObject: Serializable?) {
-            apiResponseObject?.let {
-                leadData.employmentData = apiResponseObject as EmploymentApplicantList
-            }
-
-            setObservableValue(isLeadSyncEmployment, true)
+            if (apiResponseObject == null) {
+                LeadAndLoanDetail().addEmploymentApplicant(leadMaster = leadData)
+            } else leadData.employmentData = apiResponseObject as EmploymentApplicantList
+            setObservableValueTrue(isLeadSyncEmployment)
         }
 
         private fun handleBankDetailResponse(apiResponseObject: Serializable?) {
-            apiResponseObject?.let {
-                leadData.bankData = apiResponseObject as BankDetailList
-            }
+            if (apiResponseObject == null) {
+                LeadAndLoanDetail().addBankApplicant(leadMaster = leadData)
+            } else leadData.bankData = apiResponseObject as BankDetailList
 
-            setObservableValue(isLeadSyncBankDetail, true)
+            setObservableValueTrue(isLeadSyncBankDetail)
         }
 
         private fun handleAssetsAndLiabilityResponse(apiResponseObject: Serializable?) {
-            apiResponseObject?.let {
-                leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList
-            }
+            if (apiResponseObject == null) {
+                LeadAndLoanDetail().addAssetLiabilityApplicant(leadMaster = leadData)
+            } else leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList
 
-            setObservableValue(isLeadSyncLiabilityAndAssets, true)
+            setObservableValueTrue(isLeadSyncLiabilityAndAssets)
         }
 
         private fun handlePropertyResponse(apiResponseObject: Serializable?) {
@@ -205,7 +200,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
                 leadData.propertyData = apiResponseObject as PropertyModel
             }
 
-            setObservableValue(isLeadSyncProperty, true)
+            setObservableValueTrue(isLeadSyncProperty)
         }
 
         private fun handleReferenceResponse(apiResponseObject: Serializable?) {
@@ -213,11 +208,11 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
                 leadData.referenceData = apiResponseObject as ReferencesList
             }
 
-            setObservableValue(isLeadSyncReference, true)
+            setObservableValueTrue(isLeadSyncReference)
         }
 
-        private fun setObservableValue(observableSync: MutableLiveData<Boolean>, isSync: Boolean) {
-            observableSync.value = isSync
+        private fun setObservableValueTrue(observableSync: MutableLiveData<Boolean>) {
+            observableSync.value = true
         }
     }
 }

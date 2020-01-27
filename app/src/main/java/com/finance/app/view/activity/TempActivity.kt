@@ -21,7 +21,7 @@ class TempActivity : BaseAppCompatActivity() {
 
     override fun init() {
         binding.btnTemp1.setOnClickListener { }
-        binding.cvPersonalInfo.attachView()
+//        binding.cvPersonalInfo.attachView()
         //binding.cvPersonalInfo.isMandatory(true)
     }
 }

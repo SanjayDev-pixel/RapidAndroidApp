@@ -90,7 +90,7 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
     private fun navigateToAnotherFragmentOnIconCLick(navData: AppEnums.ScreenLoanApp) {
         val fragment = when (navData) {
             AppEnums.ScreenLoanApp.LOAN_INFORMATION -> LoanInfoFragmentNew.newInstance()
-            AppEnums.ScreenLoanApp.PERSONAL -> PersonalMainFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.PERSONAL -> PersonalInfoFragmentNew.newInstance()
             AppEnums.ScreenLoanApp.EMPLOYMENT -> EmploymentInfoFragmentNew.newInstance()
             AppEnums.ScreenLoanApp.BANK_DETAIL -> BankDetailFragmentNew.newInstance()
             AppEnums.ScreenLoanApp.LIABILITY_AND_ASSET -> AssetLiabilityFragmentNew.newInstance()

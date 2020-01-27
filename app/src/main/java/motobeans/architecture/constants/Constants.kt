@@ -36,5 +36,11 @@ class Constants {
     companion object APP {
         const val SUCCESS = "200"
         const val DIRECT = 53
+        const val SELF = 221
+        const val RENTED = 253
+        const val SINGLE = 63
+        internal const val PERMANENT_ADDRESS = "Permanent"
+        internal const val CURRENT_ADDRESS = "Current"
+
     }
 }

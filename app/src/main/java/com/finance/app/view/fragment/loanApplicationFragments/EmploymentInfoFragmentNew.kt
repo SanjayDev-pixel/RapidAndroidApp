@@ -11,33 +11,25 @@ import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-
-/**
- * Created by motobeans on 2/16/2018.
- */
 class EmploymentInfoFragmentNew : BaseFragment(){
-
-    companion object {
-        fun newInstance(): EmploymentInfoFragmentNew {
-            val fragment = EmploymentInfoFragmentNew()
-            return fragment
-        }
-    }
 
     @Inject
     lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
     private lateinit var binding: FragmentEmploymentBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    companion object {
+        fun newInstance(): EmploymentInfoFragmentNew {
+            return EmploymentInfoFragmentNew()
+        }
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         binding = initBinding(inflater, container, R.layout.fragment_employment)
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         init()
         return view
     }

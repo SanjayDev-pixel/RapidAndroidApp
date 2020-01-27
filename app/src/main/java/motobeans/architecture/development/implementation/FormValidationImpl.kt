@@ -25,7 +25,7 @@ class FormValidationImpl : FormValidation {
         return isValidForm(error)
     }
 
-    override fun validatePersonalInfo(binding: FragmentPersonalBinding): Boolean {
+    override fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding): Boolean {
         var errorCount = 0
         val firstName = binding.basicInfoLayout.etFirstName.text.toString()
         val dob = binding.basicInfoLayout.etDOB.text.toString()
@@ -69,7 +69,7 @@ class FormValidationImpl : FormValidation {
         return isValidForm(fieldError)
     }
 
-    private fun checkPermanentAddressFields(binding: FragmentPersonalBinding): Int {
+    private fun checkPermanentAddressFields(binding: LayoutCustomViewPersonalBinding): Int {
         var errorCount = 0
         val permanentAddress = binding.personalAddressLayout.etPermanentAddress.text.toString()
         val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
