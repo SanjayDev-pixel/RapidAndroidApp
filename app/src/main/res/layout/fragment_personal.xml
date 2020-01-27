@@ -20,21 +20,39 @@
                 android:orientation="vertical"
                 android:padding="@dimen/margin_10">
 
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:scrollbars="horizontal">
+                    android:scrollbars="horizontal"
+                    android:background="@color/white">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rcApplicants"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="100sp"
+                        android:layout_marginEnd="120sp"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:background="@color/white"
+                        />
+
+                    <Button
+                        android:id="@+id/btnAddApplicant"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/md_grey_500"/>
 
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorPrimary"
+                    />
 
                 <LinearLayout
                     android:id="@+id/llKYC"
