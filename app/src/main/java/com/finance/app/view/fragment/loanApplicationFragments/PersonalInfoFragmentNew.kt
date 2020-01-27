@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
@@ -56,13 +55,16 @@ class PersonalInfoFragmentNew : BaseFragment() {
         binding.btnPrevious.setOnClickListener {
             AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-//            if (formValidation.validatePersonalInfo(binding)) {
-////                Todo()
-//            } else {
-//                Toast.makeText(context, context.getString(R.string.validation_error), Toast.LENGTH_SHORT).show()
-//            }
+            checkValidationAndProceed()
         }
+    }
 
+    private fun checkValidationAndProceed() {
+        val mFragment: PersonalFormFragmentNew = pagerAdapter?.getItem(binding.viewPager.currentItem) as PersonalFormFragmentNew
+        //Todo()
+        if (mFragment.isValidFragment()) {
+            AppEvents.fireEventLoanAppChangeNavFragmentNext()
+        }
     }
 
     private fun handleAddCoApplicant(leadMaster: AllLeadMaster?) {
@@ -74,10 +76,10 @@ class PersonalInfoFragmentNew : BaseFragment() {
 
     private fun setCoApplicantInTabs(coApplicantsList: ArrayList<PersonalApplicantsModel>) {
         pagerAdapter = PersonalPagerAdapter(fragmentManager!!)
-        for (index in 0 until coApplicantsList.size) {
-            pagerAdapter!!.addFragment(PersonalFormFragmentNew.newInstance(coApplicantsList[index]), "CoApplicant ${index + 1}")
-        }
         binding.viewPager.adapter = pagerAdapter
         binding.tabLead.setupWithViewPager(binding.viewPager)
+        for (index in 0 until coApplicantsList.size) {
+            pagerAdapter!!.addFragment(PersonalFormFragmentNew.newInstance(coApplicantsList[index], index), "CoApplicant ${index + 1}")
+        }
     }
 }

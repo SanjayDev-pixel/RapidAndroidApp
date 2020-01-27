@@ -7,13 +7,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.LayoutCustomViewPersonalBinding
-import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
@@ -48,6 +46,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     lateinit var formValidation: FormValidation
     private lateinit var binding: LayoutCustomViewPersonalBinding
     private lateinit var activity: FragmentActivity
+    private var index: Int = 0
     private var otp: Int? = 0
     private val presenter = Presenter()
     private lateinit var verifyOTPDialog: Dialog
@@ -68,8 +67,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private lateinit var currentResidenceType: CustomSpinnerViewTest<DropdownMaster>
     private var spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>> = ArrayList()
 
-    fun attachView(activity: FragmentActivity, applicant: PersonalApplicantsModel, leadId: Int) {
+    fun attachView(activity: FragmentActivity, index: Int, applicant: PersonalApplicantsModel, leadId: Int) {
         this.activity = activity
+        this.index = index
         binding = AppUtilExtensions.initCustomViewBinding(context = context,
                 layoutId = R.layout.layout_custom_view_personal, container = this)
         initializeViews(applicant, leadId)
@@ -144,7 +144,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         setCustomSpinner(dropDown, applicant)
         fillValueInMasterDropDown(applicant)
     }
-
 
     private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
         dobProof = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.DOBProof!!, label = "DOB Proof")
@@ -335,8 +334,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         currentApplicant.religionTypeDetailID = religionDD?.typeDetailID
         currentApplicant.relationshipTypeDetailId = relationshipDD?.typeDetailID
         currentApplicant.maritialStatusTypeDetailID = mStatusDD?.typeDetailID
+        currentApplicant.isMainApplicant = index == 0
         currentApplicant.livingStandardTypeDetailId = livingStandardDD?.typeDetailID
-//        currentApplicant.leadApplicantNumber = LeadAndLoanDetail().getLeadApplicantNum(currentPosition + 1, leadNumber)
         currentApplicant.numberOfEarningMembers = if (earningMembers == "") 0 else earningMembers.toInt()
         currentApplicant.numberOfDependents = if (dependents == "") 0 else dependents.toInt()
         currentApplicant.firstName = binding.basicInfoLayout.etFirstName.text.toString()
@@ -350,7 +349,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         currentApplicant.fatherLastName = binding.basicInfoLayout.etFatherLastName.text.toString()
         currentApplicant.dateOfBirth = ConvertDate().convertToApiFormat(binding.basicInfoLayout.etDOB.text.toString())
         currentApplicant.age = binding.basicInfoLayout.etAge.text.toString().toInt()
-//        currentApplicant.isMainApplicant = currentPosition == 0
         currentApplicant.incomeConsidered = binding.basicInfoLayout.cbIncomeConsidered.isChecked
         currentApplicant.alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
         currentApplicant.contactDetail = getContactDetail()
@@ -509,5 +507,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
                 binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
             }
         }
+    }
+
+    fun isValidPersonalApplicant(): PersonalApplicantsModel? {
+        return if (formValidation.validatePersonalInfo(binding)) getCurrentApplicant()
+        else null
     }
 }

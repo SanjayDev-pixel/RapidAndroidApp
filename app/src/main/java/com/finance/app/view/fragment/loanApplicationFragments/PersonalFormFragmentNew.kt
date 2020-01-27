@@ -25,11 +25,13 @@ class PersonalFormFragmentNew : BaseFragment() {
 
     companion object {
         const val KEY_CO_APPLICANT = "coApplicant"
+        const val KEY_INDEX = "index"
 
-        fun newInstance(coApplicant: PersonalApplicantsModel?): PersonalFormFragmentNew {
+        fun newInstance(coApplicant: PersonalApplicantsModel?, index: Int): PersonalFormFragmentNew {
             val fragment = PersonalFormFragmentNew()
             val args = Bundle()
             args.putSerializable(KEY_CO_APPLICANT, coApplicant)
+            args.putInt(KEY_INDEX, index)
             fragment.arguments = args
             return fragment
         }
@@ -46,11 +48,27 @@ class PersonalFormFragmentNew : BaseFragment() {
         ArchitectureApp.instance.component.inject(this)
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
+        val index = arguments?.getInt(KEY_INDEX)
         arguments?.getSerializable(KEY_CO_APPLICANT)?.let { Applicant ->
             val applicant = Applicant as PersonalApplicantsModel
-            activity?.let {
-                binding.customPersonalView.attachView(activity!!, applicant, leadMaster!!.leadID ?: 0)
+            index?.let {
+                activity?.let {
+                    binding.customPersonalView.attachView(activity!!, index, applicant, leadMaster!!.leadID!!)
+                }
             }
         }
+    }
+
+    fun isValidFragment(): Boolean {
+        val applicant = binding.customPersonalView.isValidPersonalApplicant()
+        return if (applicant == null) false
+        else {
+            saveCurrentApplicant(applicant)
+            true
+        }
+    }
+
+    private fun saveCurrentApplicant(applicant: PersonalApplicantsModel) {
+    //Todo()
     }
 }
