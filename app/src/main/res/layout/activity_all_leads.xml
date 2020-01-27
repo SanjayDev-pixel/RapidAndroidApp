@@ -45,8 +45,8 @@
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:text="@string/create_lead"
-                android:textColor="@color/white"
-                 />
+                android:textColor="@color/white" />
+
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

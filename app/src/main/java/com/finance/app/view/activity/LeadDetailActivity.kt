@@ -136,7 +136,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         val isLeadOfflineDataSync = lead.isDetailAlreadySync
 
         when(isLeadInfoAlreadySync || isLeadOfflineDataSync) {
-            true -> LoanApplicationActivity.start(this)
+            true -> LoanApplicationActivity.start(this, lead.leadID)
             false -> showToast("Lead info detail is missing, We are trying to sync")
         }
     }
