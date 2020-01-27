@@ -1,8 +1,8 @@
 package com.finance.app.utility
 
-import com.finance.app.databinding.FragmentPersonalBinding
+import com.finance.app.databinding.LayoutCustomViewPersonalBinding
 
-class DisablePersonalForm(binding: FragmentPersonalBinding) {
+class DisablePersonalForm(binding: LayoutCustomViewPersonalBinding) {
 
     init {
         binding.spinnerIdentificationType.isEnabled = false

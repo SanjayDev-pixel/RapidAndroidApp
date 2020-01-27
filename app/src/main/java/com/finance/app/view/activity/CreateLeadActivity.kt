@@ -11,6 +11,8 @@ import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.SetCreateLeadMandatoryField
 import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.viewModel.AppDataViewModel
+import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
@@ -36,6 +38,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var formValidation: FormValidation
+    private val appDataViewModel: AppDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
 
     companion object {
         fun start(context: Context) {
@@ -58,8 +61,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     }
 
     private fun getLoanProductFromDB() {
-        dataBase.provideDataBaseSource().loanProductDao().getAllLoanProduct().observe(this, Observer { loanProductValue ->
-            loanProductValue.let {
+        appDataViewModel.getLoanProductMaster().observe(this, Observer { loanProductValue ->
+            loanProductValue?.let {
                 val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
                 arrayListOfLoanProducts.addAll(loanProductValue)
                 setProductDropDownValue(arrayListOfLoanProducts)

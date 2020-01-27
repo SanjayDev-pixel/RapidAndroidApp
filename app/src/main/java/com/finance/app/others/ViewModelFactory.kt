@@ -19,15 +19,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.FragmentActivity
 import com.finance.app.persistence.db.MasterDB
-import com.finance.app.viewModel.TempStaticViewModel
-import com.finance.app.viewModel.TempViewModel
+import com.finance.app.viewModel.*
 
 /**
  * Factory to wrap each ViewModel with Data access object of Product Entity
  *
  * @constructor dataSource: ProductDao
  */
-class ViewModelFactory(private val activity: androidx.fragment.app.FragmentActivity,
+@Suppress("UNCHECKED_CAST")
+class ViewModelFactory(private val activity: FragmentActivity,
                        private val dataSource: MasterDB) : ViewModelProvider.Factory {
 
     /**
@@ -44,23 +44,34 @@ class ViewModelFactory(private val activity: androidx.fragment.app.FragmentActiv
      * @return T
      */
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(TempViewModel::class.java)) {
-            return TempViewModel(activity, dataSource) as T
-        }
-        else if (modelClass.isAssignableFrom(TempStaticViewModel::class.java)) {
-
-            // Static View Model
-            val key = "AppValidationViewModel"
-            if(hashMapViewModel.containsKey(key)){
-                return getViewModel(key) as T
-            } else {
-              addViewModel(key,
-                  TempStaticViewModel(activity, dataSource))
-                return getViewModel(key) as T
+        when {
+            modelClass.isAssignableFrom(TempViewModel::class.java) -> {
+                return TempViewModel(activity, dataSource) as T
             }
+            modelClass.isAssignableFrom(SyncDataViewModel::class.java) -> {
+                return SyncDataViewModel(activity, dataSource) as T
+            }
+            modelClass.isAssignableFrom(AppDataViewModel::class.java) -> {
+                return AppDataViewModel(activity, dataSource) as T
+            }
+            modelClass.isAssignableFrom(LeadDataViewModel::class.java) -> {
+                return LeadDataViewModel(activity) as T
+            }
+            modelClass.isAssignableFrom(TempStaticViewModel::class.java) -> {
+
+                // Static View Model
+                val key = "AppValidationViewModel"
+                return if(hashMapViewModel.containsKey(key)){
+                    getViewModel(key) as T
+                } else {
+                    addViewModel(key,
+                            TempStaticViewModel(activity, dataSource))
+                    getViewModel(key) as T
+                }
+            }
+            else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
 
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 
     companion object {

@@ -41,7 +41,7 @@ object Response {
     data class DistrictObj(val districtID: Int, val districtName: String)
     data class ResponsePropertyNature(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<TransactionCategoryObj>, val timeStamp: Long)
     data class TransactionCategoryObj(val propertyNatureTransactionCategory: String, val propertyNatureTransactionCategoryID: Int)
-    data class ResponseCoApplicants(val responseCode: String, var responseMsg: String, val responseObj: ArrayList<CoApplicantsList>, val timeStamp: Long)
+    data class ResponseCoApplicants(val responseCode: String, var responseMsg: String, val responseObj: ArrayList<CoApplicantsList>?, val timeStamp: Long)
     data class CoApplicantsObj(var applicantID: Int? = null, var entityID: Int? = null, var firstName: String? = null,
                                var incomeConsidered: Boolean? = null, var isMainApplicant: Boolean,
                                var lastName: String? = null, var leadApplicantNumber: String, var middleName: String? = null)

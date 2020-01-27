@@ -3,7 +3,6 @@ package com.finance.app.persistence.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.util.*
 
 @Entity
 class AllLeadMaster : Serializable {
@@ -35,4 +34,14 @@ class AllLeadMaster : Serializable {
     var loanProductName: String? = ""
     var remarks: String? = ""
     var status: String? = ""
+    var personalData = PersonalApplicantList()
+    var loanData: LoanInfoModel? = null
+    var employmentData = EmploymentApplicantList()
+    var bankData = BankDetailList()
+    var assetLiabilityData = AssetLiabilityList()
+    var propertyData: PropertyModel? = PropertyModel()
+    var referenceData = ReferencesList()
+
+    var isDetailAlreadySync: Boolean = false
+    var isSyncWithServer: Boolean = false
 }

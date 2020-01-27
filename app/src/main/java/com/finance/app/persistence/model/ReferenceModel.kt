@@ -1,6 +1,8 @@
 package com.finance.app.persistence.model
 
-class ReferenceModel {
+import java.io.Serializable
+
+class ReferenceModel:Serializable {
 
     var addressBean: ReferenceAddressDetail? = ReferenceAddressDetail()
     var applicantReferenceDetailID: Int? = null

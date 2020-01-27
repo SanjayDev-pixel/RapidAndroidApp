@@ -129,20 +129,11 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <LinearLayout
-                    android:id="@+id/layoutSourcingPartner"
-                    android:orientation="vertical"
-                    android:layout_marginTop="@dimen/fields_margin"
+                <com.finance.app.view.customViews.CustomChannelPartnerView
+                    android:id="@+id/customChannelPartnerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <LinearLayout
-                    android:id="@+id/layoutPartnerName"
-                    android:orientation="vertical"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbPropertySelected"

@@ -1,6 +1,8 @@
 package com.finance.app.persistence.model
 
-class LoanInfoModel {
+import java.io.Serializable
+
+class LoanInfoModel:Serializable {
 
     var affordableEMI: Double? = 0.0
     var applicationNumber: String? = ""

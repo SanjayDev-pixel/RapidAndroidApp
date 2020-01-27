@@ -6,7 +6,7 @@ import com.finance.app.persistence.model.LoanProductMaster
 interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
     fun validateLogin(binding: ActivityLoginBinding): Boolean
-    fun validatePersonalInfo(binding: FragmentPersonalBinding):Boolean
+    fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding):Boolean
     fun validateAddLead(binding: ActivityLeadCreateBinding):Boolean
     fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean
     fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding): Boolean

@@ -16,9 +16,5 @@ class AppEvents {
             val event = AppEventsClasses.EnumChangeLoanAppNavFragment(enumChangeLoanAppNavFragment = enumChangeLoanAppNavFragment)
             EventBus.getDefault().post(event)
         }
-
-        fun fireEventLoanAppChangeNavFragment(event: AppEventsClasses.EnumChangeLoanAppNavFragment) {
-            EventBus.getDefault().post(event)
-        }
     }
 }

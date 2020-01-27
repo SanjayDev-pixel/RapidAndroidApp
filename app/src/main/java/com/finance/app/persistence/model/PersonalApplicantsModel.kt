@@ -1,6 +1,8 @@
 package com.finance.app.persistence.model
 
-class PersonalApplicantsModel {
+import java.io.Serializable
+
+class PersonalApplicantsModel:Serializable {
     var addressDetailList: ArrayList<AddressDetail>? = ArrayList()
     var age: Int? = 0
     var alternateContact: String? = ""
@@ -19,7 +21,7 @@ class PersonalApplicantsModel {
     var fatherMiddleName: String? = ""
     var firstName: String? = ""
     var genderTypeDetailID: Int? = 0
-    var isMainApplicant:Boolean? = false
+    var isMainApplicant:Boolean = false
     var lastName: String? = ""
     var loanApplicationID: Int? = 0
     var maritialStatusTypeDetailID: Int? = 0

@@ -11,10 +11,8 @@ import com.finance.app.persistence.model.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
-@Database(entities = [AllMasterDropDown::class, LoanProductMaster::class, AllLeadMaster::class,
-  LoanInfoMaster::class, AssetLiabilityMaster::class, BankDetailMaster::class, ReferenceMaster::class,
-  PersonalInfoMaster::class, StatesMaster::class, EmploymentMaster::class, PropertyMaster::class,
-  CoApplicantsMaster::class], version = 3)
+@Database(entities = [AllMasterDropDown::class, LoanProductMaster::class, AllLeadMaster::class, StatesMaster::class,
+  CoApplicantsMaster::class], version = 1)
 
 @TypeConverters(value = [Converters::class, ConverterArrayList::class])
 abstract class MasterDB : RoomDatabase() {
@@ -58,28 +56,7 @@ abstract class MasterDB : RoomDatabase() {
   abstract fun allLeadsDao(): AllLeadsDao
 
   @SuppressWarnings("WeakerAccess")
-  abstract fun loanInfoDao(): LoanInfoDao
-
-  @SuppressWarnings("WeakerAccess")
-  abstract fun personalInfoDao(): PersonalInfoDao
-
-  @SuppressWarnings("WeakerAccess")
-  abstract fun bankDetailDao(): BankDetailDao
-
-  @SuppressWarnings("WeakerAccess")
-  abstract fun referenceDao(): ReferenceDao
-
-  @SuppressWarnings("WeakerAccess")
   abstract fun statesDao(): StatesDao
-
-  @SuppressWarnings("WeakerAccess")
-  abstract fun employmentDao(): EmploymentDao
-
-  @SuppressWarnings("WeakerAccess")
-  abstract fun assetLiabilityDao(): AssetLiabilityDao
-
-  @SuppressWarnings("WeakerAccess")
-  abstract fun propertyDao(): PropertyDao
 
   @SuppressWarnings("WeakerAccess")
   abstract fun coApplicantsDao(): CoApplicantDao

@@ -38,6 +38,7 @@ class Presenter {
             ConstantsApi.CALL_ADD_LEAD -> apiProject.api.addLead(dmiConnector.apiRequest as Requests.RequestAddLead)
             ConstantsApi.CALL_ALL_MASTER_VALUE -> apiProject.api.getAllMasterValue()
             ConstantsApi.CALL_LOAN_PRODUCT -> apiProject.api.getLoanProduct()
+            ConstantsApi.CALL_GET_ALL_LEADS -> apiProject.api.getAllLeads()
             ConstantsApi.CALL_ALL_STATES -> apiProject.api.getStates()
             ConstantsApi.CALL_LOGIN -> apiProject.api.loginUser(dmiConnector.apiRequest as Requests.RequestLogin)
             ConstantsApi.CALL_COAPPLICANTS_LIST-> apiProject.api.getCoApplicantsList(dmiConnector.apiRequest as String)
@@ -99,6 +100,7 @@ abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context) : Conn
     }
 
     override fun getApiFailure(msg: String) {
-        showToast(context.getString(R.string.error_api_failure))
+        showToast(msg)
+//        showToast(context.getString(R.string.error_api_failure))
     }
 }

@@ -11,8 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
@@ -27,11 +25,11 @@ import com.finance.app.presenter.connector.DistrictCityConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
+import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
-import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.coroutines.GlobalScope
@@ -45,10 +43,13 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
+
+class EmploymentInfoFragment {
+
+}
+
+/*
 
 class EmploymentInfoFragment : BaseFragment(),
         PinCodeDetailConnector.PinCode,
@@ -103,12 +104,6 @@ class EmploymentInfoFragment : BaseFragment(),
         private const val BANK_SALARY = 119
     }
 
-    fun onCreate() {
-        //super.onCreate()
-        EventBus.getDefault().register(this)
-    }
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_employment)
         init()
@@ -124,8 +119,6 @@ class EmploymentInfoFragment : BaseFragment(),
         getEmploymentInfo()
         setDatePicker()
         setClickListeners()
-
-
     }
 
     private fun getEmploymentInfo() {
@@ -134,7 +127,7 @@ class EmploymentInfoFragment : BaseFragment(),
 
     private fun setCoApplicants() {
         dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
-            coApplicantsMaster.let {
+            coApplicantsMaster?.let {
                 if (coApplicantsMaster.coApplicantsList!!.isEmpty()) {
                     applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, mLead!!.leadNumber!!))
                 } else {
@@ -188,7 +181,6 @@ class EmploymentInfoFragment : BaseFragment(),
             currentTab = coApplicant
             currentPosition = position
             waitFor1Sec(position)
-            EventBus.getDefault().post(coApplicant)
         } else showToast(getString(R.string.mandatory_field_missing))
     }
 
@@ -215,7 +207,7 @@ class EmploymentInfoFragment : BaseFragment(),
     }
 
     private fun saveCurrentApplicant() {
-        if (eApplicantList!!.size > 0) {
+        if (eApplicantList!!.size > currentPosition) {
             eApplicantList!![currentPosition] = getCurrentApplicant()
         } else eApplicantList!!.add(currentPosition, getCurrentApplicant())
     }
@@ -229,6 +221,7 @@ class EmploymentInfoFragment : BaseFragment(),
                 SENP -> validateSenp()
             }
         }
+
         binding.ivDocumentUpload.setOnClickListener {}
         salaryIncomeListener(binding.layoutSalary.etGrossIncome, AppEnums.INCOME_TYPE.GROSS_INCOME)
         salaryIncomeListener(binding.layoutSalary.etDeduction, AppEnums.INCOME_TYPE.DEDUCTION)
@@ -320,14 +313,16 @@ class EmploymentInfoFragment : BaseFragment(),
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 setMasterDropDownValue(allMasterDropDown)
             }
         })
-        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer {
-            states = it
-            setStateDropDownValue()
+        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer { stateMaster ->
+            stateMaster?.let {
+                states = stateMaster
+                setStateDropDownValue()
+            }
         })
     }
 
@@ -771,7 +766,7 @@ class EmploymentInfoFragment : BaseFragment(),
         }
     }
 
-    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext!!) {
+    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext) {
 
         override val apiRequest: ArrayList<String>?
             get() = arrayListOf(mLead!!.leadID.toString(), employmentMaster.storageType)
@@ -779,7 +774,7 @@ class EmploymentInfoFragment : BaseFragment(),
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    employmentMaster = ResponseConversion().toEmploymentMaster(value.responseObj)
+                    employmentMaster = LeadRequestResponseConversion().toEmploymentMaster(value.responseObj)
                     eDraftData = employmentMaster.draftData
                     eApplicantList = eDraftData.applicantDetails
                 }
@@ -789,9 +784,9 @@ class EmploymentInfoFragment : BaseFragment(),
         }
     }
 
-    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext!!) {
+    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext) {
         override val apiRequest: LoanApplicationRequest
-            get() = RequestConversion() .employmentRequest(getEmploymentMaster())
+            get() = RequestConversion().employmentRequest(getEmploymentMaster())
 
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
@@ -801,9 +796,5 @@ class EmploymentInfoFragment : BaseFragment(),
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun customEventReceived(event: EmploymentInfoFragment?) {
-       // Toast.makeText(mContext,"custom event", Toast.LENGTH_SHORT)
-    }
-
 }
+*/
