@@ -2,66 +2,57 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.CoApplicantsList
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
+import com.finance.app.viewModel.AppDataViewModel
+import motobeans.architecture.appDelegates.ViewModelType
+import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import javax.inject.Inject
 
 class LoanApplicationActivity : BaseAppCompatActivity() {
     private val binding: ActivityLoanApplicationBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_loan_application)
 
-    @Inject
-    lateinit var sharedPreferences: SharedPreferencesUtil
+    private val appDataViewModel: AppDataViewModel by viewModelProvider(this, ViewModelType.WITH_DAO)
     private lateinit var navFragment: NavMenuFragment
     private lateinit var secondaryFragment: Fragment
 
-
     companion object {
         var leadMaster: AllLeadMaster? = null
-        fun start(context: Context) {
+        private const val KEY_LEAD_ID = "leadId"
+        fun start(context: Context, leadId: Int?) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            val bundle = Bundle()
+            bundle.putInt(KEY_LEAD_ID, leadId!!)
+            intent.putExtras(bundle)
             context.startActivity(intent)
         }
     }
+
 
     override fun init() {
         hideToolbar()
         hideSecondaryToolbar()
         ArchitectureApp.instance.component.inject(this)
-        binding.collapseImageView.setOnClickListener {
-            navFragment.toggleMenu()
-        }
-        setLeadNumber()
+        getLeadId()
         setNavFragment()
+        setClickListeners()
         secondaryFragment = LoanInfoFragmentNew.newInstance()
         setSecondaryFragment(secondaryFragment)
-
-        val layout_back: LinearLayout=findViewById(R.id.lytBack)
-        layout_back.setOnClickListener(){
-            showDialog()
-        }
-        val lead = sharedPreferences.getLeadDetail()
-        binding.tvMobile.text = lead?.applicantContactNumber
-        binding.header.tvLeadNumber.text = lead?.leadNumber
-        val leadName = lead?.applicantFirstName + " " + lead?.applicantMiddleName+ " " + lead?.applicantLastName
-        binding.applicantName.text=leadName
-        binding.tvDesignation.text=getString(R.string.applicant)
-
     }
 
     override fun onStart() {
@@ -69,13 +60,41 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         EventBus.getDefault().register(this)
     }
 
-    private fun setLeadNumber() {
+    private fun setClickListeners() {
+        binding.collapseImageView.setOnClickListener { navFragment.toggleMenu() }
 
-        val lead = sharedPreferences.getLeadDetail()
-        lead?.let{
-            setLeadNum(lead.leadNumber!!)
+        val layoutBack: LinearLayout = findViewById(R.id.lytBack)
+        layoutBack.setOnClickListener { showDialog() }
+    }
+
+    private fun getLeadId() {
+        val bundle = intent.extras
+        bundle?.let {
+            val leadId = bundle.getInt(KEY_LEAD_ID)
+            getLeadFromDB(leadId)
         }
+    }
 
+    private fun getLeadFromDB(leadId: Int) {
+        appDataViewModel.getLeadData(leadId).observe(this, Observer { LeadMaster ->
+            LeadMaster?.let {
+                leadMaster = LeadMaster
+                setLeadNum(LeadMaster.leadNumber)
+                fillLeadData(LeadMaster)
+            }
+        })
+    }
+
+    private fun fillLeadData(leadMaster: AllLeadMaster) {
+        binding.tvMobile.text = leadMaster.applicantContactNumber
+        binding.header.tvLeadNumber.text = leadMaster.leadNumber
+        val leadName = leadMaster.applicantFirstName + " " + leadMaster.applicantMiddleName + " " + leadMaster.applicantLastName
+        binding.applicantName.text = leadName
+        binding.tvDesignation.text = getString(R.string.applicant)
+    }
+
+    fun getLead(): AllLeadMaster? {
+        return leadMaster
     }
 
     private fun setNavFragment() {
@@ -121,22 +140,12 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         binding.header.tvLeadNumber.text = coApplicantsList.leadApplicantNumber
         binding.tvDesignation.text=coApplicantsList.applicantType
         binding.tvMobile.text=coApplicantsList.mobile
-
-
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
-
-
-
  }
 
 
