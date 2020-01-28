@@ -2,7 +2,6 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -11,22 +10,13 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.CoApplicantsList
-import com.finance.app.persistence.model.CoApplicantsMaster
-import com.finance.app.presenter.presenter.Presenter
-import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
-import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
-
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.finance.app.viewModel.LeadDataViewModel
+import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.Constants
-import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
@@ -34,21 +24,22 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_detail)
+    private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
     @Inject
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     private var bundle: Bundle? = null
-    private var leadID = 0
+    private var lead: AllLeadMaster? = null
+
     private var leadContact: Long = 0
-    private val presenter = Presenter()
 
     companion object {
-        private const val KEY_LEAD_ID = "leadIdForApplicant"
-        fun start(context: Context, leadID: Int?) {
+        private const val KEY_LEAD = "leadApplicant"
+        fun start(context: Context, lead: AllLeadMaster) {
             val intent = Intent(context, LeadDetailActivity::class.java)
             val bundle = Bundle()
-            bundle.putInt(KEY_LEAD_ID, leadID!!)
+            bundle.putSerializable(KEY_LEAD, lead)
             intent.putExtras(bundle)
             context.startActivity(intent)
         }
@@ -59,32 +50,45 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
-        getLeadId()
-        presenter.callNetwork(ConstantsApi.CALL_COAPPLICANTS_LIST, dmiConnector = CallCoApplicantList())
+        getLead()
+
+        setObservables()
     }
 
-    private fun getLeadId() {
+    private fun setObservables() {
+        leadDataViewModel.isAllApiCallCompleted.observe(this, Observer {
+            when(it) {
+                true -> {
+                    // ToDo()
+                }
+            }
+        })
+
+    }
+
+    private fun getLead() {
         bundle = intent.extras
         bundle?.let {
-            leadID = bundle!!.getInt(KEY_LEAD_ID)
+            val leadBundleData = bundle?.getSerializable(KEY_LEAD)
+
+            leadBundleData?.let {
+                lead = leadBundleData as AllLeadMaster
+                lead?.let {
+                    fillDataOnScreen(lead!!)
+                    sharedPreferences.saveLeadDetail(lead!!)
+                    leadDataViewModel.getLeadData(lead!!)
+                }
+            }
         }
-        getLeadFormDB(leadID)
     }
 
-    private fun getLeadFormDB(leadID: Int) {
-        dataBase.provideDataBaseSource().allLeadsDao().getLead(leadID)
-                .observe(this, Observer { lead ->
-                    fillDataOnScreen(lead)
-                    sharedPreferences.saveLeadDetail(lead)
-                })
-    }
-
-    private fun fillDataOnScreen(lead: AllLeadMaster?) {
-        binding.tvEmail.text = lead?.applicantEmail
-        val leadName = lead?.applicantFirstName + " " + lead?.applicantLastName
-        setLeadNum(lead?.leadNumber!!)
+    private fun fillDataOnScreen(lead: AllLeadMaster) {
+        binding.tvLeadName
+        binding.tvEmail.text = lead.applicantEmail
+        val leadName = lead.applicantFirstName + " " + lead.applicantLastName
+        setLeadNum(lead.leadNumber!!)
         binding.tvLeadName.text = leadName
-        binding.header.tvLeadNumber.text = lead.leadNumber
+       // binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLocation.text = lead.applicantAddress
         binding.tvPhone.text = lead.applicantContactNumber
         binding.tvTypeOfLoan.text = lead.loanProductName
@@ -92,24 +96,24 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         leadContact = lead.applicantContactNumber!!.toLong()
 
         setUpRecyclerView()
-        setClickListeners()
+        setClickListeners(lead)
         fillColor(lead)
     }
 
     private fun fillColor(lead: AllLeadMaster) {
         when (lead.status) {
-            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(Color.YELLOW)
-            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvLeadStatus.setTextColor(Color.BLUE)
-            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvLeadStatus.setTextColor(Color.RED)
-            else -> binding.tvLeadStatus.setTextColor(Color.GREEN)
+            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_pending))
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_submitted))
+            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_rejected))
+            else -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_new))
         }
     }
 
-    private fun setClickListeners() {
-        binding.header.lytBack.setOnClickListener { onBackPressed() }
+    private fun setClickListeners(lead: AllLeadMaster) {
+       // binding.header.lytBack.setOnClickListener { onBackPressed() }
 
         binding.llLeadDetail.setOnClickListener {
-            LoanApplicationActivity.start(this)
+            checkAndStartLoanApplication(lead)
         }
 
         binding.ivCall.setOnClickListener {
@@ -119,12 +123,21 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
 
         binding.btnUpdateCall.setOnClickListener {
-
-            UpdateCallActivity.start(this, leadID)
+            UpdateCallActivity.start(this, lead)
         }
 
         binding.btnAddTask.setOnClickListener {
             AddTaskActivity.start(this)
+        }
+    }
+
+    private fun checkAndStartLoanApplication(lead: AllLeadMaster) {
+        val isLeadInfoAlreadySync = leadDataViewModel.isAllApiCallCompleted.value ?: false
+        val isLeadOfflineDataSync = lead.isDetailAlreadySync
+
+        when(isLeadInfoAlreadySync || isLeadOfflineDataSync) {
+            true -> LoanApplicationActivity.start(this, lead.leadID)
+            false -> showToast("Lead info detail is missing, We are trying to sync")
         }
     }
 
@@ -133,23 +146,4 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
     }
 
-    inner class CallCoApplicantList : ViewGeneric<String, Response.ResponseCoApplicants>(context = this) {
-        override val apiRequest: String
-            get() = leadID.toString()
-
-        override fun getApiSuccess(value: Response.ResponseCoApplicants) {
-            if (value.responseCode == Constants.SUCCESS) {
-                saveApplicantToDB(value.responseObj)
-            }
-        }
-
-        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
-            GlobalScope.launch {
-                val coApplicantMaster = CoApplicantsMaster()
-                coApplicantMaster.coApplicantsList = responseObj
-                coApplicantMaster.leadID = leadID
-                dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
-            }
-        }
-    }
 }

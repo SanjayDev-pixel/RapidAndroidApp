@@ -33,7 +33,7 @@
                 android:layout_height="match_parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnCreate"
+                android:id="@+id/fabCreate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -41,8 +41,12 @@
                 android:src="@drawable/ic_vector_add"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
                 android:text="@string/create_lead"
-                android:textSize="@dimen/button_text_size" />
+                android:textColor="@color/white" />
+
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

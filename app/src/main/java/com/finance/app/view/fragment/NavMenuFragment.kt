@@ -20,7 +20,7 @@ class NavMenuFragment : Fragment() {
     private lateinit var navMenuAdapter: NavMenuAdapter
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
-    private var menuList: List<AppEnums.ScreenLoanInfo>? = null
+    private var menuList: List<AppEnums.ScreenLoanApp>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNavMenuBinding.inflate(inflater, container, false)

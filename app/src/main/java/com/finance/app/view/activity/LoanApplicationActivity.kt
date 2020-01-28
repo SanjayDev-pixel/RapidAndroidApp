@@ -2,8 +2,7 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import android.view.View
+import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -11,37 +10,36 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.CoApplicantsList
-import com.finance.app.persistence.model.ContactDetail
-import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.view.fragment.LoanInfoFragment
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.fragment.NavMenuFragment
-import kotlinx.android.synthetic.main.activity_loan_application.*
-import kotlinx.android.synthetic.main.activity_loan_application.view.*
-import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
+import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.PersonalInfoFragmentNew
+import com.finance.app.viewModel.AppDataViewModel
+import motobeans.architecture.appDelegates.ViewModelType
+import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import javax.inject.Inject
-
 
 class LoanApplicationActivity : BaseAppCompatActivity() {
     private val binding: ActivityLoanApplicationBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_loan_application)
 
-    @Inject
-    lateinit var sharedPreferences: SharedPreferencesUtil
+    private val appDataViewModel: AppDataViewModel by viewModelProvider(this, ViewModelType.WITH_DAO)
     private lateinit var navFragment: NavMenuFragment
     private lateinit var secondaryFragment: Fragment
 
-
     companion object {
-        fun start(context: Context) {
+        var leadDetail: AllLeadMaster? = null
+        private const val KEY_LEAD_ID = "leadId"
+        fun start(context: Context, leadId: Int?) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            val bundle = Bundle()
+            bundle.putInt(KEY_LEAD_ID, leadId!!)
+            intent.putExtras(bundle)
             context.startActivity(intent)
         }
     }
@@ -50,25 +48,11 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         hideToolbar()
         hideSecondaryToolbar()
         ArchitectureApp.instance.component.inject(this)
-        binding.collapseImageView.setOnClickListener {
-            navFragment.toggleMenu()
-        }
-        setLeadNumber()
+        getLeadId()
         setNavFragment()
-        secondaryFragment = LoanInfoFragment.newInstance()
+        setClickListeners()
+        secondaryFragment = LoanInfoFragmentNew.newInstance()
         setSecondaryFragment(secondaryFragment)
-
-        val layout_back: LinearLayout=findViewById(R.id.lytBack)
-        layout_back.setOnClickListener(){
-            showDialog()
-        }
-        val lead = sharedPreferences.getLeadDetail()
-        binding.tvMobile.text = lead.applicantContactNumber
-        binding.header.tvLeadNumber.text=lead.leadNumber
-        val leadName = lead?.applicantFirstName + " " + lead?.applicantMiddleName+ " " + lead?.applicantLastName
-        binding.applicantName.text=leadName
-        binding.tvDesignation.text=getString(R.string.applicant)
-
     }
 
     override fun onStart() {
@@ -76,11 +60,42 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         EventBus.getDefault().register(this)
     }
 
-    private fun setLeadNumber() {
+    private fun setClickListeners() {
+        binding.collapseImageView.setOnClickListener { navFragment.toggleMenu() }
 
-        val lead = sharedPreferences.getLeadDetail()
-        setLeadNum(lead.leadNumber!!)
+        val layoutBack: LinearLayout = findViewById(R.id.lytBack)
+        layoutBack.setOnClickListener { showDialog() }
+    }
 
+    private fun getLeadId() {
+        val bundle = intent.extras
+        bundle?.let {
+            val leadId = bundle.getInt(KEY_LEAD_ID)
+            LeadMetaData(leadId)
+            getLeadFromDB(leadId)
+        }
+    }
+
+    private fun getLeadFromDB(leadId: Int) {
+        appDataViewModel.getLeadData(leadId).observeForever { LeadMaster ->
+            LeadMaster?.let {
+                leadDetail = LeadMaster
+                setLeadNum(LeadMaster.leadNumber)
+                fillLeadData(LeadMaster)
+            }
+        }
+    }
+
+    private fun fillLeadData(leadMaster: AllLeadMaster) {
+        val leadName = leadMaster.applicantFirstName + " " + leadMaster.applicantMiddleName + " " + leadMaster.applicantLastName
+        binding.tvMobile.text = leadMaster.applicantContactNumber
+        binding.header.tvLeadNumber.text = leadMaster.leadNumber
+        binding.applicantName.text = leadName
+        binding.tvDesignation.text = getString(R.string.applicant)
+    }
+
+    fun getLead(): AllLeadMaster? {
+        return leadDetail
     }
 
     private fun setNavFragment() {
@@ -121,27 +136,17 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(coApplicantsList: CoApplicantsList){
 
-        binding.applicantName.text=coApplicantsList!!.firstName.plus(" "+coApplicantsList?.middleName)
+        binding.applicantName.text = coApplicantsList.firstName.plus(" " + coApplicantsList.middleName)
         //binding.tvLeadid.text="Lead Number:".plus(coApplicantsList!!.leadApplicantNumber)
-        binding.header.tvLeadNumber.text=coApplicantsList!!.leadApplicantNumber
+        binding.header.tvLeadNumber.text = coApplicantsList.leadApplicantNumber
         binding.tvDesignation.text=coApplicantsList.applicantType
         binding.tvMobile.text=coApplicantsList.mobile
-
-
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
-
-
-
  }
 
 

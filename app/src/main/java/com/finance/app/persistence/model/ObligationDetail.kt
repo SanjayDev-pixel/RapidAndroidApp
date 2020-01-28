@@ -1,6 +1,8 @@
 package com.finance.app.persistence.model
 
-class ObligationDetail {
+import java.io.Serializable
+
+class ObligationDetail : Serializable {
     var loanAmount: Int? = null
     var tenure: Int? = null
     var balanceTenure: Int? = null

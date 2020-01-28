@@ -15,32 +15,26 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
 
     @SuppressLint("SetTextI18n")
     fun bindItems(lead: AllLeadMaster, adapterFor: AppEnums.LEAD_TYPE?) {
-        if (adapterFor == AppEnums.LEAD_TYPE.ALL)
+        if (adapterFor == AppEnums.LEAD_TYPE.ALL) {
             binding.tvStatusLine.setTextVertically(lead.status)
-//
+        }
+
         binding.tvLeadName.text = lead.applicantFirstName
         binding.tvLeadID.text = "Lead Id : ${lead.leadID.toString()}"
 //        binding.tvLeadStatus.text = lead.status
-        binding.tvLoanType.text = lead.loanProductName
+        binding.tvLoanType.text = "Loan Type : ${lead.loanProductName}"
 //        binding.tvLeadAddress.text = lead.applicantAddress
         binding.tvCreatedDate.text = "Created Date : ${ConvertDate().convertDate(lead.createdOn!!)}"
-        binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.createdOn!!)
-//
+        binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
+
         when (lead.status) {
-            AppEnums.LEAD_TYPE.NEW.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.md_blue_400))
-            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.md_green_400))
-            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.md_yellow_400))
-            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.md_red_400))
+            AppEnums.LEAD_TYPE.NEW.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_new))
+            AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_submitted))
+            AppEnums.LEAD_TYPE.PENDING.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_pending))
+            AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_rejected))
         }
-//
-//        binding.tvDateAndTime.setDrawableColor(R.color.gradient_black)
-//        binding.tvLeadStatus.setDrawableColor(R.color.md_yellow_400)
-//
         binding.leadCard.setOnClickListener {
-            LeadDetailActivity.start(mContext, lead.leadID)
+            LeadDetailActivity.start(mContext, lead)
         }
-
     }
-
-
 }

@@ -11,19 +11,19 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemNavBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.view.adapters.recycler.holder.NavDrawerViewHolder
-import com.finance.app.view.fragment.*
+import com.finance.app.view.fragment.loanApplicationFragments.*
 import java.lang.Exception
 
 interface NavMenuConnector {
     fun isMenuExpanded(): Boolean
     fun getSelectionScreenName(): String
-    fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanInfo)
+    fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanApp)
     fun rootViewClicked(position: Int)
     fun nextFragment()
     fun previousFragment()
 }
 
-class NavMenuAdapter(private val mContext: Context, private val navListItem: List<AppEnums.ScreenLoanInfo>) : RecyclerView.Adapter<NavDrawerViewHolder>(), NavMenuConnector {
+class NavMenuAdapter(private val mContext: Context, private val navListItem: List<AppEnums.ScreenLoanApp>) : RecyclerView.Adapter<NavDrawerViewHolder>(), NavMenuConnector {
 
     private lateinit var binding: ItemNavBinding
     private var isExpanded = false
@@ -77,7 +77,7 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
         }
     }
 
-    override fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanInfo) {
+    override fun rootViewClicked(position: Int, navItem: AppEnums.ScreenLoanApp) {
         selectedNavPosition = position
         selectedNavString = navItem.screenName
         navigateToAnotherFragmentOnIconCLick(navItem)
@@ -87,17 +87,20 @@ class NavMenuAdapter(private val mContext: Context, private val navListItem: Lis
         notifyDataSetChanged()
     }
 
-    private fun navigateToAnotherFragmentOnIconCLick(navData: AppEnums.ScreenLoanInfo) {
-        when (navData) {
-            AppEnums.ScreenLoanInfo.LOAN_INFORMATION -> updateSecondaryFragment(LoanInfoFragment())
-            AppEnums.ScreenLoanInfo.PERSONAL -> updateSecondaryFragment(PersonalInfoFragment())
-            AppEnums.ScreenLoanInfo.EMPLOYMENT -> updateSecondaryFragment(EmploymentInfoFragment())
-            AppEnums.ScreenLoanInfo.BANK_DETAIL -> updateSecondaryFragment(BankDetailFragment())
-            AppEnums.ScreenLoanInfo.LIABILITY_AND_ASSET -> updateSecondaryFragment(AssetLiabilityFragment())
-            AppEnums.ScreenLoanInfo.REFERENCE -> updateSecondaryFragment(ReferenceFragment())
-            AppEnums.ScreenLoanInfo.PROPERTY -> updateSecondaryFragment(PropertyFragment())
-            AppEnums.ScreenLoanInfo.DOCUMENT_CHECKLIST -> updateSecondaryFragment(DocumentCheckListFragment())
+    private fun navigateToAnotherFragmentOnIconCLick(navData: AppEnums.ScreenLoanApp) {
+        val fragment = when (navData) {
+            AppEnums.ScreenLoanApp.LOAN_INFORMATION -> LoanInfoFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.PERSONAL -> PersonalInfoFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.EMPLOYMENT -> EmploymentInfoFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.BANK_DETAIL -> BankDetailFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.LIABILITY_AND_ASSET -> AssetLiabilityFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.REFERENCE -> ReferenceFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.PROPERTY -> PropertyFragmentNew.newInstance()
+            AppEnums.ScreenLoanApp.DOCUMENT_CHECKLIST -> DocumentCheckListFragmentNew.newInstance()
+            else -> return
         }
+
+        updateSecondaryFragment(fragment = fragment)
     }
 
     private fun updateSecondaryFragment(fragment: Fragment) {

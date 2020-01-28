@@ -48,10 +48,9 @@
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:layout_weight="1"
-                android:gravity="center|right"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:layout_marginRight="10dp"
-                android:paddingRight="20sp"
+                android:gravity="center|end"
                 />
 
         <com.alimuzaffar.lib.pin.PinEntryEditText
@@ -69,7 +68,7 @@
             app:pinLineStrokeSelected="2dp"
             app:pinTextBottomPadding="@dimen/margin_10"
             android:layout_weight="1"
-            android:layout_marginRight="10sp"/>
+            android:layout_marginEnd="10sp" />
         </LinearLayout>
 
         <TextView
@@ -88,29 +87,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_20">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/donotrecieveotp"
                 android:textColor="@color/black"
-                android:gravity="right"
-                android:textSize="@dimen/text_size"
-                />
-
+                android:gravity="end"
+                android:textSize="@dimen/text_size" />
 
         <TextView
             android:id="@+id/tvResendOTP"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left|center"
+            android:layout_marginStart="10sp"
             android:textColor="@color/colorPrimary"
-            android:layout_weight="1"
             android:text="@string/resend_otp"
             android:textSize="@dimen/text_size"
-            android:paddingLeft="10sp"
-            
+            android:gravity="start|center"
             />
         </LinearLayout>
 
@@ -134,10 +130,9 @@
                 android:textSize="@dimen/button_text_size"
                 android:textAllCaps="false"
                 android:layout_weight="1"
-              android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:layout_marginRight="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginEnd="10dp" />
 
-                />
             <Button
                 android:id="@+id/ivCross"
                 android:layout_width="100dp"
@@ -151,10 +146,9 @@
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:background="@color/colorPrimary"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginStart="10dp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 </layout>

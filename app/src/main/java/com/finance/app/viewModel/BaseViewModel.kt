@@ -16,6 +16,7 @@
 package com.finance.app.viewModel
 
 import android.app.ProgressDialog
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import com.finance.app.persistence.db.MasterDB
 import com.finance.app.presenter.connector.ReusableView
@@ -25,8 +26,8 @@ import motobeans.architecture.util.exShowToast
 /**
  * Created by munishkumarthakur on 09/12/17.
  */
-open class BaseViewModel(private val activity: androidx.fragment.app.FragmentActivity,
-                         private val masterDB: MasterDB? = null) : ViewModel(), ReusableView {
+open class BaseViewModel(private val activity: FragmentActivity, private val masterDB: MasterDB? = null) : ViewModel(),
+        ReusableView {
 
     private var progressCounter = 0
     init {

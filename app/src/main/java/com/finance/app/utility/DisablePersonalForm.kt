@@ -1,16 +1,14 @@
 package com.finance.app.utility
 
-import com.finance.app.databinding.FragmentPersonalBinding
+import com.finance.app.databinding.LayoutCustomViewPersonalBinding
 
-class DisablePersonalForm(binding: FragmentPersonalBinding) {
+class DisablePersonalForm(binding: LayoutCustomViewPersonalBinding) {
 
     init {
         binding.spinnerIdentificationType.isEnabled = false
         binding.etIdNum.isEnabled = false
         binding.etExpiryDate.isEnabled = false
         binding.etIssueDate.isEnabled = false
-        binding.btnNext.isEnabled = false
-        binding.btnPrevious.isEnabled = false
         binding.ivUploadKyc.isClickable = false
         binding.btnAddKYC.isEnabled = false
         binding.spinnerVerifiedStatus.isEnabled = false

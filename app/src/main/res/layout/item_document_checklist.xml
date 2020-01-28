@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,21 +27,13 @@
             android:text="Signed and Accepted Charges and Document List"
             android:textColor="@color/black" />
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinnerDocumentStatus"
+        <LinearLayout
+            android:id="@+id/layoutDocumentStatus"
+            android:layout_marginStart="@dimen/margin_10"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_50"
             android:layout_weight="1"
-            android:minWidth="@dimen/text_min_width"
-            android:spinnerMode="dialog"
-            android:textSize="@dimen/text_size"
-            app:ms_arrowColor="@color/black"
-            app:ms_arrowSize="@dimen/text_size"
-            app:ms_floatingLabelColor="@color/hint_color"
-            app:ms_hintColor="@color/hint_color"
-            app:ms_hintTextSize="@dimen/hint_size"
-            app:ms_multiline="false" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
     </LinearLayout>
 

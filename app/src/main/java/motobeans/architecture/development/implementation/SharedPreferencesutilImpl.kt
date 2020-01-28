@@ -99,7 +99,7 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         objSPLead.putString(SharedPreferencesBean.KEY_LEAD_DETAIL, objLead)
     }
 
-    override fun getLeadDetail(): AllLeadMaster {
+    override fun getLeadDetail(): AllLeadMaster? {
         val objSpLead = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_LEAD_DETAIL)
         val leadJson = objSpLead.getString(SharedPreferencesBean.KEY_LEAD_DETAIL)
         return Gson().fromJson(leadJson, AllLeadMaster::class.java)
@@ -130,13 +130,13 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         return null
     }
 
-    override fun getNavMenuItem(): List<AppEnums.ScreenLoanInfo>? {
-        val navItemList = ArrayList<AppEnums.ScreenLoanInfo>()
+    override fun getNavMenuItem(): List<AppEnums.ScreenLoanApp>? {
+        val navItemList = ArrayList<AppEnums.ScreenLoanApp>()
         val loginSubModules = getRolePrivilege()?.subModuleList
         for (module in loginSubModules!!) {
 
-            val screenData = AppEnums.ScreenLoanInfo.getData(module.screenDisplayName)
-            if (!(navItemList.contains(screenData)) && screenData != AppEnums.ScreenLoanInfo.DEFAULT) {
+            val screenData = AppEnums.ScreenLoanApp.getData(module.screenDisplayName)
+            if (!(navItemList.contains(screenData)) && screenData != AppEnums.ScreenLoanApp.DEFAULT) {
                 navItemList.add(screenData)
             }
         }

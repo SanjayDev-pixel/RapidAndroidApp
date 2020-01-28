@@ -1,8 +1,8 @@
 package com.finance.app.utility
 
-import com.finance.app.databinding.FragmentPersonalBinding
+import com.finance.app.databinding.LayoutCustomViewPersonalBinding
 
-class SetPersonalMandatoryField(binding: FragmentPersonalBinding) {
+class SetPersonalMandatoryField(binding: LayoutCustomViewPersonalBinding) {
 
     init {
         ShowAsMandatory(binding.basicInfoLayout.inputLayoutFirstName)

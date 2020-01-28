@@ -3,13 +3,21 @@ package motobeans.architecture.development.components
 import android.app.Application
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
-import com.finance.app.utility.GetOtherDropDownFromApi
 import com.finance.app.utility.LeadAndLoanDetail
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.activity.*
-import com.finance.app.view.adapters.recycler.holder.TempHolder
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
+import com.finance.app.view.adapters.recycler.holder.TempHolder
+import com.finance.app.view.customViews.CustomChannelPartnerView
+import com.finance.app.view.customViews.CustomPersonalInfoView
 import com.finance.app.view.customViews.CustomZipAddressView
-import com.finance.app.view.fragment.*
+import com.finance.app.view.fragment.LeadsListingFragment
+import com.finance.app.view.fragment.NavMenuFragment
+import com.finance.app.view.fragment.PersonalFormFragment
+import com.finance.app.view.fragment.loanApplicationFragments.*
+import com.finance.app.viewModel.AppDataViewModel
+import com.finance.app.viewModel.LeadDataViewModel
+import com.finance.app.viewModel.SyncDataViewModel
 import com.finance.app.viewModel.TempViewModel
 import com.optcrm.optreporting.AppModule
 import com.optcrm.optreporting.app.workers.UtilWorkersTask
@@ -39,8 +47,8 @@ interface ApplicationComponent {
     fun inject(activity: TestActivity)
     fun inject(activity: BaseAppCompatActivity)
     fun inject(activity: DashboardActivity)
+    fun inject(activity: SyncActivity)
     fun inject(activity: LoginActivity)
-//    fun inject(activity: GenericTypeTestActivity)
     fun inject(activity: LoanApplicationActivity)
     fun inject(activity: SplashScreen)
     fun inject(creationActivity: CreateLeadActivity)
@@ -51,18 +59,20 @@ interface ApplicationComponent {
     /**
      * Fragment
      */
-    fun inject(fragment: TestFragment)
-    fun inject(fragment: PersonalInfoFragment)
     fun inject(fragment: NavMenuFragment)
-    fun inject(fragment: LoanInfoFragment)
-    fun inject(fragment: BankDetailFragment)
-    fun inject(fragment: EmploymentInfoFragment)
-    fun inject(fragment: AssetLiabilityFragment)
-    fun inject(fragment: ReferenceFragment)
-    fun inject(fragment: AllLeadsFragment)
-    fun inject(fragment: DocumentCheckListFragment)
-    fun inject(fragment: PropertyFragment)
+    fun inject(fragment: PersonalFormFragment)
     fun inject(fragment: LeadsListingFragment)
+
+
+    fun inject(fragment: LoanInfoFragmentNew)
+    fun inject(fragment: PersonalInfoFragmentNew)
+    fun inject(fragment: EmploymentInfoFragmentNew)
+    fun inject(fragment: BankDetailFragmentNew)
+    fun inject(fragment: AssetLiabilityFragmentNew)
+    fun inject(fragment: PropertyFragmentNew)
+    fun inject(fragment: ReferenceFragmentNew)
+    fun inject(fragment: DocumentCheckListFragmentNew)
+    fun inject(fragment: PersonalFormFragmentNew)
     /**
      * Presenters
      */
@@ -92,6 +102,10 @@ interface ApplicationComponent {
      */
     fun inject(viewModel: TempViewModel)
 
+    fun inject(viewModel: SyncDataViewModel)
+    fun inject(viewModel: LeadDataViewModel)
+    fun inject(viewModel: AppDataViewModel)
+
     /**
      * Adapters
      */
@@ -108,7 +122,9 @@ interface ApplicationComponent {
     fun inject(other: SuperWorker)
     fun inject(other: UtilWorkersTask)
     fun inject(other: LeadAndLoanDetail)
+    fun inject(other: CustomPersonalInfoView)
     fun inject(other: CustomZipAddressView)
+    fun inject(other: CustomChannelPartnerView)
+    fun inject(other: LeadMetaData)
     fun inject(presenter: Presenter1)
-    fun inject(other: GetOtherDropDownFromApi)
 }

@@ -3,15 +3,16 @@ package com.finance.app.view.adapters.recycler.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemDocumentChecklistBinding
+import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.view.customViews.CustomSpinnerViewTest
 
-class DocumentCheckListAdapter(private val mContext: Context) : RecyclerView.Adapter<DocumentCheckListAdapter.DocumentCheckListViewHolder>() {
+class DocumentCheckListAdapter(private val mContext: Context, private val dropDowns: ArrayList<DropdownMaster>?) : RecyclerView.Adapter<DocumentCheckListAdapter.DocumentCheckListViewHolder>() {
     private lateinit var binding: ItemDocumentChecklistBinding
-    private val documentStatus = arrayOf("Select","YES", "NO", "NA")
+    private lateinit var selection: CustomSpinnerViewTest<DropdownMaster>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentCheckListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -19,7 +20,7 @@ class DocumentCheckListAdapter(private val mContext: Context) : RecyclerView.Ada
         return DocumentCheckListViewHolder(binding, mContext)
     }
 
-    override fun getItemCount() = 6
+    override fun getItemCount() = dropDowns?.size ?: 0
 
     override fun onBindViewHolder(holder: DocumentCheckListViewHolder, position: Int) {
         holder.bindItems(position)
@@ -27,9 +28,8 @@ class DocumentCheckListAdapter(private val mContext: Context) : RecyclerView.Ada
 
     inner class DocumentCheckListViewHolder(val binding: ItemDocumentChecklistBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int) {
-            val adapterDocumentStatus = ArrayAdapter(mContext, android.R.layout.simple_spinner_item, documentStatus)
-            adapterDocumentStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinnerDocumentStatus.adapter = adapterDocumentStatus
+            selection = CustomSpinnerViewTest(context = mContext, dropDowns = dropDowns, label = "Select *")
+            binding.layoutDocumentStatus.addView(selection)
         }
     }
 }

@@ -20,21 +20,21 @@ import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.connector.DistrictCityConnector
-import com.finance.app.presenter.connector.LoanApplicationConnector
 import com.finance.app.presenter.connector.PinCodeDetailConnector
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.*
+import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
-import com.finance.app.view.adapters.recycler.adapter.ReferenceAdapter
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -43,8 +43,12 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
-        LoanApplicationConnector.GetLoanApp,PinCodeDetailConnector.PinCode,
+class ReferenceFragment {
+
+}
+
+/*
+class ReferenceFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         ReferenceAdapter.ItemClickListener, DistrictCityConnector.District,
         DistrictCityConnector.City {
 
@@ -58,8 +62,8 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
     private lateinit var mContext: Context
     private var mLead: AllLeadMaster? = null
     private lateinit var referenceAdapter: ReferenceAdapter
-    private val loanAppPostPresenter = LoanAppPostPresenter(this)
-    private val loanAppGetPresenter = LoanAppGetPresenter(this)
+    private val presenter = Presenter()
+    private lateinit var leadIdForApplicant: String
     private val pinCodePresenter = PinCodeDetailPresenter(this)
     private val districtPresenter = DistrictPresenter(this)
     private val cityPresenter = CityPresenter(this)
@@ -77,12 +81,9 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
 
     companion object {
         private val leadAndLoanDetail = LeadAndLoanDetail()
-        private val responseConversion = ResponseConversion()
-        private val requestConversion = RequestConversion()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_reference)
         init()
         return binding.root
@@ -90,46 +91,16 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
+        mLead = sharedPreferences.getLeadDetail()
         mContext = context!!
+        leadIdForApplicant = mLead!!.leadID.toString()
         SetReferenceMandatoryField(binding)
         getReferenceInfo()
         setClickListeners()
     }
 
     private fun getReferenceInfo() {
-        mLead = sharedPreferences.getLeadDetail()
-        loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
-    }
-
-    override val leadId: String
-        get() = mLead!!.leadID.toString()
-
-    override val storageType: String
-        get() = referenceMaster.storageType
-
-    override fun getLoanAppGetFailure(msg: String) = getDataFromDB()
-
-    private fun getDataFromDB() {
-        dataBase.provideDataBaseSource().referenceDao().getReference(leadId).observe(this, Observer { referenceInfo ->
-            referenceInfo?.let {
-                referenceMaster = referenceInfo
-                rDraftData = referenceMaster.draftData
-                referencesList = rDraftData.referenceDetails
-                if (referencesList!!.size < 0) {
-                    referencesList!!.add(ReferenceModel())
-                }
-            }
-            showData(referencesList)
-        })
-    }
-
-    override fun getLoanAppGetSuccess(value: Response.ResponseGetLoanApplication) {
-        value.responseObj?.let {
-            referenceMaster = responseConversion.toReferenceMaster(value.responseObj)
-            rDraftData = referenceMaster.draftData
-            referencesList = rDraftData.referenceDetails
-        }
-        showData(referencesList)
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan())
     }
 
     private fun showData(referenceList: ArrayList<ReferenceModel>?) {
@@ -152,14 +123,16 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 setMasterDropDownValue(allMasterDropDown)
             }
         })
-        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer {
-            states = it
-            setStateDropDownValue()
+        dataBase.provideDataBaseSource().statesDao().getAllStates().observe(viewLifecycleOwner, Observer {stateMaster->
+            stateMaster?.let{
+                states = stateMaster
+                setStateDropDownValue()
+            }
         })
     }
 
@@ -231,7 +204,7 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         binding.btnNext.setOnClickListener {
             if (referencesList!!.size > 0 || formValidation.validateReference(binding = binding)) {
                 referencesList?.add(getReferenceModel())
-                loanAppPostPresenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP)
+                presenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP, dmiConnector = CallPostLoanApp())
             }
         }
         pinCodeListener(binding.referenceAddressLayout.etPinCode)
@@ -377,27 +350,8 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         rDraftData.isMainApplicant = true
         rDraftData.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(1, mLead!!.leadNumber!!)
         referenceMaster.draftData = rDraftData
-        referenceMaster.leadID = leadId.toInt()
+        referenceMaster.leadID = leadIdForApplicant.toInt()
         return referenceMaster
-    }
-
-    override val loanAppRequestPost: LoanApplicationRequest
-        get() = requestConversion.referenceRequest(getReferenceMaster())
-
-    override fun getLoanAppPostFailure(msg: String) {
-        saveDataToDB(getReferenceMaster())
-        showToast(msg)
-    }
-
-    override fun getLoanAppPostSuccess(value: Response.ResponseGetLoanApplication) {
-        saveDataToDB(getReferenceMaster())
-        AppEvents.fireEventLoanAppChangeNavFragmentNext()
-    }
-
-    private fun saveDataToDB(reference: ReferenceMaster) {
-        GlobalScope.launch {
-            dataBase.provideDataBaseSource().referenceDao().insertReference(reference)
-        }
     }
 
     override fun onDeleteClicked(position: Int) = showAlertDialog(position)
@@ -425,4 +379,54 @@ class ReferenceFragment : BaseFragment(),LoanApplicationConnector.PostLoanApp,
         else binding.pageIndicatorAsset.visibility = View.GONE
 
     }
-}
+
+    inner class CallGetLoan : ViewGeneric<ArrayList<String>?, Response.ResponseGetLoanApplication>(context = mContext) {
+
+        override val apiRequest: ArrayList<String>?
+            get() = arrayListOf(leadIdForApplicant, referenceMaster.storageType)
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                value.responseObj?.let {
+                    referenceMaster = LeadRequestResponseConversion().toReferenceMaster(value.responseObj)
+                    rDraftData = referenceMaster.draftData
+                    referencesList = rDraftData.referenceDetails
+                }
+                showData(referencesList)
+            } else getDataFromDB()
+        }
+    }
+
+    inner class CallPostLoanApp : ViewGeneric<LoanApplicationRequest, Response.ResponseGetLoanApplication>(context = mContext) {
+        override val apiRequest: LoanApplicationRequest
+            get() = RequestConversion().referenceRequest(getReferenceMaster())
+
+        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
+            if (value.responseCode == Constants.SUCCESS) {
+                saveDataToDB(getReferenceMaster())
+                AppEvents.fireEventLoanAppChangeNavFragmentNext()
+            } else saveDataToDB(getReferenceMaster())
+        }
+    }
+
+    private fun getDataFromDB() {
+        dataBase.provideDataBaseSource().referenceDao().getReference(leadIdForApplicant).observe(this, Observer { referenceInfo ->
+            referenceInfo?.let {
+                referenceMaster = referenceInfo
+                rDraftData = referenceMaster.draftData
+                referencesList = rDraftData.referenceDetails
+                if (referencesList!!.size < 0) {
+                    referencesList!!.add(ReferenceModel())
+                }
+            }
+            showData(referencesList)
+        })
+    }
+
+    private fun saveDataToDB(reference: ReferenceMaster) {
+        GlobalScope.launch {
+            dataBase.provideDataBaseSource().referenceDao().insertReference(reference)
+        }
+    }
+
+}*/

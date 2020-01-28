@@ -19,13 +19,13 @@ interface SharedPreferencesUtil {
     fun saveCoApplicantsList(coApplicants: ArrayList<Response.CoApplicantsObj>)
     fun getCoApplicantsList():ArrayList<Response.CoApplicantsObj>?
     fun getLeadId():String?
-    fun getLeadDetail():AllLeadMaster
+    fun getLeadDetail():AllLeadMaster?
     fun getUserId():String?
     fun getEmpId(): String?
     fun getLoanAppID():Int?
     fun getPropertySelection(): Boolean
     fun getUserBranches(): ArrayList<UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
-    fun getNavMenuItem(): List<AppEnums.ScreenLoanInfo>?
+    fun getNavMenuItem(): List<AppEnums.ScreenLoanApp>?
     fun clearAll()
 }
