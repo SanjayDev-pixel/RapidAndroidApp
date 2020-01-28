@@ -49,7 +49,7 @@ class ViewModelFactory(private val activity: FragmentActivity,
                 return TempViewModel(activity, dataSource) as T
             }
             modelClass.isAssignableFrom(SyncDataViewModel::class.java) -> {
-                return SyncDataViewModel(activity, dataSource) as T
+                return SyncDataViewModel(activity) as T
             }
             modelClass.isAssignableFrom(AppDataViewModel::class.java) -> {
                 return AppDataViewModel(activity, dataSource) as T
