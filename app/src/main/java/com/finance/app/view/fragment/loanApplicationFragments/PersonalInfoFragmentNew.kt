@@ -8,18 +8,19 @@ import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadAndLoanDetail
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
+import com.finance.app.utility.LeadMetaData
+import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.view.adapters.recycler.adapter.PersonalPagerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import java.util.*
 import javax.inject.Inject
 
-class PersonalInfoFragmentNew : BaseFragment() {
+class PersonalInfoFragmentNew : BaseFragment(), Observer {
 
     @Inject
     lateinit var sharedPreferencesUtil: SharedPreferencesUtil
@@ -27,6 +28,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
     lateinit var formValidation: FormValidation
     private lateinit var binding: FragmentPersonalInfoNewBinding
     private var pagerAdapter: PersonalPagerAdapter? = null
+    private var leadData: LeadMetaData? = null
 
     companion object {
         private var count = 0
@@ -46,9 +48,9 @@ class PersonalInfoFragmentNew : BaseFragment() {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-        leadMaster?.let {
+        leadDetail?.let {
             setClickListeners()
-            setCoApplicantInTabs(leadMaster!!.personalData.applicantDetails)
+            setCoApplicantInTabs(leadDetail!!.personalData.applicantDetails)
         }
     }
 
@@ -64,7 +66,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private fun handleAddCoApplicant() {
         binding.btnAddApplicant.visibility = View.VISIBLE
         binding.btnAddApplicant.setOnClickListener {
-            LeadAndLoanDetail().addApplicants(leadMaster!!)
+            LeadAndLoanDetail().addApplicants(leadDetail!!)
             binding.viewPager.adapter?.notifyDataSetChanged()
         }
     }
@@ -72,7 +74,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private fun checkValidationAndProceed() {
 
         // This code need to be changed
-        for (index in 0 until leadMaster!!.personalData.applicantDetails.size) {
+        for (index in 0 until leadDetail!!.personalData.applicantDetails.size) {
             val page: Fragment? = childFragmentManager.findFragmentByTag("android:switcher:" + binding.viewPager.toString() + ":" + index)
             page?.let {
                 val tab = page as PersonalFormFragmentNew
@@ -81,7 +83,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
                 }
             }
         }
-        if (count == leadMaster!!.personalData.applicantDetails.size) {
+        if (count == leadDetail!!.personalData.applicantDetails.size) {
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
         }
     }
@@ -94,5 +96,13 @@ class PersonalInfoFragmentNew : BaseFragment() {
         binding.viewPager.adapter = pagerAdapter
         binding.tabLead.setupWithViewPager(binding.viewPager)
 
+    }
+
+    override fun update(o: Observable?, arg: Any?) {
+        if (o == leadData) {
+            leadData = o as LeadMetaData?
+//            setCoApplicantInTabs(leadData?.getLead()?.personalData?.applicantDetails!!)
+            //Todo task onUpdatedLead
+        }
     }
 }

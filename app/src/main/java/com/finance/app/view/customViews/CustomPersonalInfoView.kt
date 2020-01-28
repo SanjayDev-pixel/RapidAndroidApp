@@ -17,8 +17,8 @@ import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
-import com.finance.app.view.customViews.Interfaces.IspinnerMainView
+import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
+import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -276,7 +276,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun checkSubmission() {
-        if (leadMaster?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+        if (leadDetail?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
             DisablePersonalForm(binding)
         }
     }
@@ -427,7 +427,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
 
         verifyOTPDialogView.tvResendOTP?.setOnClickListener {
-            handleResendOtpEvent(verifyOTPDialogView, leadMaster, applicant)
+            handleResendOtpEvent(verifyOTPDialogView, leadDetail, applicant)
         }
         verifyOTPDialogView.ivCross?.setOnClickListener { dismissOtpVerificationDialog() }
         verifyOTPDialogView.tvResendOTP?.callOnClick()

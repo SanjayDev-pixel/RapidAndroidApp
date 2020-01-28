@@ -12,9 +12,9 @@ import android.widget.TextView
 import com.finance.app.R
 import com.finance.app.presenter.connector.ValidationHandler
 import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
-import com.finance.app.view.customViews.Interfaces.IspinnerCustomView
-import com.finance.app.view.customViews.Interfaces.IspinnerMainView
-import com.finance.app.view.customViews.Interfaces.IspinnerModel
+import com.finance.app.view.customViews.interfaces.IspinnerCustomView
+import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import com.finance.app.view.customViews.interfaces.IspinnerModel
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible

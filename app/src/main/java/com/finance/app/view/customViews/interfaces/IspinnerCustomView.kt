@@ -1,4 +1,4 @@
-package com.finance.app.view.customViews.Interfaces
+package com.finance.app.view.customViews.interfaces
 
 import android.view.View
 

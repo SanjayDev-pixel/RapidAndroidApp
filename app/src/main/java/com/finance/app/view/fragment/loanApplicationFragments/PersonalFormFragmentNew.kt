@@ -10,7 +10,7 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalFormBinding
 import com.finance.app.others.Injection
 import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
+import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.viewModel.AppDataViewModel
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
@@ -55,7 +55,7 @@ class PersonalFormFragmentNew : BaseFragment() {
             indexKey?.let {
                 this.index = indexKey
                 activity?.let {
-                    binding.customPersonalView.attachView(activity!!, index, applicant, leadMaster!!.leadID!!)
+                    binding.customPersonalView.attachView(activity!!, index, applicant, leadDetail!!.leadID!!)
                 }
             }
         }
@@ -72,7 +72,7 @@ class PersonalFormFragmentNew : BaseFragment() {
 
     private fun saveCurrentApplicant(applicant: PersonalApplicantsModel) {
         //Todo Code to save Personal Applicant
-        val applicantsList = leadMaster?.personalData?.applicantDetails!!
+        val applicantsList = leadDetail?.personalData?.applicantDetails!!
         if (applicantsList.size > index) {
             applicantsList[index] = applicant
         } else applicantsList.add(index, applicant)

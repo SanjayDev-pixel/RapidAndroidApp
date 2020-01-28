@@ -4,6 +4,7 @@ import android.app.Application
 import com.finance.app.TestActivity
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.LeadAndLoanDetail
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.recycler.holder.TempHolder
@@ -124,5 +125,6 @@ interface ApplicationComponent {
     fun inject(other: CustomPersonalInfoView)
     fun inject(other: CustomZipAddressView)
     fun inject(other: CustomChannelPartnerView)
+    fun inject(other: LeadMetaData)
     fun inject(presenter: Presenter1)
 }

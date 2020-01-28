@@ -12,7 +12,7 @@ import com.finance.app.R
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
-import com.finance.app.view.customViews.Interfaces.IspinnerMainView
+import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.APP.DIRECT

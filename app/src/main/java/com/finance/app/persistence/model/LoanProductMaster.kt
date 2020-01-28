@@ -2,7 +2,7 @@ package com.finance.app.persistence.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.finance.app.view.customViews.Interfaces.IspinnerModel
+import com.finance.app.view.customViews.interfaces.IspinnerModel
 import java.io.Serializable
 import java.util.*
 

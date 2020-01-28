@@ -1,6 +1,6 @@
 package com.finance.app.persistence.model
 
-import com.finance.app.view.customViews.Interfaces.IspinnerModel
+import com.finance.app.view.customViews.interfaces.IspinnerModel
 import java.io.Serializable
 
 class CityObj : Serializable, IspinnerModel {
