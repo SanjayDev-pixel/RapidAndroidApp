@@ -18,7 +18,6 @@ import com.finance.app.persistence.model.BankDetailBean
 import com.finance.app.persistence.model.BankDetailModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
-import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.BankDetailAdapter
 import com.finance.app.view.dialogs.BankDetailDialogFragment
 import com.google.android.material.tabs.TabLayout
@@ -144,7 +143,7 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
     private fun refreshApplicantBankDetails(allApplicantsBankDetailList: ArrayList<BankDetailModel>?) {
         allApplicantsBankDetailList?.let { mainList ->
             val selectedApplicantBankDetailList = mainList.filter { it.leadApplicantNumber.equals(selectedApplicant?.leadApplicantNumber, true) }
-            selectedApplicantBankDetailList?.let { childList ->
+            selectedApplicantBankDetailList.let { childList ->
                 if (childList.isNotEmpty()) {
                     //Always have one item in the list after filtering, for now as developer knows....
                     setBankDetailAdapter(childList[0].applicantBankDetailsBean)
