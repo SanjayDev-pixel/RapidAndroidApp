@@ -16,11 +16,10 @@ import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
 import com.finance.app.utility.DisableLoanInfoForm
 import com.finance.app.utility.SetLoanInfoMandatoryField
-import com.finance.app.view.activity.LoanApplicationActivity
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
+import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerViewTest
-import com.finance.app.view.customViews.Interfaces.IspinnerMainView
+import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import com.finance.app.viewModel.AppDataViewModel
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
@@ -59,7 +58,7 @@ class LoanInfoFragmentNew : BaseFragment(){
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
         setUpCustomViews()
         SetLoanInfoMandatoryField(binding)
-        val loanInfo = leadMaster?.loanData
+        val loanInfo = leadDetail?.loanData
         getDropDownsFromDB(loanInfo)
         setClickListeners()
     }
@@ -74,7 +73,7 @@ class LoanInfoFragmentNew : BaseFragment(){
         binding.btnNext.setOnClickListener {
             if (formValidation.validateLoanInformation(binding, loanProduct.getSelectedValue())) {
                 checkPropertySelection()
-                leadMaster?.loanData = getLoanData()
+                leadDetail?.loanData = getLoanData()
                 AppEvents.fireEventLoanAppChangeNavFragmentNext()
             } else showToast(getString(R.string.validation_error))
         }
@@ -107,7 +106,7 @@ class LoanInfoFragmentNew : BaseFragment(){
 
         if (loanInfo != null) {
             loanProduct.setSelection(loanInfo.productID.toString())
-        } else loanProduct.setSelection(leadMaster?.loanProductID.toString())
+        } else loanProduct.setSelection(leadDetail?.loanProductID.toString())
     }
 
     private fun setLoanPurposeDropdown(loan: LoanProductMaster?, loanInfo: LoanInfoModel?) {
@@ -165,7 +164,7 @@ class LoanInfoFragmentNew : BaseFragment(){
     }
 
     private fun checkSubmission() {
-        if (leadMaster!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+        if (leadDetail!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
             DisableLoanInfoForm(binding)
         }
     }
@@ -180,7 +179,7 @@ class LoanInfoFragmentNew : BaseFragment(){
         val iType = interestType.getSelectedValue()
         val empId = sharedPreferences.getEmpId()
 
-        loanInfoObj.leadID = leadMaster!!.leadID!!.toInt()
+        loanInfoObj.leadID = leadDetail!!.leadID!!.toInt()
         loanInfoObj.productID = lProductDD?.productID
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
         loanInfoObj.loanPurposeID = lPurposeDD?.loanPurposeID

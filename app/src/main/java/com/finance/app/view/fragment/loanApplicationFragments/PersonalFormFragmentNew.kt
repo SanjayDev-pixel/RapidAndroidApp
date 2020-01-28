@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalFormBinding
 import com.finance.app.others.Injection
+import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
+import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.viewModel.AppDataViewModel
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
@@ -22,6 +23,7 @@ class PersonalFormFragmentNew : BaseFragment() {
     lateinit var dataBase: DataBaseUtil
     private lateinit var binding: FragmentPersonalFormBinding
     private lateinit var appDataViewModel: AppDataViewModel
+    private var index = 0
 
     companion object {
         const val KEY_CO_APPLICANT = "coApplicant"
@@ -48,12 +50,13 @@ class PersonalFormFragmentNew : BaseFragment() {
         ArchitectureApp.instance.component.inject(this)
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
-        val index = arguments?.getInt(KEY_INDEX)
+        val indexKey = arguments?.getInt(KEY_INDEX)
         arguments?.getSerializable(KEY_CO_APPLICANT)?.let { Applicant ->
             val applicant = Applicant as PersonalApplicantsModel
-            index?.let {
+            indexKey?.let {
+                this.index = indexKey
                 activity?.let {
-                    binding.customPersonalView.attachView(activity!!, index, applicant, leadMaster!!.leadID!!)
+                    binding.customPersonalView.attachView(activity!!, index, applicant, leadDetail!!.leadID!!)
                 }
             }
         }
@@ -69,8 +72,16 @@ class PersonalFormFragmentNew : BaseFragment() {
     }
 
     private fun saveCurrentApplicant(applicant: PersonalApplicantsModel) {
-        //Todo() Code to save Personal Applicant
+        //Todo Code to save Personal Applicant
+        val applicantsList = leadDetail?.personalData?.applicantDetails!!
+        if (applicantsList.size > index) {
+            applicantsList[index] = applicant
+        } else applicantsList.add(index, applicant)
+        leadDetail!!.personalData.applicantDetails = applicantsList
+        updateAndSaveLeadTODB(leadDetail!!)
+    }
 
-
+    private fun updateAndSaveLeadTODB(leadDetail: AllLeadMaster) {
+        appDataViewModel.saveLead(leadDetail)
     }
 }

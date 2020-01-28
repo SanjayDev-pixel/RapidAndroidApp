@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.CoApplicantsList
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.PersonalInfoFragmentNew
 import com.finance.app.viewModel.AppDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.appDelegates.viewModelProvider
@@ -32,7 +33,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     private lateinit var secondaryFragment: Fragment
 
     companion object {
-        var leadMaster: AllLeadMaster? = null
+        var leadDetail: AllLeadMaster? = null
         private const val KEY_LEAD_ID = "leadId"
         fun start(context: Context, leadId: Int?) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
@@ -42,7 +43,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
             context.startActivity(intent)
         }
     }
-
 
     override fun init() {
         hideToolbar()
@@ -71,30 +71,31 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         val bundle = intent.extras
         bundle?.let {
             val leadId = bundle.getInt(KEY_LEAD_ID)
+            LeadMetaData(leadId)
             getLeadFromDB(leadId)
         }
     }
 
     private fun getLeadFromDB(leadId: Int) {
-        appDataViewModel.getLeadData(leadId).observe(this, Observer { LeadMaster ->
+        appDataViewModel.getLeadData(leadId).observeForever { LeadMaster ->
             LeadMaster?.let {
-                leadMaster = LeadMaster
+                leadDetail = LeadMaster
                 setLeadNum(LeadMaster.leadNumber)
                 fillLeadData(LeadMaster)
             }
-        })
+        }
     }
 
     private fun fillLeadData(leadMaster: AllLeadMaster) {
+        val leadName = leadMaster.applicantFirstName + " " + leadMaster.applicantMiddleName + " " + leadMaster.applicantLastName
         binding.tvMobile.text = leadMaster.applicantContactNumber
         binding.header.tvLeadNumber.text = leadMaster.leadNumber
-        val leadName = leadMaster.applicantFirstName + " " + leadMaster.applicantMiddleName + " " + leadMaster.applicantLastName
         binding.applicantName.text = leadName
         binding.tvDesignation.text = getString(R.string.applicant)
     }
 
     fun getLead(): AllLeadMaster? {
-        return leadMaster
+        return leadDetail
     }
 
     private fun setNavFragment() {

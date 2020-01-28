@@ -1,43 +1,4 @@
 package com.finance.app.view.fragment
-import android.app.Activity.RESULT_OK
-import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.finance.app.R
-import com.finance.app.databinding.FragmentLoanInformationBinding
-import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.others.AppEnums
-import com.finance.app.others.Injection
-import com.finance.app.persistence.model.*
-import com.finance.app.presenter.presenter.Presenter
-import com.finance.app.presenter.presenter.ViewGeneric
-import com.finance.app.utility.*
-import com.finance.app.view.activity.UploadedFormDataActivity
-import com.finance.app.view.customViews.CustomSpinnerViewTest
-import com.finance.app.view.customViews.Interfaces.IspinnerMainView
-import com.finance.app.viewModel.AppDataViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.Constants
-import motobeans.architecture.constants.ConstantsApi
-import motobeans.architecture.customAppComponents.activity.BaseFragment
-import motobeans.architecture.development.interfaces.DataBaseUtil
-import motobeans.architecture.development.interfaces.FormValidation
-import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.response.Response
-import javax.inject.Inject
 
 class LoanInfoFragment {
 

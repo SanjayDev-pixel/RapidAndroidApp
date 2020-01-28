@@ -1,48 +1,5 @@
 package com.finance.app.view.fragment
 
-import android.app.Dialog
-import android.app.ProgressDialog
-import android.content.Context
-import android.graphics.Bitmap
-import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.finance.app.R
-import com.finance.app.databinding.FragmentPersonalBinding
-import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.model.Modals.AddKyc
-import com.finance.app.others.AppEnums
-import com.finance.app.persistence.model.*
-import com.finance.app.presenter.presenter.Presenter
-import com.finance.app.presenter.presenter.ViewGeneric
-import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
-import com.finance.app.view.customViews.CustomSpinnerViewTest
-import com.finance.app.view.customViews.CustomZipAddressView
-import com.finance.app.view.customViews.Interfaces.IspinnerMainView
-import kotlinx.android.synthetic.main.delete_dialog.view.*
-import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.Constants
-import motobeans.architecture.constants.ConstantsApi
-import motobeans.architecture.customAppComponents.activity.BaseFragment
-import motobeans.architecture.development.interfaces.DataBaseUtil
-import motobeans.architecture.development.interfaces.FormValidation
-import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.request.Requests
-import motobeans.architecture.retrofit.response.Response
-import motobeans.architecture.util.exGone
-import motobeans.architecture.util.exVisible
-import javax.inject.Inject
-
 
 /*
 

@@ -18,7 +18,6 @@ package com.finance.app.viewModel
 import android.os.Handler
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
-import com.finance.app.persistence.db.MasterDB
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
@@ -33,7 +32,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class SyncDataViewModel(private val activity: FragmentActivity, private val database: MasterDB) : BaseViewModel(activity) {
+class SyncDataViewModel(private val activity: FragmentActivity) : BaseViewModel(activity) {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
@@ -49,25 +48,11 @@ class SyncDataViewModel(private val activity: FragmentActivity, private val data
         viewState.value = ProductViewState()
     }
 
-    private fun currentViewState(): ProductViewState = viewState.value!!
-
     data class ProductViewState(var isNoDataFound: Boolean = false,
                                 val isLoading: Boolean = false,
                                 val isError: Boolean = false,
                                 val isEmptyData: Boolean = false,
                                 val errorMessage: String? = null)
-
-    private fun isLoading(isLoading: Boolean) {
-        viewState.value = currentViewState().copy(isLoading = isLoading)
-    }
-
-    private fun isError(isError: Boolean, errorMessage: String?) {
-        viewState.value = currentViewState().copy(isError = isError, errorMessage = errorMessage)
-    }
-
-    private fun isEmptyList(isEmptyData: Boolean) {
-        viewState.value = currentViewState().copy(isEmptyData = isEmptyData)
-    }
 
     fun getOtherDropdownValue() {
         presenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE, dmiConnector = AllMasterDropdownData())
@@ -134,14 +119,8 @@ class SyncDataViewModel(private val activity: FragmentActivity, private val data
             if (value.responseCode == Constants.SUCCESS) {
                 GlobalScope.launch { dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster() }
 
-                /* val progress = ProgressDialog(activity)
-                 progress.setMessage("Getting Leads")
-                 progress.show()*/
                 Handler().postDelayed({
                     saveDataToDB(value.responseObj)
-                    /*if (progress.isShowing) {
-                        progress.dismiss()
-                    }*/
                 }, 2000)
             }
         }

@@ -9,7 +9,7 @@ import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadAndLoanDetail
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
+import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.view.adapters.recycler.adapter.PersonalPagerAdapter
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -34,8 +34,8 @@ class PersonalMainFragment : BaseFragment() {
 
     override fun init() {
         //ArchitectureApp.instance.component.inject(this)
-        leadMaster?.let {
-            getCoApplicantsList(leadMaster!!)
+        leadDetail?.let {
+            getCoApplicantsList(leadDetail!!)
         }
     }
 

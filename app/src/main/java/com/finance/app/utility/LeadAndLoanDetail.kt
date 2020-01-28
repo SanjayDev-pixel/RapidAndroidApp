@@ -15,7 +15,7 @@ class LeadAndLoanDetail {
     }
 
     private fun getLeadApplicantNum(leadNum: String, applicantNum: Int): String {
-        return "${leadNum}00${applicantNum}"
+        return "${leadNum}00${applicantNum + 1}"
     }
 
     fun getApplicant(leadNum: String?): PersonalApplicantsModel {
@@ -30,8 +30,7 @@ class LeadAndLoanDetail {
         val pApplicantList: ArrayList<PersonalApplicantsModel> = ArrayList()
         val pApplicant = PersonalApplicantsModel()
         pApplicant.firstName = "Applicant"
-        pApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails?.size
-                ?: 1)
+        pApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
         pApplicantList.add(pApplicant)
         leadMaster.personalData.applicantDetails = pApplicantList
     }
@@ -39,8 +38,7 @@ class LeadAndLoanDetail {
     fun addEmploymentApplicant(leadMaster: AllLeadMaster) {
         val eApplicantList: ArrayList<EmploymentApplicantsModel> = ArrayList()
         val eApplicant = EmploymentApplicantsModel()
-        eApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails?.size
-                ?: 1)
+        eApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
         eApplicantList.add(eApplicant)
         leadMaster.employmentData.applicantDetails = eApplicantList
     }
@@ -48,8 +46,7 @@ class LeadAndLoanDetail {
     fun addBankApplicant(leadMaster: AllLeadMaster) {
         val bApplicantList: ArrayList<BankDetailModel> = ArrayList()
         val bApplicant = BankDetailModel()
-        bApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails?.size
-                ?: 1)
+        bApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
         bApplicantList.add(bApplicant)
         leadMaster.bankData.applicantBankDetails = bApplicantList
     }
@@ -57,8 +54,7 @@ class LeadAndLoanDetail {
     fun addAssetLiabilityApplicant(leadMaster: AllLeadMaster) {
         val alApplicantList: ArrayList<AssetLiabilityModel> = ArrayList()
         val alApplicant = AssetLiabilityModel()
-        alApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails?.size
-                ?: 1)
+        alApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
         alApplicantList.add(alApplicant)
         leadMaster.assetLiabilityData.applicantDetails = alApplicantList
     }
