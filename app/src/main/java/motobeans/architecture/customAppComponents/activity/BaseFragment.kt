@@ -67,4 +67,6 @@ abstract class BaseFragment : Fragment(), ReusableView {
   override fun getApiFailure(msg: String) {
     showToast(msg)
   }
+
+
 }

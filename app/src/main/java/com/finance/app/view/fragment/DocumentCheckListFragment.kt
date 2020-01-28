@@ -25,6 +25,11 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
+class DocumentCheckListFragment {
+
+}
+/*
+
 class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener {
 
     @Inject
@@ -61,8 +66,8 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 showDocumentList()
             }
         })
@@ -93,7 +98,7 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
 
     private fun setCoApplicants() {
         dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
-            coApplicantsMaster.let {
+            coApplicantsMaster?.let {
                 if (coApplicantsMaster.coApplicantsList!!.isEmpty()) {
                     applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, mLead!!.leadNumber!!))
                 } else {
@@ -116,4 +121,4 @@ class DocumentCheckListFragment : BaseFragment(), ApplicantsAdapter.ItemClickLis
             showToast(value.responseMsg)
         }
     }
-}
+}*/

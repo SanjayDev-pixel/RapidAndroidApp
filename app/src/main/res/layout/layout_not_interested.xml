@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="match_parent">
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/spinnerLeadCloseReason"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="@dimen/text_min_width"
-            app:ms_arrowColor="@color/black"
-            android:layout_marginTop="@dimen/fields_margin"
-            app:ms_arrowSize="@dimen/arrow_size"
-            android:textSize="@dimen/text_size"
-            app:ms_floatingLabelColor="@color/hint_color"
-            app:ms_floatingLabelText="Lead Close Reason"
-            app:ms_hint="Lead Close Reason "
-            app:ms_hintColor="@color/hint_color"
-            app:ms_hintTextSize="@dimen/hint_size"
-            app:ms_multiline="false" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnCloseLead"
-            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:background="@color/colorAccent"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="@string/close_lead"
-            android:textColor="@color/white"
-            android:textSize="@dimen/button_text_size" />
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinnerLeadCloseReason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
+                android:minWidth="@dimen/text_min_width"
+                android:textSize="@dimen/text_size"
+                app:ms_arrowColor="@color/black"
+                app:ms_arrowSize="@dimen/arrow_size"
+                app:ms_floatingLabelColor="@color/hint_color"
+                app:ms_floatingLabelText="Lead Close Reason"
+                app:ms_hint="Lead Close Reason "
+                app:ms_hintColor="@color/hint_color"
+                app:ms_hintTextSize="@dimen/hint_size"
+                app:ms_multiline="false" />
 
-    </LinearLayout>
-</ScrollView>
+            <Button
+                android:id="@+id/btnCloseLead"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorAccent"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/close_lead"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
+    </ScrollView>
 </layout>

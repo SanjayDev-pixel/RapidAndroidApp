@@ -267,7 +267,7 @@
                         android:background="@drawable/button_theme_style"
                         android:text="Update Task"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/button_text_size" />
+                        android:textSize="@dimen/_12sdp" />
 
                 </LinearLayout>
 

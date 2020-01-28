@@ -7,7 +7,7 @@
         android:background="@color/md_grey_200">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcPendingLeads"
+            android:id="@+id/rcLeads"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"

@@ -26,6 +26,6 @@ interface SharedPreferencesUtil {
     fun getPropertySelection(): Boolean
     fun getUserBranches(): ArrayList<UserBranches>?
     fun getRolePrivilege():Response.RolePrivileges?
-    fun getNavMenuItem(): List<AppEnums.ScreenLoanInfo>?
+    fun getNavMenuItem(): List<AppEnums.ScreenLoanApp>?
     fun clearAll()
 }

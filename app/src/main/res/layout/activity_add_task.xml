@@ -170,21 +170,21 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                    <Button
+                        android:id="@+id/btnCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/_25sdp"
+                        android:layout_gravity="center"
+
+                        android:text="@string/create"
+                        />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/btnCreate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/fields_margin"
-        android:layout_gravity="center"
-        android:paddingStart="@dimen/margin_10"
-        android:paddingEnd="@dimen/margin_10"
-        android:text="@string/create"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/button_text_size" />
+
         </LinearLayout>
 
 </ScrollView>

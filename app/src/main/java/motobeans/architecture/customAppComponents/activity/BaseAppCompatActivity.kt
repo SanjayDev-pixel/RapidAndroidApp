@@ -154,17 +154,21 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
 
   private fun setToolbar() {
     setSupportActionBar(bindingParent.appBarWithLayout.toolbarMain)
+
     supportActionBar?.setLogo(R.drawable.dmi_logo_white)
     bindingParent.navView.inflateMenu(R.menu.menu_lead_action)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     supportActionBar?.setHomeButtonEnabled(true)
+
     bindingParent.appBarWithLayout.tvBackSecondary.setOnClickListener {
       onBackPressed()
     }
   }
 
-  fun setLeadNum(leadNum: String) {
-    bindingParent.appBarWithLayout.tvLeadNumber.text = leadNum
+  fun setLeadNum(leadNum: String?) {
+    leadNum?.let {
+      bindingParent.appBarWithLayout.tvLeadNumber.text = leadNum
+    }
   }
 
   private fun setUpHeaderView() {

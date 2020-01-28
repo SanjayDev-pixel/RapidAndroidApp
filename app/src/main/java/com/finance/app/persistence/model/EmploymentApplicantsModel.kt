@@ -1,6 +1,8 @@
 package com.finance.app.persistence.model
 
-class EmploymentApplicantsModel {
+import java.io.Serializable
+
+class EmploymentApplicantsModel:Serializable {
     var addressBean: AddressDetail? = AddressDetail()
     var allEarningMembers = false
     var applicantID: Int? = 0

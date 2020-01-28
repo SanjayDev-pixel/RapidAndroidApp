@@ -3,7 +3,6 @@ import androidx.room.TypeConverter
 import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 
 class ConverterArrayList {
@@ -155,26 +154,6 @@ class ConverterArrayList {
 
     @TypeConverter
     fun fromObligationDetailArrayListToString(ArrayList: ArrayList<ObligationDetail>?): String? {
-        ArrayList?.let {
-            val gson = Gson()
-            return gson.toJson(ArrayList)
-        }
-        return null
-    }
-
-    @TypeConverter
-    fun fromStringToArrayListReferenceMaster(value: String?): ArrayList<ReferenceMaster>? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val arrayListType = object : TypeToken<ArrayList<ReferenceMaster>>() {
-
-        }.type
-        return Gson().fromJson<ArrayList<ReferenceMaster>>(value, arrayListType)
-    }
-
-    @TypeConverter
-    fun fromReferenceArrayListToString(ArrayList: ArrayList<ReferenceMaster>?): String? {
         ArrayList?.let {
             val gson = Gson()
             return gson.toJson(ArrayList)

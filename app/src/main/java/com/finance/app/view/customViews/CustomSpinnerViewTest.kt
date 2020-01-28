@@ -1,5 +1,6 @@
 package com.finance.app.view.customViews
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
@@ -18,9 +19,7 @@ import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 
-/**
- * Created by Vishal Rathi on 23/12/19.
- */
+@SuppressLint("ViewConstructor")
 class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val dropDowns: ArrayList<Type>?, label: String, attrs: AttributeSet? = null,
                                                   val iSpinnerMainView: IspinnerMainView<Type>? = null) : LinearLayout(context,
         attrs), AdapterView.OnItemSelectedListener, ValidationHandler, IspinnerCustomView<Type> {

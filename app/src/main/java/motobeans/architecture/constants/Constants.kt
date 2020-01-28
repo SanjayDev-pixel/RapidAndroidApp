@@ -26,7 +26,6 @@ class Constants {
     object API {
         object URL {
             const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmi/"
-//            const val URL_DEVELOPMENT = "http://13.232.224.66:8080/dmi/"
             const val URL_TESTING = ""
             const val URL_LIVE = ""
             const val URL_PRODUCTION = ""
@@ -35,5 +34,12 @@ class Constants {
 
     companion object APP {
         const val SUCCESS = "200"
+        const val DIRECT = 53
+        const val SELF = 221
+        const val RENTED = 253
+        const val SINGLE = 63
+        internal const val PERMANENT_ADDRESS = "Permanent"
+        internal const val CURRENT_ADDRESS = "Current"
+
     }
 }

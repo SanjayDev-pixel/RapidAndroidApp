@@ -201,4 +201,10 @@
     <string name="seconds">seconds</string>
     <string name="amount">Amount : </string>
     <string name="update_lead">Update Lead</string>
+    <string name="sync_all_server_data_to_the_app">Sync All server data to the app.</string>
+    <string name="sync">Sync</string>
+    <string name="skip">skip</string>
+    <string name="enter_otp_heading">Fill OTP value</string>
+    <string name="donotrecieveotp">Didn\'t recieve OTP?</string>
+    <string name="later">later</string>
 </resources>

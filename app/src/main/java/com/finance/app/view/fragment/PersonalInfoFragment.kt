@@ -43,6 +43,9 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
+
+/*
+
 class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         ApplicantsAdapter.ItemLongClickListener {
 
@@ -140,8 +143,8 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
 
     private fun getDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
-            masterDrownDownValues.let {
-                allMasterDropDown = it
+            masterDrownDownValues?.let {
+                allMasterDropDown = masterDrownDownValues
                 setRelationshipList(allMasterDropDown.Relationship)
                 setMasterDropDownValue(allMasterDropDown)
             }
@@ -222,12 +225,12 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     private fun setCustomSpinnerWithCondition(allMasterDropDown: AllMasterDropDown) {
         maritalStatus = CustomSpinnerViewTest(context = mContext, dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
+                binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
                 if (value.typeDetailID == SINGLE) {
                     binding.basicInfoLayout.llSpouse.visibility = View.GONE
                 } else {
                     binding.basicInfoLayout.llSpouse.visibility = View.VISIBLE
                 }
-                binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
             }
         })
         binding.basicInfoLayout.layoutMaritalStatus.addView(maritalStatus)
@@ -518,7 +521,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
 
     private fun setCoApplicants() {
         dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
-            coApplicantsMaster.let {
+            coApplicantsMaster?.let {
                 val list = coApplicantsMaster.coApplicantsList
                 if (list.isNullOrEmpty()) {
                     applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, leadNumber))
@@ -549,9 +552,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
                     personalApplicantsList!!.add(lastIndex, PersonalApplicantsModel())
                     applicantAdapter!!.notifyDataSetChanged()
 
-
                     ClearPersonalForm(binding = binding, spinnerList = spinnerDMList)
-
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -581,7 +582,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
     }
 
     private fun saveCurrentApplicant() {
-        if (personalApplicantsList!!.size > 0) {
+        if (personalApplicantsList!!.size > currentPosition) {
             personalApplicantsList!![currentPosition] = getCurrentApplicant()
         } else personalApplicantsList!!.add(currentPosition, getCurrentApplicant())
     }
@@ -752,7 +753,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
                 value.responseObj?.let {
-                    personalInfoMaster = ResponseConversion().toPersonalMaster(value.responseObj)
+                    personalInfoMaster = LeadRequestResponseConversion().toPersonalMaster(value.responseObj)
                     pDraftData = personalInfoMaster?.draftData!!
                     personalApplicantsList = pDraftData.applicantDetails
                 }
@@ -785,7 +786,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
             }
         }
 
-        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
+        private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>?) {
             GlobalScope.launch {
                 val coApplicantMaster = CoApplicantsMaster()
                 coApplicantMaster.coApplicantsList = responseObj
@@ -835,3 +836,4 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         }
     }
 }
+*/

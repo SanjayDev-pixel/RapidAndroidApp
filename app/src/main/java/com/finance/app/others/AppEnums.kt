@@ -9,19 +9,9 @@ class AppEnums {
 
     enum class Temp(val id: Int, val dataName: String) {
         Val1(1001, "Value1001");
-
-        companion object {
-            fun getDataType(id: Int?): Temp? {
-                var dataType: Temp? = null
-                when (id) {
-                    Val1.id -> dataType = Val1
-                }
-                return dataType
-            }
-        }
     }
 
-    enum class ScreenLoanInfo(val screenName: String, val icon: Int) {
+    enum class ScreenLoanApp(val screenName: String, val icon: Int) {
         LOAN_INFORMATION("Loan Information", R.drawable.loan_info_white),
         PERSONAL("Personal", R.drawable.personal_info_white),
         EMPLOYMENT("Employment", R.drawable.employment_icon_white),
@@ -33,7 +23,7 @@ class AppEnums {
         DEFAULT("Default", R.drawable.app_logo);
 
         companion object {
-            fun getData(screenName: String?): ScreenLoanInfo {
+            fun getData(screenName: String?): ScreenLoanApp {
                 return when (screenName) {
                     LOAN_INFORMATION.screenName -> LOAN_INFORMATION
                     PERSONAL.screenName -> PERSONAL
@@ -45,43 +35,6 @@ class AppEnums {
                     DOCUMENT_CHECKLIST.screenName -> DOCUMENT_CHECKLIST
                     else -> DEFAULT
                 }
-            }
-
-            fun getPosition(screenName: String?): Int {
-                val screen = getData(screenName = screenName)
-                return screen.ordinal
-            }
-
-            fun getPosition(screen: ScreenLoanInfo): Int {
-                return screen.ordinal
-            }
-
-            fun getNextPosition(screenName: String?): Int {
-                val screen = getData(screenName = screenName)
-                return getNextPosition(screen = screen)
-            }
-
-            fun getNextPosition(screen: ScreenLoanInfo): Int {
-                var position = getPosition(screen) + 1
-                val nextPosition = when(values().size > position) {
-                    true -> position
-                    else -> values().size
-                }
-                return nextPosition
-            }
-
-            fun getPreviousPosition(screenName: String?): Int {
-                val screen = getData(screenName)
-                return getPreviousPosition(screen = screen)
-            }
-
-            fun getPreviousPosition(screen: ScreenLoanInfo): Int {
-                var position = getPosition(screen) - 1
-                val previousPosition = when(position >= 0) {
-                    true -> position
-                    else -> 0
-                }
-                return previousPosition
             }
         }
     }
@@ -101,6 +54,12 @@ class AppEnums {
 
     enum class RESPONSEAPI(val type: String) {
         SUCCESS("200")
+    }
+
+    enum class FormType(val type: String) {
+        LOANINFO("LOAN_INFORMATION"), PERSONALINFO("APPLICANT_PERSONAL"), EMPLOYMENT("APPLICATION_EMPLOYMENT"),
+        BANKDETAIL("BANK_DETAIL"), LIABILITYASSET("LIABILITY_AND_ASSET"), PROPERTY("APPLICATION_PROPERTY"),
+        REFERENCE("APPLICATION_REFERENCE")
     }
 
     enum class EnumEventChangeLoanApplicationFragmentNavigation {

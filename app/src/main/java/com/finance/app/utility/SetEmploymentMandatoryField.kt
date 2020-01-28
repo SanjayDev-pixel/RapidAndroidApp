@@ -31,6 +31,7 @@ class SetEmploymentMandatoryField(binding: FragmentEmploymentBinding) {
         ShowAsMandatory(binding.layoutAddress.inputLayoutLandmark)
         ShowAsMandatory(binding.layoutAddress.inputLayoutContact)
         ShowAsMandatory(binding.inputLayoutGrossIncome)
+        ShowAsMandatory(binding.inputLayoutTotalExperience)
         ShowAsMandatory(binding.inputLayoutDeduction)
         ShowAsMandatory(binding.layoutAddress.inputLayoutZip)
     }

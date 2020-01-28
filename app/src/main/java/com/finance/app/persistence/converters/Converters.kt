@@ -111,26 +111,6 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToLoanInfoMaster(value: String?): LoanInfoMaster? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<LoanInfoMaster>() {
-
-        }.type
-        return Gson().fromJson<LoanInfoMaster>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromLoanInfoMasterToString(lead: LoanInfoMaster?): String? {
-        lead?.let {
-            val gson = Gson()
-            return gson.toJson(lead)
-        }
-        return null
-    }
-
-    @TypeConverter
     fun fromStringToLoanInfoObj(value: String?): LoanInfoModel? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
@@ -172,37 +152,6 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToReferenceMaster(value: String?): ReferenceMaster? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<ReferenceMaster>() {
-
-        }.type
-        return Gson().fromJson<ReferenceMaster>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromReferenceMasterToString(reference: ReferenceMaster?): String? {
-        reference?.let {
-            val gson = Gson()
-            return gson.toJson(reference)
-        }
-        return null
-    }
-
-    @TypeConverter
-    fun fromStringToAddressBean(value: String?): Requests.AddressBean? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<ReferenceMaster>() {
-
-        }.type
-        return Gson().fromJson<Requests.AddressBean>(value, listType)
-    }
-
-    @TypeConverter
     fun fromReferenceMasterToString(address: Requests.AddressBean?): String? {
         address?.let {
             val gson = Gson()
@@ -211,45 +160,6 @@ class Converters {
         return null
     }
 
-    @TypeConverter
-    fun fromStringToPersonalInfoMaster(value: String?): PersonalInfoMaster? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<PersonalInfoMaster>() {
-
-        }.type
-        return Gson().fromJson<PersonalInfoMaster>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromPersonalInfoMasterToString(personalInfo: PersonalInfoMaster?): String? {
-        personalInfo?.let {
-            val gson = Gson()
-            return gson.toJson(personalInfo)
-        }
-        return null
-    }
-
-    @TypeConverter
-    fun fromStringToAssetLiabilityMaster(value: String?): AssetLiabilityMaster? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<AssetLiabilityMaster>() {
-
-        }.type
-        return Gson().fromJson<AssetLiabilityMaster>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromAssetLiabilityMasterToString(personalInfo: AssetLiabilityMaster?): String? {
-        personalInfo?.let {
-            val gson = Gson()
-            return gson.toJson(personalInfo)
-        }
-        return null
-    }
 
    @TypeConverter
     fun fromStringToPersonalApplicantList(value: String?): PersonalApplicantList? {
@@ -307,26 +217,6 @@ class Converters {
         applicant?.let {
             val gson = Gson()
             return gson.toJson(applicant)
-        }
-        return null
-    }
-
-    @TypeConverter
-    fun fromStringToEmploymentMaster(value: String?): EmploymentMaster? {
-        if (!value.exIsNotEmptyOrNullOrBlank()) {
-            return null
-        }
-        val listType = object : TypeToken<EmploymentMaster>() {
-
-        }.type
-        return Gson().fromJson<EmploymentMaster>(value, listType)
-    }
-
-    @TypeConverter
-    fun fromEmploymentMasterToString(states: EmploymentMaster?): String? {
-        states?.let {
-            val gson = Gson()
-            return gson.toJson(states)
         }
         return null
     }
