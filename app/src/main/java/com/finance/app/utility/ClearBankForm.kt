@@ -13,13 +13,13 @@ import fr.ganfra.materialspinner.MaterialSpinner
 class ClearBankForm {
 
     constructor(binding: FragmentBankDetailBinding, context: Context, masterDropdown: AllMasterDropDown, bankName: CustomSpinnerViewTest<DropdownMaster>, accountType: CustomSpinnerViewTest<DropdownMaster>) {
-        binding.etAccountNum.text?.clear()
-        binding.etSalaryCreditedInSixMonths.text?.clear()
-        binding.etAccountHolderName.text?.clear()
-        binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(context, masterDropdown.SalaryCredit!!)
-        bankName.clearSpinner()
-        accountType.clearSpinner()
-        binding.inputLayoutSalaryCreditInSixMonth.visibility = View.GONE
+//        binding.etAccountNum.text?.clear()
+//        binding.etSalaryCreditedInSixMonths.text?.clear()
+//        binding.etAccountHolderName.text?.clear()
+//        binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(context, masterDropdown.SalaryCredit!!)
+//        bankName.clearSpinner()
+//        accountType.clearSpinner()
+//        binding.inputLayoutSalaryCreditInSixMonth.visibility = View.GONE
     }
 
     constructor(binding: DialogBankDetailFormBinding, context: Context, masterDropdown: AllMasterDropDown, bankName: MaterialSpinner, accountType: MaterialSpinner) {

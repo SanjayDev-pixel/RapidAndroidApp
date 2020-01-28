@@ -21,11 +21,11 @@ import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaste
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.adapters.recycler.adapter.BankDetailAdapter
 import com.finance.app.view.dialogs.BankDetailDialogFragment
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
-import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
@@ -33,30 +33,23 @@ import javax.inject.Inject
 /**
  * Created by Ajay on 28/1/2020.
  */
-class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDetailDialogCallback, ApplicantsAdapter.ItemClickListener, BankDetailAdapter.BankDetailClickListener {
-
-    @Inject
-    lateinit var formValidation: FormValidation
+class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDetailDialogCallback, BankDetailAdapter.BankDetailClickListener, TabLayout.OnTabSelectedListener {
     @Inject
     lateinit var dataBase: DataBaseUtil
 
     private lateinit var mContext: Context
 
-    private var applicantAdapter: ApplicantsAdapter? = null
     private var bankAdapter: BankDetailAdapter? = null
-
     private var allMasterDropDown: AllMasterDropDown? = null
     private var applicantsBankDetailList: ArrayList<BankDetailModel>? = ArrayList()
 
     private var selectedApplicant: PersonalApplicantsModel? = null
-    private var selectedTabPosition = 0
     private var selectedBankDetailPosition = -1
 
 
     companion object {
         fun newInstance(): BankDetailFragmentNew {
-            val fragment = BankDetailFragmentNew()
-            return fragment
+            return BankDetailFragmentNew()
         }
     }
 
@@ -99,22 +92,28 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
     private fun setApplicantTabView() {
         leadMaster?.personalData?.applicantDetails?.let { applicantList ->
             //Set Applicant Tab Adapter...
-            setApplicantTabAdapter(applicantList)
+            setApplicantTabLayout(applicantList)
+        }
+    }
+
+    private fun setApplicantTabLayout(applicantList: ArrayList<PersonalApplicantsModel>) {
+        applicantList.let { list ->
+            list.forEachIndexed { index, personalApplicantsModel ->
+                //Default Selected Tab
+                if (personalApplicantsModel.isMainApplicant) selectedApplicant = personalApplicantsModel
+                //Create tabs...
+                binding.tabLead.addTab(binding.tabLead.newTab().setText(
+                        if (personalApplicantsModel.isMainApplicant) "Applicant" else "Co-Applicant$index")
+                        .setTag(personalApplicantsModel)) //Add tagging to get data on tab change....
+            }
         }
     }
 
     private fun setOnClickListeners() {
+        binding.tabLead.addOnTabSelectedListener(this)
         binding.vwAdd.setOnClickListener { showBankDetailFormDialog(BankDetailDialogFragment.Action.NEW) }
         binding.btnNext.setOnClickListener { }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
-    }
-
-    private fun setApplicantTabAdapter(applicantTabList: ArrayList<PersonalApplicantsModel>) {
-        binding.rcApplicants.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        applicantAdapter = ApplicantsAdapter(mContext, applicantTabList)
-        binding.rcApplicants.adapter = applicantAdapter
-        applicantAdapter?.setOnItemClickListener(this)
-        selectedApplicant = applicantTabList[0]
     }
 
     private fun setBankDetailAdapter(bankDetailList: ArrayList<BankDetailBean>) {
@@ -154,11 +153,16 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
         }
     }
 
-    override fun onApplicantClick(position: Int, coApplicant: PersonalApplicantsModel) {
-        selectedApplicant = coApplicant
-        selectedTabPosition = position
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        selectedApplicant = tab?.tag as PersonalApplicantsModel
         refreshApplicantBankDetails(applicantsBankDetailList)
-        applicantAdapter?.notifyDataSetChanged() //TODO need to change this approach...
     }
 
     override fun onBankDetailDeleteClicked(position: Int) {
@@ -172,7 +176,6 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
                 if (leadMaster?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) BankDetailDialogFragment.Action.SUBMITTED
                 else BankDetailDialogFragment.Action.EDIT, bank)
     }
-
 
     private fun showBankDetailFormDialog(action: BankDetailDialogFragment.Action, bankDetail: BankDetailBean? = null) {
         allMasterDropDown?.let { BankDetailDialogFragment.newInstance(action, this@BankDetailFragmentNew, it, bankDetail).show(fragmentManager, "Bank Detail") }

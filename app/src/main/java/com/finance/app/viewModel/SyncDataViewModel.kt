@@ -15,7 +15,6 @@
 */
 package com.finance.app.viewModel
 
-import android.app.ProgressDialog
 import android.os.Handler
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
@@ -135,9 +134,9 @@ class SyncDataViewModel(private val activity: FragmentActivity, private val data
             if (value.responseCode == Constants.SUCCESS) {
                 GlobalScope.launch { dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster() }
 
-               /* val progress = ProgressDialog(activity)
-                progress.setMessage("Getting Leads")
-                progress.show()*/
+                /* val progress = ProgressDialog(activity)
+                 progress.setMessage("Getting Leads")
+                 progress.show()*/
                 Handler().postDelayed({
                     saveDataToDB(value.responseObj)
                     /*if (progress.isShowing) {
