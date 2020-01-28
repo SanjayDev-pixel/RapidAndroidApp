@@ -123,6 +123,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     }
 
     private fun getAssetLiabilityInfo() {
+
         mLead = sharedPreferences.getLeadDetail()
         loanAppGetPresenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP)
     }
@@ -189,8 +190,8 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
 
     private fun getParticularApplicantData(position: Int) {
 
-
         currentApplicant = aApplicantList!![position]
+
 
     }
 
@@ -464,7 +465,7 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     private fun getCurrentApplicant(): AssetLiabilityModel {
         val currentApplicant = AssetLiabilityModel()
         currentApplicant.isMainApplicant = currentPosition == 0
-        currentApplicant.leadApplicantNumber = leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1, mLead!!.leadNumber!!)
+        currentApplicant.leadApplicantNumber = "HFC2020010000031002"//leadAndLoanDetail.getLeadApplicantNum(currentPosition + 1, mLead!!.leadNumber!!)
         currentApplicant.applicantAssetLiabilityList = assetsList
         currentApplicant.applicantCreditCardDetailList = cardDetailList
         currentApplicant.applicantExistingObligationList = obligationsList
