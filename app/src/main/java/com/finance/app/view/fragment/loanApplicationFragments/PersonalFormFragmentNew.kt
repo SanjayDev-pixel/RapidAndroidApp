@@ -11,6 +11,7 @@ import com.finance.app.databinding.FragmentPersonalFormBinding
 import com.finance.app.others.Injection
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.viewModel.AppDataViewModel
 import motobeans.architecture.application.ArchitectureApp
@@ -56,7 +57,9 @@ class PersonalFormFragmentNew : BaseFragment() {
             indexKey?.let {
                 this.index = indexKey
                 activity?.let {
-                    binding.customPersonalView.attachView(activity!!, index, applicant, leadDetail!!.leadID!!)
+                    LeadMetaData?.getLeadData()?.leadID?.let {
+                        binding.customPersonalView.attachView(activity!!, index, applicant, LeadMetaData.getLeadData()?.leadID!!)
+                    }
                 }
             }
         }
@@ -66,11 +69,11 @@ class PersonalFormFragmentNew : BaseFragment() {
         val applicant = binding.customPersonalView.isValidPersonalApplicant()
         return if (applicant == null) false
         else {
-            saveCurrentApplicant(applicant)
+            //saveCurrentApplicant(applicant)
             true
         }
     }
-
+/*
     private fun saveCurrentApplicant(applicant: PersonalApplicantsModel) {
         //Todo Code to save Personal Applicant
         val applicantsList = leadDetail?.personalData?.applicantDetails!!
@@ -83,5 +86,5 @@ class PersonalFormFragmentNew : BaseFragment() {
 
     private fun updateAndSaveLeadTODB(leadDetail: AllLeadMaster) {
         appDataViewModel.saveLead(leadDetail)
-    }
+    }*/
 }

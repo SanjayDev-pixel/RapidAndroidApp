@@ -49,12 +49,12 @@ class PersonalMainFragment : BaseFragment() {
 
     private fun setCoApplicantInTabs() {
         if (!coApplicantsList.isNullOrEmpty()) {
-            pagerAdapter = PersonalPagerAdapter(fragmentManager!!)
+           /* pagerAdapter = PersonalPagerAdapter(fragmentManager!!)
             for (index in 0 until coApplicantsList.size) {
                 pagerAdapter!!.addFragment(PersonalFormFragment.newInstance(coApplicantsList[index]), "CoApplicant ${index + 1}")
             }
             binding.viewPager.adapter = pagerAdapter
-            binding.tabLead.setupWithViewPager(binding.viewPager)
+            binding.tabLead.setupWithViewPager(binding.viewPager)*/
         }
     }
 }
