@@ -27,12 +27,11 @@ class LeadAndLoanDetail {
     }
 
     fun addPersonalApplicant(leadMaster: AllLeadMaster) {
-        val pApplicantList: ArrayList<PersonalApplicantsModel> = ArrayList()
         val pApplicant = PersonalApplicantsModel()
         pApplicant.firstName = "Applicant"
         pApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        pApplicantList.add(pApplicant)
-        leadMaster.personalData.applicantDetails = pApplicantList
+
+        leadMaster.personalData.applicantDetails.add(pApplicant)
     }
 
     fun addEmploymentApplicant(leadMaster: AllLeadMaster) {

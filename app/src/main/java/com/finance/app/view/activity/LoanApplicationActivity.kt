@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoanApplicationBinding
 import com.finance.app.persistence.model.AllLeadMaster
@@ -33,8 +34,8 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     private lateinit var secondaryFragment: Fragment
 
     companion object {
-        var leadDetail: AllLeadMaster? = null
         private const val KEY_LEAD_ID = "leadId"
+        val leadDetail: AllLeadMaster? = null
         fun start(context: Context, leadId: Int?) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
             val bundle = Bundle()
@@ -71,20 +72,31 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         val bundle = intent.extras
         bundle?.let {
             val leadId = bundle.getInt(KEY_LEAD_ID)
-            LeadMetaData(leadId)
-            getLeadFromDB(leadId)
+            populateLeadRelatedData(leadId)
         }
     }
 
+    private fun populateLeadRelatedData(leadId: Int) {
+        LeadMetaData().getAndPopulateLeadData(leadId)
+        //getLeadFromDB(leadId)
+
+        LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
+            leadDetail?.let {
+                setLeadNum(leadDetail.leadNumber)
+                fillLeadData(leadDetail)
+            }
+        })
+    }
+/*
+
     private fun getLeadFromDB(leadId: Int) {
-        appDataViewModel.getLeadData(leadId).observeForever { LeadMaster ->
-            LeadMaster?.let {
-                leadDetail = LeadMaster
-                setLeadNum(LeadMaster.leadNumber)
-                fillLeadData(LeadMaster)
+        appDataViewModel.getLeadData(leadId).observeForever { leadDetail ->
+            leadDetail?.let {
+                LeadMetaData.setLeadData(leadDetail = leadDetail)
             }
         }
     }
+*/
 
     private fun fillLeadData(leadMaster: AllLeadMaster) {
         val leadName = leadMaster.applicantFirstName + " " + leadMaster.applicantMiddleName + " " + leadMaster.applicantLastName
@@ -92,10 +104,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         binding.header.tvLeadNumber.text = leadMaster.leadNumber
         binding.applicantName.text = leadName
         binding.tvDesignation.text = getString(R.string.applicant)
-    }
-
-    fun getLead(): AllLeadMaster? {
-        return leadDetail
     }
 
     private fun setNavFragment() {
