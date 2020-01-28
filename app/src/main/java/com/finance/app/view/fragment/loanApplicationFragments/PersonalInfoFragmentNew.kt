@@ -48,8 +48,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
         ArchitectureApp.instance.component.inject(this)
         leadMaster?.let {
             setClickListeners()
-            setCoApplicantInTabs(leadMaster!!.personalData.applicantDetails!!)
-            handleAddCoApplicant(leadMaster!!)
+            setCoApplicantInTabs(leadMaster!!.personalData.applicantDetails)
         }
     }
 
@@ -59,12 +58,21 @@ class PersonalInfoFragmentNew : BaseFragment() {
         binding.btnNext.setOnClickListener {
             checkValidationAndProceed()
         }
+        handleAddCoApplicant()
+    }
+
+    private fun handleAddCoApplicant() {
+        binding.btnAddApplicant.visibility = View.VISIBLE
+        binding.btnAddApplicant.setOnClickListener {
+            LeadAndLoanDetail().addApplicants(leadMaster!!)
+            binding.viewPager.adapter?.notifyDataSetChanged()
+        }
     }
 
     private fun checkValidationAndProceed() {
 
         // This code need to be changed
-        for (index in 0 until leadMaster!!.personalData.applicantDetails!!.size) {
+        for (index in 0 until leadMaster!!.personalData.applicantDetails.size) {
             val page: Fragment? = childFragmentManager.findFragmentByTag("android:switcher:" + binding.viewPager.toString() + ":" + index)
             page?.let {
                 val tab = page as PersonalFormFragmentNew
@@ -73,16 +81,8 @@ class PersonalInfoFragmentNew : BaseFragment() {
                 }
             }
         }
-        if (count == leadMaster!!.personalData.applicantDetails!!.size) {
+        if (count == leadMaster!!.personalData.applicantDetails.size) {
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
-        }
-    }
-
-    private fun handleAddCoApplicant(leadMaster: AllLeadMaster?) {
-        binding.btnAddApplicant.visibility = View.VISIBLE
-        binding.btnAddApplicant.setOnClickListener {
-            LeadAndLoanDetail().addApplicants(leadMaster!!)
-            binding.viewPager.adapter?.notifyDataSetChanged()
         }
     }
 

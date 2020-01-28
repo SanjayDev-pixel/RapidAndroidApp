@@ -58,6 +58,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
+        
     }
 
     private fun setClickListeners() {
