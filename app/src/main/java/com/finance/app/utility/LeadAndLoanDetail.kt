@@ -27,36 +27,28 @@ class LeadAndLoanDetail {
     }
 
     fun addPersonalApplicant(leadMaster: AllLeadMaster) {
-        val pApplicantList: ArrayList<PersonalApplicantsModel> = ArrayList()
         val pApplicant = PersonalApplicantsModel()
         pApplicant.firstName = "Applicant"
         pApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        pApplicantList.add(pApplicant)
-        leadMaster.personalData.applicantDetails = pApplicantList
+        leadMaster.personalData.applicantDetails.add(pApplicant)
     }
 
     fun addEmploymentApplicant(leadMaster: AllLeadMaster) {
-        val eApplicantList: ArrayList<EmploymentApplicantsModel> = ArrayList()
         val eApplicant = EmploymentApplicantsModel()
         eApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        eApplicantList.add(eApplicant)
-        leadMaster.employmentData.applicantDetails = eApplicantList
+        leadMaster.employmentData.applicantDetails?.add(eApplicant)
     }
 
     fun addBankApplicant(leadMaster: AllLeadMaster) {
-        val bApplicantList: ArrayList<BankDetailModel> = ArrayList()
         val bApplicant = BankDetailModel()
         bApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        bApplicantList.add(bApplicant)
-        leadMaster.bankData.applicantDetails = bApplicantList
+        leadMaster.bankData.applicantDetails?.add(bApplicant)
     }
 
     fun addAssetLiabilityApplicant(leadMaster: AllLeadMaster) {
-        val alApplicantList: ArrayList<AssetLiabilityModel> = ArrayList()
         val alApplicant = AssetLiabilityModel()
         alApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        alApplicantList.add(alApplicant)
-        leadMaster.assetLiabilityData.applicantDetails = alApplicantList
+        leadMaster.assetLiabilityData.applicantDetails?.add(alApplicant)
     }
 
     fun addApplicants(leadMaster: AllLeadMaster) {
