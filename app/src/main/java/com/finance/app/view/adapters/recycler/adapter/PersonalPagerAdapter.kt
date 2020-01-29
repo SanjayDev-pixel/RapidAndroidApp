@@ -22,7 +22,8 @@ class PersonalPagerAdapter internal constructor(fm: FragmentManager, val coAppli
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return "CoApplicant ${position + 1}"
+        return if (position == 0) "Applicant"
+        else "CoApplicant $position"
     }
 
     override fun getCount(): Int {

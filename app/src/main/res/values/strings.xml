@@ -206,4 +206,5 @@
     <string name="enter_otp_heading">Fill OTP value</string>
     <string name="donotrecieveotp">Didn\'t recieve OTP?</string>
     <string name="later">later</string>
+    <string name="mandatory_field">Mandatory Field</string>
 </resources>

@@ -71,14 +71,14 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     }
 
     private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
-        loanProduct = CustomSpinnerViewTest(context = this, dropDowns = products, label = "Loan Product *")
+        loanProduct = CustomSpinnerViewTest(mContext = this, dropDowns = products, label = "Loan Product *")
         binding.layoutLoanProduct.addView(loanProduct)
     }
 
     private fun setBranchesDropDownValue() {
         val branchList = sharedPreferences.getUserBranches()
         val branch = ArrayList(branchList!!)
-        branches = CustomSpinnerViewTest(context = this, dropDowns = branch, label = "Select Branch *")
+        branches = CustomSpinnerViewTest(mContext = this, dropDowns = branch, label = "Select Branch *")
         binding.layoutBranches.addView(branches)
     }
 

@@ -3,9 +3,12 @@ package motobeans.architecture.development.implementation
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
+import com.finance.app.persistence.model.LoanPurpose
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.utility.CurrencyConversion
+import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerView
+import com.finance.app.view.customViews.CustomSpinnerViewTest
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.development.interfaces.FormValidation
@@ -25,7 +28,7 @@ class FormValidationImpl : FormValidation {
         return isValidForm(error)
     }
 
-    override fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding): Boolean {
+    override fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding, spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean {
         var errorCount = 0
         val firstName = binding.basicInfoLayout.etFirstName.text.toString()
         val dob = binding.basicInfoLayout.etDOB.text.toString()
@@ -35,6 +38,7 @@ class FormValidationImpl : FormValidation {
         val email = binding.basicInfoLayout.etEmail.text.toString()
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
+
 
         if(age.exIsNotEmptyOrNullOrBlank()){
             if (age.toInt() !in 99 downTo 14) {
@@ -66,7 +70,13 @@ class FormValidationImpl : FormValidation {
             else -> 0
         }
 
-        return isValidForm(fieldError)
+        var spinnerError = 0
+        spinnerDMList.forEach { item ->
+            if (!item.isValid()) ++spinnerError
+        }
+
+        val totalErrors = errorCount + fieldError + spinnerError
+        return isValidForm(totalErrors)
     }
 
     private fun checkPermanentAddressFields(binding: LayoutCustomViewPersonalBinding): Int {
@@ -87,42 +97,40 @@ class FormValidationImpl : FormValidation {
         })
     }
 
-    override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: LoanProductMaster?): Boolean {
+    override fun validateLoanInformation(binding: FragmentLoanInformationBinding, loanProduct: CustomSpinnerViewTest<LoanProductMaster>, loanPurpose: CustomSpinnerViewTest<LoanPurpose>, spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>, customChannelPartnerView: CustomChannelPartnerView): Boolean {
         var errorCount = 0
         val loanAmount = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString())
         val emi = binding.etEmi.text.toString()
         val tenure = binding.etTenure.text.toString()
 
-        if (loanProduct != null && tenure != "" && loanAmount != "") {
-            if (tenure.toInt() > loanProduct.maxTenure || tenure.toInt() < loanProduct.minTenure) {
+        val loan = loanProduct.getSelectedValue()
+        if (loan != null && tenure != "" && loanAmount != "") {
+            if (tenure.toInt() > loan.maxTenure || tenure.toInt() < loan.minTenure) {
                 errorCount++
-                binding.etTenure.error = "Range:${loanProduct.minTenure} - ${loanProduct.maxTenure}"
+                binding.etTenure.error = "Range:${loan.minTenure} - ${loan.maxTenure}"
             }
 
-            if (loanAmount.toInt() > loanProduct.maxAmount || loanAmount.toInt() < loanProduct.minAmount) {
+            if (loanAmount.toInt() > loan.maxAmount || loanAmount.toInt() < loan.minAmount) {
                 errorCount++
-                binding.etAmountRequest.error = "Range:${loanProduct.minAmount} - ${loanProduct.maxAmount}"
+                binding.etAmountRequest.error = "Range:${loan.minAmount} - ${loan.maxAmount}"
             }
         }
 
-        if (!loanAmount.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etAmountRequest.error = "Amount can not be blank"
+        val fieldError = when {
+            !tenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etTenure)
+            !loanAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAmountRequest)
+            !emi.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmi)
+            else -> 0
         }
 
-        if (!tenure.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etTenure.error = "Tenure can not be blank"
+        var spinnerError = 0
+        spinnerDMList.forEach { item ->
+            if (!item.isValid()) ++spinnerError
         }
 
-        if (!emi.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etEmi.error = "EMI can not be blank"
-        } else if (loanAmount != "" && emi.toInt() > loanAmount.toInt()) {
-            errorCount++
-            binding.etEmi.error = "EMI cannot be greater than loan amount"
-        }
-        return isValidForm(errorCount)
+        val totalErrors = errorCount + fieldError + spinnerError
+        return isValidForm(totalErrors)
+
     }
 
     override fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding) {

@@ -29,7 +29,6 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private val alCoApplicants = ArrayList<PersonalApplicantsModel>()
 
     companion object {
-        private var count = 0
         fun newInstance(): PersonalInfoFragmentNew {
             return PersonalInfoFragmentNew()
         }
@@ -51,7 +50,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
         LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
             leadDetail?.let {
                 val applicantsList = leadDetail.personalData.applicantDetails
-                setClickListeners(applicantsList)
+                setClickListeners()
                 refreshApplicantData(applicantsList)
             }
         })
@@ -69,12 +68,12 @@ class PersonalInfoFragmentNew : BaseFragment() {
         pagerAdapterApplicants?.notifyDataSetChanged()
     }
 
-    private fun setClickListeners(applicantsList: ArrayList<PersonalApplicantsModel>) {
+    private fun setClickListeners() {
         binding.btnPrevious.setOnClickListener {
             AppEvents.fireEventLoanAppChangeNavFragmentPrevious()
         }
         binding.btnNext.setOnClickListener {
-            checkValidationAndProceed(applicantsList)
+            checkValidationAndProceed()
         }
         handleAddCoApplicant()
     }
@@ -86,18 +85,18 @@ class PersonalInfoFragmentNew : BaseFragment() {
         }
     }
 
-    private fun checkValidationAndProceed(applicantsList: ArrayList<PersonalApplicantsModel>) {
+    private fun checkValidationAndProceed() {
         val pApplicantList = ArrayList<PersonalApplicantsModel>()
-
+        var errorCount = 0
         val fragments = pagerAdapterApplicants?.getAllFragments()
         fragments?.let {
             fragments.forEach { _, item ->
                 if (item.isValidFragment()) {
                     val applicant = item.getApplicant()
                     pApplicantList.add(applicant)
-                    ++count
-                }
-                if (count == applicantsList.size) {
+                } else ++errorCount
+
+                if (errorCount <= 0) {
                     LeadMetaData().savePersonalData(pApplicantList)
                     AppEvents.fireEventLoanAppChangeNavFragmentNext()
                 }

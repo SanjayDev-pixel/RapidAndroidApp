@@ -22,10 +22,10 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class CustomChannelPartnerView @JvmOverloads constructor(private val mContext: Context, attrs: AttributeSet? = null) :
+class CustomChannelPartnerView @JvmOverloads constructor(private val mContext: Context,
+                                                         var isMandatory: Boolean = false,
+                                                         attrs: AttributeSet? = null) :
         LinearLayout(mContext, attrs) {
-
-    private val TAG = "CustomSignatureView"
 
     @Inject
     lateinit var dataBase: DataBaseUtil
@@ -59,7 +59,6 @@ class CustomChannelPartnerView @JvmOverloads constructor(private val mContext: C
     }
 
     private lateinit var activity: FragmentActivity
-    private var isMandatory: Boolean = false
 
     fun attachActivity(activity: FragmentActivity) {
         this.activity = activity
@@ -80,10 +79,10 @@ class CustomChannelPartnerView @JvmOverloads constructor(private val mContext: C
     }
 
     private fun setChannelPartner(masterDropDown: AllMasterDropDown) {
-        partnerName = CustomSpinnerViewTest(context = mContext, dropDowns = ArrayList(), label = "Channel Partner Name")
+        partnerName = CustomSpinnerViewTest(mContext = mContext, isMandatory = true, dropDowns = ArrayList(), label = "Channel Partner Name *")
         layoutPartnerName.addView(partnerName)
 
-        sourcingPartner = CustomSpinnerViewTest(context = context, dropDowns = masterDropDown.SourcingChannelPartner!!, label = "Sourcing Channel Partner *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
+        sourcingPartner = CustomSpinnerViewTest(mContext = context, dropDowns = masterDropDown.SourcingChannelPartner!!, label = "Sourcing Channel Partner", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 getPartnerNameFromApi(value.getCompareValue())
             }
@@ -104,10 +103,6 @@ class CustomChannelPartnerView @JvmOverloads constructor(private val mContext: C
         }
     }
 
-    fun isMandatory(isMandatory: Boolean) {
-        this.isMandatory = isMandatory
-    }
-
     fun selectSourcingChannelPartner(loanInfoModel: LoanInfoModel) {
         sourcingPartner.setSelection(loanInfoModel.sourcingChannelPartnerTypeDetailID.toString())
     }
@@ -120,29 +115,7 @@ class CustomChannelPartnerView @JvmOverloads constructor(private val mContext: C
         return partnerName.getSelectedValue()
     }
 
-
-    fun clearData() {
-        sourcingPartner.clearSpinner()
-        partnerName.clearSpinner()
-    }
-
-    fun disableSelf() {
-        sourcingPartner.disableSelf()
-        partnerName.disableSelf()
-    }
-
-    fun validateAndHandleError(): Boolean {
-        var errorCount = 0
-        val sPartner = sourcingPartner.getSelectedValue()
-
-        if (sPartner == null) {
-            errorCount++
-            sourcingPartner.showError(true)
-        }
-        return errorCount <= 0
-    }
-
-    inner class CallSourcingPartnerName : ViewGeneric<ArrayList<String>, Response.ResponseSourceChannelPartnerName>(context = mContext!!) {
+    inner class CallSourcingPartnerName : ViewGeneric<ArrayList<String>, Response.ResponseSourceChannelPartnerName>(context = mContext) {
         override val apiRequest: ArrayList<String>
             get() = arrayListOf(mBranchId, mChannelTypeId, empId!!)
 
@@ -153,13 +126,13 @@ class CustomChannelPartnerView @JvmOverloads constructor(private val mContext: C
             }
         }
 
-        val leadMaster = AllLeadMaster()
+        private val leadMaster = AllLeadMaster()
         private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
-            partnerName = CustomSpinnerViewTest(context = mContext, dropDowns = channelPartners, label = "Channel Partner Name")
+            partnerName = CustomSpinnerViewTest(mContext = mContext, dropDowns = channelPartners, label = "Channel Partner Name")
             layoutPartnerName.addView(partnerName)
 
-            leadMaster?.loanData?.channelPartnerDsaID?.let {
-                partnerName.setSelection(leadMaster?.loanData?.channelPartnerDsaID.toString())
+            leadMaster.loanData?.channelPartnerDsaID?.let {
+                partnerName.setSelection(leadMaster.loanData?.channelPartnerDsaID.toString())
             }
         }
     }
