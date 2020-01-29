@@ -14,6 +14,7 @@ import com.finance.app.others.AppEnums
 import com.finance.app.others.setTextVertically
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.utility.ConvertDate
+import com.finance.app.utility.SelectDate
 import kotlinx.android.synthetic.main.activity_update_call.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -33,8 +34,7 @@ class UpdateCallActivity : BaseAppCompatActivity() {
     private var lead = AllLeadMaster()
 
     // used to bind element of layout to activity
-    private val binding: ActivityUpdateCallBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_update_call)
+    private val binding: ActivityUpdateCallBinding by ActivityBindingProviderDelegate(this, R.layout.activity_update_call)
     private val callStatus = arrayOf("Call Status", "Fixed Meeting", "Not Interested", "Follow up")
 
     companion object {
@@ -74,6 +74,11 @@ class UpdateCallActivity : BaseAppCompatActivity() {
 
     private fun setClickListeners() {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
+        binding.layoutFollowUp.inputLayoutFollowUpTiming.setOnClickListener {
+        }
+        binding.layoutFollowUp.etFollowUpTiming.setOnClickListener {
+            SelectDate(binding.layoutFollowUp.etFollowUpTiming, this@UpdateCallActivity, false)
+        }
     }
 
     private fun getLead() {

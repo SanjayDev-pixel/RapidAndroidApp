@@ -13,21 +13,40 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
     private lateinit var binding: ItemBankBinding
     private var mOnBankDetailClickListener: BankDetailClickListener? = null
 
+
+    override fun getItemCount() = bankDetails?.size ?: 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BankDetailViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_bank, parent, false)
         return BankDetailViewHolder(binding, c)
     }
 
-    override fun getItemCount() = bankDetails?.size ?: 0
-
     fun setOnBankDetailClickListener(listener: BankDetailClickListener) {
         mOnBankDetailClickListener = listener
     }
 
-    interface BankDetailClickListener {
-        fun onBankDetailDeleteClicked(position: Int)
-        fun onBankDetailEditClicked(position: Int, bank: BankDetailBean)
+    fun addItem(position: Int = 0, bankDetail: BankDetailBean) {
+        bankDetails?.let {
+            it.add(position, bankDetail)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun updateItem(position: Int, bankDetail: BankDetailBean) {
+        bankDetails?.let {
+            if (position >= 0 && position <= it.size) {
+                it[position] = bankDetail
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun deleteItem(position: Int) {
+        bankDetails?.let {
+            bankDetails.removeAt(position)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onBindViewHolder(holder: BankDetailViewHolder, position: Int) {
@@ -38,20 +57,27 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
 
     inner class BankDetailViewHolder(val binding: ItemBankBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int, bank: BankDetailBean) {
-            binding.tvAccountHolder.text = bank.accountHolderName.toString()
+            binding.tvBankName.text = bank.bankName.toString()
             binding.tvAccountNum.text = bank.accountNumber.toString()
+            binding.tvAccountHolder.text = bank.accountHolderName.toString()
+            binding.tvAccountType.text = bank.accountTypeName.toString()
             binding.tvSalaryCreditedNum.text = bank.numberOfCredit.toString()
             addClickListener(position, bank)
         }
 
         private fun addClickListener(position: Int, bank: BankDetailBean) {
-            binding.btnDelete.setOnClickListener {
+            binding.ivDelete.setOnClickListener {
                 mOnBankDetailClickListener!!.onBankDetailDeleteClicked(position)
             }
 
-            binding.btnEdit.setOnClickListener {
+            binding.ivEdit.setOnClickListener {
                 mOnBankDetailClickListener!!.onBankDetailEditClicked(position, bank)
             }
         }
+    }
+
+    interface BankDetailClickListener {
+        fun onBankDetailDeleteClicked(position: Int)
+        fun onBankDetailEditClicked(position: Int, bank: BankDetailBean)
     }
 }

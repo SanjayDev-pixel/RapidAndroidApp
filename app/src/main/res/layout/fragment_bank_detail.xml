@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/app_bkg"
         android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             android:fillViewport="true">
 
             <LinearLayout
@@ -21,181 +21,92 @@
                 android:padding="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="wrap_content"
                     android:id="@+id/rcApplicants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_height="wrap_content"/>
+                    tools:visibility="visible" />
 
-                <TextView
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/heading_background"
-                    android:text="Bank Detail"
-                    android:textColor="@color/black"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    android:textStyle="bold" />
+                    android:layout_marginEnd="@dimen/margin_10"
+                    app:tabBackground="@color/white"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextColor="@color/black" />
 
-                <LinearLayout
-                    android:id="@+id/layoutBankName"
-                    android:orientation="vertical"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_account_num"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/vwAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etAccountNum"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Account No. "
-                        android:maxLength="18"
-                        android:inputType="number"
-                        android:minWidth="200dp"
-                        android:textSize="@dimen/text_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_account_holder_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etAccountHolderName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/account_holder_name"
-                        android:minWidth="200dp"
-                        android:textSize="@dimen/text_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:baselineAligned="true"
-                    android:layout_marginTop="@dimen/fields_margin"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/layoutAccountType"
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/labelBankDetails"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical" />
+                        android:padding="10dp"
+                        android:text="Bank Detail"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <fr.ganfra.materialspinner.MaterialSpinner
-                        android:id="@+id/spinnerSalaryCredit"
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/tvCount"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/blue_circle"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/labelBankDetails"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="99"
+                        tools:visibility="visible" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="@dimen/text_min_width"
-                        app:ms_arrowColor="@color/black"
-                        android:textSize="@dimen/text_size"
-                        app:ms_arrowSize="16dp"
-                        android:layout_marginStart="@dimen/margin_10"
-                        android:theme="@style/MatchSpinnerTheme"
-                        app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Salary Credit * "
-                        app:ms_hint="Salary Credit * "
-                        app:ms_hintColor="@color/hint_color"
-                        app:ms_hintTextSize="@dimen/hint_size"
-                        app:ms_multiline="false" />
+                        android:src="@drawable/ic_add_black_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_salary_credit_in_six_month"
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:visibility="gone"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etSalaryCreditedInSixMonths"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="No. of Salary Credited In 6 months"
-                        android:maxLength="1"
-                        android:minWidth="200dp"
-                        android:inputType="number"
-                        android:textSize="@dimen/text_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:baselineAligned="true"
-                    android:gravity="center"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_50"
-                    android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/ivUploadStatement"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_height="50sp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/upload_icon" />
-
-                <TextView
-                    android:id="@+id/tvUploadBankStatement"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/upload_bank_statement"
-                    android:textColor="@color/black" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnAddBankDetail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_bank_detail"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/margin_50"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/button_text_size" />
-
-                <Button
-                    android:id="@+id/btnUpdate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_50"
-                    android:visibility="gone"
-                    android:text="@string/update"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/button_text_size" />
+                    android:layout_height="0.5dp"
+                    android:background="@color/md_grey_500" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
                     android:id="@+id/rcBank"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:layout_marginBottom="@dimen/fields_margin"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" />
 
                 <com.chahinem.pageindicator.PageIndicator
                     android:id="@+id/pageIndicatorAsset"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_height="12sp" />
+                    android:layout_height="12sp"
+                    android:layout_gravity="center" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -206,8 +117,10 @@
                         android:id="@+id/btnPrevious"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:background="@color/md_grey_500"
                         android:text="@string/previous"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size" />
 
                     <Button
@@ -215,8 +128,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:background="@color/md_applicant_blue"
                         android:text="@string/next"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size" />
                 </RelativeLayout>
 
