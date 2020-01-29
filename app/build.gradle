@@ -191,7 +191,7 @@ dependencies {
         transitive = true;
     }
     //otp edittext
-    implementation ('com.alimuzaffar.lib:pinentryedittext:2.0.6') {
+    implementation('com.alimuzaffar.lib:pinentryedittext:2.0.6') {
         exclude group: 'androidx.appcompat', module: 'appcompat'
     }
 

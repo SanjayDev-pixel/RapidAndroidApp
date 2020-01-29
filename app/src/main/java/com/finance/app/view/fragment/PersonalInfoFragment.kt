@@ -25,7 +25,7 @@ import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
 import com.finance.app.view.customViews.CustomSpinnerViewTest
 import com.finance.app.view.customViews.CustomZipAddressView
-import com.finance.app.view.customViews.Interfaces.IspinnerMainView
+//import com.finance.app.view.customViews.Interfaces.IspinnerMainView
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
@@ -47,6 +47,10 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
+class PersonalInfoFragment{
+
+}
+/*
 class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener,
         ApplicantsAdapter.ItemLongClickListener{
 
@@ -715,7 +719,8 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
 
             verifyOTPDialog = mBuilder.show()
             val pinEntry = verifyOTPDialogView?.etOTP
-            /* pinEntry?.setOnPinEnteredListener { pin ->
+            */
+/* pinEntry?.setOnPinEnteredListener { pin ->
                  if (pin.toString().length == 4) {
                      otp = pin.toString().toInt()
                      presenter.callNetwork(ConstantsApi.CALL_VERIFY_OTP, CallVerifyOTP())
@@ -725,7 +730,8 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
                  } else {
                      pinEntry.text = null
                  }
-             }*/
+             }*//*
+
 
             verifyOTPDialog.tvMobileno.setText(getString(R.string.mprefix).plus(binding.basicInfoLayout.etMobile.text.toString()))
             verifyOTPDialog.verifyotp.setOnClickListener() {
@@ -885,3 +891,4 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
             // Toast.makeText(mContext,"custom event",Toast.LENGTH_SHORT)
         }
     }
+*/

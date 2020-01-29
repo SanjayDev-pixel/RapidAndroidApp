@@ -48,6 +48,11 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
+class AssetLiabilityFragment {
+
+}
+
+/*
 class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
         LoanApplicationConnector.GetLoanApp, ApplicantsAdapter.ItemClickListener,
         AssetDetailAdapter.AssetClickListener, CardDetailAdapter.CardClickListener,
@@ -530,10 +535,12 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     override fun onObligationEditClicked(position: Int, obligation: ObligationDetail) {
         currentObligation = obligation
        // fillObligationFormWithCurrentObligation(binding.layoutObligations, currentObligation!!)
-        /*obligationItemDetail = LayoutInflater.from(mContext).inflate(R.layout.obligation_item_dialog, null)
+        */
+/*obligationItemDetail = LayoutInflater.from(mContext).inflate(R.layout.obligation_item_dialog, null)
         val mBuilder = androidx.appcompat.app.AlertDialog.Builder(mContext)
                 .setView(obligationItemDetail)
-                .setCancelable(true)*/
+                .setCancelable(true)*//*
+
 
         var   binding: ObligationItemDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.obligation_item_dialog, null, true)
 
@@ -886,4 +893,5 @@ class AssetLiabilityFragment : BaseFragment(), LoanApplicationConnector.PostLoan
     fun customEventReceived(event: AssetLiabilityFragment?) {
         // Toast.makeText(mContext,"custom event",Toast.LENGTH_SHORT)
     }
-}
+
+}*/
