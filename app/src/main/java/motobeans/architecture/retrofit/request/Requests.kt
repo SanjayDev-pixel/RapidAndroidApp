@@ -11,5 +11,5 @@ object Requests {
     data class AddressBean(val address1: String, val address2: Any? = null, val addressProof: Int? = null, val cityID: Int, val cityName: String, val districtID: Int, val landmark: String, val rentAmount: Any? = null, val residenceTypeTypeDetailID: Any? = null, val zip: String)
     data class Document(val documentTypeDetailID: Int, val uploadedDocumentPath: String)
     data class RequestSendOTP(val applicantID: Int? = null, val leadID: Int, val mobile: String?)
-    data class RequestVerifyOTP(val applicantID: Int? = null, val leadID: Int, val mobile: String, val otpValue: Int)
+    data class RequestVerifyOTP(val applicantID: Int? = null, val leadID: Int?, val mobile: String, val otpValue: Int)
 }
