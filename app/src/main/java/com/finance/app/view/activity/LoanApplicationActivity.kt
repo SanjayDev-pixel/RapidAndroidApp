@@ -78,7 +78,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
 
     private fun populateLeadRelatedData(leadId: Int) {
         LeadMetaData().getAndPopulateLeadData(leadId)
-        //getLeadFromDB(leadId)
 
         LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
             leadDetail?.let {
@@ -87,16 +86,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
             }
         })
     }
-/*
-
-    private fun getLeadFromDB(leadId: Int) {
-        appDataViewModel.getLeadData(leadId).observeForever { leadDetail ->
-            leadDetail?.let {
-                LeadMetaData.setLeadData(leadDetail = leadDetail)
-            }
-        }
-    }
-*/
 
     private fun fillLeadData(leadMaster: AllLeadMaster) {
         val leadName = leadMaster.applicantFirstName + " " + leadMaster.applicantMiddleName + " " + leadMaster.applicantLastName

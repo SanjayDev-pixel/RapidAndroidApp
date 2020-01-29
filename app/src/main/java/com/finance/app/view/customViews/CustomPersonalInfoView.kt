@@ -67,7 +67,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private lateinit var currentResidenceType: CustomSpinnerViewTest<DropdownMaster>
     private var spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>> = ArrayList()
 
-    fun attachView(activity: FragmentActivity, index: Int, applicant: PersonalApplicantsModel, leadId: Int) {
+    fun attachView(activity: FragmentActivity, index: Int, applicant: PersonalApplicantsModel, leadId: Int?) {
         this.activity = activity
         this.index = index
         binding = AppUtilExtensions.initCustomViewBinding(context = context,
@@ -75,7 +75,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         initializeViews(applicant, leadId)
     }
 
-    private fun initializeViews(applicant: PersonalApplicantsModel, leadId: Int) {
+    private fun initializeViews(applicant: PersonalApplicantsModel, leadId: Int?) {
         SetPersonalMandatoryField(binding)
         setDatePicker()
         setClickListeners(leadId, applicant)
@@ -95,7 +95,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    private fun setClickListeners(leadId: Int, applicant: PersonalApplicantsModel) {
+    private fun setClickListeners(leadId: Int?, applicant: PersonalApplicantsModel) {
         binding.basicInfoLayout.btnGetOTP.setOnClickListener { showVerifyOTPDialog(leadId, applicant) }
         binding.personalAddressLayout.cbSameAsCurrent.setOnClickListener {
             if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
@@ -409,7 +409,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         return addressDetailList
     }
 
-    private fun showVerifyOTPDialog(leadId: Int, applicant: PersonalApplicantsModel) {
+    private fun showVerifyOTPDialog(leadId: Int?, applicant: PersonalApplicantsModel) {
         verifyOTPDialogView = LayoutInflater.from(context).inflate(R.layout.pop_up_verify_otp, null)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(verifyOTPDialogView)
@@ -487,7 +487,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    inner class CallVerifyOTP(private val leadId: Int, val applicant: PersonalApplicantsModel) : ViewGeneric<Requests.RequestVerifyOTP, Response.ResponseOTP>(context = activity) {
+    inner class CallVerifyOTP(private val leadId: Int?, val applicant: PersonalApplicantsModel) : ViewGeneric<Requests.RequestVerifyOTP, Response.ResponseOTP>(context = activity) {
         override val apiRequest: Requests.RequestVerifyOTP
             get() = otpVerifyRequest
 

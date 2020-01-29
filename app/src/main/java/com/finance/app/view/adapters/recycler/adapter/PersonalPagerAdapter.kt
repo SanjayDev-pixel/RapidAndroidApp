@@ -1,17 +1,17 @@
 package com.finance.app.view.adapters.recycler.adapter
 
+import android.util.SparseArray
+import androidx.core.util.set
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.view.fragment.loanApplicationFragments.PersonalFormFragmentNew
-import java.util.ArrayList
+import java.util.*
 
 class PersonalPagerAdapter internal constructor(fm: FragmentManager, val coApplicantsList: ArrayList<PersonalApplicantsModel>) : FragmentStatePagerAdapter(fm) {
-    private val mFragmentList = ArrayList<Fragment>()
-    private val mFragmentTitleList = ArrayList<String>()
 
-    private val hmFragments = HashMap<Int, PersonalFormFragmentNew>()
+    private val hmFragments = SparseArray<PersonalFormFragmentNew>()
 
     override fun getItem(position: Int): Fragment {
 
@@ -19,11 +19,6 @@ class PersonalPagerAdapter internal constructor(fm: FragmentManager, val coAppli
 
         hmFragments[position] = fragmentItem
         return fragmentItem
-    }
-
-    fun addFragment(fragment: Fragment, title: String) {
-        mFragmentList.add(fragment)
-        mFragmentTitleList.add(title)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
