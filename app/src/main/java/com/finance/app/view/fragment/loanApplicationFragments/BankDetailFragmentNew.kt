@@ -34,17 +34,14 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
     lateinit var dataBase: DataBaseUtil
 
     private lateinit var mContext: Context
-//    private var appDataViewModel: AppDataViewModel? = null
 
     private var bankAdapter: BankDetailAdapter? = null
     private var allMasterDropDown: AllMasterDropDown? = null
-//    private var applicantsBankDetailList: ArrayList<BankDetailModel>? = ArrayList()
 
     private var selectedApplicant: PersonalApplicantsModel? = null
     private var selectedBankDetailPosition = -1
 
     private var leadDetails: AllLeadMaster? = null
-
 
     companion object {
         fun newInstance(): BankDetailFragmentNew {
@@ -79,15 +76,6 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
     private fun initViews() {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        //Now fetch data from where-ever you want....
-        fetchLeadDetails()
-        fetchSpinnersDataFromDB()
-
-    }
-
     private fun setOnClickListeners() {
         binding.tabLead.addOnTabSelectedListener(this)
         binding.vwAdd.setOnClickListener { showBankDetailFormDialog(BankDetailDialogFragment.Action.NEW) }
@@ -96,6 +84,13 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //Now fetch data from where-ever you want....
+        fetchLeadDetails()
+        fetchSpinnersDataFromDB()
     }
 
     private fun setApplicantTabLayout(applicantList: ArrayList<PersonalApplicantsModel>) {
@@ -116,8 +111,6 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
         bankAdapter = BankDetailAdapter(mContext, bankDetailList)
         binding.rcBank.adapter = bankAdapter
         bankAdapter?.setOnBankDetailClickListener(this)
-        binding.pageIndicatorAsset.attachTo(binding.rcBank)
-        binding.pageIndicatorAsset.visibility = View.VISIBLE
         binding.rcBank.visibility = View.VISIBLE
     }
 

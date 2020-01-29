@@ -12,6 +12,7 @@ import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomPersonalInfoView
 import com.finance.app.view.customViews.CustomZipAddressView
 import com.finance.app.view.dialogs.BankDetailDialogFragment
+import com.finance.app.view.dialogs.ReferenceDetailDialogFragment
 import com.finance.app.view.fragment.*
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.view.fragment.NavMenuFragment
@@ -82,6 +83,7 @@ interface ApplicationComponent {
     fun inject(fragment: DocumentCheckListFragmentNew)
     fun inject(fragment: PersonalFormFragmentNew)
     fun inject(dialogFragment: BankDetailDialogFragment)
+    fun inject(dialogFragment: ReferenceDetailDialogFragment)
     /**
      * Presenters
      */

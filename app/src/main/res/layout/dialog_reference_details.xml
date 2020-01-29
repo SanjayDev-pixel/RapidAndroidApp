@@ -1,71 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/app_bkg"
-        android:fillViewport="true">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:minWidth="500dp"
             android:orientation="vertical"
-            android:padding="@dimen/margin_10">
+            android:padding="@dimen/_10sdp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/vwAdd"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_gravity="center_horizontal"
+                android:text="Reference Detail"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/labelBankDetails"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Reference Detail"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvCount"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/blue_circle"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/labelBankDetails"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="99"
-                    tools:visibility="visible" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_black_24dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:textColorHint="@color/hint_color">
+                android:textColorHint="@color/grey_585858">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etName"
@@ -131,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:textColorHint="@color/hint_color">
+                android:textColorHint="@color/grey_585858">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etKnownSince"
@@ -148,7 +112,7 @@
 
             <include
                 android:id="@+id/referenceAddressLayout"
-                layout="@layout/layout_employment_address" />
+                layout="@layout/layout_employment_address_grey_hints" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcReference"
@@ -159,42 +123,22 @@
                 android:orientation="horizontal"
                 android:visibility="gone" />
 
+            <com.chahinem.pageindicator.PageIndicator
+                android:id="@+id/pageIndicatorAsset"
+                android:layout_width="wrap_content"
+                android:layout_height="12sp"
+                android:layout_gravity="center" />
 
             <Button
-                android:id="@+id/btnAddReference"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:id="@+id/btnAdd"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:gravity="center"
-                android:text="@string/add_reference"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size" />
+                android:background="@color/md_grey_500"
+                android:text="@string/add" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_50">
-
-                <Button
-                    android:id="@+id/btnPrevious"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/previous"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/button_text_size" />
-
-                <Button
-                    android:id="@+id/btnNext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/next"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/button_text_size" />
-            </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>
-
 </layout>
