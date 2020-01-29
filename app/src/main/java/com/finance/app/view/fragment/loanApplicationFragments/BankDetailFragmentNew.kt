@@ -7,19 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.FragmentBankDetailBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
+import com.finance.app.others.Injection
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.BankDetailBean
 import com.finance.app.persistence.model.BankDetailModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadMaster
+import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.view.adapters.recycler.adapter.BankDetailAdapter
 import com.finance.app.view.dialogs.BankDetailDialogFragment
+import com.finance.app.viewModel.AppDataViewModel
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import motobeans.architecture.application.ArchitectureApp
@@ -37,6 +40,7 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
     lateinit var dataBase: DataBaseUtil
 
     private lateinit var mContext: Context
+    private var appDataViewModel: AppDataViewModel? = null
 
     private var bankAdapter: BankDetailAdapter? = null
     private var allMasterDropDown: AllMasterDropDown? = null
@@ -61,6 +65,9 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
         super.onAttach(context)
         mContext = context!!
         ArchitectureApp.instance.component.inject(this)
+        activity?.let {
+            appDataViewModel = ViewModelProviders.of(activity!!, Injection.provideViewModelFactory(it)).get(AppDataViewModel::class.java)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -89,10 +96,10 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
     }
 
     private fun setApplicantTabView() {
-        leadMaster?.personalData?.applicantDetails?.let { applicantList ->
-            //Set Applicant Tab Adapter...
-            setApplicantTabLayout(applicantList)
-        }
+//        leadDetail?.personalData?.applicantDetails?.let { applicantList ->
+//            //Set Applicant Tab Adapter...
+//            setApplicantTabLayout(applicantList)
+//        }
     }
 
     private fun setApplicantTabLayout(applicantList: ArrayList<PersonalApplicantsModel>) {
@@ -111,7 +118,7 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
     private fun setOnClickListeners() {
         binding.tabLead.addOnTabSelectedListener(this)
         binding.vwAdd.setOnClickListener { showBankDetailFormDialog(BankDetailDialogFragment.Action.NEW) }
-        binding.btnNext.setOnClickListener { }
+        binding.btnNext.setOnClickListener { /*leadDetail?.let { appDataViewModel?.saveLead(it) }*/ }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
     }
 
@@ -134,10 +141,10 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
     }
 
     private fun fetchBankDetail() {
-        leadMaster?.bankData?.applicantBankDetails?.let { list ->
-            applicantsBankDetailList = list
-            refreshApplicantBankDetails(list)
-        }
+//        leadDetail?.bankData?.applicantBankDetails?.let { list ->
+//            applicantsBankDetailList = list
+//            refreshApplicantBankDetails(list)
+//        }
     }
 
     private fun refreshApplicantBankDetails(allApplicantsBankDetailList: ArrayList<BankDetailModel>?) {
@@ -171,9 +178,9 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
 
     override fun onBankDetailEditClicked(position: Int, bank: BankDetailBean) {
         selectedBankDetailPosition = position
-        showBankDetailFormDialog(
-                if (leadMaster?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) BankDetailDialogFragment.Action.SUBMITTED
-                else BankDetailDialogFragment.Action.EDIT, bank)
+//        showBankDetailFormDialog(
+//                if (leadDetail?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) BankDetailDialogFragment.Action.SUBMITTED
+//                else BankDetailDialogFragment.Action.EDIT, bank)
     }
 
     private fun showBankDetailFormDialog(action: BankDetailDialogFragment.Action, bankDetail: BankDetailBean? = null) {
