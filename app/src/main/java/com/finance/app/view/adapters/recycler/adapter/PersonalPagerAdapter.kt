@@ -1,28 +1,33 @@
 package com.finance.app.view.adapters.recycler.adapter
 
+import android.util.SparseArray
+import androidx.core.util.set
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import java.util.ArrayList
+import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.view.fragment.loanApplicationFragments.PersonalFormFragmentNew
+import java.util.*
 
-class PersonalPagerAdapter internal constructor(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-    private val mFragmentList = ArrayList<Fragment>()
-    private val mFragmentTitleList = ArrayList<String>()
+class PersonalPagerAdapter internal constructor(fm: FragmentManager, val coApplicantsList: ArrayList<PersonalApplicantsModel>) : FragmentStatePagerAdapter(fm) {
+
+    private val hmFragments = SparseArray<PersonalFormFragmentNew>()
 
     override fun getItem(position: Int): Fragment {
-        return mFragmentList[position]
-    }
 
-    fun addFragment(fragment: Fragment, title: String) {
-        mFragmentList.add(fragment)
-        mFragmentTitleList.add(title)
+        val fragmentItem = PersonalFormFragmentNew.newInstance(coApplicantsList[position], position)
+
+        hmFragments[position] = fragmentItem
+        return fragmentItem
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return mFragmentTitleList[position]
+        return "CoApplicant ${position + 1}"
     }
 
     override fun getCount(): Int {
-        return mFragmentList.size
+        return coApplicantsList.size
     }
+
+    fun getAllFragments() = hmFragments
 }
