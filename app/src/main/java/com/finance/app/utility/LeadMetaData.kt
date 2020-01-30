@@ -2,6 +2,7 @@ package com.finance.app.utility
 
 import androidx.lifecycle.MutableLiveData
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.AssetLiabilityModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,6 +49,17 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.personalData.applicantDetails = applicants
+            GlobalScope.launch {
+                dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
+            }
+        }
+    }
+
+    fun saveAssetLiabilityData(applicants: ArrayList<AssetLiabilityModel>){
+
+        val lead:AllLeadMaster?= getLeadData()
+        lead?.let {
+            lead.assetLiabilityData.applicantDetails=applicants
             GlobalScope.launch {
                 dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
             }

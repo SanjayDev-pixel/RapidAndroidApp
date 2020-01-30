@@ -17,6 +17,7 @@ import com.finance.app.others.Injection
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.AssetLiabilityModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.activity.LoanApplicationActivity
 import com.finance.app.view.fragment.PersonalFormFragment
 import com.finance.app.viewModel.AppDataViewModel
@@ -25,24 +26,22 @@ import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import javax.inject.Inject
 
-class AssetLiabilityFragmentForm {
 
-}
 
 /**
  * A simple [Fragment] subclass.
  */
-/*
 
 
 class AssetLiabilityFragmentForm : BaseFragment() {
+
 
     @Inject
     lateinit var dataBase: DataBaseUtil
     private lateinit var binding: AssetLiabilityFragmentFormBinding
     private lateinit var appDataViewModel: AppDataViewModel
     private var index = 0
-
+    private lateinit var applicant: AssetLiabilityModel
 
 
 
@@ -58,7 +57,11 @@ class AssetLiabilityFragmentForm : BaseFragment() {
             fragment.arguments = args
             return fragment
         }
+
+
     }
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -67,47 +70,37 @@ class AssetLiabilityFragmentForm : BaseFragment() {
         return binding.root
     }
 
+
+
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-        val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
-        appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
         val indexKey = arguments?.getInt(AssetLiabilityFragmentForm.KEY_INDEX)
-        arguments?.getSerializable(PersonalFormFragmentNew.KEY_CO_APPLICANT)?.let { Applicant ->
-            val applicant = Applicant as PersonalApplicantsModel
+        arguments?.getSerializable(AssetLiabilityFragmentForm.KEY_CO_APPLICANT)?.let { Applicant ->
+            val applicant = Applicant as AssetLiabilityModel
             indexKey?.let {
                 this.index = indexKey
                 activity?.let {
-                    binding.customAssetView.attachView(activity!!, index, applicant, LoanApplicationActivity.leadDetail!!.leadID!!)
+                    val leadId = LeadMetaData.getLeadId()
+                    leadId?.let {
+                        binding.customAssetView.attachView(activity!!, index, applicant, leadId)
+                    }
                 }
             }
         }
     }
 
+
+
     fun isValidFragment(): Boolean {
-       */
-/* val applicant = binding.customAssetView.isValidPersonalApplicant()
+        val applicant = binding.customAssetView.isValidAssetApplicant()
         return if (applicant == null) false
         else {
-            saveCurrentApplicant(applicant)
+            this.applicant = applicant
             true
-        }*//*
-
-        return true// remove after
+        }
     }
 
-    private fun saveCurrentApplicant(applicant: AssetLiabilityModel) {
-        //Todo Code to save Personal Applicant
-        val applicantsList = LoanApplicationActivity.leadDetail?.assetLiabilityData?.applicantDetails!!
-        if (applicantsList.size > index) {
-            applicantsList[index] = applicant
-        } else applicantsList.add(index, applicant)
-        LoanApplicationActivity.leadDetail!!.assetLiabilityData.applicantDetails = applicantsList
-        updateAndSaveLeadTODB(LoanApplicationActivity.leadDetail!!)
+    fun getApplicant(): AssetLiabilityModel {
+        return applicant
     }
-
-    private fun updateAndSaveLeadTODB(leadDetail: AllLeadMaster) {
-        appDataViewModel.saveLead(leadDetail)
-    }
-
 }
-*/

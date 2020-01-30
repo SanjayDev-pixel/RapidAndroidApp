@@ -605,7 +605,7 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateObligations(binding: AddObligationDialogBinding): Boolean {
+    override fun validateObligationDialog(binding: AddObligationDialogBinding): Boolean {
         val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
         val loanType = binding.spinnerLoanType.selectedItem as DropdownMaster?
         val repaymentBank = binding.spinnerRepaymentBank.selectedItem as DropdownMaster?
@@ -733,5 +733,9 @@ class FormValidationImpl : FormValidation {
             else -> 0
         }
         return isValidForm(errorCount)
+    }
+
+    override fun validateAssetLiabilityInfo(binding: LayoutCustomviewAssetliabilityBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

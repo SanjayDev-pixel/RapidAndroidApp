@@ -124,7 +124,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnAddCreditCard"
+        android:id="@+id/btnAddcrdetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add"
