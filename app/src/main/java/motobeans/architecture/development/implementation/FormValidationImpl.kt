@@ -162,12 +162,8 @@ class FormValidationImpl : FormValidation {
         binding.layoutObligations.btnAddObligation.isEnabled = false
     }
 
-    override fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding): Boolean {
-        var errorCount = 0
+    override fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding, salarySpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean {
         val companyName = salaryBinding.etCompanyName.text.toString()
-        val sector = salaryBinding.spinnerSector.selectedItem as DropdownMaster?
-        val industry = salaryBinding.spinnerIndustry.selectedItem as DropdownMaster?
-        val employmentType = salaryBinding.spinnerEmploymentType.selectedItem as DropdownMaster?
         val designation = salaryBinding.etDesignation.text.toString()
         val totalExp = salaryBinding.etTotalExperience.text.toString()
         val retirementAge = salaryBinding.etRetirementAge.text.toString()
@@ -175,150 +171,69 @@ class FormValidationImpl : FormValidation {
         val deduction = salaryBinding.etDeduction.text.toString()
         val employeeId = salaryBinding.etEmployeeId.text.toString()
 
-        if (!companyName.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            salaryBinding.etCompanyName.error = "Company can not be blank"
+        val fieldError = when {
+            !companyName.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etCompanyName)
+            !designation.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etDesignation)
+            !totalExp.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etTotalExperience)
+            !retirementAge.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etRetirementAge)
+            !grossIncome.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etGrossIncome)
+            !deduction.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etDeduction)
+            !employeeId.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etEmployeeId)
+            else -> 0
         }
 
-        if (!designation.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            salaryBinding.etDesignation.error = "Designation can not be blank"
+        var spinnerError = 0
+        salarySpinnerList.forEach { item ->
+            if (!item.isValid()) ++spinnerError
         }
 
-        if (!totalExp.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            salaryBinding.etTotalExperience.error = "Experience can not be blank"
-        }
-
-        if (!retirementAge.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            salaryBinding.etRetirementAge.error = "Retirement age can not be blank"
-        }
-
-        if (!grossIncome.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            salaryBinding.etGrossIncome.error = "Required Field"
-        }
-
-        if (!deduction.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            salaryBinding.etDeduction.error = "Required Field"
-        }
-
-        if (!employeeId.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            salaryBinding.etEmployeeId.error = "Required Field"
-        }
-
-        if (sector == null) {
-            errorCount++
-            salaryBinding.spinnerSector.error = "Required Field"
-        }
-
-        if (industry == null) {
-            errorCount++
-            salaryBinding.spinnerIndustry.error = "Required Field"
-        }
-
-        if (employmentType == null) {
-            errorCount++
-            salaryBinding.spinnerEmploymentType.error = "Required Field"
-        }
-
-        errorCount.plus(validateAddress(salaryBinding.layoutAddress))
-        return isValidForm(errorCount)
+        val addressError = validateAddress(salaryBinding.layoutAddress)
+        val totalError = spinnerError + fieldError + addressError
+        return isValidForm(totalError)
     }
 
-    override fun validateSenpEmployment(senpBinding: LayoutSenpBinding): Boolean {
-        var errorCount = 0
+    override fun validateSenpEmployment(senpBinding: LayoutSenpBinding, senpSpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean {
         val businessName = senpBinding.etBusinessName.text.toString()
-        if (!businessName.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            senpBinding.etBusinessName.error = "Business name can not be blank"
-        }
-
         val gstVatRegistration = senpBinding.etGstRegistration.text.toString()
-        if (!gstVatRegistration.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            senpBinding.etGstRegistration.error = "Registration can not be blank"
-        }
-
         val incorporationDate = senpBinding.etIncorporationDate.text.toString()
-        if (!incorporationDate.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            senpBinding.etIncorporationDate.error = "Incorporation Date can not be blank"
-        }
-
         val businessVintage = senpBinding.etBusinessVintage.text.toString()
-        if (!businessVintage.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            senpBinding.etBusinessVintage.error = "Business Vintage can not be blank"
+
+        val fieldError = when {
+            !businessName.exIsNotEmptyOrNullOrBlank() -> setFieldError(senpBinding.etBusinessName)
+            !gstVatRegistration.exIsNotEmptyOrNullOrBlank() -> setFieldError(senpBinding.etGstRegistration)
+            !incorporationDate.exIsNotEmptyOrNullOrBlank() -> setFieldError(senpBinding.etIncorporationDate)
+            !businessVintage.exIsNotEmptyOrNullOrBlank() -> setFieldError(senpBinding.etBusinessVintage)
+            else -> 0
         }
 
-        val constitution = senpBinding.spinnerConstitution.selectedItem as DropdownMaster?
-        val industry = senpBinding.spinnerIndustry.selectedItem as DropdownMaster?
-        val businessSetUp = senpBinding.spinnerBusinessSetUpType.selectedItem as DropdownMaster?
+        var spinnerError = 0
+        senpSpinnerList.forEach { item ->
+            if (!item.isValid()) ++spinnerError
+        }
 
-        if (constitution == null) {
-            errorCount++
-            senpBinding.spinnerConstitution.error = "Required Field"
-        }
-        if (industry == null) {
-            errorCount++
-            senpBinding.spinnerIndustry.error = "Required Field"
-        }
-        if (businessSetUp == null) {
-            errorCount++
-            senpBinding.spinnerBusinessSetUpType.error = "Required Field"
-        }
-        errorCount.plus(validateAddress(senpBinding.layoutAddress))
-        return isValidForm(errorCount)
+        val addressError = validateAddress(senpBinding.layoutAddress)
+        val totalError = spinnerError + fieldError + addressError
+        return isValidForm(totalError)
     }
 
     private fun validateAddress(binding: LayoutEmploymentAddressBinding): Int {
         var errorCount = 0
-        val state = binding.spinnerState.selectedItem as StatesMaster?
-        val district = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
-        val city = binding.spinnerCity.selectedItem as Response.CityObj?
-
-        if (state == null) {
-            errorCount++
-            binding.spinnerState.error = "Required Field"
-        }
-        if (district == null) {
-            errorCount++
-            binding.spinnerDistrict.error = "Required Field"
-        }
-        if (city == null) {
-            errorCount++
-            binding.spinnerCity.error = "Required Field"
-        }
-
-        val pin = binding.etPinCode.text.toString()
-        if (!pin.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etPinCode.error = "Required Field"
-        }
-
-        val officeAddress = binding.etAddress.text.toString()
-        if (!officeAddress.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etAddress.error = "Required Field"
-        }
-
         val landmark = binding.etLandmark.text.toString()
-        if (!landmark.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etLandmark.error = "Required Field"
-        }
-
         val contact = binding.etContactNum.text.toString()
-        if (!isValidMobile(contact)) {
-            errorCount++
-            binding.etContactNum.error = "Invalid Mobile"
+        val officeAddress = binding.etAddress.text.toString()
+
+        val error = when {
+            !officeAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAddress)
+            !landmark.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etLandmark)
+            !isValidMobile(contact) -> setFieldError(binding.etContactNum)
+            else -> 0
         }
 
-        return errorCount
+        if (!binding.customZipAddressView.validateAndHandleError()) {
+            errorCount++
+        }
+
+        return error + errorCount
     }
 
     override fun validateBankDetail(binding: FragmentBankDetailBinding): Boolean {
@@ -349,9 +264,6 @@ class FormValidationImpl : FormValidation {
         val name = binding.etName.text.toString()
         val relation = binding.spinnerRelation.selectedItem as DropdownMaster?
         val occupation = binding.spinnerOccupation.selectedItem as DropdownMaster?
-        val state = binding.referenceAddressLayout.spinnerState.selectedItem as StatesMaster?
-        val district = binding.referenceAddressLayout.spinnerDistrict.selectedItem as Response.DistrictObj?
-        val city = binding.referenceAddressLayout.spinnerCity.selectedItem as Response.CityObj?
 
         if (relation == null) {
             errorCount++
@@ -361,19 +273,6 @@ class FormValidationImpl : FormValidation {
         if (occupation == null) {
             errorCount++
             binding.spinnerOccupation.error = "Required Field"
-        }
-
-        if (district == null) {
-            errorCount++
-            binding.referenceAddressLayout.spinnerDistrict.error = "Required Field"
-        }
-        if (city == null) {
-            errorCount++
-            binding.referenceAddressLayout.spinnerCity.error = "Required Field"
-        }
-        if (state == null) {
-            errorCount++
-            binding.referenceAddressLayout.spinnerState.error = "Required Field"
         }
 
         if (!name.exIsNotEmptyOrNullOrBlank()) {
@@ -397,12 +296,6 @@ class FormValidationImpl : FormValidation {
         if (!landmark.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.referenceAddressLayout.etLandmark.error = "Landmark can not be blank"
-        }
-
-        val pinCode = binding.referenceAddressLayout.etPinCode.text.toString()
-        if (!pinCode.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.referenceAddressLayout.etPinCode.error = "Pin code can not be blank"
         }
 
         return isValidForm(errorCount)

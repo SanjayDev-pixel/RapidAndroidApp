@@ -186,7 +186,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun setCustomSpinnerWithCondition(allMasterDropDown: AllMasterDropDown) {
-        maritalStatus = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
+        maritalStatus = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+                dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status *",
+                iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
                 if (value.typeDetailID == SINGLE) {

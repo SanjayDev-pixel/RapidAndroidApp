@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.forEach
+import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
@@ -47,7 +48,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
         ArchitectureApp.instance.component.inject(this)
         setApplicantAdapter()
 
-        LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
+        LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
             leadDetail?.let {
                 val applicantsList = leadDetail.personalData.applicantDetails
                 setClickListeners()

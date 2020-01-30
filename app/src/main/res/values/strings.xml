@@ -204,7 +204,14 @@
     <string name="sync">Sync</string>
     <string name="skip">skip</string>
     <string name="enter_otp_heading">Fill OTP value</string>
-    <string name="donotrecieveotp">Didn\'t recieve OTP?</string>
+    <string name="donotrecieveotp">Didn\'t receive OTP?</string>
     <string name="later">later</string>
     <string name="mandatory_field">Mandatory Field</string>
+    <string name="is_pensioner">Is Pensioner</string>
+    <string name="company_name">Company Name</string>
+    <string name="total_experience">Total Experience</string>
+    <string name="retirement_age">Retirement Age</string>
+    <string name="upload_document">Upload Document</string>
+    <string name="gross_income">Gross Income</string>
+    <string name="net_income">Net Income</string>
 </resources>

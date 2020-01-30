@@ -29,7 +29,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     private val binding: ActivityLoanApplicationBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_loan_application)
 
-    private val appDataViewModel: AppDataViewModel by viewModelProvider(this, ViewModelType.WITH_DAO)
     private lateinit var navFragment: NavMenuFragment
     private lateinit var secondaryFragment: Fragment
 
@@ -134,7 +133,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     fun onEvent(coApplicantsList: CoApplicantsList){
 
         binding.applicantName.text = coApplicantsList.firstName.plus(" " + coApplicantsList.middleName)
-        //binding.tvLeadid.text="Lead Number:".plus(coApplicantsList!!.leadApplicantNumber)
         binding.header.tvLeadNumber.text = coApplicantsList.leadApplicantNumber
         binding.tvDesignation.text=coApplicantsList.applicantType
         binding.tvMobile.text=coApplicantsList.mobile

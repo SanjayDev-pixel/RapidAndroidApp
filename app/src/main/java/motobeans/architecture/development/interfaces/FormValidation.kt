@@ -17,8 +17,8 @@ interface FormValidation {
                                 loanPurpose: CustomSpinnerViewTest<LoanPurpose>,
                                 spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>,
                                 customChannelPartnerView: CustomChannelPartnerView): Boolean
-    fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding): Boolean
-    fun validateSenpEmployment(senpBinding: LayoutSenpBinding ): Boolean
+    fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding, salarySpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean
+    fun validateSenpEmployment(senpBinding: LayoutSenpBinding, senpSpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean
     fun validateBankDetail(binding: FragmentBankDetailBinding):Boolean
     fun validateReference(binding: FragmentReferenceBinding):Boolean
     fun validateProperty(binding: FragmentPropertyInfoBinding):Boolean

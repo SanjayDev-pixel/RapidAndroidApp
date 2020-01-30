@@ -6,7 +6,7 @@ import java.io.Serializable
 class DropdownMaster : Serializable, IspinnerModel {
     var typeDetailCode: String? = ""
     var typeMasterID: Int? = 0
-    var typeDetailID: Int? = 0
+    var typeDetailID: Int = 0
     var refTypeDetailID: Int? = 0
     var typeMasterName: String? = ""
     var typeMasterDisplayText: String? = ""

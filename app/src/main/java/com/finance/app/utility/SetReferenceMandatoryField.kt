@@ -8,7 +8,6 @@ class SetReferenceMandatoryField(binding: FragmentReferenceBinding) {
         ShowAsMandatory(binding.inputLayoutName)
         ShowAsMandatory(binding.referenceAddressLayout.inputLayoutAddress)
         ShowAsMandatory(binding.referenceAddressLayout.inputLayoutLandmark)
-        ShowAsMandatory(binding.referenceAddressLayout.inputLayoutZip)
         ShowAsMandatory(binding.referenceAddressLayout.inputLayoutContact)
     }
 }

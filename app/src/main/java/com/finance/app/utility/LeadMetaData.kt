@@ -2,6 +2,7 @@ package com.finance.app.utility
 
 import androidx.lifecycle.MutableLiveData
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.EmploymentApplicantsModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,6 +49,16 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.personalData.applicantDetails = applicants
+            GlobalScope.launch {
+                dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
+            }
+        }
+    }
+
+    fun saveEmploymentData(applicants: ArrayList<EmploymentApplicantsModel>) {
+        val lead = getLeadData()
+        lead?.let {
+            lead.employmentData.applicantDetails = applicants
             GlobalScope.launch {
                 dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
             }
