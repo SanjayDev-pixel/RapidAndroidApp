@@ -25,10 +25,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/heading_background"
                     android:text="@string/employment"
-                    android:layout_marginTop="@dimen/fields_margin"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textSize="20sp"
-                    android:padding="@dimen/margin_10"
                     android:textStyle="bold" />
 
                 <LinearLayout

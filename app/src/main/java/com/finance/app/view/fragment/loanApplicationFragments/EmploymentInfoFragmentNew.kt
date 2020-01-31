@@ -38,7 +38,7 @@ class EmploymentInfoFragmentNew : BaseFragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = initBinding(inflater, container, R.layout.layout_custom_employment_view)
+        binding = initBinding(inflater, container, R.layout.fragment_employment_new)
         binding.lifecycleOwner = this
         init()
         return view

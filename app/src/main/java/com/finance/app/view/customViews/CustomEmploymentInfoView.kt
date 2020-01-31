@@ -33,6 +33,7 @@ import motobeans.architecture.util.AppUtils.showToast
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import javax.inject.Inject
 
+
 class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, attrs: AttributeSet? = null) : LinearLayout(mContext, attrs) {
 
     @Inject
@@ -43,6 +44,12 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     private lateinit var activity: FragmentActivity
     private var index: Int = 0
     private var formType: Int = -1
+    private var lastYearIncome = 0.0f
+    private var currentYearIncome = 0.0f
+    private var grossIncome = 0.0f
+    private var deduction = 0.0f
+    private var netIncome = ""
+    private var averageMonthlyIncome = ""
     private lateinit var profile: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var subProfile: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var sector: CustomSpinnerViewTest<DropdownMaster>
@@ -100,8 +107,6 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun salaryIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
-        var grossIncome = 0.0f
-        var deduction = 0.0f
 
         amountField!!.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -114,7 +119,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
                 }
 
                 if (grossIncome > deduction) {
-                    val netIncome = (grossIncome - deduction).toString()
+                    netIncome = (grossIncome - deduction).toString()
                     binding.layoutSalary.etNetIncome.setText(netIncome)
                 }
             }
@@ -122,8 +127,6 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun senpIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
-        var lastYearIncome = 0.0f
-        var currentYearIncome = 0.0f
 
         amountField!!.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -134,7 +137,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
                     AppEnums.INCOME_TYPE.CURRENT_YEAR_INCOME -> currentYearIncome = getIncomeValue(amountField.text.toString())
                     else -> return
                 }
-                val averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toString()
+                averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toString()
                 binding.layoutSenp.etAverageMonthlyIncome.setText(averageMonthlyIncome)
             }
         })
@@ -168,6 +171,10 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun setCustomSpinner(dropDowns: AllMasterDropDown) {
+        subProfile = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+                dropDowns = ArrayList(), label = "Sub Profile *")
+        binding.layoutSubProfile.addView(subProfile)
+
         profile = CustomSpinnerViewTest(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.ProfileSegment!!, label = "Profile *",
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
@@ -182,22 +189,21 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun setSubProfileSegment(value: DropdownMaster, dropDowns: AllMasterDropDown) {
-        val subProfileSegment: ArrayList<DropdownMaster> = ArrayList()
+        val subProfileSegments: ArrayList<DropdownMaster> = ArrayList()
         for (sub in dropDowns.SubProfileSegment!!) {
             if (sub.refTypeDetailID == value.typeDetailID) {
-                subProfileSegment.add(sub)
+                subProfileSegments.add(sub)
             }
         }
         binding.layoutSubProfile.removeAllViews()
         subProfile = CustomSpinnerViewTest(mContext = context, isMandatory = true,
-                dropDowns = dropDowns.SubProfileSegment!!, label = "Sub Profile *",
+                dropDowns = subProfileSegments, label = "Sub Profile *",
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
                     override fun getSelectedValue(value: DropdownMaster) {
                         showFormBasedOnUserSelection(value.typeDetailID)
                     }
                 })
         binding.layoutSubProfile.addView(subProfile)
-
     }
 
     private fun showFormBasedOnUserSelection(id: Int) {
@@ -214,8 +220,12 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun fillValueInCustomSpinner(applicant: EmploymentApplicantsModel) {
-        profile.setSelection(applicant.profileSegmentTypeDetailID.toString())
-        subProfile.setSelection(applicant.subProfileTypeDetailID.toString())
+        applicant.profileSegmentTypeDetailID?.let {
+            profile.setSelection(applicant.profileSegmentTypeDetailID.toString())
+        }
+        applicant.subProfileTypeDetailID?.let {
+            subProfile.setSelection(applicant.subProfileTypeDetailID.toString())
+        }
         fillSenpForm(binding.layoutSenp, applicant)
         fillSalaryForm(binding.layoutSalary, applicant)
         checkSubmission()
@@ -294,44 +304,83 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun fillSenpForm(binding: LayoutSenpBinding, applicant: EmploymentApplicantsModel) {
-        binding.etIncorporationDate.setText(applicant.dateOfIncorporation)
-        binding.etBusinessName.setText(applicant.companyName)
-        binding.etGstRegistration.setText(applicant.gstRegistration)
-        binding.etBusinessVintage.setText(applicant.businessVinatgeInYear.toString())
-        binding.etLastYearIncome.setText(applicant.incomeDetail?.itrLastYearIncome.toString())
-        binding.etCurrentYearIncome.setText(applicant.incomeDetail?.itrCurrentYearIncome.toString())
-        binding.etAverageMonthlyIncome.setText(applicant.incomeDetail?.itrAverageMonthlyIncome.toString())
-        binding.etMonthlyIncome.setText(applicant.incomeDetail?.assessedMonthlyIncome.toString())
+        val vintageYear = applicant.businessVinatgeInYear ?: 0
+        binding.etBusinessVintage.setText(if (vintageYear == 0) "" else vintageYear.toString())
+        binding.etIncorporationDate.setText(applicant.dateOfIncorporation ?: "")
+        binding.etBusinessName.setText(applicant.companyName ?: "")
+        binding.etGstRegistration.setText(applicant.gstRegistration ?: "")
+
+        applicant.incomeDetail?.let {
+            binding.etLastYearIncome.setText(applicant.incomeDetail?.itrLastYearIncome.toString())
+            binding.etCurrentYearIncome.setText(applicant.incomeDetail?.itrCurrentYearIncome.toString())
+            binding.etAverageMonthlyIncome.setText(applicant.incomeDetail?.itrAverageMonthlyIncome.toString())
+            binding.etMonthlyIncome.setText(applicant.incomeDetail?.assessedMonthlyIncome.toString())
+        }
+
+        applicant.constitutionTypeDetailID?.let {
+            constitution.setSelection(applicant.constitutionTypeDetailID.toString())
+        }
+
+        applicant.industryTypeDetailID?.let {
+            industry.setSelection(applicant.industryTypeDetailID.toString())
+        }
+
+        applicant.businessSetupTypeDetailID?.let {
+            businessSetUpType.setSelection(applicant.businessSetupTypeDetailID.toString())
+        }
+
         binding.cbAllEarningMember.isChecked = applicant.allEarningMembers
-        constitution.setSelection(applicant.constitutionTypeDetailID.toString())
-        industry.setSelection(applicant.industryTypeDetailID.toString())
-        businessSetUpType.setSelection(applicant.businessSetupTypeDetailID.toString())
         fillAddress(binding.layoutAddress, applicant.addressBean)
     }
 
     private fun fillSalaryForm(binding: LayoutSalaryBinding, applicant: EmploymentApplicantsModel) {
-        binding.etJoiningDate.setText(applicant.dateOfJoining)
-        binding.etTotalExperience.setText(applicant.totalExperience)
-        binding.etRetirementAge.setText(applicant.retirementAge.toString())
-        binding.etOfficialMailId.setText(applicant.officialMailID)
-        binding.etDesignation.setText(applicant.designation)
-        binding.etEmployeeId.setText(applicant.employeeID)
-        binding.etCompanyName.setText(applicant.companyName)
+        applicant.dateOfJoining?.let {
+            binding.etJoiningDate.setText(applicant.dateOfJoining)
+        }
+        applicant.totalExperience?.let {
+            binding.etTotalExperience.setText(applicant.totalExperience)
+        }
+        applicant.retirementAge?.let {
+            binding.etRetirementAge.setText(applicant.retirementAge.toString())
+        }
+        applicant.officialMailID?.let {
+            binding.etOfficialMailId.setText(applicant.officialMailID)
+        }
+        applicant.designation?.let {
+            binding.etDesignation.setText(applicant.designation)
+        }
+        applicant.employeeID?.let {
+            binding.etEmployeeId.setText(applicant.employeeID)
+        }
+        applicant.companyName?.let {
+            binding.etCompanyName.setText(applicant.companyName)
+        }
+        applicant.sectorTypeDetailID?.let {
+            sector.setSelection(applicant.sectorTypeDetailID.toString())
+        }
+        applicant.industryTypeDetailID?.let {
+            industry.setSelection(applicant.industryTypeDetailID.toString())
+        }
+        applicant.employmentTypeDetailID?.let {
+            employmentType.setSelection(applicant.employmentTypeDetailID.toString())
+        }
+
+        applicant.incomeDetail?.let {
+            binding.etGrossIncome.setText(applicant.incomeDetail?.salariedGrossIncome.toString())
+            binding.etDeduction.setText(applicant.incomeDetail?.salariedDeduction.toString())
+            binding.etNetIncome.setText(applicant.incomeDetail?.salariedNetIncome.toString())
+        }
         binding.cbIsPensioner.isChecked = applicant.isPensioner
-        binding.etGrossIncome.setText(applicant.incomeDetail?.salariedGrossIncome.toString())
-        binding.etDeduction.setText(applicant.incomeDetail?.salariedDeduction.toString())
-        binding.etNetIncome.setText(applicant.incomeDetail?.salariedNetIncome.toString())
-        sector.setSelection(applicant.sectorTypeDetailID.toString())
-        industry.setSelection(applicant.industryTypeDetailID.toString())
-        employmentType.setSelection(applicant.employmentTypeDetailID.toString())
         fillAddress(binding.layoutAddress, applicant.addressBean)
     }
 
     private fun fillAddress(binding: LayoutEmploymentAddressBinding, address: AddressDetail?) {
-        binding.etAddress.setText(address!!.address1)
-        binding.etLandmark.setText(address.landmark)
-        binding.etContactNum.setText(address.contactNum)
-        binding.customZipAddressView.updateAddressData(addressDetail = address)
+        address?.let {
+            binding.etAddress.setText(address.address1)
+            binding.etLandmark.setText(address.landmark)
+            binding.etContactNum.setText(address.contactNum)
+            binding.customZipAddressView.updateAddressData(addressDetail = address)
+        }
     }
 
     private fun getCurrentApplicant(): EmploymentApplicantsModel {
@@ -340,6 +389,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         val subProfileDD = subProfile.getSelectedValue()
         applicant.profileSegmentTypeDetailID = profileDD?.typeDetailID
         applicant.subProfileTypeDetailID = subProfileDD?.typeDetailID
+        applicant.isMainApplicant = index == 0
         when (formType) {
             SALARY -> return getSalaryForm(binding.layoutSalary, applicant)
             SENP -> return getSenpForm(binding.layoutSenp, applicant)
@@ -358,7 +408,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         applicant.designation = binding.etDesignation.text.toString()
         applicant.dateOfJoining = binding.etJoiningDate.text.toString()
         applicant.totalExperience = binding.etTotalExperience.text.toString()
-        applicant.retirementAge = binding.etRetirementAge.text.toString().toInt()
+        applicant.retirementAge = if (binding.etRetirementAge.text.toString() == "") 0 else binding.etRetirementAge.text.toString().toInt()
         applicant.officialMailID = binding.etOfficialMailId.text.toString()
         applicant.addressBean = getAddress(binding.layoutAddress)
         applicant.incomeDetail = getSalaryIncomeDetail(binding)

@@ -20,7 +20,7 @@
     <string name="send_sms">Send Sms</string>
     <string name="send_whatsapp">Send Whatsapp</string>
     <string name="call_to_customer">Call To Customer</string>
-    <string name="designation">Designation :</string>
+    <string name="designation">Designation </string>
     <string name="assignments">Assignments</string>
     <string name="tasks">Tasks</string>
     <string name="required_asterisk"><![CDATA[<font color=\'#cc0029\'>&nbsp*</font>]]></string>

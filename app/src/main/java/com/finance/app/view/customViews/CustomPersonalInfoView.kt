@@ -37,8 +37,8 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
-class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
-    private val TAG = this.javaClass.canonicalName
+class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
+    : LinearLayout(context, attrs) {
 
     @Inject
     lateinit var dataBase: DataBaseUtil

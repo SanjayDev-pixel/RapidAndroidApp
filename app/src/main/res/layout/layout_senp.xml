@@ -9,6 +9,7 @@
         <LinearLayout
             android:id="@+id/llSenp"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -42,6 +43,7 @@
             <LinearLayout
                 android:id="@+id/layoutConstitution"
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/fields_margin"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
