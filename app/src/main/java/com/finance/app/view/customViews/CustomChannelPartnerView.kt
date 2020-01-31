@@ -22,8 +22,7 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.AppUtilExtensions
 import javax.inject.Inject
 
-class CustomChannelPartnerView @JvmOverloads constructor(context: Context, var isMandatory: Boolean = false,
-                                                         attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
+class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
     @Inject
     lateinit var dataBase: DataBaseUtil
@@ -38,15 +37,16 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, var i
     private var mChannelTypeId: String = ""
     private var empId: String? = null
     private lateinit var activity: FragmentActivity
-
+    private var isMandatory = false
     private lateinit var sourcingPartner: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var partnerName: CustomSpinnerViewTest<ChannelPartnerName>
 
-    fun attachActivity(activity: FragmentActivity) {
-       /* this.activity = activity
+    fun attachActivity(activity: FragmentActivity, isMandatory: Boolean = false) {
+        this.activity = activity
+        this.isMandatory = isMandatory
         binding = AppUtilExtensions.initCustomViewBinding(context = context,
                 layoutId = R.layout.layout_channel_partner, container = this)
-        proceedFurther()*/
+        proceedFurther()
     }
 
     private fun proceedFurther() {
@@ -69,7 +69,7 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, var i
         binding.layoutPartnerName.addView(partnerName)
 
         sourcingPartner = CustomSpinnerViewTest(mContext = context,
-                dropDowns = masterDropDown.SourcingChannelPartner!!, label = "Sourcing Channel Partner",
+                dropDowns = masterDropDown.SourcingChannelPartner!!, label = "Sourcing Channel Partner *",
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 getPartnerNameFromApi(value.getCompareValue())

@@ -129,12 +129,11 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-               <!-- <com.finance.app.view.customViews.CustomChannelPartnerView
+                <com.finance.app.view.customViews.CustomChannelPartnerView
                     android:id="@+id/viewChannelPartner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin" />
--->
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbPropertySelected"

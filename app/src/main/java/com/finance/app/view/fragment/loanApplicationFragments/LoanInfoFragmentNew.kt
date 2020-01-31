@@ -66,21 +66,21 @@ class LoanInfoFragmentNew : BaseFragment(){
 
     private fun setUpCustomViews() {
         activity?.let {
-//            binding.viewChannelPartner.attachActivity(activity = activity!!)
+            binding.viewChannelPartner.attachActivity(activity = activity!!)
         }
     }
 
     private fun setClickListeners() {
         binding.btnNext.setOnClickListener {
 
-//            if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
-//                            spinnerDMList, binding.viewChannelPartner)) {
+            if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
+                            spinnerDMList, binding.viewChannelPartner)) {
 
                 checkPropertySelection()
                 leadDetail?.loanData = getLoanData()
                 AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
-//            } else showToast(getString(R.string.validation_error))
+            } else showToast(getString(R.string.validation_error))
         }
         CurrencyConversion().convertToCurrencyType(binding.etAmountRequest)
     }
@@ -179,8 +179,8 @@ class LoanInfoFragmentNew : BaseFragment(){
 
     private fun getLoanData(): LoanInfoModel {
         val loanInfoObj = LoanInfoModel()
-//        val sPartner = binding.viewChannelPartner.getSourcingChannelPartner()
-//        val cPartnerName = binding.viewChannelPartner.getPartnerName()
+        val sPartner = binding.viewChannelPartner.getSourcingChannelPartner()
+        val cPartnerName = binding.viewChannelPartner.getPartnerName()
         val lProductDD = loanProduct.getSelectedValue()
         val lPurposeDD = loanPurpose.getSelectedValue()
         val lScheme = loanScheme.getSelectedValue()
@@ -193,11 +193,11 @@ class LoanInfoFragmentNew : BaseFragment(){
         loanInfoObj.loanPurposeID = lPurposeDD?.loanPurposeID
         loanInfoObj.loanSchemeTypeDetailID = lScheme?.typeDetailID
         loanInfoObj.interestTypeTypeDetailID = iType?.typeDetailID
-//        loanInfoObj.sourcingChannelPartnerTypeDetailID = sPartner?.typeDetailID
+        loanInfoObj.sourcingChannelPartnerTypeDetailID = sPartner?.typeDetailID
         loanInfoObj.isPropertySelected = binding.cbPropertySelected.isChecked
         loanInfoObj.loanAmountRequest = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString()).toInt()
         loanInfoObj.tenure = binding.etTenure.text.toString().toInt()
-//        loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
+        loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
         return loanInfoObj
     }
