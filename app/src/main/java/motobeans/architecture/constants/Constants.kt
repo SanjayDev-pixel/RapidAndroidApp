@@ -25,7 +25,7 @@ class Constants {
 
     object API {
         object URL {
-            const val URL_DEVELOPMENT = "http://13.232.224.66:8080/dmi/"
+            const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmi/"
             const val URL_TESTING = ""
             const val URL_LIVE = ""
             const val URL_PRODUCTION = ""
@@ -48,4 +48,5 @@ class Constants {
         const val CASH_SALARY = 118
         const val BANK_SALARY = 119
     }
+
 }

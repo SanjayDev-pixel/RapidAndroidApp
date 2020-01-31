@@ -281,6 +281,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun clearPinCodes() {
+        etCurrentPinCode.text?.clear()
         spinnerCurrentDistrict.isEnabled = true
         spinnerCurrentCity.isEnabled = true
         spinnerCurrentState.isEnabled = true

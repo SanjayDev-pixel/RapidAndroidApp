@@ -27,6 +27,7 @@ class ClearEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding
         binding.layoutSalary.etGrossIncome.text?.clear()
         binding.layoutSalary.etDeduction.text?.clear()
         binding.layoutSalary.layoutAddress.customZipAddressView.clearPinCodes()
+        binding.layoutSenp.layoutAddress.customZipAddressView.clearPinCodes()
         clearSalaryDropdown(salarySpinnerList)
     }
 
@@ -52,6 +53,7 @@ class ClearEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding
         binding.layoutSenp.etCurrentYearIncome.text?.clear()
         binding.layoutSenp.etMonthlyIncome.text?.clear()
         binding.layoutSenp.layoutAddress.customZipAddressView.clearPinCodes()
+        binding.layoutSalary.layoutAddress.customZipAddressView.clearPinCodes()
         clearSenpDropdown(senpSpinnerList)
     }
 
