@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.util.forEach
+import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.PersonalPagerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import java.util.*
 import javax.inject.Inject
 
 class PersonalInfoFragmentNew : BaseFragment() {
@@ -30,7 +30,6 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private val alCoApplicants = ArrayList<PersonalApplicantsModel>()
 
     companion object {
-        private var count = 0
         fun newInstance(): PersonalInfoFragmentNew {
             return PersonalInfoFragmentNew()
         }
@@ -47,15 +46,21 @@ class PersonalInfoFragmentNew : BaseFragment() {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-
         setApplicantAdapter()
 
-        LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
+        LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
             leadDetail?.let {
+                val applicantsList = leadDetail.personalData.applicantDetails
                 setClickListeners()
-                refreshApplicantData(leadDetail.personalData.applicantDetails)
+                refreshApplicantData(applicantsList)
             }
         })
+    }
+
+    private fun setApplicantAdapter() {
+        pagerAdapterApplicants = PersonalPagerAdapter(fragmentManager!!, alCoApplicants)
+        binding.viewPager.adapter = pagerAdapterApplicants
+        binding.tabLead.setupWithViewPager(binding.viewPager)
     }
 
     private fun refreshApplicantData(applicantDetails: ArrayList<PersonalApplicantsModel>) {
@@ -69,42 +74,34 @@ class PersonalInfoFragmentNew : BaseFragment() {
             AppEvents.fireEventLoanAppChangeNavFragmentPrevious()
         }
         binding.btnNext.setOnClickListener {
-            //checkValidationAndProceed()
+            checkValidationAndProceed()
         }
         handleAddCoApplicant()
     }
 
     private fun handleAddCoApplicant() {
-
         binding.btnAddApplicant.setOnClickListener {
             LeadMetaData.addCoApplicant()
             binding.viewPager.adapter?.notifyDataSetChanged()
         }
     }
-/*
-    private fun checkValidationAndProceed() {
 
-        // This code need to be changed
-        for (index in 0 until leadDetail!!.personalData.applicantDetails.size) {
-            val page: Fragment? = childFragmentManager.findFragmentByTag("android:switcher:" + binding.viewPager.toString() + ":" + index)
-            page?.let {
-                val tab = page as PersonalFormFragmentNew
-                if (tab.isValidFragment()) {
-                    ++count
+    private fun checkValidationAndProceed() {
+        val pApplicantList = ArrayList<PersonalApplicantsModel>()
+        var errorCount = 0
+        val fragments = pagerAdapterApplicants?.getAllFragments()
+        fragments?.let {
+            fragments.forEach { _, item ->
+                if (item.isValidFragment()) {
+                    val applicant = item.getApplicant()
+                    pApplicantList.add(applicant)
+                } else ++errorCount
+
+                if (errorCount <= 0) {
+                    LeadMetaData().savePersonalData(pApplicantList)
+                    AppEvents.fireEventLoanAppChangeNavFragmentNext()
                 }
             }
         }
-        if (count == leadDetail!!.personalData.applicantDetails.size) {
-            AppEvents.fireEventLoanAppChangeNavFragmentNext()
-        }
-    }*/
-
-    private fun setApplicantAdapter() {
-        pagerAdapterApplicants = PersonalPagerAdapter(fragmentManager!!, alCoApplicants)
-        /*for (index in 0 until coApplicantsList.size) {
-            pagerAdapter!!.addFragment(PersonalFormFragmentNew.newInstance(coApplicantsList[index], index), "CoApplicant ${index + 1}")
-        }*/
-        binding.viewPager.adapter = pagerAdapterApplicants
-        binding.tabLead.setupWithViewPager(binding.viewPager)
     }
 }

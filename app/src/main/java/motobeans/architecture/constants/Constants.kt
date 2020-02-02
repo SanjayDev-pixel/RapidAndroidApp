@@ -42,5 +42,12 @@ class Constants {
         internal const val PERMANENT_ADDRESS = "Permanent"
         internal const val CURRENT_ADDRESS = "Current"
 
+        const val SALARY = 0
+        const val SENP = 1
+        const val ASSESED_INCOME = 116
+        const val ITR = 117
+        const val CASH_SALARY = 118
+        const val BANK_SALARY = 119
     }
+
 }

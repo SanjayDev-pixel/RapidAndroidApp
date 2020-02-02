@@ -37,8 +37,8 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
-class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
-    private val TAG = this.javaClass.canonicalName
+class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
+    : LinearLayout(context, attrs) {
 
     @Inject
     lateinit var dataBase: DataBaseUtil
@@ -67,7 +67,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private lateinit var currentResidenceType: CustomSpinnerViewTest<DropdownMaster>
     private var spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>> = ArrayList()
 
-    fun attachView(activity: FragmentActivity, index: Int, applicant: PersonalApplicantsModel, leadId: Int) {
+    fun attachView(activity: FragmentActivity, index: Int, applicant: PersonalApplicantsModel, leadId: Int?) {
         this.activity = activity
         this.index = index
         binding = AppUtilExtensions.initCustomViewBinding(context = context,
@@ -75,7 +75,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         initializeViews(applicant, leadId)
     }
 
-    private fun initializeViews(applicant: PersonalApplicantsModel, leadId: Int) {
+    private fun initializeViews(applicant: PersonalApplicantsModel, leadId: Int?) {
         SetPersonalMandatoryField(binding)
         setDatePicker()
         setClickListeners(leadId, applicant)
@@ -95,7 +95,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    private fun setClickListeners(leadId: Int, applicant: PersonalApplicantsModel) {
+    private fun setClickListeners(leadId: Int?, applicant: PersonalApplicantsModel) {
         binding.basicInfoLayout.btnGetOTP.setOnClickListener { showVerifyOTPDialog(leadId, applicant) }
         binding.personalAddressLayout.cbSameAsCurrent.setOnClickListener {
             if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
@@ -145,48 +145,50 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         fillValueInMasterDropDown(applicant)
     }
 
-    private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
-        dobProof = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.DOBProof!!, label = "DOB Proof")
-        binding.basicInfoLayout.layoutDobProof.addView(dobProof)
-        livingStandard = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.LivingStandardIndicators!!, label = "Living Standard")
-        binding.basicInfoLayout.layoutLivingStandard.addView(livingStandard)
-        detailQualification = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.DetailQualification!!, label = "Detail Qualification")
-        binding.basicInfoLayout.layoutDetailQualification.addView(detailQualification)
-        qualification = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.Qualification!!, label = "Qualification")
-        binding.basicInfoLayout.layoutQualification.addView(qualification)
-        caste = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.Caste!!, label = "Caste")
-        binding.basicInfoLayout.layoutCaste.addView(caste)
-        religion = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.Religion!!, label = "Religion")
-        binding.basicInfoLayout.layoutReligion.addView(religion)
-        nationality = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.Nationality!!, label = "Nationality")
-        binding.basicInfoLayout.layoutNationality.addView(nationality)
-        gender = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.Gender!!, label = "Gender")
-        binding.basicInfoLayout.layoutGender.addView(gender)
-        permanentAddressProof = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof")
-        binding.personalAddressLayout.layoutPermanentAddressProof.addView(permanentAddressProof)
-        currentAddressProof = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof")
-        binding.personalAddressLayout.layoutCurrentAddressProof.addView(currentAddressProof)
-        setUpRelationshipValue(allMasterDropDown, applicant)
-        setCustomSpinnerWithCondition(allMasterDropDown)
-    }
-
     private fun setUpRelationshipValue(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
         if (applicant.isMainApplicant) {
-            relationship = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.Relationship!!, label = "Relationship")
+            relationship = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Relationship!!, label = "Relationship *")
             binding.basicInfoLayout.layoutRelationShip.addView(relationship)
 
             relationship.setSelection(SELF.toString())
             relationship.disableSelf()
         } else {
-            relationship = CustomSpinnerViewTest(context = context, dropDowns = getRelationship(allMasterDropDown.Relationship), label = "Relationship")
+            relationship = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = getRelationship(allMasterDropDown.Relationship), label = "Relationship *")
             binding.basicInfoLayout.layoutRelationShip.addView(relationship)
 
             relationship.setSelection(applicant.relationshipTypeDetailId?.toString())
         }
     }
 
+    private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
+        dobProof = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.DOBProof!!, label = "DOB Proof *")
+        binding.basicInfoLayout.layoutDobProof.addView(dobProof)
+        livingStandard = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.LivingStandardIndicators!!, label = "Living Standard *")
+        binding.basicInfoLayout.layoutLivingStandard.addView(livingStandard)
+        detailQualification = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.DetailQualification!!, label = "Detail Qualification *")
+        binding.basicInfoLayout.layoutDetailQualification.addView(detailQualification)
+        qualification = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Qualification!!, label = "Qualification *")
+        binding.basicInfoLayout.layoutQualification.addView(qualification)
+        caste = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Caste!!, label = "Caste *")
+        binding.basicInfoLayout.layoutCaste.addView(caste)
+        religion = CustomSpinnerViewTest(mContext = context, dropDowns = allMasterDropDown.Religion!!, label = "Religion *")
+        binding.basicInfoLayout.layoutReligion.addView(religion)
+        nationality = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Nationality!!, label = "Nationality *")
+        binding.basicInfoLayout.layoutNationality.addView(nationality)
+        gender = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Gender!!, label = "Gender *")
+        binding.basicInfoLayout.layoutGender.addView(gender)
+        permanentAddressProof = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof *")
+        binding.personalAddressLayout.layoutPermanentAddressProof.addView(permanentAddressProof)
+        currentAddressProof = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof *")
+        binding.personalAddressLayout.layoutCurrentAddressProof.addView(currentAddressProof)
+        setUpRelationshipValue(allMasterDropDown, applicant)
+        setCustomSpinnerWithCondition(allMasterDropDown)
+    }
+
     private fun setCustomSpinnerWithCondition(allMasterDropDown: AllMasterDropDown) {
-        maritalStatus = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
+        maritalStatus = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+                dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status *",
+                iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
                 if (value.typeDetailID == SINGLE) {
@@ -196,9 +198,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
                 }
             }
         })
+
         binding.basicInfoLayout.layoutMaritalStatus.addView(maritalStatus)
 
-        permanentResidenceType = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
+        permanentResidenceType = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 if (value.typeDetailID == RENTED) {
                     binding.personalAddressLayout.inputLayoutPermanentRentAmount.visibility = View.VISIBLE
@@ -209,7 +212,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         })
 
         binding.personalAddressLayout.layoutPermanentResidenceType.addView(permanentResidenceType)
-        currentResidenceType = CustomSpinnerViewTest(context = context, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
+        currentResidenceType = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 if (value.typeDetailID == RENTED) {
                     binding.personalAddressLayout.inputLayoutCurrentRentAmount.visibility = View.VISIBLE
@@ -220,6 +223,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         })
         binding.personalAddressLayout.layoutCurrentResidenceType.addView(currentResidenceType)
 
+        setDropDownList()
+    }
+
+    private fun setDropDownList() {
         spinnerDMList = arrayListOf(dobProof, livingStandard, maritalStatus, gender,
                 nationality, religion, caste, qualification, detailQualification, livingStandard,
                 relationship, currentResidenceType, currentAddressProof, permanentResidenceType,
@@ -409,7 +416,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         return addressDetailList
     }
 
-    private fun showVerifyOTPDialog(leadId: Int, applicant: PersonalApplicantsModel) {
+    private fun showVerifyOTPDialog(leadId: Int?, applicant: PersonalApplicantsModel) {
         verifyOTPDialogView = LayoutInflater.from(context).inflate(R.layout.pop_up_verify_otp, null)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(verifyOTPDialogView)
@@ -487,7 +494,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    inner class CallVerifyOTP(private val leadId: Int, val applicant: PersonalApplicantsModel) : ViewGeneric<Requests.RequestVerifyOTP, Response.ResponseOTP>(context = activity) {
+    inner class CallVerifyOTP(private val leadId: Int?, val applicant: PersonalApplicantsModel) : ViewGeneric<Requests.RequestVerifyOTP, Response.ResponseOTP>(context = activity) {
         override val apiRequest: Requests.RequestVerifyOTP
             get() = otpVerifyRequest
 
@@ -510,7 +517,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     fun isValidPersonalApplicant(): PersonalApplicantsModel? {
-        return if (formValidation.validatePersonalInfo(binding)) getCurrentApplicant()
+        return if (formValidation.validatePersonalInfo(binding, spinnerDMList)) getCurrentApplicant()
         else null
     }
 }

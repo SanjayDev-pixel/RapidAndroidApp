@@ -1,56 +1,7 @@
 package com.finance.app.view.fragment
 
-import android.app.ProgressDialog
-import android.content.Context
-import android.os.Bundle
-import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Spinner
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.finance.app.R
-import com.finance.app.databinding.FragmentEmploymentBinding
-import com.finance.app.databinding.LayoutEmploymentAddressBinding
-import com.finance.app.databinding.LayoutSalaryBinding
-import com.finance.app.databinding.LayoutSenpBinding
-import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.others.AppEnums
-import com.finance.app.persistence.model.*
-import com.finance.app.presenter.connector.DistrictCityConnector
-import com.finance.app.presenter.connector.PinCodeDetailConnector
-import com.finance.app.presenter.presenter.*
-import com.finance.app.utility.*
-import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
-import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
-import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
-import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
-import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
-import com.google.android.material.textfield.TextInputEditText
-import fr.ganfra.materialspinner.MaterialSpinner
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.Constants
-import motobeans.architecture.constants.ConstantsApi
-import motobeans.architecture.customAppComponents.activity.BaseFragment
-import motobeans.architecture.development.interfaces.DataBaseUtil
-import motobeans.architecture.development.interfaces.FormValidation
-import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.response.Response
-import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import javax.inject.Inject
-
-class EmploymentInfoFragment {
-
-}
-
+class EmploymentInfoFragment {}
 /*
-
 class EmploymentInfoFragment : BaseFragment(),
         PinCodeDetailConnector.PinCode,
         ApplicantsAdapter.ItemClickListener, DistrictCityConnector.District,
@@ -91,21 +42,14 @@ class EmploymentInfoFragment : BaseFragment(),
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var formType: Int = -1
-    private var counter = 0
 
     companion object {
         private val leadAndLoanDetail = LeadAndLoanDetail()
         private lateinit var states: List<StatesMaster>
-        private const val SALARY = 0
-        private const val SENP = 1
-        private const val ASSESED_INCOME = 116
-        private const val ITR = 117
-        private const val CASH_SALARY = 118
-        private const val BANK_SALARY = 119
-    }
+       }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.fragment_employment)
+        binding = initBinding(inflater, container, R.layout.layout_custom_employment_view)
         init()
         return binding.root
     }
@@ -175,7 +119,7 @@ class EmploymentInfoFragment : BaseFragment(),
     }
 
     override fun onApplicantClick(position: Int, coApplicant: CoApplicantsList) {
-        if (formValidation.validateSalaryEmployment(binding.layoutSalary) || formValidation.validateSenpEmployment(binding.layoutSenp)) {
+        if (formValidation.validateSalaryEmployment(binding.layoutSalary, salarySpinnerList) || formValidation.validateSenpEmployment(binding.layoutSenp, senpSpinnerList)) {
             saveCurrentApplicant()
             ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearAll()
             currentTab = coApplicant
@@ -278,22 +222,21 @@ class EmploymentInfoFragment : BaseFragment(),
         if (amount.exIsNotEmptyOrNullOrBlank()) {
             val stringAmount = CurrencyConversion().convertToNormalValue(amount)
             val income = stringAmount.toFloat()
-            counter++
             return income
         }
         return 0.0f
     }
 
     private fun validateSalary() {
-        if (formValidation.validateSalaryEmployment(binding.layoutSalary)) {
-            ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSenpForm()
+        if (formValidation.validateSalaryEmployment(binding.layoutSalary, salarySpinnerList)) {
+            ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSenpForm(senpSpinnerList)
             presenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP, dmiConnector = CallPostLoanApp())
         } else showToast(getString(R.string.validation_error))
     }
 
     private fun validateSenp() {
-        if (formValidation.validateSenpEmployment(binding.layoutSenp)) {
-            ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSalaryForm()
+        if (formValidation.validateSenpEmployment(binding.layoutSenp, senpSpinnerList)) {
+            ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSalaryForm(salarySpinnerList)
             presenter.callNetwork(ConstantsApi.CALL_POST_LOAN_APP, dmiConnector = CallPostLoanApp())
         } else showToast(getString(R.string.validation_error))
     }
@@ -413,7 +356,7 @@ class EmploymentInfoFragment : BaseFragment(),
         }
         binding.layoutSalary.llSalary.visibility = View.VISIBLE
         binding.layoutSenp.llSenp.visibility = View.GONE
-        ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSenpForm()
+        ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSenpForm(senpSpinnerList)
     }
 
     private fun showSenpForm(id: Int) {
@@ -430,7 +373,7 @@ class EmploymentInfoFragment : BaseFragment(),
         }
         binding.layoutSenp.llSenp.visibility = View.VISIBLE
         binding.layoutSalary.llSalary.visibility = View.GONE
-        ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSalaryForm()
+        ClearEmploymentForm(binding, mContext, allMasterDropDown, states).clearSalaryForm(salarySpinnerList)
     }
 
     private fun setSalaryDropDown(binding: LayoutSalaryBinding, dropDown: AllMasterDropDown) {
