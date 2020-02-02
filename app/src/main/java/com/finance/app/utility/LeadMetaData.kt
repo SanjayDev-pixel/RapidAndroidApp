@@ -1,10 +1,12 @@
 package com.finance.app.utility
 
 import androidx.lifecycle.MutableLiveData
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.EmploymentApplicantsModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -49,9 +51,7 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.personalData.applicantDetails = applicants
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
-            }
+            insertLeadInfoIntoDB(lead)
         }
     }
 
@@ -59,9 +59,14 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.employmentData.applicantDetails = applicants
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
-            }
+            insertLeadInfoIntoDB(lead)
+        }
+    }
+
+    private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
+        return GlobalScope.launch {
+            dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
+            AppEvents.fireEventBackgroundSync(AppEvents.BackGroundSyncEvent.LEAD_SYNC)
         }
     }
 

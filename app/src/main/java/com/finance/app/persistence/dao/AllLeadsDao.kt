@@ -22,6 +22,9 @@ interface AllLeadsDao {
     @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus")
     fun getLeadsByStatus(leadStatus: String): LiveData<List<AllLeadMaster>?>
 
+    @Query("SELECT * FROM AllLeadMaster WHERE isSyncWithServer = :isSyncWithServer")
+    fun getAllLeadsNotSyncWithServer(isSyncWithServer: Boolean = false): LiveData<List<AllLeadMaster>?>
+
     @Query("SELECT * FROM AllLeadMaster WHERE leadID=:leadID  LIMIT 1")
     fun getLead(leadID: Int): LiveData<AllLeadMaster?>
 
