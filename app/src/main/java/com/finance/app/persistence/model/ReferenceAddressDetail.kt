@@ -10,6 +10,8 @@ class ReferenceAddressDetail : Serializable {
     var cityID: Int? = 0
     var cityName: String? = ""
     var districtID: Int? = 0
+    var districtName: String? = ""
+    var stateName: String? = ""
     var landmark: String = ""
     var rentAmount: Int? = null
     var residenceTypeTypeDetailID: Int? = null

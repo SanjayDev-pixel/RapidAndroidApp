@@ -29,7 +29,6 @@ class LoanAppGetPresenter(private val GetLoanApp: LoanApplicationConnector.GetLo
 
     private fun callLoanAppGetApi() {
         val requestApi = apiProject.api.getLoanApp(GetLoanApp.leadId, GetLoanApp.storageType)
-
         requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

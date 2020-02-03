@@ -42,11 +42,11 @@ class PersonalFormFragment : BaseFragment() {
     }
 
     override fun init() {
-        ArchitectureApp.instance.component.inject(this)
-        val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
-        appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
-        arguments?.getSerializable(KEY_CO_APPLICANT)?.let { Applicant ->
-            val applicant = Applicant as PersonalApplicantsModel
-        }
+//        ArchitectureApp.instance.component.inject(this)
+//        val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
+//        appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
+//        arguments?.getSerializable(KEY_CO_APPLICANT)?.let { Applicant ->
+//            val applicant = Applicant as PersonalApplicantsModel
+//        }
     }
 }
