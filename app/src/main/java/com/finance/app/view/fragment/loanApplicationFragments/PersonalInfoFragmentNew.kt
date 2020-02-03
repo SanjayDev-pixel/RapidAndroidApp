@@ -47,7 +47,6 @@ class PersonalInfoFragmentNew : BaseFragment() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         setApplicantAdapter()
-
         LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
             leadDetail?.let {
                 val applicantsList = leadDetail.personalData.applicantDetails

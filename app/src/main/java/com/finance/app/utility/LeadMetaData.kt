@@ -2,8 +2,9 @@ package com.finance.app.utility
 
 import androidx.lifecycle.MutableLiveData
 import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.AssetLiabilityModel
+import com.finance.app.persistence.model.AssetLiabilityList
 import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.persistence.model.PropertyModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
@@ -55,14 +56,29 @@ class LeadMetaData : Observable() {
         }
     }
 
-    fun saveAssetLiabilityData(applicants: ArrayList<AssetLiabilityModel>){
 
-        val lead:AllLeadMaster?= getLeadData()
+     fun saveAssetLiabilityData(pApplicantList: AssetLiabilityList?) {
+
+         val lead: AllLeadMaster? = getLeadData()
+         lead?.let {
+             lead.assetLiabilityData = pApplicantList!!
+             GlobalScope.launch {
+                 dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
+             }
+
+         }
+     }
+
+    fun savePropertyData(leadPropertyData:PropertyModel){
+
+
+        val lead: AllLeadMaster? = getLeadData()
         lead?.let {
-            lead.assetLiabilityData.applicantDetails=applicants
+            lead.propertyData = leadPropertyData
             GlobalScope.launch {
                 dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
             }
+
         }
     }
 

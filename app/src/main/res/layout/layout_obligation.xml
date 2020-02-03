@@ -57,7 +57,7 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/tv_assetdetail"
+                        android:id="@+id/tv_obligationdetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/existing_obligation"
@@ -70,7 +70,7 @@
                         android:id="@+id/obligationcounter"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_toRightOf="@+id/tv_assetdetail"
+                        android:layout_toRightOf="@+id/tv_obligationdetail"
                         android:text="0"
                         android:textColor="@color/white"
                         android:background="@drawable/blue_circle"

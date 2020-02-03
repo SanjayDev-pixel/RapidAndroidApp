@@ -8,8 +8,7 @@ import androidx.databinding.ViewDataBinding
 
 class AppUtilExtensions {
     companion object {
-        fun <T : ViewDataBinding> initCustomViewBinding(context: Context, container: ViewGroup?,
-                                              layoutId: Int): T {
+        fun <T : ViewDataBinding> initCustomViewBinding(context: Context, container: ViewGroup?, layoutId: Int): T {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             return DataBindingUtil.inflate(inflater, layoutId, container, true)
         }
