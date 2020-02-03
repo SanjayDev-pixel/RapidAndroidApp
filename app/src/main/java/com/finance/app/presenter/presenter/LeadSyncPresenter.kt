@@ -2,8 +2,12 @@ package com.finance.app.presenter.presenter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.LoanApplicationRequest
 import com.finance.app.presenter.connector.LeadSyncConnector
+import com.finance.app.utility.LeadRequestResponseConversion
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.GlobalScope
@@ -13,7 +17,9 @@ import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.development.interfaces.ApiProject
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.response.Response.ResponseGetLoanApplication
 import javax.inject.Inject
+
 
 /**
  * Created by motobeans on 1/2/2018.
@@ -63,8 +69,65 @@ class LeadSyncPresenter(
 
   private fun sendRecordsOneByOneToServer(items: List<AllLeadMaster>?) {
     items?.forEach {
-      hitApiLeadSyncLocalToServer(itemToSync = it)
+      hitApiLeadSyncLocalToServerSeparateApiHits(itemToSync = it)
     }
+  }
+
+  private fun hitApiLeadSyncLocalToServerSeparateApiHits(itemToSync: AllLeadMaster?) {
+    itemToSync?.let {
+      val leadRequest = LeadRequestResponseConversion()
+      val requestLoanInfo = leadRequest.getRequest(AppEnums.FormType.LOANINFO, itemToSync)
+      val requestPersonal = leadRequest.getRequest(AppEnums.FormType.PERSONALINFO, itemToSync)
+      val requestEmployment = leadRequest.getRequest(AppEnums.FormType.EMPLOYMENT, itemToSync)
+      val requestBank = leadRequest.getRequest(AppEnums.FormType.BANKDETAIL, itemToSync)
+      val requestLiabilityAndAssets = leadRequest.getRequest(AppEnums.FormType.LIABILITYASSET, itemToSync)
+      val requestProperty = leadRequest.getRequest(AppEnums.FormType.PROPERTY, itemToSync)
+      val requestReference = leadRequest.getRequest(AppEnums.FormType.REFERENCE, itemToSync)
+
+      val observableLoanInfo = getObserverCommon(requestLoanInfo)
+      val observablePersonal = getObserverCommon(requestPersonal)
+      val observableEmployment = getObserverCommon(requestEmployment)
+      val observableBank = getObserverCommon(requestBank)
+      val observableLiabilityAndAssets = getObserverCommon(requestLiabilityAndAssets)
+      val observableProperty = getObserverCommon(requestProperty)
+      val observableReference = getObserverCommon(requestReference)
+
+      val allObservables = listOf(observableLoanInfo, observablePersonal)
+
+/*
+      Observable.zip(allObservables) { args -> Arrays.asList(args) }
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe({
+
+    }, {
+      val c = it
+    })
+    */
+/*
+      Observable.zip(allObservables, object : Function() {
+        fun call(vararg args: Any?): ResponseGetLoanApplication? {
+          var result: ReturnType //to be made
+          //preparatory code for using the args
+          for (obj in args) {
+            val retObj: ReturnType? = obj as ReturnType?
+            //code to use the arg once at a time to combine N of them into one.
+          }
+          return result
+        }
+      })*/
+
+
+//      Observable.zip(allObservables, results -> ())
+    }
+  }
+
+  private fun getObserverCommon(observerLoanInfo: LoanApplicationRequest?): Observable<ResponseGetLoanApplication>? {
+    observerLoanInfo?.let {
+      return apiProject.api.postLoanApp(observerLoanInfo)
+    }
+
+    return null
   }
 
   private fun hitApiLeadSyncLocalToServer(itemToSync: AllLeadMaster?) {

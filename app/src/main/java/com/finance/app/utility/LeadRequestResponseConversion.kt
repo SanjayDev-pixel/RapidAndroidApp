@@ -6,13 +6,10 @@ import com.finance.app.persistence.model.*
 import com.google.gson.Gson
 import motobeans.architecture.retrofit.response.Response
 import java.io.Serializable
-import java.util.*
 
 class LeadRequestResponseConversion {
 
-    companion object {
-        val gson = Gson()
-    }
+    private val gson = Gson()
 
     fun getResponseObject(form: AppEnums.FormType, response: Response.LoanApplicationGetObj?): Serializable? {
 
@@ -26,6 +23,31 @@ class LeadRequestResponseConversion {
                 LIABILITYASSET -> gson.fromJson(response.draftData, AssetLiabilityList::class.java)
                 PROPERTY -> gson.fromJson(response.draftData, PropertyModel::class.java)
                 REFERENCE -> gson.fromJson(response.draftData, ReferencesList::class.java)
+            }
+        }
+
+        return objectGeneric
+    }
+
+
+    fun getRequest(form: AppEnums.FormType, response: AllLeadMaster?): LoanApplicationRequest? {
+
+        var objectGeneric: LoanApplicationRequest? = null
+
+        response?.leadID?.let {
+            objectGeneric?.leadID = response.leadID!!
+            objectGeneric?.storageType = form.type
+
+            response?.let {
+                objectGeneric?.draftData = when (form) {
+                    LOANINFO -> gson.toJson(response.loanData)
+                    PERSONALINFO -> gson.toJson(response.personalData)
+                    EMPLOYMENT -> gson.toJson(response.employmentData)
+                    BANKDETAIL -> gson.toJson(response.bankData)
+                    LIABILITYASSET -> gson.toJson(response.assetLiabilityData)
+                    PROPERTY -> gson.toJson(response.propertyData)
+                    REFERENCE -> gson.toJson(response.referenceData)
+                }
             }
         }
 
