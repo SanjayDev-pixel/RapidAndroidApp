@@ -9,6 +9,8 @@ import com.finance.app.presenter.connector.LeadSyncConnector
 import com.finance.app.utility.LeadRequestResponseConversion
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -93,32 +95,18 @@ class LeadSyncPresenter(
       val observableReference = getObserverCommon(requestReference)
 
       val allObservables = listOf(observableLoanInfo, observablePersonal)
-
 /*
-      Observable.zip(allObservables) { args -> Arrays.asList(args) }
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe({
 
-    }, {
-      val c = it
-    })
-    */
-/*
-      Observable.zip(allObservables, object : Function() {
-        fun call(vararg args: Any?): ResponseGetLoanApplication? {
-          var result: ReturnType //to be made
-          //preparatory code for using the args
-          for (obj in args) {
-            val retObj: ReturnType? = obj as ReturnType?
-            //code to use the arg once at a time to combine N of them into one.
-          }
-          return result
-        }
-      })*/
+      val evens = Observable.just(2, 4, 6, 8, 10)
+      val odds = Observable.just(1, 3, 5, 7, 9)
 
+      Observable
+              .zip(evens, odds, BiFunction { v1: Int, v2: Int -> v1.toString() + " + " + v2 + " is: " + (v1 + v2) })
+              .subscribe { x: String? -> println(x) }
+*/
 
-//      Observable.zip(allObservables, results -> ())
+      //Observable.zip(allObservables, Function { listOfResponses: List<ResponseGetLoanApplication> -> itemToSync!! });
+
     }
   }
 
