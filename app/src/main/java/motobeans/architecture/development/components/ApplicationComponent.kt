@@ -11,6 +11,9 @@ import com.finance.app.view.adapters.recycler.holder.TempHolder
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomPersonalInfoView
 import com.finance.app.view.customViews.CustomZipAddressView
+import com.finance.app.view.dialogs.BankDetailDialogFragment
+import com.finance.app.view.dialogs.ReferenceDetailDialogFragment
+import com.finance.app.view.fragment.*
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.PersonalFormFragment
@@ -60,7 +63,13 @@ interface ApplicationComponent {
      * Fragment
      */
     fun inject(fragment: NavMenuFragment)
-    fun inject(fragment: PersonalFormFragment)
+    fun inject(fragment: LoanInfoFragment)
+    fun inject(fragment: BankDetailFragment)
+    fun inject(fragment: EmploymentInfoFragment)
+    fun inject(fragment: AssetLiabilityFragment)
+    fun inject(fragment: ReferenceFragment)
+    fun inject(fragment: DocumentCheckListFragment)
+    fun inject(fragment: PropertyFragment)
     fun inject(fragment: LeadsListingFragment)
 
 
@@ -73,6 +82,8 @@ interface ApplicationComponent {
     fun inject(fragment: ReferenceFragmentNew)
     fun inject(fragment: DocumentCheckListFragmentNew)
     fun inject(fragment: PersonalFormFragmentNew)
+    fun inject(dialogFragment: BankDetailDialogFragment)
+    fun inject(dialogFragment: ReferenceDetailDialogFragment)
     /**
      * Presenters
      */

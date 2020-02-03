@@ -2,8 +2,11 @@ package com.finance.app.utility
 
 import androidx.lifecycle.MutableLiveData
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.BankDetailModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.persistence.model.ReferenceModel
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -44,13 +47,34 @@ class LeadMetaData : Observable() {
         }
     }
 
+    private fun insertLeadIntoDB(lead: AllLeadMaster): Job {
+        lead.isSyncWithServer = false
+        return GlobalScope.launch {
+            dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
+        }
+    }
+
     fun savePersonalData(applicants: ArrayList<PersonalApplicantsModel>) {
         val lead = getLeadData()
         lead?.let {
             lead.personalData.applicantDetails = applicants
-            GlobalScope.launch {
-                dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
-            }
+            insertLeadIntoDB(lead)
+        }
+    }
+
+    fun saveBankData(bankDetailsList: ArrayList<BankDetailModel>) {
+        val lead = getLeadData()
+        lead?.let {
+            lead.bankData.applicantBankDetails = bankDetailsList
+            insertLeadIntoDB(lead)
+        }
+    }
+
+    fun saveReferenceData(referenceDetailsList: ArrayList<ReferenceModel>) {
+        val lead = getLeadData()
+        lead?.let {
+            lead.referenceData.referenceDetails = referenceDetailsList
+            insertLeadIntoDB(lead)
         }
     }
 
