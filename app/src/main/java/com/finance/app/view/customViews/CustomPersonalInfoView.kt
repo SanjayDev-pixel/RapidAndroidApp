@@ -146,7 +146,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun setUpRelationshipValue(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
-        if (applicant.isMainApplicant) {
+        if (index == 0) {
             relationship = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Relationship!!, label = "Relationship *")
             binding.basicInfoLayout.layoutRelationShip.addView(relationship)
 
@@ -190,7 +190,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
                 dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status *",
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
-                binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
+//                binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
                 if (value.typeDetailID == SINGLE) {
                     binding.basicInfoLayout.llSpouse.visibility = View.GONE
                 } else {

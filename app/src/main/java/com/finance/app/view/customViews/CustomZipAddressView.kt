@@ -163,8 +163,8 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
                         userAutomaticValueSet = false
                         setServerCodes()
                     }
-                } else {clearPinCodes()
                 }
+                else clearPinCodes()
             }
         })
     }
@@ -281,7 +281,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     fun clearPinCodes() {
-        etCurrentPinCode.text?.clear()
+//        etCurrentPinCode.text?.clear()
         spinnerCurrentDistrict.isEnabled = true
         spinnerCurrentCity.isEnabled = true
         spinnerCurrentState.isEnabled = true
