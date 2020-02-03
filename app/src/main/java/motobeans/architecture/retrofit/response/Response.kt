@@ -47,4 +47,8 @@ object Response {
                                var lastName: String? = null, var leadApplicantNumber: String, var middleName: String? = null)
 
     data class ResponseOTP(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
+
+    data class ResponseLoanLeadData(val responseCode: String, val responseMsg: String, val responseObj: AllLeadMaster?, val timeStamp: Long)
+
+
 }

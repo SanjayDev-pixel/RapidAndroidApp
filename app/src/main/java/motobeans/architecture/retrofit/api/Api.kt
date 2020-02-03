@@ -1,5 +1,6 @@
 package motobeans.architecture.retrofit.api
 
+import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanApplicationRequest
 import io.reactivex.Observable
 import motobeans.architecture.retrofit.request.Requests
@@ -51,6 +52,9 @@ interface Api {
 
     @POST("api/v1/loan/application/draft/")
     fun postLoanApp(@Body requestPost: LoanApplicationRequest): Observable<Response.ResponseGetLoanApplication>
+
+    @POST("api/v1/loan/application/draft/")
+    fun postLoanAllLeadData(@Body requestPost: AllLeadMaster): Observable<Response.ResponseLoanLeadData>
 
     @GET("api/v1/loan/application/draft/lead/{leadIdForApplicant}/type/{storageType}/")
     fun getLoanApp(@Path("leadIdForApplicant") leadId: String, @Path("storageType") storageType: String): Observable<Response.ResponseGetLoanApplication>

@@ -17,10 +17,6 @@ class CustomSpinnerAdapter<T>(mContext: Context, private val resourceId: Int,
                               val data: ArrayList<T>) :
         ArrayAdapter<T>(mContext, resourceId, data) {
 
-    companion object {
-        val TAG_DATA = "tagData"
-    }
-
     private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -34,15 +30,10 @@ class CustomSpinnerAdapter<T>(mContext: Context, private val resourceId: Int,
         return getCustomView(position, parent)
     }
 
-    // This funtion called for each row ( Called data.size() times )
     fun getCustomView(position: Int, parent: ViewGroup): View {
 
-        /********** Inflate spinner_rows.xml file for each row ( Defined below )  */
         val row = inflater.inflate(resourceId, parent, false)
-
-        /***** Get each Model object from Arraylist  */
         val tempValue = data[position]
-
         val tvTitle = row.findViewById(R.id.tvSpinnerValue) as TextView?
 
         // Set values for spinner each row
@@ -50,14 +41,6 @@ class CustomSpinnerAdapter<T>(mContext: Context, private val resourceId: Int,
 
         tvTitle?.text = tempValue.toString()
 
-/*
-        when (position == 0) {
-            true -> {
-                tvTitle?.setTextColor(ContextCompat.getColor(mContext, R.color.divider))
-                tvTitle?.setTypeface(null, Typeface.NORMAL)
-            }
-        }
-*/
         return row
     }
 }

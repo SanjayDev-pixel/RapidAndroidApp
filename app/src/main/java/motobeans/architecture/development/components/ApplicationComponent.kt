@@ -9,6 +9,7 @@ import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.recycler.holder.TempHolder
 import com.finance.app.view.customViews.CustomChannelPartnerView
+import com.finance.app.view.customViews.CustomEmploymentInfoView
 import com.finance.app.view.customViews.CustomPersonalInfoView
 import com.finance.app.view.customViews.CustomZipAddressView
 import com.finance.app.view.dialogs.BankDetailDialogFragment
@@ -75,13 +76,14 @@ interface ApplicationComponent {
 
     fun inject(fragment: LoanInfoFragmentNew)
     fun inject(fragment: PersonalInfoFragmentNew)
+    fun inject(fragment: PersonalFormFragmentNew)
     fun inject(fragment: EmploymentInfoFragmentNew)
+    fun inject(fragment: EmploymentFormFragmentNew)
     fun inject(fragment: BankDetailFragmentNew)
     fun inject(fragment: AssetLiabilityFragmentNew)
     fun inject(fragment: PropertyFragmentNew)
     fun inject(fragment: ReferenceFragmentNew)
     fun inject(fragment: DocumentCheckListFragmentNew)
-    fun inject(fragment: PersonalFormFragmentNew)
     fun inject(dialogFragment: BankDetailDialogFragment)
     fun inject(dialogFragment: ReferenceDetailDialogFragment)
     /**
@@ -107,6 +109,7 @@ interface ApplicationComponent {
     fun inject(presenter: StateDropdownPresenter)
     fun inject(presenter: DistrictPresenter)
     fun inject(presenter: CityPresenter)
+    fun inject(presenter: LeadSyncPresenter)
 
     /**
      * View Model
@@ -133,6 +136,7 @@ interface ApplicationComponent {
     fun inject(other: SuperWorker)
     fun inject(other: UtilWorkersTask)
     fun inject(other: LeadAndLoanDetail)
+    fun inject(other: CustomEmploymentInfoView)
     fun inject(other: CustomPersonalInfoView)
     fun inject(other: CustomZipAddressView)
     fun inject(other: CustomChannelPartnerView)

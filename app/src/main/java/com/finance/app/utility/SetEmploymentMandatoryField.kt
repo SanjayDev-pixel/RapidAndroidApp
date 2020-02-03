@@ -1,10 +1,10 @@
 package com.finance.app.utility
 
-import com.finance.app.databinding.FragmentEmploymentBinding
+import com.finance.app.databinding.LayoutCustomEmploymentViewBinding
 import com.finance.app.databinding.LayoutSalaryBinding
 import com.finance.app.databinding.LayoutSenpBinding
 
-class SetEmploymentMandatoryField(binding: FragmentEmploymentBinding) {
+class SetEmploymentMandatoryField(binding: LayoutCustomEmploymentViewBinding) {
 
     init {
         setSalaryMandatoryField(binding.layoutSalary)
@@ -19,7 +19,6 @@ class SetEmploymentMandatoryField(binding: FragmentEmploymentBinding) {
         ShowAsMandatory(binding.layoutAddress.inputLayoutAddress)
         ShowAsMandatory(binding.layoutAddress.inputLayoutLandmark)
         ShowAsMandatory(binding.layoutAddress.inputLayoutContact)
-        ShowAsMandatory(binding.layoutAddress.inputLayoutZip)
     }
 
     private fun setSalaryMandatoryField(binding: LayoutSalaryBinding) {
@@ -33,6 +32,5 @@ class SetEmploymentMandatoryField(binding: FragmentEmploymentBinding) {
         ShowAsMandatory(binding.inputLayoutGrossIncome)
         ShowAsMandatory(binding.inputLayoutTotalExperience)
         ShowAsMandatory(binding.inputLayoutDeduction)
-        ShowAsMandatory(binding.layoutAddress.inputLayoutZip)
     }
 }

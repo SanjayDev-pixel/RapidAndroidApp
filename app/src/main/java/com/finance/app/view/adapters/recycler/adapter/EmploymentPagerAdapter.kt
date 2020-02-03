@@ -5,17 +5,18 @@ import androidx.core.util.set
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.persistence.model.EmploymentApplicantsModel
+import com.finance.app.view.fragment.loanApplicationFragments.EmploymentFormFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.PersonalFormFragmentNew
 import java.util.*
 
-class PersonalPagerAdapter internal constructor(fm: FragmentManager, val coApplicantsList: ArrayList<PersonalApplicantsModel>) : FragmentStatePagerAdapter(fm) {
+class EmploymentPagerAdapter internal constructor(fm: FragmentManager, val coApplicantsList: ArrayList<EmploymentApplicantsModel>) : FragmentStatePagerAdapter(fm) {
 
-    private val hmFragments = SparseArray<PersonalFormFragmentNew>()
+    private val hmFragments = SparseArray<EmploymentFormFragmentNew>()
 
     override fun getItem(position: Int): Fragment {
 
-        val fragmentItem = PersonalFormFragmentNew.newInstance(coApplicantsList[position], position)
+        val fragmentItem = EmploymentFormFragmentNew.newInstance(coApplicantsList[position], position)
 
         hmFragments[position] = fragmentItem
         return fragmentItem

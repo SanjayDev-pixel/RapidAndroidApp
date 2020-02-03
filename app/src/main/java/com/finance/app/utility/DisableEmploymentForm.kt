@@ -1,15 +1,12 @@
 package com.finance.app.utility
 
-import com.finance.app.databinding.FragmentEmploymentBinding
+import com.finance.app.databinding.LayoutCustomEmploymentViewBinding
 
-class DisableEmploymentForm(private val binding: FragmentEmploymentBinding) {
+
+class DisableEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding) {
     init {
-        binding.spinnerSubProfile.isEnabled = false
-        binding.spinnerProfileSegment.isEnabled = false
         disableSalaryForm()
         disableSenpForm()
-        binding.btnNext.isEnabled =false
-        binding.btnPrevious.isEnabled =false
     }
 
     private fun disableSalaryForm() {
@@ -24,7 +21,6 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentBinding) {
         binding.layoutSalary.etRetirementAge.isEnabled = false
         binding.layoutSalary.layoutAddress.etAddress.isEnabled = false
         binding.layoutSalary.layoutAddress.etContactNum.isEnabled = false
-        binding.layoutSalary.layoutAddress.etPinCode.isEnabled = false
         binding.layoutSalary.etNetIncome.isEnabled = false
         binding.layoutSalary.etGrossIncome.isEnabled = false
         binding.layoutSalary.etDeduction.isEnabled = false
@@ -32,15 +28,6 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentBinding) {
     }
 
     private fun disableSalaryDropdown() {
-        binding.layoutSalary.spinnerIndustry.isEnabled = false
-        binding.layoutSalary.spinnerSector.isEnabled = false
-        binding.layoutSalary.spinnerEmploymentType.isEnabled = false
-        binding.layoutSalary.layoutAddress.spinnerState.isEnabled = false
-        binding.layoutSalary.layoutAddress.spinnerDistrict.isEnabled = false
-        binding.layoutSalary.layoutAddress.spinnerCity.isEnabled = false
-        binding.layoutSalary.layoutAddress.spinnerState.isEnabled = false
-        binding.layoutSalary.layoutAddress.spinnerDistrict.isEnabled = false
-        binding.layoutSalary.layoutAddress.spinnerCity.isEnabled = false
     }
 
     private fun disableSenpForm() {
@@ -53,7 +40,6 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentBinding) {
         binding.layoutSenp.layoutAddress.etContactNum.isEnabled = false
         binding.layoutSenp.layoutAddress.etAddress.isEnabled = false
         binding.layoutSenp.etAverageMonthlyIncome.isEnabled = false
-        binding.layoutSenp.layoutAddress.etPinCode.isEnabled = false
         binding.layoutSenp.etLastYearIncome.isEnabled = false
         binding.layoutSenp.etCurrentYearIncome.isEnabled = false
         binding.layoutSenp.etMonthlyIncome.isEnabled = false
@@ -61,14 +47,5 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentBinding) {
     }
 
     private fun disableSenpDropdown() {
-        binding.layoutSenp.spinnerIndustry.isEnabled = false
-        binding.layoutSenp.spinnerConstitution.isEnabled = false
-        binding.layoutSenp.spinnerBusinessSetUpType.isEnabled = false
-        binding.layoutSenp.layoutAddress.spinnerState.isEnabled = false
-        binding.layoutSenp.layoutAddress.spinnerDistrict.isEnabled = false
-        binding.layoutSenp.layoutAddress.spinnerCity.isEnabled = false
-        binding.layoutSenp.layoutAddress.spinnerState.isEnabled = true
-        binding.layoutSenp.layoutAddress.spinnerDistrict.isEnabled = true
-        binding.layoutSenp.layoutAddress.spinnerCity.isEnabled = true
     }
 }
