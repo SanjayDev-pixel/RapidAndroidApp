@@ -32,14 +32,14 @@ class LeadRequestResponseConversion {
 
     fun getRequest(form: AppEnums.FormType, response: AllLeadMaster?): LoanApplicationRequest? {
 
-        var objectGeneric: LoanApplicationRequest? = null
+        val objectGeneric = LoanApplicationRequest()
 
         response?.leadID?.let {
-            objectGeneric?.leadID = response.leadID!!
-            objectGeneric?.storageType = form.type
+            objectGeneric.leadID = response.leadID!!
+            objectGeneric.storageType = form.type
 
-            response?.let {
-                objectGeneric?.draftData = when (form) {
+            response.let {
+                objectGeneric.draftData = when (form) {
                     LOANINFO -> gson.toJson(response.loanData)
                     PERSONALINFO -> gson.toJson(response.personalData)
                     EMPLOYMENT -> gson.toJson(response.employmentData)
