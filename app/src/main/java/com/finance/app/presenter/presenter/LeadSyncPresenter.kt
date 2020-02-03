@@ -1,5 +1,7 @@
 package com.finance.app.presenter.presenter
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.finance.app.others.AppEnums
@@ -10,8 +12,13 @@ import com.finance.app.utility.LeadRequestResponseConversion
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function7
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.development.interfaces.ApiProject
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -35,9 +42,11 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
   }
 
   override fun callNetwork(type: ConstantsApi) {
-    when (type) {
-      ConstantsApi.CALL_SYNC_LEAD_LOCAL_TO_SERVER -> callSyncAllNotSyncLeadsToServer()
-      else -> {
+    Handler(Looper.getMainLooper()).post {
+      when (type) {
+        ConstantsApi.CALL_SYNC_LEAD_LOCAL_TO_SERVER -> callSyncAllNotSyncLeadsToServer()
+        else -> {
+        }
       }
     }
   }
@@ -56,6 +65,7 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
 
     observerLocalToServerCheckOutOnly = database.provideDataBaseSource().allLeadsDao().getAllLeadsNotSyncWithServer()
     observerLocalToServerCheckOutOnly.observeForever(observableLocalToServerCheckOutOnly)
+
   }
 
   private fun sendRecordsOneByOneToServer(items: List<AllLeadMaster>?) {
@@ -97,20 +107,48 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
       //Observable.zip(allObservables, Function { listOfResponses: List<ResponseGetLoanApplication> -> itemToSync!! });
 
 
-      Observable.zip(observableLoanInfo, observablePersonal,
-              BiFunction { _: ResponseGetLoanApplication,
-                           _: ResponseGetLoanApplication ->
+      Observable.zip(observableLoanInfo, observablePersonal, observableEmployment, 
+              observableBank, observableLiabilityAndAssets, observableProperty, observableReference,
+              Function7 { responseLoanInfo: ResponseGetLoanApplication?, responsePersonal: ResponseGetLoanApplication?,
+                          responseEmployment: ResponseGetLoanApplication?, responseBank: ResponseGetLoanApplication?,
+                          responseLiabilityAndAssets: ResponseGetLoanApplication?, responseProperty: ResponseGetLoanApplication?,
+                          responseReference: ResponseGetLoanApplication? ->
 
-                itemToSync.isSyncWithServer = true
-                itemToSync!!
+                val alResponses = listOf(responseLoanInfo, responsePersonal, responseEmployment,
+                        responseBank, responseLiabilityAndAssets, responseProperty, responseReference)
+                val isValid = isAllResponsesValid(alResponses)
+
+                var objectToReturn =  AllLeadMaster()
+                when(isValid) {
+                  true -> {
+                    itemToSync.isSyncWithServer = true
+                    objectToReturn = itemToSync!!
+                  }
+                }
+
+                objectToReturn
               })
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
-              .subscribe({ result -> onCreateOrderSyncSuccessfully(result) },
+              .subscribe({ result ->
+                onCreateOrderSyncSuccessfully(result) },
                       { e -> apiFailure(e) })
     }
   }
 
+  private fun isAllResponsesValid(alResponses: List<ResponseGetLoanApplication?>): Boolean {
+    var isAllResponseValid = true
+    alResponses?.forEach {
+      val isValid = checkAndValidateDataSyncResponseIsValid(it)
+      if(!isValid) {
+        isAllResponseValid = false
+      }
+    }
+
+    return isAllResponseValid
+  }
+
+  private fun checkAndValidateDataSyncResponseIsValid(response: ResponseGetLoanApplication?) = response?.responseCode == Constants.SUCCESS
 
   private fun getObserverCommon(observerLoanInfo: LoanApplicationRequest?): Observable<ResponseGetLoanApplication>? {
     observerLoanInfo?.let {
@@ -136,6 +174,9 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
   }
 
   private fun onCreateOrderSyncSuccessfully(response: AllLeadMaster?) {
+    if(response?.leadID == null) {
+      return
+    }
     response?.let {
 
       viewOptLocalToServer?.let {

@@ -22,7 +22,7 @@ class UtilWorkersTaskLeadSync(
     }
 
     override fun handleLocalToServerSync() {
-        presenter.callNetwork(ConstantsApi.CALL_SYNC_LOCAL_TO_SERVER)
+        presenter.callNetwork(ConstantsApi.CALL_SYNC_LEAD_LOCAL_TO_SERVER)
     }
 
     override fun handleServerToLocalSync() {

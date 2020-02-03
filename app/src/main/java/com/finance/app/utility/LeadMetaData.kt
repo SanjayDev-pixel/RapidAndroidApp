@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.EmploymentApplicantsModel
+import com.finance.app.persistence.model.LoanInfoModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -47,6 +48,14 @@ class LeadMetaData : Observable() {
         }
     }
 
+    fun saveLoanData(data: LoanInfoModel) {
+        val lead = getLeadData()
+        lead?.let {
+            lead.loanData = data
+            insertLeadInfoIntoDB(lead)
+        }
+    }
+
     fun savePersonalData(applicants: ArrayList<PersonalApplicantsModel>) {
         val lead = getLeadData()
         lead?.let {
@@ -65,6 +74,7 @@ class LeadMetaData : Observable() {
 
     private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
         return GlobalScope.launch {
+            lead.isSyncWithServer = false
             dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
             AppEvents.fireEventBackgroundSync(AppEvents.BackGroundSyncEvent.LEAD_SYNC)
         }

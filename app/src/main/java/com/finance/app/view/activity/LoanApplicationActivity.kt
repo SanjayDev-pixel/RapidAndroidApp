@@ -34,7 +34,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
 
     companion object {
         private const val KEY_LEAD_ID = "leadId"
-        val leadDetail: AllLeadMaster? = null
         fun start(context: Context, leadId: Int?) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
             val bundle = Bundle()

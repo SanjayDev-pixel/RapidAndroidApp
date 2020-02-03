@@ -16,7 +16,6 @@ import com.finance.app.presenter.presenter.LeadSyncPresenter
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.PersonalPagerAdapter
 import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -101,15 +100,25 @@ class PersonalInfoFragmentNew : BaseFragment(), LeadSyncConnector.ViewOptLocalTo
         val fragments = pagerAdapterApplicants?.getAllFragments()
         fragments?.let {
             fragments.forEach { _, item ->
+
+                item.isValidFragment()
+
+                val applicant = item.getApplicant()
+                applicant?.let {
+                    pApplicantList.add(applicant)
+                }
+
+                // TEMP CODE - MUNISH THAKUR (Validation is mandatory, complete code for that as well)
+                /*
                 if (item.isValidFragment()) {
                     val applicant = item.getApplicant()
                     pApplicantList.add(applicant)
-                } else ++errorCount
+                } else ++errorCount*/
             }
-            if (errorCount >= 0) {
-//                LeadMetaData().savePersonalData(pApplicantList)
-//              AppEvents.fireEventLoanAppChangeNavFragmentNext()
-                presenter.callNetwork(ConstantsApi.CALL_SYNC_LEAD_LOCAL_TO_SERVER)
+            if (errorCount <= 0 && pApplicantList.size > 0) {
+                LeadMetaData().savePersonalData(pApplicantList)
+                //AppEvents.fireEventLoanAppChangeNavFragmentNext()
+                //presenter.callNetwork(ConstantsApi.CALL_SYNC_LEAD_LOCAL_TO_SERVER)
             }
         }
     }

@@ -12,12 +12,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.LayoutCustomViewPersonalBinding
-import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import motobeans.architecture.application.ArchitectureApp
@@ -279,13 +277,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             binding.basicInfoLayout.etSpouseFirstName.setText(currentApplicant.spouseFirstName)
             binding.basicInfoLayout.etSpouseLastName.setText(currentApplicant.spouseLastName)
         }
-        checkSubmission()
-    }
-
-    private fun checkSubmission() {
-        if (leadDetail?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
-            DisablePersonalForm(binding)
-        }
     }
 
     private fun fillAddressInfo(addressDetailList: ArrayList<AddressDetail>) {
@@ -434,7 +425,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
 
         verifyOTPDialogView.tvResendOTP?.setOnClickListener {
-            handleResendOtpEvent(verifyOTPDialogView, leadDetail, applicant)
+            //handleResendOtpEvent(verifyOTPDialogView, leadDetail, applicant)
         }
         verifyOTPDialogView.ivCross?.setOnClickListener { dismissOtpVerificationDialog() }
         verifyOTPDialogView.tvResendOTP?.callOnClick()

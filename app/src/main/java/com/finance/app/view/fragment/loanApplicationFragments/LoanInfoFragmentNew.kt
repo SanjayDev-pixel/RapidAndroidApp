@@ -15,8 +15,8 @@ import com.finance.app.others.Injection
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
 import com.finance.app.utility.DisableLoanInfoForm
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SetLoanInfoMandatoryField
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerViewTest
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
@@ -45,6 +45,8 @@ class LoanInfoFragmentNew : BaseFragment(){
         fun newInstance(): LoanInfoFragmentNew = LoanInfoFragmentNew()
     }
 
+    private var leadDetail: AllLeadMaster? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_loan_information)
@@ -54,6 +56,8 @@ class LoanInfoFragmentNew : BaseFragment(){
     }
 
     override fun init() {
+        leadDetail = LeadMetaData.getLeadData()
+
         ArchitectureApp.instance.component.inject(this)
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
@@ -77,7 +81,10 @@ class LoanInfoFragmentNew : BaseFragment(){
                             spinnerDMList, binding.viewChannelPartner)) {
 
                 checkPropertySelection()
-                leadDetail?.loanData = getLoanData()
+
+                val loadData = getLoanData()
+                LeadMetaData().saveLoanData(loadData)
+
                 AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
             } else showToast(getString(R.string.validation_error))
@@ -187,7 +194,7 @@ class LoanInfoFragmentNew : BaseFragment(){
         val iType = interestType.getSelectedValue()
         val empId = sharedPreferences.getEmpId()
 
-        loanInfoObj.leadID = leadDetail!!.leadID!!.toInt()
+        loanInfoObj.leadID = leadDetail?.leadID
         loanInfoObj.productID = lProductDD?.productID
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
         loanInfoObj.loanPurposeID = lPurposeDD?.loanPurposeID
