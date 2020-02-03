@@ -60,128 +60,130 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:textColorHint="@color/hint_color">
+            <!--
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:inputType="textCapCharacters"
-                    android:minWidth="200dp"
-                    android:singleLine="true"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/text_size" />
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layout_name"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/fields_margin"
+                  android:textColorHint="@color/hint_color">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                  <com.google.android.material.textfield.TextInputEditText
+                      android:id="@+id/etName"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/name"
+                      android:inputType="textCapCharacters"
+                      android:minWidth="200dp"
+                      android:singleLine="true"
+                      android:textAllCaps="true"
+                      android:textSize="@dimen/text_size" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:baselineAligned="true"
-                android:gravity="start"
-                android:orientation="horizontal"
-                android:weightSum="2">
+              </com.google.android.material.textfield.TextInputLayout>
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerRelation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minWidth="@dimen/text_min_width"
-                    android:textSize="@dimen/text_size"
-                    android:theme="@style/MatchSpinnerTheme"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Relation  "
-                    app:ms_hint="Relation "
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/fields_margin"
+                  android:baselineAligned="true"
+                  android:gravity="start"
+                  android:orientation="horizontal"
+                  android:weightSum="2">
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerOccupation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:layout_weight="1"
-                    android:minWidth="@dimen/text_min_width"
-                    android:textSize="@dimen/text_size"
-                    android:theme="@style/MatchSpinnerTheme"
-                    app:ms_arrowColor="@color/black"
-                    app:ms_arrowSize="@dimen/text_size"
-                    app:ms_floatingLabelColor="@color/hint_color"
-                    app:ms_floatingLabelText="Occupation  "
-                    app:ms_hint="Occupation "
-                    app:ms_hintColor="@color/hint_color"
-                    app:ms_hintTextSize="@dimen/hint_size"
-                    app:ms_multiline="false" />
+                  <fr.ganfra.materialspinner.MaterialSpinner
+                      android:id="@+id/spinnerRelation"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:minWidth="@dimen/text_min_width"
+                      android:textSize="@dimen/text_size"
+                      android:theme="@style/MatchSpinnerTheme"
+                      app:ms_arrowColor="@color/black"
+                      app:ms_arrowSize="@dimen/text_size"
+                      app:ms_floatingLabelColor="@color/hint_color"
+                      app:ms_floatingLabelText="Relation  "
+                      app:ms_hint="Relation "
+                      app:ms_hintColor="@color/hint_color"
+                      app:ms_hintTextSize="@dimen/hint_size"
+                      app:ms_multiline="false" />
 
-            </LinearLayout>
+                  <fr.ganfra.materialspinner.MaterialSpinner
+                      android:id="@+id/spinnerOccupation"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="@dimen/margin_10"
+                      android:layout_weight="1"
+                      android:minWidth="@dimen/text_min_width"
+                      android:textSize="@dimen/text_size"
+                      android:theme="@style/MatchSpinnerTheme"
+                      app:ms_arrowColor="@color/black"
+                      app:ms_arrowSize="@dimen/text_size"
+                      app:ms_floatingLabelColor="@color/hint_color"
+                      app:ms_floatingLabelText="Occupation  "
+                      app:ms_hint="Occupation "
+                      app:ms_hintColor="@color/hint_color"
+                      app:ms_hintTextSize="@dimen/hint_size"
+                      app:ms_multiline="false" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_known_since"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:textColorHint="@color/hint_color">
+              </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etKnownSince"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/known_since_in_years"
-                    android:inputType="numberDecimal"
-                    android:maxLength="4"
-                    android:minWidth="200dp"
-                    android:singleLine="true"
-                    android:textSize="@dimen/text_size" />
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layout_known_since"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/fields_margin"
+                  android:textColorHint="@color/hint_color">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                  <com.google.android.material.textfield.TextInputEditText
+                      android:id="@+id/etKnownSince"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/known_since_in_years"
+                      android:inputType="numberDecimal"
+                      android:maxLength="4"
+                      android:minWidth="200dp"
+                      android:singleLine="true"
+                      android:textSize="@dimen/text_size" />
 
-            <include
-                android:id="@+id/referenceAddressLayout"
-                layout="@layout/layout_employment_address" />
+              </com.google.android.material.textfield.TextInputLayout>
+
+              <include
+                  android:id="@+id/referenceAddressLayout"
+                  layout="@layout/layout_employment_address" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcReference"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginBottom="@dimen/fields_margin"
-                android:orientation="horizontal"
-                android:visibility="gone" />
+                android:orientation="horizontal" />
 
-
-            <Button
-                android:id="@+id/btnAddReference"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:gravity="center"
-                android:text="@string/add_reference"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size" />
+            <!-- <Button
+                 android:id="@+id/btnAddReference"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_marginTop="@dimen/fields_margin"
+                 android:gravity="center"
+                 android:text="@string/add_reference"
+                 android:textColor="@color/black"
+                 android:textSize="@dimen/button_text_size" />-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_50">
+                android:layout_marginTop="50dp">
 
                 <Button
                     android:id="@+id/btnPrevious"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/md_grey_500"
                     android:text="@string/previous"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
 
                 <Button
@@ -189,8 +191,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/md_applicant_blue"
                     android:text="@string/next"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
             </RelativeLayout>
         </LinearLayout>

@@ -5,7 +5,8 @@
     <color name="colorPrimaryLight">#425b6f</color>
     <color name="colorAccent">#003E82</color>
     <color name="spinner_hint_text_color">#ffffcc</color>
-    <color name="hint_color">#05396c</color>
+<!--    <color name="hint_color">#05396c</color>-->
+    <color name="hint_color">#585858</color>
     <color name="text_color">#495057</color>
     <color name="spinner_base_color">#44000000</color>
     <color name="gradientColorPrimary">#9013334C</color>

@@ -8,6 +8,7 @@ import com.finance.app.utility.CurrencyConversion
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
+import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
@@ -36,7 +37,7 @@ class FormValidationImpl : FormValidation {
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
 
-        if(age.exIsNotEmptyOrNullOrBlank()){
+        if (age.exIsNotEmptyOrNullOrBlank()) {
             if (age.toInt() !in 99 downTo 14) {
                 errorCount++
                 binding.basicInfoLayout.etAge.error = "Invalid Age"
@@ -48,7 +49,7 @@ class FormValidationImpl : FormValidation {
             binding.personalAddressLayout.etCurrentStaying.error = "Required field missing or Invalid Entry"
         }
 
-        if(!binding.personalAddressLayout.customCurrentZipAddressView.validateAndHandleError()) {
+        if (!binding.personalAddressLayout.customCurrentZipAddressView.validateAndHandleError()) {
             errorCount++
         }
 
@@ -75,7 +76,7 @@ class FormValidationImpl : FormValidation {
         val permanentStaying = binding.personalAddressLayout.etPermanentStaying.text.toString()
         val rentAmount = binding.personalAddressLayout.etPermanentRentAmount.text.toString()
 
-        if(!binding.personalAddressLayout.customPermanentZipAddressView.validateAndHandleError()) {
+        if (!binding.personalAddressLayout.customPermanentZipAddressView.validateAndHandleError()) {
             errorCount++
         }
 
@@ -373,64 +374,64 @@ class FormValidationImpl : FormValidation {
 
     override fun validateReference(binding: FragmentReferenceBinding): Boolean {
         var errorCount = 0
-        val name = binding.etName.text.toString()
-        val relation = binding.spinnerRelation.selectedItem as DropdownMaster?
-        val occupation = binding.spinnerOccupation.selectedItem as DropdownMaster?
-        val state = binding.referenceAddressLayout.spinnerState.selectedItem as StatesMaster?
-        val district = binding.referenceAddressLayout.spinnerDistrict.selectedItem as Response.DistrictObj?
-        val city = binding.referenceAddressLayout.spinnerCity.selectedItem as Response.CityObj?
-
-        if (relation == null) {
-            errorCount++
-            binding.spinnerRelation.error = "Required Field"
-        }
-
-        if (occupation == null) {
-            errorCount++
-            binding.spinnerOccupation.error = "Required Field"
-        }
-
-        if (district == null) {
-            errorCount++
-            binding.referenceAddressLayout.spinnerDistrict.error = "Required Field"
-        }
-        if (city == null) {
-            errorCount++
-            binding.referenceAddressLayout.spinnerCity.error = "Required Field"
-        }
-        if (state == null) {
-            errorCount++
-            binding.referenceAddressLayout.spinnerState.error = "Required Field"
-        }
-
-        if (!name.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etName.error = "Name can not be blank"
-        }
-
-        val contact = binding.referenceAddressLayout.etContactNum.text.toString()
-        if (!contact.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.referenceAddressLayout.etContactNum.error = "Contact can not be blank"
-        }
-
-        val address = binding.referenceAddressLayout.etAddress.toString()
-        if (!address.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.referenceAddressLayout.etAddress.error = "Address can not be blank"
-        }
-
-        val landmark = binding.referenceAddressLayout.etLandmark.text.toString()
-        if (!landmark.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.referenceAddressLayout.etLandmark.error = "Landmark can not be blank"
-        }
-
-        val pinCode = binding.referenceAddressLayout.etPinCode.text.toString()
-        if (!pinCode.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.referenceAddressLayout.etPinCode.error = "Pin code can not be blank"
-        }
+//        val name = binding.etName.text.toString()
+//        val relation = binding.spinnerRelation.selectedItem as DropdownMaster?
+//        val occupation = binding.spinnerOccupation.selectedItem as DropdownMaster?
+//        val state = binding.referenceAddressLayout.spinnerState.selectedItem as StatesMaster?
+//        val district = binding.referenceAddressLayout.spinnerDistrict.selectedItem as Response.DistrictObj?
+//        val city = binding.referenceAddressLayout.spinnerCity.selectedItem as Response.CityObj?
+//
+//        if (relation == null) {
+//            errorCount++
+//            binding.spinnerRelation.error = "Required Field"
+//        }
+//
+//        if (occupation == null) {
+//            errorCount++
+//            binding.spinnerOccupation.error = "Required Field"
+//        }
+//
+//        if (district == null) {
+//            errorCount++
+//            binding.referenceAddressLayout.spinnerDistrict.error = "Required Field"
+//        }
+//        if (city == null) {
+//            errorCount++
+//            binding.referenceAddressLayout.spinnerCity.error = "Required Field"
+//        }
+//        if (state == null) {
+//            errorCount++
+//            binding.referenceAddressLayout.spinnerState.error = "Required Field"
+//        }
+//
+//        if (!name.exIsNotEmptyOrNullOrBlank()) {
+//            errorCount++
+//            binding.etName.error = "Name can not be blank"
+//        }
+//
+//        val contact = binding.referenceAddressLayout.etContactNum.text.toString()
+//        if (!contact.exIsNotEmptyOrNullOrBlank()) {
+//            errorCount++
+//            binding.referenceAddressLayout.etContactNum.error = "Contact can not be blank"
+//        }
+//
+//        val address = binding.referenceAddressLayout.etAddress.toString()
+//        if (!address.exIsNotEmptyOrNullOrBlank()) {
+//            errorCount++
+//            binding.referenceAddressLayout.etAddress.error = "Address can not be blank"
+//        }
+//
+//        val landmark = binding.referenceAddressLayout.etLandmark.text.toString()
+//        if (!landmark.exIsNotEmptyOrNullOrBlank()) {
+//            errorCount++
+//            binding.referenceAddressLayout.etLandmark.error = "Landmark can not be blank"
+//        }
+//
+//        val pinCode = binding.referenceAddressLayout.etPinCode.text.toString()
+//        if (!pinCode.exIsNotEmptyOrNullOrBlank()) {
+//            errorCount++
+//            binding.referenceAddressLayout.etPinCode.error = "Pin code can not be blank"
+//        }
 
         return isValidForm(errorCount)
     }
@@ -440,9 +441,9 @@ class FormValidationImpl : FormValidation {
         val name = binding.etName.text.toString()
         val relation = binding.spinnerRelation.selectedItem as DropdownMaster?
         val occupation = binding.spinnerOccupation.selectedItem as DropdownMaster?
-        val state = binding.referenceAddressLayout.spinnerState.selectedItem as StatesMaster?
-        val district = binding.referenceAddressLayout.spinnerDistrict.selectedItem as Response.DistrictObj?
-        val city = binding.referenceAddressLayout.spinnerCity.selectedItem as Response.CityObj?
+        val state = binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentState.selectedItem as StatesMaster?
+        val district = binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentDistrict.selectedItem as Response.DistrictObj?
+        val city = binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentCity.selectedItem as Response.CityObj?
 
         if (relation == null) {
             errorCount++
@@ -456,15 +457,15 @@ class FormValidationImpl : FormValidation {
 
         if (district == null) {
             errorCount++
-            binding.referenceAddressLayout.spinnerDistrict.error = "Required Field"
+            binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentDistrict.error = "Required Field"
         }
         if (city == null) {
             errorCount++
-            binding.referenceAddressLayout.spinnerCity.error = "Required Field"
+            binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentCity.error = "Required Field"
         }
         if (state == null) {
             errorCount++
-            binding.referenceAddressLayout.spinnerState.error = "Required Field"
+            binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentState.error = "Required Field"
         }
 
         if (!name.exIsNotEmptyOrNullOrBlank()) {
@@ -490,10 +491,10 @@ class FormValidationImpl : FormValidation {
             binding.referenceAddressLayout.etLandmark.error = "Landmark can not be blank"
         }
 
-        val pinCode = binding.referenceAddressLayout.etPinCode.text.toString()
+        val pinCode = binding.referenceAddressLayout.customPermanentZipAddressView.etCurrentPinCode.text.toString()
         if (!pinCode.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
-            binding.referenceAddressLayout.etPinCode.error = "Pin code can not be blank"
+            binding.referenceAddressLayout.customPermanentZipAddressView.etCurrentPinCode.error = "Pin code can not be blank"
         }
 
         return isValidForm(errorCount)

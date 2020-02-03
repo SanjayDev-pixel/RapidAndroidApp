@@ -44,7 +44,7 @@ class BankDetailFragment():BaseFragment(){
 
 //class BankDetailFragment : BaseFragment(), LoanApplicationConnector.PostLoanApp,
 //        LoanApplicationConnector.GetLoanApp, ApplicantsAdapter.ItemClickListener,
-//        BankDetailAdapter.BankDetailClickListener, BankDetailDialogFragment.OnBankDetailDialogCallback {
+//        BankDetailAdapter.ItemClickListener, BankDetailDialogFragment.OnBankDetailDialogCallback {
 //
 //    @Inject
 //    lateinit var sharedPreferences: SharedPreferencesUtil
@@ -139,7 +139,7 @@ class BankDetailFragment():BaseFragment(){
 //        binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
 //        bankAdapter = BankDetailAdapter(mContext, bankDetailList)
 //        binding.rcBank.adapter = bankAdapter
-//        bankAdapter?.setOnBankDetailClickListener(this)
+//        bankAdapter?.setOnItemClickListener(this)
 //        binding.pageIndicatorAsset.attachTo(binding.rcBank)
 //        binding.pageIndicatorAsset.visibility = View.VISIBLE
 //        binding.rcBank.visibility = View.VISIBLE

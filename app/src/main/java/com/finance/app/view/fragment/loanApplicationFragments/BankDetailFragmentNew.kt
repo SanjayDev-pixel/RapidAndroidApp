@@ -19,6 +19,8 @@ import com.finance.app.view.adapters.recycler.adapter.BankDetailAdapter
 import com.finance.app.view.dialogs.BankDetailDialogFragment
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.delete_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_bank_detail.*
+import kotlinx.android.synthetic.main.layout_prev_next_btns.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -29,7 +31,7 @@ import javax.inject.Inject
 /**
  * Created by Ajay on 28/1/2020.
  */
-class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDetailDialogCallback, BankDetailAdapter.BankDetailClickListener, TabLayout.OnTabSelectedListener {
+class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDetailDialogCallback, BankDetailAdapter.ItemClickListener, TabLayout.OnTabSelectedListener {
     @Inject
     lateinit var dataBase: DataBaseUtil
 
@@ -110,7 +112,7 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
         binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
         bankAdapter = BankDetailAdapter(mContext, bankDetailList)
         binding.rcBank.adapter = bankAdapter
-        bankAdapter?.setOnBankDetailClickListener(this)
+        bankAdapter?.setOnItemClickListener(this)
         binding.rcBank.visibility = View.VISIBLE
     }
 

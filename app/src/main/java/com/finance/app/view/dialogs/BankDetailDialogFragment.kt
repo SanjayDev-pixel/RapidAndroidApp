@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -57,11 +58,13 @@ class BankDetailDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.dialog_bank_detail_form, container, false)
+        dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         initViews()
         setOnClickListeners()
@@ -88,6 +91,7 @@ class BankDetailDialogFragment : DialogFragment() {
     }
 
     private fun setOnClickListeners() {
+        binding.ivClose.setOnClickListener { dismiss() }
         binding.btnAdd.setOnClickListener {
             if (formValidation.validateBankDetail(binding)) {
                 if (action == Action.NEW) dialogCallback.onSaveBankDetail(getFilledBankDetails())

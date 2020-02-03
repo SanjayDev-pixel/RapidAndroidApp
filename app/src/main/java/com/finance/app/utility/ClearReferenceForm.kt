@@ -13,16 +13,16 @@ class ClearReferenceForm(private val binding: FragmentReferenceBinding, private 
                          private val masterDropdown: AllMasterDropDown, private val states: List<StatesMaster>) {
 
     init {
-        binding.referenceAddressLayout.etContactNum.text?.clear()
-        binding.etName.text?.clear()
-        binding.etKnownSince.text?.clear()
-        binding.spinnerRelation.adapter = MasterSpinnerAdapter(context, masterDropdown.ReferenceRelationship!!)
-        binding.spinnerOccupation.adapter = MasterSpinnerAdapter(context, masterDropdown.OccupationType!!)
-        binding.referenceAddressLayout.spinnerState.adapter = StatesSpinnerAdapter(context, states)
-        binding.referenceAddressLayout.spinnerDistrict.adapter = DistrictSpinnerAdapter(context, ArrayList())
-        binding.referenceAddressLayout.spinnerCity.adapter = CitySpinnerAdapter(context, ArrayList())
-        binding.referenceAddressLayout.etPinCode.text?.clear()
-        binding.referenceAddressLayout.etLandmark.text?.clear()
-        binding.referenceAddressLayout.etAddress.text?.clear()
+//        binding.referenceAddressLayout.etContactNum.text?.clear()
+//        binding.etName.text?.clear()
+//        binding.etKnownSince.text?.clear()
+//        binding.spinnerRelation.adapter = MasterSpinnerAdapter(context, masterDropdown.ReferenceRelationship!!)
+//        binding.spinnerOccupation.adapter = MasterSpinnerAdapter(context, masterDropdown.OccupationType!!)
+//        binding.referenceAddressLayout.spinnerState.adapter = StatesSpinnerAdapter(context, states)
+//        binding.referenceAddressLayout.spinnerDistrict.adapter = DistrictSpinnerAdapter(context, ArrayList())
+//        binding.referenceAddressLayout.spinnerCity.adapter = CitySpinnerAdapter(context, ArrayList())
+//        binding.referenceAddressLayout.etPinCode.text?.clear()
+//        binding.referenceAddressLayout.etLandmark.text?.clear()
+//        binding.referenceAddressLayout.etAddress.text?.clear()
     }
 }

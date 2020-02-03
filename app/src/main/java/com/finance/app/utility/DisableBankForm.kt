@@ -14,7 +14,7 @@ class DisableBankForm(binding: FragmentBankDetailBinding) {
 //        binding.ivUploadStatement.isClickable = false
 //        binding.btnUpdate.isEnabled = false
 //        binding.btnAddBankDetail.isEnabled = false
-        binding.btnNext.isEnabled = false
-        binding.btnPrevious.isEnabled = false
+//        binding.btnNext.isEnabled = false
+//        binding.btnPrevious.isEnabled = false
     }
 }

@@ -9,50 +9,13 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemBankBinding
 import com.finance.app.persistence.model.BankDetailBean
 
-class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayList<BankDetailBean>?) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
+class BankDetailAdapter(private val c: Context, private val bankDetailList: ArrayList<BankDetailBean>?) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
     private lateinit var binding: ItemBankBinding
-    private var mOnBankDetailClickListener: BankDetailClickListener? = null
+    private var mOnItemClickListener: ItemClickListener? = null
 
-
-    override fun getItemCount() = bankDetails?.size ?: 0
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BankDetailViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_bank, parent, false)
-        return BankDetailViewHolder(binding, c)
-    }
-
-    fun setOnBankDetailClickListener(listener: BankDetailClickListener) {
-        mOnBankDetailClickListener = listener
-    }
-
-    fun addItem(position: Int = 0, bankDetail: BankDetailBean) {
-        bankDetails?.let {
-            it.add(position, bankDetail)
-            notifyDataSetChanged()
-        }
-    }
-
-    fun updateItem(position: Int, bankDetail: BankDetailBean) {
-        bankDetails?.let {
-            if (position >= 0 && position <= it.size) {
-                it[position] = bankDetail
-                notifyDataSetChanged()
-            }
-        }
-    }
-
-    fun deleteItem(position: Int) {
-        bankDetails?.let {
-            bankDetails.removeAt(position)
-            notifyDataSetChanged()
-        }
-    }
-
-    override fun onBindViewHolder(holder: BankDetailViewHolder, position: Int) {
-        if (!bankDetails.isNullOrEmpty()) {
-            holder.bindItems(position, bankDetails[position])
-        }
+    interface ItemClickListener {
+        fun onBankDetailDeleteClicked(position: Int)
+        fun onBankDetailEditClicked(position: Int, bank: BankDetailBean)
     }
 
     inner class BankDetailViewHolder(val binding: ItemBankBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
@@ -67,17 +30,53 @@ class BankDetailAdapter(private val c: Context, private val bankDetails: ArrayLi
 
         private fun addClickListener(position: Int, bank: BankDetailBean) {
             binding.ivDelete.setOnClickListener {
-                mOnBankDetailClickListener!!.onBankDetailDeleteClicked(position)
+                mOnItemClickListener!!.onBankDetailDeleteClicked(position)
             }
 
             binding.ivEdit.setOnClickListener {
-                mOnBankDetailClickListener!!.onBankDetailEditClicked(position, bank)
+                mOnItemClickListener!!.onBankDetailEditClicked(position, bank)
             }
         }
     }
 
-    interface BankDetailClickListener {
-        fun onBankDetailDeleteClicked(position: Int)
-        fun onBankDetailEditClicked(position: Int, bank: BankDetailBean)
+    override fun getItemCount() = bankDetailList?.size ?: 0
+
+    fun setOnItemClickListener(listener: ItemClickListener) {
+        mOnItemClickListener = listener
+    }
+
+    fun addItem(position: Int = 0, bankDetail: BankDetailBean) {
+        bankDetailList?.let {
+            it.add(position, bankDetail)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun updateItem(position: Int, bankDetail: BankDetailBean) {
+        bankDetailList?.let {
+            if (position >= 0 && position <= it.size) {
+                it[position] = bankDetail
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun deleteItem(position: Int) {
+        bankDetailList?.let {
+            bankDetailList.removeAt(position)
+            notifyDataSetChanged()
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BankDetailViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_bank, parent, false)
+        return BankDetailViewHolder(binding, c)
+    }
+
+    override fun onBindViewHolder(holder: BankDetailViewHolder, position: Int) {
+        if (!bankDetailList.isNullOrEmpty()) {
+            holder.bindItems(position, bankDetailList[position])
+        }
     }
 }

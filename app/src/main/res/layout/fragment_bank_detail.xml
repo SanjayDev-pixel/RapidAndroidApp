@@ -91,13 +91,14 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_50">
+                android:layout_marginTop="50dp">
 
                 <Button
                     android:id="@+id/btnPrevious"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
                     android:background="@color/md_grey_500"
                     android:text="@string/previous"
                     android:textColor="@color/white"
@@ -108,11 +109,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
                     android:background="@color/md_applicant_blue"
                     android:text="@string/next"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
             </RelativeLayout>
+
+            <!--<include
+                android:id="@+id/layoutBottomNavigationBtn"
+                layout="@layout/layout_prev_next_btns" />-->
 
         </LinearLayout>
     </ScrollView>
