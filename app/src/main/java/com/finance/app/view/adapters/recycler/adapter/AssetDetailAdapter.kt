@@ -21,9 +21,10 @@ class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<A
 
     override fun getItemCount() = assets.size
 
-    fun setOnAssetClickListener(listener: AssetClickListener) {
-        mOnAssetClickListener = listener
-    }
+fun  setOnAssetClickListener(listner:AssetClickListener)
+  {
+    mOnAssetClickListener=listner
+  }
 
     interface AssetClickListener {
         fun onAssetDeleteClicked(position: Int)
@@ -43,10 +44,13 @@ class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<A
         private fun addClickListener(position: Int, asset: AssetLiability) {
             binding.btnDelete.setOnClickListener {
                 mOnAssetClickListener!!.onAssetDeleteClicked(position)
+
             }
 
             binding.btnEdit.setOnClickListener {
                 mOnAssetClickListener!!.onAssetEditClicked(position, asset)
+
+
             }
         }
     }

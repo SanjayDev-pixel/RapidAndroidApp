@@ -17,7 +17,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/margin_10">
+                android:padding="@dimen/margin_10"
+                android:background="@color/background_color">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="wrap_content"
@@ -31,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/heading_background"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -62,6 +64,52 @@
 
             </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_assetdetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/asset_detail"
+                        android:textColor="@color/black_242424"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textStyle="bold"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:id="@+id/assetcounter"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_toRightOf="@+id/tv_assetdetail"
+                        android:text="4"
+                        android:textColor="@color/white"
+                        android:background="@drawable/blue_circle"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textSize="@dimen/button_text_size"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/addasset"
+                        android:layout_width="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_add_black_24dp"
+                        />
+
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/md_grey_500"/>
+
             <LinearLayout
                 android:id="@+id/llAssetDetail"
                 android:layout_width="match_parent"
@@ -73,7 +121,8 @@
                     android:layout_height="wrap_content"
                     android:baselineAligned="true"
                     android:layout_marginTop="@dimen/fields_margin"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                android:visibility="gone">
 
                     <fr.ganfra.materialspinner.MaterialSpinner
                         android:id="@+id/spinnerAssetType"
@@ -115,7 +164,8 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="true"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerOwnership"
@@ -157,7 +207,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textColorHint="@color/hint_color">
+                android:textColorHint="@color/hint_color"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etValue"
@@ -180,7 +231,8 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -193,15 +245,18 @@
                 android:id="@+id/pageIndicatorAsset"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:layout_height="12sp" />
+                android:layout_height="12sp"
+                android:visibility="gone"/>
 
             </LinearLayout>
 
                 <include android:id="@+id/layoutCreditCard"
                     layout="@layout/layout_credit_card_details"/>
 
+
                 <include android:id="@+id/layoutObligations"
                     layout="@layout/layout_obligation"/>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -210,20 +265,24 @@
 
                     <Button
                         android:id="@+id/btnPrevious"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="@string/previous"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/button_text_size" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/button_text_size"
+                        android:background="@color/md_grey_500"
+                        android:layout_marginLeft="@dimen/margin20dp"/>
 
                     <Button
                         android:id="@+id/btnNext"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="@string/next"
                         android:layout_alignParentEnd="true"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/button_text_size" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/button_text_size"
+                        android:background="@color/md_applicant_blue"
+                        android:layout_marginRight="@dimen/margin20dp"/>
                 </RelativeLayout>
             </LinearLayout>
         </ScrollView>

@@ -3,10 +3,12 @@ package com.finance.app.utility
 import androidx.lifecycle.MutableLiveData
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.AssetLiabilityList
 import com.finance.app.persistence.model.EmploymentApplicantsModel
 import com.finance.app.persistence.model.LoanInfoModel
 import com.finance.app.persistence.model.BankDetailModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.persistence.model.PropertyModel
 import com.finance.app.persistence.model.ReferenceModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -50,6 +52,15 @@ class LeadMetaData : Observable() {
         }
     }
 
+
+    private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
+        return GlobalScope.launch {
+            lead.isSyncWithServer = false
+            dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
+            AppEvents.fireEventBackgroundSync(AppEvents.BackGroundSyncEvent.LEAD_SYNC)
+        }
+    }
+
     fun saveLoanData(data: LoanInfoModel) {
         val lead = getLeadData()
         lead?.let {
@@ -90,11 +101,23 @@ class LeadMetaData : Observable() {
         }
     }
 
-    private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
-        return GlobalScope.launch {
-            lead.isSyncWithServer = false
-            dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
-            AppEvents.fireEventBackgroundSync(AppEvents.BackGroundSyncEvent.LEAD_SYNC)
+    fun saveAssetLiabilityData(pApplicantList: AssetLiabilityList?) {
+        val lead: AllLeadMaster? = getLeadData()
+        lead?.let {
+            lead.assetLiabilityData = pApplicantList!!
+            insertLeadInfoIntoDB(lead)
+
         }
     }
+
+    fun savePropertyData(leadPropertyData: PropertyModel) {
+        val lead: AllLeadMaster? = getLeadData()
+        lead?.let {
+            lead.propertyData = leadPropertyData
+            insertLeadInfoIntoDB(lead)
+
+        }
+    }
+
+
 }

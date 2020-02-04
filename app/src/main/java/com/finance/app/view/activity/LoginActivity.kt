@@ -62,10 +62,10 @@ class LoginActivity : BaseAppCompatActivity() {
 
         private val mLoginRequestLogin: RequestLogin
             get() {
+                /*binding.etUserName.setText("dmi")
+                binding.etPassword.setText("Default@123")*/
                 binding.etUserName.setText("dmi")
                 binding.etPassword.setText("Default@123")
-//                binding.etUserName.setText("kuldeep.saini@gmail.com")
-//                binding.etPassword.setText("Default@123")
                 val username = binding.etUserName.text.toString()
                 val password = binding.etPassword.text.toString()
                 val company = mCompany

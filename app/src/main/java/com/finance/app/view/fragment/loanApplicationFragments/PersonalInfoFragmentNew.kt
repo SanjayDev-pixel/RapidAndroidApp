@@ -5,14 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.forEach
-import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.presenter.connector.LeadSyncConnector
-import com.finance.app.presenter.presenter.LeadSyncPresenter
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.PersonalPagerAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -21,7 +17,7 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class PersonalInfoFragmentNew : BaseFragment(), LeadSyncConnector.ViewOptLocalToServer {
+class PersonalInfoFragmentNew : BaseFragment() {
 
     @Inject
     lateinit var sharedPreferencesUtil: SharedPreferencesUtil
@@ -30,13 +26,10 @@ class PersonalInfoFragmentNew : BaseFragment(), LeadSyncConnector.ViewOptLocalTo
     private lateinit var binding: FragmentPersonalInfoNewBinding
     private var pagerAdapterApplicants: PersonalPagerAdapter? = null
 
-    private val presenter = LeadSyncPresenter(this)
-
-    private var leadId = 0
-
     private val alCoApplicants = ArrayList<PersonalApplicantsModel>()
 
     companion object {
+        private var count = 0
         fun newInstance(): PersonalInfoFragmentNew {
             return PersonalInfoFragmentNew()
         }
@@ -54,12 +47,10 @@ class PersonalInfoFragmentNew : BaseFragment(), LeadSyncConnector.ViewOptLocalTo
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         setApplicantAdapter()
-
-        LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
+        LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
             leadDetail?.let {
                 val applicantsList = leadDetail.personalData.applicantDetails
-                setClickListeners()
-                this.leadId = leadDetail.leadID!!
+                setClickListeners(applicantsList)
                 refreshApplicantData(applicantsList)
             }
         })
@@ -77,12 +68,12 @@ class PersonalInfoFragmentNew : BaseFragment(), LeadSyncConnector.ViewOptLocalTo
         pagerAdapterApplicants?.notifyDataSetChanged()
     }
 
-    private fun setClickListeners() {
+    private fun setClickListeners(applicantsList: ArrayList<PersonalApplicantsModel>) {
         binding.btnPrevious.setOnClickListener {
             AppEvents.fireEventLoanAppChangeNavFragmentPrevious()
         }
         binding.btnNext.setOnClickListener {
-            checkValidationAndProceed()
+            checkValidationAndProceed(applicantsList)
         }
         handleAddCoApplicant()
     }
@@ -94,43 +85,22 @@ class PersonalInfoFragmentNew : BaseFragment(), LeadSyncConnector.ViewOptLocalTo
         }
     }
 
-    private fun checkValidationAndProceed() {
+    private fun checkValidationAndProceed(applicantsList: ArrayList<PersonalApplicantsModel>) {
         val pApplicantList = ArrayList<PersonalApplicantsModel>()
-        var errorCount = 0
+
         val fragments = pagerAdapterApplicants?.getAllFragments()
         fragments?.let {
             fragments.forEach { _, item ->
-
-                item.isValidFragment()
-
-                val applicant = item.getApplicant()
-                applicant?.let {
-                    pApplicantList.add(applicant)
-                }
-
-                // TEMP CODE - MUNISH THAKUR (Validation is mandatory, complete code for that as well)
-                /*
                 if (item.isValidFragment()) {
                     val applicant = item.getApplicant()
                     pApplicantList.add(applicant)
-                } else ++errorCount*/
-            }
-            if (errorCount <= 0 && pApplicantList.size > 0) {
-                LeadMetaData().savePersonalData(pApplicantList)
-                //AppEvents.fireEventLoanAppChangeNavFragmentNext()
-                //presenter.callNetwork(ConstantsApi.CALL_SYNC_LEAD_LOCAL_TO_SERVER)
+                    ++count
+                }
+                if (count == applicantsList.size) {
+                    LeadMetaData().savePersonalData(pApplicantList)
+                    AppEvents.fireEventLoanAppChangeNavFragmentNext()
+                }
             }
         }
-    }
-
-
-    override fun getLocalLeadSyncLocalToServerSuccess(value: AllLeadMaster) {
-        showToast("Vishal")
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getLocalLeadSyncLocalToServerFailure(msg: String) {
-        showToast("Failed")
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

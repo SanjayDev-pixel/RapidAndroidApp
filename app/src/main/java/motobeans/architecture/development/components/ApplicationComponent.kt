@@ -12,6 +12,7 @@ import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomEmploymentInfoView
 import com.finance.app.view.customViews.CustomPersonalInfoView
 import com.finance.app.view.customViews.CustomZipAddressView
+import com.finance.app.view.customViews.CustomAssetLiabilityViewInfo
 import com.finance.app.view.dialogs.BankDetailDialogFragment
 import com.finance.app.view.dialogs.ReferenceDetailDialogFragment
 import com.finance.app.view.fragment.*
@@ -64,14 +65,9 @@ interface ApplicationComponent {
      * Fragment
      */
     fun inject(fragment: NavMenuFragment)
-    fun inject(fragment: LoanInfoFragment)
-    fun inject(fragment: BankDetailFragment)
-    fun inject(fragment: EmploymentInfoFragment)
-    fun inject(fragment: AssetLiabilityFragment)
-    fun inject(fragment: ReferenceFragment)
-    fun inject(fragment: DocumentCheckListFragment)
-    fun inject(fragment: PropertyFragment)
+    fun inject(fragment: PersonalFormFragment)
     fun inject(fragment: LeadsListingFragment)
+    fun inject(fragment: AssetLiabilityFragmentForm)
 
 
     fun inject(fragment: LoanInfoFragmentNew)
@@ -141,5 +137,6 @@ interface ApplicationComponent {
     fun inject(other: CustomZipAddressView)
     fun inject(other: CustomChannelPartnerView)
     fun inject(other: LeadMetaData)
+    fun inject(other: CustomAssetLiabilityViewInfo)
     fun inject(presenter: Presenter1)
 }
