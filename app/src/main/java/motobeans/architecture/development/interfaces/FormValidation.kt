@@ -3,6 +3,7 @@ package motobeans.architecture.development.interfaces
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.LoanProductMaster
+import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.persistence.model.LoanPurpose
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerViewTest
@@ -35,6 +36,7 @@ interface FormValidation {
     fun validateObligationDialog(binding: AddObligationDialogBinding):Boolean
     fun validateAssetLiabilityForm(binding: FragmentAssetLiablityBinding): Boolean
     fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding)
+    fun validateUpdateCallForm(binding: ActivityUpdateCallBinding, formType: UpdateCallActivity.RequestLayout):Boolean
     fun validateCardsDialog(binding: AssetCreditcardDialogBinding):Boolean
     fun validateAssetsDialog(binding: AddAssestsDialogBinding):Boolean
     fun validateAssetLiabilityInfo(binding: LayoutCustomviewAssetliabilityBinding):Boolean

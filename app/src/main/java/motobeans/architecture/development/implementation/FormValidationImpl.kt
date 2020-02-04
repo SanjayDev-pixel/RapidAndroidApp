@@ -6,6 +6,7 @@ import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.LoanPurpose
 import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.utility.CurrencyConversion
+import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.view.customViews.CustomSpinnerViewTest
@@ -692,6 +693,48 @@ class FormValidationImpl : FormValidation {
         })
 
         return isValidForm(fieldError)
+    }
+
+    override fun validateUpdateCallForm(binding: ActivityUpdateCallBinding, formType: UpdateCallActivity.RequestLayout): Boolean {
+        var errorCount = 0
+
+        if (formType == UpdateCallActivity.RequestLayout.FOLLOW_UP) {
+            val leadType = binding.layoutFollowUp.spinnerLeadType.selectedItem as DropdownMaster?
+            if (leadType == null) {
+                binding.layoutFollowUp.spinnerLeadType.error = "Please select lead type"
+                errorCount++
+            }
+
+            val followUpTiming = binding.layoutFollowUp.etFollowUpTiming.text.toString()
+            if (followUpTiming.isEmpty()) {
+                binding.layoutFollowUp.etFollowUpTiming.error = "Required Field"
+                errorCount++
+            }
+        }
+
+        if (formType == UpdateCallActivity.RequestLayout.FIX_MEETING) {
+            val notificationType = binding.layoutFixedMeeting.spinnerNotificationType.selectedItem as DropdownMaster?
+            if (notificationType == null) {
+                binding.layoutFixedMeeting.spinnerNotificationType.error = "Please select notification type"
+                errorCount++
+            }
+
+            val fixedMeetingTiming = binding.layoutFixedMeeting.etMeetingDate.text.toString()
+            if (fixedMeetingTiming.isEmpty()) {
+                binding.layoutFixedMeeting.etMeetingDate.error = "Required Field"
+                errorCount++
+            }
+        }
+
+        if (formType == UpdateCallActivity.RequestLayout.NOT_INTERESTED) {
+            val leadCLoseReasonType = binding.layoutNotInterested.spinnerLeadCloseReason.selectedItem as DropdownMaster?
+            if (leadCLoseReasonType == null) {
+                binding.layoutNotInterested.spinnerLeadCloseReason.error = "Please select reason"
+                errorCount++
+            }
+        }
+
+        return isValidForm(errorCount)
     }
 
     private fun setCustomSpinnerError(spinner: CustomSpinnerView<*>): Int {

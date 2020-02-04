@@ -17,7 +17,7 @@
                 android:layout_marginTop="@dimen/fields_margin"
                 android:minWidth="@dimen/text_min_width"
                 android:textSize="@dimen/text_size"
-                app:ms_arrowColor="@color/black"
+                app:ms_arrowColor="@color/grey_585858"
                 app:ms_arrowSize="@dimen/arrow_size"
                 app:ms_floatingLabelColor="@color/hint_color"
                 app:ms_floatingLabelText="Lead Close Reason"

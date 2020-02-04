@@ -2,9 +2,7 @@ package motobeans.architecture.util
 
 import motobeans.architecture.util.DateUtil.dateFormattingType.DEFAULT
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.GregorianCalendar
+import java.util.*
 
 /**
  * Created by munishkumarthakur on 17/11/17.
@@ -13,6 +11,8 @@ class DateUtil {
 
     enum class dateFormattingType constructor(value: String) {
         TYPE_API_REQUEST("MM/dd/yyyy HH:mm.ss a"), TYPE_API_RESPONSE("MM/dd/yyyy HH:mm.ss a"),
+        TYPE_API_REQUEST_2("yyyy-MM-dd"),
+        TYPE_NORMAL_1("dd-MMM-yyyy"),
         DEFAULT("MMMM dd, yyyy");
 
         internal var value: String? = null
@@ -65,7 +65,7 @@ class DateUtil {
     }
 
     fun getFormattedDate(from: dateFormattingType, to: dateFormattingType,
-        dateInString: String?): String {
+                         dateInString: String?): String {
         if (dateInString == null) return ""
 
         var formattedDate: String? = null
@@ -133,15 +133,16 @@ class DateUtil {
 
     fun getDynamicDateInMillisOnlyDate(dayCountFromNow: Int): Long {
         val currentDate = DateUtil().getDateFromString(DateUtil().getDynamicDate(dayCountFromNow),
-            DEFAULT)
+                DEFAULT)
         return currentDate.time
     }
 
-    fun getMillisFromString(dateInString: String, formatType: dateFormattingType): Long{
+    fun getMillisFromString(dateInString: String, formatType: dateFormattingType): Long {
         return getCalender(dateInString = dateInString, formatType = formatType)?.timeInMillis ?: 0
     }
+
     fun getAppFormattedDate(timeInMillisToFormat: Long): String {
-        when(timeInMillisToFormat > 0) {
+        when (timeInMillisToFormat > 0) {
             true -> {
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = timeInMillisToFormat

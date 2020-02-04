@@ -2,7 +2,6 @@ package com.finance.app.presenter.presenter
 
 import android.app.ProgressDialog
 import android.content.Context
-import com.finance.app.R
 import com.finance.app.persistence.model.LoanApplicationRequest
 import com.finance.app.presenter.connector.Connector
 import io.reactivex.Observable
@@ -41,7 +40,7 @@ class Presenter {
             ConstantsApi.CALL_GET_ALL_LEADS -> apiProject.api.getAllLeads()
             ConstantsApi.CALL_ALL_STATES -> apiProject.api.getStates()
             ConstantsApi.CALL_LOGIN -> apiProject.api.loginUser(dmiConnector.apiRequest as Requests.RequestLogin)
-            ConstantsApi.CALL_COAPPLICANTS_LIST-> apiProject.api.getCoApplicantsList(dmiConnector.apiRequest as String)
+            ConstantsApi.CALL_COAPPLICANTS_LIST -> apiProject.api.getCoApplicantsList(dmiConnector.apiRequest as String)
             ConstantsApi.CALL_SEND_OTP -> apiProject.api.sendOTP(dmiConnector.apiRequest as Requests.RequestSendOTP)
             ConstantsApi.CALL_VERIFY_OTP -> apiProject.api.verifyOTP(dmiConnector.apiRequest as Requests.RequestVerifyOTP)
             ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME -> {
@@ -53,6 +52,7 @@ class Presenter {
                 apiProject.api.getLoanApp(strings[0], strings[1])
             }
             ConstantsApi.CALL_POST_LOAN_APP -> apiProject.api.postLoanApp(dmiConnector.apiRequest as LoanApplicationRequest)
+            ConstantsApi.CALL_UPDATE_CALL -> apiProject.api.postCallUpdate((dmiConnector.apiRequest as Requests.RequestCallUpdate).leadID, dmiConnector.apiRequest as Requests.RequestCallUpdate)
 
             else -> return
         }
@@ -67,7 +67,7 @@ class Presenter {
                 .doOnSubscribe { viewOpt.showProgressDialog() }
                 .doFinally { viewOpt.hideProgressDialog() }
                 .subscribe({ response -> response?.let { apiSuccess(viewOpt, response as ResponseApi) } },
-                { e -> apiFailure(viewOpt, e) })
+                        { e -> apiFailure(viewOpt, e) })
 
     }
 
