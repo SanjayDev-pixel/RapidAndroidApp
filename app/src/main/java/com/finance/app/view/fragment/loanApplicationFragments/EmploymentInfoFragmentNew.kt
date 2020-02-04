@@ -50,7 +50,7 @@ class EmploymentInfoFragmentNew : BaseFragment(){
 
         LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
             leadDetail?.let {
-                val applicantsList = leadDetail.employmentData.applicantDetails
+                val applicantsList = leadDetail.employmentData?.applicantDetails
                 setClickListeners()
                 refreshApplicantData(applicantsList)
             }
@@ -63,10 +63,12 @@ class EmploymentInfoFragmentNew : BaseFragment(){
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }
 
-    private fun refreshApplicantData(applicantDetails: ArrayList<EmploymentApplicantsModel>) {
-        alCoApplicants.clear()
-        alCoApplicants.addAll(applicantDetails)
-        pagerAdapterApplicants?.notifyDataSetChanged()
+    private fun refreshApplicantData(applicantDetails: ArrayList<EmploymentApplicantsModel>?) {
+        applicantDetails?.let {
+            alCoApplicants.clear()
+            alCoApplicants.addAll(applicantDetails)
+            pagerAdapterApplicants?.notifyDataSetChanged()
+        }
     }
 
     private fun setClickListeners() {

@@ -14,11 +14,8 @@ import com.finance.app.persistence.model.CoApplicantsList
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
-import com.finance.app.view.fragment.loanApplicationFragments.PersonalInfoFragmentNew
-import com.finance.app.viewModel.AppDataViewModel
-import motobeans.architecture.appDelegates.ViewModelType
-import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants.APP.KEY_LEAD_ID
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import org.greenrobot.eventbus.EventBus
@@ -33,12 +30,8 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
     private lateinit var secondaryFragment: Fragment
 
     companion object {
-        private const val KEY_LEAD_ID = "leadId"
-        fun start(context: Context, leadId: Int?) {
+        fun start(context: Context) {
             val intent = Intent(context, LoanApplicationActivity::class.java)
-            val bundle = Bundle()
-            bundle.putInt(KEY_LEAD_ID, leadId!!)
-            intent.putExtras(bundle)
             context.startActivity(intent)
         }
     }
@@ -47,7 +40,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         hideToolbar()
         hideSecondaryToolbar()
         ArchitectureApp.instance.component.inject(this)
-        getLeadId()
+        populateLeadRelatedData()
         setNavFragment()
         setClickListeners()
         secondaryFragment = LoanInfoFragmentNew.newInstance()
@@ -66,17 +59,7 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         layoutBack.setOnClickListener { showDialog() }
     }
 
-    private fun getLeadId() {
-        val bundle = intent.extras
-        bundle?.let {
-            val leadId = bundle.getInt(KEY_LEAD_ID)
-            populateLeadRelatedData(leadId)
-        }
-    }
-
-    private fun populateLeadRelatedData(leadId: Int) {
-        LeadMetaData().getAndPopulateLeadData(leadId)
-
+    private fun populateLeadRelatedData() {
         LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
             leadDetail?.let {
                 setLeadNum(leadDetail.leadNumber)

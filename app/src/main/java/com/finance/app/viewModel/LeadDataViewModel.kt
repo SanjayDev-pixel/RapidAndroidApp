@@ -87,15 +87,10 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
     private fun checkIfAppConfiguredSuccessfully() {
 
-        println("Munish Thakur -> ---------- START -----------")
-
         var isAllApiCallsCompletedValue = true
 
-        var count = 0
         permissionLoop@ for (observable in listOfToSyncData) {
             val isSyncCompleted = getBoolean(observable)
-
-            ++count
 
             if (!isSyncCompleted) {
                 isAllApiCallsCompletedValue = false
@@ -138,21 +133,23 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
         override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
             if (value.responseCode == Constants.SUCCESS) {
-                saveDataToLead(value.responseObj)
+                handleResponse(value.responseObj)
             }
         }
 
-        private fun saveDataToLead(responseObj: Response.LoanApplicationGetObj?) {
+        private fun handleResponse(responseObj: Response.LoanApplicationGetObj?) {
 
-            val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form, response = responseObj)
-            when (form) {
-                AppEnums.FormType.LOANINFO -> handleLoanInfoResponse(apiResponseObject)
-                AppEnums.FormType.PERSONALINFO -> handlePersonalResponse(apiResponseObject)
-                AppEnums.FormType.EMPLOYMENT ->  handleEmploymentResponse(apiResponseObject)
-                AppEnums.FormType.BANKDETAIL -> handleBankDetailResponse(apiResponseObject)
-                AppEnums.FormType.LIABILITYASSET -> handleAssetsAndLiabilityResponse(apiResponseObject)
-                AppEnums.FormType.PROPERTY -> handlePropertyResponse(apiResponseObject)
-                AppEnums.FormType.REFERENCE -> handleReferenceResponse(apiResponseObject)
+            responseObj?.let{
+                val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form, response = responseObj)
+                when (form) {
+                    AppEnums.FormType.LOANINFO -> handleLoanInfoResponse(apiResponseObject)
+                    AppEnums.FormType.PERSONALINFO -> handlePersonalResponse(apiResponseObject)
+                    AppEnums.FormType.EMPLOYMENT ->  handleEmploymentResponse(apiResponseObject)
+                    AppEnums.FormType.BANKDETAIL -> handleBankDetailResponse(apiResponseObject)
+                    AppEnums.FormType.LIABILITYASSET -> handleAssetsAndLiabilityResponse(apiResponseObject)
+                    AppEnums.FormType.PROPERTY -> handlePropertyResponse(apiResponseObject)
+                    AppEnums.FormType.REFERENCE -> handleReferenceResponse(apiResponseObject)
+                }
             }
         }
 

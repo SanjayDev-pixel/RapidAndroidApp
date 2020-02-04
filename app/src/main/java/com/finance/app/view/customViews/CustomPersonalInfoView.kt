@@ -227,8 +227,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private fun setDropDownList() {
         spinnerDMList = arrayListOf(dobProof, livingStandard, maritalStatus, gender,
                 nationality, religion, caste, qualification, detailQualification, livingStandard,
-                relationship, currentResidenceType, currentAddressProof, permanentResidenceType,
-                permanentAddressProof)
+                relationship, currentResidenceType, currentAddressProof)
     }
 
     private fun fillValueInMasterDropDown(currentApplicant: PersonalApplicantsModel) {
@@ -260,7 +259,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             }
         }
 
-        binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormat(currentApplicant.dateOfBirth!!))
+        binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormat(currentApplicant.dateOfBirth))
         binding.basicInfoLayout.cbIncomeConsidered.isChecked = currentApplicant.incomeConsidered!!
         binding.basicInfoLayout.etFatherLastName.setText(currentApplicant.fatherLastName)
         binding.basicInfoLayout.etFatherMiddleName.setText(currentApplicant.fatherMiddleName)
@@ -287,18 +286,18 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private fun fillCurrentAddressInfo(addressDetail: AddressDetail) {
         binding.personalAddressLayout.etCurrentAddress.setText(addressDetail.address1)
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
-        binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount.toString())
-        binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears.toString())
+        binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount)
+        binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears?.toString())
         currentAddressProof.setSelection(addressDetail.addressTypeDetailID?.toString())
-        currentResidenceType.setSelection(addressDetail.residenceTypeTypeDetailID.toString())
+        currentResidenceType.setSelection(addressDetail.residenceTypeTypeDetailID?.toString())
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
     }
 
     private fun fillPermanentAddressInfo(addressDetail: AddressDetail) {
         binding.personalAddressLayout.etPermanentAddress.setText(addressDetail.address1)
         binding.personalAddressLayout.etPermanentLandmark.setText(addressDetail.landmark)
-        binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount.toString())
-        binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears.toString())
+        binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount)
+        binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears?.toString())
         permanentAddressProof.setSelection(addressDetail.addressTypeDetailID?.toString())
         permanentResidenceType.setSelection(addressDetail.residenceTypeTypeDetailID?.toString())
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customPermanentZipAddressView, addressDetail = addressDetail)
@@ -363,7 +362,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
 
     private fun getAddressDetailList(addressDetailList: ArrayList<AddressDetail>?): ArrayList<AddressDetail>? {
         val cAddressDetail = AddressDetail()
-        val cResidenceType = currentAddressProof.getSelectedValue()
+        val cResidenceType = currentResidenceType.getSelectedValue()
         val cAddressProof = currentAddressProof.getSelectedValue()
 
         cAddressDetail.rentAmount = CurrencyConversion().convertToNormalValue(binding.personalAddressLayout.etCurrentRentAmount.text.toString())
@@ -381,6 +380,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         var pAddressDetail = AddressDetail()
         if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
             pAddressDetail = cAddressDetail
+            spinnerDMList.add(permanentResidenceType)
+            spinnerDMList.add(permanentAddressProof)
+
         } else {
             val pResidenceType = permanentResidenceType.getSelectedValue()
             val pAddressProof = permanentAddressProof.getSelectedValue()
@@ -425,17 +427,19 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
 
         verifyOTPDialogView.tvResendOTP?.setOnClickListener {
-            //handleResendOtpEvent(verifyOTPDialogView, leadDetail, applicant)
+            handleResendOtpEvent(verifyOTPDialogView, applicant)
         }
         verifyOTPDialogView.ivCross?.setOnClickListener { dismissOtpVerificationDialog() }
         verifyOTPDialogView.tvResendOTP?.callOnClick()
         timerOtpResend.start()
     }
 
-    private fun handleResendOtpEvent(verifyOTPDialogView: View, leadMaster: AllLeadMaster?, applicant: PersonalApplicantsModel) {
+    private fun handleResendOtpEvent(verifyOTPDialogView: View, applicant: PersonalApplicantsModel) {
         verifyOTPDialogView.tvResendOTP?.exGone()
         verifyOTPDialogView.tvResendOTPTimeLeftInfo?.exVisible()
         timerOtpResend.start()
+
+        val leadMaster = LeadMetaData.getLeadData()
         leadMaster?.let {
             presenter.callNetwork(ConstantsApi.CALL_SEND_OTP, CallSendOTP(leadMaster, applicant))
         }
@@ -507,7 +511,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    fun isValidPersonalApplicant(): PersonalApplicantsModel? {
+    fun getPersonalApplicant(): PersonalApplicantsModel? {
         return if (formValidation.validatePersonalInfo(binding, spinnerDMList)) getCurrentApplicant()
         else null
     }

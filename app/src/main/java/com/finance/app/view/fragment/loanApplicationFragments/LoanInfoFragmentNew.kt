@@ -75,6 +75,7 @@ class LoanInfoFragmentNew : BaseFragment(){
     }
 
     private fun setClickListeners() {
+        CurrencyConversion().convertToCurrencyType(binding.etAmountRequest)
         binding.btnNext.setOnClickListener {
 
             if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
@@ -89,7 +90,6 @@ class LoanInfoFragmentNew : BaseFragment(){
 
             } else showToast(getString(R.string.validation_error))
         }
-        CurrencyConversion().convertToCurrencyType(binding.etAmountRequest)
     }
 
     private fun getDropDownsFromDB(loanInfo: LoanInfoModel?) {
@@ -146,7 +146,7 @@ class LoanInfoFragmentNew : BaseFragment(){
     private fun selectSpinnerValue(loanInfo: LoanInfoModel) {
         interestType.setSelection(loanInfo.interestTypeTypeDetailID?.toString())
         loanScheme.setSelection(loanInfo.loanSchemeTypeDetailID?.toString())
-//        selectChannelPartner(binding.viewChannelPartner, loanInfo)
+        selectChannelPartner(binding.viewChannelPartner, loanInfo)
     }
 
     private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
