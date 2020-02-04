@@ -10,7 +10,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
-class LoanAppPostPresenter(private val PostLoanApp: LoanApplicationConnector.PostLoanApp) : LoanApplicationConnector.PresenterOpt {
+class LoanAppPostPresenter(private val postLoanApp: LoanApplicationConnector.PostLoanApp) : LoanApplicationConnector.PresenterOpt {
 
     @Inject
     lateinit var apiProject: ApiProject
@@ -28,22 +28,21 @@ class LoanAppPostPresenter(private val PostLoanApp: LoanApplicationConnector.Pos
     }
 
     private fun callLoanAppPostApi() {
-        val requestApi = apiProject.api.postLoanApp(PostLoanApp.loanAppRequestPost)
-
-        val d = requestApi
+        val requestApi = apiProject.api.postLoanApp(postLoanApp.loanAppRequestPost)
+        val request = requestApi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { PostLoanApp.showProgressDialog() }
-                .doFinally { PostLoanApp.hideProgressDialog() }
+                .doOnSubscribe { postLoanApp.showProgressDialog() }
+                .doFinally { postLoanApp.hideProgressDialog() }
                 .subscribe({ response -> onLoanAppPost(response) },
-                        { e -> PostLoanApp.getLoanAppPostFailure(e?.message ?: "") })
+                        { e -> postLoanApp.getLoanAppPostFailure(e?.message ?: "") })
     }
 
     private fun onLoanAppPost(responsePost: Response.ResponseGetLoanApplication) {
         if (responsePost.responseCode == "200") {
-            PostLoanApp.getLoanAppPostSuccess(responsePost)
+            postLoanApp.getLoanAppPostSuccess(responsePost)
         } else {
-            PostLoanApp.getLoanAppPostFailure(responsePost.responseMsg)
+            postLoanApp.getLoanAppPostFailure(responsePost.responseMsg)
         }
     }
 }

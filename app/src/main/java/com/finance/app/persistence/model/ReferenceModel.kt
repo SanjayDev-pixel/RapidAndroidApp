@@ -2,7 +2,7 @@ package com.finance.app.persistence.model
 
 import java.io.Serializable
 
-class ReferenceModel:Serializable {
+class ReferenceModel : Serializable {
 
     var addressBean: ReferenceAddressDetail? = ReferenceAddressDetail()
     var applicantReferenceDetailID: Int? = null
@@ -14,6 +14,8 @@ class ReferenceModel:Serializable {
     var applicantID: Int? = null
     var relationTypeDetailID: Int? = 0
     var occupationTypeDetailID: Int? = 0
+    var relationTypeName: String? = null
+    var occupationTypeName: String? = null
     var active: Boolean? = true
 
 }

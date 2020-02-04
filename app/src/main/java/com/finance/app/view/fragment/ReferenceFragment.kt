@@ -354,9 +354,9 @@ class ReferenceFragment : BaseFragment(), PinCodeDetailConnector.PinCode,
         return referenceMaster
     }
 
-    override fun onDeleteClicked(position: Int) = showAlertDialog(position)
+    override fun onReferenceDetailDeleteClicked(position: Int) = showAlertDialog(position)
 
-    override fun onEditClicked(position: Int, reference: ReferenceModel) {
+    override fun onReferenceDetailEditClicked(position: Int, reference: ReferenceModel) {
         currentPosition = position
         fillFormWithCurrentReference(reference)
     }
