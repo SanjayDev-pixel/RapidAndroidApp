@@ -42,6 +42,11 @@ class Constants {
         internal const val PERMANENT_ADDRESS = "Permanent"
         internal const val CURRENT_ADDRESS = "Current"
 
+        const val KEY_CO_APPLICANT = "coApplicant"
+        const val KEY_INDEX = "index"
+
+        const val KEY_LEAD_ID = "leadId"
+
         const val SALARY = 0
         const val SENP = 1
         const val ASSESED_INCOME = 116

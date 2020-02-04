@@ -38,8 +38,8 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
     private var empId: String? = null
     private lateinit var activity: FragmentActivity
     private var isMandatory = false
-    private lateinit var sourcingPartner: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var partnerName: CustomSpinnerViewTest<ChannelPartnerName>
+    private var sourcingPartner: CustomSpinnerViewTest<DropdownMaster>? = null
+    private var partnerName: CustomSpinnerViewTest<ChannelPartnerName>? = null
 
     fun attachActivity(activity: FragmentActivity, isMandatory: Boolean = false) {
         this.activity = activity
@@ -92,15 +92,17 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
     }
 
     fun selectSourcingChannelPartner(loanInfoModel: LoanInfoModel) {
-        sourcingPartner.setSelection(loanInfoModel.sourcingChannelPartnerTypeDetailID.toString())
+       sourcingPartner?.let{
+           sourcingPartner!!.setSelection(loanInfoModel.sourcingChannelPartnerTypeDetailID.toString())
+       }
     }
 
     fun getSourcingChannelPartner(): DropdownMaster? {
-        return sourcingPartner.getSelectedValue()
+        return sourcingPartner?.getSelectedValue()
     }
 
     fun getPartnerName(): ChannelPartnerName? {
-        return partnerName.getSelectedValue()
+        return partnerName?.getSelectedValue()
     }
 
     inner class CallSourcingPartnerName : ViewGeneric<ArrayList<String>,
@@ -121,7 +123,7 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
             binding.layoutPartnerName.addView(partnerName)
 
             leadMaster.loanData?.channelPartnerDsaID?.let {
-                partnerName.setSelection(leadMaster.loanData?.channelPartnerDsaID.toString())
+                partnerName?.setSelection(leadMaster.loanData?.channelPartnerDsaID.toString())
             }
         }
     }

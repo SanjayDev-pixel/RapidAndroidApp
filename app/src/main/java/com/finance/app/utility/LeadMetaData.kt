@@ -33,6 +33,7 @@ class LeadMetaData : Observable() {
 
     companion object {
         private var leadData = MutableLiveData<AllLeadMaster?>()
+
         fun setLeadData(leadDetail: AllLeadMaster?) {
             leadData.value = leadDetail
         }
@@ -61,7 +62,7 @@ class LeadMetaData : Observable() {
     fun savePersonalData(applicants: ArrayList<PersonalApplicantsModel>) {
         val lead = getLeadData()
         lead?.let {
-            lead.personalData.applicantDetails = applicants
+            lead.personalData?.applicantDetails = applicants
             insertLeadInfoIntoDB(lead)
         }
     }
@@ -69,7 +70,7 @@ class LeadMetaData : Observable() {
     fun saveEmploymentData(applicants: ArrayList<EmploymentApplicantsModel>) {
         val lead = getLeadData()
         lead?.let {
-            lead.employmentData.applicantDetails = applicants
+            lead.employmentData?.applicantDetails = applicants
             insertLeadInfoIntoDB(lead)
         }
     }
@@ -77,7 +78,7 @@ class LeadMetaData : Observable() {
     fun saveBankData(bankDetailsList: ArrayList<BankDetailModel>) {
         val lead = getLeadData()
         lead?.let {
-            lead.bankData.applicantBankDetails = bankDetailsList
+            lead.bankData?.applicantBankDetails = bankDetailsList
             insertLeadInfoIntoDB(lead)
         }
     }
