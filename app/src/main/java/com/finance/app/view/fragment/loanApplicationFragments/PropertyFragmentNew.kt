@@ -35,6 +35,7 @@ import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
@@ -50,6 +51,8 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+    @Inject
+    lateinit var formValidation: FormValidation
     private lateinit var mContext: Context
     private lateinit var allMasterDropDown: AllMasterDropDown
     private lateinit var states: List<StatesMaster>
@@ -283,61 +286,65 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
 
 
 
-
-
-
-
     private fun setOnClickListeners() {
         pinCodeListener(binding.etPinCode)
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
             onSavePropertyData()
+
         }
 
     }
 
     private fun onSavePropertyData() {
+        if(formValidation.validateProperty(binding)) {
 
-        val propertyModel = PropertyModel()
-        val transactionCategory = binding.spinnerTransactionCategory.selectedItem as Response.TransactionCategoryObj?
-        val propertyNature = binding.spinnerPropertyNature.selectedItem as DropdownMaster?
-        val state = binding.spinnerState.selectedItem as StatesMaster?
-        val district = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
-        val city = binding.spinnerCity.selectedItem as Response.CityObj?
-        val unitType = binding.spinnerUnitType.selectedItem as DropdownMaster?
-        val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
-        val ownedProperty = binding.spinnerOwnedProperty.selectedItem as DropdownMaster?
-        val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
-        val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
+            val propertyModel = PropertyModel()
+            val transactionCategory = binding.spinnerTransactionCategory.selectedItem as Response.TransactionCategoryObj?
+            val propertyNature = binding.spinnerPropertyNature.selectedItem as DropdownMaster?
+            val state = binding.spinnerState.selectedItem as StatesMaster?
+            val district = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
+            val city = binding.spinnerCity.selectedItem as Response.CityObj?
+            val unitType = binding.spinnerUnitType.selectedItem as DropdownMaster?
+            val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
+            val ownedProperty = binding.spinnerOwnedProperty.selectedItem as DropdownMaster?
+            val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
+            val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
 
-        propertyModel.leadID = leadIdForApplicant.toInt()
-        propertyModel.cityID = city?.cityID
-        propertyModel.districtID = district?.districtID
-        propertyModel.stateID = state?.stateID
-        propertyModel.occupiedByTypeDetailID = occupiedBy?.typeDetailID
-        propertyModel.natureOfPropertyTransactionTypeDetailID = propertyNature?.typeDetailID
-        propertyModel.propertyNatureOfTransactionCategoryTypeDetailID = transactionCategory?.propertyNatureTransactionCategoryID
-        propertyModel.unitTypeTypeDetailID = unitType?.typeDetailID
-        propertyModel.alreadyOwnedPropertyTypeDetailID = ownedProperty?.typeDetailID
-        propertyModel.ownershipTypeDetailID = ownership?.typeDetailID
-        propertyModel.propertyAreaSquareFt = binding.etPropertyArea.text.toString().toInt()
-        propertyModel.propertyAddress = binding.etPropertyArea.text.toString()
-        propertyModel.landmark = binding.etLandmark.text.toString()
-        propertyModel.pinCode = binding.etPinCode.text.toString()
-        propertyModel.distanceFromBranch = binding.etDistanceFromBranch.text.toString()
-        propertyModel.numberOfTenants = binding.etNumOfTenants.text.toString().toInt()
-        propertyModel.cashOCRValue = CurrencyConversion().convertToNormalValue(binding.etCashOcr.text.toString()).toDouble()
-        propertyModel.ocrValue = CurrencyConversion().convertToNormalValue(binding.etOcr.text.toString()).toDouble()
-        propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
-        propertyModel.mvOfProperty = CurrencyConversion().convertToNormalValue(binding.etMvProperty.text.toString())
-        propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
-        propertyModel.leadApplicantNumber = leadIdForApplicant.toInt().toString()
-        propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
-        propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
+            propertyModel.leadID = leadIdForApplicant.toInt()
+            propertyModel.cityID = city?.cityID
+            propertyModel.districtID = district?.districtID
+            propertyModel.stateID = state?.stateID
+            propertyModel.occupiedByTypeDetailID = occupiedBy?.typeDetailID
+            propertyModel.natureOfPropertyTransactionTypeDetailID = propertyNature?.typeDetailID
+            propertyModel.propertyNatureOfTransactionCategoryTypeDetailID = transactionCategory?.propertyNatureTransactionCategoryID
+            propertyModel.unitTypeTypeDetailID = unitType?.typeDetailID
+            propertyModel.alreadyOwnedPropertyTypeDetailID = ownedProperty?.typeDetailID
+            propertyModel.ownershipTypeDetailID = ownership?.typeDetailID
+            propertyModel.propertyAreaSquareFt = binding.etPropertyArea.text.toString().toInt()
+            propertyModel.propertyAddress = binding.etPropertyArea.text.toString()
+            propertyModel.landmark = binding.etLandmark.text.toString()
+            propertyModel.pinCode = binding.etPinCode.text.toString()
+            propertyModel.distanceFromBranch = binding.etDistanceFromBranch.text.toString()
+            propertyModel.numberOfTenants = binding.etNumOfTenants.text.toString().toInt()
+            propertyModel.cashOCRValue = CurrencyConversion().convertToNormalValue(binding.etCashOcr.text.toString()).toDouble()
+            propertyModel.ocrValue = CurrencyConversion().convertToNormalValue(binding.etOcr.text.toString()).toDouble()
+            propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
+            propertyModel.mvOfProperty = CurrencyConversion().convertToNormalValue(binding.etMvProperty.text.toString())
+            propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
+            propertyModel.leadApplicantNumber = leadIdForApplicant.toInt().toString()
+            propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
+            propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
 
 
 //save data in database
-        LeadMetaData().savePropertyData(propertyModel)
+            LeadMetaData().savePropertyData(propertyModel)
+            // after save data go to next page
+            AppEvents.fireEventLoanAppChangeNavFragmentNext()
+
+        }else{
+            showToast(getString(R.string.validation_error))
+        }
 
 
     }

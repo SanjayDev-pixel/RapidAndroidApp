@@ -128,12 +128,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         //fetch details
         fetchDropDownsFromDB()
         fetchApplicantAssetsAndLibilityDetailsById(applicantNumber)
-
-
-//        if (!list.isNullOrEmpty())
-//            initializeViews(list.get(0))
-
-
     }
 
     private fun setAssetAdapter(assets: ArrayList<AssetLiability>) {

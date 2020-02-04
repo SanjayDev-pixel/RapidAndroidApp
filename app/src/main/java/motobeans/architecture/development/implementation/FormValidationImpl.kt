@@ -469,6 +469,7 @@ class FormValidationImpl : FormValidation {
             binding.etOcr.error = "Required Field"
         }
         val propertyMv = binding.etMvProperty.text.toString()
+
         if (!propertyMv.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etMvProperty.error = "Required Field"
@@ -485,20 +486,35 @@ class FormValidationImpl : FormValidation {
             binding.etAgreementValue.error = "Required Field"
         }
 
-        if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(cashOcr).toDouble()) {
-            errorCount++
-            binding.etOcr.error = "Cannot be grater than cash OCR"
+        if (ocr.exIsNotEmptyOrNullOrBlank() &&  cashOcr.exIsNotEmptyOrNullOrBlank()) {
+            if ( CurrencyConversion().convertToNormalValue(cashOcr).toDouble() >   CurrencyConversion().convertToNormalValue(ocr).toDouble()) {
+                errorCount++
+
+                binding.etCashOcr.error="Cannot be greater than  OCR"
+            }
+        }else{
+            binding.etCashOcr.error="Cannot be greater than  OCR"
         }
 
-        if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
-            errorCount++
-            binding.etAgreementValue.error = "Cannot be grater than MV of property"
+        if (propertyMv.exIsNotEmptyOrNullOrBlank() &&  agreementValue.exIsNotEmptyOrNullOrBlank()) {
+    if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
+        errorCount++
+        binding.etAgreementValue.error = "Cannot be greater than MV of property"
+    }
+
+}else{
+            binding.etAgreementValue.error = "Cannot be greater than MV of property"
         }
 
-        if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
-                CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
-            errorCount++
-            binding.etOcr.error = "Cannot be grater than MV of Property or agreement value"
+        if (propertyMv.exIsNotEmptyOrNullOrBlank() &&  agreementValue.exIsNotEmptyOrNullOrBlank()) {
+            if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
+                    CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
+                errorCount++
+                binding.etOcr.error = "Cannot be greater than MV of Property or agreement value"
+            }
+        }
+        else{
+            binding.etOcr.error = "Cannot be greater than MV of Property or agreement value"
         }
 
         val pin = binding.etPinCode.text.toString()
