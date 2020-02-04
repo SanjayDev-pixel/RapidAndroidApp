@@ -59,7 +59,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
     private val listOfToSyncData = listOf(isLeadSyncLoanInfo,
             isLeadSyncPersonalInfo, isLeadSyncEmployment, isLeadSyncBankDetail,
-            isLeadSyncLiabilityAndAssets)
+            isLeadSyncLiabilityAndAssets, isLeadSyncReference)
 
 //    isLeadSyncProperty,
 //    isLeadSyncReference,
