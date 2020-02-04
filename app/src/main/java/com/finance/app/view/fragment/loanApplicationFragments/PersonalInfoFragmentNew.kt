@@ -101,19 +101,18 @@ class PersonalInfoFragmentNew : BaseFragment(), LeadSyncConnector.ViewOptLocalTo
         fragments?.let {
             fragments.forEach { _, item ->
 
-                item.isValidFragment()
+                //                item.isValidFragment()
 
-                val applicant = item.getApplicant()
-                applicant?.let {
-                    pApplicantList.add(applicant)
-                }
+//                val applicant = item.getApplicant()
+//                applicant?.let {
+//                    pApplicantList.add(applicant)
+//                }
 
                 // TEMP CODE - MUNISH THAKUR (Validation is mandatory, complete code for that as well)
-                /*
                 if (item.isValidFragment()) {
                     val applicant = item.getApplicant()
-                    pApplicantList.add(applicant)
-                } else ++errorCount*/
+                    pApplicantList.add(applicant!!)
+                } else ++errorCount
             }
             if (errorCount <= 0 && pApplicantList.size > 0) {
                 LeadMetaData().savePersonalData(pApplicantList)

@@ -11,12 +11,8 @@ import com.finance.app.presenter.connector.LeadSyncConnector
 import com.finance.app.utility.LeadRequestResponseConversion
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function7
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
@@ -138,7 +134,7 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
 
   private fun isAllResponsesValid(alResponses: List<ResponseGetLoanApplication?>): Boolean {
     var isAllResponseValid = true
-    alResponses?.forEach {
+    alResponses.forEach {
       val isValid = checkAndValidateDataSyncResponseIsValid(it)
       if(!isValid) {
         isAllResponseValid = false
