@@ -2,6 +2,7 @@ package motobeans.architecture.development.interfaces
 
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.LoanProductMaster
+import com.finance.app.view.activity.UpdateCallActivity
 
 interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
@@ -21,4 +22,5 @@ interface FormValidation {
     fun validateObligations(binding: LayoutObligationBinding): Boolean
     fun validateAssetLiabilityForm(binding: FragmentAssetLiablityBinding): Boolean
     fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding)
+    fun validateUpdateCallForm(binding: ActivityUpdateCallBinding, formType: UpdateCallActivity.RequestLayout):Boolean
 }

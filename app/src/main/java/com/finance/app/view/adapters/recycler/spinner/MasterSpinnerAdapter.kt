@@ -40,7 +40,7 @@ class MasterSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMaste
         if (convertView == null) {
             view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.tvSpinnerValue) as TextView
-            textView.text = spinnerValue.typeDetailCode
+            textView.text = spinnerValue.typeDetailDisplayText
         } else {
             view = convertView
         }

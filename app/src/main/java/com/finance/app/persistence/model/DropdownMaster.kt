@@ -14,6 +14,7 @@ class DropdownMaster : Serializable, IspinnerModel {
     var typeDetailLogicalCode: String? = ""
     var sequence: String? = ""
     var typeDetailDescription: String? = ""
+    var typeDetailDisplayText: String? = ""
 
     override fun getCompareValue(): String {
         return "$typeDetailID"

@@ -57,7 +57,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun setObservables() {
         leadDataViewModel.isAllApiCallCompleted.observe(this, Observer {
-            when(it) {
+            when (it) {
                 true -> {
                     // ToDo()
                 }
@@ -112,8 +112,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private fun setClickListeners(lead: AllLeadMaster) {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
 
-        binding.llLeadDetail.setOnClickListener {
-            checkAndStartLoanApplication(lead)
+        binding.btnUpdateApplication.setOnClickListener {
+            checkAndStartLoanApplicationActivity(lead)
         }
 
         binding.ivCall.setOnClickListener {
@@ -131,11 +131,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
     }
 
-    private fun checkAndStartLoanApplication(lead: AllLeadMaster) {
+    private fun checkAndStartLoanApplicationActivity(lead: AllLeadMaster) {
         val isLeadInfoAlreadySync = leadDataViewModel.isAllApiCallCompleted.value ?: false
         val isLeadOfflineDataSync = lead.isDetailAlreadySync
 
-        when(isLeadInfoAlreadySync || isLeadOfflineDataSync) {
+        when (isLeadInfoAlreadySync || isLeadOfflineDataSync) {
             true -> LoanApplicationActivity.start(this, lead.leadID)
             false -> showToast("Lead info detail is missing, We are trying to sync")
         }
