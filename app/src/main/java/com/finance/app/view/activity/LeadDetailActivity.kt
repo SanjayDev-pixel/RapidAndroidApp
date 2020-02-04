@@ -12,6 +12,7 @@ import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
 import com.finance.app.viewModel.LeadDataViewModel
+import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -25,10 +26,10 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_detail)
     private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
+
     @Inject
     lateinit var dataBase: DataBaseUtil
-    @Inject
-    lateinit var sharedPreferences: SharedPreferencesUtil
+
     private var bundle: Bundle? = null
     private var lead: AllLeadMaster? = null
 
@@ -63,7 +64,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                 lead?.let {
                     fillDataOnScreen(lead!!)
                     saveLeadData(lead!!.leadID)
-                    sharedPreferences.saveLeadDetail(lead!!)
                     leadDataViewModel.getLeadData(lead!!)
                 }
             }
@@ -80,7 +80,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.tvLeadName
         binding.tvEmail.text = lead.applicantEmail
         val leadName = lead.applicantFirstName + " " + lead.applicantLastName
-        setLeadNum(lead.leadNumber!!)
+        setLeadNum(lead.leadNumber)
         binding.tvLeadName.text = leadName
        // binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLocation.text = lead.applicantAddress
