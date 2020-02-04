@@ -15,8 +15,8 @@ import com.finance.app.others.Injection
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
 import com.finance.app.utility.DisableLoanInfoForm
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SetLoanInfoMandatoryField
-import com.finance.app.view.activity.LoanApplicationActivity.Companion.leadDetail
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerViewTest
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
@@ -39,10 +39,13 @@ class LoanInfoFragmentNew : BaseFragment(){
     private lateinit var loanScheme: CustomSpinnerViewTest<DropdownMaster>
     private lateinit var loanProduct: CustomSpinnerViewTest<LoanProductMaster>
     private lateinit var loanPurpose: CustomSpinnerViewTest<LoanPurpose>
+    private var spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>> = ArrayList()
 
     companion object {
         fun newInstance(): LoanInfoFragmentNew = LoanInfoFragmentNew()
     }
+
+    private var leadDetail: AllLeadMaster? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,6 +56,8 @@ class LoanInfoFragmentNew : BaseFragment(){
     }
 
     override fun init() {
+        leadDetail = LeadMetaData.getLeadData()
+
         ArchitectureApp.instance.component.inject(this)
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
@@ -65,16 +70,23 @@ class LoanInfoFragmentNew : BaseFragment(){
 
     private fun setUpCustomViews() {
         activity?.let {
-            binding.customChannelPartnerView.attachActivity(activity = activity!!)
+            binding.viewChannelPartner.attachActivity(activity = activity!!)
         }
     }
 
     private fun setClickListeners() {
         binding.btnNext.setOnClickListener {
-            if (formValidation.validateLoanInformation(binding, loanProduct.getSelectedValue())) {
+
+            if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
+                            spinnerDMList, binding.viewChannelPartner)) {
+
                 checkPropertySelection()
-                leadDetail?.loanData = getLoanData()
+
+                val loadData = getLoanData()
+                LeadMetaData().saveLoanData(loadData)
+
                 AppEvents.fireEventLoanAppChangeNavFragmentNext()
+
             } else showToast(getString(R.string.validation_error))
         }
         CurrencyConversion().convertToCurrencyType(binding.etAmountRequest)
@@ -97,7 +109,7 @@ class LoanInfoFragmentNew : BaseFragment(){
     }
 
     private fun setLoanProductDropdown(products: ArrayList<LoanProductMaster>, loanInfo: LoanInfoModel?) {
-        loanProduct = CustomSpinnerViewTest(context = activity!!, dropDowns = products, label = "Loan Product *", iSpinnerMainView = object : IspinnerMainView<LoanProductMaster> {
+        loanProduct = CustomSpinnerViewTest(mContext = activity!!, isMandatory = true, dropDowns = products, label = "Loan Product *", iSpinnerMainView = object : IspinnerMainView<LoanProductMaster> {
             override fun getSelectedValue(value: LoanProductMaster) {
                 setLoanPurposeDropdown(value, loanInfo)
             }
@@ -112,7 +124,7 @@ class LoanInfoFragmentNew : BaseFragment(){
     private fun setLoanPurposeDropdown(loan: LoanProductMaster?, loanInfo: LoanInfoModel?) {
         loan?.let {
             binding.layoutLoanPurpose.removeAllViews()
-            loanPurpose = CustomSpinnerViewTest(context = activity!!, dropDowns = loan.loanPurposeList, label = "Loan Purpose")
+            loanPurpose = CustomSpinnerViewTest(mContext = activity!!, isMandatory = true, dropDowns = loan.loanPurposeList, label = "Loan Purpose *")
             binding.layoutLoanPurpose.addView(loanPurpose)
         }
 
@@ -134,7 +146,7 @@ class LoanInfoFragmentNew : BaseFragment(){
     private fun selectSpinnerValue(loanInfo: LoanInfoModel) {
         interestType.setSelection(loanInfo.interestTypeTypeDetailID?.toString())
         loanScheme.setSelection(loanInfo.loanSchemeTypeDetailID?.toString())
-        selectChannelPartner(binding.customChannelPartnerView, loanInfo)
+//        selectChannelPartner(binding.viewChannelPartner, loanInfo)
     }
 
     private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
@@ -157,10 +169,13 @@ class LoanInfoFragmentNew : BaseFragment(){
     }
 
     private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown) {
-        interestType = CustomSpinnerViewTest(context = activity!!, dropDowns = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type")
+        interestType = CustomSpinnerViewTest(mContext = activity!!, isMandatory = true, dropDowns = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type *")
         binding.layoutInterestType.addView(interestType)
-        loanScheme = CustomSpinnerViewTest(context = activity!!, dropDowns = allMasterDropDown.LoanScheme!!, label = "Loan Scheme")
+        loanScheme = CustomSpinnerViewTest(mContext = activity!!, isMandatory = true, dropDowns = allMasterDropDown.LoanScheme!!, label = "Loan Scheme *")
         binding.layoutLoanScheme.addView(loanScheme)
+
+        spinnerDMList.add(interestType)
+        spinnerDMList.add(loanScheme)
     }
 
     private fun checkSubmission() {
@@ -171,15 +186,15 @@ class LoanInfoFragmentNew : BaseFragment(){
 
     private fun getLoanData(): LoanInfoModel {
         val loanInfoObj = LoanInfoModel()
-        val sPartner = binding.customChannelPartnerView.getSourcingChannelPartner()
-        val cPartnerName = binding.customChannelPartnerView.getPartnerName()
+        val sPartner = binding.viewChannelPartner.getSourcingChannelPartner()
+        val cPartnerName = binding.viewChannelPartner.getPartnerName()
         val lProductDD = loanProduct.getSelectedValue()
         val lPurposeDD = loanPurpose.getSelectedValue()
         val lScheme = loanScheme.getSelectedValue()
         val iType = interestType.getSelectedValue()
         val empId = sharedPreferences.getEmpId()
 
-        loanInfoObj.leadID = leadDetail!!.leadID!!.toInt()
+        loanInfoObj.leadID = leadDetail?.leadID
         loanInfoObj.productID = lProductDD?.productID
         loanInfoObj.salesOfficerEmpID = empId!!.toInt()
         loanInfoObj.loanPurposeID = lPurposeDD?.loanPurposeID

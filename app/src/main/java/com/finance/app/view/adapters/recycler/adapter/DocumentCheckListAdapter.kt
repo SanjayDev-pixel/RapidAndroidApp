@@ -28,7 +28,7 @@ class DocumentCheckListAdapter(private val mContext: Context, private val dropDo
 
     inner class DocumentCheckListViewHolder(val binding: ItemDocumentChecklistBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int) {
-            selection = CustomSpinnerViewTest(context = mContext, dropDowns = dropDowns, label = "Select *")
+            selection = CustomSpinnerViewTest(mContext = mContext, dropDowns = dropDowns, label = "Select *")
             binding.layoutDocumentStatus.addView(selection)
         }
     }

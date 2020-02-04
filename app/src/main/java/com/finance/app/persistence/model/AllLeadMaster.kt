@@ -43,5 +43,5 @@ class AllLeadMaster : Serializable {
     var referenceData = ReferencesList()
 
     var isDetailAlreadySync: Boolean = false
-    var isSyncWithServer: Boolean = false
+    var isSyncWithServer: Boolean = true
 }

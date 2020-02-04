@@ -15,8 +15,6 @@ class DistrictSpinnerAdapter(mContext: Context, val value: ArrayList<Response.Di
     private var inflater: LayoutInflater = mContext.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private lateinit var spinnerValue: Response.DistrictObj
-
     override fun getItem(position: Int): Any? {
         return value[position]
     }
@@ -36,7 +34,7 @@ class DistrictSpinnerAdapter(mContext: Context, val value: ArrayList<Response.Di
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        spinnerValue = value[position]
+        val spinnerValue = value[position]
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
@@ -49,7 +47,7 @@ class DistrictSpinnerAdapter(mContext: Context, val value: ArrayList<Response.Di
     }
 
     fun setItem(position: Int) {
-        spinnerValue = value[position]
+        //spinnerValue = value[position]
         notifyDataSetChanged()
     }
     override

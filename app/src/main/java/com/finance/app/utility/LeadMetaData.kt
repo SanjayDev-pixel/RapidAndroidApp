@@ -1,7 +1,10 @@
 package com.finance.app.utility
 
 import androidx.lifecycle.MutableLiveData
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.EmploymentApplicantsModel
+import com.finance.app.persistence.model.LoanInfoModel
 import com.finance.app.persistence.model.BankDetailModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.persistence.model.ReferenceModel
@@ -47,10 +50,11 @@ class LeadMetaData : Observable() {
         }
     }
 
-    private fun insertLeadIntoDB(lead: AllLeadMaster): Job {
-        lead.isSyncWithServer = false
-        return GlobalScope.launch {
-            dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
+    fun saveLoanData(data: LoanInfoModel) {
+        val lead = getLeadData()
+        lead?.let {
+            lead.loanData = data
+            insertLeadInfoIntoDB(lead)
         }
     }
 
@@ -58,7 +62,15 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.personalData.applicantDetails = applicants
-            insertLeadIntoDB(lead)
+            insertLeadInfoIntoDB(lead)
+        }
+    }
+
+    fun saveEmploymentData(applicants: ArrayList<EmploymentApplicantsModel>) {
+        val lead = getLeadData()
+        lead?.let {
+            lead.employmentData.applicantDetails = applicants
+            insertLeadInfoIntoDB(lead)
         }
     }
 
@@ -66,7 +78,7 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.bankData.applicantBankDetails = bankDetailsList
-            insertLeadIntoDB(lead)
+            insertLeadInfoIntoDB(lead)
         }
     }
 
@@ -74,8 +86,15 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.referenceData.referenceDetails = referenceDetailsList
-            insertLeadIntoDB(lead)
+            insertLeadInfoIntoDB(lead)
         }
     }
 
+    private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
+        return GlobalScope.launch {
+            lead.isSyncWithServer = false
+            dataBase.provideDataBaseSource().allLeadsDao().insertLead(lead)
+            AppEvents.fireEventBackgroundSync(AppEvents.BackGroundSyncEvent.LEAD_SYNC)
+        }
+    }
 }
