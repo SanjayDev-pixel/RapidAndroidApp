@@ -59,7 +59,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
     private val listOfToSyncData = listOf(isLeadSyncLoanInfo,
             isLeadSyncPersonalInfo, isLeadSyncEmployment, isLeadSyncBankDetail,
-            isLeadSyncLiabilityAndAssets,isLeadSyncReference)
+            isLeadSyncLiabilityAndAssets,isLeadSyncReference,isLeadSyncProperty)
 
 //    isLeadSyncProperty,
 //    isLeadSyncReference,
@@ -112,7 +112,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.EMPLOYMENT))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.BANKDETAIL))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.LIABILITYASSET))
-//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.PROPERTY))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.PROPERTY))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.REFERENCE))
 
     }
