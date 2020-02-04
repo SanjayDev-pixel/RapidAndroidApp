@@ -5,21 +5,23 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_margin="@dimen/margin_10"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardElevation="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/rectangular_curved_bg_blue"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:background="@color/md_grey_100">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
         <TextView
             android:layout_width="0dp"
@@ -28,24 +30,11 @@
             android:padding="@dimen/margin_10"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:text="@string/credit_card_details"
+            android:text=""
             android:textAppearance="?android:textAppearanceLarge"
             android:textSize="@dimen/text_size" />
 
-            <Button
-                android:id="@+id/btnDelete"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="5sp"
-                android:layout_margin="@dimen/margin_10"
-                android:background="@drawable/button_theme_style"
-                android:text="@string/delete"
-                app:backgroundTint="@color/md_red_500"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_text_size" />
+
 
 
             <Button
@@ -69,7 +58,6 @@
                 android:id="@+id/llDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/md_grey_800"
                 android:baselineAligned="false"
                 android:padding="@dimen/margin_10"
                 android:orientation="vertical">
@@ -85,46 +73,57 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:text="@string/bank_name"
+                        android:textColor="@color/black_242424"
+                        android:text="@string/bank_name_colon"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size"
+                        android:paddingLeft="@dimen/margin10dp"/>
 
                     <TextView
                         android:id="@+id/tvBankName"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/white"
+                        android:gravity="left"
+                        android:textColor="@color/md_grey_500"
                         android:text="HDFC"
                         android:textSize="@dimen/text_size" />
+                    <ImageButton
+                        android:id="@+id/btnDelete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="5sp"
+                        android:layout_margin="@dimen/margin_10"
+                        android:background="@drawable/ic_delete"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/button_text_size" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/white"
-                        android:text="@string/card_limit"
-                        android:textStyle="bold"
+                        android:textColor="@color/black_242424"
+                        android:text="@string/card_limit_colon"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size"
+                        android:paddingLeft="@dimen/margin10dp"/>
 
                     <TextView
                         android:id="@+id/tvCardLimit"
-                        android:textColor="@color/white"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:layout_gravity="end"
                         android:text="150000"
                         android:textAppearance="?android:textAppearanceMedium"
@@ -136,26 +135,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text = "@string/current_utilization"
-                        android:textColor="@color/white"
+                        android:text = "@string/current_utilization_colon"
+                        android:textColor="@color/black_242424"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/margin10dp"/>
 
                     <TextView
                         android:id="@+id/tvCurrentUtilization"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="18000"
-                        android:textColor="@color/white"
+
                         android:textSize="@dimen/text_size" />
                 </LinearLayout>
 
@@ -163,26 +163,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="@string/last_payment_date"
-                        android:textColor="@color/white"
+                        android:text="@string/last_payment_date_colon"
+                        android:textColor="@color/black_242424"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/margin10dp"/>
 
                     <TextView
                         android:id="@+id/tvLastPaymentDate"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="24th October"
-                        android:textColor="@color/white"
                         android:textSize="@dimen/text_size" />
                 </LinearLayout>
 
@@ -195,24 +195,24 @@
                 android:paddingStart="@dimen/margin_10"
                 android:paddingEnd="@dimen/margin_10"
                 android:layout_marginBottom="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
+
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/obligate"
+                    android:text="@string/obligate_colon"
                     android:textAppearance="?android:textAppearanceLarge"
-                    android:textSize="@dimen/text_size" />
+                    android:textSize="@dimen/text_size"
+                    android:paddingLeft="@dimen/margin10dp"/>
 
                 <TextView
                     android:id="@+id/tvObligate"
-                    android:textColor="@color/blue_spinner"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_gravity="end"
                     android:text="@string/yes"
                     android:textAppearance="?android:textAppearanceMedium"

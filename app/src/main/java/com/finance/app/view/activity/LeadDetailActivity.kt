@@ -82,7 +82,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         val leadName = lead.applicantFirstName + " " + lead.applicantLastName
         setLeadNum(lead.leadNumber)
         binding.tvLeadName.text = leadName
-        binding.header.tvLeadNumber.text = lead.leadNumber
+       // binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLocation.text = lead.applicantAddress
         binding.tvPhone.text = lead.applicantContactNumber
         binding.tvTypeOfLoan.text = lead.loanProductName
@@ -104,7 +104,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun setClickListeners(lead: AllLeadMaster) {
-        binding.header.lytBack.setOnClickListener { onBackPressed() }
+       // binding.header.lytBack.setOnClickListener { onBackPressed() }
 
         binding.llLeadDetail.setOnClickListener {
             checkAndStartLoanApplication(lead)

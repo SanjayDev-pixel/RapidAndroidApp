@@ -5,17 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.finance.app.R
-import com.finance.app.databinding.FragmentAssetLiablityBinding
+import com.finance.app.databinding.FragmentAssetliabilityNewBinding
+import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.utility.LeadMetaData
+import com.finance.app.view.adapters.recycler.adapter.AssetLiabilityPagerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
-import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.development.interfaces.FormValidation
+import java.util.*
 import javax.inject.Inject
 
 
 /**
  * Created by motobeans on 2/16/2018.
  */
-class AssetLiabilityFragmentNew : BaseFragment(){
+
+class AssetLiabilityFragmentNew : BaseFragment() {
+
+    @Inject
+    lateinit var dataBase: DataBaseUtil
+    private lateinit var binding: FragmentAssetliabilityNewBinding
+    private var pagerAdapterAsset: AssetLiabilityPagerAdapter? = null
+    @Inject
+    lateinit var formValidation: FormValidation
+    private var applicantList: ArrayList<PersonalApplicantsModel>? = null
+
 
     companion object {
         fun newInstance(): AssetLiabilityFragmentNew {
@@ -23,23 +39,70 @@ class AssetLiabilityFragmentNew : BaseFragment(){
         }
     }
 
-    @Inject
-    lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
-    private lateinit var binding: FragmentAssetLiablityBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
+    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = initBinding(inflater, container, R.layout.fragment_assetliability_new)
+        binding.lifecycleOwner = this
 
-        binding = initBinding(inflater, container, R.layout.fragment_asset_liablity)
-        binding.setLifecycleOwner(this)
-        init()
+        initViews()
+        setOnClickListener()
+
         return view
     }
 
     override fun init() {
-        ArchitectureApp.instance.component.inject(this)
-
-        // ToDo()
     }
+
+    private fun initViews() {
+    }
+
+    private fun setOnClickListener() {
+        binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
+        binding.btnNext.setOnClickListener {
+                        onSaveAssetAndLibilityDetails()
+        }
+
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fetchLeadDetails()
+    }
+
+
+
+
+    private fun fetchLeadDetails() {
+        LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
+            leadDetail?.let {
+                applicantList = it.personalData?.applicantDetails
+                applicantList?.let {
+                    //Set Tab Adapter...
+                    setApplicantTabAdapter(it)
+                }
+            }
+        })
+    }
+
+    private fun setApplicantTabAdapter(applicantList: ArrayList<PersonalApplicantsModel>) {
+        pagerAdapterAsset = AssetLiabilityPagerAdapter(fragmentManager!!, applicantList)
+        binding.viewPager.adapter = pagerAdapterAsset
+        binding.tabLead.setupWithViewPager(binding.viewPager)
+    }
+
+    private fun onSaveAssetAndLibilityDetails() {
+        val pApplicantList = LeadMetaData.getLeadData()?.assetLiabilityData
+        LeadMetaData().saveAssetLiabilityData(pApplicantList)
+
+    }
+
+
 }
+
+

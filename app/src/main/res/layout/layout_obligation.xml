@@ -17,7 +17,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/heading_background"
                     android:layout_marginTop="@dimen/margin_20"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -47,6 +48,52 @@
                         android:src = "@drawable/ic_unfold_more_black_24dp" />
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_obligationdetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/existing_obligation"
+                        android:textColor="@color/black_242424"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textStyle="bold"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:id="@+id/obligationcounter"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_toRightOf="@+id/tv_obligationdetail"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:background="@drawable/blue_circle"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textSize="@dimen/button_text_size"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/addcreditdilaog"
+                        android:layout_width="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_add_black_24dp"
+                        />
+
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/md_grey_500"/>
 
                 <LinearLayout
                     android:id="@+id/formObligation"
@@ -372,20 +419,22 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/button_text_size" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:id="@+id/rcObligation"
-                        android:orientation="horizontal"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content"/>
 
-                    <com.chahinem.pageindicator.PageIndicator
-                        android:id="@+id/pageIndicatorObligation"
-                        android:layout_width="wrap_content"
-                        android:visibility="gone"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content" />
                     </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rcObligation"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"/>
+
+                <com.chahinem.pageindicator.PageIndicator
+                    android:id="@+id/pageIndicatorObligation"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content" />
                 </LinearLayout>
         </ScrollView>
 </layout>

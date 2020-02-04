@@ -11,8 +11,8 @@ class LeadRequestResponseConversion {
 
     private val gson = Gson()
 
-    fun getResponseObject(form: AppEnums.FormType, response: Response.LoanApplicationGetObj): Serializable? {
-        response.draftData?.let {
+    fun getResponseObject(form: AppEnums.FormType, response: Response.LoanApplicationGetObj?): Serializable? {
+        response?.draftData?.let {
             return when (form) {
                 LOANINFO -> gson.fromJson(response.draftData, LoanInfoModel::class.java)
                 PERSONALINFO -> gson.fromJson(response.draftData, PersonalApplicantList::class.java)

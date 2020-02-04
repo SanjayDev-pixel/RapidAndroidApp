@@ -405,6 +405,7 @@ class FormValidationImpl : FormValidation {
             binding.etOcr.error = "Required Field"
         }
         val propertyMv = binding.etMvProperty.text.toString()
+
         if (!propertyMv.exIsNotEmptyOrNullOrBlank()) {
             errorCount++
             binding.etMvProperty.error = "Required Field"
@@ -421,20 +422,34 @@ class FormValidationImpl : FormValidation {
             binding.etAgreementValue.error = "Required Field"
         }
 
-        if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(cashOcr).toDouble()) {
-            errorCount++
-            binding.etOcr.error = "Cannot be grater than cash OCR"
+        if (ocr.exIsNotEmptyOrNullOrBlank() && cashOcr.exIsNotEmptyOrNullOrBlank()) {
+            if (CurrencyConversion().convertToNormalValue(cashOcr).toDouble() > CurrencyConversion().convertToNormalValue(ocr).toDouble()) {
+                errorCount++
+
+                binding.etCashOcr.error = "Cannot be greater than  OCR"
+            }
+        } else {
+            binding.etCashOcr.error = "Cannot be greater than  OCR"
         }
 
-        if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
-            errorCount++
-            binding.etAgreementValue.error = "Cannot be grater than MV of property"
+        if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
+            if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
+                errorCount++
+                binding.etAgreementValue.error = "Cannot be greater than MV of property"
+            }
+
+        } else {
+            binding.etAgreementValue.error = "Cannot be greater than MV of property"
         }
 
-        if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
-                CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
-            errorCount++
-            binding.etOcr.error = "Cannot be grater than MV of Property or agreement value"
+        if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
+            if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
+                    CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
+                errorCount++
+                binding.etOcr.error = "Cannot be greater than MV of Property or agreement value"
+            }
+        } else {
+            binding.etOcr.error = "Cannot be greater than MV of Property or agreement value"
         }
 
         val pin = binding.etPinCode.text.toString()
@@ -541,7 +556,43 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerViewTest<LoanProductMaster>, branches: CustomSpinnerViewTest<UserBranches>): Boolean {
+    override fun validateObligationDialog(binding: AddObligationDialogBinding): Boolean {
+        val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
+        val loanType = binding.spinnerLoanType.selectedItem as DropdownMaster?
+        val repaymentBank = binding.spinnerRepaymentBank.selectedItem as DropdownMaster?
+        val ownership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
+        val financierName = binding.etFinancierName.text.toString()
+        val accountNum = binding.etAccountNum.text.toString()
+        val balanceTenure = binding.etBalanceTenure.text.toString()
+        val tenure = binding.etTenure.text.toString()
+        val emiAmount = binding.etEmiAmount.text.toString()
+        val bouncesIn6 = binding.etBouncesInLastSixMonths.text.toString()
+        val bouncesIn9 = binding.etBouncesInLastNineMonths.text.toString()
+
+        val spinnerError = when {
+            loanType == null -> setSpinnerError(binding.spinnerLoanType)
+            obligate == null -> setSpinnerError(binding.spinnerObligate)
+            repaymentBank == null -> setSpinnerError(binding.spinnerRepaymentBank)
+            ownership == null -> setSpinnerError(binding.spinnerLoanOwnership)
+            else -> 0
+        }
+
+        val fieldError = when {
+            !financierName.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etFinancierName)
+            !accountNum.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAccountNum)
+            !tenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etTenure)
+            !balanceTenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBalanceTenure)
+            !emiAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmiAmount)
+            !bouncesIn6.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastSixMonths)
+            !bouncesIn9.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastNineMonths)
+            else -> 0
+        }
+        val errorCount = spinnerError + fieldError
+        return isValidForm(errorCount)
+    }
+
+    override fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerViewTest<LoanProductMaster>,
+                                 branches: CustomSpinnerViewTest<UserBranches>): Boolean {
         val area = binding.etArea.text.toString()
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()
@@ -591,4 +642,48 @@ class FormValidationImpl : FormValidation {
 
     private fun isValidForm(errorCount: Int): Boolean = errorCount <= 0
 
+    override fun validateCardsDialog(binding: AssetCreditcardDialogBinding): Boolean {
+        val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
+        val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
+        val cardLimit = binding.etCreditCardLimit.text.toString()
+        val utilization = binding.etCurrentUtilization.text.toString()
+
+        val spinnerError = when {
+            bankName == null -> setSpinnerError(binding.spinnerBankName)
+            obligate == null -> setSpinnerError(binding.spinnerObligate)
+            else -> 0
+        }
+
+        val fieldError = when {
+            !utilization.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etCurrentUtilization)
+            !cardLimit.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etCreditCardLimit)
+            CurrencyConversion().convertToNormalValue(cardLimit).toDouble() < CurrencyConversion().convertToNormalValue(utilization).toDouble() ->
+                setFieldError(binding.etCurrentUtilization)
+            else -> 0
+        }
+        val errorCount = spinnerError + fieldError
+        return isValidForm(errorCount)
+    }
+
+    override fun validateAssetsDialog(binding: AddAssestsDialogBinding): Boolean {
+        val assetType = binding.spinnerAssetType.selectedItem as DropdownMaster?
+        val assetSubType = binding.spinnerAssetSubType.selectedItem as DropdownMaster?
+        val ownership = binding.spinnerOwnership.selectedItem as DropdownMaster?
+        val documentProof = binding.spinnerDocumentProof.selectedItem as DropdownMaster?
+        val value = binding.etValue.text.toString()
+
+        val errorCount = when {
+            !value.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etValue)
+            assetSubType == null -> setSpinnerError(binding.spinnerAssetSubType)
+            assetType == null -> setSpinnerError(binding.spinnerAssetType)
+            ownership == null -> setSpinnerError(binding.spinnerOwnership)
+            documentProof == null -> setSpinnerError(binding.spinnerDocumentProof)
+            else -> 0
+        }
+        return isValidForm(errorCount)
+    }
+
+    override fun validateAssetLiabilityInfo(binding: LayoutCustomviewAssetliabilityBinding): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

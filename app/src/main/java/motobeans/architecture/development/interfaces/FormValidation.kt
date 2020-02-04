@@ -34,6 +34,13 @@ interface FormValidation {
     fun validateAssets(binding: FragmentAssetLiablityBinding): Boolean
     fun validateCards(binding: LayoutCreditCardDetailsBinding): Boolean
     fun validateObligations(binding: LayoutObligationBinding): Boolean
+    fun validateObligationDialog(binding: AddObligationDialogBinding):Boolean
     fun validateAssetLiabilityForm(binding: FragmentAssetLiablityBinding): Boolean
     fun disableAssetLiabilityFields(binding: FragmentAssetLiablityBinding)
+    fun validateCardsDialog(binding: AssetCreditcardDialogBinding):Boolean
+    fun validateAssetsDialog(binding: AddAssestsDialogBinding):Boolean
+    fun validateAssetLiabilityInfo(binding: LayoutCustomviewAssetliabilityBinding):Boolean
+
+
+
 }

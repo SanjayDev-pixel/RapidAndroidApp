@@ -46,7 +46,9 @@
 
     <color name="black_242424">#242424</color>
     <color name="grey_585858">#585858</color>
-    
+  <color name="background_color">#f9f9f9</color>
+
+
     <color name="lead_status_new">#003E82</color>
     <color name="lead_status_rejected">#C8060C</color>
     <color name="lead_status_pending">#EECB1C</color>

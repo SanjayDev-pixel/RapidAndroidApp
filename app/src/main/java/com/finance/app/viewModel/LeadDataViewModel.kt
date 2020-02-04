@@ -113,7 +113,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.BANKDETAIL))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.LIABILITYASSET))
 //        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.PROPERTY))
-//        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.REFERENCE))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.REFERENCE))
 
     }
 
@@ -139,17 +139,16 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
         private fun handleResponse(responseObj: Response.LoanApplicationGetObj?) {
 
-            responseObj?.let{
-                val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form, response = responseObj)
-                when (form) {
-                    AppEnums.FormType.LOANINFO -> handleLoanInfoResponse(apiResponseObject)
-                    AppEnums.FormType.PERSONALINFO -> handlePersonalResponse(apiResponseObject)
-                    AppEnums.FormType.EMPLOYMENT ->  handleEmploymentResponse(apiResponseObject)
-                    AppEnums.FormType.BANKDETAIL -> handleBankDetailResponse(apiResponseObject)
-                    AppEnums.FormType.LIABILITYASSET -> handleAssetsAndLiabilityResponse(apiResponseObject)
-                    AppEnums.FormType.PROPERTY -> handlePropertyResponse(apiResponseObject)
-                    AppEnums.FormType.REFERENCE -> handleReferenceResponse(apiResponseObject)
-                }
+            val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form,
+                    response = responseObj)
+            when (form) {
+                AppEnums.FormType.LOANINFO -> handleLoanInfoResponse(apiResponseObject)
+                AppEnums.FormType.PERSONALINFO -> handlePersonalResponse(apiResponseObject)
+                AppEnums.FormType.EMPLOYMENT -> handleEmploymentResponse(apiResponseObject)
+                AppEnums.FormType.BANKDETAIL -> handleBankDetailResponse(apiResponseObject)
+                AppEnums.FormType.LIABILITYASSET -> handleAssetsAndLiabilityResponse(apiResponseObject)
+                AppEnums.FormType.PROPERTY -> handlePropertyResponse(apiResponseObject)
+                AppEnums.FormType.REFERENCE -> handleReferenceResponse(apiResponseObject)
             }
         }
 

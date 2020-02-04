@@ -37,8 +37,12 @@ import javax.inject.Inject
 
 class PropertyFragment {
 
+
+
 }
+
 /*
+
 
 class PropertyFragment : BaseFragment(), TransactionCategoryConnector.TransactionCategory,
         PinCodeDetailConnector.PinCode, DistrictCityConnector.District, DistrictCityConnector.City {
@@ -466,4 +470,6 @@ class PropertyFragment : BaseFragment(), TransactionCategoryConnector.Transactio
         }
     }
 
-}*/
+}
+*/
+
