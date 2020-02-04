@@ -81,7 +81,7 @@ class AssetLiabilityFragmentNew : BaseFragment() {
     private fun fetchLeadDetails() {
         LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
             leadDetail?.let {
-                applicantList = it.personalData.applicantDetails
+                applicantList = it.personalData?.applicantDetails
                 applicantList?.let {
                     //Set Tab Adapter...
                     setApplicantTabAdapter(it)
