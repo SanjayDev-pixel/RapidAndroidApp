@@ -29,15 +29,17 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
     private val binding: ActivityLeadCreateBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_create)
-    private lateinit var loanProduct: CustomSpinnerViewTest<LoanProductMaster>
-    private lateinit var branches: CustomSpinnerViewTest<UserBranches>
-    private val presenter = Presenter()
+
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var formValidation: FormValidation
+
+    private lateinit var loanProduct: CustomSpinnerViewTest<LoanProductMaster>
+    private lateinit var branches: CustomSpinnerViewTest<UserBranches>
+    private val presenter = Presenter()
     private val appDataViewModel: AppDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
 
     companion object {
@@ -54,7 +56,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         getLoanProductFromDB()
         setBranchesDropDownValue()
         binding.btnCreate.setOnClickListener {
-            if (formValidation.validateAddLead(binding)) {
+            if (formValidation.validateAddLead(binding, loanProduct, branches)) {
                 presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
             }
         }
@@ -93,7 +95,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                 showToast(value.responseMsg)
             }
         }
-
     }
 
     private val leadRequest: Requests.RequestAddLead
@@ -107,6 +108,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = branchDD!!.branchID, loanProductID = lProductDD!!.productID)
+                    branchID = branchDD?.branchID, loanProductID = lProductDD?.productID)
         }
 }

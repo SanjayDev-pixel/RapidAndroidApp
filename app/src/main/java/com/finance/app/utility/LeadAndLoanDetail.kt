@@ -55,6 +55,21 @@ class LeadAndLoanDetail {
         leadMaster.assetLiabilityData?.applicantDetails?.add(alApplicant)
     }
 
+    fun addLoanData(leadMaster: AllLeadMaster) {
+        val alApplicant = LoanInfoModel()
+        leadMaster.loanData = alApplicant
+    }
+
+    fun addPropertyData(leadMaster: AllLeadMaster) {
+        val alApplicant = PropertyModel()
+        leadMaster.propertyData = alApplicant
+    }
+
+    fun addReferenceData(leadMaster: AllLeadMaster) {
+        val alApplicant = ReferencesList()
+        leadMaster.referenceData = alApplicant
+    }
+
     fun addApplicants(leadMaster: AllLeadMaster) {
         addPersonalApplicant(leadMaster)
         addEmploymentApplicant(leadMaster)
