@@ -29,26 +29,30 @@ class LeadAndLoanDetail {
     fun addPersonalApplicant(leadMaster: AllLeadMaster) {
         val pApplicant = PersonalApplicantsModel()
         pApplicant.firstName = "Applicant"
-        pApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        leadMaster.personalData.applicantDetails.add(pApplicant)
+        pApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!,
+                leadMaster.personalData?.applicantDetails?.size ?: 0)
+        leadMaster.personalData?.applicantDetails?.add(pApplicant)
     }
 
     fun addEmploymentApplicant(leadMaster: AllLeadMaster) {
         val eApplicant = EmploymentApplicantsModel()
-        eApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        leadMaster.employmentData.applicantDetails?.add(eApplicant)
+        eApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!,
+                leadMaster.personalData?.applicantDetails?.size ?: 0)
+        leadMaster.employmentData?.applicantDetails?.add(eApplicant)
     }
 
     fun addBankApplicant(leadMaster: AllLeadMaster) {
         val bApplicant = BankDetailModel()
-        bApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        leadMaster.bankData.applicantBankDetails?.add(bApplicant)
+        bApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!,
+                leadMaster.personalData?.applicantDetails?.size ?: 0)
+        leadMaster.bankData?.applicantBankDetails?.add(bApplicant)
     }
 
     fun addAssetLiabilityApplicant(leadMaster: AllLeadMaster) {
         val alApplicant = AssetLiabilityModel()
-        alApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData.applicantDetails.size)
-        leadMaster.assetLiabilityData.applicantDetails?.add(alApplicant)
+        alApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!,
+                leadMaster.personalData?.applicantDetails?.size ?: 0)
+        leadMaster.assetLiabilityData?.applicantDetails?.add(alApplicant)
     }
 
     fun addApplicants(leadMaster: AllLeadMaster) {

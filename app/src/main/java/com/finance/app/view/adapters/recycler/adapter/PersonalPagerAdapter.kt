@@ -13,10 +13,15 @@ class PersonalPagerAdapter internal constructor(fm: FragmentManager, val coAppli
 
     private val hmFragments = SparseArray<PersonalFormFragmentNew>()
 
+    init {
+        if (coApplicantsList.isNullOrEmpty()) {
+            coApplicantsList.add(PersonalApplicantsModel())
+        }
+    }
+
     override fun getItem(position: Int): Fragment {
 
         val fragmentItem = PersonalFormFragmentNew.newInstance(coApplicantsList[position], position)
-
         hmFragments[position] = fragmentItem
         return fragmentItem
     }

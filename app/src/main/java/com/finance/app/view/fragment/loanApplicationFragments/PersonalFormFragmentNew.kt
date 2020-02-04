@@ -9,6 +9,8 @@ import com.finance.app.databinding.FragmentPersonalFormBinding
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants.APP.KEY_CO_APPLICANT
+import motobeans.architecture.constants.Constants.APP.KEY_INDEX
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import javax.inject.Inject
@@ -21,9 +23,6 @@ class PersonalFormFragmentNew : BaseFragment() {
     private var applicant: PersonalApplicantsModel? = PersonalApplicantsModel()
 
     companion object {
-        const val KEY_CO_APPLICANT = "coApplicant"
-        const val KEY_INDEX = "index"
-
         fun newInstance(coApplicant: PersonalApplicantsModel?, index: Int): PersonalFormFragmentNew {
             val fragment = PersonalFormFragmentNew()
             val args = Bundle()
@@ -59,7 +58,7 @@ class PersonalFormFragmentNew : BaseFragment() {
     }
 
     fun isValidFragment(): Boolean {
-        val applicant = binding.customPersonalView.isValidPersonalApplicant()
+        val applicant = binding.customPersonalView.getPersonalApplicant()
         return if (applicant == null) false
         else {
             this.applicant = applicant

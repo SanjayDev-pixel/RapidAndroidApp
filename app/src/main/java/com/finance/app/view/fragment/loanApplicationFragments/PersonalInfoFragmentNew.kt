@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.forEach
+import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
@@ -29,7 +30,6 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private val alCoApplicants = ArrayList<PersonalApplicantsModel>()
 
     companion object {
-        private var count = 0
         fun newInstance(): PersonalInfoFragmentNew {
             return PersonalInfoFragmentNew()
         }
@@ -47,10 +47,11 @@ class PersonalInfoFragmentNew : BaseFragment() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         setApplicantAdapter()
-        LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
+
+        LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
             leadDetail?.let {
-                val applicantsList = leadDetail.personalData.applicantDetails
-                setClickListeners(applicantsList)
+                val applicantsList = leadDetail.personalData?.applicantDetails
+                setClickListeners()
                 refreshApplicantData(applicantsList)
             }
         })
@@ -62,18 +63,20 @@ class PersonalInfoFragmentNew : BaseFragment() {
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }
 
-    private fun refreshApplicantData(applicantDetails: ArrayList<PersonalApplicantsModel>) {
-        alCoApplicants.clear()
-        alCoApplicants.addAll(applicantDetails)
-        pagerAdapterApplicants?.notifyDataSetChanged()
+    private fun refreshApplicantData(applicantDetails: ArrayList<PersonalApplicantsModel>?) {
+        applicantDetails?.let {
+            alCoApplicants.clear()
+            alCoApplicants.addAll(applicantDetails)
+            pagerAdapterApplicants?.notifyDataSetChanged()
+        }
     }
 
-    private fun setClickListeners(applicantsList: ArrayList<PersonalApplicantsModel>) {
+    private fun setClickListeners() {
         binding.btnPrevious.setOnClickListener {
             AppEvents.fireEventLoanAppChangeNavFragmentPrevious()
         }
         binding.btnNext.setOnClickListener {
-            checkValidationAndProceed(applicantsList)
+            checkValidationAndProceed()
         }
         handleAddCoApplicant()
     }
@@ -85,22 +88,22 @@ class PersonalInfoFragmentNew : BaseFragment() {
         }
     }
 
-    private fun checkValidationAndProceed(applicantsList: ArrayList<PersonalApplicantsModel>) {
+    private fun checkValidationAndProceed() {
         val pApplicantList = ArrayList<PersonalApplicantsModel>()
-
+        var errorCount = 0
         val fragments = pagerAdapterApplicants?.getAllFragments()
         fragments?.let {
             fragments.forEach { _, item ->
                 if (item.isValidFragment()) {
                     val applicant = item.getApplicant()
-                    pApplicantList.add(applicant)
-                    ++count
-                }
-                if (count == applicantsList.size) {
-                    LeadMetaData().savePersonalData(pApplicantList)
-                    AppEvents.fireEventLoanAppChangeNavFragmentNext()
-                }
+                    pApplicantList.add(applicant!!)
+                } else ++errorCount
+            }
+            if (errorCount <= 0 && pApplicantList.size > 0) {
+                LeadMetaData().savePersonalData(pApplicantList)
+                AppEvents.fireEventLoanAppChangeNavFragmentNext()
             }
         }
     }
+
 }

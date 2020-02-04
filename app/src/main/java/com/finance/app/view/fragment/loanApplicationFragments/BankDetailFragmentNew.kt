@@ -82,7 +82,7 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
         binding.tabLead.addOnTabSelectedListener(this)
         binding.vwAdd.setOnClickListener { showBankDetailFormDialog(BankDetailDialogFragment.Action.NEW) }
         binding.btnNext.setOnClickListener {
-            leadDetails?.let { it.bankData.applicantBankDetails?.let { bankDetails -> LeadMetaData().saveBankData(bankDetails) } }
+            leadDetails?.let { it.bankData?.applicantBankDetails?.let { bankDetails -> LeadMetaData().saveBankData(bankDetails) } }
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
@@ -95,9 +95,9 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
         fetchSpinnersDataFromDB()
     }
 
-    private fun setApplicantTabLayout(applicantList: ArrayList<PersonalApplicantsModel>) {
+    private fun setApplicantTabLayout(applicantList: ArrayList<PersonalApplicantsModel>?) {
         applicantList.let { list ->
-            list.forEachIndexed { index, personalApplicantsModel ->
+            list?.forEachIndexed { index, personalApplicantsModel ->
                 //Default Selected Tab
                 if (personalApplicantsModel.isMainApplicant) selectedApplicant = personalApplicantsModel
                 //Create tabs...
@@ -121,9 +121,9 @@ class BankDetailFragmentNew : BaseFragment(), BankDetailDialogFragment.OnBankDet
             leadDetails?.let {
                 this@BankDetailFragmentNew.leadDetails = it
                 //Set Applicant Tabs View.
-                setApplicantTabLayout(it.personalData.applicantDetails)
+                setApplicantTabLayout(it.personalData?.applicantDetails)
                 //Set Bank Details List.
-                setBankDetailAdapter(filterApplicantBankDetailsBySelectedApplicant(it.bankData.applicantBankDetails))
+                setBankDetailAdapter(filterApplicantBankDetailsBySelectedApplicant(it.bankData?.applicantBankDetails))
             }
         })
     }

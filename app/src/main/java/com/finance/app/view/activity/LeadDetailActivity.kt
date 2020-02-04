@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
 import com.finance.app.viewModel.LeadDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
@@ -46,23 +46,10 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
-//        showLeadOptionsMenu()
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
         getLead()
-
-        setObservables()
-    }
-
-    private fun setObservables() {
-        leadDataViewModel.isAllApiCallCompleted.observe(this, Observer {
-            when(it) {
-                true -> {
-                    // ToDo()
-                }
-            }
-        })
 
     }
 
@@ -75,10 +62,17 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                 lead = leadBundleData as AllLeadMaster
                 lead?.let {
                     fillDataOnScreen(lead!!)
+                    saveLeadData(lead!!.leadID)
                     sharedPreferences.saveLeadDetail(lead!!)
                     leadDataViewModel.getLeadData(lead!!)
                 }
             }
+        }
+    }
+
+    private fun saveLeadData(id: Int?) {
+        id?.let{
+            LeadMetaData().getAndPopulateLeadData(lead!!.leadID!!)
         }
     }
 
@@ -136,7 +130,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         val isLeadOfflineDataSync = lead.isDetailAlreadySync
 
         when(isLeadInfoAlreadySync || isLeadOfflineDataSync) {
-            true -> LoanApplicationActivity.start(this, lead.leadID)
+            true -> LoanApplicationActivity.start(this)
             false -> showToast("Lead info detail is missing, We are trying to sync")
         }
     }

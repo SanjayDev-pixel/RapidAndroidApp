@@ -18,7 +18,7 @@ class ConvertDate {
         }
     }
 
-    fun convertToAppFormat(mDate: String): String {
+    fun convertToAppFormat(mDate: String?): String {
         return try {
             if (mDate.exIsNotEmptyOrNullOrBlank()) {
                 val pattern = "yyyy-MM-dd"
@@ -33,7 +33,7 @@ class ConvertDate {
         }
     }
 
-    private fun getDifferenceFromDate(date: String): String {
+    private fun getDifferenceFromDate(date: String?): String {
         return try {
             val myFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
             val selectedDate = myFormat.parse(date)
