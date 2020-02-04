@@ -18,7 +18,7 @@ class PersonalFormFragmentNew : BaseFragment() {
     lateinit var dataBase: DataBaseUtil
     private lateinit var binding: FragmentPersonalFormBinding
     private var index = 0
-    private lateinit var applicant: PersonalApplicantsModel
+    private var applicant: PersonalApplicantsModel? = PersonalApplicantsModel()
 
     companion object {
         const val KEY_CO_APPLICANT = "coApplicant"
@@ -67,7 +67,7 @@ class PersonalFormFragmentNew : BaseFragment() {
         }
     }
 
-    fun getApplicant(): PersonalApplicantsModel {
+    fun getApplicant(): PersonalApplicantsModel? {
         return applicant
     }
 }

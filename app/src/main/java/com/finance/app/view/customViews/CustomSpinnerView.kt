@@ -49,9 +49,9 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
         setDropdownLabel(label)
     }
 
-    override fun isMandatory(isMandatory: Boolean) {
-        this.isMandatory = isMandatory
-    }
+//    override fun isMandatory(isMandatory: Boolean) {
+//        this.isMandatory = isMandatory
+//    }
 
     private fun initializeViews(rootView: View) {
         spinnerType = rootView.findViewById(R.id.spinnerType)
@@ -135,8 +135,6 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         validate()
     }
-
-    override fun getErrorMessage(): String = "Error"
 
     fun setError(msg: String) {
         spinnerType.error = msg

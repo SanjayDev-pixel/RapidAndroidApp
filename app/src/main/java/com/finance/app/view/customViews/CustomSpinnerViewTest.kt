@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.finance.app.R
 import com.finance.app.presenter.connector.ValidationHandler
 import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
@@ -20,13 +21,12 @@ import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
 
 @SuppressLint("ViewConstructor")
-class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val dropDowns: ArrayList<Type>?, label: String, attrs: AttributeSet? = null,
-                                                  val iSpinnerMainView: IspinnerMainView<Type>? = null) : LinearLayout(context,
+class CustomSpinnerViewTest<Type : IspinnerModel>(val mContext: Context, private val dropDowns: ArrayList<Type>?, label: String, attrs: AttributeSet? = null,
+                                                  var isMandatory: Boolean = false, val iSpinnerMainView: IspinnerMainView<Type>? = null) : LinearLayout(mContext,
         attrs), AdapterView.OnItemSelectedListener, ValidationHandler, IspinnerCustomView<Type> {
 
     private lateinit var spinnerType: MaterialSpinner
     private lateinit var tvErrorText: TextView
-    private var isMandatory: Boolean = true
     private lateinit var llErrorBlock: LinearLayout
     private lateinit var adapterExpendedType: CustomSpinnerAdapter<Type>
 
@@ -41,10 +41,6 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
         setDropdownLabel(label)
     }
 
-    override fun isMandatory(isMandatory: Boolean) {
-        this.isMandatory = isMandatory
-    }
-
     override fun initializeViews(rootView: View) {
         spinnerType = rootView.findViewById(R.id.spinnerType)
         tvErrorText = rootView.findViewById(R.id.tvErrorText)
@@ -55,21 +51,8 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
 
     private fun proceedFurther() {
         dropDowns?.let {
-            adapterExpendedType = CustomSpinnerAdapter(context, R.layout.item_custom_spinner, dropDowns)
+            adapterExpendedType = CustomSpinnerAdapter(mContext, R.layout.item_custom_spinner, dropDowns)
             spinnerType.adapter = adapterExpendedType
-        }
-        setListenerForSpinner()
-    }
-
-    private fun setListenerForSpinner() {
-        spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    val value = parent.getItemAtPosition(position) as Type
-                    iSpinnerMainView?.getSelectedValue(value)
-                }
-            }
         }
     }
 
@@ -100,10 +83,8 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
     private fun validate(): Boolean {
         val type = getSelectedValue()
         if (isMandatory && type == null) {
-            showError(true)
+            spinnerType.error = mContext.getString(R.string.mandatory_field)
             return false
-        } else {
-            showError(false)
         }
         return true
     }
@@ -111,10 +92,11 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        validate()
+        if (position >= 0) {
+            val value = parent?.getItemAtPosition(position) as Type
+            iSpinnerMainView?.getSelectedValue(value)
+        }
     }
-
-    override fun getErrorMessage(): String = "Error"
 
     fun disableSelf() {
         spinnerType.isEnabled = false
@@ -137,6 +119,7 @@ class CustomSpinnerViewTest<Type : IspinnerModel>(context: Context, private val 
                     }
                 }
             } catch (e: Exception) {
+                Toast.makeText(mContext, "$e", Toast.LENGTH_SHORT).show()
             }
         }
     }

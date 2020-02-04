@@ -3,7 +3,7 @@ package com.finance.app.utility
 import com.finance.app.databinding.FragmentReferenceBinding
 
 class DisableReferenceForm(binding: FragmentReferenceBinding) {
-
+/*
     init {
         binding.spinnerOccupation.isEnabled = false
         binding.spinnerRelation.isEnabled = false
@@ -15,10 +15,5 @@ class DisableReferenceForm(binding: FragmentReferenceBinding) {
         binding.referenceAddressLayout.etAddress.isEnabled = false
         binding.referenceAddressLayout.etLandmark.isEnabled = false
         binding.referenceAddressLayout.etContactNum.isEnabled = false
-        binding.referenceAddressLayout.etPinCode.isEnabled = false
-        binding.referenceAddressLayout.spinnerCity.isEnabled = false
-        binding.referenceAddressLayout.spinnerState.isEnabled = false
-        binding.referenceAddressLayout.spinnerDistrict.isEnabled = false
-
-    }
+    }*/
 }

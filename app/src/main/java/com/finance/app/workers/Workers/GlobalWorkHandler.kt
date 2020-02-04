@@ -11,7 +11,7 @@ class GlobalWorkHandler(context : Context, params : WorkerParameters) : SuperWor
 
         println("Worker Running - initWorker Order (START) ")
 
-        val arrayOfWorkers = arrayListOf<WorkerTask.worker>(UtilWorkersTaskTemp())
+        val arrayOfWorkers = arrayListOf<WorkerTask.worker>(UtilWorkersTaskLeadSync())
 
         for (workerTask in arrayOfWorkers) {
             workerTask.execute()

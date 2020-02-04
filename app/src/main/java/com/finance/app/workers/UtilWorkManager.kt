@@ -33,21 +33,5 @@ class UtilWorkManager {
 
             mWorkManager?.enqueue(mainWork)
         }
-
-
-        fun globalWorkManagerOneTime() {
-
-            mWorkManager?.cancelAllWorkByTag(
-                MainWorkManagerUniqueNameOneTime)
-
-            val mainWork = OneTimeWorkRequestBuilder<GlobalWorkHandler>()
-                .setConstraints(
-                    workConstraintsGlobal)
-                .addTag(
-                    MainWorkManagerUniqueNameOneTime)
-                .build()
-
-            mWorkManager?.enqueue(mainWork)
-        }
     }
 }

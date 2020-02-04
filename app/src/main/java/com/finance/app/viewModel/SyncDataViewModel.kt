@@ -15,13 +15,13 @@
 */
 package com.finance.app.viewModel
 
-import android.os.Handler
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -117,17 +117,51 @@ class SyncDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
         override fun getApiSuccess(value: Response.ResponseGetAllLeads) {
             if (value.responseCode == Constants.SUCCESS) {
-                GlobalScope.launch { dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster() }
 
+                saveDataToDB(value.responseObj)
+                /*
+                GlobalScope.launch {
+                    dataBase.provideDataBaseSource().allLeadsDao().deleteAllLeadMaster()
+                    dataBase.provideDataBaseSource().allLeadsDao().insertLeadsList(value.responseObj)
+                }
+                */
+                /*
                 Handler().postDelayed({
                     saveDataToDB(value.responseObj)
                 }, 2000)
+                */
             }
         }
 
-        private fun saveDataToDB(leads: ArrayList<AllLeadMaster>) {
+        private fun saveDataToDB(leadsFromServer: ArrayList<AllLeadMaster>) {
+
+            val allFilteredList = ArrayList<AllLeadMaster>()
+
             GlobalScope.launch {
-                dataBase.provideDataBaseSource().allLeadsDao().insertLeadsList(leads)
+                val leadsDao = dataBase.provideDataBaseSource().allLeadsDao()
+
+                val listOfAllLeads = GlobalScope.async { leadsDao.getAllLeadsSynchron() }.await()
+
+                val mapOfAllLeadsSavedInDB = listOfAllLeads?.map { it.leadID to it }?.toMap()
+                leadsFromServer.forEach { serverLead ->
+                    when (mapOfAllLeadsSavedInDB?.contains(serverLead.leadID)) {
+                        true -> {
+                            val leadData = mapOfAllLeadsSavedInDB[serverLead.leadID]
+
+                            leadData?.let {
+                                when(leadData.isSyncWithServer) {
+                                    true -> allFilteredList.add(serverLead)
+                                    else -> allFilteredList.add(leadData)
+                                }
+
+                            }
+                        }
+                        else -> allFilteredList.add(serverLead)
+                    }
+                }
+
+                leadsDao.deleteAllLeadMaster()
+                leadsDao.insertLeadsList(allFilteredList)
             }
         }
     }

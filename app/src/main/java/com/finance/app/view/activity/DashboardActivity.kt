@@ -9,12 +9,16 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardBinding
+import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.workers.UtilWorkManager
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.roundTo2DecimalPlaces
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 
@@ -47,6 +51,9 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
+
+        UtilWorkManager.globalWorkManagerPeriodically()
+
         hideSecondaryToolbar()
         provideDropdownValue()
         setListenersOnDropdown()
@@ -163,4 +170,23 @@ class DashboardActivity : BaseAppCompatActivity() {
         binding.tvPercentShortfallVolume.text = percentShortfallVolume.toString().plus("%")
     }
 
+
+    public override fun onStart() {
+        super.onStart()
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
+    }
+
+    @Subscribe
+    fun getEventBackgroundSync(syncEnum: AppEvents.BackGroundSyncEvent) {
+        AppEvents().inititateBackgroundSync(syncEnum = syncEnum)
+    }
 }
