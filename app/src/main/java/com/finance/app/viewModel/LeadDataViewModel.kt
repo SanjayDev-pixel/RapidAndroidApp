@@ -59,7 +59,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
     private val listOfToSyncData = listOf(isLeadSyncLoanInfo,
             isLeadSyncPersonalInfo, isLeadSyncEmployment, isLeadSyncBankDetail,
-            isLeadSyncLiabilityAndAssets, isLeadSyncReference)
+            isLeadSyncLiabilityAndAssets,isLeadSyncReference)
 
 //    isLeadSyncProperty,
 //    isLeadSyncReference,
@@ -138,7 +138,6 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         }
 
         private fun handleResponse(responseObj: Response.LoanApplicationGetObj?) {
-
             val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form, response = responseObj)
             when (form) {
                 AppEnums.FormType.LOANINFO -> handleLoanInfoResponse(apiResponseObject)
