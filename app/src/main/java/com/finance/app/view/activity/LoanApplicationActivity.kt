@@ -2,7 +2,6 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -15,7 +14,6 @@ import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
 import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.Constants.APP.KEY_LEAD_ID
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import org.greenrobot.eventbus.EventBus

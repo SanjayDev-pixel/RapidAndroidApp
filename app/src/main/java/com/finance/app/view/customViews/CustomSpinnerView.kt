@@ -1,5 +1,6 @@
 package com.finance.app.view.customViews
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
@@ -8,29 +9,29 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.finance.app.R
-import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.presenter.connector.ValidationHandler
 import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
+import com.finance.app.view.customViews.interfaces.IspinnerCustomView
+import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import com.finance.app.view.customViews.interfaces.IspinnerModel
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exVisible
-import java.util.*
-import kotlin.collections.ArrayList
 
-/**
- * Created by Vishal Rathi on 23/12/19.
- */
-@Suppress("UNCHECKED_CAST")
-class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context,
-        attrs), AdapterView.OnItemSelectedListener, ValidationHandler {
+@SuppressLint("ViewConstructor")
+class CustomSpinnerView<Type : IspinnerModel>(val mContext: Context, private val dropDowns: ArrayList<Type>?,
+                                              label: String, attrs: AttributeSet? = null,
+                                              var isMandatory: Boolean = false,
+                                              val iSpinnerMainView: IspinnerMainView<Type>? = null)
+    : LinearLayout(mContext, attrs), AdapterView.OnItemSelectedListener,
+        ValidationHandler, IspinnerCustomView<Type> {
 
-    private lateinit var mContext: Context
-    private var isMandatory: Boolean = true
-    private var dropDowns: ArrayList<Type>? = null
     private lateinit var spinnerType: MaterialSpinner
     private lateinit var tvErrorText: TextView
     private lateinit var llErrorBlock: LinearLayout
+    private lateinit var adapterExpendedType: CustomSpinnerAdapter<Type>
 
     init {
         orientation = HORIZONTAL
@@ -39,32 +40,20 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val rootView = inflater.inflate(R.layout.custom_spinner, this, true)
         initializeViews(rootView)
-    }
-
-    fun attachActivity(mContext: Context, dropdownValue: ArrayList<Type>?, label: String, isMandatory: Boolean = this.isMandatory) {
-        this.mContext = mContext
-        this.isMandatory = isMandatory
-        this.dropDowns = dropdownValue
         proceedFurther()
         setDropdownLabel(label)
     }
 
-//    override fun isMandatory(isMandatory: Boolean) {
-//        this.isMandatory = isMandatory
-//    }
-
-    private fun initializeViews(rootView: View) {
+    override fun initializeViews(rootView: View) {
         spinnerType = rootView.findViewById(R.id.spinnerType)
         tvErrorText = rootView.findViewById(R.id.tvErrorText)
         llErrorBlock = rootView.findViewById(R.id.llErrorBlock)
-
         spinnerType.onItemSelectedListener = this
     }
 
     private fun proceedFurther() {
         dropDowns?.let {
-            val adapterExpendedType = CustomSpinnerAdapter(context,
-                    R.layout.item_custom_spinner, dropDowns!!)
+            adapterExpendedType = CustomSpinnerAdapter(mContext, R.layout.item_custom_spinner, dropDowns)
             spinnerType.adapter = adapterExpendedType
         }
     }
@@ -94,50 +83,57 @@ class CustomSpinnerView<Type> @JvmOverloads constructor(context: Context, attrs:
     }
 
     private fun validate(): Boolean {
-        val type = getSelectedType()
+        val type = getSelectedValue()
         if (isMandatory && type == null) {
-            showError(true)
+            spinnerType.error = mContext.getString(R.string.mandatory_field)
             return false
-        } else {
-            showError(false)
         }
         return true
-    }
-
-    fun getSelectedType(): Type? {
-
-        try {
-            val objectType = spinnerType.selectedView.tag
-            val type = objectType as Type
-            return when {
-                type != null -> spinnerType.selectedView.tag as Type
-                else -> null
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return null
-    }
-
-    fun selectValue(id: Int?) {
-        for (index in 0 until spinnerType.count - 1) {
-            val obj = spinnerType.getItemAtPosition(index) as DropdownMaster
-            if (obj.typeDetailID == id) {
-                spinnerType.setSelection(index + 1)
-                return
-            }
-        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        validate()
+        if (position >= 0) {
+            val value = parent?.getItemAtPosition(position) as Type
+            iSpinnerMainView?.getSelectedValue(value)
+        }
     }
 
-    fun setError(msg: String) {
-        spinnerType.error = msg
+    fun disableSelf() {
+        spinnerType.isEnabled = false
     }
 
+    fun enableSelf() {
+        spinnerType.isEnabled = true
+    }
+
+    fun clearSelf() {
+        spinnerType.setSelection(0)
+    }
+
+    override fun setSelection(iSpinnerValue: String?) {
+        iSpinnerValue?.let {
+            try {
+                dropDowns?.let {
+                    for (dd in dropDowns) {
+                        if (dd.getCompareValue() == iSpinnerValue) {
+                            spinnerType.setSelection((spinnerType.adapter as CustomSpinnerAdapter<Type?>)
+                                    .getPosition(dd) + 1)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Toast.makeText(mContext, "$e", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun getSelectedValue(): Type? {
+        return try {
+            spinnerType.selectedView.tag as Type
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

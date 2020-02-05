@@ -10,6 +10,7 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentEmploymentNewBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.EmploymentApplicantsModel
+import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.EmploymentPagerAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -28,6 +29,7 @@ class EmploymentInfoFragmentNew : BaseFragment(){
     private var pagerAdapterApplicants: EmploymentPagerAdapter? = null
 
     private val alCoApplicants = ArrayList<EmploymentApplicantsModel>()
+    private val pApplicantList = ArrayList<PersonalApplicantsModel>()
 
     companion object {
         fun newInstance(): EmploymentInfoFragmentNew {
@@ -50,23 +52,31 @@ class EmploymentInfoFragmentNew : BaseFragment(){
 
         LeadMetaData.getLeadObservable().observe(this, Observer { leadDetail ->
             leadDetail?.let {
-                val applicantsList = leadDetail.employmentData?.applicantDetails
+                val eApplicantsList = leadDetail.employmentData?.applicantDetails
+                val pApplicantList = leadDetail.personalData?.applicantDetails
                 setClickListeners()
-                refreshApplicantData(applicantsList)
+                refreshApplicantData(eApplicantsList, pApplicantList)
             }
         })
     }
 
     private fun setApplicantAdapter() {
-        pagerAdapterApplicants = EmploymentPagerAdapter(fragmentManager!!, alCoApplicants)
+        pagerAdapterApplicants = EmploymentPagerAdapter(fragmentManager!!, alCoApplicants, pApplicantList)
         binding.viewPager.adapter = pagerAdapterApplicants
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }
 
-    private fun refreshApplicantData(applicantDetails: ArrayList<EmploymentApplicantsModel>?) {
-        applicantDetails?.let {
-            alCoApplicants.clear()
-            alCoApplicants.addAll(applicantDetails)
+    private fun refreshApplicantData(empApplicantList: ArrayList<EmploymentApplicantsModel>?,
+                                     personalApplicantList: ArrayList<PersonalApplicantsModel>?) {
+
+        personalApplicantList?.let {
+            pApplicantList.clear()
+            pApplicantList.addAll(personalApplicantList)
+
+            empApplicantList?.let {
+                alCoApplicants.clear()
+                alCoApplicants.addAll(empApplicantList)
+            }
             pagerAdapterApplicants?.notifyDataSetChanged()
         }
     }

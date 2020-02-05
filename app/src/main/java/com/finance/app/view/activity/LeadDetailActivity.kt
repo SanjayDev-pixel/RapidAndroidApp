@@ -12,15 +12,14 @@ import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
 import com.finance.app.viewModel.LeadDataViewModel
-import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
-import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
+@Suppress("DEPRECATION")
 class LeadDetailActivity : BaseAppCompatActivity() {
 
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
@@ -62,7 +61,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             leadBundleData?.let {
                 lead = leadBundleData as AllLeadMaster
                 lead?.let {
-                    fillDataOnScreen(lead!!)
+                    useLeadData(lead!!)
                     saveLeadData(lead!!.leadID)
                     leadDataViewModel.getLeadData(lead!!)
                 }
@@ -76,22 +75,25 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
     }
 
-    private fun fillDataOnScreen(lead: AllLeadMaster) {
-        binding.tvLeadName
-        binding.tvEmail.text = lead.applicantEmail
+    private fun useLeadData(lead: AllLeadMaster) {
+        fillLeadDetail(lead)
+        setUpRecyclerView()
+        setClickListeners(lead)
+        fillColor(lead)
+    }
+
+    private fun fillLeadDetail(lead: AllLeadMaster) {
         val leadName = lead.applicantFirstName + " " + lead.applicantLastName
-        setLeadNum(lead.leadNumber)
         binding.tvLeadName.text = leadName
-       // binding.header.tvLeadNumber.text = lead.leadNumber
+
+        binding.tvEmail.text = lead.applicantEmail
         binding.tvLocation.text = lead.applicantAddress
         binding.tvPhone.text = lead.applicantContactNumber
         binding.tvTypeOfLoan.text = lead.loanProductName
         binding.tvLeadStatus.text = lead.status
-        leadContact = lead.applicantContactNumber!!.toLong()
+        leadContact = lead.applicantContactNumber?.toLong() ?: 0
+        setLeadNum(lead.leadNumber)
 
-        setUpRecyclerView()
-        setClickListeners(lead)
-        fillColor(lead)
     }
 
     private fun fillColor(lead: AllLeadMaster) {
@@ -104,8 +106,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun setClickListeners(lead: AllLeadMaster) {
-       // binding.header.lytBack.setOnClickListener { onBackPressed() }
-
         binding.btnUpdateApplication.setOnClickListener {
             checkAndStartLoanApplicationActivity(lead)
         }
@@ -130,8 +130,14 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         val isLeadOfflineDataSync = lead.isDetailAlreadySync
 
         when (isLeadInfoAlreadySync || isLeadOfflineDataSync) {
-            true -> LoanApplicationActivity.start(this)
+            true -> checkAndGoToNextScreen(lead)
             false -> showToast("Lead info detail is missing, We are trying to sync")
+        }
+    }
+
+    private fun checkAndGoToNextScreen(lead: AllLeadMaster) {
+        lead.leadNumber?.let {
+            LoanApplicationActivity.start(this)
         }
     }
 

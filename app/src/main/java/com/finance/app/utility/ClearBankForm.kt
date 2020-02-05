@@ -7,12 +7,12 @@ import com.finance.app.databinding.FragmentBankDetailBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
-import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.CustomSpinnerView
 import fr.ganfra.materialspinner.MaterialSpinner
 
 class ClearBankForm {
 
-    constructor(binding: FragmentBankDetailBinding, context: Context, masterDropdown: AllMasterDropDown, bankName: CustomSpinnerViewTest<DropdownMaster>, accountType: CustomSpinnerViewTest<DropdownMaster>) {
+    constructor(binding: FragmentBankDetailBinding, context: Context, masterDropdown: AllMasterDropDown, bankName: CustomSpinnerView<DropdownMaster>, accountType: CustomSpinnerView<DropdownMaster>) {
 //        binding.etAccountNum.text?.clear()
 //        binding.etSalaryCreditedInSixMonths.text?.clear()
 //        binding.etAccountHolderName.text?.clear()
