@@ -1,12 +1,24 @@
 package com.finance.app.utility
 
 import com.finance.app.databinding.LayoutCustomEmploymentViewBinding
+import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.view.customViews.CustomSpinnerView
 
+class DisableEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding,
+                            private val senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>,
+                            private val salarySpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>,
+                            private val profile: CustomSpinnerView<DropdownMaster>,
+                            private val subProfile: CustomSpinnerView<DropdownMaster>) {
 
-class DisableEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding) {
     init {
+        disableProfileSubProfile()
         disableSalaryForm()
         disableSenpForm()
+    }
+
+    private fun disableProfileSubProfile() {
+        profile.disableSelf()
+        subProfile.disableSelf()
     }
 
     private fun disableSalaryForm() {
@@ -28,6 +40,9 @@ class DisableEmploymentForm(private val binding: LayoutCustomEmploymentViewBindi
     }
 
     private fun disableSalaryDropdown() {
+        salarySpinnerList.forEach {
+            it.disableSelf()
+        }
     }
 
     private fun disableSenpForm() {
@@ -47,5 +62,8 @@ class DisableEmploymentForm(private val binding: LayoutCustomEmploymentViewBindi
     }
 
     private fun disableSenpDropdown() {
+        senpSpinnerList.forEach {
+            it.disableSelf()
+        }
     }
 }

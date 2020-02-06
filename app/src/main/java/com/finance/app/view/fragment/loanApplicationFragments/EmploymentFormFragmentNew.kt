@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import com.finance.app.R
 import com.finance.app.databinding.FragmentEmploymentFormBinding
 import com.finance.app.persistence.model.EmploymentApplicantsModel
+import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants.APP.KEY_CO_APPLICANT
+import motobeans.architecture.constants.Constants.APP.KEY_INDEX
+import motobeans.architecture.constants.Constants.APP.KEY_PERSONAL_APPLICANT
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import javax.inject.Inject
@@ -21,13 +25,15 @@ class EmploymentFormFragmentNew : BaseFragment() {
     private lateinit var applicant: EmploymentApplicantsModel
 
     companion object {
-        const val KEY_CO_APPLICANT = "coApplicant"
-        const val KEY_INDEX = "index"
 
-        fun newInstance(coApplicant: EmploymentApplicantsModel?, index: Int): EmploymentFormFragmentNew {
+        fun newInstance(coApplicant: EmploymentApplicantsModel?,
+                        index: Int, personalApplicant: PersonalApplicantsModel)
+                : EmploymentFormFragmentNew {
+
             val fragment = EmploymentFormFragmentNew()
             val args = Bundle()
             args.putSerializable(KEY_CO_APPLICANT, coApplicant)
+            args.putSerializable(KEY_PERSONAL_APPLICANT, personalApplicant)
             args.putInt(KEY_INDEX, index)
             fragment.arguments = args
             return fragment
@@ -44,14 +50,17 @@ class EmploymentFormFragmentNew : BaseFragment() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         val indexKey = arguments?.getInt(KEY_INDEX)
-        arguments?.getSerializable(KEY_CO_APPLICANT)?.let { Applicant ->
-            val applicant = Applicant as EmploymentApplicantsModel
-            indexKey?.let {
-                this.index = indexKey
-                activity?.let {
-                    val leadId = LeadMetaData.getLeadId()
-                    leadId?.let {
-                        binding.customEmploymentView.attachView(activity!!, index, applicant)
+        val pApplicant = arguments?.getSerializable(KEY_PERSONAL_APPLICANT) as PersonalApplicantsModel?
+        val eApplicant = arguments?.getSerializable(KEY_CO_APPLICANT) as EmploymentApplicantsModel?
+        val leadId = LeadMetaData.getLeadId()
+
+        leadId?.let {
+            pApplicant?.let {
+                eApplicant?.let {
+                    indexKey?.let {
+                        activity?.let {
+                            binding.customEmploymentView.attachView(activity!!, index, eApplicant, pApplicant)
+                        }
                     }
                 }
             }

@@ -89,21 +89,7 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
       val observableProperty = getObserverCommon(requestProperty)
       val observableReference = getObserverCommon(requestReference)
 
-      val allObservables = listOf(observableLoanInfo, observablePersonal)
-/*
-
-      val evens = Observable.just(2, 4, 6, 8, 10)
-      val odds = Observable.just(1, 3, 5, 7, 9)
-
-      Observable
-              .zip(evens, odds, BiFunction { v1: Int, v2: Int -> v1.toString() + " + " + v2 + " is: " + (v1 + v2) })
-              .subscribe { x: String? -> println(x) }
-*/
-
-      //Observable.zip(allObservables, Function { listOfResponses: List<ResponseGetLoanApplication> -> itemToSync!! });
-
-
-      Observable.zip(observableLoanInfo, observablePersonal, observableEmployment, 
+      Observable.zip(observableLoanInfo, observablePersonal, observableEmployment,
               observableBank, observableLiabilityAndAssets, observableProperty, observableReference,
               Function7 { responseLoanInfo: ResponseGetLoanApplication?, responsePersonal: ResponseGetLoanApplication?,
                           responseEmployment: ResponseGetLoanApplication?, responseBank: ResponseGetLoanApplication?,
@@ -115,10 +101,11 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
                 val isValid = isAllResponsesValid(alResponses)
 
                 var objectToReturn =  AllLeadMaster()
+
                 when(isValid) {
                   true -> {
                     itemToSync.isSyncWithServer = true
-                    objectToReturn = itemToSync!!
+                    objectToReturn = itemToSync
                   }
                 }
 
@@ -170,20 +157,21 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
   }
 
   private fun onCreateOrderSyncSuccessfully(response: AllLeadMaster?) {
-    if(response?.leadID == null) {
+    if (response?.leadID == null) {
       return
-    }
-    response?.let {
+    } else {
+      response.let {
 
-      viewOptLocalToServer?.let {
-        viewOptLocalToServer.getLocalLeadSyncLocalToServerSuccess(response)
-      }
+        viewOptLocalToServer?.let {
+          viewOptLocalToServer.getLocalLeadSyncLocalToServerSuccess(response)
+        }
 
 //      GlobalScope.launch {
 //        database.provideDataBaseSource().allLeadsDao().insertLead(resposne)
 //      }
 
 //      viewOptLocalToServer?.getLocalLeadSyncLocalToServerSuccess(resposne)
+      }
     }
   }
 

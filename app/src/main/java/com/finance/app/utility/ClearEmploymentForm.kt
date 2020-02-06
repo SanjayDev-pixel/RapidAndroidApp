@@ -2,7 +2,7 @@ package com.finance.app.utility
 
 import com.finance.app.databinding.LayoutCustomEmploymentViewBinding
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.CustomSpinnerView
 
 class ClearEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding) {
 
@@ -11,7 +11,7 @@ class ClearEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding
         clearSenpForm()
     }
 
-    fun clearSalaryForm(salarySpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>? = null) {
+    fun clearSalaryForm(salarySpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>? = null) {
         binding.layoutSalary.cbIsPensioner.isChecked = false
         binding.layoutSalary.etCompanyName.text?.clear()
         binding.layoutSalary.etJoiningDate.text?.clear()
@@ -31,15 +31,15 @@ class ClearEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding
         clearSalaryDropdown(salarySpinnerList)
     }
 
-    private fun clearSalaryDropdown(salarySpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>?) {
+    private fun clearSalaryDropdown(salarySpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>?) {
         salarySpinnerList?.let {
             for (spinner in salarySpinnerList) {
-                spinner.clearSpinner()
+                spinner.clearSelf()
             }
         }
     }
 
-    fun clearSenpForm(senpSpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>? = null) {
+    fun clearSenpForm(senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>? = null) {
         binding.layoutSenp.cbAllEarningMember.isChecked = false
         binding.layoutSenp.etBusinessName.text?.clear()
         binding.layoutSenp.etIncorporationDate.text?.clear()
@@ -57,10 +57,10 @@ class ClearEmploymentForm(private val binding: LayoutCustomEmploymentViewBinding
         clearSenpDropdown(senpSpinnerList)
     }
 
-    private fun clearSenpDropdown(senpSpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>?) {
+    private fun clearSenpDropdown(senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>?) {
         senpSpinnerList?.let {
             for (spinner in senpSpinnerList) {
-                spinner.clearSpinner()
+                spinner.clearSelf()
             }
         }
     }

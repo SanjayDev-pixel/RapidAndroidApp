@@ -50,20 +50,25 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     private var deduction = 0.0f
     private var netIncome = ""
     private var averageMonthlyIncome = ""
-    private lateinit var profile: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var subProfile: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var sector: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var salaryIndustry: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var senpIndustry: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var employmentType: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var constitution: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var businessSetUpType: CustomSpinnerViewTest<DropdownMaster>
-    private var senpSpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>> = ArrayList()
-    private var salarySpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>> = ArrayList()
+    private var personalData: PersonalApplicantsModel? = null
+    private lateinit var profile: CustomSpinnerView<DropdownMaster>
+    private lateinit var subProfile: CustomSpinnerView<DropdownMaster>
+    private lateinit var sector: CustomSpinnerView<DropdownMaster>
+    private lateinit var salaryIndustry: CustomSpinnerView<DropdownMaster>
+    private lateinit var senpIndustry: CustomSpinnerView<DropdownMaster>
+    private lateinit var employmentType: CustomSpinnerView<DropdownMaster>
+    private lateinit var constitution: CustomSpinnerView<DropdownMaster>
+    private lateinit var businessSetUpType: CustomSpinnerView<DropdownMaster>
+    private var senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
+    private var salarySpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
 
-    fun attachView(activity: FragmentActivity, index: Int, applicant: EmploymentApplicantsModel) {
+    fun attachView(activity: FragmentActivity, index: Int, applicant: EmploymentApplicantsModel,
+                   pApplicant: PersonalApplicantsModel) {
+
         this.activity = activity
         this.index = index
+        this.personalData = pApplicant
+
         binding = AppUtilExtensions.initCustomViewBinding(context = context,
                 layoutId = R.layout.layout_custom_employment_view, container = this)
         initializeViews(applicant)
@@ -108,7 +113,6 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun salaryIncomeListener(amountField: TextInputEditText?, type: AppEnums.INCOME_TYPE) {
-
         amountField!!.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -120,7 +124,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
                 }
 
                 if (grossIncome > deduction) {
-                    netIncome = (grossIncome - deduction).toString()
+                    val netIncome = (grossIncome - deduction).toString()
                     binding.layoutSalary.etNetIncome.setText(netIncome)
                 }
             }
@@ -138,7 +142,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
                     AppEnums.INCOME_TYPE.CURRENT_YEAR_INCOME -> currentYearIncome = getIncomeValue(amountField.text.toString())
                     else -> return
                 }
-                averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toString()
+                val averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toString()
                 binding.layoutSenp.etAverageMonthlyIncome.setText(averageMonthlyIncome)
             }
         })
@@ -172,11 +176,12 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun setCustomSpinner(dropDowns: AllMasterDropDown, applicant: EmploymentApplicantsModel) {
-        subProfile = CustomSpinnerViewTest(mContext = context, isMandatory = true,
-                dropDowns = ArrayList(), label = "Sub Profile ")
+
+        subProfile = CustomSpinnerView(mContext = context, isMandatory = true,
+                dropDowns = dropDowns.SubProfileSegment, label = "Sub Profile *")
         binding.layoutSubProfile.addView(subProfile)
 
-        profile = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        profile = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.ProfileSegment!!, label = "Profile *",
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
                     override fun getSelectedValue(value: DropdownMaster) {
@@ -189,7 +194,9 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         setSenpDropDown(binding.layoutSenp, dropDowns)
     }
 
-    private fun setSubProfileSegment(value: DropdownMaster, dropDowns: AllMasterDropDown, applicant: EmploymentApplicantsModel) {
+    private fun setSubProfileSegment(value: DropdownMaster, dropDowns: AllMasterDropDown,
+                                     applicant: EmploymentApplicantsModel) {
+
         val subProfileSegments: ArrayList<DropdownMaster> = ArrayList()
         for (sub in dropDowns.SubProfileSegment!!) {
             if (sub.refTypeDetailID == value.typeDetailID) {
@@ -197,13 +204,14 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
             }
         }
         binding.layoutSubProfile.removeAllViews()
-        subProfile = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        subProfile = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = subProfileSegments, label = "Sub Profile *",
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
                     override fun getSelectedValue(value: DropdownMaster) {
                         showFormBasedOnUserSelection(value.typeDetailID)
                     }
                 })
+
         binding.layoutSubProfile.addView(subProfile)
         applicant.subProfileTypeDetailID?.let {
             subProfile.setSelection(applicant.subProfileTypeDetailID.toString())
@@ -228,9 +236,10 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         applicant.profileSegmentTypeDetailID?.let {
             profile.setSelection(applicant.profileSegmentTypeDetailID.toString())
         }
+
         fillSenpForm(binding.layoutSenp, applicant)
         fillSalaryForm(binding.layoutSalary, applicant)
-        checkSubmission()
+        checkIncomeAndSubmission()
     }
 
     private fun showSalaryForm(id: Int) {
@@ -262,46 +271,48 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun setSalaryDropDown(binding: LayoutSalaryBinding, dropDowns: AllMasterDropDown) {
-        sector = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        sector = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.Sector!!, label = "Sector *")
         binding.layoutSector.addView(sector)
-        salaryIndustry = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        salaryIndustry = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.Industry!!, label = "Industry *")
         binding.layoutIndustry.addView(salaryIndustry)
-        employmentType = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        employmentType = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.EmploymentType!!, label = "Employment Type *")
         binding.layoutEmploymentType.addView(employmentType)
         salarySpinnerList.clear()
-//        salarySpinnerList.add(profile)
-//        salarySpinnerList.add(subProfile)
         salarySpinnerList.add(sector)
         salarySpinnerList.add(salaryIndustry)
         salarySpinnerList.add(employmentType)
     }
 
     private fun setSenpDropDown(binding: LayoutSenpBinding, dropDowns: AllMasterDropDown) {
-        constitution = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        constitution = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.Constitution!!, label = "Constitution *")
         binding.layoutConstitution.addView(constitution)
-        senpIndustry = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        senpIndustry = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.Industry!!, label = "Industry *")
         binding.layoutIndustry.addView(senpIndustry)
-        businessSetUpType = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        businessSetUpType = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.BusinessSetupType!!, label = "Business Setup Type *")
         binding.layoutBusinessSetupType.addView(businessSetUpType)
 
         senpSpinnerList.clear()
-//        senpSpinnerList.add(profile)
-//        senpSpinnerList.add(subProfile)
         senpSpinnerList.add(constitution)
         senpSpinnerList.add(senpIndustry)
         senpSpinnerList.add(businessSetUpType)
 
     }
 
-    private fun checkSubmission() {
-        if (LeadMetaData.getLeadData()?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
-            DisableEmploymentForm(binding)
+    private fun checkIncomeAndSubmission() {
+        personalData?.let {
+            if (personalData!!.incomeConsidered == false) {
+                showToast(context, context.getString(R.string.error_incone_consideration))
+            } else if (LeadMetaData.getLeadData()?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+                showToast(context, context.getString(R.string.status_lead_submission))
+            }
+
+            DisableEmploymentForm(binding, senpSpinnerList, salarySpinnerList, profile, subProfile)
         }
     }
 
@@ -399,7 +410,9 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         return applicant
     }
 
-    private fun getSalaryForm(binding: LayoutSalaryBinding, applicant: EmploymentApplicantsModel): EmploymentApplicantsModel {
+    private fun getSalaryForm(binding: LayoutSalaryBinding, applicant: EmploymentApplicantsModel)
+            : EmploymentApplicantsModel {
+
         val sectorDD = sector.getSelectedValue()
         val industryDD = salaryIndustry.getSelectedValue()
         val employmentDD = employmentType.getSelectedValue()
@@ -411,7 +424,9 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         applicant.isPensioner = binding.cbIsPensioner.isChecked
         applicant.dateOfJoining = binding.etJoiningDate.text.toString()
         applicant.totalExperience = binding.etTotalExperience.text.toString()
-        applicant.retirementAge = if (binding.etRetirementAge.text.toString() == "") 0 else binding.etRetirementAge.text.toString().toInt()
+        applicant.retirementAge = if (binding.etRetirementAge.text.toString() == "") 0
+        else binding.etRetirementAge.text.toString().toInt()
+
         applicant.officialMailID = binding.etOfficialMailId.text.toString()
         applicant.addressBean = getAddress(binding.layoutAddress)
         applicant.incomeDetail = getSalaryIncomeDetail(binding)
@@ -419,7 +434,8 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         return applicant
     }
 
-    private fun getSenpForm(binding: LayoutSenpBinding, applicant: EmploymentApplicantsModel): EmploymentApplicantsModel {
+    private fun getSenpForm(binding: LayoutSenpBinding, applicant: EmploymentApplicantsModel)
+            : EmploymentApplicantsModel {
         val constitutionDD = constitution.getSelectedValue()
         val industryDD = senpIndustry.getSelectedValue()
         val businessSetupTypeDD = businessSetUpType.getSelectedValue()

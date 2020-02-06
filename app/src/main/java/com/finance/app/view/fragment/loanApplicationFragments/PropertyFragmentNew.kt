@@ -27,7 +27,7 @@ import com.finance.app.utility.DisablePropertyFields
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SetPropertyMandatoryField
 import com.finance.app.view.adapters.recycler.spinner.*
-import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.CustomSpinnerView
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.application.ArchitectureApp
@@ -63,7 +63,9 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
 
     private var propertyModel: PropertyModel? = PropertyModel()
     private var mLead: AllLeadMaster? = null
-    private lateinit var ownnerShipSpinner: CustomSpinnerViewTest<DropdownMaster>
+    private lateinit var ownnerShipSpinner: CustomSpinnerView<DropdownMaster>
+
+
     private var leadIdForApplicant: String = ""
 
     private var pinCodeObj: Response.PinCodeObj? = null
@@ -88,7 +90,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
         mLead = LeadMetaData.getLeadData()//sharedPreferences.getLeadDetail()
-        mContext = context!!
         leadIdForApplicant = LeadMetaData.getLeadId().toString()
 
     }
@@ -294,7 +295,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
             val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
 
-            propertyModel.leadID = leadIdForApplicant.toInt()
+            propertyModel.leadID = (leadIdForApplicant?.toInt() ?: 0)
             propertyModel.cityID = city?.cityID
             propertyModel.districtID = district?.districtID
             propertyModel.stateID = state?.stateID
@@ -315,7 +316,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
             propertyModel.mvOfProperty = CurrencyConversion().convertToNormalValue(binding.etMvProperty.text.toString())
             propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
-            propertyModel.leadApplicantNumber = leadIdForApplicant.toInt().toString()
+            propertyModel.leadApplicantNumber = leadIdForApplicant ?: ""
             propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
             propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
 
