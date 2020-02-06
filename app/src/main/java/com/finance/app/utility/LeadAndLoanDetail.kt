@@ -67,7 +67,7 @@ class LeadAndLoanDetail {
 
     fun addReferenceData(leadMaster: AllLeadMaster) {
         val alApplicant = ReferencesList()
-        leadMaster.referenceData = alApplicant
+//        leadMaster.referenceData = alApplicant
     }
 
     fun addApplicants(leadMaster: AllLeadMaster) {

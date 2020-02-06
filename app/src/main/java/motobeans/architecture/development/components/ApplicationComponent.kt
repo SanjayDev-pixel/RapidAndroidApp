@@ -8,18 +8,15 @@ import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.recycler.holder.TempHolder
-import com.finance.app.view.customViews.CustomChannelPartnerView
-import com.finance.app.view.customViews.CustomEmploymentInfoView
-import com.finance.app.view.customViews.CustomPersonalInfoView
-import com.finance.app.view.customViews.CustomZipAddressView
-import com.finance.app.view.customViews.CustomAssetLiabilityViewInfo
+import com.finance.app.view.customViews.*
 import com.finance.app.view.dialogs.BankDetailDialogFragment
 import com.finance.app.view.dialogs.ReferenceDetailDialogFragment
-import com.finance.app.view.fragment.*
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.PersonalFormFragment
 import com.finance.app.view.fragment.loanApplicationFragments.*
+import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFormFragment
+import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFragmentNew
 import com.finance.app.viewModel.AppDataViewModel
 import com.finance.app.viewModel.LeadDataViewModel
 import com.finance.app.viewModel.SyncDataViewModel
@@ -40,7 +37,7 @@ import com.finance.app.presenter.presenter.Presenter as Presenter1
  */
 @Singleton
 @Component(modules = arrayOf(
-    AppModule::class, NetworkModule::class, UtilityModule::class, PrimitivesModule::class
+        AppModule::class, NetworkModule::class, UtilityModule::class, PrimitivesModule::class
 ))
 interface ApplicationComponent {
 
@@ -50,6 +47,7 @@ interface ApplicationComponent {
      * Activities
      */
     fun inject(activity: TestActivity)
+
     fun inject(activity: BaseAppCompatActivity)
     fun inject(activity: DashboardActivity)
     fun inject(activity: SyncActivity)
@@ -65,6 +63,7 @@ interface ApplicationComponent {
      * Fragment
      */
     fun inject(fragment: NavMenuFragment)
+
     fun inject(fragment: PersonalFormFragment)
     fun inject(fragment: LeadsListingFragment)
     fun inject(fragment: AssetLiabilityFragmentForm)
@@ -76,6 +75,7 @@ interface ApplicationComponent {
     fun inject(fragment: EmploymentInfoFragmentNew)
     fun inject(fragment: EmploymentFormFragmentNew)
     fun inject(fragment: BankDetailFragmentNew)
+    fun inject(fragment: BankDetailFormFragment)
     fun inject(fragment: AssetLiabilityFragmentNew)
     fun inject(fragment: PropertyFragmentNew)
     fun inject(fragment: ReferenceFragmentNew)
@@ -86,6 +86,7 @@ interface ApplicationComponent {
      * Presenters
      */
     fun inject(presenter: LoanAppPostPresenter)
+
     fun inject(presenter: SendOTPPresenter)
     fun inject(presenter: BasePresenter)
     fun inject(presenter: VerifyOTPPresenter)
@@ -130,6 +131,7 @@ interface ApplicationComponent {
      * Others
      */
     fun inject(other: SuperWorker)
+
     fun inject(other: UtilWorkersTask)
     fun inject(other: LeadAndLoanDetail)
     fun inject(other: CustomEmploymentInfoView)

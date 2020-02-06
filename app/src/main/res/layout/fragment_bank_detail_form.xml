@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -6,9 +5,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_bkg"
-        android:orientation="vertical"
-        android:padding="@dimen/margin_10">
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/vwAdd"
@@ -22,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Reference Detail"
+                android:text="Bank Detail"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -40,7 +37,7 @@
                 android:textSize="18sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/labelBankDetails"
+                app:layout_constraintLeft_toRightOf="@id/labelBankDetails"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="99"
                 tools:visibility="visible" />
@@ -55,41 +52,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_500" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcReference"
+            android:id="@+id/rcBank"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            android:orientation="horizontal" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
-
-            <Button
-                android:id="@+id/btnPrevious"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:background="@color/md_grey_500"
-                android:text="@string/previous"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_text_size" />
-
-            <Button
-                android:id="@+id/btnNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:background="@color/md_applicant_blue"
-                android:text="@string/next"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_text_size" />
-        </RelativeLayout>
     </LinearLayout>
 
 

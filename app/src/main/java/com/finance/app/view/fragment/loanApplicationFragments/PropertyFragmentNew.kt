@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Property
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +40,7 @@ import motobeans.architecture.retrofit.response.Response
 import javax.inject.Inject
 
 
-class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCodeDetailConnector.PinCode, DistrictCityConnector.City, TransactionCategoryConnector.TransactionCategory {
+class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinCodeDetailConnector.PinCode, DistrictCityConnector.City, TransactionCategoryConnector.TransactionCategory {
 
     @Inject
     lateinit var sharedPreferencesUtil: SharedPreferencesUtil
@@ -60,7 +59,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private val districtPresenter = DistrictPresenter(this)
-    private val cityPresenter = CityPresenter(this )
+    private val cityPresenter = CityPresenter(this)
     private val transactionCategoryPresenter = TransactionCategoryPresenter(this)
     private val pinCodePresenter = PinCodeDetailPresenter(this)
 
@@ -69,7 +68,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     private lateinit var ownnerShipSpinner: CustomSpinnerViewTest<DropdownMaster>
 
 
-    private  var leadIdForApplicant: String=""
+    private var leadIdForApplicant: String = ""
 
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mOwnershipId: String = ""
@@ -77,13 +76,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     private var ownershipID: Int = 0
 
 
-
-
-
-
-
-
-            companion object {
+    companion object {
         fun newInstance(): PropertyFragmentNew {
             return PropertyFragmentNew()
         }
@@ -94,15 +87,15 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     }
 
 
-     override fun onCreate(savedInstanceState: Bundle?) {
-         super.onCreate(savedInstanceState)
-         ArchitectureApp.instance.component.inject(this)
-         mContext = context!!
-         mLead = sharedPreferences.getLeadDetail()
-         mContext = context!!
-         leadIdForApplicant = mLead!!.leadID.toString()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
+        mContext = context!!
+        mLead = sharedPreferences.getLeadDetail()
+        mContext = context!!
+        leadIdForApplicant = mLead!!.leadID.toString()
 
-     }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -115,8 +108,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     }
 
 
-
-    fun initilaizeViews(){
+    fun initilaizeViews() {
         SetPropertyMandatoryField(binding)
         fetchLeadDetails()
         getDropDownsFromDB()
@@ -183,8 +175,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
         selectMasterDropdownValue(binding.spinnerOccupiedBy, propertyModel!!.occupiedByTypeDetailID)
         selectMasterDropdownValue(binding.spinnerTenantNocAvailable, propertyModel!!.tenantNocAvailableTypeDetailID)
         selectPropertyNatureValue(binding.spinnerPropertyNature)
-
-
 
 
     }
@@ -272,8 +262,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     }
 
 
-
-
     private fun selectTransactionCategory(spinner: Spinner) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as Response.TransactionCategoryObj
@@ -283,7 +271,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
             }
         }
     }
-
 
 
     private fun setOnClickListeners() {
@@ -297,7 +284,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     }
 
     private fun onSavePropertyData() {
-        if(formValidation.validateProperty(binding)) {
+        if (formValidation.validateProperty(binding)) {
 
             val propertyModel = PropertyModel()
             val transactionCategory = binding.spinnerTransactionCategory.selectedItem as Response.TransactionCategoryObj?
@@ -342,7 +329,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
             // after save data go to next page
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
-        }else{
+        } else {
             showToast(getString(R.string.validation_error))
         }
 
@@ -363,7 +350,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     }
 
     override val stateId: String
-        get()=mStateId
+        get() = mStateId
 
 
     override fun getDistrictFailure(msg: String) = showToast(msg)
@@ -427,7 +414,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
     }
 
 
-
     private fun selectStateValue(spinner: Spinner) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as StatesMaster
@@ -440,7 +426,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
             }
         }
     }
-
 
 
     override val districtId: String
@@ -456,18 +441,16 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District,PinCo
 
 
     private fun setCityValue(spinner: MaterialSpinner, responseObj: ArrayList<Response.CityObj>) {
-           spinner.adapter = CitySpinnerAdapter(mContext, responseObj)
-           for (index in 0 until spinner.count - 1) {
-               val obj = spinner.getItemAtPosition(index) as Response.CityObj
-               if (obj.cityID == pinCodeObj!!.cityID) {
-                   spinner.setSelection(index + 1)
-                   spinner.isEnabled = false
-                   return
-               }
-           }
-       }
-
-
+        spinner.adapter = CitySpinnerAdapter(mContext, responseObj)
+        for (index in 0 until spinner.count - 1) {
+            val obj = spinner.getItemAtPosition(index) as Response.CityObj
+            if (obj.cityID == pinCodeObj!!.cityID) {
+                spinner.setSelection(index + 1)
+                spinner.isEnabled = false
+                return
+            }
+        }
+    }
 
 
     private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {

@@ -187,15 +187,15 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         maritalStatus = CustomSpinnerViewTest(mContext = context, isMandatory = true,
                 dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status *",
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
-            override fun getSelectedValue(value: DropdownMaster) {
+                    override fun getSelectedValue(value: DropdownMaster) {
 //                binding.basicInfoLayout.layoutMaritalStatus.removeAllViews()
-                if (value.typeDetailID == SINGLE) {
-                    binding.basicInfoLayout.llSpouse.visibility = View.GONE
-                } else {
-                    binding.basicInfoLayout.llSpouse.visibility = View.VISIBLE
-                }
-            }
-        })
+                        if (value.typeDetailID == SINGLE) {
+                            binding.basicInfoLayout.llSpouse.visibility = View.GONE
+                        } else {
+                            binding.basicInfoLayout.llSpouse.visibility = View.VISIBLE
+                        }
+                    }
+                })
 
         binding.basicInfoLayout.layoutMaritalStatus.addView(maritalStatus)
 
@@ -322,6 +322,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         val dependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
         val earningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString()
 
+        //Need to generate some applicant id... based on lead id
+        currentApplicant.applicantID = "${LeadMetaData.getLeadId()}$index".toInt()
         currentApplicant.casteTypeDetailID = casteDD?.typeDetailID
         currentApplicant.detailQualificationTypeDetailID = dQualificationDD?.typeDetailID
         currentApplicant.qualificationTypeDetailID = qDD?.typeDetailID
@@ -350,6 +352,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         currentApplicant.alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
         currentApplicant.contactDetail = getContactDetail()
         currentApplicant.addressDetailList = getAddressDetailList(currentApplicant.addressDetailList)
+
         return currentApplicant
     }
 

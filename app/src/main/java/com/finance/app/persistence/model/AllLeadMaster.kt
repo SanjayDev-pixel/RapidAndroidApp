@@ -34,12 +34,12 @@ class AllLeadMaster : Serializable {
     var loanProductName: String? = ""
     var remarks: String? = ""
     var status: String? = ""
-    var personalData: PersonalApplicantList? = PersonalApplicantList()
+    var personalData: PersonalApplicantList = PersonalApplicantList()
     var loanData: LoanInfoModel? = LoanInfoModel()
-    var employmentData: EmploymentApplicantList? = EmploymentApplicantList()
-    var bankData: BankDetailList? = BankDetailList()
-    var assetLiabilityData: AssetLiabilityList? = AssetLiabilityList()
-    var propertyData: PropertyModel? = PropertyModel()
+    var employmentData: EmploymentApplicantList = EmploymentApplicantList()
+    var bankData: BankDetailList = BankDetailList()
+    var assetLiabilityData: AssetLiabilityList = AssetLiabilityList()
+    var propertyData: PropertyModel = PropertyModel()
     var referenceData = ReferencesList()
 
     var isDetailAlreadySync: Boolean = false

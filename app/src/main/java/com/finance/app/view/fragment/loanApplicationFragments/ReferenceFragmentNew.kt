@@ -71,7 +71,7 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
     private fun setOnClickListeners() {
         binding.vwAdd.setOnClickListener { showReferenceDetailFormDialog(ReferenceDetailDialogFragment.Action.NEW) }
         binding.btnNext.setOnClickListener {
-            leadDetails?.let { it.referenceData.referenceDetails?.let { referenceDetails -> LeadMetaData().saveReferenceData(referenceDetails) } }
+            leadDetails?.let { it.referenceData.referenceDetails.let { referenceDetails -> LeadMetaData().saveReferenceData(referenceDetails) } }
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
