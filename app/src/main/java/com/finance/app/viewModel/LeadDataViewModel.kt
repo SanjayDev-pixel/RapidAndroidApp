@@ -21,7 +21,6 @@ import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
-import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.utility.LeadRequestResponseConversion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,7 +58,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
     private val listOfToSyncData = listOf(isLeadSyncLoanInfo,
             isLeadSyncPersonalInfo, isLeadSyncEmployment, isLeadSyncBankDetail,
-            isLeadSyncLiabilityAndAssets,isLeadSyncReference)
+            isLeadSyncLiabilityAndAssets, isLeadSyncReference)
 
 //    isLeadSyncProperty,
 //    isLeadSyncReference,
@@ -152,58 +151,56 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         }
 
         private fun handleLoanInfoResponse(apiResponseObject: Serializable?) {
-            apiResponseObject?.let {
-                leadData.loanData = apiResponseObject as LoanInfoModel
-            }
-
+            apiResponseObject?.let { leadData.loanData = apiResponseObject as LoanInfoModel }
             setObservableValueTrue(isLeadSyncLoanInfo)
         }
 
         private fun handlePersonalResponse(apiResponseObject: Serializable?) {
-            if (apiResponseObject == null) {
-                LeadAndLoanDetail().addPersonalApplicant(leadMaster = leadData)
-            } else leadData.personalData = apiResponseObject as PersonalApplicantList
-
+            apiResponseObject?.let { leadData.personalData = apiResponseObject as PersonalApplicantList }
             setObservableValueTrue(isLeadSyncPersonalInfo)
+
+//            if (apiResponseObject == null) {
+//                LeadAndLoanDetail().addPersonalApplicant(leadMaster = leadData)
+//            } else leadData.personalData = apiResponseObject as PersonalApplicantList
+
         }
 
         private fun handleEmploymentResponse(apiResponseObject: Serializable?) {
-            if (apiResponseObject == null) {
-                LeadAndLoanDetail().addEmploymentApplicant(leadMaster = leadData)
-            } else leadData.employmentData = apiResponseObject as EmploymentApplicantList
+            apiResponseObject?.let { leadData.employmentData = apiResponseObject as EmploymentApplicantList }
             setObservableValueTrue(isLeadSyncEmployment)
+
+//            if (apiResponseObject == null) {
+//                LeadAndLoanDetail().addEmploymentApplicant(leadMaster = leadData)
+//            } else leadData.employmentData = apiResponseObject as EmploymentApplicantList
         }
 
         private fun handleBankDetailResponse(apiResponseObject: Serializable?) {
-            if (apiResponseObject == null) {
-                LeadAndLoanDetail().addBankApplicant(leadMaster = leadData)
-            } else leadData.bankData = apiResponseObject as BankDetailList
-
+            apiResponseObject?.let { leadData.bankData = apiResponseObject as BankDetailList }
             setObservableValueTrue(isLeadSyncBankDetail)
+
+//            if (apiResponseObject == null) {
+//                LeadAndLoanDetail().addBankApplicant(leadMaster = leadData)
+//            } else leadData.bankData = apiResponseObject as BankDetailList
+
         }
 
         private fun handleAssetsAndLiabilityResponse(apiResponseObject: Serializable?) {
-            if (apiResponseObject == null) {
-                LeadAndLoanDetail().addAssetLiabilityApplicant(leadMaster = leadData)
-            } else leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList
-
+            apiResponseObject?.let { leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList }
             setObservableValueTrue(isLeadSyncLiabilityAndAssets)
+
+//            if (apiResponseObject == null) {
+//                LeadAndLoanDetail().addAssetLiabilityApplicant(leadMaster = leadData)
+//            } else leadData.assetLiabilityData = apiResponseObject as AssetLiabilityList
+
         }
 
         private fun handlePropertyResponse(apiResponseObject: Serializable?) {
-            apiResponseObject?.let {
-                leadData.propertyData = apiResponseObject as PropertyModel
-            }
-
+            apiResponseObject?.let { leadData.propertyData = apiResponseObject as PropertyModel }
             setObservableValueTrue(isLeadSyncProperty)
         }
 
         private fun handleReferenceResponse(apiResponseObject: Serializable?) {
-            apiResponseObject?.let {
-//                leadData.referenceData = apiResponseObject as ReferencesList
-                leadData.referenceData = apiResponseObject as ReferencesList
-            }
-
+            apiResponseObject?.let { leadData.referenceData = apiResponseObject as ReferencesList }
             setObservableValueTrue(isLeadSyncReference)
         }
 

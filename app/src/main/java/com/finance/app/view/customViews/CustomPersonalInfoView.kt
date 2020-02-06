@@ -514,8 +514,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    fun getPersonalApplicant(): PersonalApplicantsModel? {
-        return if (formValidation.validatePersonalInfo(binding, spinnerDMList)) getCurrentApplicant()
-        else null
+    fun isApplicantDetailsValid() = formValidation.validatePersonalInfo(binding, spinnerDMList)
+
+    fun getApplicant(): PersonalApplicantsModel {
+        return getCurrentApplicant()
     }
 }

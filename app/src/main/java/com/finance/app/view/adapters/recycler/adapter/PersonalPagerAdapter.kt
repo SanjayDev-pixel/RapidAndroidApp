@@ -1,39 +1,54 @@
 package com.finance.app.view.adapters.recycler.adapter
 
-import android.util.SparseArray
-import androidx.core.util.set
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.finance.app.others.APPLICANT
+import com.finance.app.others.CO_APPLICANT
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.view.fragment.loanApplicationFragments.PersonalFormFragmentNew
-import java.util.*
 
-class PersonalPagerAdapter internal constructor(fm: FragmentManager, val coApplicantsList: ArrayList<PersonalApplicantsModel>) : FragmentStatePagerAdapter(fm) {
+class PersonalPagerAdapter internal constructor(fm: FragmentManager, val applicantsList: ArrayList<PersonalApplicantsModel>) : FragmentStatePagerAdapter(fm) {
 
-    private val hmFragments = SparseArray<PersonalFormFragmentNew>()
+    private val fragmentList = ArrayList<PersonalFormFragmentNew>()
 
     init {
-        if (coApplicantsList.isNullOrEmpty()) {
-            coApplicantsList.add(PersonalApplicantsModel())
+        if (applicantsList.isEmpty()) {
+            applicantsList.add(PersonalApplicantsModel()) //Default applicant in case of empty...
         }
     }
 
-    override fun getItem(position: Int): Fragment {
+    override fun getCount() = applicantsList.size
 
-        val fragmentItem = PersonalFormFragmentNew.newInstance(coApplicantsList[position], position)
-        hmFragments[position] = fragmentItem
-        return fragmentItem
+    override fun getPageTitle(position: Int) = if (applicantsList[position].isMainApplicant || position == 0) APPLICANT else "$CO_APPLICANT $position"
+
+    override fun getItem(position: Int): PersonalFormFragmentNew {
+        if (fragmentList.isNotEmpty() && fragmentList.size > position)
+            return fragmentList[position]
+
+        val fragment = PersonalFormFragmentNew.newInstance(applicantsList[position], position)
+        fragmentList.add(fragment)
+        return fragment
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return if (position == 0) "Applicant"
-        else "CoApplicant $position"
+    fun addItem() {
+        applicantsList.add(PersonalApplicantsModel())
+        notifyDataSetChanged()
     }
 
-    override fun getCount(): Int {
-        return coApplicantsList.size
+    fun isApplicantDetailsValid(): Boolean {
+        fragmentList.forEach {
+            if (it.isApplicantDetailsValid().not())
+                return false
+        }
+        return true
     }
 
-    fun getAllFragments() = hmFragments
+    fun getApplicantDetails(): ArrayList<PersonalApplicantsModel> {
+        val list = ArrayList<PersonalApplicantsModel>()
+        fragmentList.forEach { item ->
+            list.add(item.getApplicant())
+        }
+        return list
+    }
+
 }

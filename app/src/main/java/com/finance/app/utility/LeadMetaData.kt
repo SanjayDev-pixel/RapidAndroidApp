@@ -94,7 +94,8 @@ class LeadMetaData : Observable() {
         lead?.let {
             lead.personalData.applicantDetails = applicants
 
-            //TODO check that if this default mapping is required for employment
+            // Doing this because of mapping dependency..
+            // Need to set default values for depend object on applicant...
             lead.bankData.applicantBankDetails = initNewApplicantBankDetails(lead, applicants)
             lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(lead, applicants)
 

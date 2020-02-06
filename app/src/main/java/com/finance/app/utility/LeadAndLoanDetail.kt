@@ -31,21 +31,19 @@ class LeadAndLoanDetail {
         pApplicant.firstName = "Applicant"
         pApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!,
                 leadMaster.personalData?.applicantDetails?.size ?: 0)
-        leadMaster.personalData?.applicantDetails?.add(pApplicant)
+        leadMaster.personalData.applicantDetails?.add(pApplicant)
     }
 
     fun addEmploymentApplicant(leadMaster: AllLeadMaster) {
         val eApplicant = EmploymentApplicantsModel()
-        eApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!,
-                leadMaster.personalData?.applicantDetails?.size ?: 0)
-        leadMaster.employmentData?.applicantDetails?.add(eApplicant)
+        eApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData?.applicantDetails?.size ?: 0)
+        leadMaster.employmentData.applicantDetails.add(eApplicant)
     }
 
     fun addBankApplicant(leadMaster: AllLeadMaster) {
         val bApplicant = BankDetailModel()
-        bApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!,
-                leadMaster.personalData?.applicantDetails?.size ?: 0)
-        leadMaster.bankData?.applicantBankDetails?.add(bApplicant)
+        bApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData?.applicantDetails?.size ?: 0)
+        leadMaster.bankData.applicantBankDetails.add(bApplicant)
     }
 
     fun addAssetLiabilityApplicant(leadMaster: AllLeadMaster) {
@@ -67,7 +65,7 @@ class LeadAndLoanDetail {
 
     fun addReferenceData(leadMaster: AllLeadMaster) {
         val alApplicant = ReferencesList()
-//        leadMaster.referenceData = alApplicant
+        leadMaster.referenceData = alApplicant
     }
 
     fun addApplicants(leadMaster: AllLeadMaster) {

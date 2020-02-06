@@ -90,6 +90,7 @@
     <string name="identification_number">Identification Number</string>
     <string name="add_co_applicant">Add Co-Applicant</string>
     <string name="applicant">Applicant</string>
+    <string name="co_applicant">Co-Applicant</string>
     <string name="submit">Submit</string>
     <string name="first_name">First Name</string>
     <string name="middle_name">Middle Name</string>

@@ -116,10 +116,10 @@ class BankDetailFragment():BaseFragment(){
 //        dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(leadId.toInt()).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
 //            coApplicantsMaster?.let {
 //                var applicantTabList: ArrayList<CoApplicantsList>? = ArrayList()
-//                if (coApplicantsMaster.coApplicantsList.isNullOrEmpty()) {
+//                if (coApplicantsMaster.applicantsList.isNullOrEmpty()) {
 //                    applicantTabList?.add(leadAndLoanDetail.getDefaultApplicant(selectedTabPosition, mLead!!.leadNumber!!))
 //                } else {
-//                    applicantTabList = coApplicantsMaster.coApplicantsList
+//                    applicantTabList = coApplicantsMaster.applicantsList
 //                }
 //                //Set Applicant Tab Adapter...
 //                applicantTabList?.let { setApplicantTabAdapter(it) }
