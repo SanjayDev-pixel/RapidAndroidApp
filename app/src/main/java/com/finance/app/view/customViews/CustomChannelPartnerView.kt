@@ -11,6 +11,7 @@ import com.finance.app.databinding.LayoutChannelPartnerBinding
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -80,7 +81,8 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
 
     private fun getPartnerNameFromApi(channelId: String) {
         mChannelTypeId = channelId
-        mBranchId = sharedPreferences.getLeadDetail()?.branchID!!
+       // mBranchId = sharedPreferences.getLeadDetail()?.branchID!!
+        mBranchId=LeadMetaData.getLeadData()?.branchID.toString()
         empId = sharedPreferences.getEmpId()
         if (mChannelTypeId.toInt() != DIRECT) {
             presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName())

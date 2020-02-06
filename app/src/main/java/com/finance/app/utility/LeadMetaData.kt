@@ -2,14 +2,7 @@ package com.finance.app.utility
 
 import androidx.lifecycle.MutableLiveData
 import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.persistence.model.AllLeadMaster
-import com.finance.app.persistence.model.AssetLiabilityList
-import com.finance.app.persistence.model.EmploymentApplicantsModel
-import com.finance.app.persistence.model.LoanInfoModel
-import com.finance.app.persistence.model.BankDetailModel
-import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.persistence.model.PropertyModel
-import com.finance.app.persistence.model.ReferenceModel
+import com.finance.app.persistence.model.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -54,6 +47,18 @@ class LeadMetaData : Observable() {
     }
 
 
+    private fun initNewApplicantAssetsAndLiabilityDetails(lead: AllLeadMaster, applicants: ArrayList<PersonalApplicantsModel>): ArrayList<AssetLiabilityModel> {
+        val assetLiabilityModelList: ArrayList<AssetLiabilityModel> = ArrayList()
+        applicants.forEachIndexed { _, personalApplicantsModel ->
+            val assetLiabilityModel = AssetLiabilityModel()
+            assetLiabilityModel.isMainApplicant = personalApplicantsModel.isMainApplicant
+            assetLiabilityModel.leadApplicantNumber = lead.leadID.toString()
+            assetLiabilityModel.applicantId = personalApplicantsModel.applicantID
+            assetLiabilityModelList.add(assetLiabilityModel)
+        }
+        return assetLiabilityModelList
+    }
+
     private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
         return GlobalScope.launch {
             lead.isSyncWithServer = false
@@ -74,6 +79,9 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.personalData?.applicantDetails = applicants
+
+            lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(lead, applicants)
+
             insertLeadInfoIntoDB(lead)
         }
     }
@@ -102,12 +110,12 @@ class LeadMetaData : Observable() {
         }
     }
 
-    fun saveAssetLiabilityData(pApplicantList: AssetLiabilityList?) {
+
+    fun saveAssetLiabilityData(assetsAndLiability: ArrayList<AssetLiabilityModel>) {
         val lead: AllLeadMaster? = getLeadData()
         lead?.let {
-            lead.assetLiabilityData = pApplicantList!!
+            lead.assetLiabilityData?.applicantDetails = assetsAndLiability
             insertLeadInfoIntoDB(lead)
-
         }
     }
 
