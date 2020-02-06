@@ -40,12 +40,11 @@ class LoanInfoFragmentNew : BaseFragment(){
     private lateinit var loanProduct: CustomSpinnerView<LoanProductMaster>
     private lateinit var loanPurpose: CustomSpinnerView<LoanPurpose>
     private var spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
+    private var leadDetail: AllLeadMaster? = null
 
     companion object {
         fun newInstance(): LoanInfoFragmentNew = LoanInfoFragmentNew()
     }
-
-    private var leadDetail: AllLeadMaster? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -61,16 +60,17 @@ class LoanInfoFragmentNew : BaseFragment(){
         ArchitectureApp.instance.component.inject(this)
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
-        setUpCustomViews()
         SetLoanInfoMandatoryField(binding)
         val loanInfo = leadDetail?.loanData
+        setUpCustomViews(loanInfo)
         getDropDownsFromDB(loanInfo)
         setClickListeners()
+
     }
 
-    private fun setUpCustomViews() {
+    private fun setUpCustomViews(loanInfo: LoanInfoModel?) {
         activity?.let {
-            binding.viewChannelPartner.attachActivity(activity = activity!!)
+            binding.viewChannelPartner.attachActivity(activity = activity!!, loanData = loanInfo)
         }
     }
 
@@ -127,7 +127,6 @@ class LoanInfoFragmentNew : BaseFragment(){
 
         loanInfo?.loanPurposeID?.let {
             loanPurpose.setSelection(loanInfo.loanPurposeID.toString())
-//            loanInfo.loanPurposeID = null
         }
     }
 
@@ -143,7 +142,6 @@ class LoanInfoFragmentNew : BaseFragment(){
     private fun selectSpinnerValue(loanInfo: LoanInfoModel) {
         interestType.setSelection(loanInfo.interestTypeTypeDetailID?.toString())
         loanScheme.setSelection(loanInfo.loanSchemeTypeDetailID?.toString())
-        selectChannelPartner(binding.viewChannelPartner, loanInfo)
     }
 
     private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
@@ -159,10 +157,6 @@ class LoanInfoFragmentNew : BaseFragment(){
         } else {
             sharedPreferences.setPropertySelection("No")
         }
-    }
-
-    private fun selectChannelPartner(customChannelPartnerView: CustomChannelPartnerView, loanInfo: LoanInfoModel) {
-        customChannelPartnerView.setSourcingPartner(loanInfo)
     }
 
     private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown) {

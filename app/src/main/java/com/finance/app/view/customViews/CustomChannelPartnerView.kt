@@ -8,7 +8,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.LayoutChannelPartnerBinding
-import com.finance.app.persistence.model.*
+import com.finance.app.persistence.model.AllMasterDropDown
+import com.finance.app.persistence.model.ChannelPartnerName
+import com.finance.app.persistence.model.DropdownMaster
+import com.finance.app.persistence.model.LoanInfoModel
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
@@ -39,36 +42,32 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
     private var mChannelTypeId: String? = null
     private var empId: String? = null
     private lateinit var activity: FragmentActivity
-    private var isMandatory = false
     private var sourcingPartner: CustomSpinnerView<DropdownMaster>? = null
     private var partnerName: CustomSpinnerView<ChannelPartnerName>? = null
 
-    fun attachActivity(activity: FragmentActivity, isMandatory: Boolean = false) {
+    fun attachActivity(activity: FragmentActivity, loanData: LoanInfoModel?) {
         this.activity = activity
-        this.isMandatory = isMandatory
         binding = AppUtilExtensions.initCustomViewBinding(context = context,
                 layoutId = R.layout.layout_channel_partner, container = this)
-        proceedFurther()
+        proceedFurther(loanData)
     }
 
-    private fun proceedFurther() {
+    private fun proceedFurther(loanData: LoanInfoModel?) {
         ArchitectureApp.instance.component.inject(this)
-        getDropDownsFromDB()
+        getDropDownsFromDB(loanData)
     }
 
-    private fun getDropDownsFromDB() {
+    private fun getDropDownsFromDB(loanData: LoanInfoModel?) {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue()
                 .observe(activity, Observer { allDroDownValue ->
 
                     allDroDownValue?.let {
-                        initializeSourcingPartner(allDroDownValue)
+                        initializeSourcingPartner(allDroDownValue, loanData)
             }
         })
     }
 
-    private var sPartner: DropdownMaster? = null
-
-    private fun initializeSourcingPartner(masterDropDown: AllMasterDropDown) {
+    private fun initializeSourcingPartner(masterDropDown: AllMasterDropDown, loanData: LoanInfoModel?) {
         partnerName = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = ArrayList(), label = "Channel Partner Name *")
         binding.layoutPartnerName.addView(partnerName)
@@ -78,31 +77,33 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
 
                     override fun getSelectedValue(value: DropdownMaster) {
-                        sPartner = value
-                        getPartnerNameFromApi(value.getCompareValue())
+                        val sPartner = value.getCompareValue()
+                        getPartnerNameFromApi(sPartner, loanData)
             }
         })
         binding.layoutSourcingPartner.addView(sourcingPartner)
+        setSourcingPartner(loanData)
+
     }
 
-    private fun getPartnerNameFromApi(channelId: String) {
+    private fun getPartnerNameFromApi(channelId: String, loanData: LoanInfoModel?) {
         mChannelTypeId = channelId
         mBranchId = LeadMetaData.getLeadData()?.branchID
         empId = sharedPreferences.getEmpId()
 
-        if ((mChannelTypeId?.toInt() ?: 0) != DIRECT) {
-            presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName())
-            binding.layoutPartnerName.visibility = View.VISIBLE
-        } else {
-            presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName())
+        if ((mChannelTypeId?.toInt() ?: 0) == DIRECT) {
+            presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName(loanData))
             binding.layoutPartnerName.visibility = View.GONE
+        } else {
+            presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName(loanData))
+            binding.layoutPartnerName.visibility = View.VISIBLE
         }
     }
 
-    fun setSourcingPartner(loanInfoModel: LoanInfoModel) {
-       sourcingPartner?.let{
-           sourcingPartner!!.setSelection(loanInfoModel.sourcingChannelPartnerTypeDetailID.toString())
-       }
+    private fun setSourcingPartner(loanData: LoanInfoModel?) {
+        loanData?.let {
+            sourcingPartner!!.setSelection(loanData.sourcingChannelPartnerTypeDetailID.toString())
+        }
     }
 
     fun getSourcingPartner(): DropdownMaster? {
@@ -113,7 +114,7 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
         return partnerName?.getSelectedValue()
     }
 
-    inner class CallSourcingPartnerName : ViewGeneric<ArrayList<String?>,
+    inner class CallSourcingPartnerName(val loanData: LoanInfoModel?) : ViewGeneric<ArrayList<String?>,
             Response.ResponseSourceChannelPartnerName>(context = context) {
 
         override val apiRequest: ArrayList<String?>
@@ -126,13 +127,12 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
             }
         }
 
-        private val leadMaster = AllLeadMaster()
         private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
             partnerName = CustomSpinnerView(mContext = context, dropDowns = channelPartners, label = "Channel Partner Name")
             binding.layoutPartnerName.addView(partnerName)
 
-            leadMaster.loanData?.channelPartnerDsaID?.let {
-                partnerName?.setSelection(leadMaster.loanData?.channelPartnerDsaID.toString())
+            loanData?.let {
+                partnerName?.setSelection(loanData.channelPartnerDsaID.toString())
             }
         }
     }

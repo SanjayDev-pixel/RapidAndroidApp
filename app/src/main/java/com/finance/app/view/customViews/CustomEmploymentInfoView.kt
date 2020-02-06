@@ -306,12 +306,13 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
 
     private fun checkIncomeAndSubmission() {
         personalData?.let {
-            if (personalData!!.incomeConsidered == false ||
-                    LeadMetaData.getLeadData()?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
-
-                DisableEmploymentForm(binding, senpSpinnerList, salarySpinnerList, profile, subProfile)
-
+            if (personalData!!.incomeConsidered == false) {
+                showToast(context, context.getString(R.string.error_incone_consideration))
+            } else if (LeadMetaData.getLeadData()?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+                showToast(context, context.getString(R.string.status_lead_submission))
             }
+
+            DisableEmploymentForm(binding, senpSpinnerList, salarySpinnerList, profile, subProfile)
         }
     }
 

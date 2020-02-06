@@ -225,4 +225,6 @@
     <string name="upload_document">Upload Document</string>
     <string name="gross_income">Gross Income</string>
     <string name="net_income">Net Income</string>
+    <string name="error_incone_consideration">Income Not considered for this applicant</string>
+    <string name="status_lead_submission">Lead is already submitted</string>
 </resources>
