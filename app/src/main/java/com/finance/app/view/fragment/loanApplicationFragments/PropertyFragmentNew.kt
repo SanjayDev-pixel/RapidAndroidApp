@@ -42,8 +42,6 @@ import javax.inject.Inject
 
 class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinCodeDetailConnector.PinCode, DistrictCityConnector.City, TransactionCategoryConnector.TransactionCategory {
 
-    @Inject
-    lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
     private lateinit var binding: FragmentPropertyInfoBinding
     @Inject
@@ -66,8 +64,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
     private var propertyModel: PropertyModel? = PropertyModel()
     private var mLead: AllLeadMaster? = null
     private lateinit var ownnerShipSpinner: CustomSpinnerViewTest<DropdownMaster>
-
-
     private var leadIdForApplicant: String = ""
 
     private var pinCodeObj: Response.PinCodeObj? = null
@@ -91,9 +87,9 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         super.onCreate(savedInstanceState)
         ArchitectureApp.instance.component.inject(this)
         mContext = context!!
-        mLead = sharedPreferences.getLeadDetail()
+        mLead = LeadMetaData.getLeadData()//sharedPreferences.getLeadDetail()
         mContext = context!!
-        leadIdForApplicant = mLead!!.leadID.toString()
+        leadIdForApplicant = LeadMetaData.getLeadId().toString()
 
     }
 

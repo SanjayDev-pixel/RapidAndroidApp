@@ -8,6 +8,7 @@ class AssetLiabilityModel : Serializable {
     var applicantCreditCardDetailList: ArrayList<CardDetail> = ArrayList()
     var applicantExistingObligationList: ArrayList<ObligationDetail> = ArrayList()
     var leadApplicantNumber: String? = ""
-    var isMainApplicant:Boolean = false
+    var applicantId: Int = 0
+    var isMainApplicant: Boolean = false
 
 }

@@ -11,50 +11,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:background="@color/md_grey_100">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_10"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text=""
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="@dimen/text_size" />
-
-
-
-
-            <Button
-                android:id="@+id/btnEdit"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="5sp"
-                android:visibility="gone"
-                android:layout_margin="@dimen/margin_10"
-                android:background="@drawable/button_theme_style"
-                android:text="Edit"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_text_size" />
-
-        </LinearLayout>
-
+            >
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2">
+
+                <LinearLayout
                 android:id="@+id/llDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,17 +53,7 @@
                         android:textColor="@color/md_grey_500"
                         android:text="HDFC"
                         android:textSize="@dimen/text_size" />
-                    <ImageButton
-                        android:id="@+id/btnDelete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:padding="5sp"
-                        android:layout_margin="@dimen/margin_10"
-                        android:background="@drawable/ic_delete"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/button_text_size" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -195,7 +150,6 @@
                 android:paddingStart="@dimen/margin_10"
                 android:paddingEnd="@dimen/margin_10"
                 android:layout_marginBottom="@dimen/margin_10"
-
                 android:orientation="horizontal">
 
                 <TextView
@@ -219,6 +173,39 @@
                     android:textSize="@dimen/text_size" />
 
             </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="8">
+
+                <ImageButton
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:padding="5sp"
+                    android:layout_margin="@dimen/margin_10"
+                    android:src="@drawable/ic_edit_grey"
+                />
+                <ImageButton
+                    android:id="@+id/btnDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:padding="5sp"
+                    android:layout_margin="@dimen/margin_10"
+                    android:background="@drawable/ic_delete"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button_text_size" />
+
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

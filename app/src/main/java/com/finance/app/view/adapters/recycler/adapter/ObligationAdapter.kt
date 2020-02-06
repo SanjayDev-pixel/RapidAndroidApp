@@ -35,6 +35,7 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
     interface ObligationClickListener {
         fun onObligationDeleteClicked(position: Int)
         fun onObligationEditClicked(position: Int, obligation: ObligationDetail)
+        fun onObligationEditNewClick(position:Int,obligation: ObligationDetail)
     }
 
     override fun onBindViewHolder(holder: ObligationViewHolder, position: Int) {
@@ -63,6 +64,9 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
             binding.btnEdit.setOnClickListener {
               //  mOnObligationClickListener!!.onObligationEditClicked(position, obligation)
                 showItemDetail(position,obligation)
+            }
+            binding.btnEditNew.setOnClickListener(){
+                mOnObligationClickListener!!.onObligationEditNewClick(position,obligation)
             }
 
 
