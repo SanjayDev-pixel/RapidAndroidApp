@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemDocumentChecklistBinding
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.CustomSpinnerView
 
 class DocumentCheckListAdapter(private val mContext: Context, private val dropDowns: ArrayList<DropdownMaster>?) : RecyclerView.Adapter<DocumentCheckListAdapter.DocumentCheckListViewHolder>() {
     private lateinit var binding: ItemDocumentChecklistBinding
-    private lateinit var selection: CustomSpinnerViewTest<DropdownMaster>
+    private lateinit var selection: CustomSpinnerView<DropdownMaster>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentCheckListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -28,7 +28,7 @@ class DocumentCheckListAdapter(private val mContext: Context, private val dropDo
 
     inner class DocumentCheckListViewHolder(val binding: ItemDocumentChecklistBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int) {
-            selection = CustomSpinnerViewTest(mContext = mContext, dropDowns = dropDowns, label = "Select *")
+            selection = CustomSpinnerView(mContext = mContext, dropDowns = dropDowns, label = "Select *")
             binding.layoutDocumentStatus.addView(selection)
         }
     }

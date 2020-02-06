@@ -49,21 +49,21 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private val presenter = Presenter()
     private lateinit var verifyOTPDialog: Dialog
     private lateinit var verifyOTPDialogView: View
-    private lateinit var gender: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var nationality: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var dobProof: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var livingStandard: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var detailQualification: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var qualification: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var caste: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var religion: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var relationship: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var currentAddressProof: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var permanentAddressProof: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var maritalStatus: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var permanentResidenceType: CustomSpinnerViewTest<DropdownMaster>
-    private lateinit var currentResidenceType: CustomSpinnerViewTest<DropdownMaster>
-    private var spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>> = ArrayList()
+    private lateinit var gender: CustomSpinnerView<DropdownMaster>
+    private lateinit var nationality: CustomSpinnerView<DropdownMaster>
+    private lateinit var dobProof: CustomSpinnerView<DropdownMaster>
+    private lateinit var livingStandard: CustomSpinnerView<DropdownMaster>
+    private lateinit var detailQualification: CustomSpinnerView<DropdownMaster>
+    private lateinit var qualification: CustomSpinnerView<DropdownMaster>
+    private lateinit var caste: CustomSpinnerView<DropdownMaster>
+    private lateinit var religion: CustomSpinnerView<DropdownMaster>
+    private lateinit var relationship: CustomSpinnerView<DropdownMaster>
+    private lateinit var currentAddressProof: CustomSpinnerView<DropdownMaster>
+    private lateinit var permanentAddressProof: CustomSpinnerView<DropdownMaster>
+    private lateinit var maritalStatus: CustomSpinnerView<DropdownMaster>
+    private lateinit var permanentResidenceType: CustomSpinnerView<DropdownMaster>
+    private lateinit var currentResidenceType: CustomSpinnerView<DropdownMaster>
+    private var spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
 
     fun attachView(activity: FragmentActivity, index: Int, applicant: PersonalApplicantsModel, leadId: Int?) {
         this.activity = activity
@@ -145,13 +145,13 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
 
     private fun setUpRelationshipValue(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
         if (index == 0) {
-            relationship = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Relationship!!, label = "Relationship *")
+            relationship = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Relationship!!, label = "Relationship *")
             binding.basicInfoLayout.layoutRelationShip.addView(relationship)
 
             relationship.setSelection(SELF.toString())
             relationship.disableSelf()
         } else {
-            relationship = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = getRelationship(allMasterDropDown.Relationship), label = "Relationship *")
+            relationship = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = getRelationship(allMasterDropDown.Relationship), label = "Relationship *")
             binding.basicInfoLayout.layoutRelationShip.addView(relationship)
 
             relationship.setSelection(applicant.relationshipTypeDetailId?.toString())
@@ -159,32 +159,32 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
-        dobProof = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.DOBProof!!, label = "DOB Proof *")
+        dobProof = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.DOBProof!!, label = "DOB Proof *")
         binding.basicInfoLayout.layoutDobProof.addView(dobProof)
-        livingStandard = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.LivingStandardIndicators!!, label = "Living Standard *")
+        livingStandard = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.LivingStandardIndicators!!, label = "Living Standard *")
         binding.basicInfoLayout.layoutLivingStandard.addView(livingStandard)
-        detailQualification = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.DetailQualification!!, label = "Detail Qualification *")
+        detailQualification = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.DetailQualification!!, label = "Detail Qualification *")
         binding.basicInfoLayout.layoutDetailQualification.addView(detailQualification)
-        qualification = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Qualification!!, label = "Qualification *")
+        qualification = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Qualification!!, label = "Qualification *")
         binding.basicInfoLayout.layoutQualification.addView(qualification)
-        caste = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Caste!!, label = "Caste *")
+        caste = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Caste!!, label = "Caste *")
         binding.basicInfoLayout.layoutCaste.addView(caste)
-        religion = CustomSpinnerViewTest(mContext = context, dropDowns = allMasterDropDown.Religion!!, label = "Religion *")
+        religion = CustomSpinnerView(mContext = context, dropDowns = allMasterDropDown.Religion!!, label = "Religion *")
         binding.basicInfoLayout.layoutReligion.addView(religion)
-        nationality = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Nationality!!, label = "Nationality *")
+        nationality = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Nationality!!, label = "Nationality *")
         binding.basicInfoLayout.layoutNationality.addView(nationality)
-        gender = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Gender!!, label = "Gender *")
+        gender = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Gender!!, label = "Gender *")
         binding.basicInfoLayout.layoutGender.addView(gender)
-        permanentAddressProof = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof *")
+        permanentAddressProof = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof *")
         binding.personalAddressLayout.layoutPermanentAddressProof.addView(permanentAddressProof)
-        currentAddressProof = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof *")
+        currentAddressProof = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.AddressProof!!, label = "Address Proof *")
         binding.personalAddressLayout.layoutCurrentAddressProof.addView(currentAddressProof)
         setUpRelationshipValue(allMasterDropDown, applicant)
         setCustomSpinnerWithCondition(allMasterDropDown)
     }
 
     private fun setCustomSpinnerWithCondition(allMasterDropDown: AllMasterDropDown) {
-        maritalStatus = CustomSpinnerViewTest(mContext = context, isMandatory = true,
+        maritalStatus = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = allMasterDropDown.MaritalStatus!!, label = "Marital Status *",
                 iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
                     override fun getSelectedValue(value: DropdownMaster) {
@@ -199,7 +199,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
 
         binding.basicInfoLayout.layoutMaritalStatus.addView(maritalStatus)
 
-        permanentResidenceType = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
+        permanentResidenceType = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 if (value.typeDetailID == RENTED) {
                     binding.personalAddressLayout.inputLayoutPermanentRentAmount.visibility = View.VISIBLE
@@ -210,7 +210,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         })
 
         binding.personalAddressLayout.layoutPermanentResidenceType.addView(permanentResidenceType)
-        currentResidenceType = CustomSpinnerViewTest(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
+        currentResidenceType = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.ResidenceType!!, label = "Residence Type *", iSpinnerMainView = object : IspinnerMainView<DropdownMaster> {
             override fun getSelectedValue(value: DropdownMaster) {
                 if (value.typeDetailID == RENTED) {
                     binding.personalAddressLayout.inputLayoutCurrentRentAmount.visibility = View.VISIBLE

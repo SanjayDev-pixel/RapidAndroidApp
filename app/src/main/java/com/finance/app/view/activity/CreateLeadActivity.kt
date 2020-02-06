@@ -10,7 +10,7 @@ import com.finance.app.persistence.model.UserBranches
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.SetCreateLeadMandatoryField
-import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.viewModel.AppDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
@@ -37,8 +37,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var formValidation: FormValidation
 
-    private lateinit var loanProduct: CustomSpinnerViewTest<LoanProductMaster>
-    private lateinit var branches: CustomSpinnerViewTest<UserBranches>
+    private lateinit var loanProduct: CustomSpinnerView<LoanProductMaster>
+    private lateinit var branches: CustomSpinnerView<UserBranches>
     private val presenter = Presenter()
     private val appDataViewModel: AppDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
 
@@ -73,14 +73,14 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     }
 
     private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
-        loanProduct = CustomSpinnerViewTest(mContext = this, dropDowns = products, label = "Loan Product *")
+        loanProduct = CustomSpinnerView(mContext = this, dropDowns = products, label = "Loan Product *")
         binding.layoutLoanProduct.addView(loanProduct)
     }
 
     private fun setBranchesDropDownValue() {
         val branchList = sharedPreferences.getUserBranches()
         val branch = ArrayList(branchList!!)
-        branches = CustomSpinnerViewTest(mContext = this, dropDowns = branch, label = "Select Branch *")
+        branches = CustomSpinnerView(mContext = this, dropDowns = branch, label = "Select Branch *")
         binding.layoutBranches.addView(branches)
     }
 

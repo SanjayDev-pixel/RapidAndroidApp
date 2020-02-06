@@ -67,11 +67,11 @@ class LeadMetaData : Observable() {
             val assetLiabilityModel = AssetLiabilityModel()
             assetLiabilityModel.isMainApplicant = personalApplicantsModel.isMainApplicant
             assetLiabilityModel.leadApplicantNumber = lead.leadID.toString()
+            assetLiabilityModel.applicantId = personalApplicantsModel.applicantID
             assetLiabilityModelList.add(assetLiabilityModel)
         }
         return assetLiabilityModelList
     }
-
 
     private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
         return GlobalScope.launch {
@@ -103,7 +103,6 @@ class LeadMetaData : Observable() {
         }
     }
 
-
     fun saveEmploymentData(applicants: ArrayList<EmploymentApplicantsModel>) {
         val lead = getLeadData()
         lead?.let {
@@ -128,12 +127,11 @@ class LeadMetaData : Observable() {
         }
     }
 
-    fun saveAssetLiabilityData(pApplicantList: AssetLiabilityList?) {
+    fun saveAssetLiabilityData(assetsAndLiability: ArrayList<AssetLiabilityModel>) {
         val lead: AllLeadMaster? = getLeadData()
         lead?.let {
-            lead.assetLiabilityData = pApplicantList!!
+            lead.assetLiabilityData?.applicantDetails = assetsAndLiability
             insertLeadInfoIntoDB(lead)
-
         }
     }
 
@@ -145,6 +143,4 @@ class LeadMetaData : Observable() {
 
         }
     }
-
-
 }

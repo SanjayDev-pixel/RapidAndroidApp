@@ -28,7 +28,7 @@ class AppEvents {
         }
     }
 
-    fun inititateBackgroundSync(syncEnum: BackGroundSyncEvent) {
+    fun initiateBackgroundSync(syncEnum: BackGroundSyncEvent) {
         when (syncEnum) {
             BackGroundSyncEvent.LEAD_SYNC -> UtilWorkersTaskLeadSync().execute()
         }

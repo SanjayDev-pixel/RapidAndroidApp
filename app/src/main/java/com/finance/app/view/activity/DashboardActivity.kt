@@ -187,6 +187,6 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     @Subscribe
     fun getEventBackgroundSync(syncEnum: AppEvents.BackGroundSyncEvent) {
-        AppEvents().inititateBackgroundSync(syncEnum = syncEnum)
+        AppEvents().initiateBackgroundSync(syncEnum = syncEnum)
     }
 }

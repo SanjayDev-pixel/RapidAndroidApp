@@ -115,7 +115,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="@dimen/margin20dp"
                     android:background="@color/md_applicant_blue"
-                    android:text="@string/next"
+                    android:text="Save"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
             </RelativeLayout>

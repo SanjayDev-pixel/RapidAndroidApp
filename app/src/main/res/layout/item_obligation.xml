@@ -11,49 +11,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:gravity="center"
             android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_10"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text=""
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="@dimen/text_size" />
-
-            <ImageButton
-                android:id="@+id/btnDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="5sp"
-                android:layout_margin="@dimen/margin_10"
-                android:background="@drawable/ic_delete"
-                />
-
-
-
-        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:padding="@dimen/margin_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_weight="2">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -424,19 +391,53 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/btnEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:gravity="center"
-                android:visibility="visible"
-                android:padding="5sp"
-                android:layout_marginRight="@dimen/margin_10"
-                android:background="@color/white"
-                android:text="@string/more"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/button_text_size" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                android:layout_weight="8">
+                <ImageView
+                    android:id="@+id/btnEditNew"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:padding="5sp"
+                    android:layout_margin="@dimen/margin_10"
+                    android:src="@drawable/ic_edit_grey"
+                    android:layout_alignParentRight="true"
+                    />
+
+                <ImageView
+                    android:id="@+id/btnDelete"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:padding="5sp"
+                    android:layout_margin="@dimen/margin_10"
+                    android:src="@drawable/ic_delete_grey"
+                    android:layout_below="@+id/btnEditNew"
+                    android:layout_alignParentRight="true"
+                    />
+
+                <TextView
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/white"
+                    android:padding="5sp"
+                    android:text="@string/more"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/button_text_size"
+                    android:layout_marginRight="@dimen/margin5dp"/>
+
+
+            </RelativeLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

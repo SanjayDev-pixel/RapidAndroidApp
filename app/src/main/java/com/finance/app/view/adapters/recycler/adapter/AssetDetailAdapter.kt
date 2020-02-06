@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemAssetBinding
 import com.finance.app.persistence.model.AssetLiability
+import com.finance.app.persistence.model.BankDetailBean
 
 class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<AssetLiability>) : RecyclerView.Adapter<AssetDetailAdapter.AssetDetailViewHolder>() {
     private lateinit var binding: ItemAssetBinding
@@ -21,14 +22,41 @@ class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<A
 
     override fun getItemCount() = assets.size
 
-fun  setOnAssetClickListener(listner:AssetClickListener)
-  {
-    mOnAssetClickListener=listner
-  }
+    fun setOnAssetClickListener(listner: AssetClickListener) {
+        mOnAssetClickListener = listner
+    }
 
     interface AssetClickListener {
         fun onAssetDeleteClicked(position: Int)
         fun onAssetEditClicked(position: Int, asset: AssetLiability)
+    }
+
+
+    fun getItemList(): ArrayList<AssetLiability> {
+        return assets
+    }
+
+    fun addItem(position: Int = 0, assetsDetail: AssetLiability) {
+        assets?.let {
+            it.add(position, assetsDetail)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun updateItem(position: Int, assetDetail: AssetLiability) {
+        assets?.let {
+            if (position >= 0 && position <= it.size) {
+                it[position] = assetDetail
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun deleteItem(position: Int) {
+        assets?.let {
+            assets.removeAt(position)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onBindViewHolder(holder: AssetDetailViewHolder, position: Int) {

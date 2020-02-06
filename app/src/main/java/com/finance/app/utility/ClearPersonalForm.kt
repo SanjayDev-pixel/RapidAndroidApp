@@ -3,10 +3,10 @@ package com.finance.app.utility
 import android.view.View
 import com.finance.app.databinding.FragmentPersonalBinding
 import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.CustomSpinnerView
 
 class ClearPersonalForm(private val binding: FragmentPersonalBinding,
-                        private val spinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>) {
+                        private val spinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>) {
 
     init {
         binding.etIdNum.text?.clear()
@@ -63,7 +63,7 @@ class ClearPersonalForm(private val binding: FragmentPersonalBinding,
 
     private fun clearBasicInfoDropdown() {
         for (spinner in spinnerList) {
-            spinner.clearSpinner()
+            spinner.clearSelf()
             spinner.enableSelf()
         }
     }

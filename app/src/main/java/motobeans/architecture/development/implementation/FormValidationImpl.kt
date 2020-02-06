@@ -5,7 +5,7 @@ import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
 import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.view.customViews.CustomChannelPartnerView
-import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.CustomSpinnerView
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
@@ -26,7 +26,7 @@ class FormValidationImpl : FormValidation {
         return isValidForm(error)
     }
 
-    override fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding, spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean {
+    override fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding, spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean {
         var errorCount = 0
         val firstName = binding.basicInfoLayout.etFirstName.text.toString()
         val dob = binding.basicInfoLayout.etDOB.text.toString()
@@ -95,9 +95,9 @@ class FormValidationImpl : FormValidation {
     }
 
     override fun validateLoanInformation(binding: FragmentLoanInformationBinding,
-                                         loanProduct: CustomSpinnerViewTest<LoanProductMaster>,
-                                         loanPurpose: CustomSpinnerViewTest<LoanPurpose>,
-                                         spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>,
+                                         loanProduct: CustomSpinnerView<LoanProductMaster>,
+                                         loanPurpose: CustomSpinnerView<LoanPurpose>,
+                                         spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>,
                                          customChannelPartnerView: CustomChannelPartnerView): Boolean {
 
         var errorCount = 0
@@ -164,7 +164,7 @@ class FormValidationImpl : FormValidation {
         binding.layoutObligations.btnAddObligation.isEnabled = false
     }
 
-    override fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding, salarySpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean {
+    override fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding, salarySpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean {
         val companyName = salaryBinding.etCompanyName.text.toString()
         val designation = salaryBinding.etDesignation.text.toString()
         val totalExp = salaryBinding.etTotalExperience.text.toString()
@@ -194,7 +194,7 @@ class FormValidationImpl : FormValidation {
         return isValidForm(totalError)
     }
 
-    override fun validateSenpEmployment(senpBinding: LayoutSenpBinding, senpSpinnerList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean {
+    override fun validateSenpEmployment(senpBinding: LayoutSenpBinding, senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean {
         val businessName = senpBinding.etBusinessName.text.toString()
         val gstVatRegistration = senpBinding.etGstRegistration.text.toString()
         val incorporationDate = senpBinding.etIncorporationDate.text.toString()
@@ -592,8 +592,8 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerViewTest<LoanProductMaster>,
-                                 branches: CustomSpinnerViewTest<UserBranches>): Boolean {
+    override fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerView<LoanProductMaster>,
+                                 branches: CustomSpinnerView<UserBranches>): Boolean {
         val area = binding.etArea.text.toString()
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()

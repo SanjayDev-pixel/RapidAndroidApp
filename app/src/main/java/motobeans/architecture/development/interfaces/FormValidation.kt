@@ -7,27 +7,27 @@ import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.persistence.model.LoanPurpose
 import com.finance.app.persistence.model.UserBranches
 import com.finance.app.view.customViews.CustomChannelPartnerView
-import com.finance.app.view.customViews.CustomSpinnerViewTest
+import com.finance.app.view.customViews.CustomSpinnerView
 
 interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
     fun validateLogin(binding: ActivityLoginBinding): Boolean
     fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding,
-                             spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean
+                             spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
     fun validateLoanInformation(binding: FragmentLoanInformationBinding,
-                                loanProduct: CustomSpinnerViewTest<LoanProductMaster>,
-                                loanPurpose: CustomSpinnerViewTest<LoanPurpose>,
-                                spinnerDMList: ArrayList<CustomSpinnerViewTest<DropdownMaster>>,
+                                loanProduct: CustomSpinnerView<LoanProductMaster>,
+                                loanPurpose: CustomSpinnerView<LoanPurpose>,
+                                spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>,
                                 customChannelPartnerView: CustomChannelPartnerView): Boolean
 
     fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding, salarySpinnerList:
-    ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean
+    ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
 
     fun validateSenpEmployment(senpBinding: LayoutSenpBinding, senpSpinnerList:
-    ArrayList<CustomSpinnerViewTest<DropdownMaster>>): Boolean
+    ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
 
     fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct:
-    CustomSpinnerViewTest<LoanProductMaster>, branches: CustomSpinnerViewTest<UserBranches>): Boolean
+    CustomSpinnerView<LoanProductMaster>, branches: CustomSpinnerView<UserBranches>): Boolean
 
     fun validateBankDetail(binding: DialogBankDetailFormBinding): Boolean
     fun validateReference(binding: DialogReferenceDetailsBinding): Boolean

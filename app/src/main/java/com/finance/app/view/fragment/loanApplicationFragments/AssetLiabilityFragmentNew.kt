@@ -64,7 +64,8 @@ class AssetLiabilityFragmentNew : BaseFragment() {
     private fun setOnClickListener() {
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-                        onSaveAssetAndLibilityDetails()
+            pagerAdapterAsset?.getALlAssetsAndLiability()?.let { it1 -> LeadMetaData().saveAssetLiabilityData(it1) }
+            AppEvents.fireEventLoanAppChangeNavFragmentNext()
         }
 
 
@@ -74,8 +75,6 @@ class AssetLiabilityFragmentNew : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         fetchLeadDetails()
     }
-
-
 
 
     private fun fetchLeadDetails() {
@@ -97,12 +96,11 @@ class AssetLiabilityFragmentNew : BaseFragment() {
     }
 
     private fun onSaveAssetAndLibilityDetails() {
-        val pApplicantList = LeadMetaData.getLeadData()?.assetLiabilityData
-        LeadMetaData().saveAssetLiabilityData(pApplicantList)
+//        val pApplicantList = LeadMetaData.getLeadData()?.assetLiabilityData
+//        LeadMetaData().saveAssetLiabilityData(pApplicantList)
+
 
     }
-
-
 }
 
 
