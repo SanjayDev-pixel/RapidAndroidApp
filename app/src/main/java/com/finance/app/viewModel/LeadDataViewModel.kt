@@ -200,6 +200,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
 
         private fun handleReferenceResponse(apiResponseObject: Serializable?) {
             apiResponseObject?.let {
+//                leadData.referenceData = apiResponseObject as ReferencesList
                 leadData.referenceData = apiResponseObject as ReferencesList
             }
 
