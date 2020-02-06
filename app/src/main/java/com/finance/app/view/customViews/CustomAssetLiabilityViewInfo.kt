@@ -59,9 +59,9 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     private var cardDetailAdapter: CardDetailAdapter? = null
     private var obligationAdapter: ObligationAdapter?=null
     private var currentApplicant: AssetLiabilityModel = AssetLiabilityModel()
-    private var assetsList: ArrayList<AssetLiability>? = ArrayList()
-    private var cardDetailList: ArrayList<CardDetail>? = ArrayList()
-    private var obligationsList: ArrayList<ObligationDetail>? = ArrayList()
+    private var assetsList: ArrayList<AssetLiability> = ArrayList()
+    private var cardDetailList: ArrayList<CardDetail> = ArrayList()
+    private var obligationsList: ArrayList<ObligationDetail> = ArrayList()
     private var currentPosition = 0
     private var deleteDialog: Dialog? = null
     private var addAssestsDialog: Dialog? = null
@@ -188,14 +188,14 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
 
-    private fun initializeViews(applicant: AssetLiabilityModel?) {
+    private fun initializeViews(applicant: AssetLiabilityModel) {
         proceedFurther(applicant)
 //        setClickListeners()
         showData(applicant)
     }
 
 
-    private fun showData(applicant: AssetLiabilityModel?) {
+    private fun showData(applicant: AssetLiabilityModel) {
 
         setUpCurrentApplicantDetails(applicant)
 
@@ -214,13 +214,13 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
 
-    private fun setUpCurrentApplicantDetails(currentApplicant: AssetLiabilityModel?) {
-        assetsList = currentApplicant?.applicantAssetLiabilityList
-        cardDetailList = currentApplicant?.applicantCreditCardDetailList
-        obligationsList = currentApplicant?.applicantExistingObligationList
-        setAssetAdapter(assetsList!!)
-        setCardDetailAdapter(cardDetailList!!)
-        setObligationAdapter(obligationsList!!)
+    private fun setUpCurrentApplicantDetails(currentApplicant: AssetLiabilityModel) {
+        assetsList = currentApplicant.applicantAssetLiabilityList
+        cardDetailList = currentApplicant.applicantCreditCardDetailList
+        obligationsList = currentApplicant.applicantExistingObligationList
+        setAssetAdapter(assetsList)
+        setCardDetailAdapter(cardDetailList)
+        setObligationAdapter(obligationsList)
 
 
     }

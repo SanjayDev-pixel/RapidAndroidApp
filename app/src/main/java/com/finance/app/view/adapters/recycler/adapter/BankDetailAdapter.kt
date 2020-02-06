@@ -9,7 +9,7 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemBankBinding
 import com.finance.app.persistence.model.BankDetailBean
 
-class BankDetailAdapter(private val c: Context, private val bankDetailList: ArrayList<BankDetailBean>?) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
+class BankDetailAdapter(private val c: Context, private val bankDetailList: ArrayList<BankDetailBean>) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
     private lateinit var binding: ItemBankBinding
     private var mOnItemClickListener: ItemClickListener? = null
 
@@ -39,7 +39,11 @@ class BankDetailAdapter(private val c: Context, private val bankDetailList: Arra
         }
     }
 
-    override fun getItemCount() = bankDetailList?.size ?: 0
+    override fun getItemCount() = bankDetailList.size
+
+    fun getItemList(): ArrayList<BankDetailBean> {
+        return bankDetailList
+    }
 
     fun setOnItemClickListener(listener: ItemClickListener) {
         mOnItemClickListener = listener
