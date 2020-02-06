@@ -181,7 +181,7 @@
                 android:orientation="vertical"
                 android:layout_weight="8">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/btnEdit"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
@@ -192,17 +192,16 @@
                     android:layout_margin="@dimen/margin_10"
                     android:src="@drawable/ic_edit_grey"
                 />
-                <ImageButton
+                <ImageView
                     android:id="@+id/btnDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="right"
                     android:gravity="right"
                     android:padding="5sp"
                     android:layout_margin="@dimen/margin_10"
-                    android:background="@drawable/ic_delete"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
+                    android:src="@drawable/ic_delete_grey"
+                   />
 
             </LinearLayout>
 

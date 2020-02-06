@@ -65,6 +65,7 @@ class AssetLiabilityFragmentNew : BaseFragment() {
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
             pagerAdapterAsset?.getALlAssetsAndLiability()?.let { it1 -> LeadMetaData().saveAssetLiabilityData(it1) }
+            AppEvents.fireEventLoanAppChangeNavFragmentNext()
         }
 
 

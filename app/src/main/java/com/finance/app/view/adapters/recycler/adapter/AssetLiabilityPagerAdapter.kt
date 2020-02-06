@@ -26,8 +26,8 @@ class AssetLiabilityPagerAdapter internal constructor(fm: FragmentManager, val a
 
     fun getALlAssetsAndLiability(): ArrayList<AssetLiabilityModel> {
         val list = ArrayList<AssetLiabilityModel>()
-        applicantsList.forEachIndexed { index, it ->
-            list.add(fragmentList[index].getAssetsAndLiability())
+        fragmentList.forEach { it ->
+            list.add(it.getAssetsAndLiability())
         }
 
         return list

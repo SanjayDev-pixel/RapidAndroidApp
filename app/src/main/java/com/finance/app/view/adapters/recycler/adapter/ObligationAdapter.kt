@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemObligationBinding
+import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.ObligationDetail
 import kotlinx.android.synthetic.main.asset_creditcard_dialog.*
 import kotlinx.android.synthetic.main.obligation_item_dialog.*
@@ -31,12 +32,44 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
     fun setOnObligationClickListener(listener: ObligationClickListener) {
         mOnObligationClickListener = listener
     }
+    fun getItemList():ArrayList<ObligationDetail>{
+
+    return obligations
+    }
+
+
+    fun addItem(position: Int = 0, obligationDetail: ObligationDetail) {
+        obligations?.let {
+            it.add(position, obligationDetail)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun updateItem(position: Int, obligationDetail: ObligationDetail) {
+        obligations?.let {
+            if (position >= 0 && position <= it.size) {
+                it[position] = obligationDetail
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun deleteItem(position: Int) {
+        obligations?.let {
+            obligations.removeAt(position)
+            notifyDataSetChanged()
+        }
+    }
 
     interface ObligationClickListener {
         fun onObligationDeleteClicked(position: Int)
         fun onObligationEditClicked(position: Int, obligation: ObligationDetail)
         fun onObligationEditNewClick(position:Int,obligation: ObligationDetail)
     }
+
+
+
+
 
     override fun onBindViewHolder(holder: ObligationViewHolder, position: Int) {
         holder.bindItems(position, obligations[position])
