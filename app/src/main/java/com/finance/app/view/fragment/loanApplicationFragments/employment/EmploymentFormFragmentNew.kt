@@ -1,4 +1,4 @@
-package com.finance.app.view.fragment.loanApplicationFragments
+package com.finance.app.view.fragment.loanApplicationFragments.employment
 
 import android.os.Bundle
 import android.view.LayoutInflater

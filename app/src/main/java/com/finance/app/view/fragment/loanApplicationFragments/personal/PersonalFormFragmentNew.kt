@@ -1,4 +1,4 @@
-package com.finance.app.view.fragment.loanApplicationFragments
+package com.finance.app.view.fragment.loanApplicationFragments.personal
 
 import android.content.Context
 import android.os.Bundle

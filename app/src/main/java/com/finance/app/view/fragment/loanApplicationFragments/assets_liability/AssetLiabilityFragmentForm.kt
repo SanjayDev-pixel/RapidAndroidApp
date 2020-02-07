@@ -1,4 +1,4 @@
-package com.finance.app.view.fragment.loanApplicationFragments
+package com.finance.app.view.fragment.loanApplicationFragments.assets_liability
 
 
 import android.os.Bundle

@@ -4,7 +4,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.finance.app.persistence.model.AssetLiabilityModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.view.fragment.loanApplicationFragments.AssetLiabilityFragmentForm
+import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentForm
 
 class AssetLiabilityPagerAdapter internal constructor(fm: FragmentManager, val applicantsList: ArrayList<PersonalApplicantsModel>) : FragmentStatePagerAdapter(fm) {
 
