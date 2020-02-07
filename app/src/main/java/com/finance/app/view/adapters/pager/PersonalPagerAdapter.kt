@@ -1,4 +1,4 @@
-package com.finance.app.view.adapters.recycler.adapter
+package com.finance.app.view.adapters.pager
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter

@@ -9,7 +9,7 @@ import com.finance.app.databinding.FragmentAssetliabilityNewBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
-import com.finance.app.view.adapters.recycler.adapter.AssetLiabilityPagerAdapter
+import com.finance.app.view.adapters.pager.AssetLiabilityPagerAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil

@@ -5,7 +5,7 @@ import android.content.Intent
 import com.finance.app.R
 import com.finance.app.databinding.ActivityAllLeadsBinding
 import com.finance.app.others.AppEnums
-import com.finance.app.view.adapters.recycler.adapter.LeadPagerAdapter
+import com.finance.app.view.adapters.pager.LeadPagerAdapter
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.viewModel.SyncDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
