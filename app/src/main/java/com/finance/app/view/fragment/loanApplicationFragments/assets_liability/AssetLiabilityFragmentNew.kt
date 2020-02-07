@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class AssetLiabilityFragmentNew : BaseFragment() {
 
-    @Inject
+       @Inject
     lateinit var dataBase: DataBaseUtil
     private lateinit var binding: FragmentAssetliabilityNewBinding
     private var pagerAdapterAsset: AssetLiabilityPagerAdapter? = null
