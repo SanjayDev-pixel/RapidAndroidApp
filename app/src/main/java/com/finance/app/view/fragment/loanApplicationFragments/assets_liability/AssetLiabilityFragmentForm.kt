@@ -1,4 +1,4 @@
-package com.finance.app.view.fragment.loanApplicationFragments
+package com.finance.app.view.fragment.loanApplicationFragments.assets_liability
 
 
 import android.os.Bundle
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.AssetLiabilityFragmentFormBinding
+import com.finance.app.persistence.model.AssetLiabilityModel
+import com.finance.app.persistence.model.PersonalApplicantsModel
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -25,13 +27,13 @@ class AssetLiabilityFragmentForm : BaseFragment() {
     lateinit var dataBase: DataBaseUtil
     private lateinit var binding: AssetLiabilityFragmentFormBinding
 
-    private var leadApplicantNumber: String? = null
+    private lateinit var selectedApplicant: PersonalApplicantsModel
 
 
     companion object {
-        fun newInstance(leadApplicantNumber: String): AssetLiabilityFragmentForm {
+        fun newInstance(applicant: PersonalApplicantsModel): AssetLiabilityFragmentForm {
             val fragment = AssetLiabilityFragmentForm()
-            fragment.leadApplicantNumber = leadApplicantNumber
+            fragment.selectedApplicant = applicant
             return fragment
         }
 
@@ -64,25 +66,14 @@ class AssetLiabilityFragmentForm : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //Now Fetch data from server...
-        fetchLeadAssetsAndLiabilityDetails()
 
+        activity?.let { binding.customAssetView.initApplicantDetails(it, selectedApplicant) }
     }
 
-    private fun fetchLeadAssetsAndLiabilityDetails() {
-        leadApplicantNumber?.let { activity?.let { it1 -> binding.customAssetView.initApplicantDetails(it1, it) } }
 
-//        LeadMetaData.getLeadObservable().observe(this@AssetLiabilityFragmentForm, Observer { leadDetails ->
-//            leadDetails?.let {
-//                val filterList = it.assetLiabilityData.applicantDetails?.filter { assetsLiability -> leadApplicantNumber == assetsLiability.leadApplicantNumber }
-//                binding.customAssetView.attachView(activity!!, filterList)
-//                if (!filterList.isNullOrEmpty()) {
-//                    LeadMetaData.getLeadId()?.let { it1 -> binding.customAssetView.attachView(activity!!, index, filterList?.get(0), it1) }
-//                }
-        /*else {
-                LeadMetaData.getLeadId()?.let { it1 -> binding.customAssetView.attachView(activity!!, index, AssetLiabilityModel(), it1) }
-            }*/
-//            }
-//        })
+
+
+    fun getAssetsAndLiability(): AssetLiabilityModel {
+        return binding.customAssetView.getCurrentApplicant()
     }
 }

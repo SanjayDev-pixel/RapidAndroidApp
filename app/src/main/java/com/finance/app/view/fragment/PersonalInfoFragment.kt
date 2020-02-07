@@ -492,11 +492,11 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
         private fun setCoApplicants() {
             dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
                 coApplicantsMaster.let {
-                    val list = coApplicantsMaster.coApplicantsList
+                    val list = coApplicantsMaster.applicantsList
                     if (list.isNullOrEmpty()) {
                         applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, leadNumber))
                     } else {
-                        applicantTab = coApplicantsMaster.coApplicantsList
+                        applicantTab = coApplicantsMaster.applicantsList
                     }
 
                     binding.rcApplicants.layoutManager = LinearLayoutManager(context,
@@ -788,7 +788,7 @@ class PersonalInfoFragment : BaseFragment(), ApplicantsAdapter.ItemClickListener
             private fun saveApplicantToDB(responseObj: ArrayList<CoApplicantsList>) {
                 GlobalScope.launch {
                     val coApplicantMaster = CoApplicantsMaster()
-                    coApplicantMaster.coApplicantsList = responseObj
+                    coApplicantMaster.applicantsList = responseObj
                     coApplicantMaster.leadID = mLead!!.leadID
                     dataBase.provideDataBaseSource().coApplicantsDao().insertCoApplicants(coApplicantMaster)
                 }

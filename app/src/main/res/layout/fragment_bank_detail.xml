@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            app:tabBackground="@color/white"
+            app:tabBackground="@android:color/transparent"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorHeight="3dp"
@@ -26,8 +26,8 @@
             android:id="@+id/vpBankDetailForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tabLead"
-            android:layout_above="@id/layoutBottomNav" />
+            android:layout_above="@id/layoutBottomNav"
+            android:layout_below="@id/tabLead" />
 
 
         <RelativeLayout

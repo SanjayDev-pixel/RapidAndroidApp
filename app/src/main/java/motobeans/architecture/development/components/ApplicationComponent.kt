@@ -15,8 +15,14 @@ import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.PersonalFormFragment
 import com.finance.app.view.fragment.loanApplicationFragments.*
+import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentForm
+import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFormFragment
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentFormFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentInfoFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.personal.PersonalFormFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.personal.PersonalInfoFragmentNew
 import com.finance.app.viewModel.AppDataViewModel
 import com.finance.app.viewModel.LeadDataViewModel
 import com.finance.app.viewModel.SyncDataViewModel

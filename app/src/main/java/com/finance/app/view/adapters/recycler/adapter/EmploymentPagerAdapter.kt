@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.finance.app.persistence.model.EmploymentApplicantsModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.view.fragment.loanApplicationFragments.EmploymentFormFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentFormFragmentNew
 
 class EmploymentPagerAdapter internal constructor(fm: FragmentManager,
                                                   val coApplicantsList: ArrayList<EmploymentApplicantsModel>,

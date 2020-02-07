@@ -136,7 +136,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun checkAndGoToNextScreen(lead: AllLeadMaster) {
-        lead.leadNumber?.let {
+        lead.leadID?.let {
             LoanApplicationActivity.start(this)
         }
     }

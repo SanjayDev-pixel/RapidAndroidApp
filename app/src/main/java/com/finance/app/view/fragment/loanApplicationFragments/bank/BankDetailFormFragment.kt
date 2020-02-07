@@ -96,9 +96,9 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     private fun fetchLeadBankDetail() {
         LeadMetaData.getLeadObservable().observe(this@BankDetailFormFragment, Observer {
             it?.let { leadDetails ->
-                //Will always have one single equivalent list...
                 val selectedApplicantBankDetails = leadDetails.bankData.applicantBankDetails.filter { bankDetail -> bankDetail.applicantID == selectedApplicant.applicantID }
-                setBankDetailAdapter(selectedApplicantBankDetails[0].applicantBankDetailsBean)
+                if (selectedApplicantBankDetails.isNotEmpty()) //TODO need to solve this bug...
+                    setBankDetailAdapter(selectedApplicantBankDetails[0].applicantBankDetailsBean)
             }
         })
     }

@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemCreditCardBinding
+import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.CardDetail
 
 class CardDetailAdapter(private val c: Context, private val cards: ArrayList<CardDetail>) : RecyclerView.Adapter<CardDetailAdapter.CreditCardViewHolder>() {
@@ -28,6 +29,33 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
     interface CardClickListener {
         fun onCardDetailDeleteClicked(position: Int)
         fun onCardDetailEditClicked(position: Int, card: CardDetail)
+    }
+
+    fun getItemList(): ArrayList<CardDetail> {
+        return cards
+    }
+
+    fun addItem(position: Int = 0, cardDetail: CardDetail) {
+        cards?.let {
+            it.add(position, cardDetail)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun updateItem(position: Int, cardDetail: CardDetail) {
+        cards?.let {
+            if (position >= 0 && position <= it.size) {
+                it[position] = cardDetail
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun deleteItem(position: Int) {
+        cards?.let {
+            cards.removeAt(position)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onBindViewHolder(holder: CreditCardViewHolder, position: Int) {

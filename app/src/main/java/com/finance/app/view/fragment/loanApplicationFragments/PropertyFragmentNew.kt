@@ -42,8 +42,6 @@ import javax.inject.Inject
 
 class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinCodeDetailConnector.PinCode, DistrictCityConnector.City, TransactionCategoryConnector.TransactionCategory {
 
-    @Inject
-    lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
     private lateinit var binding: FragmentPropertyInfoBinding
     @Inject
@@ -68,7 +66,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
     private lateinit var ownnerShipSpinner: CustomSpinnerView<DropdownMaster>
 
 
-    private var leadIdForApplicant: String? = ""
+    private var leadIdForApplicant: String = ""
 
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mOwnershipId: String = ""
@@ -87,14 +85,14 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
     }
 
 
-     override fun onCreate(savedInstanceState: Bundle?) {
-         super.onCreate(savedInstanceState)
-         ArchitectureApp.instance.component.inject(this)
-         mContext = context!!
-         mContext = context!!
-         mLead = LeadMetaData.getLeadData()
-         leadIdForApplicant = mLead?.leadID?.toString()
-     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
+        mContext = context!!
+        mLead = LeadMetaData.getLeadData()//sharedPreferences.getLeadDetail()
+        leadIdForApplicant = LeadMetaData.getLeadId().toString()
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

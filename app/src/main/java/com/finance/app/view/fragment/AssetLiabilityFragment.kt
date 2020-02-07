@@ -154,10 +154,10 @@
 //    private fun setCoApplicants() {
 //        dataBase.provideDataBaseSource().coApplicantsDao().getCoApplicants(mLead!!.leadID!!).observe(viewLifecycleOwner, Observer { coApplicantsMaster ->
 //            coApplicantsMaster.let {
-//                if (coApplicantsMaster.coApplicantsList!!.isEmpty()) {
+//                if (coApplicantsMaster.applicantsList!!.isEmpty()) {
 //                    applicantTab?.add(leadAndLoanDetail.getDefaultApplicant(currentPosition, mLead!!.leadNumber!!))
 //                } else {
-//                    applicantTab = coApplicantsMaster.coApplicantsList
+//                    applicantTab = coApplicantsMaster.applicantsList
 //                }
 //
 //                binding.rcApplicants.layoutManager = LinearLayoutManager(context,

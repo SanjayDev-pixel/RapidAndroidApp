@@ -5,47 +5,46 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llApplicantTab"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLead"
-                android:layout_width="0sp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_10"
-                android:layout_weight="15"
-                android:minHeight="?actionBarSize"
-                android:textSize="@dimen/button_text_size"
-                app:tabBackground="@color/white"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/btnAddApplicantTab"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabBackground="@android:color/transparent"
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/colorPrimary"
                 app:tabIndicatorHeight="3dp"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/colorPrimary"
                 app:tabTextColor="@color/black" />
 
             <Button
-                android:id="@+id/btnAddApplicant"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnAddApplicantTab"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/add_icon"
-                android:layout_weight="1"
                 android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@id/rlButton"
             android:layout_below="@id/llApplicantTab" />
 
