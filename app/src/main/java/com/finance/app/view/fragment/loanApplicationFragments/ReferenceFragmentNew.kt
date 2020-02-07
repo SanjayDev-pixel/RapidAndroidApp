@@ -90,7 +90,7 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
             leadDetails?.let {
                 this@ReferenceFragmentNew.leadDetails = it
                 //Set Reference Details List.
-                it.referenceData.referenceDetails?.let { it1 -> setReferenceDetailAdapter(it1) }
+                it.referenceData.referenceDetails.let { it1 -> setReferenceDetailAdapter(it1) }
             }
         })
     }
