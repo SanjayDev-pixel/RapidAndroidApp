@@ -75,9 +75,10 @@ class DocumentCheckListFragmentNew : BaseFragment(){
 //            pagerAdapterAsset?.getALlAssetsAndLiability()?.let { it1 -> LeadMetaData().saveAssetLiabilityData(it1) }
 //            AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
-           // presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
+ //           presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
         }
     }
+
 
 
 
