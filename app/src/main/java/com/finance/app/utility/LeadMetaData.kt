@@ -47,6 +47,20 @@ class LeadMetaData : Observable() {
         }
     }
 
+    private fun initNewApplicantEmploymentDetails(lead: AllLeadMaster, applicants: ArrayList<PersonalApplicantsModel>): ArrayList<EmploymentApplicantsModel> {
+        val applicantEmploymentDetails: ArrayList<EmploymentApplicantsModel> = ArrayList()
+        applicants.forEachIndexed { _, personalApplicantsModel ->
+            val employmentModel = EmploymentApplicantsModel()
+            employmentModel.leadApplicantNumber = lead.leadID.toString()
+            employmentModel.applicantID = personalApplicantsModel.applicantID
+            employmentModel.isMainApplicant = personalApplicantsModel.isMainApplicant
+            employmentModel.incomeConsidered = personalApplicantsModel.incomeConsidered
+            applicantEmploymentDetails.add(employmentModel)
+        }
+
+        return applicantEmploymentDetails
+    }
+
     private fun initNewApplicantBankDetails(lead: AllLeadMaster, applicants: ArrayList<PersonalApplicantsModel>): ArrayList<BankDetailModel> {
         val applicantBankDetails: ArrayList<BankDetailModel> = ArrayList()
         applicants.forEachIndexed { _, personalApplicantsModel ->
@@ -96,6 +110,7 @@ class LeadMetaData : Observable() {
 
             // Doing this because of mapping dependency..
             // Need to set default values for depend object on applicant...
+            lead.employmentData.applicantDetails = initNewApplicantEmploymentDetails(lead, applicants)
             lead.bankData.applicantBankDetails = initNewApplicantBankDetails(lead, applicants)
             lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(lead, applicants)
 

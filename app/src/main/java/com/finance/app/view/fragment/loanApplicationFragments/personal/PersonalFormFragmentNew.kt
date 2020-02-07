@@ -10,6 +10,7 @@ import com.finance.app.databinding.FragmentPersonalFormBinding
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants.APP.KEY_APPLICANT
 import motobeans.architecture.constants.Constants.APP.KEY_CO_APPLICANT
 import motobeans.architecture.constants.Constants.APP.KEY_INDEX
 import motobeans.architecture.customAppComponents.activity.BaseFragment
@@ -22,7 +23,7 @@ class PersonalFormFragmentNew : BaseFragment() {
         fun newInstance(applicant: PersonalApplicantsModel, index: Int): PersonalFormFragmentNew {
             val fragment = PersonalFormFragmentNew()
             val args = Bundle()
-            args.putSerializable(KEY_CO_APPLICANT, applicant)
+            args.putSerializable(KEY_APPLICANT, applicant)
             args.putInt(KEY_INDEX, index)
             fragment.arguments = args
             return fragment
@@ -48,12 +49,16 @@ class PersonalFormFragmentNew : BaseFragment() {
     }
 
     private fun fetchArguments() {
-        arguments?.getSerializable(KEY_CO_APPLICANT)?.let { applicantDetails ->
+        arguments?.getSerializable(KEY_APPLICANT)?.let { applicantDetails ->
             val applicant = applicantDetails as PersonalApplicantsModel
-            activity?.let { activityInstance ->
-                val leadId = LeadMetaData.getLeadId()
-                leadId?.let { binding.customPersonalView.attachView(activityInstance, arguments?.getInt(KEY_INDEX) ?: 0, applicant, leadId) }
-            }
+            inflateFormView(applicant)
+        }
+    }
+
+    private fun inflateFormView(applicant: PersonalApplicantsModel) {
+        activity?.let { activityInstance ->
+            val leadId = LeadMetaData.getLeadId()
+            leadId?.let { binding.customPersonalView.attachView(activityInstance, arguments?.getInt(KEY_INDEX) ?: 0, applicant, leadId) }
         }
     }
 

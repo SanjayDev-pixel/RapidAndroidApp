@@ -5,29 +5,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/app_bkg"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/llApplicantTab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="horizontal">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_10"
-
-                android:minHeight="?actionBarSize"
-                android:textSize="@dimen/button_text_size"
-                app:tabBackground="@color/white"
+                app:tabBackground="@android:color/transparent"
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/colorPrimary"
                 app:tabIndicatorHeight="3dp"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/colorPrimary"
                 app:tabTextColor="@color/black" />
 
@@ -39,14 +34,14 @@
 
                 android:textColor="@color/black"
                 android:textSize="@dimen/button_text_size"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@id/rlButton"
             android:layout_below="@id/llApplicantTab" />
 
@@ -60,8 +55,10 @@
                 android:id="@+id/btnPrevious"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:background="@color/md_grey_500"
                 android:text="@string/previous"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="@dimen/button_text_size" />
 
             <Button
@@ -69,9 +66,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:background="@color/md_applicant_blue"
                 android:text="@string/next"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="@dimen/button_text_size" />
+
         </RelativeLayout>
     </RelativeLayout>
 </layout>

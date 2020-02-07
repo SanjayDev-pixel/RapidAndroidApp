@@ -5,42 +5,38 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:background="@color/app_bkg">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="@color/black" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:fillViewport="true">
+            android:layout_below="@id/tabLead"
+            android:fillViewport="true"
+            android:overScrollMode="never">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLead"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_10"
-                    android:minHeight="?actionBarSize"
-                    android:textSize="@dimen/button_text_size"
-                    app:tabBackground="@color/white"
-                    app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/colorPrimary"
-                    app:tabIndicatorHeight="3dp"
-                    app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/colorPrimary"
-                    app:tabTextColor="@color/black" />
+                android:layout_height="wrap_content">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_10"
-                    android:layout_above="@id/rlButton"
-                    android:layout_below="@id/tabLead" />
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="20dp" />
 
                 <RelativeLayout
                     android:id="@+id/rlButton"
@@ -52,8 +48,10 @@
                         android:id="@+id/btnPrevious"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:background="@color/md_grey_500"
                         android:text="@string/previous"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size" />
 
                     <Button
@@ -61,13 +59,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:background="@color/md_applicant_blue"
                         android:text="@string/next"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size" />
                 </RelativeLayout>
 
             </RelativeLayout>
 
         </ScrollView>
+
     </RelativeLayout>
 </layout>

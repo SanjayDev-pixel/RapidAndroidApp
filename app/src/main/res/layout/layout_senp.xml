@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -9,9 +10,10 @@
         <LinearLayout
             android:id="@+id/llSenp"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbAllEarningMember"
@@ -33,9 +35,9 @@
                     android:id="@+id/etBusinessName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:hint="Business Name"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -43,15 +45,15 @@
             <LinearLayout
                 android:id="@+id/layoutConstitution"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/fields_margin"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
                 android:orientation="vertical" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:layout_marginTop="@dimen/fields_margin"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -80,12 +82,12 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etGstRegistration"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
-                    android:maxLength="20"
-                    android:inputType="text"
                     android:layout_height="wrap_content"
                     android:hint="GST/VAT Registration "
+                    android:inputType="text"
+                    android:maxLength="20"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -122,17 +124,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2sp"
+                    android:layout_weight="1"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:layout_weight="1"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etBusinessVintage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
                         android:editable="false"
+                        android:focusable="false"
                         android:hint="Business Vintage(In Years)"
                         android:minWidth="200dp"
                         android:textSize="@dimen/text_size" />
@@ -148,17 +150,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/income"
                 android:layout_marginTop="@dimen/fields_margin"
+                android:text="@string/income"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/lastCurrentIncome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:id="@+id/lastCurrentIncome"
                 android:baselineAligned="true"
                 android:orientation="horizontal">
 
@@ -174,8 +176,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Last Year Income"
-                        android:maxLength="8"
                         android:inputType="numberDecimal"
+                        android:maxLength="8"
                         android:minWidth="150dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_size" />
@@ -194,8 +196,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Current Year Income"
-                        android:maxLength="8"
                         android:inputType="numberDecimal"
+                        android:maxLength="8"
                         android:minWidth="200dp"
                         android:singleLine="true"
                         android:textSize="@dimen/text_size" />
@@ -215,11 +217,11 @@
                     android:id="@+id/etAverageMonthlyIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/average_monthly_income"
                     android:clickable="false"
-                    android:maxLength="8"
-                    android:inputType="numberDecimal"
                     android:focusable="false"
+                    android:hint="@string/average_monthly_income"
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
                     android:minWidth="200dp"
                     android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
@@ -238,8 +240,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Monthly Income"
-                    android:maxLength="8"
                     android:inputType="numberDecimal"
+                    android:maxLength="8"
                     android:minWidth="200dp"
                     android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
