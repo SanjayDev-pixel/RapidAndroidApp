@@ -99,25 +99,25 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
         binding.assetcounter.setOnClickListener() {
             binding.llAssetDetail.visibility = View.VISIBLE
-            binding.pageIndicatorAsset.visibility = View.VISIBLE
+//            binding.pageIndicatorAsset.visibility = View.VISIBLE
             binding.rcAsset.visibility = View.VISIBLE
 
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
 
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
         }
 
         binding.tvAssetdetail.setOnClickListener() {
             binding.llAssetDetail.visibility = View.VISIBLE
-            binding.pageIndicatorAsset.visibility = View.VISIBLE
+//            binding.pageIndicatorAsset.visibility = View.VISIBLE
             binding.rcAsset.visibility = View.VISIBLE
 
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
 
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
         }
 
@@ -142,7 +142,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         assetAdapter = AssetDetailAdapter(context, assets)
         binding.rcAsset.adapter = assetAdapter
         assetAdapter?.setOnAssetClickListener(this)
-        binding.pageIndicatorAsset.attachTo(binding.rcAsset)
+//        binding.pageIndicatorAsset.attachTo(binding.rcAsset)
         binding.assetcounter.setText(assets.size.toString())
     }
     private fun setAssetCounter(asset: ArrayList<AssetLiability>?){
@@ -162,7 +162,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         cardDetailAdapter = CardDetailAdapter(context, cards)
         binding.layoutCreditCard.rcCreditCard.adapter = cardDetailAdapter
         cardDetailAdapter?.setOnCardClickListener(this)
-        binding.layoutCreditCard.pageIndicatorCreditCard.attachTo(binding.layoutCreditCard.rcCreditCard)
+//        binding.layoutCreditCard.pageIndicatorCreditCard.attachTo(binding.layoutCreditCard.rcCreditCard)
         binding.layoutCreditCard.creditcardcounter.setText(cards.size.toString())
     }
 
@@ -171,7 +171,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         obligationAdapter = ObligationAdapter(context, obligations)
         binding.layoutObligations.rcObligation.adapter = obligationAdapter
         obligationAdapter?.setOnObligationClickListener(this)
-        binding.layoutObligations.pageIndicatorObligation.attachTo(binding.layoutObligations.rcObligation)
+//        binding.layoutObligations.pageIndicatorObligation.attachTo(binding.layoutObligations.rcObligation)
         binding.layoutObligations.obligationcounter.setText(obligations.size.toString())
 
 
@@ -438,10 +438,10 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     private fun cardDetailFormListeners(layoutCreditCard: LayoutCreditCardDetailsBinding?) {
         binding.layoutCreditCard.tvCreditdetail.setOnClickListener() {
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
-            binding.pageIndicatorAsset.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
+//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
 
         }
@@ -449,10 +449,10 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         binding.layoutCreditCard.creditcardcounter.setOnClickListener() {
 
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
-            binding.pageIndicatorAsset.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
+//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
 
         }
@@ -462,20 +462,20 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     private fun obligationFormListeners(layoutObligations: LayoutObligationBinding?) {
         binding.layoutObligations.tvObligationdetail.setOnClickListener() {
 
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.VISIBLE
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
-            binding.pageIndicatorAsset.visibility = View.GONE
+//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
         }
         binding.layoutObligations.obligationcounter.setOnClickListener() {
 
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.VISIBLE
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
-            binding.pageIndicatorAsset.visibility = View.GONE
+//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
         }
 
@@ -770,29 +770,29 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         if(flag.equals("asset")) {
 
             binding.llAssetDetail.visibility = View.VISIBLE
-            binding.pageIndicatorAsset.visibility = View.VISIBLE
+//            binding.pageIndicatorAsset.visibility = View.VISIBLE
             binding.rcAsset.visibility = View.VISIBLE
 
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
 
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
         }else if(flag.equals("card")){
 
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
-            binding.pageIndicatorAsset.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
+//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
 
         }else{
-            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
+//            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.VISIBLE
-            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
-            binding.pageIndicatorAsset.visibility = View.GONE
+//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
 
         }

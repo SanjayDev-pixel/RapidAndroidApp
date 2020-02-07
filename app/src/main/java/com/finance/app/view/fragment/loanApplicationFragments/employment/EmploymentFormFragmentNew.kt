@@ -19,13 +19,11 @@ class EmploymentFormFragmentNew : BaseFragment() {
 
     //TODO set income not consider also.... show custom view...
 
-
     private lateinit var binding: FragmentEmploymentFormBinding
-//    private lateinit var applicant: EmploymentApplicantsModel
 
     companion object {
 
-        fun newInstance(/*coApplicant: EmploymentApplicantsModel?,*/selectedApplicant: PersonalApplicantsModel): EmploymentFormFragmentNew {
+        fun newInstance(selectedApplicant: PersonalApplicantsModel): EmploymentFormFragmentNew {
             val fragment = EmploymentFormFragmentNew()
             val args = Bundle()
             args.putSerializable(KEY_APPLICANT, selectedApplicant)

@@ -229,11 +229,11 @@
             android:visibility="gone"/>
 
 
-        <com.chahinem.pageindicator.PageIndicator
-            android:id="@+id/pageIndicatorCreditCard"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="12sp"
-            android:visibility="gone"/>
+<!--        <com.chahinem.pageindicator.PageIndicator-->
+<!--            android:id="@+id/pageIndicatorCreditCard"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_height="12sp"-->
+<!--            android:visibility="gone"/>-->
     </LinearLayout>
 </layout>
