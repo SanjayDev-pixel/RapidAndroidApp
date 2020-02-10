@@ -1,5 +1,7 @@
 package com.finance.app.view.fragment.loanApplicationFragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +10,19 @@ import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetliabilityNewBinding
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
 import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
+import com.finance.app.view.activity.FinalSubmitActivity
 import com.finance.app.view.activity.SyncActivity
+import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckLIstPagerAdapter
+import kotlinx.android.synthetic.main.activity_update_call.*
+import kotlinx.android.synthetic.main.layout_fixed_meeting.view.*
+import kotlinx.android.synthetic.main.layout_follow_up.view.*
+import kotlinx.android.synthetic.main.layout_not_interested.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
@@ -23,6 +32,7 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
+import motobeans.architecture.util.DateUtil
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -42,6 +52,7 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     private var pagerAdapterDocumentCheckList: DocumentCheckLIstPagerAdapter? = null
     private var applicantList: ArrayList<PersonalApplicantsModel>? = null
     private val presenter = Presenter()
+    private lateinit var mContext: Context
 
 
     companion object {
@@ -55,6 +66,7 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ArchitectureApp.instance.component.inject(this)
+        mContext=context!!
     }
 
     override fun init() {}
@@ -79,7 +91,10 @@ class DocumentCheckListFragmentNew : BaseFragment(){
 //            pagerAdapterAsset?.getALlAssetsAndLiability()?.let { it1 -> LeadMetaData().saveAssetLiabilityData(it1) }
 //            AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
- //           presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
+
+           //tempory calling
+            val intent = Intent(activity, FinalSubmitActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -110,35 +125,24 @@ class DocumentCheckListFragmentNew : BaseFragment(){
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }
 
-/*
-    inner class CallFinalSubmit: ViewGeneric<String, Response.ResponseGetLoanApplication>(context = context) {
-        override val apiRequest: Requests.RequestFinalSubmit
-            get() = LeadMetaData.getLeadId().toString()
 
-        private val mRequest: Requests.RequestFinalSubmit
-            get() {
+    /*inner class CallFinalSubmit : ViewGeneric<Requests.RequestFinalSubmit, Response.ResponseCallUpdate>(context = mContext) {
+        override val apiRequest: Requests.RequestFinalSubmit?
+            get() = getCallUpdateRequest()
 
-
-                return Requests.RequestFinalSubmit()
-            }
-
-
-
-        override fun getApiSuccess(value: Response.ResponseGetLoanApplication) {
-            if (value.responseCode == Constants.SUCCESS) {
-                *//*sharedPreferences.saveLoginData(value)
-                SyncActivity.start(this@LoginActivity)*//*
-            } else {
-                showToast(value.responseMsg)
-            }
+        override fun getApiSuccess(value: Response.ResponseCallUpdate) {
+            //write code here after getting successful
         }
+    }
 
-        override fun getApiFailure(msg: String) {
-            showToast(msg)
-        }
+    private fun getCallUpdateRequest(): Requests.RequestFinalSubmit? {
+        val leadId = LeadMetaData.getLeadId()
+
+
+        return Requests.RequestFinalSubmit(leadID = leadId!!)
+
+
     }*/
-
-
 
 }
 

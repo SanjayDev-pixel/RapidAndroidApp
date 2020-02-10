@@ -18,8 +18,6 @@ import kotlinx.android.synthetic.main.obligation_item_dialog.*
 class ObligationAdapter(private val c: Context, private val obligations: ArrayList<ObligationDetail>) : RecyclerView.Adapter<ObligationAdapter.ObligationViewHolder>() {
     private lateinit var binding: ItemObligationBinding
     private var mOnObligationClickListener: ObligationClickListener? = null
-    private lateinit var obligationItemDetailDialogView: View
-    private lateinit var obligationItemDetailDialog: Dialog
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObligationViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -95,8 +93,8 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
             }
 
             binding.btnEdit.setOnClickListener {
-              //  mOnObligationClickListener!!.onObligationEditClicked(position, obligation)
-                showItemDetail(position,obligation)
+                mOnObligationClickListener!!.onObligationEditClicked(position, obligation)
+
             }
             binding.btnEditNew.setOnClickListener(){
                 mOnObligationClickListener!!.onObligationEditNewClick(position,obligation)
@@ -106,33 +104,4 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
         }
     }
 
-    private fun showItemDetail(position: Int, obligation: ObligationDetail) {
-
-        Log.e("Tag","ssss"+obligation.toString())
-        obligationItemDetailDialogView = LayoutInflater.from(c).inflate(R.layout.obligation_item_dialog, null)
-        val mBuilder = androidx.appcompat.app.AlertDialog.Builder(c)
-                .setView(obligationItemDetailDialogView)
-                .setCancelable(true)
-
-        obligationItemDetailDialog = mBuilder.show()
-
-       /* obligationItemDetailDialog.cancel_bttn.setOnClickListener(){
-
-            obligationItemDetailDialog.dismiss()
-        }*/
-
-
-        obligationItemDetailDialog.tvFinancerName.setText(obligation.financerName)
-        obligationItemDetailDialog.tvTenure.setText(obligation.tenure.toString())
-        obligationItemDetailDialog.tvBalanceTenure.setText(obligation.balanceTenure.toString())
-        obligationItemDetailDialog.tvEMI.setText(obligation.emiAmount.toString())
-        obligationItemDetailDialog.tvNumOfBouncesInSixMonths.setText(obligation.numberOfBouncesInLastSixMonth.toString())
-        obligationItemDetailDialog.tvNumOfBouncesInNineMonths.setText(obligation.numberOfBouncesInLastNineMonth.toString())
-        obligationItemDetailDialog.tvLoanAcNum.setText(obligation.loanAccountNumber)
-        obligationItemDetailDialog.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
-        obligationItemDetailDialog.tvLoanAmount.setText(obligation.loanAmount.toString())
-
-
-
-    }
 }

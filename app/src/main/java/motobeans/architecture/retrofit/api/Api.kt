@@ -69,7 +69,7 @@ interface Api {
     fun verifyOTP(@Body requestPost: Requests.RequestVerifyOTP): Observable<Response.ResponseOTP>
 
     @POST("api/v1/lead/submit/{leadID}")
-    fun finalSubmit(@Path("leadID") leadId: String): Observable<Response.ResponseGetLoanApplication>
+    fun finalSubmit(@Path("leadID") leadId: Int): Observable<Response.ResponseFinalSubmit>
 
     @POST("api/v1/lead/followUp/{leadID}")
     fun postCallUpdate(@Path("leadID") leadId: Int, @Body requestPost: Requests.RequestCallUpdate): Observable<Response.ResponseCallUpdate>

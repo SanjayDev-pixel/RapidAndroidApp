@@ -1,5 +1,6 @@
 package com.finance.app.view.fragment.loanApplicationFragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -197,6 +198,7 @@ class LoanInfoFragmentNew : BaseFragment(){
         loanInfoObj.tenure = binding.etTenure.text.toString().toInt()
         loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
+        loanInfoObj.logginUserEntityID= sharedPreferences.getUserId()!!.toInt()
         return loanInfoObj
     }
 

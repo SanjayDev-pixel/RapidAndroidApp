@@ -13,7 +13,7 @@ class LoanInfoModel:Serializable {
     var interestTypeTypeDetailID: Int? = null
     var leadID: Int? = 0
     var loanAmountRequest: Int = 0
-    var loanApplicationID: Int? = 0
+    var loanApplicationID: Int? = null
     var loanPurposeID: Int? = 0
     var loanSchemeTypeDetailID: Int? = null
     var logginUserEntityID: Int? = null

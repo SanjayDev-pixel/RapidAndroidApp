@@ -9,6 +9,8 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemCreditCardBinding
 import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.CardDetail
+import motobeans.architecture.util.DateUtil
+import java.sql.Date
 
 class CardDetailAdapter(private val c: Context, private val cards: ArrayList<CardDetail>) : RecyclerView.Adapter<CardDetailAdapter.CreditCardViewHolder>() {
     private lateinit var binding: ItemCreditCardBinding
@@ -64,9 +66,10 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
 
     inner class CreditCardViewHolder(val binding: ItemCreditCardBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int, card: CardDetail) {
+            val dataUtil:DateUtil = DateUtil()
             binding.tvCardLimit.text = card.cardLimit.toString()
             binding.tvCurrentUtilization.text = card.currentUtilization.toString()
-            binding.tvLastPaymentDate.text = card.lastPaymentDate.toString()
+            binding.tvLastPaymentDate.text = dataUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2,DateUtil.dateFormattingType.TYPE_NORMAL_1,card.lastPaymentDate.toString())
             addClickListener(position, card)
         }
 

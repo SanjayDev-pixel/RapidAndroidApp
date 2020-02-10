@@ -35,10 +35,12 @@ import kotlinx.android.synthetic.main.layout_credit_card_details_new.etCurrentUt
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.etLastPaymentDate
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.spinnerBankName
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.spinnerObligate
+import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.AppUtilExtensions
+import motobeans.architecture.util.DateUtil
 import javax.inject.Inject
 
 class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs), AssetDetailAdapter.AssetClickListener, CardDetailAdapter.CardClickListener,
@@ -75,6 +77,8 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     private val OBLIGATION: Int = 3
 
     private lateinit var selectedApplicant: PersonalApplicantsModel
+    private lateinit var obligationItemDetailDialogView: View
+    private lateinit var obligationItemDetailDialog: Dialog
 
 
     init {
@@ -222,7 +226,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
     private fun showSetDataOnView(applicantList: ArrayList<AssetLiabilityModel>?) {
-
         for (applicant in applicantList!!) {
             if (applicant.isMainApplicant) {
                 currentApplicant = applicant
@@ -299,11 +302,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentAsset.ownershipTypeDetailID = ownership?.typeDetailID
                 currentAsset.documentedProofTypeDetailID = documentProof?.typeDetailID
 
-
-                //  assetsList?.add(currentAsset)
-                //  assetAdapter?.notifyDataSetChanged()
-                //  showToast(context, "Add Successfully")
-                // setAssetAdapter(assetsList!!)
                 assetAdapter?.addItem(currentPosition, currentAsset)
                 addAssestsDialog?.dismiss()
                 setAssetCounter(assetAdapter?.getItemList())
@@ -373,11 +371,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
                 currentObligation.bounseEmiPaidInSameMonth = emiPaidInSameMonth?.typeDetailID
 
-//                obligationsList?.add(currentObligation)
-//                obligationAdapter?.notifyDataSetChanged()
-//                addObligationDialog?.dismiss()
-//                setObligationAdapter(obligationsList!!)
-
                 obligationAdapter?.addItem(currentPosition, currentObligation)
                 addObligationDialog?.dismiss()
                 setObligationCounter(obligationAdapter?.getItemList())
@@ -413,19 +406,16 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         addCreditCardDialog?.btnAddcrdetail?.setOnClickListener() {
 
             if (formValidation.validateCardsDialog(binding)) {
+                val mydate: DateUtil = DateUtil()
                 val currentCard = CardDetail()
                 val bankName = addCreditCardDialog?.spinnerBankName?.selectedItem as DropdownMaster?
                 val obligate = addCreditCardDialog?.spinnerObligate?.selectedItem as DropdownMaster?
-                currentCard.lastPaymentDate = addCreditCardDialog?.etLastPaymentDate?.text.toString()
+                currentCard.lastPaymentDate = mydate.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1, DateUtil.dateFormattingType.TYPE_API_REQUEST_2, addCreditCardDialog?.etLastPaymentDate?.text.toString()) //addCreditCardDialog?.etLastPaymentDate?.text.toString()
                 currentCard.cardLimit = addCreditCardDialog?.etCreditCardLimit!!.text.toString().toInt()
                 currentCard.currentUtilization = addCreditCardDialog?.etCurrentUtilization!!.text.toString().toInt()
                 currentCard.bankNameTypeDetailID = bankName?.typeDetailID
                 currentCard.obligateTypeDetail = obligate?.typeDetailID
 
-//                cardDetailList?.add(currentCard)
-//                cardDetailAdapter?.notifyDataSetChanged()
-//                addCreditCardDialog?.dismiss()
-                //setCardDetailAdapter(cardDetailList!!)
                 cardDetailAdapter?.addItem(currentPosition, currentCard)
                 addCreditCardDialog?.dismiss()
                 setCreditCardCounter(cardDetailAdapter?.getItemList())
@@ -565,6 +555,62 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     //not in use further remove
     override fun onObligationEditClicked(position: Int, obligation: ObligationDetail) {
 
+
+        obligationItemDetailDialogView = LayoutInflater.from(context).inflate(R.layout.obligation_item_dialog, null)
+        val mBuilder = androidx.appcompat.app.AlertDialog.Builder(context)
+                .setView(obligationItemDetailDialogView)
+                .setCancelable(true)
+
+        obligationItemDetailDialog = mBuilder.show()
+
+
+        obligationItemDetailDialog.tvFinancerName.setText(obligation.financerName)
+        obligationItemDetailDialog.tvTenure.setText(obligation.tenure.toString())
+        obligationItemDetailDialog.tvBalanceTenure.setText(obligation.balanceTenure.toString())
+        obligationItemDetailDialog.tvEMI.setText(obligation.emiAmount.toString())
+        obligationItemDetailDialog.tvNumOfBouncesInSixMonths.setText(obligation.numberOfBouncesInLastSixMonth.toString())
+        obligationItemDetailDialog.tvNumOfBouncesInNineMonths.setText(obligation.numberOfBouncesInLastNineMonth.toString())
+        obligationItemDetailDialog.tvLoanAcNum.setText(obligation.loanAccountNumber)
+        obligationItemDetailDialog.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
+        obligationItemDetailDialog.tvLoanAmount.setText(obligation.loanAmount.toString())
+
+
+        for (i in 0 until allMasterDropDown?.RepaymentBank!!.size) {
+
+            if (obligation.repaymentBankTypeDetailID == allMasterDropDown!!.RepaymentBank?.get(i)?.typeDetailID) {
+
+                obligationItemDetailDialog.tvRepaymentBank.setText(allMasterDropDown!!.RepaymentBank?.get(i)?.typeDetailCode)
+
+            }
+
+        }
+
+        for (i in 0 until allMasterDropDown?.LoanOwnership!!.size) {
+
+            if (obligation.loanOwnershipTypeDetailID == allMasterDropDown!!.LoanOwnership?.get(i)?.typeDetailID) {
+
+                obligationItemDetailDialog.tvLoanOwnership.setText(allMasterDropDown!!.LoanOwnership?.get(i)?.typeDetailCode)
+
+            }
+        }
+
+        for (i in 0 until allMasterDropDown?.LoanType!!.size) {
+
+            if (obligation.loanTypeTypeDetailID == allMasterDropDown!!.LoanType?.get(i)?.typeDetailID) {
+                obligationItemDetailDialog.tvLoanType.setText(allMasterDropDown!!.LoanType?.get(i)?.typeDetailCode)
+
+            }
+        }
+
+        for (i in 0 until allMasterDropDown?.Obligate!!.size) {
+
+            if (obligation.obligateTypeDetailID == allMasterDropDown!!.Obligate?.get(i)?.typeDetailID) {
+                obligationItemDetailDialog.tvObligate.setText(allMasterDropDown!!.Obligate?.get(i)?.typeDetailCode)
+
+            }
+        }
+
+
     }
 
 
@@ -638,7 +684,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         addCreditCardDialog?.cancel_bttn?.setOnClickListener() {
             addCreditCardDialog?.dismiss()
         }
-
+        val dateUtils: DateUtil = DateUtil()
         addCreditCardDialog?.spinnerBankName?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BankName!!)
         addCreditCardDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.CreditCardObligation!!)
 
@@ -646,7 +692,8 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         selectMasterDropdownValue(binding.spinnerObligate, card.obligateTypeDetail)
         binding.etCreditCardLimit.setText(card.cardLimit.toString())
         binding.etCurrentUtilization.setText(card.currentUtilization.toString())
-        binding.etLastPaymentDate.setText(card.lastPaymentDate.toString())
+        binding.etLastPaymentDate.setText(dateUtils.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2, DateUtil.dateFormattingType.TYPE_NORMAL_1, card.lastPaymentDate.toString())
+        )
         binding.btnAddcrdetail.setText(R.string.edit)
 
 
