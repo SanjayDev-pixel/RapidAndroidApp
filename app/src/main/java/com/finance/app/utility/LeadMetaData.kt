@@ -107,12 +107,12 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.personalData.applicantDetails = applicants
-
             // Doing this because of mapping dependency..
             // Need to set default values for depend object on applicant...
-            lead.employmentData.applicantDetails = initNewApplicantEmploymentDetails(lead, applicants)
-            lead.bankData.applicantBankDetails = initNewApplicantBankDetails(lead, applicants)
-            lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(lead, applicants)
+            //Don't assign if already initialized
+            if (lead.employmentData.applicantDetails.size < 0) lead.employmentData.applicantDetails = initNewApplicantEmploymentDetails(lead, applicants)
+            if (lead.bankData.applicantBankDetails.size < 0) lead.bankData.applicantBankDetails = initNewApplicantBankDetails(lead, applicants)
+            if (lead.assetLiabilityData.applicantDetails.size < 0) lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(lead, applicants)
 
             insertLeadInfoIntoDB(lead)
         }
