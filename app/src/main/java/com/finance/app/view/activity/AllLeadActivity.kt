@@ -49,11 +49,12 @@ class AllLeadActivity : BaseAppCompatActivity() {
 
     private fun setUpLeadFragments() {
         pagerAdapter = LeadPagerAdapter(supportFragmentManager)
-        pagerAdapter!!.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.PENDING), AppEnums.LEAD_TYPE.PENDING.type)
-        pagerAdapter!!.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.SUBMITTED), AppEnums.LEAD_TYPE.SUBMITTED.type)
-        pagerAdapter!!.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.REJECTED), AppEnums.LEAD_TYPE.REJECTED.type)
-        pagerAdapter!!.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.ALL), AppEnums.LEAD_TYPE.ALL.type)
+        pagerAdapter?.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.PENDING), AppEnums.LEAD_TYPE.PENDING.type)
+        pagerAdapter?.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.SUBMITTED), AppEnums.LEAD_TYPE.SUBMITTED.type)
+        pagerAdapter?.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.REJECTED), AppEnums.LEAD_TYPE.REJECTED.type)
+        pagerAdapter?.addFragment(LeadsListingFragment.newInstance(AppEnums.LEAD_TYPE.ALL), AppEnums.LEAD_TYPE.ALL.type)
         binding.viewPager.adapter = pagerAdapter
+        binding.viewPager.offscreenPageLimit = 4 //Total Number fragments to load at once..
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }
 }

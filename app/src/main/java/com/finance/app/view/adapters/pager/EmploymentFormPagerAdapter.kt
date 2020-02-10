@@ -36,7 +36,7 @@ class EmploymentFormPagerAdapter(fm: FragmentManager, private val applicantsList
     fun getEmploymentDetails(): ArrayList<EmploymentApplicantsModel> {
         val list = ArrayList<EmploymentApplicantsModel>()
         fragmentList.forEach { item ->
-           list.add(item.getApplicantEmploymentDetails())
+            item.getApplicantEmploymentDetails()?.let { list.add(it) }
         }
         return list
     }

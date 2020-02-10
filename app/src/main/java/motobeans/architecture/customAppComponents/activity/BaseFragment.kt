@@ -15,58 +15,58 @@ import motobeans.architecture.util.exShowToast
 
 abstract class BaseFragment : Fragment(), ReusableView {
 
-  abstract fun init()
+    abstract fun init()
 
-  private var rootView: View? = null
+    private var rootView: View? = null
 
-  @CallSuper
-  fun <T : ViewDataBinding> initBinding(inflater: LayoutInflater, container: ViewGroup?,
-      layoutId: Int): T {
-    val binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
-    rootView = binding.root
+    @CallSuper
+    fun <T : ViewDataBinding> initBinding(inflater: LayoutInflater, container: ViewGroup?,
+                                          layoutId: Int): T {
+        val binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
+        rootView = binding.root
 
-    Assent.setFragment(this, this)
+        Assent.setFragment(this, this)
 
-    return binding
-  }
-
-  override fun getView(): View? {
-    return rootView
-  }
-
-  override fun showToast(msg: String) {
-    msg.exShowToast(getContext())
-  }
-
-  companion object {
-    internal var progressDialog: ProgressDialog? = null
-  }
-
-  override fun showProgressDialog() {
-    when (progressDialog == null) {
-      true -> progressDialog = DialogFactory.getInstance(context = activity!!)
+        return binding
     }
-    progressDialog?.show()
-  }
 
-  override fun hideProgressDialog() {
-    progressDialog?.hide()
-  }
+    override fun getView(): View? {
+        return rootView
+    }
 
-  override fun onResume() {
-    super.onResume()
-    Assent.setFragment(this, this)
-  }
+    override fun showToast(msg: String) {
+        msg.exShowToast(getContext())
+    }
 
-  override fun onPause() {
-    super.onPause()
-    if (activity != null && activity!!.isFinishing)
-      Assent.setFragment(this, null)
-  }
+    companion object {
+        internal var progressDialog: ProgressDialog? = null
+    }
 
-  override fun getApiFailure(msg: String) {
-    showToast(msg)
-  }
+    override fun showProgressDialog() {
+        when (progressDialog == null) {
+            true -> progressDialog = DialogFactory.getInstance(context = activity!!)
+        }
+        progressDialog?.show()
+    }
+
+    override fun hideProgressDialog() {
+        progressDialog?.hide()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Assent.setFragment(this, this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (activity != null && activity!!.isFinishing)
+            Assent.setFragment(this, null)
+    }
+
+    override fun getApiFailure(msg: String) {
+        showToast(msg)
+    }
 
 
 }

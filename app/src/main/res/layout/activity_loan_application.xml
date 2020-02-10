@@ -11,13 +11,14 @@
 
         <include
             android:id="@+id/header"
-            layout="@layout/layout_header_with_back_btn"
-            />
+            layout="@layout/layout_header_with_back_btn" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimaryDark"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,40 +29,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="20dp"
                 android:text="Name"
+                android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:paddingLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:textAppearance="?android:textAppearanceLarge"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tvDesignation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="left|center"
+                android:layout_marginTop="5dp"
                 android:gravity="right"
+                android:paddingRight="20dp"
                 android:text="Applicant"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:paddingRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_alignParentRight="true"
-                />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvMobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:gravity="right"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:paddingLeft="20dp"
                 android:layout_below="@+id/applicant_name"
+                android:layout_gravity="left|center"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                />
+                android:gravity="right"
+                android:paddingLeft="20dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -82,9 +83,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/loan_application"
                 android:textColor="@color/white"
-                android:gravity="center"
                 android:textSize="@dimen/button_text_size" />
         </LinearLayout>
 

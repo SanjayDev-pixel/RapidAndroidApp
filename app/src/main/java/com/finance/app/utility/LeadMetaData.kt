@@ -47,43 +47,6 @@ class LeadMetaData : Observable() {
         }
     }
 
-    private fun initNewApplicantEmploymentDetails(applicants: ArrayList<PersonalApplicantsModel>): ArrayList<EmploymentApplicantsModel> {
-        val applicantEmploymentDetails: ArrayList<EmploymentApplicantsModel> = ArrayList()
-        applicants.forEachIndexed { _, personalApplicantsModel ->
-            val employmentModel = EmploymentApplicantsModel()
-            employmentModel.leadApplicantNumber = personalApplicantsModel.leadApplicantNumber
-            employmentModel.isMainApplicant = personalApplicantsModel.isMainApplicant
-            employmentModel.incomeConsidered = personalApplicantsModel.incomeConsidered
-            applicantEmploymentDetails.add(employmentModel)
-        }
-
-        return applicantEmploymentDetails
-    }
-
-    private fun initNewApplicantBankDetails(applicants: ArrayList<PersonalApplicantsModel>): ArrayList<BankDetailModel> {
-        val applicantBankDetails: ArrayList<BankDetailModel> = ArrayList()
-        applicants.forEachIndexed { _, personalApplicantsModel ->
-            val bankDetailModel = BankDetailModel()
-            bankDetailModel.leadApplicantNumber = personalApplicantsModel.leadApplicantNumber
-            bankDetailModel.firstName = personalApplicantsModel.firstName
-            bankDetailModel.isMainApplicant = personalApplicantsModel.isMainApplicant
-            applicantBankDetails.add(bankDetailModel)
-        }
-
-        return applicantBankDetails
-    }
-
-    private fun initNewApplicantAssetsAndLiabilityDetails(applicants: ArrayList<PersonalApplicantsModel>): ArrayList<AssetLiabilityModel> {
-        val assetLiabilityModelList: ArrayList<AssetLiabilityModel> = ArrayList()
-        applicants.forEachIndexed { _, personalApplicantsModel ->
-            val assetLiabilityModel = AssetLiabilityModel()
-            assetLiabilityModel.isMainApplicant = personalApplicantsModel.isMainApplicant
-            assetLiabilityModel.leadApplicantNumber = personalApplicantsModel.leadApplicantNumber
-            assetLiabilityModelList.add(assetLiabilityModel)
-        }
-        return assetLiabilityModelList
-    }
-
     private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
         return GlobalScope.launch {
             lead.isSyncWithServer = false
@@ -104,14 +67,6 @@ class LeadMetaData : Observable() {
         val lead = getLeadData()
         lead?.let {
             lead.personalData.applicantDetails = applicants
-            // Doing this because of mapping dependency..
-            // Need to set default values for depend object on applicant...
-            //Don't assign if already initialized
-
-            if (lead.employmentData.applicantDetails.isEmpty()) lead.employmentData.applicantDetails = initNewApplicantEmploymentDetails(applicants)
-            if (lead.bankData.applicantBankDetails.isEmpty()) lead.bankData.applicantBankDetails = initNewApplicantBankDetails(applicants)
-            if (lead.assetLiabilityData.applicantDetails.isEmpty()) lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(applicants)
-
             insertLeadInfoIntoDB(lead)
         }
     }

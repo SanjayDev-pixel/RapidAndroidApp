@@ -51,6 +51,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         hideSecondaryToolbar()
         getLead()
 
+
     }
 
     private fun getLead() {
@@ -70,7 +71,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun saveLeadData(id: Int?) {
-        id?.let{
+        id?.let {
             LeadMetaData().getAndPopulateLeadData(lead!!.leadID!!)
         }
     }
@@ -84,6 +85,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun fillLeadDetail(lead: AllLeadMaster) {
         val leadName = lead.applicantFirstName + " " + lead.applicantLastName
+
+        binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLeadName.text = leadName
 
         binding.tvEmail.text = lead.applicantEmail
@@ -106,6 +109,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     }
 
     private fun setClickListeners(lead: AllLeadMaster) {
+        binding.header.lytBack.setOnClickListener { onBackPressed() }
+
         binding.btnUpdateApplication.setOnClickListener {
             checkAndStartLoanApplicationActivity(lead)
         }

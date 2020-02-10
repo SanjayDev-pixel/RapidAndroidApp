@@ -53,6 +53,7 @@
     <color name="lead_status_rejected">#C8060C</color>
     <color name="lead_status_pending">#EECB1C</color>
     <color name="lead_status_submitted">#1DB427</color>
+    <color name="lead_status_extra">#BB323B</color>
 
 
 </resources>

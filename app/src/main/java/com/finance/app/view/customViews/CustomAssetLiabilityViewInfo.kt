@@ -185,24 +185,34 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         LeadMetaData.getLeadObservable().observe(activity, Observer { allLeadDetails ->
             allLeadDetails?.let {
                 val selectedApplicantList = it.assetLiabilityData.applicantDetails.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
-                if (!selectedApplicantList.isNullOrEmpty()) {
 
-                    if (selectedApplicantList[0].applicantAssetLiabilityList.isNullOrEmpty()) {
-                        selectedApplicantList[0].applicantAssetLiabilityList = ArrayList()
-                        setAssetAdapter(selectedApplicantList[0].applicantAssetLiabilityList!!)
-                    } else setAssetAdapter(selectedApplicantList[0].applicantAssetLiabilityList!!)
-
-                    if (selectedApplicantList[0].applicantCreditCardDetailList.isNullOrEmpty()) {
-                        selectedApplicantList[0].applicantCreditCardDetailList = ArrayList()
-                        setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList!!)
-                    } else setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList!!)
-
-
-                    if (selectedApplicantList[0].applicantExistingObligationList.isNullOrEmpty()) {
-                        selectedApplicantList[0].applicantExistingObligationList = ArrayList()
-                        setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList!!)
-                    } else setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList!!)
+                if (selectedApplicantList.isNotEmpty()) {
+                    setAssetAdapter(selectedApplicantList[0].applicantAssetLiabilityList)
+                    setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList)
+                    setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList)
+                } else {
+                    setAssetAdapter(ArrayList())
+                    setCardDetailAdapter(ArrayList())
+                    setObligationAdapter(ArrayList())
                 }
+
+//                if (!selectedApplicantList.isNullOrEmpty()) {
+//                    if (selectedApplicantList[0].applicantAssetLiabilityList.isNullOrEmpty()) {
+//                        selectedApplicantList[0].applicantAssetLiabilityList = ArrayList()
+//                        setAssetAdapter(selectedApplicantList[0].applicantAssetLiabilityList)
+//                    } else setAssetAdapter(selectedApplicantList[0].applicantAssetLiabilityList)
+//
+//                    if (selectedApplicantList[0].applicantCreditCardDetailList.isNullOrEmpty()) {
+//                        selectedApplicantList[0].applicantCreditCardDetailList = ArrayList()
+//                        setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList!!)
+//                    } else setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList!!)
+//
+//
+//                    if (selectedApplicantList[0].applicantExistingObligationList.isNullOrEmpty()) {
+//                        selectedApplicantList[0].applicantExistingObligationList = ArrayList()
+//                        setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList!!)
+//                    } else setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList!!)
+//                }
             }
         })
     }

@@ -31,7 +31,6 @@ class LeadListingAdapter(private val mContext: FragmentActivity, private val app
             itemsFromDB?.let {
                 leads.clear()
                 leads.addAll(itemsFromDB)
-
                 notifyDataSetChanged()
             }
         })
@@ -43,11 +42,12 @@ class LeadListingAdapter(private val mContext: FragmentActivity, private val app
             itemsFromDB?.let {
                 leads.clear()
                 leads.addAll(itemsFromDB)
-
                 notifyDataSetChanged()
             }
         })
     }
+
+    override fun getItemCount() = leads.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeadsListingHolder {
         val layoutInflater = LayoutInflater.from(mContext)
@@ -55,10 +55,8 @@ class LeadListingAdapter(private val mContext: FragmentActivity, private val app
         return LeadsListingHolder(binding, mContext)
     }
 
-    override fun getItemCount() = leads.size
-
     override fun onBindViewHolder(holder: LeadsListingHolder, position: Int) {
-        if (!leads.isNullOrEmpty()) {
+        if (leads.isNotEmpty()) {
             holder.bindItems(leads[position], leadStatusEnums)
         }
     }

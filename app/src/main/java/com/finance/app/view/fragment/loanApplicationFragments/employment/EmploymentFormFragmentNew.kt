@@ -64,13 +64,13 @@ class EmploymentFormFragmentNew : BaseFragment() {
         LeadMetaData.getLeadObservable().observe(this, Observer {
             it?.let { leadDetails ->
                 val employmentList = leadDetails.employmentData.applicantDetails.filter { employmentDetail -> employmentDetail.leadApplicantNumber.equals(applicant.leadApplicantNumber, true) }
-                if (employmentList.isNotEmpty())
-                    inflateFormView(applicant, employmentList[0])
+                if (employmentList.isNotEmpty()) inflateFormView(applicant, employmentList[0])
+                else inflateFormView(applicant, null)
             }
         })
     }
 
-    private fun inflateFormView(applicantsDetail: PersonalApplicantsModel, employmentDetail: EmploymentApplicantsModel) {
+    private fun inflateFormView(applicantsDetail: PersonalApplicantsModel, employmentDetail: EmploymentApplicantsModel?) {
         activity?.let { activityInstance ->
             binding.customEmploymentView.attachView(activityInstance, applicantsDetail, employmentDetail)
         }

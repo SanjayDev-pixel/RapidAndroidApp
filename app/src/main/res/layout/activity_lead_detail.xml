@@ -8,27 +8,36 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
+        <include
+            android:id="@+id/header"
+            layout="@layout/layout_header_with_back_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" />
+
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/header"
             android:fillViewport="true">
 
-            <LinearLayout xmlns:app="http://schemas.android.com/tools"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-               <!-- <include
-                    android:id="@+id/header"
-                    layout="@layout/layout_header_with_back_btn" />-->
+                <!-- <include
+                     android:id="@+id/header"
+                     layout="@layout/layout_header_with_back_btn" />-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_20"
-                    app:cardElevation="2dp"
-                    app:cardMaxElevation="2dp"
                     card_view:cardCornerRadius="5dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardMaxElevation="2dp"
                     card_view:cardUseCompatPadding="true">
 
                     <LinearLayout

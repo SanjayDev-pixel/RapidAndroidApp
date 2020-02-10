@@ -54,7 +54,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     private var averageMonthlyIncome = ""
 
     private lateinit var selectedApplicant: PersonalApplicantsModel
-    private lateinit var selectedEmploymentDetails: EmploymentApplicantsModel
+    private var selectedEmploymentDetails: EmploymentApplicantsModel? = null
 
     private lateinit var profile: CustomSpinnerView<DropdownMaster>
     private lateinit var subProfile: CustomSpinnerView<DropdownMaster>
@@ -68,7 +68,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     private var senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
     private var salarySpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
 
-    fun attachView(activity: FragmentActivity, selectedApplicant: PersonalApplicantsModel, employmentDetails: EmploymentApplicantsModel) {
+    fun attachView(activity: FragmentActivity, selectedApplicant: PersonalApplicantsModel, employmentDetails: EmploymentApplicantsModel?) {
         this.activity = activity
         this.selectedApplicant = selectedApplicant
         this.selectedEmploymentDetails = employmentDetails
@@ -78,12 +78,14 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         initializeViews(employmentDetails)
     }
 
-    private fun initializeViews(applicant: EmploymentApplicantsModel) {
+    private fun initializeViews(applicant: EmploymentApplicantsModel?) {
         SetEmploymentMandatoryField(binding)
         setDatePicker()
         setUpCustomViews()
         setClickListeners()
-        proceedFurther(applicant)
+        applicant?.let {
+            proceedFurther(it)
+        }
     }
 
     private fun setDatePicker() {
@@ -160,12 +162,12 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         return 0.0f
     }
 
-    private fun proceedFurther(applicant: EmploymentApplicantsModel) {
+    private fun proceedFurther(applicant: EmploymentApplicantsModel?) {
         ArchitectureApp.instance.component.inject(this)
         getDropDownsFromDB(applicant)
     }
 
-    private fun getDropDownsFromDB(applicant: EmploymentApplicantsModel) {
+    private fun getDropDownsFromDB(applicant: EmploymentApplicantsModel?) {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity,
                 Observer { MasterDropdown ->
                     MasterDropdown?.let {
@@ -174,12 +176,12 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
                 })
     }
 
-    private fun setMasterDropDownValue(applicant: EmploymentApplicantsModel, dropDowns: AllMasterDropDown) {
+    private fun setMasterDropDownValue(applicant: EmploymentApplicantsModel?, dropDowns: AllMasterDropDown) {
         setCustomSpinner(dropDowns, applicant)
         fillValueInCustomSpinner(applicant)
     }
 
-    private fun setCustomSpinner(dropDowns: AllMasterDropDown, applicant: EmploymentApplicantsModel) {
+    private fun setCustomSpinner(dropDowns: AllMasterDropDown, applicant: EmploymentApplicantsModel?) {
 
         subProfile = CustomSpinnerView(mContext = context, isMandatory = true,
                 dropDowns = dropDowns.SubProfileSegment, label = "Sub Profile *")
@@ -198,8 +200,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         setSenpDropDown(binding.layoutSenp, dropDowns)
     }
 
-    private fun setSubProfileSegment(value: DropdownMaster, dropDowns: AllMasterDropDown,
-                                     applicant: EmploymentApplicantsModel) {
+    private fun setSubProfileSegment(value: DropdownMaster, dropDowns: AllMasterDropDown, applicant: EmploymentApplicantsModel?) {
 
         val subProfileSegments: ArrayList<DropdownMaster> = ArrayList()
         for (sub in dropDowns.SubProfileSegment!!) {
@@ -217,8 +218,8 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
                 })
 
         binding.layoutSubProfile.addView(subProfile)
-        applicant.subProfileTypeDetailID?.let {
-            subProfile.setSelection(applicant.subProfileTypeDetailID.toString())
+        applicant?.subProfileTypeDetailID?.let {
+            subProfile.setSelection(applicant?.subProfileTypeDetailID.toString())
         }
 
     }
@@ -236,13 +237,13 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         }
     }
 
-    private fun fillValueInCustomSpinner(applicant: EmploymentApplicantsModel) {
-        applicant.profileSegmentTypeDetailID?.let {
+    private fun fillValueInCustomSpinner(applicant: EmploymentApplicantsModel?) {
+        applicant?.profileSegmentTypeDetailID?.let {
             profile.setSelection(applicant.profileSegmentTypeDetailID.toString())
         }
 
-        fillSenpForm(binding.layoutSenp, applicant)
-        fillSalaryForm(binding.layoutSalary, applicant)
+        applicant?.let { fillSenpForm(binding.layoutSenp, it) }
+        applicant?.let { fillSalaryForm(binding.layoutSalary, it) }
         checkIncomeAndSubmission()
     }
 
@@ -398,11 +399,15 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         }
     }
 
-    private fun getCurrentApplicant(): EmploymentApplicantsModel {
-        val applicant: EmploymentApplicantsModel
+    private fun getCurrentApplicant(): EmploymentApplicantsModel? {
+        var applicant: EmploymentApplicantsModel? = null
         if (selectedApplicant.incomeConsidered) {
             //assign new values to employee model...
             applicant = EmploymentApplicantsModel()
+
+            applicant.leadApplicantNumber = selectedApplicant.leadApplicantNumber
+            applicant.incomeConsidered = selectedApplicant.incomeConsidered
+
             val profileDD = profile.getSelectedValue()
             val subProfileDD = subProfile.getSelectedValue()
             applicant.profileSegmentTypeDetailID = profileDD?.typeDetailID
@@ -412,9 +417,6 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
                 SALARY -> return getSalaryForm(binding.layoutSalary, applicant)
                 SENP -> return getSenpForm(binding.layoutSenp, applicant)
             }
-        } else {
-            //else return previous model as same....
-            applicant = selectedEmploymentDetails
         }
 
         return applicant
@@ -473,10 +475,10 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
 
     private fun getSenpIncomeDetail(binding: LayoutSenpBinding): IncomeDetail {
         val incomeDetail = IncomeDetail()
-        incomeDetail.assessedMonthlyIncome = CurrencyConversion().convertToNormalValue(binding.etMonthlyIncome.text.toString()).toFloat()
-        incomeDetail.itrAverageMonthlyIncome = CurrencyConversion().convertToNormalValue(binding.etAverageMonthlyIncome.text.toString()).toFloat()
-        incomeDetail.itrLastYearIncome = CurrencyConversion().convertToNormalValue(binding.etLastYearIncome.text.toString()).toFloat()
-        incomeDetail.itrCurrentYearIncome = CurrencyConversion().convertToNormalValue(binding.etCurrentYearIncome.text.toString()).toFloat()
+        incomeDetail.assessedMonthlyIncome = CurrencyConversion().convertToNormalValue(binding.etMonthlyIncome.text.toString()).toFloatOrNull()
+        incomeDetail.itrAverageMonthlyIncome = CurrencyConversion().convertToNormalValue(binding.etAverageMonthlyIncome.text.toString()).toFloatOrNull()
+        incomeDetail.itrLastYearIncome = CurrencyConversion().convertToNormalValue(binding.etLastYearIncome.text.toString()).toFloatOrNull()
+        incomeDetail.itrCurrentYearIncome = CurrencyConversion().convertToNormalValue(binding.etCurrentYearIncome.text.toString()).toFloatOrNull()
         return incomeDetail
     }
 
