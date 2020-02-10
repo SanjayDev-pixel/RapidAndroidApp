@@ -13,4 +13,5 @@ object Requests {
     data class RequestSendOTP(val applicantID: Int? = null, val leadID: Int, val mobile: String?)
     data class RequestVerifyOTP(val applicantID: Int? = null, val leadID: Int?, val mobile: String, val otpValue: Int)
     data class RequestCallUpdate(val leadID: Int, val customerFollowUpStatusTypeDetailId: Int? = null, val leadTypeDetailId: Int? = null, val leadRejectionReasonTypeDetailId: Int? = null, val meetingDate: String? = null, val notificationTypeDetailId: Int? = null, val messageShared: String? = null)
+    data class RequestFinalSubmit(val leadID: Int)
 }

@@ -4,10 +4,10 @@ import java.io.Serializable
 
 class AssetLiability : Serializable {
 
-    var ownershipTypeDetailID: Int? = 0
+    var ownershipTypeDetailID: Int? = null
     var assetValue: Int? = 0
     var assetDetailsID: Int? = 0
-    var assetDetailsTypeDetailID: Int? = 0
-    var subTypeOfAssetTypeDetailID: Int? = 0
-    var documentedProofTypeDetailID: Int? = 0
+    var assetDetailsTypeDetailID: Int? = null
+    var subTypeOfAssetTypeDetailID: Int? = null
+    var documentedProofTypeDetailID: Int? = null
 }
