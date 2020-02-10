@@ -350,7 +350,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
 
             if (formValidation.validateObligationDialog(binding)) {
-
+            val dateUtil:DateUtil= DateUtil()
                 val currentObligation = ObligationDetail()
                 val loanOwnership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
                 val obligate = addObligationDialog?.spinnerObligate?.selectedItem as DropdownMaster?
@@ -360,7 +360,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentObligation.numberOfBouncesInLastNineMonth = addObligationDialog?.etBouncesInLastNineMonths?.text.toString().toInt()
                 currentObligation.numberOfBouncesInLastSixMonth = addObligationDialog?.etBouncesInLastSixMonths?.text.toString().toInt()
                 currentObligation.financerName = addObligationDialog?.etFinancierName?.text.toString()
-                currentObligation.loanAmount = CurrencyConversion().convertToNormalValue(addObligationDialog?.etLoanAmount?.text.toString()).toInt()
+                    currentObligation.loanAmount = CurrencyConversion().convertToNormalValue(addObligationDialog?.etLoanAmount?.text.toString()).toInt()
                 currentObligation.emiAmount = CurrencyConversion().convertToNormalValue(addObligationDialog?.etEmiAmount?.text.toString()).toInt()
                 currentObligation.loanAccountNumber = addObligationDialog?.etAccountNum?.text.toString()
                 currentObligation.tenure = addObligationDialog?.etTenure?.text.toString().toInt()
@@ -370,6 +370,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentObligation.loanTypeTypeDetailID = loanType?.typeDetailID
                 currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
                 currentObligation.bounseEmiPaidInSameMonth = emiPaidInSameMonth?.typeDetailID
+                currentObligation.disbursementDate= dateUtil.getFormattedDate( DateUtil.dateFormattingType.TYPE_NORMAL_1,DateUtil.dateFormattingType.TYPE_API_REQUEST_2 ,addObligationDialog!!.etDisbursementDate?.text.toString())
 
                 obligationAdapter?.addItem(currentPosition, currentObligation)
                 addObligationDialog?.dismiss()
@@ -573,6 +574,9 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         obligationItemDetailDialog.tvLoanAcNum.setText(obligation.loanAccountNumber)
         obligationItemDetailDialog.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
         obligationItemDetailDialog.tvLoanAmount.setText(obligation.loanAmount.toString())
+        val dateUtil:DateUtil= DateUtil()
+        obligationItemDetailDialog.tvDisbursementDate.setText(dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2,DateUtil.dateFormattingType.TYPE_NORMAL_1,obligation.disbursementDate))
+
 
 
         for (i in 0 until allMasterDropDown?.RepaymentBank!!.size) {
@@ -746,6 +750,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         addObligationDialog?.spinnerLoanType?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.LoanType!!)
         addObligationDialog?.spinnerRepaymentBank?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.RepaymentBank!!)
         addObligationDialog?.spinnerEmiPaidInSameMonth?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BounceEmiPaidInSameMonth!!)
+        val dateUtil:DateUtil= DateUtil()
 
         selectMasterDropdownValue(binding!!.spinnerObligate, obligation.obligateTypeDetailID)
         selectMasterDropdownValue(binding.spinnerLoanOwnership, obligation.loanOwnershipTypeDetailID)
@@ -762,7 +767,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         binding.etEmiAmount.setText(obligation.emiAmount.toString())
         binding.etBouncesInLastSixMonths.setText((obligation.numberOfBouncesInLastSixMonth.toString()))
         binding.etBouncesInLastNineMonths.setText((obligation.numberOfBouncesInLastNineMonth.toString()))
-        // binding.etDisbursementDate.setText(obligation.)
+         binding.etDisbursementDate.setText(dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2,DateUtil.dateFormattingType.TYPE_NORMAL_1 ,obligation.disbursementDate))
         binding.btnAddObligation.setText(R.string.edit)
 
 
@@ -778,7 +783,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
 
             if (formValidation.validateObligationDialog(binding)) {
-
+              val dateUtil:DateUtil= DateUtil()
                 val currentObligation = ObligationDetail()
                 val loanOwnership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
                 val obligate = addObligationDialog?.spinnerObligate?.selectedItem as DropdownMaster?
@@ -798,6 +803,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentObligation.loanTypeTypeDetailID = loanType?.typeDetailID
                 currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
                 currentObligation.bounseEmiPaidInSameMonth = emiPaidInSameMonth?.typeDetailID
+                currentObligation.disbursementDate= dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1,DateUtil.dateFormattingType.TYPE_API_REQUEST_2,addObligationDialog!!.etDisbursementDate.text.toString())
 
                 obligationAdapter?.updateItem(position, currentObligation)
                 addObligationDialog?.dismiss()
