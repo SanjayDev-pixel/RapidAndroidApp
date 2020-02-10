@@ -47,7 +47,7 @@ class LeadMetaData : Observable() {
         }
     }
 
-    private fun initNewApplicantEmploymentDetails( applicants: ArrayList<PersonalApplicantsModel>): ArrayList<EmploymentApplicantsModel> {
+    private fun initNewApplicantEmploymentDetails(applicants: ArrayList<PersonalApplicantsModel>): ArrayList<EmploymentApplicantsModel> {
         val applicantEmploymentDetails: ArrayList<EmploymentApplicantsModel> = ArrayList()
         applicants.forEachIndexed { _, personalApplicantsModel ->
             val employmentModel = EmploymentApplicantsModel()
@@ -108,9 +108,9 @@ class LeadMetaData : Observable() {
             // Need to set default values for depend object on applicant...
             //Don't assign if already initialized
 
-            if (lead.employmentData.applicantDetails.size < 0) lead.employmentData.applicantDetails = initNewApplicantEmploymentDetails(applicants)
-            if (lead.bankData.applicantBankDetails.size < 0) lead.bankData.applicantBankDetails = initNewApplicantBankDetails(applicants)
-            if (lead.assetLiabilityData.applicantDetails.size < 0) lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(applicants)
+            if (lead.employmentData.applicantDetails.isEmpty()) lead.employmentData.applicantDetails = initNewApplicantEmploymentDetails(applicants)
+            if (lead.bankData.applicantBankDetails.isEmpty()) lead.bankData.applicantBankDetails = initNewApplicantBankDetails(applicants)
+            if (lead.assetLiabilityData.applicantDetails.isEmpty()) lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(applicants)
 
             insertLeadInfoIntoDB(lead)
         }
