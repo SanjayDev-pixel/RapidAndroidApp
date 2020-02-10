@@ -6,7 +6,7 @@ class PersonalApplicantsModel : Serializable {
     var addressDetailList: ArrayList<AddressDetail>? = ArrayList()
     var age: Int? = 0
     var alternateContact: String? = ""
-    var applicantID: Int = 0
+    var applicantID: Int? = null
     var casteTypeDetailID: Int? = 0
     var contactDetail: ContactDetail? = ContactDetail()
     var applicantKycList: ArrayList<KYCDetail>? = ArrayList()

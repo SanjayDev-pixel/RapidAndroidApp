@@ -63,7 +63,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
     private fun fetchApplicantEmploymentDetails(applicant: PersonalApplicantsModel) {
         LeadMetaData.getLeadObservable().observe(this, Observer {
             it?.let { leadDetails ->
-                val employmentList = leadDetails.employmentData.applicantDetails.filter { employmentDetail -> employmentDetail.applicantID == applicant.applicantID }
+                val employmentList = leadDetails.employmentData.applicantDetails.filter { employmentDetail -> employmentDetail.leadApplicantNumber.equals(applicant.leadApplicantNumber, true) }
                 if (employmentList.isNotEmpty())
                     inflateFormView(applicant, employmentList[0])
             }
