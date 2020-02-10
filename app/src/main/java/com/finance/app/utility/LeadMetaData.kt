@@ -47,12 +47,11 @@ class LeadMetaData : Observable() {
         }
     }
 
-    private fun initNewApplicantEmploymentDetails(lead: AllLeadMaster, applicants: ArrayList<PersonalApplicantsModel>): ArrayList<EmploymentApplicantsModel> {
+    private fun initNewApplicantEmploymentDetails(applicants: ArrayList<PersonalApplicantsModel>): ArrayList<EmploymentApplicantsModel> {
         val applicantEmploymentDetails: ArrayList<EmploymentApplicantsModel> = ArrayList()
         applicants.forEachIndexed { _, personalApplicantsModel ->
             val employmentModel = EmploymentApplicantsModel()
-            employmentModel.leadApplicantNumber = lead.leadID.toString()
-            employmentModel.applicantID = personalApplicantsModel.applicantID
+            employmentModel.leadApplicantNumber = personalApplicantsModel.leadApplicantNumber
             employmentModel.isMainApplicant = personalApplicantsModel.isMainApplicant
             employmentModel.incomeConsidered = personalApplicantsModel.incomeConsidered
             applicantEmploymentDetails.add(employmentModel)
@@ -61,13 +60,12 @@ class LeadMetaData : Observable() {
         return applicantEmploymentDetails
     }
 
-    private fun initNewApplicantBankDetails(lead: AllLeadMaster, applicants: ArrayList<PersonalApplicantsModel>): ArrayList<BankDetailModel> {
+    private fun initNewApplicantBankDetails(applicants: ArrayList<PersonalApplicantsModel>): ArrayList<BankDetailModel> {
         val applicantBankDetails: ArrayList<BankDetailModel> = ArrayList()
         applicants.forEachIndexed { _, personalApplicantsModel ->
             val bankDetailModel = BankDetailModel()
-            bankDetailModel.leadApplicantNumber = lead.leadID.toString()
+            bankDetailModel.leadApplicantNumber = personalApplicantsModel.leadApplicantNumber
             bankDetailModel.firstName = personalApplicantsModel.firstName
-            bankDetailModel.applicantID = personalApplicantsModel.applicantID
             bankDetailModel.isMainApplicant = personalApplicantsModel.isMainApplicant
             applicantBankDetails.add(bankDetailModel)
         }
@@ -75,13 +73,12 @@ class LeadMetaData : Observable() {
         return applicantBankDetails
     }
 
-    private fun initNewApplicantAssetsAndLiabilityDetails(lead: AllLeadMaster, applicants: ArrayList<PersonalApplicantsModel>): ArrayList<AssetLiabilityModel> {
+    private fun initNewApplicantAssetsAndLiabilityDetails(applicants: ArrayList<PersonalApplicantsModel>): ArrayList<AssetLiabilityModel> {
         val assetLiabilityModelList: ArrayList<AssetLiabilityModel> = ArrayList()
         applicants.forEachIndexed { _, personalApplicantsModel ->
             val assetLiabilityModel = AssetLiabilityModel()
             assetLiabilityModel.isMainApplicant = personalApplicantsModel.isMainApplicant
-            assetLiabilityModel.leadApplicantNumber = lead.leadID.toString()
-            assetLiabilityModel.applicantId = personalApplicantsModel.applicantID
+            assetLiabilityModel.leadApplicantNumber = personalApplicantsModel.leadApplicantNumber
             assetLiabilityModelList.add(assetLiabilityModel)
         }
         return assetLiabilityModelList
@@ -110,9 +107,10 @@ class LeadMetaData : Observable() {
             // Doing this because of mapping dependency..
             // Need to set default values for depend object on applicant...
             //Don't assign if already initialized
-            if (lead.employmentData.applicantDetails.size < 0) lead.employmentData.applicantDetails = initNewApplicantEmploymentDetails(lead, applicants)
-            if (lead.bankData.applicantBankDetails.size < 0) lead.bankData.applicantBankDetails = initNewApplicantBankDetails(lead, applicants)
-            if (lead.assetLiabilityData.applicantDetails.size < 0) lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(lead, applicants)
+
+            if (lead.employmentData.applicantDetails.isEmpty()) lead.employmentData.applicantDetails = initNewApplicantEmploymentDetails(applicants)
+            if (lead.bankData.applicantBankDetails.isEmpty()) lead.bankData.applicantBankDetails = initNewApplicantBankDetails(applicants)
+            if (lead.assetLiabilityData.applicantDetails.isEmpty()) lead.assetLiabilityData.applicantDetails = initNewApplicantAssetsAndLiabilityDetails(applicants)
 
             insertLeadInfoIntoDB(lead)
         }

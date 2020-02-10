@@ -14,7 +14,7 @@ class LeadAndLoanDetail {
         ArchitectureApp.instance.component.inject(this)
     }
 
-    private fun getLeadApplicantNum(leadNum: String, applicantNum: Int): String {
+    fun getLeadApplicantNum(leadNum: String, applicantNum: Int): String {
         return "${leadNum}00${applicantNum + 1}"
     }
 

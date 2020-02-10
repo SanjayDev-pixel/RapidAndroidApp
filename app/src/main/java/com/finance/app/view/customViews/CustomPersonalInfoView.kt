@@ -323,7 +323,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         val earningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString()
 
         //Need to generate some applicant id... based on lead id
-        currentApplicant.applicantID = "${LeadMetaData.getLeadId()}$index".toInt()
+//        currentApplicant.applicantID = "${LeadMetaData.getLeadId()}$index".toInt()
+        currentApplicant.leadApplicantNumber = LeadAndLoanDetail().getLeadApplicantNum(LeadMetaData.getLeadId().toString(), index)
         currentApplicant.casteTypeDetailID = casteDD?.typeDetailID
         currentApplicant.detailQualificationTypeDetailID = dQualificationDD?.typeDetailID
         currentApplicant.qualificationTypeDetailID = qDD?.typeDetailID

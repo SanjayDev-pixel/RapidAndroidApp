@@ -134,7 +134,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
         //fetch details
         fetchDropDownsFromDB()
-        fetchApplicantAssetsAndLibilityDetailsById(applicant.applicantID)
+        fetchApplicantAssetsAndLibilityDetailsById(applicant.leadApplicantNumber.toString())
     }
 
     private fun setAssetAdapter(assets: ArrayList<AssetLiability>) {
@@ -145,14 +145,17 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 //        binding.pageIndicatorAsset.attachTo(binding.rcAsset)
         binding.assetcounter.setText(assets.size.toString())
     }
-    private fun setAssetCounter(asset: ArrayList<AssetLiability>?){
+
+    private fun setAssetCounter(asset: ArrayList<AssetLiability>?) {
         binding.assetcounter.setText(asset?.size.toString())
 
     }
-    private fun setCreditCardCounter(cards: ArrayList<CardDetail>?){
+
+    private fun setCreditCardCounter(cards: ArrayList<CardDetail>?) {
         binding.layoutCreditCard.creditcardcounter.setText(cards?.size.toString())
     }
-    private fun setObligationCounter(obligations: ArrayList<ObligationDetail>?){
+
+    private fun setObligationCounter(obligations: ArrayList<ObligationDetail>?) {
         binding.layoutObligations.obligationcounter.setText(obligations?.size.toString())
 
     }
@@ -178,10 +181,10 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
 
-    private fun fetchApplicantAssetsAndLibilityDetailsById(applicantId: Int) {
+    private fun fetchApplicantAssetsAndLibilityDetailsById(applicantNumber: String) {
         LeadMetaData.getLeadObservable().observe(activity, Observer { allLeadDetails ->
             allLeadDetails?.let {
-                val selectedApplicantList = it.assetLiabilityData?.applicantDetails?.filter { assetsLiability -> applicantId == assetsLiability.applicantId }
+                val selectedApplicantList = it.assetLiabilityData.applicantDetails.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
                 if (!selectedApplicantList.isNullOrEmpty()) {
 
                     if (selectedApplicantList[0].applicantAssetLiabilityList.isNullOrEmpty()) {
@@ -297,11 +300,11 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentAsset.documentedProofTypeDetailID = documentProof?.typeDetailID
 
 
-              //  assetsList?.add(currentAsset)
-              //  assetAdapter?.notifyDataSetChanged()
+                //  assetsList?.add(currentAsset)
+                //  assetAdapter?.notifyDataSetChanged()
                 //  showToast(context, "Add Successfully")
-               // setAssetAdapter(assetsList!!)
-                assetAdapter?.addItem(currentPosition,currentAsset )
+                // setAssetAdapter(assetsList!!)
+                assetAdapter?.addItem(currentPosition, currentAsset)
                 addAssestsDialog?.dismiss()
                 setAssetCounter(assetAdapter?.getItemList())
                 showAssetRecyclerView("asset")
@@ -375,7 +378,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 //                addObligationDialog?.dismiss()
 //                setObligationAdapter(obligationsList!!)
 
-                obligationAdapter?.addItem(currentPosition,currentObligation )
+                obligationAdapter?.addItem(currentPosition, currentObligation)
                 addObligationDialog?.dismiss()
                 setObligationCounter(obligationAdapter?.getItemList())
                 showAssetRecyclerView("obligation")
@@ -423,7 +426,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 //                cardDetailAdapter?.notifyDataSetChanged()
 //                addCreditCardDialog?.dismiss()
                 //setCardDetailAdapter(cardDetailList!!)
-                cardDetailAdapter?.addItem(currentPosition,currentCard )
+                cardDetailAdapter?.addItem(currentPosition, currentCard)
                 addCreditCardDialog?.dismiss()
                 setCreditCardCounter(cardDetailAdapter?.getItemList())
                 showAssetRecyclerView("card")
@@ -462,7 +465,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     private fun obligationFormListeners(layoutObligations: LayoutObligationBinding?) {
         binding.layoutObligations.tvObligationdetail.setOnClickListener() {
 
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.VISIBLE
 //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
@@ -471,7 +474,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         }
         binding.layoutObligations.obligationcounter.setOnClickListener() {
 
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.VISIBLE
 //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
@@ -485,14 +488,14 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     private fun deleteAsset(position: Int) {
         assetAdapter?.deleteItem(position)
         deleteDialog?.dismiss()
-       setAssetCounter(assetAdapter?.getItemList())
+        setAssetCounter(assetAdapter?.getItemList())
 
     }
 
     private fun deleteCard(position: Int) {
         cardDetailAdapter?.deleteItem(position)
         deleteDialog?.dismiss()
-        setCreditCardCounter(cardDetailAdapter?.getItemList() )
+        setCreditCardCounter(cardDetailAdapter?.getItemList())
 
     }
 
@@ -551,7 +554,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     fun getCurrentApplicant(): AssetLiabilityModel {
         val currentApplicant = AssetLiabilityModel()
         currentApplicant.isMainApplicant = selectedApplicant.isMainApplicant
-        currentApplicant.applicantId = selectedApplicant.applicantID
         currentApplicant.leadApplicantNumber = selectedApplicant.leadApplicantNumber
         currentApplicant.applicantAssetLiabilityList = assetAdapter?.getItemList() ?: ArrayList()
         currentApplicant.applicantCreditCardDetailList = cardDetailAdapter?.getItemList() ?: ArrayList()
@@ -670,7 +672,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 addCreditCardDialog?.dismiss()
 
 
-
             } else {
                 Toast.makeText(context, context.getString(R.string.validation_error), Toast.LENGTH_SHORT).show()
             }
@@ -755,8 +756,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 addObligationDialog?.dismiss()
 
 
-
-
             } else {
 
                 //showToast(context.getString(R.string.validation_error))
@@ -767,7 +766,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
     private fun showAssetRecyclerView(flag: String) {
-        if(flag.equals("asset")) {
+        if (flag.equals("asset")) {
 
             binding.llAssetDetail.visibility = View.VISIBLE
 //            binding.pageIndicatorAsset.visibility = View.VISIBLE
@@ -778,7 +777,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
 //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
-        }else if(flag.equals("card")){
+        } else if (flag.equals("card")) {
 
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
 //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
@@ -787,7 +786,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
 
-        }else{
+        } else {
 //            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.VISIBLE
 //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
