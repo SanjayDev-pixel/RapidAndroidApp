@@ -83,9 +83,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
         setDatePicker()
         setUpCustomViews()
         setClickListeners()
-        applicant?.let {
-            proceedFurther(it)
-        }
+        proceedFurther(applicant)
     }
 
     private fun setDatePicker() {
