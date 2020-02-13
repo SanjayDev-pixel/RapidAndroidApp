@@ -12,8 +12,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
-
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <LinearLayout
+                android:id="@+id/llpropertydetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -498,29 +501,42 @@
 
                 </LinearLayout>
 
+
+            </LinearLayout>
                 <RelativeLayout
+                    android:id="@+id/layoutbottom"
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/margin_50"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                   android:layout_below="@+id/llpropertydetail"
+                    android:layout_alignParentBottom="true">
+
 
                     <Button
                         android:id="@+id/btnPrevious"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/md_grey_500"
                         android:text="@string/previous"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size" />
 
                     <Button
                         android:id="@+id/btnNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/next"
                         android:layout_alignParentEnd="true"
-                        android:textColor="@color/black"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/md_applicant_blue"
+                        android:text="@string/next"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size" />
                 </RelativeLayout>
-            </LinearLayout>
+
+            </RelativeLayout>
+
         </ScrollView>
     </RelativeLayout>
 </layout>

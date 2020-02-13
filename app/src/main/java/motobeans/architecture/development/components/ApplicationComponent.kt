@@ -19,6 +19,7 @@ import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.A
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFormFragment
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.document_checklist.DocumentChecklistForm
 import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentFormFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentInfoFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.personal.PersonalFormFragmentNew
@@ -73,6 +74,7 @@ interface ApplicationComponent {
     fun inject(fragment: PersonalFormFragment)
     fun inject(fragment: LeadsListingFragment)
     fun inject(fragment: AssetLiabilityFragmentForm)
+    fun inject(fragment: DocumentChecklistForm)
 
 
     fun inject(fragment: LoanInfoFragmentNew)
@@ -147,4 +149,8 @@ interface ApplicationComponent {
     fun inject(other: LeadMetaData)
     fun inject(other: CustomAssetLiabilityViewInfo)
     fun inject(presenter: Presenter1)
+    fun inject(other: CustomDocumentCheckListView )
+
+
+
 }

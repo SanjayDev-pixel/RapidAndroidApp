@@ -11,10 +11,11 @@ class ObligationDetail : Serializable {
     var numberOfBouncesInLastNineMonth: Int? = null
     var financerName: String? = ""
     var loanAccountNumber: String? = null
-    var borrowerNameTypeDetailID: Int? = 0
+    var borrowerNameTypeDetailID: Int? = null
     var bounseEmiPaidInSameMonth: Int? = null
-    var loanOwnershipTypeDetailID: Int? = 0
-    var obligateTypeDetailID: Int? = 0
-    var loanTypeTypeDetailID: Int? = 0
-    var repaymentBankTypeDetailID: Int? = 0
+    var loanOwnershipTypeDetailID: Int? = null
+    var obligateTypeDetailID: Int? = null
+    var loanTypeTypeDetailID: Int? = null
+    var repaymentBankTypeDetailID: Int? = null
+    var disbursementDate: String?=""
 }

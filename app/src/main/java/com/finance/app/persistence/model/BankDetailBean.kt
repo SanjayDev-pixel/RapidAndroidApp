@@ -6,7 +6,7 @@ import java.text.DecimalFormat
 class BankDetailBean : Serializable {
     var accountHolderName: String? = ""
     var accountNumber: String? = ""
-    var accountTypeDetailID: Int? = 0
+    var accountTypeDetailID: Int? = null
     var accountTypeName: String? = ""
     var active: Boolean = true
     var applicantBankTransectionList: Any? = null
@@ -15,7 +15,7 @@ class BankDetailBean : Serializable {
     var averageDebitBalance: DecimalFormat? = null
     var bankDetailID: Int? = null
     var bankName: String? = ""
-    var bankNameTypeDetailID: Int? = 0
+    var bankNameTypeDetailID: Int? = null
     var bankStatementProof: String? = ""
     var bulkEntryAmount: DecimalFormat? = null
     var firstName: String? = ""
@@ -25,6 +25,6 @@ class BankDetailBean : Serializable {
     var numberOfCredit: String? = ""
     var numberOfDebit: Int? = 0
     var outwardChequeReturn: DecimalFormat? = null
-    var salaryCreditTypeDetailID: Int? = 0
+    var salaryCreditTypeDetailID: Int? = null
     var transection: Int? = null
 }

@@ -2,7 +2,7 @@ package com.finance.app.persistence.model
 import java.io.Serializable
 
 class CardDetail:Serializable {
-    var bankNameTypeDetailID: Int?=0
+    var bankNameTypeDetailID: Int?=null
     var cardLimit: Int?=0
     var currentUtilization: Int?=0
     var lastPaymentDate: String?=""

@@ -82,7 +82,7 @@ class LeadMetaData : Observable() {
     fun saveBankData(bankDetailsList: ArrayList<BankDetailModel>) {
         val lead = getLeadData()
         lead?.let {
-            lead.bankData.applicantBankDetails = bankDetailsList
+            lead.bankData.bankDetailList = bankDetailsList
             insertLeadInfoIntoDB(lead)
         }
     }
@@ -90,7 +90,7 @@ class LeadMetaData : Observable() {
     fun saveReferenceData(referenceDetailsList: ArrayList<ReferenceModel>) {
         val lead = getLeadData()
         lead?.let {
-            lead.referenceData.referenceDetails = referenceDetailsList
+            lead.referenceData.loanApplicationObj = referenceDetailsList
             insertLeadInfoIntoDB(lead)
         }
     }

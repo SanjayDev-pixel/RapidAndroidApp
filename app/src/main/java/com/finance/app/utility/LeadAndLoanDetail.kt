@@ -43,7 +43,7 @@ class LeadAndLoanDetail {
     fun addBankApplicant(leadMaster: AllLeadMaster) {
         val bApplicant = BankDetailModel()
         bApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!, leadMaster.personalData?.applicantDetails?.size ?: 0)
-        leadMaster.bankData.applicantBankDetails.add(bApplicant)
+        leadMaster.bankData.bankDetailList.add(bApplicant)
     }
 
     fun addAssetLiabilityApplicant(leadMaster: AllLeadMaster) {

@@ -1,5 +1,6 @@
 package com.finance.app.view.fragment.loanApplicationFragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -77,7 +78,8 @@ class LoanInfoFragmentNew : BaseFragment(){
     private fun setClickListeners() {
         CurrencyConversion().convertToCurrencyType(binding.etAmountRequest)
         binding.btnNext.setOnClickListener {
-
+            val lProductDD = loanProduct.getSelectedValue()
+     if(lProductDD!=null){
             if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
                             spinnerDMList, binding.viewChannelPartner)) {
 
@@ -86,6 +88,9 @@ class LoanInfoFragmentNew : BaseFragment(){
                 AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
             } else showToast(getString(R.string.validation_error))
+        }else{showToast(getString(R.string.enter_mandatory))
+
+}
         }
     }
 
@@ -197,6 +202,7 @@ class LoanInfoFragmentNew : BaseFragment(){
         loanInfoObj.tenure = binding.etTenure.text.toString().toInt()
         loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
+        loanInfoObj.logginUserEntityID= sharedPreferences.getUserId()!!.toInt()
         return loanInfoObj
     }
 
