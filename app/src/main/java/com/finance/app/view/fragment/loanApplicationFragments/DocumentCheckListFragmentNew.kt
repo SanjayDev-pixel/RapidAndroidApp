@@ -51,7 +51,6 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     private lateinit var binding: FragmentDocumentChecklistBinding
     private var pagerAdapterDocumentCheckList: DocumentCheckLIstPagerAdapter? = null
     private var applicantList: ArrayList<PersonalApplicantsModel>? = null
-    private val presenter = Presenter()
     private lateinit var mContext: Context
 
 
@@ -126,23 +125,6 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     }
 
 
-    /*inner class CallFinalSubmit : ViewGeneric<Requests.RequestFinalSubmit, Response.ResponseCallUpdate>(context = mContext) {
-        override val apiRequest: Requests.RequestFinalSubmit?
-            get() = getCallUpdateRequest()
-
-        override fun getApiSuccess(value: Response.ResponseCallUpdate) {
-            //write code here after getting successful
-        }
-    }
-
-    private fun getCallUpdateRequest(): Requests.RequestFinalSubmit? {
-        val leadId = LeadMetaData.getLeadId()
-
-
-        return Requests.RequestFinalSubmit(leadID = leadId!!)
-
-
-    }*/
 
 }
 

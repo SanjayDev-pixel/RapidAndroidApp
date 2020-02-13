@@ -3,6 +3,7 @@ package com.finance.app.view.adapters.recycler.adapter
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.finance.app.persistence.model.AssetLiabilityModel
+import com.finance.app.persistence.model.DocumentCheckListModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.view.fragment.loanApplicationFragments.document_checklist.DocumentChecklistForm
 
@@ -24,10 +25,10 @@ class DocumentCheckLIstPagerAdapter  internal constructor(fm: FragmentManager, v
     }
 
 //model change to Documentchecklist model
-    fun getALlChecklistDetail(): ArrayList<AssetLiabilityModel> {
-        val list = ArrayList<AssetLiabilityModel>()
+    fun getALlChecklistDetail(): ArrayList<DocumentCheckListModel> {
+        val list = ArrayList<DocumentCheckListModel>()
         fragmentList.forEach { it ->
-     //       list.add(it.getAssetsAndLiability())
+            list.add(it.getDocumentChecklist())
         }
 
         return list

@@ -321,9 +321,11 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         val relationshipDD = relationship.getSelectedValue()
         val dependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
         val earningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString()
+        val pResidenceType = permanentResidenceType.getSelectedValue()
+
 
         //Need to generate some applicant id... based on lead id
-//        currentApplicant.applicantID = "${LeadMetaData.getLeadId()}$index".toInt()
+       // currentApplicant.applicantID = "${LeadMetaData.getLeadId()}$index".toInt()
         currentApplicant.leadApplicantNumber = LeadAndLoanDetail().getLeadApplicantNum(LeadMetaData.getLeadId().toString(), index)
         currentApplicant.casteTypeDetailID = casteDD?.typeDetailID
         currentApplicant.detailQualificationTypeDetailID = dQualificationDD?.typeDetailID
@@ -353,6 +355,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         currentApplicant.alternateContact = binding.basicInfoLayout.etAlternateNum.text.toString()
         currentApplicant.contactDetail = getContactDetail()
         currentApplicant.addressDetailList = getAddressDetailList(currentApplicant.addressDetailList)
+        currentApplicant.presentAccommodationTypeDetailID=pResidenceType?.typeDetailID
 
         return currentApplicant
     }

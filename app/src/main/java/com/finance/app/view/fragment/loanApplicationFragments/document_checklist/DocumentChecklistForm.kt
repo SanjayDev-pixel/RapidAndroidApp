@@ -8,6 +8,7 @@ import android.view.ViewGroup
 
 import com.finance.app.R
 import com.finance.app.databinding.LayoutDocumentChecklistFormBinding
+import com.finance.app.persistence.model.DocumentCheckListModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import kotlinx.android.synthetic.main.asset_liability_fragment_form.*
 import kotlinx.android.synthetic.main.layout_document_checklist_form.*
@@ -73,8 +74,8 @@ class DocumentChecklistForm : BaseFragment() {
 
 
 
-    /*fun getAssetsAndLiability(): AssetLiabilityModel {
+    fun getDocumentChecklist(): DocumentCheckListModel {
         return binding.customDocumentchecklistView.getCurrentApplicant()
-    }*/
+    }
 
 }

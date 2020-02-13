@@ -166,11 +166,11 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
 
     private fun fillDropDownValue(propertyModel: PropertyModel?) {
         selectMasterDropdownValue(binding.spinnerOwnedProperty, propertyModel!!.alreadyOwnedPropertyTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerOwnership, propertyModel!!.ownershipTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerUnitType, propertyModel!!.unitTypeTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerPropertyNature, propertyModel!!.natureOfPropertyTransactionTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerOccupiedBy, propertyModel!!.occupiedByTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerTenantNocAvailable, propertyModel!!.tenantNocAvailableTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerOwnership, propertyModel.ownershipTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerUnitType, propertyModel.unitTypeTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerPropertyNature, propertyModel.natureOfPropertyTransactionTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerOccupiedBy, propertyModel.occupiedByTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerTenantNocAvailable, propertyModel.tenantNocAvailableTypeDetailID)
         selectPropertyNatureValue(binding.spinnerPropertyNature)
 
 

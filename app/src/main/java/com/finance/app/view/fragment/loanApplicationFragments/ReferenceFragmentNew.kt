@@ -71,7 +71,7 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
     private fun setOnClickListeners() {
         binding.vwAdd.setOnClickListener { showReferenceDetailFormDialog(ReferenceDetailDialogFragment.Action.NEW) }
         binding.btnNext.setOnClickListener {
-            leadDetails?.let { it.referenceData.referenceDetails.let { referenceDetails -> LeadMetaData().saveReferenceData(referenceDetails) } }
+            leadDetails?.let { it.referenceData.loanApplicationObj.let { referenceDetails -> LeadMetaData().saveReferenceData(referenceDetails) } }
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
@@ -90,7 +90,7 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
             leadDetails?.let {
                 this@ReferenceFragmentNew.leadDetails = it
                 //Set Reference Details List.
-                it.referenceData.referenceDetails.let { it1 -> setReferenceDetailAdapter(it1) }
+                it.referenceData.loanApplicationObj.let { it1 -> setReferenceDetailAdapter(it1) }
             }
         })
     }

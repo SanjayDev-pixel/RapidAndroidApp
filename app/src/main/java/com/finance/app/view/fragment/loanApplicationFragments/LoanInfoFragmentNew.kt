@@ -78,7 +78,8 @@ class LoanInfoFragmentNew : BaseFragment(){
     private fun setClickListeners() {
         CurrencyConversion().convertToCurrencyType(binding.etAmountRequest)
         binding.btnNext.setOnClickListener {
-
+            val lProductDD = loanProduct.getSelectedValue()
+     if(lProductDD!=null){
             if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
                             spinnerDMList, binding.viewChannelPartner)) {
 
@@ -87,6 +88,9 @@ class LoanInfoFragmentNew : BaseFragment(){
                 AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
             } else showToast(getString(R.string.validation_error))
+        }else{showToast(getString(R.string.enter_mandatory))
+
+}
         }
     }
 

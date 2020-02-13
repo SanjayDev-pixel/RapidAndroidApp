@@ -96,9 +96,10 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     private fun fetchLeadBankDetail() {
         LeadMetaData.getLeadObservable().observe(this@BankDetailFormFragment, Observer {
             it?.let { leadDetails ->
-                val selectedApplicantBankDetails = leadDetails.bankData.applicantBankDetails.filter { bankDetail -> bankDetail.leadApplicantNumber.equals(selectedApplicant.leadApplicantNumber, true) }
-                if (selectedApplicantBankDetails.isNotEmpty()) //TODO need to solve this bug...
+                val selectedApplicantBankDetails = leadDetails.bankData.bankDetailList.filter { bankDetail -> bankDetail.leadApplicantNumber.equals(selectedApplicant.leadApplicantNumber, true) }
+                if (selectedApplicantBankDetails.isNotEmpty())
                     setBankDetailAdapter(selectedApplicantBankDetails[0].applicantBankDetailsBean)
+                else setBankDetailAdapter(ArrayList())
             }
         })
     }

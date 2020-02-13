@@ -55,15 +55,11 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
     private lateinit var binding: LayoutCustomviewAssetliabilityBinding
     private lateinit var activity: FragmentActivity
-
     private var allMasterDropDown: AllMasterDropDown? = null
-
     private var assetAdapter: AssetDetailAdapter? = null
     private var cardDetailAdapter: CardDetailAdapter? = null
     private var obligationAdapter: ObligationAdapter? = null
-
     private var currentApplicant: AssetLiabilityModel = AssetLiabilityModel()
-
     private var assetsList: ArrayList<AssetLiability> = ArrayList()
     private var cardDetailList: ArrayList<CardDetail> = ArrayList()
     private var obligationsList: ArrayList<ObligationDetail> = ArrayList()
