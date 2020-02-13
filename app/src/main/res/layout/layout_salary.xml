@@ -10,8 +10,6 @@
         <LinearLayout
             android:id="@+id/llSalary"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -22,7 +20,8 @@
                 android:padding="@dimen/margin_10"
                 android:text="@string/is_pensioner"
                 android:textSize="@dimen/button_text_size"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_company_name"
@@ -34,10 +33,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCompanyName"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="@string/company_name"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -45,46 +44,56 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
                 android:layout_marginTop="@dimen/fields_margin"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/layoutSector"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerSector"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="7dp"
                     android:layout_weight="1"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    app:ms_enableFloatingLabel="true"
+                    app:ms_floatingLabelText="Sector *"
+                    app:ms_hint="Sector *" />
 
-                <LinearLayout
-                    android:id="@+id/layoutIndustry"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerIndustry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
+                    android:layout_marginLeft="7dp"
                     android:layout_weight="1"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    app:ms_enableFloatingLabel="true"
+                    app:ms_floatingLabelText="Industry *"
+                    app:ms_hint="Industry *" />
+
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/layoutEmploymentType"
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinnerEmploymentType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                app:ms_enableFloatingLabel="true"
+                app:ms_floatingLabelText="Employment Type *"
+                app:ms_hint="Employment Type *" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_designation"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/fields_margin"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
                 android:textColorHint="@color/hint_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDesignation"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:hint="@string/designation"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,18 +101,18 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_official_mail_id"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/fields_margin"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fields_margin"
                 android:textColorHint="@color/hint_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etOfficialMailId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="textEmailAddress"
                     android:hint="@string/official_mail_id"
+                    android:inputType="textEmailAddress"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -129,8 +138,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/employee_id"
                         android:maxLength="10"
-                        android:singleLine="true"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         android:textSize="@dimen/text_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -145,10 +154,10 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etJoiningDate"
                         android:layout_width="match_parent"
-                        android:focusable="false"
-                        android:editable="false"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_calender"
+                        android:editable="false"
+                        android:focusable="false"
                         android:hint="@string/joining_date"
                         android:minWidth="150dp"
                         android:textSize="@dimen/text_size" />
@@ -175,11 +184,11 @@
                         android:id="@+id/etTotalExperience"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
+                        android:hint="@string/total_experience"
                         android:inputType="numberDecimal"
                         android:maxLength="4"
-                        android:hint="@string/total_experience"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         android:textSize="@dimen/text_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -196,10 +205,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/retirement_age"
-                        android:singleLine="true"
                         android:inputType="number"
                         android:maxLength="2"
                         android:minWidth="150dp"
+                        android:singleLine="true"
                         android:textSize="@dimen/text_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -212,8 +221,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/income"
                 android:layout_marginTop="@dimen/fields_margin"
+                android:text="@string/income"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
@@ -279,9 +288,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="false"
-                    android:inputType="numberDecimal"
                     android:focusable="false"
                     android:hint="@string/net_income"
+                    android:inputType="numberDecimal"
                     android:minWidth="200dp"
                     android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />

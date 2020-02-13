@@ -1,15 +1,15 @@
 package com.finance.app.utility
 
-import com.finance.app.databinding.LayoutCustomEmploymentViewBinding
+import com.finance.app.databinding.FragmentEmploymentFormBinding
 import com.finance.app.databinding.LayoutSalaryBinding
 import com.finance.app.databinding.LayoutSenpBinding
 
-class SetEmploymentMandatoryField(binding: LayoutCustomEmploymentViewBinding) {
+class SetEmploymentMandatoryField(binding: FragmentEmploymentFormBinding) {
 
     init {
-        setSalaryMandatoryField(binding.layoutSalary)
-        setSenpMandatoryField(binding.layoutSenp)
-        }
+        setSalaryMandatoryField(binding.lytSalaryDetail)
+        setSenpMandatoryField(binding.lytBusinessDetail)
+    }
 
     private fun setSenpMandatoryField(binding: LayoutSenpBinding) {
         ShowAsMandatory(binding.inputBusinessName)

@@ -15,14 +15,11 @@ class DateDifference(mContext: Context, dateField: TextView, private val differe
         val month = calender.get(Calendar.MONTH)
         val day = calender.get(Calendar.DAY_OF_MONTH)
 
-        val dialog = DatePickerDialog(mContext,
-                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                DatePickerDialog.OnDateSetListener { _, dYear, dMonth, dDay ->
+        val dialog = DatePickerDialog(mContext, DatePickerDialog.OnDateSetListener { _, dYear, dMonth, dDay ->
             val date = "$dDay-${dMonth + 1}-$dYear"
             convertToDesirableFormat(date, dateField)
         }, year, month, day)
         dialog.datePicker.maxDate = Date().time
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
 

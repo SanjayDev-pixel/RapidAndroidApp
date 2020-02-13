@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -11,9 +10,7 @@
             android:id="@+id/llSenp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cbAllEarningMember"
@@ -21,8 +18,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_10"
                 android:text="@string/all_earning_member"
-                android:textSize="@dimen/button_text_size"
-                android:visibility="gone" />
+                android:textSize="@dimen/button_text_size" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_business_name"
@@ -42,12 +38,22 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:id="@+id/layoutConstitution"
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinnerConstitution"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                app:ms_enableFloatingLabel="true"
+                app:ms_floatingLabelText="Constitution *"
+                app:ms_hint="Constitution *" />
+
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/layoutConstitution"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/fields_margin"-->
+            <!--                android:orientation="vertical" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,20 +62,28 @@
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/layoutIndustry"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerIndustry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="7dp"
                     android:layout_weight="1"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    app:ms_enableFloatingLabel="true"
+                    app:ms_floatingLabelText="Industry *"
+                    app:ms_hint="Industry *" />
 
-                <LinearLayout
-                    android:id="@+id/layoutBusinessSetupType"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerBusinessSetupType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
+                    android:layout_marginLeft="7dp"
                     android:layout_weight="1"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    app:ms_enableFloatingLabel="true"
+                    app:ms_floatingLabelText="Business Setup Type *"
+                    app:ms_hint="Business Setup Type *" />
+
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
