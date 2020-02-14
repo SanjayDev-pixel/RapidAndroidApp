@@ -233,4 +233,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_final_submit">FinalSubmitActivity</string>
     <string name="enter_mandatory">Please enter mandatory fileds</string>
+
+    <string name="fill_manually">Fill Manually</string>
 </resources>

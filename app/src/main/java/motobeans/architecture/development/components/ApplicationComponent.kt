@@ -150,7 +150,7 @@ interface ApplicationComponent {
     fun inject(other: CustomAssetLiabilityViewInfo)
     fun inject(presenter: Presenter1)
     fun inject(other: CustomDocumentCheckListView )
-
+    fun inject(other: CustomChromeTab)
 
 
 }

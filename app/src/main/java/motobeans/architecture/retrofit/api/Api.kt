@@ -73,5 +73,7 @@ interface Api {
 
     @POST("api/v1/lead/followUp/{leadID}")
     fun postCallUpdate(@Path("leadID") leadId: Int, @Body requestPost: Requests.RequestCallUpdate): Observable<Response.ResponseCallUpdate>
+    @POST("api/v1/kyc/user/data")
+    fun postCallKYC(@Body requestPost: Requests.RequestKYC): Observable<Response.ResponseKYC>
 
 }
