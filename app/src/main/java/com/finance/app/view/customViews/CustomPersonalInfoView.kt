@@ -16,6 +16,7 @@ import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
+import com.finance.app.view.activity.KYCActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import motobeans.architecture.application.ArchitectureApp
@@ -94,6 +95,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun setClickListeners(leadId: Int?, applicant: PersonalApplicantsModel) {
+
+        binding.btnAddKYC.setOnClickListener { KYCActivity.start(context, applicant.leadApplicantNumber) }
+
         binding.basicInfoLayout.btnGetOTP.setOnClickListener { showVerifyOTPDialog(leadId, applicant) }
         binding.personalAddressLayout.cbSameAsCurrent.setOnClickListener {
             if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {

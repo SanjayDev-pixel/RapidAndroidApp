@@ -2,7 +2,6 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.finance.app.R
@@ -10,7 +9,7 @@ import com.finance.app.databinding.ActivityKycBinding
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
-import com.finance.app.utility.SelectDate
+import com.finance.app.view.customViews.CustomChromeTab
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.API.URL.URL_KYC
 import motobeans.architecture.constants.ConstantsApi
@@ -46,12 +45,12 @@ class KYCActivity : BaseAppCompatActivity() {
     }
 
     private fun setClickListeners() {
-        binding.etIssueDate.setOnClickListener {
+       /* binding.etIssueDate.setOnClickListener {
             SelectDate(binding.etIssueDate, this)
         }
         binding.etExpiryDate.setOnClickListener {
             SelectDate(binding.etExpiryDate, this)
-        }
+        }*/
     }
 
     private fun proceedFurther() {
@@ -70,9 +69,9 @@ class KYCActivity : BaseAppCompatActivity() {
             Response.ResponseKYC>(context = this) {
 
         override val apiRequest: Requests.RequestKYC
-            get() = mLoginRequestLogin
+            get() = mRequestKyc
 
-        private val mLoginRequestLogin: Requests.RequestKYC
+        private val mRequestKyc: Requests.RequestKYC
             get() {
                 val leadId = LeadMetaData.getLeadId()
                 return Requests.RequestKYC(leadID = leadId, leadApplicantNumber = leadAppNum)
@@ -83,6 +82,8 @@ class KYCActivity : BaseAppCompatActivity() {
                 val response = value.responseObj
                 response?.let {
                     openWebViewForKYCData(response.kycID)
+
+                    CustomChromeTab().openUrl(activity = this@KYCActivity, url = "www.google.com")
                     showToast("Success")
                 }
             } else {
@@ -92,14 +93,16 @@ class KYCActivity : BaseAppCompatActivity() {
 
         private fun openWebViewForKYCData(kycID: String?) {
             kycID?.let {
-                binding.llKYC.visibility = View.GONE
+               /* binding.llKYC.visibility = View.GONE
                 binding.webView.visibility = View.VISIBLE
                 binding.webView.settings.javaScriptEnabled
 
                 val headerMap: HashMap<String, String> = HashMap()
                 headerMap["Authorization"] = "Bearer".plus(kycID)
-                headerMap["ApplicationUserAgent"] = "dmi-droid"
-                binding.webView.loadUrl(URL_KYC, headerMap)
+                headerMap["ApplicationUserAgent"] = "dmi-droid"*/
+                //binding.webView.loadUrl(URL_KYC, headerMap)
+
+                CustomChromeTab().openUrl(activity = this@KYCActivity, url = (URL_KYC + kycID))
 
                 //    binding.webView.loadUrl(URL_KYC.plus(kycID))
 
@@ -108,7 +111,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
         override fun getApiFailure(msg: String) {
             binding.webView.visibility = View.GONE
-            binding.llKYC.visibility = View.VISIBLE
+            //binding.llKYC.visibility = View.VISIBLE
             showToast(msg)
         }
     }

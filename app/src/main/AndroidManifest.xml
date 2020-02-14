@@ -90,6 +90,12 @@
         <activity android:name=".view.activity.SyncActivity" />
         <activity android:name=".view.activity.TempActivity" />
 
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="dfe6623ccb337c9b9f15d5cc201177c9c4baa0aa" />
