@@ -51,5 +51,10 @@ object Response {
     data class ResponseLoanLeadData(val responseCode: String, val responseMsg: String, val responseObj: AllLeadMaster?, val timeStamp: Long)
     data class ResponseFinalSubmit(val responseCode: String,val responseMsg: String,val responseObj: Any?,val timeStamp:Long)
 
+    data class ResponseKYC(val errorStack: String?, val responseCode: String, val responseMsg: String,
+                           val responseObj: ObjectKYC?, val timeStamp: Long)
+
+    data class ObjectKYC(val kycID: String?)
+
 
 }

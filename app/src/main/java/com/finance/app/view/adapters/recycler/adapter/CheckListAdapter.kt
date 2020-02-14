@@ -11,23 +11,22 @@ import com.finance.app.persistence.model.DocumentCheckListDetailModel
 
 class CheckListAdapter (private val c: Context, private val documentCheck: ArrayList<DocumentCheckListDetailModel>) : RecyclerView.Adapter<CheckListAdapter.CheckListDetailViewHolder>() {
     private lateinit var binding: ItemDocumentChecklistBinding
-    private var mOnAssetClickListener: AssetClickListener? = null
+    private var mOnCheckClickListener: CheckListClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckListDetailViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_asset, parent, false)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_document_checklist, parent, false)
         return CheckListDetailViewHolder(binding, c)
     }
 
     override fun getItemCount() = documentCheck.size
 
-    fun setOnAssetClickListener(listner: AssetClickListener) {
-        mOnAssetClickListener = listner
+    fun setOnCheckListClickListener(listner: CheckListClickListener) {
+        mOnCheckClickListener = listner
     }
 
-    interface AssetClickListener {
-        fun onAssetDeleteClicked(position: Int)
-        fun onAssetEditClicked(position: Int, asset: DocumentCheckListDetailModel)
+    interface CheckListClickListener {
+
     }
 
 
@@ -35,21 +34,14 @@ class CheckListAdapter (private val c: Context, private val documentCheck: Array
         return documentCheck
     }
 
-    fun addItem(position: Int = 0, checkListDetail: DocumentCheckListDetailModel) {
-        documentCheck?.let {
-            it.add(position, checkListDetail)
-            notifyDataSetChanged()
-        }
-    }
+//    fun addItem(position: Int = 0, checkListDetail: DocumentCheckListDetailModel) {
+//        documentCheck?.let {
+//            it.add(position, checkListDetail)
+//            notifyDataSetChanged()
+//        }
+//    }
 
-    fun updateItem(position: Int, assetDetail: DocumentCheckListDetailModel) {
-        documentCheck?.let {
-            if (position >= 0 && position <= it.size) {
-                it[position] = assetDetail
-                notifyDataSetChanged()
-            }
-        }
-    }
+
 
 
 
@@ -60,6 +52,10 @@ class CheckListAdapter (private val c: Context, private val documentCheck: Array
     inner class CheckListDetailViewHolder(val binding: ItemDocumentChecklistBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int, documentCheck: DocumentCheckListDetailModel) {
           //  binding.tvValue.text = documentCheck.assetValue.toString()
+            binding.questionNo.text=(position+1).toString()
+          //  binding.questiontext.text=documentCheck.
+
+
             addClickListener(position, documentCheck)
         }
 
