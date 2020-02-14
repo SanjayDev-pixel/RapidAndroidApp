@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -171,83 +172,95 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/lastCurrentIncome"
+                android:id="@+id/lytYearlyIncome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:baselineAligned="true"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/lastCurrentIncome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_last_year_income"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLastYearIncome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Last Year Income"
+                            android:inputType="numberDecimal"
+                            android:maxLength="8"
+                            android:minWidth="150dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_current_year_income"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCurrentYearIncome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Current Year Income"
+                            android:inputType="numberDecimal"
+                            android:maxLength="8"
+                            android:minWidth="200dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_last_year_income"
-                    android:layout_width="0dp"
+                    android:id="@+id/input_average_monthly_income"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etLastYearIncome"
+                        android:id="@+id/etAverageMonthlyIncome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Last Year Income"
-                        android:inputType="numberDecimal"
-                        android:maxLength="8"
-                        android:minWidth="150dp"
-                        android:singleLine="true"
-                        android:textSize="@dimen/text_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_current_year_income"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etCurrentYearIncome"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Current Year Income"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:hint="@string/average_monthly_income"
                         android:inputType="numberDecimal"
                         android:maxLength="8"
                         android:minWidth="200dp"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size" />
+                        app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_average_monthly_income"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:textColorHint="@color/hint_color">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etAverageMonthlyIncome"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:hint="@string/average_monthly_income"
-                    android:inputType="numberDecimal"
-                    android:maxLength="8"
-                    android:minWidth="200dp"
-                    android:singleLine="true"
-                    app:ms_hintTextSize="@dimen/hint_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_monthly_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:textColorHint="@color/hint_color">
+                android:textColorHint="@color/hint_color"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etMonthlyIncome"

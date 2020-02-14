@@ -3,71 +3,98 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_bkg"
-        android:fillViewport="true">
+        android:background="@color/app_bkg">
 
-        <LinearLayout
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:id="@+id/vwIncomeNotConsider"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="200dp"-->
+        <!--            android:visibility="gone"-->
+        <!--            app:cardCornerRadius="5dp"-->
+        <!--            app:cardUseCompatPadding="true"-->
+        <!--            app:contentPadding="10dp">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:text="Income is not considered for this applicant."-->
+        <!--                android:textSize="21sp" />-->
+
+        <!--        </androidx.cardview.widget.CardView>-->
+
+        <ScrollView
+            android:id="@+id/vwIncomeConsider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_10">
-
-            <TextView
-                android:id="@+id/tvEmployment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/heading_background"
-                android:text="@string/employment"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:paddingBottom="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fields_margin"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_10">
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerProfile"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tvEmployment"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    app:ms_enableFloatingLabel="true"
-                    app:ms_floatingLabelText="Profile Segment *"
-                    app:ms_hint="Profile Segment *" />
+                    android:background="@color/heading_background"
+                    android:text="@string/employment"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinnerSubProfile"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    app:ms_enableFloatingLabel="true"
-                    app:ms_floatingLabelText="Sub-Profile *"
-                    app:ms_hint="Sub-Profile *" />
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:orientation="horizontal">
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerProfile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="7dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        app:ms_enableFloatingLabel="true"
+                        app:ms_floatingLabelText="Profile Segment *"
+                        app:ms_hint="Profile Segment *" />
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/spinnerSubProfile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        app:ms_enableFloatingLabel="true"
+                        app:ms_floatingLabelText="Sub-Profile *"
+                        app:ms_hint="Sub-Profile *" />
+
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/lytSalaryDetail"
+                    layout="@layout/layout_salary"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <include
+                    android:id="@+id/lytBusinessDetail"
+                    layout="@layout/layout_senp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
             </LinearLayout>
 
-            <include
-                android:id="@+id/lytSalaryDetail"
-                android:visibility="gone"
-                tools:visibility="visible"
-                layout="@layout/layout_salary" />
+        </ScrollView>
 
-            <include
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:id="@+id/lytBusinessDetail"
-                layout="@layout/layout_senp" />
-
-        </LinearLayout>
-
-    </ScrollView>
+    </FrameLayout>
 </layout>

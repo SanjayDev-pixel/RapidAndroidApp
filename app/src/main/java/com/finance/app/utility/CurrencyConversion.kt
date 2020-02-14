@@ -15,9 +15,9 @@ class CurrencyConversion {
 
     fun convertToNormalValue(value: String): String {
         return if (value.contains(",")) {
-            value.replace(",".toRegex(), "")
+            value.replace(",".toRegex(), "").trim()
         } else {
-            value
+            value.trim()
         }
     }
 

@@ -218,6 +218,115 @@ class FormValidationImpl : FormValidation {
         return isValidForm(totalError)
     }
 
+    override fun validateEmploymentBusiness(businessBinding: LayoutSenpBinding): Boolean {
+        val businessName = businessBinding.etBusinessName.text.toString()
+        val gstVatRegistration = businessBinding.etGstRegistration.text.toString()
+        val incorporationDate = businessBinding.etIncorporationDate.text.toString()
+        val businessVintage = businessBinding.etBusinessVintage.text.toString()
+
+        var fieldError = 0
+
+        if (businessName.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(businessBinding.etBusinessName)
+            fieldError++
+        }
+        if (gstVatRegistration.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(businessBinding.etGstRegistration)
+            fieldError++
+        }
+        if (incorporationDate.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(businessBinding.etIncorporationDate)
+            fieldError++
+        }
+        if (businessVintage.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(businessBinding.etBusinessVintage)
+            fieldError++
+        }
+
+
+        var spinnerError = 0
+
+        val constitution = businessBinding.spinnerConstitution.selectedItem as DropdownMaster?
+        if (constitution == null) {
+            spinnerError++
+            businessBinding.spinnerConstitution.error = "Required Field"
+        }
+
+        val industry = businessBinding.spinnerIndustry.selectedItem as DropdownMaster?
+        if (industry == null) {
+            spinnerError++
+            businessBinding.spinnerIndustry.error = "Required Field"
+        }
+
+        val businessSetupType = businessBinding.spinnerBusinessSetupType.selectedItem as DropdownMaster?
+        if (businessSetupType == null) {
+            spinnerError++
+            businessBinding.spinnerBusinessSetupType.error = "Required Field"
+        }
+
+        val addressError = validateAddress(businessBinding.layoutAddress)
+        val totalError = spinnerError + fieldError + addressError
+        return isValidForm(totalError)
+    }
+
+    override fun validateEmploymentSalary(salaryBinding: LayoutSalaryBinding): Boolean {
+        val companyName = salaryBinding.etCompanyName.text.toString()
+        val designation = salaryBinding.etDesignation.text.toString()
+        val totalExp = salaryBinding.etTotalExperience.text.toString()
+        val retirementAge = salaryBinding.etRetirementAge.text.toString()
+        val grossIncome = salaryBinding.etGrossIncome.text.toString()
+        val deduction = salaryBinding.etDeduction.text.toString()
+        val employeeId = salaryBinding.etEmployeeId.text.toString()
+
+        var fieldError = 0
+        if (companyName.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(salaryBinding.etCompanyName);fieldError++
+        }
+        if (designation.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(salaryBinding.etDesignation);fieldError++
+        }
+        if (totalExp.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(salaryBinding.etTotalExperience);fieldError++
+        }
+        if (retirementAge.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(salaryBinding.etRetirementAge);fieldError++
+        }
+        if (grossIncome.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(salaryBinding.etGrossIncome);fieldError++
+        }
+        if (deduction.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(salaryBinding.etDeduction);fieldError++
+        }
+        if (employeeId.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(salaryBinding.etEmployeeId);fieldError++
+        }
+
+
+        var spinnerError = 0
+
+        val sector = salaryBinding.spinnerSector.selectedItem as DropdownMaster?
+        if (sector == null) {
+            spinnerError++
+            salaryBinding.spinnerSector.error = "Required Field"
+        }
+
+        val employmentType = salaryBinding.spinnerEmploymentType.selectedItem as DropdownMaster?
+        if (employmentType == null) {
+            spinnerError++
+            salaryBinding.spinnerEmploymentType.error = "Required Field"
+        }
+
+        val industry = salaryBinding.spinnerIndustry.selectedItem as DropdownMaster?
+        if (industry == null) {
+            spinnerError++
+            salaryBinding.spinnerIndustry.error = "Required Field"
+        }
+
+        val addressError = validateAddress(salaryBinding.layoutAddress)
+        val totalError = spinnerError + fieldError + addressError
+        return isValidForm(totalError)
+    }
+
     private fun validateAddress(binding: LayoutEmploymentAddressBinding): Int {
         var errorCount = 0
         val landmark = binding.etLandmark.text.toString()

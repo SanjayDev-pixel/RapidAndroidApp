@@ -2,6 +2,8 @@ package com.finance.app.view.fragment.loanApplicationFragments.employment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,23 +11,21 @@ import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentEmploymentFormBinding
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.EmploymentApplicantsModel
-import com.finance.app.persistence.model.PersonalApplicantsModel
-import com.finance.app.utility.DateDifference
-import com.finance.app.utility.LeadMetaData
-import com.finance.app.utility.SelectDate
-import com.finance.app.utility.SetEmploymentMandatoryField
+import com.finance.app.databinding.LayoutEmploymentAddressBinding
+import com.finance.app.databinding.LayoutSalaryBinding
+import com.finance.app.databinding.LayoutSenpBinding
+import com.finance.app.persistence.model.*
+import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.utils.setSelectionFromList
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_employment_form.*
-import kotlinx.android.synthetic.main.layout_salary.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.APP.KEY_APPLICANT
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.development.interfaces.FormValidation
 import javax.inject.Inject
 
 class EmploymentFormFragmentNew : BaseFragment() {
@@ -33,15 +33,15 @@ class EmploymentFormFragmentNew : BaseFragment() {
         SALARY_DETAIL, BUSINESS_DETAIL, NONE
     }
 
-
     private lateinit var mContext: Context
 
     @Inject
     lateinit var dataBase: DataBaseUtil
+    @Inject
+    lateinit var formValidation: FormValidation
 
     private var allMasterDropDown: AllMasterDropDown? = null
     private var selectedApplicant: PersonalApplicantsModel? = null
-    //    private var selectedEmploymentDetails: EmploymentApplicantsModel? = null
     private var selectedFormType: FORM_TYPE? = null
 
     private lateinit var binding: FragmentEmploymentFormBinding
@@ -77,16 +77,80 @@ class EmploymentFormFragmentNew : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+        setOnTextChangeListener()
+        setOnTextConversionListener()
+
         //Now fetch arguments...
         fetchSelectedApplicant()
         fetchSpinnersDataFromDB()
-        selectedApplicant?.let { fetchApplicantEmploymentDetails(it) }
+
     }
 
     private fun initViews() {
+//        binding.vwIncomeConsider.visibility = View.VISIBLE
+
         //Set Mandatory fields...
         SetEmploymentMandatoryField(binding)
         bindDatePickerToViews()
+    }
+
+    private fun setOnTextChangeListener() {
+        setSalaryIncomeTextChangeListener(binding.lytSalaryDetail.etGrossIncome)
+        setSalaryIncomeTextChangeListener(binding.lytSalaryDetail.etDeduction)
+        setBusinessIncomeTextChangeListener(binding.lytBusinessDetail.etLastYearIncome)
+        setBusinessIncomeTextChangeListener(binding.lytBusinessDetail.etCurrentYearIncome)
+    }
+
+    private fun setOnTextConversionListener() {
+        CurrencyConversion().convertToCurrencyType(binding.lytSalaryDetail.etGrossIncome)
+        CurrencyConversion().convertToCurrencyType(binding.lytSalaryDetail.etNetIncome)
+        CurrencyConversion().convertToCurrencyType(binding.lytSalaryDetail.etDeduction)
+        CurrencyConversion().convertToCurrencyType(binding.lytBusinessDetail.etLastYearIncome)
+        CurrencyConversion().convertToCurrencyType(binding.lytBusinessDetail.etCurrentYearIncome)
+        CurrencyConversion().convertToCurrencyType(binding.lytBusinessDetail.etAverageMonthlyIncome)
+        CurrencyConversion().convertToCurrencyType(binding.lytBusinessDetail.etMonthlyIncome)
+    }
+
+    private fun setSalaryIncomeTextChangeListener(amountField: TextInputEditText?) {
+        amountField?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (binding.lytSalaryDetail.etGrossIncome.text.toString().isBlank() || binding.lytSalaryDetail.etDeduction.text.toString().isBlank())
+                    return //Return if string is empty
+
+                val grossIncome = CurrencyConversion().convertToNormalValue(binding.lytSalaryDetail.etGrossIncome.text.toString()).toFloat()
+                val deduction = CurrencyConversion().convertToNormalValue(binding.lytSalaryDetail.etDeduction.text.toString()).toFloat()
+
+                if (grossIncome > deduction) {
+                    val netIncome = (grossIncome - deduction).toInt().toString()
+                    binding.lytSalaryDetail.etNetIncome.setText(netIncome)
+                } else {
+                    binding.lytSalaryDetail.etDeduction.text?.clear()
+                    binding.lytSalaryDetail.etNetIncome.text?.clear()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            }
+        })
+    }
+
+    private fun setBusinessIncomeTextChangeListener(amountField: TextInputEditText?) {
+        amountField?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (binding.lytBusinessDetail.etLastYearIncome.text.toString().isBlank() || binding.lytBusinessDetail.etCurrentYearIncome.text.toString().isBlank()) return //Return if string is empty
+
+                val lastYearIncome = CurrencyConversion().convertToNormalValue(binding.lytBusinessDetail.etLastYearIncome.text.toString()).toFloat()
+                val currentYearIncome = CurrencyConversion().convertToNormalValue(binding.lytBusinessDetail.etCurrentYearIncome.text.toString()).toFloat()
+                val averageMonthlyIncome = ((lastYearIncome + currentYearIncome) / 2).toInt().toString()
+
+                binding.lytBusinessDetail.etAverageMonthlyIncome.setText(averageMonthlyIncome)
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            }
+        })
     }
 
     private fun bindDatePickerToViews() {
@@ -100,16 +164,6 @@ class EmploymentFormFragmentNew : BaseFragment() {
         }
     }
 
-    private fun fetchApplicantEmploymentDetails(applicant: PersonalApplicantsModel) {
-        LeadMetaData.getLeadObservable().observe(this, Observer {
-            it?.let { leadDetails ->
-                val employmentList = leadDetails.employmentData.applicantDetails.filter { employmentDetail -> employmentDetail.leadApplicantNumber.equals(applicant.leadApplicantNumber, true) }
-                if (employmentList.isNotEmpty()) fillEmploymentDetails(employmentList[0])
-//                selectedEmploymentDetails?.let { employmentDetails -> fillEmploymentDetails(employmentDetails) }
-            }
-        })
-    }
-
     private fun fetchSpinnersDataFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
             masterDrownDownValues?.let {
@@ -119,6 +173,17 @@ class EmploymentFormFragmentNew : BaseFragment() {
                 bindBusinessSpinnersData()
                 bindSalarySpinnersData()
                 bindCustomAddressSpinnersData()
+                //Now fetch the applicant employment data from db, if available...
+                selectedApplicant?.let { applicant -> fetchApplicantEmploymentDetails(applicant) }
+            }
+        })
+    }
+
+    private fun fetchApplicantEmploymentDetails(applicant: PersonalApplicantsModel) {
+        LeadMetaData.getLeadObservable().observe(this, Observer {
+            it?.let { leadDetails ->
+                val employmentList = leadDetails.employmentData.applicantDetails.filter { employmentDetail -> employmentDetail.leadApplicantNumber.equals(applicant.leadApplicantNumber, true) }
+                if (employmentList.isNotEmpty()) fillEmploymentDetails(employmentList[0])
             }
         })
     }
@@ -132,9 +197,16 @@ class EmploymentFormFragmentNew : BaseFragment() {
                 val profileSelected = parent?.selectedItem as DropdownMaster?
                 profileSelected?.let { profile ->
                     val subProfileSegment: ArrayList<DropdownMaster> = ArrayList()
+
                     allMasterDropDown?.SubProfileSegment?.forEach { subProfile -> if (subProfile.refTypeDetailID == profile.typeDetailID) subProfileSegment.add(subProfile) }
                     binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(mContext, subProfileSegment)
-                } ?: run { binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(mContext, ArrayList()) }
+                    //If previously sub profile value selected....
+                    binding.spinnerProfile.tag?.let {
+                        binding.spinnerSubProfile.setSelectionFromList(subProfileSegment, binding.spinnerProfile.tag as Int)
+                    }
+                }
+                //Set Empty is profile is not yet selected..
+                if (profileSelected == null) binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(mContext, ArrayList())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -148,22 +220,20 @@ class EmploymentFormFragmentNew : BaseFragment() {
 
                     if (subProfile.typeDetailID == Constants.CASH_SALARY || subProfile.typeDetailID == Constants.BANK_SALARY) {
                         selectedFormType = FORM_TYPE.SALARY_DETAIL
-                        switchEmploymentTypeView(FORM_TYPE.SALARY_DETAIL)
-                        shouldShowPensionerCheckView(subProfile.typeDetailID == Constants.BANK_SALARY)
+                        switchEmploymentTypeView(FORM_TYPE.SALARY_DETAIL, subProfile.typeDetailID)
 
                     } else if (subProfile.typeDetailID == Constants.ITR || subProfile.typeDetailID == Constants.ASSESED_INCOME) {
                         selectedFormType = FORM_TYPE.BUSINESS_DETAIL
-                        switchEmploymentTypeView(FORM_TYPE.BUSINESS_DETAIL)
-                        shouldShowPensionerCheckView(false)
+                        switchEmploymentTypeView(FORM_TYPE.BUSINESS_DETAIL, subProfile.typeDetailID)
 
                     } else {
                         selectedFormType = FORM_TYPE.NONE
-                        switchEmploymentTypeView(FORM_TYPE.NONE)
+                        switchEmploymentTypeView(FORM_TYPE.NONE, subProfile.typeDetailID)
                     }
 
                 } ?: run {
                     selectedFormType = FORM_TYPE.NONE
-                    switchEmploymentTypeView(FORM_TYPE.NONE)
+                    switchEmploymentTypeView(FORM_TYPE.NONE, -1)
                 }
             }
 
@@ -191,16 +261,32 @@ class EmploymentFormFragmentNew : BaseFragment() {
         }
     }
 
-    private fun switchEmploymentTypeView(formType: FORM_TYPE) {
+    private fun switchEmploymentTypeView(formType: FORM_TYPE, incomeType: Int) {
         when (formType) {
             FORM_TYPE.SALARY_DETAIL -> {
                 lytSalaryDetail.visibility = View.VISIBLE
                 lytBusinessDetail.visibility = View.GONE
+                when (incomeType) {
+                    Constants.BANK_SALARY -> binding.lytSalaryDetail.cbIsPensioner.visibility = View.VISIBLE
+                    else -> binding.lytSalaryDetail.cbIsPensioner.visibility = View.GONE
+                }
             }
+
             FORM_TYPE.BUSINESS_DETAIL -> {
                 lytSalaryDetail.visibility = View.GONE
                 lytBusinessDetail.visibility = View.VISIBLE
+                when (incomeType) {
+                    Constants.ASSESED_INCOME -> {
+                        binding.lytBusinessDetail.inputMonthlyIncome.visibility = View.VISIBLE
+                        binding.lytBusinessDetail.lytYearlyIncome.visibility = View.GONE
+                    }
+                    Constants.ITR -> {
+                        binding.lytBusinessDetail.lytYearlyIncome.visibility = View.VISIBLE
+                        binding.lytBusinessDetail.inputMonthlyIncome.visibility = View.GONE
+                    }
+                }
             }
+
             FORM_TYPE.NONE -> {
                 lytSalaryDetail.visibility = View.GONE
                 lytBusinessDetail.visibility = View.GONE
@@ -208,21 +294,19 @@ class EmploymentFormFragmentNew : BaseFragment() {
         }
     }
 
-    private fun shouldShowPensionerCheckView(visible: Boolean) {
-        lytSalaryDetail.cbIsPensioner.visibility = if (visible) View.VISIBLE else View.GONE
-    }
-
     private fun fillEmploymentDetails(employmentDetails: EmploymentApplicantsModel) {
-        employmentDetails.profileSegmentTypeDetailID?.let { allMasterDropDown?.ProfileSegment?.let { list -> binding.spinnerProfile.setSelectionFromList(list, it) } }
-
-        when (selectedFormType) {
-            FORM_TYPE.SALARY_DETAIL -> fillSalaryDetails(employmentDetails)
-            FORM_TYPE.BUSINESS_DETAIL -> fillBusinessDetails(employmentDetails)
+        employmentDetails.profileSegmentTypeDetailID?.let { profileId ->
+            allMasterDropDown?.ProfileSegment?.let { list ->
+                binding.spinnerProfile.setSelectionFromList(list, profileId)
+                employmentDetails.subProfileTypeDetailID?.let { subProfileId -> binding.spinnerProfile.tag = subProfileId }
+            }
         }
+
+        if (selectedFormType == FORM_TYPE.SALARY_DETAIL) fillSalaryDetails(employmentDetails)
+        else if (selectedFormType == FORM_TYPE.BUSINESS_DETAIL) fillBusinessDetails(employmentDetails)
     }
 
     private fun fillSalaryDetails(employmentDetails: EmploymentApplicantsModel) {
-        binding.lytSalaryDetail.cbIsPensioner.isChecked = employmentDetails.isPensioner
         binding.lytSalaryDetail.cbIsPensioner.isChecked = employmentDetails.isPensioner
 
         /*applicant.dateOfJoining?.let {
@@ -259,18 +343,64 @@ class EmploymentFormFragmentNew : BaseFragment() {
     }
 
     private fun fillBusinessDetails(employmentDetails: EmploymentApplicantsModel) {
+        employmentDetails.businessVinatgeInYear?.let { binding.lytBusinessDetail.etBusinessVintage.setText(it.toString()) }
+        employmentDetails.dateOfIncorporation?.let { binding.lytBusinessDetail.etIncorporationDate.setText(it) }
+        employmentDetails.companyName?.let { binding.lytBusinessDetail.etBusinessName.setText(it) }
+        employmentDetails.dateOfIncorporation?.let { binding.lytBusinessDetail.etIncorporationDate.setText(it) }
 
+        /*
+        *  val vintageYear = applicant.businessVinatgeInYear ?: 0
+        binding.etBusinessVintage.setText(if (vintageYear == 0) "" else vintageYear.toString())
+        binding.etIncorporationDate.setText(applicant.dateOfIncorporation ?: "")
+        binding.etBusinessName.setText(applicant.companyName ?: "")
+        binding.etGstRegistration.setText(applicant.gstRegistration ?: "")
+
+        applicant.incomeDetail?.let {
+            binding.etLastYearIncome.setText(applicant.incomeDetail?.itrLastYearIncome.toString())
+            binding.etCurrentYearIncome.setText(applicant.incomeDetail?.itrCurrentYearIncome.toString())
+            binding.etAverageMonthlyIncome.setText(applicant.incomeDetail?.itrAverageMonthlyIncome.toString())
+            binding.etMonthlyIncome.setText(applicant.incomeDetail?.assessedMonthlyIncome.toString())
+        }
+
+        applicant.constitutionTypeDetailID?.let {
+            constitution.setSelection(applicant.constitutionTypeDetailID.toString())
+        }
+
+        applicant.industryTypeDetailID?.let {
+            senpIndustry.setSelection(applicant.industryTypeDetailID.toString())
+        }
+
+        applicant.businessSetupTypeDetailID?.let {
+            businessSetUpType.setSelection(applicant.businessSetupTypeDetailID.toString())
+        }
+
+        binding.cbAllEarningMember.isChecked = applicant.allEarningMembers
+        fillAddress(binding.layoutAddress, applicant.addressBean)
+        *
+        *
+        * */
     }
 
     fun isEmploymentDetailsValid(): Boolean {
+        //TODO need to correct validation....
+        selectedApplicant?.let {
+            if (it.incomeConsidered.not())
+                return true //No need to validate in case of while income is not considerd..
+        }
+
+        selectedFormType?.let {
+            return when (it) {
+                FORM_TYPE.SALARY_DETAIL -> formValidation.validateEmploymentSalary(binding.lytSalaryDetail)
+                FORM_TYPE.BUSINESS_DETAIL -> formValidation.validateEmploymentBusiness(binding.lytBusinessDetail)
+                FORM_TYPE.NONE -> false
+            }
+        }
         return false
     }
 
     fun getApplicantEmploymentDetails(): EmploymentApplicantsModel {
-        //Assign New Model if null...
         val employmentDetails = EmploymentApplicantsModel()
         selectedApplicant?.let { applicant ->
-
             //Basic Details...
             employmentDetails.leadApplicantNumber = applicant.leadApplicantNumber
             employmentDetails.isMainApplicant = applicant.isMainApplicant
@@ -278,30 +408,90 @@ class EmploymentFormFragmentNew : BaseFragment() {
 
             //Employment Details....
             employmentDetails.profileSegmentTypeDetailID = (binding.spinnerProfile.selectedItem as DropdownMaster?)?.typeDetailID
-            employmentDetails.subProfileTypeDetailID = (binding.spinnerProfile.selectedItem as DropdownMaster?)?.typeDetailID
+            employmentDetails.subProfileTypeDetailID = (binding.spinnerSubProfile.selectedItem as DropdownMaster?)?.typeDetailID
 
-//            when (selectedFormType) {
-//                FORM_TYPE.SALARY_DETAIL -> getSalaryDetails(employmentDetails)
-//                FORM_TYPE.BUSINESS_DETAIL -> getBusinessDetails(employmentDetails)
-//                FORM_TYPE.NONE ->{}
-//            }
-
-
+            //Selected Form Details..
+            selectedFormType?.let {
+                when (it) {
+                    FORM_TYPE.SALARY_DETAIL -> applySalaryDetails(employmentDetails)
+                    FORM_TYPE.BUSINESS_DETAIL -> applyBusinessDetails(employmentDetails)
+                    FORM_TYPE.NONE -> {
+                    }
+                }
+            }
         }
-
-
-
-
 
         return employmentDetails
     }
 
-    private fun getBusinessDetails(employmentDetails: EmploymentApplicantsModel):EmploymentApplicantsModel {
-            return EmploymentApplicantsModel()
+    private fun applySalaryDetails(employmentDetails: EmploymentApplicantsModel): EmploymentApplicantsModel {
+        employmentDetails.companyName = binding.lytSalaryDetail.etCompanyName.text.toString()
+        employmentDetails.sectorTypeDetailID = (binding.lytSalaryDetail.spinnerSector.selectedItem as DropdownMaster?)?.typeDetailID
+        employmentDetails.industryTypeDetailID = (binding.lytSalaryDetail.spinnerIndustry.selectedItem as DropdownMaster?)?.typeDetailID
+        employmentDetails.employmentTypeDetailID = (binding.lytSalaryDetail.spinnerEmploymentType.selectedItem as DropdownMaster?)?.typeDetailID
+
+        employmentDetails.designation = binding.lytSalaryDetail.etDesignation.text.toString()
+        employmentDetails.isPensioner = binding.lytSalaryDetail.cbIsPensioner.isChecked
+        employmentDetails.dateOfJoining = binding.lytSalaryDetail.etJoiningDate.text.toString()
+        employmentDetails.totalExperience = binding.lytSalaryDetail.etTotalExperience.text.toString()
+        employmentDetails.retirementAge = if (binding.lytSalaryDetail.etRetirementAge.text.toString().isEmpty()) 0 else binding.lytSalaryDetail.etRetirementAge.text.toString().toInt()
+
+        employmentDetails.officialMailID = binding.lytSalaryDetail.etOfficialMailId.text.toString()
+        employmentDetails.addressBean = getAddressDetails(binding.lytSalaryDetail.layoutAddress)
+        employmentDetails.incomeDetail = getSalaryIncomeDetail(binding.lytSalaryDetail)
+        employmentDetails.employeeID = binding.lytSalaryDetail.etEmployeeId.text.toString()
+
+        return employmentDetails
     }
 
-    private fun getSalaryDetails(employmentDetails: EmploymentApplicantsModel):EmploymentApplicantsModel {
-        return EmploymentApplicantsModel()
+    private fun applyBusinessDetails(employmentDetails: EmploymentApplicantsModel): EmploymentApplicantsModel {
+        employmentDetails.companyName = binding.lytBusinessDetail.etBusinessName.text.toString()
+        employmentDetails.constitutionTypeDetailID = (binding.lytBusinessDetail.spinnerConstitution.selectedItem as DropdownMaster?)?.typeDetailID
+        employmentDetails.businessSetupTypeDetailID = (binding.lytBusinessDetail.spinnerBusinessSetupType.selectedItem as DropdownMaster?)?.typeDetailID
+        employmentDetails.industryTypeDetailID = (binding.lytBusinessDetail.spinnerIndustry.selectedItem as DropdownMaster?)?.typeDetailID
+        employmentDetails.dateOfIncorporation = binding.lytBusinessDetail.etIncorporationDate.text.toString()
+        employmentDetails.gstRegistration = binding.lytBusinessDetail.etGstRegistration.text.toString()
+        employmentDetails.businessVinatgeInYear = binding.lytBusinessDetail.etBusinessVintage.text.toString().toInt()
+        employmentDetails.addressBean = getAddressDetails(binding.lytBusinessDetail.layoutAddress)
+        employmentDetails.allEarningMembers = binding.lytBusinessDetail.cbAllEarningMember.isChecked
+        employmentDetails.incomeDetail = getBusinessIncomeDetail(binding.lytBusinessDetail)
+
+        return employmentDetails
     }
 
+    private fun getAddressDetails(binding: LayoutEmploymentAddressBinding): AddressDetail {
+        val address = AddressDetail()
+        address.zip = binding.customZipAddressView.pinCode
+        address.addressTypeDetail = Constants.CURRENT_ADDRESS
+        address.stateID = binding.customZipAddressView.getStateId()
+        address.districtID = binding.customZipAddressView.getDistrictId()
+        address.cityID = binding.customZipAddressView.getCityId()
+        address.address1 = binding.etAddress.text.toString()
+        address.landmark = binding.etLandmark.text.toString()
+        address.contactNum = binding.etContactNum.text.toString()
+        return address
+    }
+
+    private fun getSalaryIncomeDetail(binding: LayoutSalaryBinding): IncomeDetail {
+        val incomeDetail = IncomeDetail()
+
+        //TODO need to fix empty conversion bug....
+        incomeDetail.salariedGrossIncome = CurrencyConversion().convertToNormalValue(binding.etGrossIncome.text.toString()).toFloat()
+        incomeDetail.salariedDeduction = CurrencyConversion().convertToNormalValue(binding.etDeduction.text.toString()).toFloat()
+        incomeDetail.salariedNetIncome = CurrencyConversion().convertToNormalValue(binding.etNetIncome.text.toString()).toFloat()
+
+        return incomeDetail
+    }
+
+    private fun getBusinessIncomeDetail(binding: LayoutSenpBinding): IncomeDetail {
+        val incomeDetail = IncomeDetail()
+
+        //TODO need to fix empty conversion bug....
+        incomeDetail.assessedMonthlyIncome = CurrencyConversion().convertToNormalValue(binding.etMonthlyIncome.text.toString()).toFloatOrNull()
+        incomeDetail.itrAverageMonthlyIncome = CurrencyConversion().convertToNormalValue(binding.etAverageMonthlyIncome.text.toString()).toFloatOrNull()
+        incomeDetail.itrLastYearIncome = CurrencyConversion().convertToNormalValue(binding.etLastYearIncome.text.toString()).toFloatOrNull()
+        incomeDetail.itrCurrentYearIncome = CurrencyConversion().convertToNormalValue(binding.etCurrentYearIncome.text.toString()).toFloatOrNull()
+
+        return incomeDetail
+    }
 }
