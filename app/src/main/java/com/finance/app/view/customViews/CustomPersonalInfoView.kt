@@ -95,7 +95,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun setClickListeners(leadId: Int?, applicant: PersonalApplicantsModel) {
-
         binding.btnAddKYC.setOnClickListener { KYCActivity.start(context, applicant.leadApplicantNumber) }
 
         binding.basicInfoLayout.btnGetOTP.setOnClickListener { showVerifyOTPDialog(leadId, applicant) }

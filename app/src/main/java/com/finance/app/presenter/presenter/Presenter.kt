@@ -54,6 +54,7 @@ class Presenter {
             ConstantsApi.CALL_POST_LOAN_APP -> apiProject.api.postLoanApp(dmiConnector.apiRequest as LoanApplicationRequest)
             ConstantsApi.CALL_UPDATE_CALL -> apiProject.api.postCallUpdate((dmiConnector.apiRequest as Requests.RequestCallUpdate).leadID, dmiConnector.apiRequest as Requests.RequestCallUpdate)
             ConstantsApi.CALL_FINAL_SUBMIT -> apiProject.api.finalSubmit((dmiConnector.apiRequest as Requests.RequestFinalSubmit).leadID)
+            ConstantsApi.CALL_KYC -> apiProject.api.postCallKYC(dmiConnector.apiRequest as Requests.RequestKYC)
 
             else -> return
         }

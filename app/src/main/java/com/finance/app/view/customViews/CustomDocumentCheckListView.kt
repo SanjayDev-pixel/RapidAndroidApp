@@ -5,9 +5,12 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.CustomviewDocumentchecklistBinding
 import com.finance.app.databinding.LayoutCustomviewAssetliabilityBinding
+import com.finance.app.persistence.model.DocumentCheckListDetailModel
 import com.finance.app.persistence.model.DocumentCheckListModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
@@ -17,7 +20,7 @@ import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.util.AppUtilExtensions
 
-class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs){
+class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs),CheckListAdapter.CheckListClickListener{
 
     private lateinit var binding: CustomviewDocumentchecklistBinding
     private lateinit var activity: FragmentActivity
@@ -57,7 +60,7 @@ class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, a
 
         LeadMetaData.getLeadObservable().observe(activity, Observer { allLeadDetails ->
             allLeadDetails?.let {
-              //  val selectedApplicantList = it.assetLiabilityData.applicantDetails.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
+               // val selectedApplicantList = it.assetLiabilityData.applicantDetails.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
 
                 /*if (!selectedApplicantList.isNullOrEmpty()) {
 
@@ -68,6 +71,7 @@ class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, a
 
 
                 }*/
+
             }
         })
 
@@ -84,6 +88,14 @@ class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, a
         return currentApplicant
 
     }
+
+    private fun setDocumentCheckListAdapter(checkList: ArrayList<DocumentCheckListDetailModel>) {
+            binding.recyclerviewChecklist.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            checklistAdapter = CheckListAdapter(context, checkList)
+            binding.recyclerviewChecklist.adapter = checklistAdapter
+           checklistAdapter?.setOnCheckListClickListener(this)
+
+        }
 
 
 }

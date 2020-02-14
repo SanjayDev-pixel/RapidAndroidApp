@@ -3,7 +3,11 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebViewClient
 import com.finance.app.R
 import com.finance.app.databinding.ActivityKycBinding
 import com.finance.app.presenter.presenter.Presenter
@@ -18,6 +22,7 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 
+
 class KYCActivity : BaseAppCompatActivity() {
 
     private val binding: ActivityKycBinding by ActivityBindingProviderDelegate(
@@ -25,6 +30,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
     private val kycPresenter = Presenter()
     private var bundle: Bundle? = null
+    var kyCID:String?=null
 
     companion object {
         fun start(context: Context, leadApplicantNum: String?) {
@@ -93,6 +99,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
         private fun openWebViewForKYCData(kycID: String?) {
             kycID?.let {
+
                /* binding.llKYC.visibility = View.GONE
                 binding.webView.visibility = View.VISIBLE
                 binding.webView.settings.javaScriptEnabled
@@ -103,8 +110,21 @@ class KYCActivity : BaseAppCompatActivity() {
                 //binding.webView.loadUrl(URL_KYC, headerMap)
 
                 CustomChromeTab().openUrl(activity = this@KYCActivity, url = (URL_KYC + kycID))
+/*
 
-                //    binding.webView.loadUrl(URL_KYC.plus(kycID))
+                binding.llKYC.visibility = View.GONE
+                //binding.webView.visibility = View.VISIBLE
+
+                binding.webView.settings.javaScriptEnabled=true
+                binding.webView.settings.allowFileAccess=true
+               // binding.webView.setWebViewClient(WebViewClient())
+                binding.webView.webViewClient = WebViewClient()
+                binding.webView.settings.javaScriptEnabled=true
+                binding.webView.settings.allowContentAccess=true
+                binding.webView.settings.allowFileAccess=true
+                binding.webView.settings.allowUniversalAccessFromFileURLs=true
+
+*/
 
             }
         }
@@ -116,3 +136,5 @@ class KYCActivity : BaseAppCompatActivity() {
         }
     }
 }
+
+
