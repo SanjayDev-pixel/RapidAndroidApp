@@ -192,7 +192,8 @@ dependencies {
         transitive = true;
     }
 
-    implementation 'com.thefinestartist:finestwebview:1.2.7'
+//    implementation 'com.thefinestartist:finestwebview:1.2.7'
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:1.1.0'
 
     //otp edittext
     implementation('com.alimuzaffar.lib:pinentryedittext:2.0.6') {

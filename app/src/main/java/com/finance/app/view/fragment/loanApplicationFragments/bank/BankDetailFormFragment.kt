@@ -40,7 +40,7 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     private var bankAdapter: BankDetailAdapter? = null
     private var allMasterDropDown: AllMasterDropDown? = null
 
-    private lateinit var selectedApplicant: PersonalApplicantsModel
+    private var selectedApplicant: PersonalApplicantsModel? = null
     private var selectedBankDetailPosition = -1
 
     private lateinit var binding: FragmentBankDetailFormBinding
@@ -72,6 +72,16 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //Now fetch data from where-ever you want....
+        fetchLeadBankDetail()
+        fetchSpinnersDataFromDB()
+
+        //Show empty view if this applicant details not required...
+        shouldShowEmptyView()
+    }
+
     private fun initViews() {
     }
 
@@ -79,11 +89,19 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
         binding.vwAdd.setOnClickListener { showBankDetailFormDialog(BankDetailDialogFragment.Action.NEW) }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //Now fetch data from where-ever you want....
-        fetchLeadBankDetail()
-        fetchSpinnersDataFromDB()
+    private fun shouldShowEmptyView() {
+        selectedApplicant?.let {
+            if (it.incomeConsidered) {
+                binding.vwIncomeConsider.visibility = View.VISIBLE
+                binding.vwIncomeNotConsider.visibility = View.GONE
+            } else {
+                binding.vwIncomeConsider.visibility = View.GONE
+                binding.vwIncomeNotConsider.visibility = View.VISIBLE
+            }
+        } ?: run {
+            binding.vwIncomeConsider.visibility = View.GONE
+            binding.vwIncomeNotConsider.visibility = View.VISIBLE
+        }
     }
 
     private fun setBankDetailAdapter(bankDetailList: ArrayList<BankDetailBean>) {
@@ -96,7 +114,7 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     private fun fetchLeadBankDetail() {
         LeadMetaData.getLeadObservable().observe(this@BankDetailFormFragment, Observer {
             it?.let { leadDetails ->
-                val selectedApplicantBankDetails = leadDetails.bankData.bankDetailList.filter { bankDetail -> bankDetail.leadApplicantNumber.equals(selectedApplicant.leadApplicantNumber, true) }
+                val selectedApplicantBankDetails = leadDetails.bankData.bankDetailList.filter { bankDetail -> bankDetail.leadApplicantNumber.equals(selectedApplicant?.leadApplicantNumber, true) }
                 if (selectedApplicantBankDetails.isNotEmpty())
                     setBankDetailAdapter(selectedApplicantBankDetails[0].applicantBankDetailsBean)
                 else setBankDetailAdapter(ArrayList())
@@ -156,11 +174,12 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
 
     fun getApplicantBankDetails(): BankDetailModel {
         val bankDetailModel = BankDetailModel()
-        bankDetailModel.firstName = selectedApplicant.firstName
-        bankDetailModel.leadApplicantNumber = selectedApplicant.leadApplicantNumber
-        bankDetailModel.isMainApplicant = selectedApplicant.isMainApplicant
-        bankDetailModel.applicantBankDetailsBean = bankAdapter?.getItemList() ?: ArrayList()
-
+        selectedApplicant?.let { applicant ->
+            bankDetailModel.firstName = applicant.firstName
+            bankDetailModel.leadApplicantNumber = applicant.leadApplicantNumber
+            bankDetailModel.isMainApplicant = applicant.isMainApplicant
+            bankDetailModel.applicantBankDetailsBean = bankAdapter?.getItemList() ?: ArrayList()
+        }
         return bankDetailModel
     }
 

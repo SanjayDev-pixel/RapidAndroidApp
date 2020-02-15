@@ -82,6 +82,7 @@ class BankDetailFragmentNew : BaseFragment() {
         applicantList.let { list ->
             list?.let {
                 bankDetailFormPagerAdapter = BankDetailFormPagerAdapter(fragmentManager!!, it)
+                binding.vpBankDetailForm.offscreenPageLimit = 5 //Must be called before setting adapter
                 binding.vpBankDetailForm.adapter = bankDetailFormPagerAdapter
                 binding.tabLead.setupWithViewPager(binding.vpBankDetailForm)
             }

@@ -67,6 +67,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
 
     private fun setApplicantTabLayout(applicantList: ArrayList<PersonalApplicantsModel>) {
         pagerAdapterApplicants = PersonalPagerAdapter(fragmentManager!!, applicantList)
+        binding.viewPager.offscreenPageLimit = 5 //Must be called before setting adapter
         binding.viewPager.adapter = pagerAdapterApplicants
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }
@@ -75,7 +76,11 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private fun setOnClickListeners() {
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener { addApplicant() }
-        binding.btnAddApplicantTab.setOnClickListener { pagerAdapterApplicants?.addItem() }
+        binding.btnAddApplicantTab.setOnClickListener {
+            pagerAdapterApplicants?.addItem()
+            if (binding.tabLead.tabCount > 2)//Scroll tab to last item....
+                binding.tabLead.getTabAt(binding.tabLead.tabCount - 1)?.select()
+        }
     }
 
     private fun addApplicant() {

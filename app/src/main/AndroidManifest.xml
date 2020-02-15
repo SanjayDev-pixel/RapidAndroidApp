@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -91,11 +92,11 @@
         <activity android:name=".view.activity.SyncActivity" />
         <activity android:name=".view.activity.TempActivity" />
 
-        <activity
-            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/FinestWebViewTheme.Light" />
+<!--        <activity-->
+<!--            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:screenOrientation="sensor"-->
+<!--            android:theme="@style/FinestWebViewTheme.Light" />-->
 
         <meta-data
             android:name="io.fabric.ApiKey"

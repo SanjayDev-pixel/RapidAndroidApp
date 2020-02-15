@@ -25,9 +25,10 @@ class AssetLiabilityFragmentForm : BaseFragment() {
 
     @Inject
     lateinit var dataBase: DataBaseUtil
-    private lateinit var binding: AssetLiabilityFragmentFormBinding
 
-    private lateinit var selectedApplicant: PersonalApplicantsModel
+    private var selectedApplicant: PersonalApplicantsModel? = null
+
+    private lateinit var binding: AssetLiabilityFragmentFormBinding
 
 
     companion object {
@@ -64,9 +65,26 @@ class AssetLiabilityFragmentForm : BaseFragment() {
 
     }
 
+    private fun shouldShowEmptyView() {
+        selectedApplicant?.let {
+            if (it.incomeConsidered) {
+                binding.vwIncomeConsider.visibility = View.VISIBLE
+                binding.vwIncomeNotConsider.visibility = View.GONE
+            } else {
+                binding.vwIncomeConsider.visibility = View.GONE
+                binding.vwIncomeNotConsider.visibility = View.VISIBLE
+            }
+        } ?: run {
+            binding.vwIncomeConsider.visibility = View.GONE
+            binding.vwIncomeNotConsider.visibility = View.VISIBLE
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let { binding.customAssetView.initApplicantDetails(it, selectedApplicant) }
+
+        shouldShowEmptyView()
+        activity?.let { selectedApplicant?.let { applicant -> binding.customAssetView.initApplicantDetails(it, applicant) } }
     }
 
     fun getAssetsAndLiability(): AssetLiabilityModel {

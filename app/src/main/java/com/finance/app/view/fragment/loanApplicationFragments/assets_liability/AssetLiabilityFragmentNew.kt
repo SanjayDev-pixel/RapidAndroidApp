@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class AssetLiabilityFragmentNew : BaseFragment() {
 
-       @Inject
+    @Inject
     lateinit var dataBase: DataBaseUtil
     private lateinit var binding: FragmentAssetliabilityNewBinding
     private var pagerAdapterAsset: AssetLiabilityPagerAdapter? = null
@@ -91,6 +91,7 @@ class AssetLiabilityFragmentNew : BaseFragment() {
 
     private fun setApplicantTabAdapter(applicantList: ArrayList<PersonalApplicantsModel>) {
         pagerAdapterAsset = AssetLiabilityPagerAdapter(fragmentManager!!, applicantList)
+        binding.viewPager.offscreenPageLimit = 5 //Must be called before setting adapter
         binding.viewPager.adapter = pagerAdapterAsset
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }

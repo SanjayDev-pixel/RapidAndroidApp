@@ -8,23 +8,26 @@
         android:layout_height="match_parent"
         android:background="@color/app_bkg">
 
-        <!--        <androidx.cardview.widget.CardView-->
-        <!--            android:id="@+id/vwIncomeNotConsider"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="200dp"-->
-        <!--            android:visibility="gone"-->
-        <!--            app:cardCornerRadius="5dp"-->
-        <!--            app:cardUseCompatPadding="true"-->
-        <!--            app:contentPadding="10dp">-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/vwIncomeNotConsider"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="10dp"
+            tools:visibility="visible">
 
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center"-->
-        <!--                android:text="Income is not considered for this applicant."-->
-        <!--                android:textSize="21sp" />-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Income is not considered for this applicant."
+                android:textSize="21sp" />
 
-        <!--        </androidx.cardview.widget.CardView>-->
+        </androidx.cardview.widget.CardView>
 
         <ScrollView
             android:id="@+id/vwIncomeConsider"
@@ -32,7 +35,9 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:fillViewport="true"
-            android:paddingBottom="40dp">
+            android:paddingBottom="40dp"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -181,6 +181,7 @@
                     android:id="@+id/btnNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/button_theme_style"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:text="@string/next"
                     android:textColor="@color/white"

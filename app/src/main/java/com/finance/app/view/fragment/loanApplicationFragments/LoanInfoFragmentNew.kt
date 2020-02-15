@@ -1,6 +1,5 @@
 package com.finance.app.view.fragment.loanApplicationFragments
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,6 @@ import com.finance.app.utility.CurrencyConversion
 import com.finance.app.utility.DisableLoanInfoForm
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SetLoanInfoMandatoryField
-import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import com.finance.app.viewModel.AppDataViewModel
@@ -28,7 +26,7 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
 
-class LoanInfoFragmentNew : BaseFragment(){
+class LoanInfoFragmentNew : BaseFragment() {
 
     @Inject
     lateinit var formValidation: FormValidation
@@ -79,18 +77,19 @@ class LoanInfoFragmentNew : BaseFragment(){
         CurrencyConversion().convertToCurrencyType(binding.etAmountRequest)
         binding.btnNext.setOnClickListener {
             val lProductDD = loanProduct.getSelectedValue()
-     if(lProductDD!=null){
-            if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
-                            spinnerDMList, binding.viewChannelPartner)) {
+            if (lProductDD != null) {
+                if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
+                                spinnerDMList, binding.viewChannelPartner)) {
 
-                checkPropertySelection()
-                LeadMetaData().saveLoanData(getLoanData())
-                AppEvents.fireEventLoanAppChangeNavFragmentNext()
+                    checkPropertySelection()
+                    LeadMetaData().saveLoanData(getLoanData())
+                    AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
-            } else showToast(getString(R.string.validation_error))
-        }else{showToast(getString(R.string.enter_mandatory))
+                } else showToast(getString(R.string.validation_error))
+            } else {
+                showToast(getString(R.string.enter_mandatory))
 
-}
+            }
         }
     }
 
@@ -202,7 +201,7 @@ class LoanInfoFragmentNew : BaseFragment(){
         loanInfoObj.tenure = binding.etTenure.text.toString().toInt()
         loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
-        loanInfoObj.logginUserEntityID= sharedPreferences.getUserId()!!.toInt()
+        loanInfoObj.logginUserEntityID = sharedPreferences.getUserId()!!.toInt()
         return loanInfoObj
     }
 

@@ -2,18 +2,14 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebViewClient
+import androidx.browser.customtabs.CustomTabsIntent
 import com.finance.app.R
 import com.finance.app.databinding.ActivityKycBinding
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
-import com.finance.app.view.customViews.CustomChromeTab
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.API.URL.URL_KYC
 import motobeans.architecture.constants.ConstantsApi
@@ -30,7 +26,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
     private val kycPresenter = Presenter()
     private var bundle: Bundle? = null
-    var kyCID:String?=null
+    var kyCID: String? = null
 
     companion object {
         fun start(context: Context, leadApplicantNum: String?) {
@@ -51,12 +47,6 @@ class KYCActivity : BaseAppCompatActivity() {
     }
 
     private fun setClickListeners() {
-       /* binding.etIssueDate.setOnClickListener {
-            SelectDate(binding.etIssueDate, this)
-        }
-        binding.etExpiryDate.setOnClickListener {
-            SelectDate(binding.etExpiryDate, this)
-        }*/
     }
 
     private fun proceedFurther() {
@@ -88,9 +78,8 @@ class KYCActivity : BaseAppCompatActivity() {
                 val response = value.responseObj
                 response?.let {
                     openWebViewForKYCData(response.kycID)
-
-                    CustomChromeTab().openUrl(activity = this@KYCActivity, url = "www.google.com")
-                    showToast("Success")
+//                    showToast("Success")
+                    finish()
                 }
             } else {
                 getApiFailure(value.responseMsg)
@@ -99,39 +88,16 @@ class KYCActivity : BaseAppCompatActivity() {
 
         private fun openWebViewForKYCData(kycID: String?) {
             kycID?.let {
-
-               /* binding.llKYC.visibility = View.GONE
-                binding.webView.visibility = View.VISIBLE
-                binding.webView.settings.javaScriptEnabled
-
-                val headerMap: HashMap<String, String> = HashMap()
-                headerMap["Authorization"] = "Bearer".plus(kycID)
-                headerMap["ApplicationUserAgent"] = "dmi-droid"*/
-                //binding.webView.loadUrl(URL_KYC, headerMap)
-
-                CustomChromeTab().openUrl(activity = this@KYCActivity, url = (URL_KYC + kycID))
-/*
-
-                binding.llKYC.visibility = View.GONE
-                //binding.webView.visibility = View.VISIBLE
-
-                binding.webView.settings.javaScriptEnabled=true
-                binding.webView.settings.allowFileAccess=true
-               // binding.webView.setWebViewClient(WebViewClient())
-                binding.webView.webViewClient = WebViewClient()
-                binding.webView.settings.javaScriptEnabled=true
-                binding.webView.settings.allowContentAccess=true
-                binding.webView.settings.allowFileAccess=true
-                binding.webView.settings.allowUniversalAccessFromFileURLs=true
-
-*/
-
+                //                CustomChromeTab().openUrl(activity = this@KYCActivity, url = (URL_KYC + kycID))
+                val builder = CustomTabsIntent.Builder()
+                builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+                builder.setShowTitle(false)
+                val customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(this@KYCActivity, Uri.parse(URL_KYC + kycID))
             }
         }
 
         override fun getApiFailure(msg: String) {
-            binding.webView.visibility = View.GONE
-            //binding.llKYC.visibility = View.VISIBLE
             showToast(msg)
         }
     }

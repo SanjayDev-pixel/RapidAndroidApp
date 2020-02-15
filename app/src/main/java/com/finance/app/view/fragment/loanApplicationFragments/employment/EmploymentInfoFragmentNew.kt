@@ -74,6 +74,7 @@ class EmploymentInfoFragmentNew : BaseFragment() {
 
     private fun setApplicantTabLayout(applicantList: ArrayList<PersonalApplicantsModel>) {
         pagerAdapterApplicants = EmploymentFormPagerAdapter(fragmentManager!!, /*alCoApplicants,*/ applicantList)
+        binding.viewPager.offscreenPageLimit = 5 //Must be called before setting adapter
         binding.viewPager.adapter = pagerAdapterApplicants
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }
