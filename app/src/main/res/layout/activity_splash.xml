@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@drawable/drawer_gradient_color"
+    android:background="@drawable/splash_background"
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/dmi_logo_white" />
+        app:srcCompat="@drawable/dmi_logo_white" />-->
 </LinearLayout>

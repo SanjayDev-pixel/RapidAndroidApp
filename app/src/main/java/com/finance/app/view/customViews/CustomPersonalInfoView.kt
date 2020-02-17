@@ -327,7 +327,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         val relationshipDD = relationship.getSelectedValue()
         val dependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
         val earningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString()
-        val pResidenceType = permanentResidenceType.getSelectedValue()
+        val pResidenceType = currentResidenceType.getSelectedValue()
 
 
         //Need to generate some applicant id... based on lead id

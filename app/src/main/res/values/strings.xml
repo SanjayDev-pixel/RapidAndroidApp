@@ -235,4 +235,6 @@
     <string name="enter_mandatory">Please enter mandatory fileds</string>
 
     <string name="fill_manually">Fill Manually</string>
+    <string name="application_number">Application Number \*</string>
+
 </resources>
