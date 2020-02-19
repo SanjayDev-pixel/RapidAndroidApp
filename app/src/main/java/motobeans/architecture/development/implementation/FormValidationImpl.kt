@@ -715,7 +715,6 @@ class FormValidationImpl : FormValidation {
          if(bouncesIn6.exIsNotEmptyOrNullOrBlank() && bouncesIn9.exIsNotEmptyOrNullOrBlank()) {
              if (binding.etBouncesInLastSixMonths?.text.toString().toInt() > binding.etBouncesInLastNineMonths?.text.toString().toInt()) {
                  errorCount++
-
                  binding.etBouncesInLastNineMonths.error = "Number of Emi not less than 6 months bounce emi"
              }
          }
