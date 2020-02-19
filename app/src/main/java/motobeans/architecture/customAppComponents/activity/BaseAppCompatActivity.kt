@@ -91,7 +91,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
       R.id.logout -> {
         sharedPreferencesUtil.clearAll()
         LoginActivity.start(this)
-        finish()
+        this.finish()
 
       }
       R.id.assignedLeads -> {
