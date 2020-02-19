@@ -2,7 +2,7 @@ package com.finance.app.persistence.model
 
 import java.io.Serializable
 
-class EmploymentApplicantsModel:Serializable {
+class EmploymentApplicantsModel : Serializable {
     var addressBean: AddressDetail? = null
     var allEarningMembers = false
     var applicantID: Int? = null
@@ -30,5 +30,6 @@ class EmploymentApplicantsModel:Serializable {
     var subProfileTypeDetailID: Int? = null
     var totalExperience: String? = null
     var designation: String? = null
+    var employerContactNumber: String? = null
     var incomeDetail: IncomeDetail? = null
 }

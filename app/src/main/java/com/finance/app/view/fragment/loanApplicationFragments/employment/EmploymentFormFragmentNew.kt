@@ -435,14 +435,13 @@ class EmploymentFormFragmentNew : BaseFragment() {
         employmentDetails.designation = binding.lytSalaryDetail.etDesignation.text.toString()
         employmentDetails.isPensioner = binding.lytSalaryDetail.cbIsPensioner.isChecked
         employmentDetails.dateOfJoining = ConvertDate().convertToApiFormat(binding.lytSalaryDetail.etJoiningDate.text.toString())
-//        employmentDetails.dateOfJoining = "2020-02-14"
-//        employmentDetails.dateOfJoining = binding.lytSalaryDetail.etJoiningDate.text.toString()
         employmentDetails.totalExperience = binding.lytSalaryDetail.etTotalExperience.text.toString()
         employmentDetails.retirementAge = if (binding.lytSalaryDetail.etRetirementAge.text.toString().isEmpty()) 0 else binding.lytSalaryDetail.etRetirementAge.text.toString().toInt()
 
         employmentDetails.officialMailID = binding.lytSalaryDetail.etOfficialMailId.text.toString()
         employmentDetails.addressBean = getAddressDetails(binding.lytSalaryDetail.layoutAddress)
         employmentDetails.incomeDetail = getSalaryIncomeDetail(binding.lytSalaryDetail)
+        employmentDetails.employerContactNumber = binding.lytSalaryDetail.layoutAddress.etContactNum.text.toString()
         employmentDetails.employeeID = binding.lytSalaryDetail.etEmployeeId.text.toString()
 
         return employmentDetails
@@ -454,12 +453,12 @@ class EmploymentFormFragmentNew : BaseFragment() {
         employmentDetails.businessSetupTypeDetailID = (binding.lytBusinessDetail.spinnerBusinessSetupType.selectedItem as DropdownMaster?)?.typeDetailID
         employmentDetails.industryTypeDetailID = (binding.lytBusinessDetail.spinnerIndustry.selectedItem as DropdownMaster?)?.typeDetailID
 
-//        employmentDetails.dateOfIncorporation = binding.lytBusinessDetail.etIncorporationDate.text.toString()
         employmentDetails.dateOfIncorporation = ConvertDate().convertToApiFormat(binding.lytBusinessDetail.etIncorporationDate.text.toString())
 
         employmentDetails.gstRegistration = binding.lytBusinessDetail.etGstRegistration.text.toString()
         employmentDetails.businessVinatgeInYear = binding.lytBusinessDetail.etBusinessVintage.text.toString().toInt()
         employmentDetails.addressBean = getAddressDetails(binding.lytBusinessDetail.layoutAddress)
+        employmentDetails.employerContactNumber = binding.lytBusinessDetail.layoutAddress.etContactNum.text.toString()
         employmentDetails.allEarningMembers = binding.lytBusinessDetail.cbAllEarningMember.isChecked
         employmentDetails.incomeDetail = getBusinessIncomeDetail(binding.lytBusinessDetail)
 
@@ -475,7 +474,6 @@ class EmploymentFormFragmentNew : BaseFragment() {
         address.cityID = binding.customZipAddressView.getCityId()
         address.address1 = binding.etAddress.text.toString()
         address.landmark = binding.etLandmark.text.toString()
-        address.contactNum = binding.etContactNum.text.toString()
         return address
     }
 
