@@ -48,8 +48,9 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
         cards?.let {
             if (position >= 0 && position <= it.size) {
                 it[position] = cardDetail
-                notifyDataSetChanged()
+
             }
+            notifyDataSetChanged()
         }
     }
 

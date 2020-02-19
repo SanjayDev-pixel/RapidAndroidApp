@@ -89,8 +89,10 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         CreateLeadActivity.start(this)
       }
       R.id.logout -> {
-        LoginActivity.start(this)
         sharedPreferencesUtil.clearAll()
+        LoginActivity.start(this)
+        finish()
+
       }
       R.id.assignedLeads -> {
         AllLeadActivity.start(this)

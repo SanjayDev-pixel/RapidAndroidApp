@@ -154,6 +154,7 @@ class LoanInfoFragmentNew : BaseFragment() {
         binding.etTenure.setText(loanInfo.tenure!!.toInt().toString())
         binding.cbPropertySelected.isChecked = loanInfo.isPropertySelected!!
         binding.etApplicationNumber.setText(loanInfo.applicationNumber)
+        interestType.setSelection(loanInfo.interestTypeTypeDetailID?.toString())
     }
 
     private fun checkPropertySelection() {
@@ -203,7 +204,12 @@ class LoanInfoFragmentNew : BaseFragment() {
         loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
         loanInfoObj.logginUserEntityID = sharedPreferences.getUserId()!!.toInt()
-        loanInfoObj.applicationNumber= "GG".plus(binding.etApplicationNumber.text.toString())
+        if(binding.etApplicationNumber.text.toString().startsWith("GG")){
+            loanInfoObj.applicationNumber= binding.etApplicationNumber.text.toString()
+        }else{
+            loanInfoObj.applicationNumber= "GG".plus(binding.etApplicationNumber.text.toString())
+        }
+
         return loanInfoObj
     }
 

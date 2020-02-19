@@ -74,7 +74,7 @@ class LoginActivity : BaseAppCompatActivity() {
 
         private val mCompany: Requests.Company
             get() {
-                return Requests.Company(1, "comp1")
+                return Requests.Company(1, "DMI_HFC")
             }
 
         override fun getApiSuccess(value: ResponseLogin) {

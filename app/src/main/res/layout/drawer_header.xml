@@ -3,67 +3,87 @@
 
     <LinearLayout
         android:id="@+id/nav_header"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:clickable="true"
         android:focusable="true"
-        android:gravity="center"
         android:orientation="vertical"
         android:padding="16dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:background="@drawable/nav_header_background">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="150sp"
-            android:layout_height="150sp"
-            android:layout_marginTop="@dimen/margin_20"
-            android:background="@drawable/circle_drawable"
-            android:padding="@dimen/margin_10"
-            android:src="@drawable/eric" />
 
-        <TextView
-            android:id="@+id/tvProfileName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/margin_10"
-            android:gravity="center"
-            android:text="Erik"
-            android:textSize="@dimen/button_text_size" />
+
 
         <LinearLayout
-            android:id="@+id/llDesignation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/designation"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size" />
-
-            <TextView
-                android:id="@+id/tvDesignation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5sp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfile"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:layout_marginTop="@dimen/margin_20"
+                android:background="@drawable/circle_drawable"
+                android:padding="@dimen/margin5dp"
+                android:src="@drawable/hfc"
                 android:gravity="center"
-                android:text="RM"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size" />
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+                <TextView
+                    android:id="@+id/tvProfileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:gravity="left"
+                    android:text="Erik"
+                    android:textSize="@dimen/button_text_size"
+                    android:paddingLeft="@dimen/margin_10"/>
+                <LinearLayout
+                    android:id="@+id/llDesignation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/designation"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/button_text_size"
+                        android:paddingLeft="@dimen/margin_10"/>
+
+                    <TextView
+                        android:id="@+id/tvDesignation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin5dp"
+                        android:gravity="center"
+                        android:text="RM"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/button_text_size" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_20"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -110,7 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="0sp"

@@ -2,9 +2,12 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadCreateBinding
+import com.finance.app.persistence.model.AllMasterDropDown
+import com.finance.app.persistence.model.LoanInfoModel
 import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.UserBranches
 import com.finance.app.presenter.presenter.Presenter
@@ -55,11 +58,22 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         SetCreateLeadMandatoryField(binding)
         getLoanProductFromDB()
         setBranchesDropDownValue()
+        setupCustomView()
         binding.btnCreate.setOnClickListener {
             if (formValidation.validateAddLead(binding, loanProduct, branches)) {
                 presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
             }
         }
+
+    }
+
+    private fun setupCustomView() {
+
+        CreateLeadActivity.let { it->
+                binding.viewChannelPartner.attachActivity(activity = this, loanData = LoanInfoModel())
+            }
+
+
     }
 
     private fun getLoanProductFromDB() {
@@ -70,6 +84,24 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                 setProductDropDownValue(arrayListOfLoanProducts)
             }
         })
+//add new @S
+        appDataViewModel.getAllMasterDropdown().observe(this,Observer{masterDrownDownValues->
+            masterDrownDownValues?.let {
+                setMasterDropDownValue(masterDrownDownValues)
+
+            }
+        })
+    }
+    //add new @S
+    private fun setMasterDropDownValue(masterDrownDownValues: AllMasterDropDown) {
+        setCustomSpinner(masterDrownDownValues)
+
+
+    }
+//add new @S
+    private fun setCustomSpinner(masterDrownDownValues: AllMasterDropDown) {
+
+
     }
 
     private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
@@ -82,6 +114,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         val branch = ArrayList(branchList!!)
         branches = CustomSpinnerView(mContext = this, dropDowns = branch, label = "Select Branch *")
         binding.layoutBranches.addView(branches)
+
     }
 
     inner class CallCreateLead : ViewGeneric<Requests.RequestAddLead, Response.ResponseAddLead>(context = this) {
@@ -101,6 +134,9 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         get() {
             val lProductDD = loanProduct.getSelectedValue()
             val branchDD = branches.getSelectedValue()
+          //  val sPartner = binding.viewChannelPartner.getSourcingPartner()
+          //  val cPartnerName = binding.viewChannelPartner.getPartnerName()
+            val loanAmount =binding.etLoanAmount.text.toString()
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),

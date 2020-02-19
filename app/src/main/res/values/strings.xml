@@ -20,7 +20,7 @@
     <string name="send_sms">Send Sms</string>
     <string name="send_whatsapp">Send Whatsapp</string>
     <string name="call_to_customer">Call To Customer</string>
-    <string name="designation">Designation </string>
+    <string name="designation">Designation :</string>
     <string name="assignments">Assignments</string>
     <string name="tasks">Tasks</string>
     <string name="required_asterisk"><![CDATA[<font color=\'#cc0029\'>&nbsp*</font>]]></string>
@@ -114,8 +114,8 @@
     <string name="staying_in_years">Staying(In Years)</string>
     <string name="landmark">Landmark</string>
     <string name="add_obligation">Add Obligation</string>
-    <string name="num_of_check_bounces_in_last_6_months">Num of check bounces in last 6 months</string>
-    <string name="num_of_check_bounces_in_last_9_months">Num of check bounces in last 9 months</string>
+    <string name="num_of_check_bounces_in_last_6_months">Number of check bounces in last 6 months</string>
+    <string name="num_of_check_bounces_in_last_9_months">Number of check bounces in last 9 months</string>
     <string name="emi_amount">EMI Amount</string>
     <string name="balance_tenure">Balance Tenure</string>
     <string name="tenure">Tenure</string>
@@ -236,5 +236,6 @@
 
     <string name="fill_manually">Fill Manually</string>
     <string name="application_number">Application Number \*</string>
+    <string name="performKyc">Perform KYC</string>
 
 </resources>

@@ -120,6 +120,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private fun proceedFurther(applicant: PersonalApplicantsModel) {
         ArchitectureApp.instance.component.inject(this)
         getDropDownsFromDB(applicant)
+
     }
 
     private fun getDropDownsFromDB(applicant: PersonalApplicantsModel) {
