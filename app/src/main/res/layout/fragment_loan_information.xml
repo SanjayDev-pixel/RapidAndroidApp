@@ -27,6 +27,27 @@
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold" />
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/lay_application_number"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_application_number"
+                        style="@style/spinner_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/application_number"
+                        android:inputType="number"
+                        android:maxLength="8"
+                        android:minWidth="@dimen/text_min_width"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <LinearLayout
                     android:id="@+id/layoutLoanProduct"
                     android:layout_height="wrap_content"

@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:layout_gravity="left"
-                    android:text="Land"
+                    android:text="House"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textSize="@dimen/text_size"
                     />
@@ -108,7 +108,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="Applicant"
+                    android:text="Sole Ownership"
                     android:textSize="@dimen/text_size" />
             </LinearLayout>
             <LinearLayout

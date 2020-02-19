@@ -8,6 +8,9 @@ import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
+import kotlinx.android.synthetic.main.add_obligation_dialog.*
+import kotlinx.android.synthetic.main.fragment_loan_information.view.*
+import kotlinx.android.synthetic.main.layout_obligation.view.*
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
@@ -104,6 +107,7 @@ class FormValidationImpl : FormValidation {
         val loanAmount = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString())
         val emi = binding.etEmi.text.toString()
         val tenure = binding.etTenure.text.toString()
+        val applicationNumber=binding.etApplicationNumber.text.toString()
 
         val loan = loanProduct.getSelectedValue()
         if (loan != null && tenure != "" && loanAmount != "") {
@@ -117,11 +121,17 @@ class FormValidationImpl : FormValidation {
                 binding.etAmountRequest.error = "Range:${loan.minAmount} - ${loan.maxAmount}"
             }
         }
+        val loanPurposeData=loanPurpose.getSelectedValue()
+        if (loanPurposeData==null ){
+            errorCount++
+            loanPurpose.showError(true)
+        }
 
         val fieldError = when {
             !tenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etTenure)
             !loanAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAmountRequest)
             !emi.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmi)
+            !applicationNumber.exIsNotEmptyOrNullOrBlank()-> setFieldError(binding.etApplicationNumber)
             else -> 0
         }
 
@@ -129,6 +139,8 @@ class FormValidationImpl : FormValidation {
         spinnerDMList.forEach { item ->
             if (!item.isValid()) ++spinnerError
         }
+
+
 
         val totalErrors = errorCount + fieldError + spinnerError
         return isValidForm(totalErrors)
@@ -695,9 +707,19 @@ class FormValidationImpl : FormValidation {
             !emiAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmiAmount)
             !bouncesIn6.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastSixMonths)
             !bouncesIn9.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastNineMonths)
+
             else -> 0
         }
-        val errorCount = spinnerError + fieldError
+        var errorCount = spinnerError + fieldError
+
+         if(bouncesIn6.exIsNotEmptyOrNullOrBlank() && bouncesIn9.exIsNotEmptyOrNullOrBlank()) {
+             if (binding.etBouncesInLastSixMonths?.text.toString().toInt() > binding.etBouncesInLastNineMonths?.text.toString().toInt()) {
+                 errorCount++
+                 binding.etBouncesInLastNineMonths.error = "Number of Emi not less than 6 months bounce emi"
+             }
+         }
+
+
         return isValidForm(errorCount)
     }
 

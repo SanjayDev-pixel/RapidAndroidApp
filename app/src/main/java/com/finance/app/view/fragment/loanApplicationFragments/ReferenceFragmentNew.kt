@@ -104,7 +104,7 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
     }
 
     private fun setReferenceDetailAdapter(referenceDetails: ArrayList<ReferenceModel>) {
-        binding.rcReference.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
+        binding.rcReference.layoutManager = LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
         referenceAdapter = ReferenceAdapter(mContext, referenceDetails)
         binding.rcReference.adapter = referenceAdapter
         referenceAdapter?.setOnItemClickListener(this)

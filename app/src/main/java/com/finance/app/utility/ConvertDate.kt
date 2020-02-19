@@ -51,7 +51,7 @@ class ConvertDate {
             val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
             val date = sdf.parse(mDate)
 
-            val desirablePattern = "dd MMM : hh:mm aa"
+            val desirablePattern = "dd MMM hh:mm aa"
             val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
             desiredSdf.format(date)
         } catch (e: Exception) {

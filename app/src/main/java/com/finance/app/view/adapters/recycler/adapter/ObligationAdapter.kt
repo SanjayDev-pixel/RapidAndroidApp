@@ -84,6 +84,7 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
             binding.tvNumOfBouncesInSixMonths.text = obligation.numberOfBouncesInLastSixMonth.toString()
             binding.tvNumOfBouncesInNineMonths.text = obligation.numberOfBouncesInLastNineMonth.toString()
             binding.tvLoanAcNum.text=obligation.loanAmount.toString()
+            //binding.tvLoanOwnership.text=obligation
             addClickListener(position, obligation)
         }
 

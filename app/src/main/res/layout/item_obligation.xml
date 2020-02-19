@@ -42,7 +42,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="Individual"
+                        android:text="Joint"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
                 </LinearLayout>
@@ -97,7 +97,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="Consumer Loan"
+                        android:text="Personal Loan"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
                 </LinearLayout>
