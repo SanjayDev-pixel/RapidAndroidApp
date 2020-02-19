@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalFormBinding
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants.APP.KEY_APPLICANT
-import motobeans.architecture.constants.Constants.APP.KEY_CO_APPLICANT
 import motobeans.architecture.constants.Constants.APP.KEY_INDEX
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 
@@ -57,8 +57,9 @@ class PersonalFormFragmentNew : BaseFragment() {
 
     private fun inflateFormView(applicant: PersonalApplicantsModel) {
         activity?.let { activityInstance ->
-            val leadId = LeadMetaData.getLeadId()
-            leadId?.let { binding.customPersonalView.attachView(activityInstance, arguments?.getInt(KEY_INDEX) ?: 0, applicant, leadId) }
+            LeadMetaData.getLeadObservable().observe(this, Observer { leadDetails ->
+                leadDetails?.leadID?.let { id -> binding.customPersonalView.attachView(activityInstance, arguments?.getInt(KEY_INDEX) ?: 0, applicant, id)}
+            })
         }
     }
 

@@ -34,6 +34,7 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.AppUtilExtensions
 import motobeans.architecture.util.exGone
+import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
@@ -70,8 +71,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     fun attachView(activity: FragmentActivity, index: Int, applicant: PersonalApplicantsModel, leadId: Int?) {
         this.activity = activity
         this.index = index
-        binding = AppUtilExtensions.initCustomViewBinding(context = context,
-                layoutId = R.layout.layout_custom_view_personal, container = this)
+        binding = AppUtilExtensions.initCustomViewBinding(context = context, layoutId = R.layout.layout_custom_view_personal, container = this)
         initializeViews(applicant, leadId)
     }
 
@@ -255,6 +255,15 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun fillFormWithCurrentApplicant(currentApplicant: PersonalApplicantsModel) {
+        LeadMetaData.getLeadData()?.let { leadDetails ->
+            //First Use the default name as pre-filled at lead creation screen
+            if (index == 0) { //also check if this is a main applicant...
+                binding.basicInfoLayout.etFirstName.setText(leadDetails.applicantFirstName)
+                binding.basicInfoLayout.etMiddleName.setText(leadDetails.applicantMiddleName)
+                binding.basicInfoLayout.etLastName.setText(leadDetails.applicantLastName)
+            }
+        }
+
         currentApplicant.contactDetail?.let {
             binding.basicInfoLayout.etEmail.setText(currentApplicant.contactDetail?.email)
             binding.basicInfoLayout.etMobile.setText(currentApplicant.contactDetail?.mobile)
@@ -270,9 +279,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         binding.basicInfoLayout.etFatherLastName.setText(currentApplicant.fatherLastName)
         binding.basicInfoLayout.etFatherMiddleName.setText(currentApplicant.fatherMiddleName)
         binding.basicInfoLayout.etFatherFirstName.setText(currentApplicant.fatherFirstName)
-        binding.basicInfoLayout.etFirstName.setText(currentApplicant.firstName)
-        binding.basicInfoLayout.etMiddleName.setText(currentApplicant.middleName)
-        binding.basicInfoLayout.etNumOfDependent.setText(currentApplicant.numberOfDependents.toString())
+        //Checking these values for not overriding values, if set before in empty case...
+        if (currentApplicant.firstName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etFirstName.setText(currentApplicant.firstName)
+        if (currentApplicant.middleName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etMiddleName.setText(currentApplicant.middleName)
+        if (currentApplicant.lastName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etNumOfDependent.setText(currentApplicant.numberOfDependents.toString())
         binding.basicInfoLayout.etNumOfEarningMember.setText(currentApplicant.numberOfEarningMembers.toString())
         binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
         binding.basicInfoLayout.etAge.setText(currentApplicant.age.toString())

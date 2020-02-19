@@ -45,8 +45,7 @@ class LoanInfoFragmentNew : BaseFragment() {
         fun newInstance(): LoanInfoFragmentNew = LoanInfoFragmentNew()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_loan_information)
         binding.lifecycleOwner = this
         init()
@@ -166,6 +165,8 @@ class LoanInfoFragmentNew : BaseFragment() {
     private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown) {
         interestType = CustomSpinnerView(mContext = activity!!, isMandatory = true, dropDowns = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type *")
         binding.layoutInterestType.addView(interestType)
+        interestType.setSelection(allMasterDropDown.LoanInformationInterestType!![1].typeDetailID.toString())
+
         loanScheme = CustomSpinnerView(mContext = activity!!, isMandatory = true, dropDowns = allMasterDropDown.LoanScheme!!, label = "Loan Scheme *")
         binding.layoutLoanScheme.addView(loanScheme)
 

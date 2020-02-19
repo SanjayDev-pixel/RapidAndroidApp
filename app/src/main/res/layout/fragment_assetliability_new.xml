@@ -49,28 +49,29 @@
             android:id="@+id/rlButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/btnPrevious"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:background="@color/md_grey_500"
+                android:background="@drawable/ic_round_grey_btn_bkg"
+                android:minWidth="100dp"
                 android:text="@string/previous"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_text_size" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btnNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:background="@color/md_applicant_blue"
+                android:background="@drawable/ic_round_blue_btn_bkg"
+                android:gravity="center"
+                android:minWidth="100dp"
                 android:text="@string/next"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_text_size" />
-
+                android:textColor="@color/white" />
         </RelativeLayout>
     </RelativeLayout>
 </layout>

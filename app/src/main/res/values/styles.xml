@@ -45,6 +45,6 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:dividerHeight">2dp</item>
         <item name="android:dropDownSelector">@color/colorPrimary</item>
-
     </style>
+
 </resources>
