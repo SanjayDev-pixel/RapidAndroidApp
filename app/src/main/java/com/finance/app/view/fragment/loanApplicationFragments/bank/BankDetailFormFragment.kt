@@ -105,7 +105,7 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     }
 
     private fun setBankDetailAdapter(bankDetailList: ArrayList<BankDetailBean>) {
-        binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
+        binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
         bankAdapter = BankDetailAdapter(mContext, bankDetailList)
         binding.rcBank.adapter = bankAdapter
         bankAdapter?.setOnItemClickListener(this)

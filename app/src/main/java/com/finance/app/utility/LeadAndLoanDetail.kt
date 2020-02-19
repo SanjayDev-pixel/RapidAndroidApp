@@ -50,7 +50,7 @@ class LeadAndLoanDetail {
         val alApplicant = AssetLiabilityModel()
         alApplicant.leadApplicantNumber = getLeadApplicantNum(leadMaster.leadNumber!!,
                 leadMaster.personalData?.applicantDetails?.size ?: 0)
-        leadMaster.assetLiabilityData?.applicantDetails?.add(alApplicant)
+        leadMaster.assetLiabilityData?.loanApplicationObj?.add(alApplicant)
     }
 
     fun addLoanData(leadMaster: AllLeadMaster) {

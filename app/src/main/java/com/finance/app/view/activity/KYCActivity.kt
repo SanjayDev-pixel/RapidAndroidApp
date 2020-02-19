@@ -92,6 +92,7 @@ class KYCActivity : BaseAppCompatActivity() {
                 val builder = CustomTabsIntent.Builder()
                 builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
                 builder.setShowTitle(false)
+
                 val customTabsIntent = builder.build()
                 customTabsIntent.launchUrl(this@KYCActivity, Uri.parse(URL_KYC + kycID))
             }

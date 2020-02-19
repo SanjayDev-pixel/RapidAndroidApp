@@ -98,7 +98,7 @@ class LeadMetaData : Observable() {
     fun saveAssetLiabilityData(assetsAndLiability: ArrayList<AssetLiabilityModel>) {
         val lead: AllLeadMaster? = getLeadData()
         lead?.let {
-            lead.assetLiabilityData?.applicantDetails = assetsAndLiability
+            lead.assetLiabilityData?.loanApplicationObj = assetsAndLiability
             insertLeadInfoIntoDB(lead)
         }
     }
