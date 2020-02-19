@@ -47,6 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <CheckBox
@@ -69,6 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_10"
+                    android:visibility="gone"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
 
@@ -91,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_10"
                     android:baselineAligned="false"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <CheckBox
