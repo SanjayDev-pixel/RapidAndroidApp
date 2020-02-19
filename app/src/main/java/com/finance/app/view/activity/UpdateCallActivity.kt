@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityUpdateCallBinding
@@ -74,7 +75,12 @@ class UpdateCallActivity : BaseAppCompatActivity() {
             get() = getCallUpdateRequest()
 
         override fun getApiSuccess(value: Response.ResponseCallUpdate) {
-            //TODO show success message...
+            Toast.makeText(this@UpdateCallActivity, value.responseMsg, Toast.LENGTH_LONG).show()
+        }
+
+        override fun getApiFailure(msg: String) {
+            Toast.makeText(this@UpdateCallActivity, msg, Toast.LENGTH_LONG).show()
+
         }
     }
 
