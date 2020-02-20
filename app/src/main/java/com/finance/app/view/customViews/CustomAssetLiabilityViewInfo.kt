@@ -30,11 +30,14 @@ import kotlinx.android.synthetic.main.add_assests_dialog.view.*
 import kotlinx.android.synthetic.main.add_obligation_dialog.*
 import kotlinx.android.synthetic.main.asset_creditcard_dialog.*
 import kotlinx.android.synthetic.main.delete_dialog.view.*
+import kotlinx.android.synthetic.main.layout_credit_card_details.view.*
+import kotlinx.android.synthetic.main.layout_credit_card_details.view.addcreditdilaog
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.etCreditCardLimit
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.etCurrentUtilization
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.etLastPaymentDate
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.spinnerBankName
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.spinnerObligate
+import kotlinx.android.synthetic.main.layout_obligation.view.*
 import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -99,26 +102,28 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
         binding.assetcounter.setOnClickListener() {
             binding.llAssetDetail.visibility = View.VISIBLE
-//            binding.pageIndicatorAsset.visibility = View.VISIBLE
             binding.rcAsset.visibility = View.VISIBLE
-
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
-
-//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
+            //            binding.pageIndicatorAsset.visibility = View.VISIBLE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+
+
+
         }
 
         binding.tvAssetdetail.setOnClickListener() {
             binding.llAssetDetail.visibility = View.VISIBLE
-//            binding.pageIndicatorAsset.visibility = View.VISIBLE
             binding.rcAsset.visibility = View.VISIBLE
-
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
-
-//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
+            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+            //            binding.pageIndicatorAsset.visibility = View.VISIBLE
+
+
+
         }
 
         cardDetailFormListeners(binding.layoutCreditCard)
@@ -137,9 +142,9 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         fetchApplicantAssetsAndLibilityDetailsById(applicant.leadApplicantNumber.toString())
     }
 
-    private fun setAssetAdapter(assets: ArrayList<AssetLiability>) {
+    private fun setAssetAdapter(assets: ArrayList<AssetLiability>,allMasterDropDown: AllMasterDropDown?) {
         binding.rcAsset.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        assetAdapter = AssetDetailAdapter(context, assets)
+        assetAdapter = AssetDetailAdapter(context, assets,allMasterDropDown)
         binding.rcAsset.adapter = assetAdapter
         assetAdapter?.setOnAssetClickListener(this)
 //        binding.pageIndicatorAsset.attachTo(binding.rcAsset)
@@ -160,18 +165,18 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
     }
 
-    private fun setCardDetailAdapter(cards: ArrayList<CardDetail>) {
+    private fun setCardDetailAdapter(cards: ArrayList<CardDetail>,allMasterDropDown: AllMasterDropDown?) {
         binding.layoutCreditCard.rcCreditCard.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        cardDetailAdapter = CardDetailAdapter(context, cards)
+        cardDetailAdapter = CardDetailAdapter(context, cards,allMasterDropDown)
         binding.layoutCreditCard.rcCreditCard.adapter = cardDetailAdapter
         cardDetailAdapter?.setOnCardClickListener(this)
 //        binding.layoutCreditCard.pageIndicatorCreditCard.attachTo(binding.layoutCreditCard.rcCreditCard)
         binding.layoutCreditCard.creditcardcounter.setText(cards.size.toString())
     }
 
-    private fun setObligationAdapter(obligations: ArrayList<ObligationDetail>) {
+    private fun setObligationAdapter(obligations: ArrayList<ObligationDetail>,allMasterDropDown: AllMasterDropDown?) {
         binding.layoutObligations.rcObligation.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        obligationAdapter = ObligationAdapter(context, obligations)
+        obligationAdapter = ObligationAdapter(context, obligations,allMasterDropDown)
         binding.layoutObligations.rcObligation.adapter = obligationAdapter
         obligationAdapter?.setOnObligationClickListener(this)
 //        binding.layoutObligations.pageIndicatorObligation.attachTo(binding.layoutObligations.rcObligation)
@@ -182,83 +187,82 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
 
     private fun fetchApplicantAssetsAndLibilityDetailsById(applicantNumber: String) {
+
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity,
+                Observer { allMasterDropdown ->
+                    allMasterDropdown?.let {
+                        allMasterDropDown = it
+                        callMydata(allMasterDropdown,applicantNumber)
+                    }
+                })
+
+
+    }
+
+    private fun callMydata(allMasterDropdown: AllMasterDropDown,applicantNumber:String) {
+
         LeadMetaData.getLeadObservable().observe(activity, Observer { allLeadDetails ->
             allLeadDetails?.let {
                 val selectedApplicantList = it.assetLiabilityData.loanApplicationObj.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
 
                 if (selectedApplicantList.isNotEmpty()) {
-                    setAssetAdapter(selectedApplicantList[0].applicantAssetDetailList)
-                    setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList)
-                    setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList)
+                    setAssetAdapter(selectedApplicantList[0].applicantAssetDetailList,allMasterDropDown)
+                    setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList,allMasterDropDown)
+                    setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList,allMasterDropDown)
                 } else {
-                    setAssetAdapter(ArrayList())
-                    setCardDetailAdapter(ArrayList())
-                    setObligationAdapter(ArrayList())
+                    setAssetAdapter(ArrayList(),allMasterDropDown)
+                    setCardDetailAdapter(ArrayList(),allMasterDropDown)
+                    setObligationAdapter(ArrayList(),allMasterDropDown)
                 }
 
-//                if (!selectedApplicantList.isNullOrEmpty()) {
-//                    if (selectedApplicantList[0].applicantAssetLiabilityList.isNullOrEmpty()) {
-//                        selectedApplicantList[0].applicantAssetLiabilityList = ArrayList()
-//                        setAssetAdapter(selectedApplicantList[0].applicantAssetLiabilityList)
-//                    } else setAssetAdapter(selectedApplicantList[0].applicantAssetLiabilityList)
-//
-//                    if (selectedApplicantList[0].applicantCreditCardDetailList.isNullOrEmpty()) {
-//                        selectedApplicantList[0].applicantCreditCardDetailList = ArrayList()
-//                        setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList!!)
-//                    } else setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList!!)
-//
-//
-//                    if (selectedApplicantList[0].applicantExistingObligationList.isNullOrEmpty()) {
-//                        selectedApplicantList[0].applicantExistingObligationList = ArrayList()
-//                        setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList!!)
-//                    } else setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList!!)
-//                }
             }
         })
-    }
-
-
-    private fun initializeViews(applicant: AssetLiabilityModel) {
-        proceedFurther(applicant)
-//        setClickListeners()
-        showData(applicant)
-    }
-
-
-    private fun showData(applicant: AssetLiabilityModel) {
-
-        setUpCurrentApplicantDetails(applicant)
-
-    }
-
-    private fun showSetDataOnView(applicantList: ArrayList<AssetLiabilityModel>?) {
-        for (applicant in applicantList!!) {
-            if (applicant.isMainApplicant) {
-                currentApplicant = applicant
-            }
-        }
-
-        setUpCurrentApplicantDetails(currentApplicant)
-
-    }
-
-
-    private fun setUpCurrentApplicantDetails(currentApplicant: AssetLiabilityModel) {
-        assetsList = currentApplicant.applicantAssetDetailList
-        cardDetailList = currentApplicant.applicantCreditCardDetailList
-        obligationsList = currentApplicant.applicantExistingObligationList
-        setAssetAdapter(assetsList)
-        setCardDetailAdapter(cardDetailList)
-        setObligationAdapter(obligationsList)
 
 
     }
 
-    private fun proceedFurther(applicant: AssetLiabilityModel?) {
+
+    /* private fun initializeViews(applicant: AssetLiabilityModel) {
+         proceedFurther(applicant)
+ //        setClickListeners()
+         showData(applicant)
+     }
+
+
+     private fun showData(applicant: AssetLiabilityModel) {
+
+     //    setUpCurrentApplicantDetails(applicant)
+
+     }
+
+     private fun showSetDataOnView(applicantList: ArrayList<AssetLiabilityModel>?) {
+         for (applicant in applicantList!!) {
+             if (applicant.isMainApplicant) {
+                 currentApplicant = applicant
+             }
+         }
+
+         //setUpCurrentApplicantDetails(currentApplicant)
+
+     }
+
+
+     private fun setUpCurrentApplicantDetails(currentApplicant: AssetLiabilityModel) {
+         assetsList = currentApplicant.applicantAssetDetailList
+         cardDetailList = currentApplicant.applicantCreditCardDetailList
+         obligationsList = currentApplicant.applicantExistingObligationList
+         setAssetAdapter(assetsList,allMasterDropDown)
+         setCardDetailAdapter(cardDetailList)
+         setObligationAdapter(obligationsList)
+
+
+     }*/
+
+   /* private fun proceedFurther(applicant: AssetLiabilityModel?) {
 
         fetchDropDownsFromDB()
     }
-
+*/
 
     private fun fetchDropDownsFromDB() {
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity,
@@ -438,22 +442,23 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     private fun cardDetailFormListeners(layoutCreditCard: LayoutCreditCardDetailsBinding?) {
         binding.layoutCreditCard.tvCreditdetail.setOnClickListener() {
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
-//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
-//            binding.pageIndicatorAsset.visibility = View.GONE
+
             binding.rcAsset.visibility = View.GONE
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
-            binding.layoutObligations.rcObligation.visibility = View.GONE
+ binding.layoutObligations.rcObligation.visibility = View.GONE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
+           //            binding.pageIndicatorAsset.visibility = View.GONE
 
         }
 
         binding.layoutCreditCard.creditcardcounter.setOnClickListener() {
 
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
-//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
-//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
+//            binding.pageIndicatorAsset.visibility = View.GONE
 
         }
 
@@ -716,10 +721,11 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         addCreditCardDialog?.btnAddcrdetail?.setOnClickListener() {
 
             if (formValidation.validateCardsDialog(binding)) {
+                var mydate:DateUtil= DateUtil()
                 val currentCard = CardDetail()
                 val bankName = addCreditCardDialog?.spinnerBankName?.selectedItem as DropdownMaster?
                 val obligate = addCreditCardDialog?.spinnerObligate?.selectedItem as DropdownMaster?
-                currentCard.lastPaymentDate = addCreditCardDialog?.etLastPaymentDate?.text.toString()
+                currentCard.lastPaymentDate = mydate.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1, DateUtil.dateFormattingType.TYPE_API_REQUEST_2, addCreditCardDialog?.etLastPaymentDate?.text.toString())//addCreditCardDialog?.etLastPaymentDate?.text.toString()
                 currentCard.cardLimit = addCreditCardDialog?.etCreditCardLimit!!.text.toString().toInt()
                 currentCard.currentUtilization = addCreditCardDialog?.etCurrentUtilization!!.text.toString().toInt()
                 currentCard.bankNameTypeDetailID = bankName?.typeDetailID
@@ -748,8 +754,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 .setCancelable(true)
 
         addObligationDialog = mBuilder.show()
-        addObligationDialog?.cancel_bttn?.setOnClickListener() {
-            addObligationDialog?.dismiss()
+        addObligationDialog?.cancel_bttn?.setOnClickListener() { addObligationDialog?.dismiss()
 
         }
 
@@ -831,30 +836,32 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         if (flag.equals("asset")) {
 
             binding.llAssetDetail.visibility = View.VISIBLE
-//            binding.pageIndicatorAsset.visibility = View.VISIBLE
             binding.rcAsset.visibility = View.VISIBLE
-
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
-
-//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
+            //            binding.pageIndicatorAsset.visibility = View.VISIBLE
+            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
         } else if (flag.equals("card")) {
 
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
-//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
-//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
+            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
+            //            binding.pageIndicatorAsset.visibility = View.GONE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+
 
         } else {
-//            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.VISIBLE
-//            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
-//            binding.pageIndicatorAsset.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
+            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
+            //            binding.pageIndicatorAsset.visibility = View.GONE
+            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
+
+
+
 
         }
 
