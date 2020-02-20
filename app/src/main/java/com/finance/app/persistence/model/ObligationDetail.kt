@@ -18,4 +18,7 @@ class ObligationDetail : Serializable {
     var loanTypeTypeDetailID: Int? = null
     var repaymentBankTypeDetailID: Int? = null
     var loanDisbursementDate: String?=""
+    var loanOwnershipName:String?=null
+    var obligateName:String?=null
+    var loanTypeName:String?=null
 }

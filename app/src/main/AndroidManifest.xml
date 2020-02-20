@@ -28,7 +28,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="lollipop">
-        <activity android:name=".view.activity.KYCActivity"></activity>
+        <activity android:name=".view.activity.LoanSubmitStatusActivity"></activity>
+        <activity android:name=".view.activity.KYCActivity" />
         <activity
             android:name=".view.activity.FinalSubmitActivity"
             android:label="@string/title_activity_final_submit"
@@ -90,14 +91,11 @@
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.SyncActivity" />
-        <activity android:name=".view.activity.TempActivity" />
-
-<!--        <activity-->
-<!--            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"-->
-<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
-<!--            android:screenOrientation="sensor"-->
-<!--            android:theme="@style/FinestWebViewTheme.Light" />-->
-
+        <activity android:name=".view.activity.TempActivity" /> <!-- <activity -->
+        <!-- android:name="com.thefinestartist.finestwebview.FinestWebViewActivity" -->
+        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
+        <!-- android:screenOrientation="sensor" -->
+        <!-- android:theme="@style/FinestWebViewTheme.Light" /> -->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="dfe6623ccb337c9b9f15d5cc201177c9c4baa0aa" />

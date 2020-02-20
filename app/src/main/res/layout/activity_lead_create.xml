@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
                 android:textColorHint="@color/hint_color"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLoanAmount"
@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_contact_num"
