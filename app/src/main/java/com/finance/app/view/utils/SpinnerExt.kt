@@ -8,7 +8,7 @@ import java.util.*
 fun MaterialSpinner.setSelectionFromList(dropDowns: ArrayList<DropdownMaster>, value: Int) {
     dropDowns.forEachIndexed { index, dropdownMaster ->
         if (dropdownMaster.typeDetailID == value) {
-            this.setSelection(index + 1, true)
+            this.setSelection(index + 1)
             return@forEachIndexed
         }
     }

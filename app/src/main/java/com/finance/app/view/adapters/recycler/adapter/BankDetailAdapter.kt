@@ -30,13 +30,17 @@ class BankDetailAdapter(private val context: Context, private val bankDetailList
 
         private fun addClickListener(position: Int, bank: BankDetailBean) {
             binding.ivDelete.setOnClickListener {
-                mOnItemClickListener!!.onBankDetailDeleteClicked(position)
+                mOnItemClickListener?.onBankDetailDeleteClicked(position)
             }
 
             binding.ivEdit.setOnClickListener {
-                mOnItemClickListener!!.onBankDetailEditClicked(position, bank)
+                mOnItemClickListener?.onBankDetailEditClicked(position, bank)
             }
         }
+    }
+
+    fun setOnItemClickListener(listener: ItemClickListener) {
+        mOnItemClickListener = listener
     }
 
     override fun getItemCount() = bankDetailList.size
@@ -45,9 +49,6 @@ class BankDetailAdapter(private val context: Context, private val bankDetailList
         return bankDetailList
     }
 
-    fun setOnItemClickListener(listener: ItemClickListener) {
-        mOnItemClickListener = listener
-    }
 
     fun addItem(bankDetail: BankDetailBean) {
         bankDetailList.add(0, bankDetail)

@@ -87,6 +87,7 @@
     <string name="confirmation_delete_kyc_detail">Are you sure! You want to delete this KYC detail?</string>
     <string name="save_and_continue">Save And Continue</string>
     <string name="add_kyc">Add KYC</string>
+    <string name="update_kyc">Update KYC</string>
     <string name="identification_number">Identification Number</string>
     <string name="add_co_applicant">Add Co-Applicant</string>
     <string name="applicant">Applicant</string>

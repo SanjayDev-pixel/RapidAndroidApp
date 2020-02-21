@@ -72,9 +72,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/identification_number"
+                    android:inputType="textCapCharacters"
                     android:maxLength="16"
                     android:singleLine="true"
-                    android:textAllCaps="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -193,6 +193,20 @@
                     android:text="@string/add_kyc"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
+
+                <Button
+                    android:id="@+id/btnUpdateKYC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/button_theme_style"
+                    android:text="@string/update_kyc"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:textSize="@dimen/button_text_size" />
+
 
                 <Button
                     android:id="@+id/btnCancel"
