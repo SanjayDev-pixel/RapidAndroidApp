@@ -14,7 +14,6 @@
             android:background="@color/heading_background"
             android:text="@string/current_address"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="20sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -32,18 +31,18 @@
 
                 <LinearLayout
                     android:id="@+id/layoutCurrentResidenceType"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:orientation="vertical" />
 
                 <LinearLayout
                     android:id="@+id/layoutCurrentAddressProof"
-                    android:orientation="vertical"
-                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_marginStart="@dimen/margin_10"
+                    android:layout_weight="1"
+                    android:orientation="vertical" />
 
             </LinearLayout>
 
@@ -57,11 +56,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCurrentAddress"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
-                    android:inputType= "textCapSentences"
                     android:layout_height="wrap_content"
                     android:hint="Current Address"
+                    android:inputType="textCapSentences"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -76,11 +75,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCurrentLandmark"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
-                    android:inputType= "textCapSentences"
                     android:layout_height="wrap_content"
                     android:hint="@string/landmark"
+                    android:inputType="textCapSentences"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -104,10 +103,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/rent_amount"
-                        android:singleLine="true"
-                        android:maxLength="6"
                         android:inputType="number"
+                        android:maxLength="6"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -122,12 +121,12 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etCurrentStaying"
                         android:layout_width="match_parent"
-                        android:singleLine="true"
-                        android:inputType="numberDecimal"
-                        android:maxLength="4"
                         android:layout_height="wrap_content"
                         android:hint="@string/staying_in_years"
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -139,7 +138,7 @@
                 android:id="@+id/customCurrentZipAddressView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+                android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
         </LinearLayout>
 
@@ -149,7 +148,6 @@
             android:background="@color/heading_background"
             android:text="@string/permanent_address"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="20sp"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -175,18 +173,18 @@
 
                 <LinearLayout
                     android:id="@+id/layoutPermanentResidenceType"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:orientation="vertical" />
 
                 <LinearLayout
                     android:id="@+id/layoutPermanentAddressProof"
-                    android:orientation="vertical"
-                    android:layout_marginStart="@dimen/margin_10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_marginStart="@dimen/margin_10"
+                    android:layout_weight="1"
+                    android:orientation="vertical" />
 
             </LinearLayout>
 
@@ -200,11 +198,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPermanentAddress"
                     android:layout_width="match_parent"
-                    android:singleLine="true"
-                    android:inputType= "textCapSentences"
                     android:layout_height="wrap_content"
                     android:hint="@string/permanent_address"
+                    android:inputType="textCapSentences"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -220,10 +218,10 @@
                     android:id="@+id/etPermanentLandmark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:hint="@string/landmark"
-                    android:inputType= "textCapSentences"
+                    android:inputType="textCapSentences"
                     android:minWidth="200dp"
+                    android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -246,11 +244,11 @@
                         android:id="@+id/etPermanentRentAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:maxLength="6"
                         android:hint="@string/rent_amount"
                         android:inputType="number"
+                        android:maxLength="6"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -267,10 +265,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/staying_in_years"
-                        android:singleLine="true"
                         android:inputType="numberDecimal"
                         android:maxLength="4"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -281,7 +279,7 @@
                 android:id="@+id/customPermanentZipAddressView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+                android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
         </LinearLayout>
     </LinearLayout>

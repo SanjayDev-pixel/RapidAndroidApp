@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.LayoutCustomViewPersonalBinding
-import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
@@ -81,7 +80,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         setClickListeners(leadId, applicant)
         setUpCustomViews()
         proceedFurther(applicant)
-
 //        LeadMetaData.getLeadData()?.let { if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true)) DisablePersonalForm(binding) }
     }
 
@@ -89,12 +87,12 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         binding.basicInfoLayout.etDOB.setOnClickListener {
             SelectDOB(context, binding.basicInfoLayout.etDOB, binding.basicInfoLayout.etAge)
         }
-        binding.etIssueDate.setOnClickListener {
-            SelectDate(binding.etIssueDate, context)
-        }
-        binding.etExpiryDate.setOnClickListener {
-            SelectDate(binding.etExpiryDate, context)
-        }
+//        binding.etIssueDate.setOnClickListener {
+//            SelectDate(binding.etIssueDate, context)
+//        }
+//        binding.etExpiryDate.setOnClickListener {
+//            SelectDate(binding.etExpiryDate, context)
+//        }
     }
 
     private fun setClickListeners(leadId: Int?, applicant: PersonalApplicantsModel) {
@@ -148,6 +146,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private fun setMasterDropDownValue(dropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
         setCustomSpinner(dropDown, applicant)
         fillValueInMasterDropDown(applicant)
+        applicant.applicantKycList?.let { binding.kycApplicant.bindApplicantKycDetails(activity, it) }
     }
 
     private fun setUpRelationshipValue(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
@@ -344,6 +343,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         //Need to generate some applicant id... based on lead id
         // currentApplicant.applicantID = "${LeadMetaData.getLeadId()}$index".toInt()
         currentApplicant.leadApplicantNumber = LeadAndLoanDetail().getLeadApplicantNum(LeadMetaData.getLeadId().toString(), index)
+        currentApplicant.applicantKycList = binding.kycApplicant.getKycDetailsList()
         currentApplicant.casteTypeDetailID = casteDD?.typeDetailID
         currentApplicant.detailQualificationTypeDetailID = dQualificationDD?.typeDetailID
         currentApplicant.qualificationTypeDetailID = qDD?.typeDetailID

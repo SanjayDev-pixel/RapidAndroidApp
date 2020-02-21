@@ -29,13 +29,13 @@ class DisablePersonalForm(binding: LayoutCustomViewPersonalBinding) {
         binding.basicInfoLayout.btnGetOTP.inputType = InputType.TYPE_NULL
 
         binding.basicInfoLayout.ivUploadDobProof.isClickable = false
-        binding.spinnerIdentificationType.isEnabled = false
-        binding.etIdNum.inputType = InputType.TYPE_NULL
-        binding.etExpiryDate.inputType = InputType.TYPE_NULL
-        binding.etIssueDate.isEnabled = false
-        binding.ivUploadKyc.isClickable = false
+//        binding.spinnerIdentificationType.isEnabled = false
+//        binding.etIdNum.inputType = InputType.TYPE_NULL
+//        binding.etExpiryDate.inputType = InputType.TYPE_NULL
+//        binding.etIssueDate.isEnabled = false
+//        binding.ivUploadKyc.isClickable = false
         binding.btnAddKYC.isClickable = false
-        binding.spinnerVerifiedStatus.isEnabled = false
+//        binding.spinnerVerifiedStatus.isEnabled = false
 
         binding.personalAddressLayout.cbSameAsCurrent.isClickable = false
         binding.basicInfoLayout.cbIncomeConsidered.isClickable = false

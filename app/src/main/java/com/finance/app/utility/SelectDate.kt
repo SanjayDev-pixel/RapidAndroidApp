@@ -6,7 +6,7 @@ import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SelectDate(field: TextView, mContext: Context, setMax: Boolean = true) {
+class SelectDate @JvmOverloads constructor(field: TextView, mContext: Context, maxDate: Long? = null, minDate: Long? = null) {
     init {
         val calender = Calendar.getInstance()
         val year = calender.get(Calendar.YEAR)
@@ -18,7 +18,10 @@ class SelectDate(field: TextView, mContext: Context, setMax: Boolean = true) {
             convertToDesirableFormat(date, field)
         }, year, month, day)
 
-        if (setMax) dialog.datePicker.maxDate = Date().time
+
+        maxDate?.let { dialog.datePicker.maxDate = maxDate }
+        minDate?.let { dialog.datePicker.minDate = minDate }
+
         dialog.show()
     }
 

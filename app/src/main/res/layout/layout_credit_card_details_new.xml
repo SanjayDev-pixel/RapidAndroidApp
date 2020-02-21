@@ -44,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:layout_height="40dp"
-                android:background="@drawable/ic_add_black_24dp"
+                android:background="@drawable/ic_add_grey_24dp"
                 android:backgroundTint="@color/md_grey_500"/>
 
         </RelativeLayout>

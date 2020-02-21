@@ -13,3 +13,10 @@ fun MaterialSpinner.setSelectionFromList(dropDowns: ArrayList<DropdownMaster>, v
         }
     }
 }
+
+fun ArrayList<DropdownMaster>.getDisplayText(typeDetailID: Int): String {
+    val list = this.filter { it.typeDetailID == typeDetailID }
+    if (list.isNullOrEmpty().not()) return list[0].typeDetailDisplayText.toString()
+    return ""
+}
+

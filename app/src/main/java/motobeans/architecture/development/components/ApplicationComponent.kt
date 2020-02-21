@@ -14,7 +14,10 @@ import com.finance.app.view.dialogs.ReferenceDetailDialogFragment
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.PersonalFormFragment
-import com.finance.app.view.fragment.loanApplicationFragments.*
+import com.finance.app.view.fragment.loanApplicationFragments.DocumentCheckListFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.PropertyFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.ReferenceFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentForm
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFormFragment
@@ -149,8 +152,9 @@ interface ApplicationComponent {
     fun inject(other: LeadMetaData)
     fun inject(other: CustomAssetLiabilityViewInfo)
     fun inject(presenter: Presenter1)
-    fun inject(other: CustomDocumentCheckListView )
+    fun inject(other: CustomDocumentCheckListView)
     fun inject(other: CustomChromeTab)
+    fun inject(other: KycFormView)
 
 
 }

@@ -109,10 +109,10 @@ class UpdateCallActivity : BaseAppCompatActivity() {
 
         binding.header.lytBack.setOnClickListener { onBackPressed() }
         binding.layoutFollowUp.etFollowUpTiming.setOnClickListener {
-            SelectDate(binding.layoutFollowUp.etFollowUpTiming, this@UpdateCallActivity, false)
+            SelectDate(binding.layoutFollowUp.etFollowUpTiming, this@UpdateCallActivity, minDate = Date().time)
         }
         binding.layoutFixedMeeting.etMeetingDate.setOnClickListener {
-            SelectDate(binding.layoutFixedMeeting.etMeetingDate, this@UpdateCallActivity, false)
+            SelectDate(binding.layoutFixedMeeting.etMeetingDate, this@UpdateCallActivity, minDate = Date().time)
         }
     }
 

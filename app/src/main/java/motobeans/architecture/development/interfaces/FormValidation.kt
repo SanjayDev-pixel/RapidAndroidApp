@@ -47,6 +47,6 @@ interface FormValidation {
     fun validateCardsDialog(binding: AssetCreditcardDialogBinding): Boolean
     fun validateAssetsDialog(binding: AddAssestsDialogBinding): Boolean
     fun validateAssetLiabilityInfo(binding: LayoutCustomviewAssetliabilityBinding): Boolean
-
+    fun validateKycDetail(binding: LayoutKycFormBinding): Boolean
 
 }

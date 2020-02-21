@@ -9,7 +9,7 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemBankBinding
 import com.finance.app.persistence.model.BankDetailBean
 
-class BankDetailAdapter(private val c: Context, private val bankDetailList: ArrayList<BankDetailBean>) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
+class BankDetailAdapter(private val context: Context, private val bankDetailList: ArrayList<BankDetailBean>) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
     private lateinit var binding: ItemBankBinding
     private var mOnItemClickListener: ItemClickListener? = null
 
@@ -49,24 +49,20 @@ class BankDetailAdapter(private val c: Context, private val bankDetailList: Arra
         mOnItemClickListener = listener
     }
 
-    fun addItem(position: Int = 0, bankDetail: BankDetailBean) {
-        bankDetailList?.let {
-            it.add(position, bankDetail)
+    fun addItem(bankDetail: BankDetailBean) {
+        bankDetailList.add(0, bankDetail)
+        notifyDataSetChanged()
+    }
+
+    fun updateItem(position: Int, bankDetail: BankDetailBean) {
+        if (position >= 0 && position <= bankDetailList.size) {
+            bankDetailList[position] = bankDetail
             notifyDataSetChanged()
         }
     }
 
-    fun updateItem(position: Int, bankDetail: BankDetailBean) {
-        bankDetailList?.let {
-            if (position >= 0 && position <= it.size) {
-                it[position] = bankDetail
-                notifyDataSetChanged()
-            }
-        }
-    }
-
     fun deleteItem(position: Int) {
-        bankDetailList?.let {
+        if (position >= 0 && position <= bankDetailList.size) {
             bankDetailList.removeAt(position)
             notifyDataSetChanged()
         }
@@ -75,7 +71,7 @@ class BankDetailAdapter(private val c: Context, private val bankDetailList: Arra
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BankDetailViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_bank, parent, false)
-        return BankDetailViewHolder(binding, c)
+        return BankDetailViewHolder(binding, context)
     }
 
     override fun onBindViewHolder(holder: BankDetailViewHolder, position: Int) {
