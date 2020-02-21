@@ -151,6 +151,6 @@ interface ApplicationComponent {
     fun inject(presenter: Presenter1)
     fun inject(other: CustomDocumentCheckListView )
     fun inject(other: CustomChromeTab)
-
+    fun inject(other: ChannelPartnerViewCreateLead)
 
 }

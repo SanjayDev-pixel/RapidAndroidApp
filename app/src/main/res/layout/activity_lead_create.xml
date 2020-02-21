@@ -130,8 +130,8 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.finance.app.view.customViews.CustomChannelPartnerView
-                android:id="@+id/viewChannelPartner"
+            <com.finance.app.view.customViews.ChannelPartnerViewCreateLead
+                android:id="@+id/viewChannelPartnernew"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"

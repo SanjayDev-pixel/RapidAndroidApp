@@ -237,14 +237,15 @@
     <string name="fill_manually">Fill Manually</string>
     <string name="application_number">Application Number \*</string>
     <string name="performKyc">Perform KYC</string>
-    <string name="lead_id">Lead Id :</string>
+    <string name="lead_id">Lead Number :</string>
     <string name="rulebased_status">Rule Based Status :</string>
-    <string name="eligibity_text">Your Eligibility for Loan, Emi, \n Tenure and Interest Rate</string>
+    <string name="eligibity_text">Your Eligibility for Loan, Emi,Tenure and Interest Rate</string>
     <string name="interest_rate">Interest Rate</string>
     <string name="emi">Emi</string>
     <string name="current_status">Current Status</string>
     <string name="approval_auth">Approval Authority</string>
     <string name="mitigating_factor">Mitigating Factor</string>
+    <string name="preapproved">Pre-approved</string>
 
 
 </resources>

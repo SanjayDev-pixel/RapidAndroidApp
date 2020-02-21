@@ -1,5 +1,6 @@
 package com.finance.app.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -33,14 +34,15 @@ class FinalSubmitActivity : AppCompatActivity() {
         progressBar = findViewById<ProgressBar>(R.id.progress_Bar) as ProgressBar
         button_submitcall.setOnClickListener { view ->
             progressBar!!.visibility = View.VISIBLE
-            presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
+           // presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
+            val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+            startActivity(intent)
 
 
         }
 
-
-
     }
+
     inner class CallFinalSubmit : ViewGeneric<Requests.RequestFinalSubmit, Response.ResponseFinalSubmit>(context = this) {
         override val apiRequest: Requests.RequestFinalSubmit?
             get() = getCallUpdateRequest()
@@ -65,6 +67,8 @@ class FinalSubmitActivity : AppCompatActivity() {
                 progressBar!!.visibility = View.GONE
             }else{ super.getApiFailure("Time out Error")
                 progressBar!!.visibility = View.GONE}
+
+
 
         }
     }

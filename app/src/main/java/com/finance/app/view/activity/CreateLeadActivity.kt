@@ -70,7 +70,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     private fun setupCustomView() {
 
         CreateLeadActivity.let { it->
-                binding.viewChannelPartner.attachActivity(activity = this, loanData = LoanInfoModel())
+                binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
             }
 
 
@@ -126,8 +126,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         get() {
             val lProductDD = loanProduct.getSelectedValue()
             val branchDD = branches.getSelectedValue()
-            val sPartner = binding.viewChannelPartner.getSourcingPartner()
-            val channelPartnerID = binding.viewChannelPartner.getPartnerName()
+            val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
+            val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val loanAmount =binding.etLoanAmount.text.toString().toFloat()
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
