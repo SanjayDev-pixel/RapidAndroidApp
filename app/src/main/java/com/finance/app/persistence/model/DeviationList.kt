@@ -5,11 +5,11 @@ import java.io.Serializable
 class DeviationList:Serializable {
 
 
-	val deviationCode: Int?=null
-	val bAppName: String=""
-	val head: String=""
-	val deviation: String=""
-	val multigatingFact: String=""
-	val aprvlAuth: String=""
-	val visiable: Int?=null
+	var deviationCode: Int?=null
+	var bAppName: String=""
+	var head: String=""
+	var deviation: String=""
+	var multigatingFact: String=""
+	var aprvlAuth: String=""
+	var visiable: Int?=null
 }

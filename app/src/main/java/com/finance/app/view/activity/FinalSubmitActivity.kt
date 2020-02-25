@@ -96,20 +96,13 @@ class FinalSubmitActivity : AppCompatActivity() {
             }else{ super.getApiFailure("Time out Error")
                 progressBar!!.visibility = View.GONE}
 
-
-
         }
     }
 
     private fun getCallUpdateRequest(): Requests.RequestFinalSubmit? {
-
         val leadId = LeadMetaData.getLeadId()
-
         return Requests.RequestFinalSubmit(leadID = leadId!!)
 
-
     }
-
-
 }
 

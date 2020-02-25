@@ -1,19 +1,5 @@
 package com.finance.app.view.activity
 
-import DeviationList
-import RejectionList
-import android.content.Context
-import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.finance.app.R
-import com.finance.app.databinding.ActivityLoanSubmitStatusBinding
-import com.finance.app.persistence.model.FinalSubmitLoanResponse
-import com.finance.app.utility.LeadMetaData
-import kotlinx.android.synthetic.main.activity_loan_submit_status.view.*
-import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
-import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
-
 
 class LoanSubmitStatusActivity {}
 /*class LoanSubmitStatusActivity : BaseAppCompatActivity() {

@@ -4,6 +4,6 @@ import java.io.Serializable
 
 class RejectionList: Serializable{
 
-	val rejectionReason : String=""
-	val bName : String=""
+	var rejectionReason : String=""
+	var bName : String=""
 }
