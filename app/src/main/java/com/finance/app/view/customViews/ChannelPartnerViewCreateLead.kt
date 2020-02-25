@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
+import com.finance.app.databinding.ChannelpartnernewBinding
 import com.finance.app.databinding.LayoutChannelPartnerBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.ChannelPartnerName
@@ -34,7 +35,7 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
 
-    private lateinit var binding: ChannelPartnerViewCreateLead
+    private lateinit var binding: ChannelpartnernewBinding
 
     private val presenter = Presenter()
 
@@ -47,8 +48,10 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
 
     fun attachActivity(activity: FragmentActivity,loanData: LoanInfoModel?) {
         this.activity = activity
-       /* binding = AppUtilExtensions.initCustomViewBinding(context = context,
-                layoutId = R.layout.channelpartnernew, container = this)*/
+     binding = AppUtilExtensions.initCustomViewBinding(context = context,
+                layoutId = R.layout.channelpartnernew, container = this)
+
+
 
         proceedFurther()
     }
@@ -81,7 +84,7 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
 
                     override fun getSelectedValue(value: DropdownMaster) {
                         val sPartner = value.getCompareValue()
-                        getPartnerNameFromApi(sPartner, loanData)
+                        getPartnerNameFromApi(sPartner)
                     }
                 })
         binding.layoutSourcingPartner.addView(sourcingPartner)
@@ -89,16 +92,16 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
 
     }
 
-    private fun getPartnerNameFromApi(channelId: String, loanData: LoanInfoModel?) {
+    private fun getPartnerNameFromApi(channelId: String) {
         mChannelTypeId = channelId
-        mBranchId = LeadMetaData.getLeadData()?.branchID
+        mBranchId = "1" //LeadMetaData.getLeadData()?.branchID
         empId = sharedPreferences.getEmpId()
 
         if ((mChannelTypeId?.toInt() ?: 0) == Constants.DIRECT) {
-           // presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName(loanData))
+            presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName(LoanInfoModel()))
             binding.layoutPartnerName.visibility = View.GONE
         } else {
-          //  presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName(loanData))
+            presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName(LoanInfoModel()))
 
         }
     }

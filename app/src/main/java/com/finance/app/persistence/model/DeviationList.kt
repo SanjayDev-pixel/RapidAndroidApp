@@ -1,13 +1,15 @@
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 
-data class DeviationList (
+class DeviationList:Serializable {
 
-		@SerializedName("deviationCode") val deviationCode : Int,
-		@SerializedName("bAppName") val bAppName : String,
-		@SerializedName("head") val head : String,
-		@SerializedName("deviation") val deviation : String,
-		@SerializedName("multigatingFact") val multigatingFact : String,
-		@SerializedName("aprvlAuth") val aprvlAuth : String,
-		@SerializedName("visiable") val visiable : Int
-)
+
+	val deviationCode: Int?=null
+	val bAppName: String=""
+	val head: String=""
+	val deviation: String=""
+	val multigatingFact: String=""
+	val aprvlAuth: String=""
+	val visiable: Int?=null
+}

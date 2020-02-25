@@ -57,8 +57,8 @@ class FinalSubmitActivity : AppCompatActivity() {
             if (value.responseCode == Constants.SUCCESS) {
                 Toast.makeText(context,"Submitted Successfully.",Toast.LENGTH_SHORT).show()
 
-               /* progressBar!!.visibility = View.GONE
-                    val submitLoanResponse:HfcPolicyResponse?=value.responseObj?.hfcPolicyResponse
+                progressBar!!.visibility = View.GONE
+                    /*val submitLoanResponse:HfcPolicyResponse?=value.responseObj?.hfcPolicyResponseData
                 if(submitLoanResponse?.deviationFlag==true){
 
                       val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)

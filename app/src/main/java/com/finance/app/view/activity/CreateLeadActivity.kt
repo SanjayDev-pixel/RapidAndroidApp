@@ -58,22 +58,24 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         SetCreateLeadMandatoryField(binding)
         getLoanProductFromDB()
         setBranchesDropDownValue()
-        setupCustomView()
+       // setupCustomView()
+
         binding.btnCreate.setOnClickListener {
             if (formValidation.validateAddLead(binding, loanProduct, branches)) {
                 presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
             }
         }
 
+
+
     }
+
 
     private fun setupCustomView() {
 
         CreateLeadActivity.let { it->
                 binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
             }
-
-
     }
 
     private fun getLoanProductFromDB() {
@@ -104,6 +106,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         val branch = ArrayList(branchList!!)
         branches = CustomSpinnerView(mContext = this, dropDowns = branch, label = "Select Branch *")
         binding.layoutBranches.addView(branches)
+
+       // var branchID =branches.getSelectedValue()?.branchID
 
     }
 

@@ -1,9 +1,9 @@
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 
+class RejectionList: Serializable{
 
-data class RejectionList (
-
-		@SerializedName("rejectionReason") val rejectionReason : String,
-		@SerializedName("bName") val bName : String
-)
+	val rejectionReason : String=""
+	val bName : String=""
+}

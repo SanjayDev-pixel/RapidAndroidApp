@@ -14,7 +14,6 @@ import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.presenter.connector.ReusableView
 import com.finance.app.view.activity.*
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.custom_main_layout.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -121,7 +120,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     when (item?.itemId) {
         R.id.send_notification -> showToast("Notification")
         R.id.send_sms -> showToast("SMS")
-        R.id.search -> showToast("Searching")
+        //R.id.search -> showToast("Searching")
     }
     return super.onOptionsItemSelected(item)
   }
