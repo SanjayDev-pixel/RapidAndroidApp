@@ -321,6 +321,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
 
 
+
 //save data in database
             LeadMetaData().savePropertyData(propertyModel)
             // after save data go to next page

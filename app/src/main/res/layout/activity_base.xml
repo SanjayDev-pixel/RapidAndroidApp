@@ -37,7 +37,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 app:menu="@menu/navigation_menu"
-                />
+                android:background="@color/md_grey_200"
+                app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:itemTextColor="@color/black"/>
 
         </RelativeLayout>
 
