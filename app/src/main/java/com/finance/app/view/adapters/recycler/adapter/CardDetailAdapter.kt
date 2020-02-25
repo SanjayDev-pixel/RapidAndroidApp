@@ -7,14 +7,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemCreditCardBinding
+import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.CardDetail
+import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import motobeans.architecture.util.DateUtil
 import java.sql.Date
 
-class CardDetailAdapter(private val c: Context, private val cards: ArrayList<CardDetail>) : RecyclerView.Adapter<CardDetailAdapter.CreditCardViewHolder>() {
+class CardDetailAdapter(private val c: Context, private val cards: ArrayList<CardDetail>,allMasterDropDown: AllMasterDropDown?) : RecyclerView.Adapter<CardDetailAdapter.CreditCardViewHolder>() {
     private lateinit var binding: ItemCreditCardBinding
     private var mOnCardClickListener: CardClickListener? = null
+    private var allMasterDropDown1: AllMasterDropDown? = allMasterDropDown
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CreditCardViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -71,6 +74,25 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
             binding.tvCardLimit.text = card.cardLimit.toString()
             binding.tvCurrentUtilization.text = card.currentUtilization.toString()
             binding.tvLastPaymentDate.text = dataUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2,DateUtil.dateFormattingType.TYPE_NORMAL_1,card.lastPaymentDate.toString())
+            binding.tvBankName.text
+            for (i in 0 until allMasterDropDown1?.BankName!!.size) {
+
+                if (card.bankNameTypeDetailID == allMasterDropDown1!!.BankName?.get(i)?.typeDetailID) {
+                    binding.tvBankName.setText(allMasterDropDown1!!.BankName?.get(i)?.typeDetailCode)
+
+                }
+            }
+            for (i in 0 until allMasterDropDown1?.Obligate!!.size) {
+
+                if (card.obligateTypeDetail == allMasterDropDown1!!.Obligate?.get(i)?.typeDetailID) {
+                    binding.tvObligate.setText(allMasterDropDown1!!.Obligate?.get(i)?.typeDetailCode)
+
+                }
+            }
+
+
+
+
             addClickListener(position, card)
         }
 

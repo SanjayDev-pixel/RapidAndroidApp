@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DMI Finance</string>
+    <string name="app_name">DMI HFC</string>
     <string name="action_sync">Sync</string>
     <string name="action_search">Search</string>
     <string name="user_name">User Name</string>
@@ -238,5 +238,21 @@
     <string name="fill_manually">Fill Manually</string>
     <string name="application_number">Application Number \*</string>
     <string name="performKyc">Perform KYC</string>
+    <string name="lead_id">Lead Number :</string>
+    <string name="rulebased_status">Rule Based Status :</string>
+    <string name="eligibity_text">Your Eligibility for Loan, Emi,Tenure and Interest Rate</string>
+    <string name="interest_rate">Interest Rate</string>
+    <string name="emi">Emi</string>
+    <string name="current_status">Current Status</string>
+    <string name="approval_auth">Approval Authority</string>
+    <string name="mitigating_factor">Mitigating Factor</string>
+    <string name="preapproved">Pre-approved</string>
+    <string name="rejection">Rejection</string>
+    <string name="deviation">Deviation</string>
+    <string name="reject">Reject</string>
+    <string name="title_activity_test_approve">ApproveActivity</string>
+    <string name="title_activity_test_deviation">TestDeviationActivity</string>
+    <string name="title_activity_test_approved">TestApproved</string>
+    Pre-Approved
 
 </resources>

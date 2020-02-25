@@ -120,7 +120,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     when (item?.itemId) {
         R.id.send_notification -> showToast("Notification")
         R.id.send_sms -> showToast("SMS")
-        R.id.search -> showToast("Searching")
+        //R.id.search -> showToast("Searching")
     }
     return super.onOptionsItemSelected(item)
   }

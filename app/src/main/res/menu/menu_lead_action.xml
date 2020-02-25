@@ -16,9 +16,8 @@
             android:title="@string/call_to_customer" />
     </group>
 
-    <item
+   <!-- <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_vector_search"
         android:title="@string/search"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/>-->
 </menu>

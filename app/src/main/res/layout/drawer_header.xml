@@ -4,7 +4,7 @@
     <LinearLayout
         android:id="@+id/nav_header"
         android:layout_width="400dp"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
@@ -12,29 +12,47 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:background="@drawable/nav_header_background">
 
-
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_marginTop="45dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivProfile"
-                android:layout_width="150sp"
-                android:layout_height="150sp"
-                android:layout_marginTop="@dimen/margin_20"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:background="@drawable/circle_drawable"
                 android:padding="@dimen/margin5dp"
                 android:src="@drawable/hfc"
-                android:gravity="center"
-                />
-            <LinearLayout
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/tvProfileName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="Erik Manglam"
+                android:textSize="@dimen/margin_20"
+                android:textStyle="bold"
+                android:paddingLeft="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin5dp"/>
+
+            <TextView
+                android:id="@+id/tvDesignation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin5dp"
+                android:gravity="center"
+                android:text="RM"
+                android:textColor="@color/black"
+                android:textSize="@dimen/button_text_size"
+                android:paddingLeft="@dimen/margin_10"
+                android:visibility="gone"/>
+           <!-- <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
                 <TextView
                     android:id="@+id/tvProfileName"
                     android:layout_width="match_parent"
@@ -42,14 +60,15 @@
                     android:textColor="@color/black"
                     android:gravity="left"
                     android:text="Erik"
-                    android:textSize="@dimen/button_text_size"
+                    android:textSize="@dimen/margin_20"
+                    android:textStyle="bold"
                     android:paddingLeft="@dimen/margin_10"/>
                 <LinearLayout
                     android:id="@+id/llDesignation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/margin10dp">
+                    android:layout_marginTop="@dimen/margin5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -57,7 +76,7 @@
                         android:layout_gravity="center"
                         android:text="@string/designation"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/button_text_size"
+                        android:textSize="@dimen/margin_20"
                         android:paddingLeft="@dimen/margin_10"/>
 
                     <TextView
@@ -72,153 +91,10 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </LinearLayout>-->
 
         </LinearLayout>
 
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_20"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="15sp"
-                android:progress="20" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tvAssignment"
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/assignments" />
-
-                <TextView
-                    android:id="@+id/tvTaskStatus"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="5sp"
-                    android:layout_toStartOf="@id/tvTasks"
-                    android:text="2/5" />
-
-                <TextView
-                    android:id="@+id/tvTasks"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/tasks" />
-
-            </RelativeLayout>
-        </LinearLayout>
-
-        <include layout="@layout/line_seperator" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_20"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvNumOfTotalTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="15"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/button_text_size" />
-
-                <TextView
-                    android:id="@+id/tvTotalTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:layout_marginEnd="5sp"
-                    android:gravity="center"
-                    android:text="@string/total_tasks"
-                    android:textSize="@dimen/small_text_size" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvNumOfCompletedTask"
-                    android:layout_width="wrap_content"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="10"
-                    android:textSize="@dimen/button_text_size" />
-
-                <TextView
-                    android:id="@+id/tvCompletedTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:layout_marginEnd="5sp"
-                    android:gravity="center"
-                    android:text="@string/completed_task"
-                    android:textSize="@dimen/small_text_size" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvNumOfPendingTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="05"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/button_text_size" />
-
-                <TextView
-                    android:id="@+id/tvPendingTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:layout_marginEnd="5sp"
-                    android:gravity="center"
-                    android:text="@string/pending_task"
-                    android:textSize="@dimen/small_text_size" />
-
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 </layout>

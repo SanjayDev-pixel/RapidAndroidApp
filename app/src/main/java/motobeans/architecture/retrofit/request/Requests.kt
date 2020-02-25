@@ -6,7 +6,7 @@ object Requests {
     data class Company(val companyId: Int, val companySlug: String)
     data class RequestAddLead(val applicantAddress: String, val applicantContactNumber: String, val loanProductID: Int?,
                               val applicantEmail: String, val applicantFirstName: String, val applicantLastName: String,
-                              val applicantMiddleName: String, val branchID: Int?)
+                              val applicantMiddleName: String, val branchID: Int?,val channelPartnerID:Int?,val  sourcingChannelPartnerTypeDetailCode:String?,val amountRequest:Float?)
 
     data class AddressBean(val address1: String, val address2: Any? = null, val addressProof: Int? = null, val cityID: Int, val cityName: String, val districtID: Int, val landmark: String, val rentAmount: Any? = null, val residenceTypeTypeDetailID: Any? = null, val zip: String)
     data class Document(val documentTypeDetailID: Int, val uploadedDocumentPath: String)

@@ -58,22 +58,24 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         SetCreateLeadMandatoryField(binding)
         getLoanProductFromDB()
         setBranchesDropDownValue()
-        setupCustomView()
+       // setupCustomView()
+
         binding.btnCreate.setOnClickListener {
             if (formValidation.validateAddLead(binding, loanProduct, branches)) {
                 presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
             }
         }
 
+
+
     }
+
 
     private fun setupCustomView() {
 
         CreateLeadActivity.let { it->
-                binding.viewChannelPartner.attachActivity(activity = this, loanData = LoanInfoModel())
+                binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
             }
-
-
     }
 
     private fun getLoanProductFromDB() {
@@ -87,22 +89,12 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 //add new @S
         appDataViewModel.getAllMasterDropdown().observe(this,Observer{masterDrownDownValues->
             masterDrownDownValues?.let {
-                setMasterDropDownValue(masterDrownDownValues)
+               // setMasterDropDownValue(masterDrownDownValues)
 
             }
         })
     }
-    //add new @S
-    private fun setMasterDropDownValue(masterDrownDownValues: AllMasterDropDown) {
-        setCustomSpinner(masterDrownDownValues)
 
-
-    }
-//add new @S
-    private fun setCustomSpinner(masterDrownDownValues: AllMasterDropDown) {
-
-
-    }
 
     private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
         loanProduct = CustomSpinnerView(mContext = this, dropDowns = products, label = "Loan Product *")
@@ -115,6 +107,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         branches = CustomSpinnerView(mContext = this, dropDowns = branch, label = "Select Branch *")
         binding.layoutBranches.addView(branches)
 
+       // var branchID =branches.getSelectedValue()?.branchID
+
     }
 
     inner class CallCreateLead : ViewGeneric<Requests.RequestAddLead, Response.ResponseAddLead>(context = this) {
@@ -124,6 +118,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseAddLead) {
             if (value.responseCode == Constants.SUCCESS) {
                 AllLeadActivity.start(this@CreateLeadActivity)
+
+
             } else {
                 showToast(value.responseMsg)
             }
@@ -134,9 +130,9 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         get() {
             val lProductDD = loanProduct.getSelectedValue()
             val branchDD = branches.getSelectedValue()
-          //  val sPartner = binding.viewChannelPartner.getSourcingPartner()
-          //  val cPartnerName = binding.viewChannelPartner.getPartnerName()
-            val loanAmount =binding.etLoanAmount.text.toString()
+            val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
+            val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
+            val loanAmount =binding.etLoanAmount.text.toString().toFloat()
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
@@ -144,6 +140,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = branchDD?.branchID, loanProductID = lProductDD?.productID)
+                    branchID = branchDD?.branchID, loanProductID = lProductDD?.productID,
+                    channelPartnerID=null,sourcingChannelPartnerTypeDetailCode=null,amountRequest=loanAmount)
         }
 }

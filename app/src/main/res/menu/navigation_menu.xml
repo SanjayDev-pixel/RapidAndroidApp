@@ -3,22 +3,32 @@
     <group>
         <item
             android:id="@+id/dashboard"
-            android:title="@string/dashboard" />
+            android:title="@string/dashboard"
+            android:icon="@drawable/ic_dashboard"
+            />
         <item
             android:id="@+id/assignedLeads"
-
-            android:title="@string/assigned_leads" />
+            android:icon="@drawable/ic_assigned_lead"
+            android:title="@string/assigned_leads"
+            />
 
         <item
             android:id="@+id/createLead"
-            android:title="@string/create_lead" />
+            android:title="@string/create_lead"
+            android:icon="@drawable/ic_create_lead"
+
+            />
 
         <item
             android:id="@+id/notification"
-            android:title="@string/notification" />
+            android:icon="@drawable/ic_notification"
+            android:title="@string/notification"
+           />
 
         <item
             android:id="@+id/logout"
-            android:title="@string/logout" />
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout"
+            />
     </group>
 </menu>

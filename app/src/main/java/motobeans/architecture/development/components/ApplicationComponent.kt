@@ -155,6 +155,6 @@ interface ApplicationComponent {
     fun inject(other: CustomDocumentCheckListView)
     fun inject(other: CustomChromeTab)
     fun inject(other: KycFormView)
-
+    fun inject(other: ChannelPartnerViewCreateLead)
 
 }

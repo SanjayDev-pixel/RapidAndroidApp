@@ -65,7 +65,7 @@
                         android:id="@+id/spinnerObligate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_10"
+
                         android:layout_marginTop="@dimen/margin10dp"
                         android:minWidth="@dimen/text_min_width"
                         android:textSize="@dimen/text_size"

@@ -10,21 +10,24 @@ import com.finance.app.databinding.ItemAssetBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.BankDetailBean
+import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import javax.inject.Inject
 
-class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<AssetLiability>) : RecyclerView.Adapter<AssetDetailAdapter.AssetDetailViewHolder>() {
+class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<AssetLiability>,allMasterDropDown: AllMasterDropDown?) : RecyclerView.Adapter<AssetDetailAdapter.AssetDetailViewHolder>() {
     private lateinit var binding: ItemAssetBinding
     private var mOnAssetClickListener: AssetClickListener? = null
     @Inject
     lateinit var dataBase: DataBaseUtil
-    private var allMasterDropDown: AllMasterDropDown? = null
+    private var allMasterDropDown1: AllMasterDropDown? = allMasterDropDown
+
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetDetailViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_asset, parent, false)
-        return AssetDetailViewHolder(binding, c)
+        return AssetDetailViewHolder(binding, c,allMasterDropDown1)
     }
 
     override fun getItemCount() = assets.size
@@ -71,11 +74,44 @@ class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<A
         holder.bindItems(position, assets[position])
     }
 
-    inner class AssetDetailViewHolder(val binding: ItemAssetBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
+    inner class AssetDetailViewHolder(val binding: ItemAssetBinding, val c: Context,allMasterDropDownNew: AllMasterDropDown?) : RecyclerView.ViewHolder(binding.root) {
 
 
         fun bindItems(position: Int, asset: AssetLiability) {
             binding.tvValue.text = asset.assetValue.toString()
+            //binding.tvOwnership.text=asset.ownershipTypeDetailID
+           //allMasterDropDown1?.AssetOwnership
+
+            for (i in 0 until allMasterDropDown1?.AssetOwnership!!.size) {
+
+                if (asset.ownershipTypeDetailID == allMasterDropDown1!!.AssetOwnership?.get(i)?.typeDetailID) {
+
+                    binding.tvOwnership.text=allMasterDropDown1!!.AssetOwnership?.get(i)?.typeDetailCode
+
+                }
+
+            }
+            for (i in 0 until allMasterDropDown1?.AssetDetail!!.size) {
+
+                if (asset.assetDetailsID == allMasterDropDown1!!.AssetDetail?.get(i)?.typeDetailID) {
+
+                    binding.tvAssetType.text=allMasterDropDown1!!.AssetDetail?.get(i)?.typeDetailCode
+
+                }
+
+            }
+
+            for (i in 0 until allMasterDropDown1?.AssetSubType!!.size) {
+
+                if (asset.subTypeOfAssetTypeDetailID == allMasterDropDown1!!.AssetSubType?.get(i)?.typeDetailID) {
+
+                    binding.tvSubType.text=allMasterDropDown1!!.AssetSubType?.get(i)?.typeDetailCode
+
+                }
+
+            }
+
+
 
             addClickListener(position, asset)
         }

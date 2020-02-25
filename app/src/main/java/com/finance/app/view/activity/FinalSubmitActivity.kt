@@ -1,5 +1,7 @@
 package com.finance.app.view.activity
 
+import HfcPolicyResponse
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -17,6 +19,7 @@ import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
+import java.io.Serializable
 
 /* temporary activity*/
 
@@ -34,13 +37,16 @@ class FinalSubmitActivity : AppCompatActivity() {
         button_submitcall.setOnClickListener { view ->
             progressBar!!.visibility = View.VISIBLE
             presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
+          /*val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+            startActivity(intent)*/
+           /* val intent = Intent(this@FinalSubmitActivity, TestApproveActivity::class.java)
+            startActivity(intent)*/
 
 
         }
 
-
-
     }
+
     inner class CallFinalSubmit : ViewGeneric<Requests.RequestFinalSubmit, Response.ResponseFinalSubmit>(context = this) {
         override val apiRequest: Requests.RequestFinalSubmit?
             get() = getCallUpdateRequest()
@@ -50,8 +56,32 @@ class FinalSubmitActivity : AppCompatActivity() {
 
             if (value.responseCode == Constants.SUCCESS) {
                 Toast.makeText(context,"Submitted Successfully.",Toast.LENGTH_SHORT).show()
-                finish()
+
                 progressBar!!.visibility = View.GONE
+                    /*val submitLoanResponse:HfcPolicyResponse?=value.responseObj?.hfcPolicyResponseData
+                if(submitLoanResponse?.deviationFlag==true){
+
+                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                       intent.putExtra("SubmitResponse", submitLoanResponse as Serializable )
+                      startActivity(intent)
+
+                  }else if(submitLoanResponse?.rejectionFlag==true){
+                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                      intent.putExtra("SubmitResponse", submitLoanResponse as Serializable )
+                      startActivity(intent)
+
+                  }else{
+                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                      intent.putExtra("SubmitResponse", submitLoanResponse as Serializable )
+                      startActivity(intent)
+
+                  }*/
+
+                /*val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                //intent.putExtra("SubmitResponse", submitLoanResponse as Serializable )
+                startActivity(intent)*/
+               finish()
+
             } else {
                 showToast(value.responseMsg)
                 progressBar!!.visibility = View.GONE
@@ -70,14 +100,9 @@ class FinalSubmitActivity : AppCompatActivity() {
     }
 
     private fun getCallUpdateRequest(): Requests.RequestFinalSubmit? {
-
         val leadId = LeadMetaData.getLeadId()
-
         return Requests.RequestFinalSubmit(leadID = leadId!!)
 
-
     }
-
-
 }
 

@@ -10,14 +10,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemObligationBinding
+import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.ObligationDetail
 import kotlinx.android.synthetic.main.asset_creditcard_dialog.*
 import kotlinx.android.synthetic.main.obligation_item_dialog.*
 
-class ObligationAdapter(private val c: Context, private val obligations: ArrayList<ObligationDetail>) : RecyclerView.Adapter<ObligationAdapter.ObligationViewHolder>() {
+class ObligationAdapter(private val c: Context, private val obligations: ArrayList<ObligationDetail>,allMasterDropDown: AllMasterDropDown?) : RecyclerView.Adapter<ObligationAdapter.ObligationViewHolder>() {
     private lateinit var binding: ItemObligationBinding
     private var mOnObligationClickListener: ObligationClickListener? = null
+    private var allMasterDropDown1: AllMasterDropDown? = allMasterDropDown
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObligationViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -84,7 +87,30 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
             binding.tvNumOfBouncesInSixMonths.text = obligation.numberOfBouncesInLastSixMonth.toString()
             binding.tvNumOfBouncesInNineMonths.text = obligation.numberOfBouncesInLastNineMonth.toString()
             binding.tvLoanAcNum.text=obligation.loanAmount.toString()
-            //binding.tvLoanOwnership.text=obligation
+
+
+
+            for (i in 0 until allMasterDropDown1?.Ownership!!.size) {
+
+                if (obligation.borrowerNameTypeDetailID == allMasterDropDown1!!.Ownership?.get(i)?.typeDetailID) {
+
+                    binding.tvLoanOwnership.text=allMasterDropDown1!!.Ownership?.get(i)?.typeDetailCode
+
+                }
+
+            }
+
+            for (i in 0 until allMasterDropDown1?.LoanType!!.size) {
+
+                if (obligation.loanTypeTypeDetailID == allMasterDropDown1!!.LoanType?.get(i)?.typeDetailID) {
+
+                    binding.tvLoanType.text=allMasterDropDown1!!.LoanType?.get(i)?.typeDetailCode
+
+                }
+
+            }
+
+
             addClickListener(position, obligation)
         }
 
