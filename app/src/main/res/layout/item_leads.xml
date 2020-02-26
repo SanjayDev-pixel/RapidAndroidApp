@@ -98,14 +98,31 @@
 
                     </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tvLeadID"
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:textColor="@color/grey_585858"
-                        tools:text="Lead Id : XXXXXXX"
-                    android:textSize="15sp"/>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:textColor="#585858"
+                            android:textSize="15sp"
+                            tools:text="Lead Id"
+                            android:text="Lead Id"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_medium"/>
+                        <TextView
+                            android:id="@+id/tvLeadID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:textColor="@color/grey_585858"
+                            tools:text="XXXXXXX"
+                            android:textSize="15sp"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -119,20 +136,46 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tvCreatedDate"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/grey_585858"
-                                tools:text="Created Date: 12 Dec 10:15" />
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#585858"
+                                    android:textSize="15sp"
+                                    tools:text="Created Date"
+                                    android:text="Created Date"
+                                    android:fontFamily="@font/roboto_medium"/>
+                                <TextView
+                                    android:id="@+id/tvCreatedDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/grey_585858"
+                                    tools:text=": 12 Dec 10:15" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#585858"
+                                    android:textSize="15sp"
+                                    tools:text="Loan Type"
+                                    android:text="Loan Type"
+                                    android:fontFamily="@font/roboto_medium"/>
 
                             <TextView
                                 android:id="@+id/tvLoanType"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:textColor="@color/grey_585858"
                                 tools:text="XXXXXXX" />
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -140,21 +183,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Update"
-                                android:textColor="@color/grey_585858" />
+                                android:textColor="#585858"
+                                android:textSize="15sp"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="25dp"
+                                android:fontFamily="@font/roboto_medium"/>
 
                             <TextView
                                 android:id="@+id/tvUpdatedDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:textColor="@color/grey_585858"
-                                tools:text="19 Jan 11:26" />
+                                tools:text="19 Jan 11:26"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="@dimen/margin10dp"/>
 
                         </LinearLayout>
 
