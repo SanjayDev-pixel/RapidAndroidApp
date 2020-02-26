@@ -1,4 +1,5 @@
-import com.google.gson.annotations.SerializedName
+package com.finance.app.persistence.model
+
 import java.io.Serializable
 
 

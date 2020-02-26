@@ -102,18 +102,82 @@
                     <TextView
                         android:id="@+id/preapproved_text"
                         android:layout_marginTop="@dimen/margin5dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/margin10dp"
                         android:text="@string/preapproved"
                         android:textColor="@color/md_green_300"
-                        android:textSize="@dimen/text_size"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        />
-
-
+                        android:gravity="center" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/logo_layout_reject"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_below="@+id/lllead"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:src="@drawable/ic_letterx"
+
+                        android:layout_marginTop="@dimen/margin10dp"/>
+
+                    <TextView
+                        android:id="@+id/preapproved_text_reject"
+                        android:layout_marginTop="@dimen/margin10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin10dp"
+                        android:text="@string/reject"
+                        android:textColor="@color/md_red_500"
+                        android:textSize="@dimen/text_size"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/logo_layout_deviation"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_below="@+id/lllead"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:src="@drawable/ic_loan"
+                        android:tint="@color/md_orange_300"
+                        android:layout_marginTop="@dimen/margin10dp"/>
+
+                    <TextView
+                        android:id="@+id/preapproved_text_deviation"
+                        android:layout_marginTop="@dimen/margin5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin10dp"
+                        android:text="@string/deviation"
+                        android:textColor="@color/md_orange_300"
+                        android:textSize="@dimen/text_size"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+
 
                 <TextView
                     android:id="@+id/eligibility_text"
@@ -294,7 +358,8 @@
     android:id="@+id/cardview"
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp"
-    android:layout_marginTop="30dp">
+    android:layout_marginTop="30dp"
+    android:visibility="gone">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -380,7 +445,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin10dp"/>
 
 
         </LinearLayout>

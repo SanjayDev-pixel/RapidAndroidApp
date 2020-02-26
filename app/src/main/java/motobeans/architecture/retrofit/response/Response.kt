@@ -1,6 +1,5 @@
 package motobeans.architecture.retrofit.response
 
-import HfcPolicyResponse
 import com.finance.app.persistence.model.*
 
 object Response {

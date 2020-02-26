@@ -1,11 +1,14 @@
 package com.finance.app.persistence.model
 
-import HfcPolicyResponse
 import java.io.Serializable
 
 class FinalSubmitLoanResponseNew:Serializable {
-    /*var hfcPolicyResponseData:HfcPolicyResponse =HfcPolicyResponse()
-    var action:Boolean=false*/
+    var responseCode : Int?=null
+    var responseMsg : String=""
+    var errorStack : String=""
+    var timeStamp : Int?=null
+    var responseObj : ResponseObj= ResponseObj()
+
 
 
 }

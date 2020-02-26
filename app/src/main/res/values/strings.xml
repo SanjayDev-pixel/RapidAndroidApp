@@ -218,7 +218,7 @@
     <string name="skip">skip</string>
     <string name="enter_otp_heading">Fill OTP value</string>
     <string name="donotrecieveotp">Didn\'t receive OTP?</string>
-    <string name="later">later</string>
+    <string name="later">Later</string>
     <string name="mandatory_field">Mandatory Field</string>
     <string name="is_pensioner">Is Pensioner</string>
     <string name="company_name">Company Name</string>
@@ -253,6 +253,6 @@
     <string name="title_activity_test_approve">ApproveActivity</string>
     <string name="title_activity_test_deviation">TestDeviationActivity</string>
     <string name="title_activity_test_approved">TestApproved</string>
-    Pre-Approved
+ <string name="otp_heading">Otp has been send to your Mobile Number</string>
 
 </resources>

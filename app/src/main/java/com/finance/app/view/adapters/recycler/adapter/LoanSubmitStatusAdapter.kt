@@ -1,6 +1,5 @@
 package com.finance.app.view.adapters.recycler.adapter
 
-import DeviationList
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.DeviationListItemBinding
+import com.finance.app.persistence.model.DeviationList
 
 
-/*
 class LoanSubmitStatusAdapter(private val c: Context, private val deviationList:ArrayList<DeviationList>) : RecyclerView.Adapter<LoanSubmitStatusAdapter.LoanSubmitViewHolder>() {
     private lateinit var binding: DeviationListItemBinding
 
@@ -61,4 +60,4 @@ class LoanSubmitStatusAdapter(private val c: Context, private val deviationList:
 
 
 
-*/
+
