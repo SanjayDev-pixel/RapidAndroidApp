@@ -16,6 +16,7 @@ import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.activity.FinalSubmitActivity
+import com.finance.app.view.activity.PreviewActivity
 import com.finance.app.view.activity.SyncActivity
 import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckLIstPagerAdapter
@@ -92,8 +93,10 @@ class DocumentCheckListFragmentNew : BaseFragment(){
 
 
            //tempory calling
-            val intent = Intent(activity, FinalSubmitActivity::class.java)
-            startActivity(intent)
+           /* val intent = Intent(activity, FinalSubmitActivity::class.java)
+            startActivity(intent)*/
+
+            PreviewActivity.start(this.requireActivity())
         }
     }
 

@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llSalaryPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_company_name"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCompanyName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_sector"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSector"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_industry"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvIndustry"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_employment_type"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEmploymentType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_designation"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDesignation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_official_mail"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvOfficialMail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_employid"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEmployId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_joining_date"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvJoiningDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preivew_total_experience"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTotalExp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preivew_retirement_age"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvRetirementAge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_address"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_pin_code"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPinCode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_contact"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvContact"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_state"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvState"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_district"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDistrict"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_city"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:text="@string/income"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textSize="@dimen/margin_20"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_gross_income"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGrossIncome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preivew_deduction"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDeduction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/preview_net_income"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/column"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvNetIncome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

@@ -1,5 +1,6 @@
 package com.finance.app.view.activity
 
+import HfcPolicyResponse
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -7,7 +8,6 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.finance.app.R
-import com.finance.app.persistence.model.ResponseObj
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
@@ -19,6 +19,7 @@ import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
+import java.io.Serializable
 
 /* temporary activity*/
 
@@ -36,9 +37,10 @@ class FinalSubmitActivity : AppCompatActivity() {
         button_submitcall.setOnClickListener { view ->
             progressBar!!.visibility = View.VISIBLE
             presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
-         /* val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+          /*val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
             startActivity(intent)*/
-
+           /* val intent = Intent(this@FinalSubmitActivity, TestApproveActivity::class.java)
+            startActivity(intent)*/
 
 
         }
@@ -56,26 +58,28 @@ class FinalSubmitActivity : AppCompatActivity() {
                 Toast.makeText(context,"Submitted Successfully.",Toast.LENGTH_SHORT).show()
 
                 progressBar!!.visibility = View.GONE
-                    /*val submitLoanResponse:ResponseObj?=value.responseObj?.responseObj
-                if(submitLoanResponse?.ruleEngineResponse?.hfcPolicyResponse!!.deviationFlag==true){
 
-                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                       intent.putExtra("SubmitResponse", submitLoanResponse  )
-                      startActivity(intent)
+               /* val submitLoanResponse:ResponseObj?=value.responseObj?.responseObj
+               if(submitLoanResponse?.ruleEngineResponse?.hfcPolicyResponse!!.deviationFlag==true){
 
-                  }else if(submitLoanResponse.ruleEngineResponse.hfcPolicyResponse!!.rejectionFlag==true){
-                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                      intent.putExtra("SubmitResponse", submitLoanResponse )
-                      startActivity(intent)
-
-                  }else{
-                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
                       intent.putExtra("SubmitResponse", submitLoanResponse  )
-                      startActivity(intent)
+                     startActivity(intent)
 
-                  }*/
-               finish()
+                 }else if(submitLoanResponse.ruleEngineResponse.hfcPolicyResponse!!.rejectionFlag==true){
+                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                     intent.putExtra("SubmitResponse", submitLoanResponse )
+                     startActivity(intent)
+
+                 }else{
+                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                     intent.putExtra("SubmitResponse", submitLoanResponse  )
+                     startActivity(intent)
+
+                 }*/
+                finish()
                 AllLeadActivity.start(this@FinalSubmitActivity)
+
 
             } else {
                 showToast(value.responseMsg)

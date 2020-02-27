@@ -14,10 +14,7 @@ import com.finance.app.view.dialogs.ReferenceDetailDialogFragment
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.PersonalFormFragment
-import com.finance.app.view.fragment.loanApplicationFragments.DocumentCheckListFragmentNew
-import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
-import com.finance.app.view.fragment.loanApplicationFragments.PropertyFragmentNew
-import com.finance.app.view.fragment.loanApplicationFragments.ReferenceFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.*
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentForm
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFormFragment
@@ -93,6 +90,8 @@ interface ApplicationComponent {
     fun inject(fragment: DocumentCheckListFragmentNew)
     fun inject(dialogFragment: BankDetailDialogFragment)
     fun inject(dialogFragment: ReferenceDetailDialogFragment)
+
+    fun inject(fragment: FragmentPreview)
     /**
      * Presenters
      */

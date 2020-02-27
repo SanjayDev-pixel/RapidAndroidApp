@@ -32,14 +32,7 @@
             android:name=".view.activity.TestApproved"
             android:label="@string/title_activity_test_approved"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".view.activity.TestDeviationActivity"
-            android:label="@string/title_activity_test_deviation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".view.activity.TestApproveActivity"
-            android:label="@string/title_activity_test_approve"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".view.activity.LoanSubmitStatusActivity" />
         <activity android:name=".view.activity.KYCActivity" />
         <activity
@@ -103,7 +96,9 @@
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.SyncActivity" />
-        <activity android:name=".view.activity.TempActivity" /> <!-- <activity -->
+        <activity android:name=".view.activity.TempActivity" />
+        <activity android:name=".view.activity.PreviewActivity"/>
+        <!-- <activity -->
         <!-- android:name="com.thefinestartist.finestwebview.FinestWebViewActivity" -->
         <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
         <!-- android:screenOrientation="sensor" -->

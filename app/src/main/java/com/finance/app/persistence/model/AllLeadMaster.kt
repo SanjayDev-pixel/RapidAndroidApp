@@ -35,7 +35,7 @@ class AllLeadMaster : Serializable {
     var remarks: String? = ""
     var status: String? = ""
     var personalData: PersonalApplicantList = PersonalApplicantList()
-    var loanData: LoanInfoModel? = LoanInfoModel()
+    var loanData: LoanInfoModel = LoanInfoModel()
     var employmentData: EmploymentApplicantList = EmploymentApplicantList()
     var bankData: BankDetailList = BankDetailList()
     var assetLiabilityData: AssetLiabilityList = AssetLiabilityList()

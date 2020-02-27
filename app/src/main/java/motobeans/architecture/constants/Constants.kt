@@ -49,6 +49,7 @@ class Constants {
         const val KEY_INDEX = "index"
         const val KEY_PERSONAL_APPLICANT = "personalApplicantModel"
         const val KEY_LEAD_APP_NUM = "leadApplicantNum"
+        const val KEY_APPLICATION_SCREEN = "applicationScreen"
 
         const val SALARY = 0
         const val SENP = 1
