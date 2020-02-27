@@ -18,7 +18,7 @@ interface StatesDao {
     fun getAllStates(): LiveData<List<StatesMaster>?>
 
     @Query("SELECT * FROM StatesMaster WHERE stateID=:stateId LIMIT 1")
-    fun getState(stateId: String): StatesMaster?
+    fun getState(stateId: Int): LiveData<StatesMaster?>
 
     @Query("DELETE FROM StatesMaster")
     fun deleteAllStates()

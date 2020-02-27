@@ -58,29 +58,28 @@ class FinalSubmitActivity : AppCompatActivity() {
                 Toast.makeText(context,"Submitted Successfully.",Toast.LENGTH_SHORT).show()
 
                 progressBar!!.visibility = View.GONE
-                    /*val submitLoanResponse:HfcPolicyResponse?=value.responseObj?.hfcPolicyResponseData
-                if(submitLoanResponse?.deviationFlag==true){
 
-                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                       intent.putExtra("SubmitResponse", submitLoanResponse as Serializable )
-                      startActivity(intent)
+               /* val submitLoanResponse:ResponseObj?=value.responseObj?.responseObj
+               if(submitLoanResponse?.ruleEngineResponse?.hfcPolicyResponse!!.deviationFlag==true){
 
-                  }else if(submitLoanResponse?.rejectionFlag==true){
-                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                      intent.putExtra("SubmitResponse", submitLoanResponse as Serializable )
-                      startActivity(intent)
+                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                      intent.putExtra("SubmitResponse", submitLoanResponse  )
+                     startActivity(intent)
 
-                  }else{
-                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                      intent.putExtra("SubmitResponse", submitLoanResponse as Serializable )
-                      startActivity(intent)
+                 }else if(submitLoanResponse.ruleEngineResponse.hfcPolicyResponse!!.rejectionFlag==true){
+                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                     intent.putExtra("SubmitResponse", submitLoanResponse )
+                     startActivity(intent)
 
-                  }*/
+                 }else{
+                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                     intent.putExtra("SubmitResponse", submitLoanResponse  )
+                     startActivity(intent)
 
-                /*val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                //intent.putExtra("SubmitResponse", submitLoanResponse as Serializable )
-                startActivity(intent)*/
-               finish()
+                 }*/
+                finish()
+                AllLeadActivity.start(this@FinalSubmitActivity)
+
 
             } else {
                 showToast(value.responseMsg)
