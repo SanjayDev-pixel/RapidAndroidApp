@@ -13,7 +13,7 @@ class DisableLoanInfoForm(binding: FragmentLoanInformationBinding) {
         binding.etTenure.isEnabled = false
         binding.etEmi.isEnabled = false
         binding.cbPropertySelected.isClickable = false
-        binding.btnNext.isEnabled = false
+        //binding.btnNext.isEnabled = false
 
     }
 }

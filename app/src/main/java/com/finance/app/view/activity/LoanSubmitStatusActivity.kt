@@ -32,12 +32,13 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
 
     companion object {
         fun start(context: Context, msg: String?) {
+
         }
     }
 
 
     override fun init() {
-
+        hideSecondaryToolbar()
         bundle = intent!!.extras
         if(bundle!=null) {
             finalSubmitLoanResponse = bundle?.get("SubmitResponse") as FinalSubmitLoanResponseNew
@@ -75,11 +76,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
             //binding.llstatus.rate.setText(finalSubmitLoanResponse?.hfcPolicyData.)
 
 
-
-
         }
-
-
     }
 
     private fun setAlreadyApproved(finalSubmitLoanResponse: FinalSubmitLoanResponseNew?) {

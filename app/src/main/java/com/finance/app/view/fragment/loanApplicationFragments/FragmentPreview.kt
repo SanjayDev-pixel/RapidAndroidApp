@@ -45,12 +45,6 @@ class FragmentPreview : BaseFragment() {
 
     private fun initOnClickListener() {
 
-        binding.btnSumbitlead.setOnClickListener(){
-             val intent = Intent(activity, FinalSubmitActivity::class.java)
-            startActivity(intent)
-
-
-        }
 
     }
 
