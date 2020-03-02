@@ -79,7 +79,6 @@ class LoanInfoFragmentNew : BaseFragment() {
             if (lProductDD != null) {
                 if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
                                 spinnerDMList, binding.viewChannelPartner)) {
-
                     checkPropertySelection()
                     LeadMetaData().saveLoanData(getLoanData())
                     AppEvents.fireEventLoanAppChangeNavFragmentNext()
@@ -149,6 +148,7 @@ class LoanInfoFragmentNew : BaseFragment() {
 
     private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
         binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toString())
+        System.out.println("Loan Amount Requested>>>>>"+loanInfo.loanAmountRequest)
         binding.etEmi.setText(loanInfo.affordableEMI!!.toInt().toString())
         binding.etTenure.setText(loanInfo.tenure!!.toInt().toString())
         binding.cbPropertySelected.isChecked = loanInfo.isPropertySelected!!
@@ -178,7 +178,8 @@ class LoanInfoFragmentNew : BaseFragment() {
 
     private fun checkSubmission() {
         if (leadDetail!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
-            DisableLoanInfoForm(binding)
+            DisableLoanInfoForm(binding,loanProduct,loanPurpose,loanScheme,interestType)
+
         }
     }
 

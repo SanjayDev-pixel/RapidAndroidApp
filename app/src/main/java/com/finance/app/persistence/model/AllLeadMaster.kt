@@ -34,6 +34,9 @@ class AllLeadMaster : Serializable {
     var loanProductName: String? = ""
     var remarks: String? = ""
     var status: String? = ""
+    var state: String? = ""
+    var district: String? = ""
+    var city: String? = ""
     var personalData: PersonalApplicantList = PersonalApplicantList()
     var loanData: LoanInfoModel? = LoanInfoModel()
     var employmentData: EmploymentApplicantList = EmploymentApplicantList()
@@ -41,7 +44,6 @@ class AllLeadMaster : Serializable {
     var assetLiabilityData: AssetLiabilityList = AssetLiabilityList()
     var propertyData: PropertyModel = PropertyModel()
     var referenceData = ReferencesList()
-
     var isDetailAlreadySync: Boolean = false
     var isSyncWithServer: Boolean = true
 }

@@ -340,8 +340,12 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     fun clearZipCode() = etCurrentPinCode.text?.clear()
 
     fun disableSelf() {
-        etCurrentPinCode.isEnabled = false
+        System.out.println("Disable Self")
+       /* etCurrentPinCode.isEnabled = false
         spinnerCurrentCity.isEnabled = false
+        spinnerCurrentDistrict.isEnabled = false
+        spinnerCurrentCity.isEnabled = false*/
+        spinnerCurrentState.isEnabled = false
         spinnerCurrentDistrict.isEnabled = false
         spinnerCurrentCity.isEnabled = false
     }

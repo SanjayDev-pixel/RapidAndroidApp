@@ -187,15 +187,19 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         binding.spinnerState.adapter = StatesSpinnerAdapter(mContext, states)
         binding.spinnerCity.adapter = CitySpinnerAdapter(mContext, ArrayList())
         binding.spinnerDistrict.adapter = DistrictSpinnerAdapter(mContext, ArrayList())
-        binding.spinnerState?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (position >= 0) {
-                    val state = parent.selectedItem as StatesMaster
-                    mStateId = state.stateID.toString()
-                    districtPresenter.callDistrictApi()
+        LeadMetaData.getLeadData()?.let {
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, false))
+
+                binding.spinnerState?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                        if (position >= 0) {
+                            val state = parent.selectedItem as StatesMaster
+                            mStateId = state.stateID.toString()
+                            districtPresenter.callDistrictApi()
+                        }
+                    }
                 }
-            }
         }
     }
 

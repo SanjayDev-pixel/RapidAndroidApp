@@ -14,6 +14,7 @@ import com.finance.app.databinding.FragmentEmploymentFormBinding
 import com.finance.app.databinding.LayoutEmploymentAddressBinding
 import com.finance.app.databinding.LayoutSalaryBinding
 import com.finance.app.databinding.LayoutSenpBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
@@ -64,6 +65,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         mContext = context!!
+        System.out.println("Sanjay Sawan Rawat")
         ArchitectureApp.instance.component.inject(this)
     }
 
@@ -95,6 +97,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         //Set Mandatory fields...
         SetEmploymentMandatoryField(binding)
         bindDatePickerToViews()
+
     }
 
     private fun setOnTextChangeListener() {

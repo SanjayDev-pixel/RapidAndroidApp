@@ -25,7 +25,6 @@ class AllLeadActivity : BaseAppCompatActivity() {
     lateinit var dataBase: DataBaseUtil
     private var pagerAdapter: LeadPagerAdapter? = null
     private val syncDataViewModel: SyncDataViewModel by viewModelProvider(this, ViewModelType.WITH_DAO)
-
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, AllLeadActivity::class.java)

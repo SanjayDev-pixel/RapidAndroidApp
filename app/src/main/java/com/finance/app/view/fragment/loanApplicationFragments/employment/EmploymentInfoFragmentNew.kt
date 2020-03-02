@@ -25,10 +25,7 @@ class EmploymentInfoFragmentNew : BaseFragment() {
 
 //    private val alCoApplicants = ArrayList<EmploymentApplicantsModel>()
 //    private val pApplicantList = ArrayList<PersonalApplicantsModel>()
-
     private lateinit var binding: FragmentEmploymentNewBinding
-
-
     companion object {
         fun newInstance(): EmploymentInfoFragmentNew {
             return EmploymentInfoFragmentNew()
@@ -40,6 +37,7 @@ class EmploymentInfoFragmentNew : BaseFragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        System.out.println("Pintoo Rawat")
         ArchitectureApp.instance.component.inject(this)
     }
 

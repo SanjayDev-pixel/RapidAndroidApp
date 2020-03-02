@@ -4,12 +4,10 @@ class Constants {
 
     object Injection {
         const val API_CURRENT_URL = "currentURL"
-
         const val API_DEVELOPMENT_URL = "developmentURL"
         const val API_TESTING_URL = "testingURL"
         const val API_LIVE_URL = "liveURL"
         const val API_PRODUCTION_URL = "productionURL"
-
         /**
          * Network Class v1 constants
          */
@@ -34,7 +32,6 @@ class Constants {
             const val KYCID = ""
         }
     }
-
     companion object APP {
         const val SUCCESS = "200"
         const val DIRECT = 53
@@ -43,13 +40,11 @@ class Constants {
         const val SINGLE = 63
         internal const val PERMANENT_ADDRESS = "Permanent"
         internal const val CURRENT_ADDRESS = "Current"
-
         const val KEY_APPLICANT = "applicant"
         const val KEY_CO_APPLICANT = "coApplicant"
         const val KEY_INDEX = "index"
         const val KEY_PERSONAL_APPLICANT = "personalApplicantModel"
         const val KEY_LEAD_APP_NUM = "leadApplicantNum"
-
         const val SALARY = 0
         const val SENP = 1
         const val ASSESED_INCOME = 116

@@ -65,19 +65,12 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                 presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
             }
         }
-
-
-
     }
-
-
     private fun setupCustomView() {
-
         CreateLeadActivity.let { it->
                 binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
             }
     }
-
     private fun getLoanProductFromDB() {
         appDataViewModel.getLoanProductMaster().observe(this, Observer { loanProductValue ->
             loanProductValue?.let {
@@ -133,7 +126,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val loanAmount =binding.etLoanAmount.text.toString().toFloat()
-
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
                     applicantEmail = binding.etEmail.text.toString(),

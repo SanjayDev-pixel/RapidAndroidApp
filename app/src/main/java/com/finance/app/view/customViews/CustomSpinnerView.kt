@@ -11,7 +11,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.finance.app.R
+import com.finance.app.others.AppEnums
 import com.finance.app.presenter.connector.ValidationHandler
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.arrayadapter.CustomSpinnerAdapter
 import com.finance.app.view.customViews.interfaces.IspinnerCustomView
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
@@ -27,7 +29,6 @@ class CustomSpinnerView<Type : IspinnerModel>(val mContext: Context, private val
                                               val iSpinnerMainView: IspinnerMainView<Type>? = null)
     : LinearLayout(mContext, attrs), AdapterView.OnItemSelectedListener,
         ValidationHandler, IspinnerCustomView<Type> {
-
     private lateinit var spinnerType: MaterialSpinner
     private lateinit var tvErrorText: TextView
     private lateinit var llErrorBlock: LinearLayout
@@ -49,6 +50,9 @@ class CustomSpinnerView<Type : IspinnerModel>(val mContext: Context, private val
         tvErrorText = rootView.findViewById(R.id.tvErrorText)
         llErrorBlock = rootView.findViewById(R.id.llErrorBlock)
         spinnerType.onItemSelectedListener = this
+
+        //DisablePersonalForm(binding)
+            //dobProof.disableSelf()
     }
 
     private fun proceedFurther() {

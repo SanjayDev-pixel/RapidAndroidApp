@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.LayoutCustomViewPersonalBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
@@ -80,7 +81,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         setClickListeners(leadId, applicant)
         setUpCustomViews()
         proceedFurther(applicant)
-//        LeadMetaData.getLeadData()?.let { if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true)) DisablePersonalForm(binding) }
+
     }
 
     private fun setDatePicker() {
@@ -149,6 +150,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         applicant.applicantKycList?.let { binding.kycApplicant.bindApplicantKycDetails(activity, it) }
     }
 
+
     private fun setUpRelationshipValue(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
         if (index == 0) {
             relationship = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.Relationship!!, label = "Relationship *")
@@ -167,6 +169,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
         dobProof = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.DOBProof!!, label = "DOB Proof *")
         binding.basicInfoLayout.layoutDobProof.addView(dobProof)
+
         livingStandard = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.LivingStandardIndicators!!, label = "Living Standard *")
         binding.basicInfoLayout.layoutLivingStandard.addView(livingStandard)
         detailQualification = CustomSpinnerView(mContext = context, isMandatory = true, dropDowns = allMasterDropDown.DetailQualification!!, label = "Detail Qualification *")
@@ -187,6 +190,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         binding.personalAddressLayout.layoutCurrentAddressProof.addView(currentAddressProof)
         setUpRelationshipValue(allMasterDropDown, applicant)
         setCustomSpinnerWithCondition(allMasterDropDown)
+        LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+            DisablePersonalForm(binding,dobProof,livingStandard,detailQualification,qualification,caste,religion,gender,permanentAddressProof,currentAddressProof,nationality,maritalStatus,currentResidenceType,permanentResidenceType)
+        }
+
     }
 
     private fun setCustomSpinnerWithCondition(allMasterDropDown: AllMasterDropDown) {
@@ -259,6 +266,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             //First Use the default name as pre-filled at lead creation screen
             if (index == 0) { //also check if this is a main applicant...
                 binding.basicInfoLayout.etFirstName.setText(leadDetails.applicantFirstName)
+                //System.out.println("Basic Details"+leadDetails.applicantFirstName+" "+leadDetails.applicantMiddleName+"last name>>"+leadDetails.applicantLastName)
                 binding.basicInfoLayout.etMiddleName.setText(leadDetails.applicantMiddleName)
                 binding.basicInfoLayout.etLastName.setText(leadDetails.applicantLastName)
             }
@@ -284,7 +292,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         if (currentApplicant.middleName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etMiddleName.setText(currentApplicant.middleName)
         if (currentApplicant.lastName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etNumOfDependent.setText(currentApplicant.numberOfDependents.toString())
         binding.basicInfoLayout.etNumOfEarningMember.setText(currentApplicant.numberOfEarningMembers.toString())
-        binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
+        //binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
         binding.basicInfoLayout.etAge.setText(currentApplicant.age.toString())
         binding.basicInfoLayout.etAlternateNum.setText(currentApplicant.alternateContact.toString())
         if (currentApplicant.maritialStatusTypeDetailID != SINGLE) {

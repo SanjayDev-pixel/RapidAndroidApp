@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.pager.PersonalPagerAdapter
@@ -46,6 +47,16 @@ class PersonalInfoFragmentNew : BaseFragment() {
         binding.lifecycleOwner = this
 
         setOnClickListeners()
+        LeadMetaData.getLeadData()?.let {
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
+            {
+                binding.btnAddApplicantTab.visibility = View.GONE
+            }
+            else
+            {
+                binding.btnAddApplicantTab.visibility = View.VISIBLE
+            }
+        }
 
         return binding.root
     }
@@ -74,8 +85,10 @@ class PersonalInfoFragmentNew : BaseFragment() {
 
 
     private fun setOnClickListeners() {
+
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
-        binding.btnNext.setOnClickListener { addApplicant() }
+        binding.btnNext.setOnClickListener { addApplicant()
+            System.out.println("Sanjay Sawan Rwat")}
         binding.btnAddApplicantTab.setOnClickListener {
             pagerAdapterApplicants?.addItem()
             if (binding.tabLead.tabCount > 2)//Scroll tab to last item....

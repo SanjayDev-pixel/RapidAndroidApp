@@ -52,10 +52,8 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     private var deduction = 0.0f
     private var netIncome = ""
     private var averageMonthlyIncome = ""
-
     private lateinit var selectedApplicant: PersonalApplicantsModel
     private var selectedEmploymentDetails: EmploymentApplicantsModel? = null
-
     private lateinit var profile: CustomSpinnerView<DropdownMaster>
     private lateinit var subProfile: CustomSpinnerView<DropdownMaster>
     private lateinit var sector: CustomSpinnerView<DropdownMaster>
@@ -64,17 +62,14 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     private lateinit var employmentType: CustomSpinnerView<DropdownMaster>
     private lateinit var constitution: CustomSpinnerView<DropdownMaster>
     private lateinit var businessSetUpType: CustomSpinnerView<DropdownMaster>
-
     private var senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
     private var salarySpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
 
     fun attachView(activity: FragmentActivity, selectedApplicant: PersonalApplicantsModel, employmentDetails: EmploymentApplicantsModel?) {
         ArchitectureApp.instance.component.inject(this)
-
         this.activity = activity
         this.selectedApplicant = selectedApplicant
         this.selectedEmploymentDetails = employmentDetails
-
         binding = AppUtilExtensions.initCustomViewBinding(context = context, layoutId = R.layout.layout_custom_employment_view, container = this)
 
 //        if (selectedApplicant.incomeConsidered) {
@@ -89,12 +84,13 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
     }
 
     private fun initializeViews(applicant: EmploymentApplicantsModel?) {
-//        SetEmploymentMandatoryField(binding)
+      System.out.println("1>>>>>>>>>>>>")
         setDatePicker()
         setUpCustomViews()
         setClickListeners()
-
         proceedFurther(applicant)
+
+
     }
 
     private fun setDatePicker() {

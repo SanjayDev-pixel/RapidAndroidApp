@@ -32,6 +32,7 @@ class LeadMetaData : Observable() {
 
         fun setLeadData(leadDetail: AllLeadMaster?) {
             leadData.value = leadDetail
+            System.out.println("lead Data>>>>"+ leadData.value)
         }
 
         fun getLeadObservable() = leadData
