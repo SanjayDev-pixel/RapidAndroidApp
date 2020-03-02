@@ -161,7 +161,7 @@ class Converters {
     }
 
 
-   @TypeConverter
+    @TypeConverter
     fun fromStringToPersonalApplicantList(value: String?): PersonalApplicantList? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
@@ -297,6 +297,26 @@ class Converters {
         states?.let {
             val gson = Gson()
             return gson.toJson(states)
+        }
+        return null
+    }
+
+
+    @TypeConverter
+    fun fromStringToKycDocumentModel(value: String?): KycDocumentModel? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+
+        val listType = object : TypeToken<KycDocumentModel>() {}.type
+        return Gson().fromJson<KycDocumentModel>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromKycDocumentModelToString(kycDocumentModel: KycDocumentModel?): String? {
+        kycDocumentModel?.let {
+            val gson = Gson()
+            return gson.toJson(kycDocumentModel)
         }
         return null
     }

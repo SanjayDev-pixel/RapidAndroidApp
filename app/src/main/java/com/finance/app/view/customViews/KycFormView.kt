@@ -1,6 +1,7 @@
 package com.finance.app.view.customViews
 
 import android.content.Context
+import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -17,11 +18,13 @@ import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.KYCDetail
 import com.finance.app.utility.ConvertDate
 import com.finance.app.utility.SelectDate
+import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.adapters.recycler.adapter.KycListAdapter
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.utils.setSelectionFromList
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.AppUtilExtensions
@@ -41,14 +44,16 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private var allMasterDropDown: AllMasterDropDown? = null
     private var kycListAdapter: KycListAdapter? = null
 
+    private var currentApplicantNumber: String? = null
     private var selectedKycDetailPosition = -1
 
 
     private var rootBinding: LayoutKycFormBinding = AppUtilExtensions.initCustomViewBinding(context = context, layoutId = R.layout.layout_kyc_form, container = this)
 
-    fun bindApplicantKycDetails(owner: LifecycleOwner, kycDetailList: ArrayList<KYCDetail>) {
+    fun bindApplicantKycDetails(owner: LifecycleOwner, applicantNumber: String, kycDetailList: ArrayList<KYCDetail>) {
         ArchitectureApp.instance.component.inject(this)
         lifecycleOwner = owner
+        currentApplicantNumber = applicantNumber
 
         setOnClickListener()
         //Set Kyc Adapter..
@@ -72,7 +77,12 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             }
         }
         rootBinding.btnCancel.setOnClickListener { showKycForm(false) }
-        rootBinding.btnUploadKyc.setOnClickListener { }
+        rootBinding.btnUploadKyc.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(Constants.KEY_DOC_ID, 405)//Hardcoded for KYC proof...
+            bundle.putString(Constants.KEY_APPLICANT_NUMBER, currentApplicantNumber)
+            DocumentUploadingActivity.startActivity(context, bundle)
+        }
         rootBinding.etIssueDate.setOnClickListener { SelectDate(rootBinding.etIssueDate, context, maxDate = Date().time) }
         rootBinding.etExpiryDate.setOnClickListener { SelectDate(rootBinding.etExpiryDate, context, minDate = Date().time) }
     }
@@ -159,10 +169,12 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private fun addOrUpdateKycDetails(shouldUpdate: Boolean = false) {
         val kycDetail = KYCDetail()
         kycDetail.identificationTypeDetailID = (rootBinding.spinnerIdentificationType.selectedItem as DropdownMaster?)?.typeDetailID
+        kycDetail.identificationTypeDetail = (rootBinding.spinnerIdentificationType.selectedItem as DropdownMaster?)?.typeDetailDisplayText
         kycDetail.identificationNumber = rootBinding.etIdNum.text.toString()
         kycDetail.issueDate = ConvertDate().convertToApiFormat(rootBinding.etIssueDate.text.toString())
         kycDetail.expireDate = ConvertDate().convertToApiFormat(rootBinding.etExpiryDate.text.toString())
         kycDetail.verifiedStatusTypeDetailID = (rootBinding.spinnerVerifiedStatus.selectedItem as DropdownMaster?)?.typeDetailID
+        kycDetail.verifiedStatusTypeDetail = (rootBinding.spinnerVerifiedStatus.selectedItem as DropdownMaster?)?.typeDetailDisplayText
 
         if (shouldUpdate.not()) kycListAdapter?.addItem(kycDetail)
         else kycListAdapter?.updateItem(selectedKycDetailPosition, kycDetail)

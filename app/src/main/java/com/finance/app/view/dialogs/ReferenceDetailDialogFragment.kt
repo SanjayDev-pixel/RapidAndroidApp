@@ -12,6 +12,7 @@ import com.finance.app.databinding.DialogReferenceDetailsBinding
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.ReferenceModel
+import com.finance.app.persistence.model.StatesMaster
 import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import kotlinx.android.synthetic.main.dialog_bank_detail_form.*
@@ -129,6 +130,7 @@ class ReferenceDetailDialogFragment : DialogFragment() {
         val occupation = binding.spinnerOccupation.selectedItem as DropdownMaster?
         val cCity = binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentCity.selectedItem as Response.CityObj?
         val cDistrict = binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentDistrict.selectedItem as Response.DistrictObj?
+        val cState = binding.referenceAddressLayout.customPermanentZipAddressView.spinnerCurrentState.selectedItem as StatesMaster?
 
         referenceModel.name = binding.etName.text.toString()
         referenceModel.knowSince = binding.etKnownSince.text.toString()
@@ -143,6 +145,7 @@ class ReferenceDetailDialogFragment : DialogFragment() {
         referenceModel.addressBean?.cityName = cCity?.cityName
         referenceModel.addressBean?.districtID = cDistrict?.districtID
         referenceModel.addressBean?.districtName = cDistrict?.districtName
+        referenceModel.addressBean?.stateName = cState?.stateName
         referenceModel.addressBean?.address1 = binding.referenceAddressLayout.etAddress.text.toString()
         referenceModel.addressBean?.landmark = binding.referenceAddressLayout.etLandmark.text.toString()
         referenceModel.addressBean?.zip = binding.referenceAddressLayout.customPermanentZipAddressView.etCurrentPinCode.text.toString()

@@ -10,7 +10,6 @@ import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class LeadMetaData : Observable() {
 
@@ -23,7 +22,7 @@ class LeadMetaData : Observable() {
 
     fun getAndPopulateLeadData(leadId: Int) {
         dataBase.provideDataBaseSource().allLeadsDao().getLead(leadId).observeForever { lead ->
-            setLeadData(lead)
+            setLeadData(lead) //Bug: return null frequently..
         }
     }
 
@@ -37,14 +36,6 @@ class LeadMetaData : Observable() {
         fun getLeadObservable() = leadData
         fun getLeadData() = leadData.value
         fun getLeadId() = leadData.value?.leadID
-
-        fun addCoApplicant() {
-            val leadData = getLeadData()
-            leadData?.let {
-                LeadAndLoanDetail().addApplicants(leadData)
-            }
-            setLeadData(leadData)
-        }
     }
 
     private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {

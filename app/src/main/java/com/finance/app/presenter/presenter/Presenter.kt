@@ -55,6 +55,8 @@ class Presenter {
             ConstantsApi.CALL_UPDATE_CALL -> apiProject.api.postCallUpdate((dmiConnector.apiRequest as Requests.RequestCallUpdate).leadID, dmiConnector.apiRequest as Requests.RequestCallUpdate)
             ConstantsApi.CALL_FINAL_SUBMIT -> apiProject.api.finalSubmit((dmiConnector.apiRequest as Requests.RequestFinalSubmit).leadID)
             ConstantsApi.CALL_KYC -> apiProject.api.postCallKYC(dmiConnector.apiRequest as Requests.RequestKYC)
+            ConstantsApi.CALL_DOC_TYPE -> apiProject.api.getDocumentType((dmiConnector.apiRequest as Requests.RequestDocumentList).codeId)
+            ConstantsApi.CALL_UPLOADED_DOC -> apiProject.api.getDocumentList((dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).codeId, (dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).leadId)
 
             else -> return
         }
@@ -68,7 +70,9 @@ class Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewOpt.showProgressDialog() }
                 .doFinally { viewOpt.hideProgressDialog() }
-                .subscribe({ response -> response?.let { apiSuccess(viewOpt, response as ResponseApi) } },
+                .subscribe({ response ->
+                    response?.let { apiSuccess(viewOpt, response as ResponseApi) }
+                },
                         { e -> apiFailure(viewOpt, e) })
 
     }

@@ -331,7 +331,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
     private fun fillSalaryDetails(employmentDetails: EmploymentApplicantsModel) {
         binding.lytSalaryDetail.cbIsPensioner.isChecked = employmentDetails.isPensioner
 
-//        employmentDetails.dateOfJoining?.let { binding.lytSalaryDetail.etJoiningDate.setText(it.toString()) }
+
         employmentDetails.dateOfJoining?.let { binding.lytSalaryDetail.etJoiningDate.setText(ConvertDate().convertToAppFormat(it.toString())) }
         employmentDetails.totalExperience?.let { binding.lytSalaryDetail.etTotalExperience.setText(it.toString()) }
         employmentDetails.retirementAge?.let { binding.lytSalaryDetail.etRetirementAge.setText(it.toString()) }
@@ -343,6 +343,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         employmentDetails.sectorTypeDetailID?.let { id -> allMasterDropDown?.Sector?.let { list -> binding.lytSalaryDetail.spinnerSector.setSelectionFromList(list, id) } }
         employmentDetails.industryTypeDetailID?.let { id -> allMasterDropDown?.Industry?.let { list -> binding.lytSalaryDetail.spinnerIndustry.setSelectionFromList(list, id) } }
         employmentDetails.employmentTypeDetailID?.let { id -> allMasterDropDown?.EmploymentType?.let { list -> binding.lytSalaryDetail.spinnerEmploymentType.setSelectionFromList(list, id) } }
+        employmentDetails.employerContactNumber?.let { binding.lytSalaryDetail.layoutAddress.etContactNum.setText(it.toString()) }
 
         employmentDetails.addressBean?.let { fillAddressDetails(binding.lytSalaryDetail.layoutAddress, it) }
 
@@ -357,7 +358,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         binding.lytBusinessDetail.cbAllEarningMember.isChecked = employmentDetails.allEarningMembers
 
         employmentDetails.businessVinatgeInYear?.let { binding.lytBusinessDetail.etBusinessVintage.setText(it.toString()) }
-//        employmentDetails.dateOfIncorporation?.let { binding.lytBusinessDetail.etIncorporationDate.setText(it.toString()) }
+
         employmentDetails.dateOfIncorporation?.let { binding.lytBusinessDetail.etIncorporationDate.setText(ConvertDate().convertToAppFormat(it.toString())) }
         employmentDetails.companyName?.let { binding.lytBusinessDetail.etBusinessName.setText(it.toString()) }
         employmentDetails.gstRegistration?.let { binding.lytBusinessDetail.etGstRegistration.setText(it.toString()) }
@@ -365,6 +366,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         employmentDetails.constitutionTypeDetailID?.let { id -> allMasterDropDown?.Constitution?.let { list -> binding.lytBusinessDetail.spinnerConstitution.setSelectionFromList(list, id) } }
         employmentDetails.industryTypeDetailID?.let { id -> allMasterDropDown?.Industry?.let { list -> binding.lytBusinessDetail.spinnerIndustry.setSelectionFromList(list, id) } }
         employmentDetails.businessSetupTypeDetailID?.let { id -> allMasterDropDown?.BusinessSetupType?.let { list -> binding.lytBusinessDetail.spinnerBusinessSetupType.setSelectionFromList(list, id) } }
+        employmentDetails.employerContactNumber?.let { binding.lytBusinessDetail.layoutAddress.etContactNum.setText(it.toString()) }
 
         employmentDetails.addressBean?.let { fillAddressDetails(binding.lytBusinessDetail.layoutAddress, it) }
 
@@ -379,7 +381,6 @@ class EmploymentFormFragmentNew : BaseFragment() {
     private fun fillAddressDetails(binding: LayoutEmploymentAddressBinding, address: AddressDetail) {
         binding.etAddress.setText(address.address1)
         binding.etLandmark.setText(address.landmark)
-        binding.etContactNum.setText(address.contactNum)
         binding.customZipAddressView.etCurrentPinCode.setText(address.zip.toString()) //will fetch details automatically once zip is available
     }
 

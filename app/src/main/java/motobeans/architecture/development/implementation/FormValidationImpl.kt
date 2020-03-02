@@ -853,6 +853,24 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
+    override fun validateKycDocumentDetail(binding: ActivityDocumentUploadingBinding): Boolean {
+        var errorCount = 0
+
+        val idNum = binding.etDocumentName.text.toString()
+        if (!idNum.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etDocumentName.error = "Required Field"
+        }
+
+        val documentType = binding.spinnerDocumentType.selectedItem as DocumentTypeModel?
+        if (documentType == null) {
+            errorCount++
+            binding.spinnerDocumentType.error = "Required Field"
+        }
+
+        return isValidForm(errorCount)
+    }
+
     private fun setSpinnerError(spinner: MaterialSpinner): Int {
         spinner.error = "Required Field"
         return 2

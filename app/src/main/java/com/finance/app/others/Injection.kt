@@ -40,7 +40,7 @@ object Injection {
      * @param context Application Context
      * @return ViewModelFactory
      */
-    fun provideViewModelFactory(activity: androidx.fragment.app.FragmentActivity): ViewModelFactory {
+    fun provideViewModelFactory(activity: FragmentActivity): ViewModelFactory {
         val dataSource = provideDataBaseSource(activity)
         return ViewModelFactory(activity, dataSource)
     }

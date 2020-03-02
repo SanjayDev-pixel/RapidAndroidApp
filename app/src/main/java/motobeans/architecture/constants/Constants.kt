@@ -49,6 +49,8 @@ class Constants {
         const val KEY_INDEX = "index"
         const val KEY_PERSONAL_APPLICANT = "personalApplicantModel"
         const val KEY_LEAD_APP_NUM = "leadApplicantNum"
+        const val KEY_DOC_ID = "doc_id"
+        const val KEY_APPLICANT_NUMBER = "applicant_number"
 
         const val SALARY = 0
         const val SENP = 1
@@ -56,6 +58,7 @@ class Constants {
         const val ITR = 117
         const val CASH_SALARY = 118
         const val BANK_SALARY = 119
+
     }
 
 }

@@ -12,7 +12,9 @@ class KYCDetail : Serializable {
     var applicantID: Int? = 0
     var lastModifiedOn: String? = ""
     var identificationTypeDetailID: Int? = 0
+    var identificationTypeDetail: String? = ""
     var verifiedStatusTypeDetailID: Int? = 0
+    var verifiedStatusTypeDetail: String? = ""
     var createdBy: Int? = 0
     var createdOn: String? = ""
     var lastModifiedBy: Int? = 0

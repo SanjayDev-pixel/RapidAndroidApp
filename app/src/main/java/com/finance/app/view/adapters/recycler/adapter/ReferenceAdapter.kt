@@ -27,9 +27,11 @@ class ReferenceAdapter(private val c: Context, private val referencesList: Array
             binding.tvOccupation.text = reference.occupationTypeName
             binding.tvAddress.text = reference.addressBean?.address1
             binding.tvPincode.text = reference.addressBean?.zip
-            binding.tvCityAndDistrict.text = "${reference.addressBean?.cityName}, ${reference.addressBean?.districtName}"
+            binding.tvCityAndDistrict.text = "${reference.addressBean?.cityName}, ${reference.addressBean?.districtName}, ${reference.addressBean?.stateName}"
             binding.tvContact.text = reference.contactNumber
             binding.tvKnownSince.text = reference.knowSince
+
+
 
             addClickListener(position, reference)
         }

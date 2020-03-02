@@ -1,6 +1,5 @@
 package motobeans.architecture.retrofit.response
 
-import HfcPolicyResponse
 import com.finance.app.persistence.model.*
 
 object Response {
@@ -25,14 +24,10 @@ object Response {
     data class ResponseLoanProduct(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<LoanProductMaster>, val timeStamp: Long)
     data class LoanPurpose(val loanPurposeID: Int, val loanPurposeName: String)
     data class ResponsePinCodeDetail(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<PinCodeObj>?, val timeStamp: Long)
-
     data class PinCodeObj(val cityID: Int?, val cityName: String?, val districtID: Int?, val districtName: String?, val pincode: String?, val pincodeID: Int?, val stateID: Int?, val stateName: String?)
-
     data class ResponseDocumentUpload(val responseCode: String, val responseMsg: String, val responseObj: DocumentUploadObj, val timeStamp: Long)
     data class DocumentUploadObj(val applicationDocumentID: Any, val documentName: String, val documentType: Any, val documentTypeDetailID: Int, val uploadedDocumentPath: String)
-
     data class ResponseGetAllLeads(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<AllLeadMaster>, val timeStamp: Long)
-
     data class ResponseGetLoanApplication(val responseCode: String, val responseMsg: String, val responseObj: LoanApplicationGetObj?, val timeStamp: Long)
     data class LoanApplicationGetObj(val draftData: String?, val editable: Boolean?, val leadID: Int, val loanApplicationDraftDetailID: Int?, val storageType: String)
     data class ResponseStatesDropdown(val responseCode: String, val responseMsg: String, val responseObj: ArrayList<StatesMaster>, val timeStamp: Long)
@@ -50,12 +45,14 @@ object Response {
     data class ResponseOTP(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
     data class ResponseCallUpdate(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
     data class ResponseLoanLeadData(val responseCode: String, val responseMsg: String, val responseObj: AllLeadMaster?, val timeStamp: Long)
-    data class ResponseFinalSubmit(val responseCode: String,val responseMsg: String,val responseObj: FinalSubmitLoanResponseNew?,val timeStamp:Long)
-
-
+    data class ResponseFinalSubmit(val responseCode: String, val responseMsg: String, val responseObj: FinalSubmitLoanResponseNew?, val timeStamp: Long)
     data class ResponseKYC(val errorStack: String?, val responseCode: String, val responseMsg: String,
                            val responseObj: ObjectKYC?, val timeStamp: Long)
 
     data class ObjectKYC(val kycID: String?)
+    data class ResponseDocumentList(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: DocumentTypeResponse?, val timeStamp: Long?)
+    data class ResponseUploadDocument(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
+    data class ResponseUploadedDocumentList(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: UploadedDocumentResponse?, val timeStamp: Long?)
+
 
 }
