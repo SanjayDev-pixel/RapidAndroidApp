@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetliabilityNewBinding
 import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.pager.AssetLiabilityPagerAdapter
@@ -51,6 +52,7 @@ class AssetLiabilityFragmentNew : BaseFragment() {
 
         initViews()
         setOnClickListener()
+
 
         return view
     }

@@ -18,6 +18,7 @@ import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
+import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.view.utils.setSelectionFromList
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_employment_form.*
@@ -65,7 +66,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         mContext = context!!
-        System.out.println("Sanjay Sawan Rawat")
+
         ArchitectureApp.instance.component.inject(this)
     }
 
@@ -89,7 +90,12 @@ class EmploymentFormFragmentNew : BaseFragment() {
 
         //Show empty view if this applicant details not required...
         shouldShowEmptyView()
+        //Call Disable Functionality EmploymentFormFragment
+        LeadMetaData.getLeadData()?.let {
+        if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
+            DisableEmploymentForm(binding)
     }
+}
 
     private fun initViews() {
 //        binding.vwIncomeConsider.visibility = View.VISIBLE

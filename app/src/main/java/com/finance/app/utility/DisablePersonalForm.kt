@@ -54,8 +54,10 @@ class DisablePersonalForm(binding: LayoutCustomViewPersonalBinding,
         binding.basicInfoLayout.etAge.inputType = InputType.TYPE_NULL
         binding.basicInfoLayout.btnGetOTP.inputType = InputType.TYPE_NULL
         binding.basicInfoLayout.ivUploadDobProof.isClickable = false
+        binding.basicInfoLayout.cbIncomeConsidered.isClickable = false
         binding.btnAddKYC.isClickable = false
         //Disable Current Address
+        binding.personalAddressLayout.cbSameAsCurrent.isClickable = false
         binding.personalAddressLayout.etCurrentAddress.inputType = InputType.TYPE_NULL
         binding.personalAddressLayout.etCurrentLandmark.inputType = InputType.TYPE_NULL
         binding.personalAddressLayout.etCurrentRentAmount.inputType = InputType.TYPE_NULL

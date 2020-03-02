@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.*
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
+import com.finance.app.utility.DisableAssetLiabilityForm
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SelectDate
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
@@ -86,6 +88,14 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
         initViews()
         setOnClickListener()
+
+        LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+            binding.addasset.visibility = View.GONE
+            binding.layoutCreditCard.addcreditdilaog.visibility = View.GONE
+            binding.layoutObligations.addcreditdilaog.visibility = View.GONE
+        }
+
+
     }
 
 

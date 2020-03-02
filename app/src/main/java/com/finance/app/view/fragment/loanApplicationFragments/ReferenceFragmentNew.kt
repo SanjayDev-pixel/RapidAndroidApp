@@ -58,6 +58,10 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
 
         initViews()
         setOnClickListeners()
+        LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+            binding.imageAddReference.visibility = View.GONE
+        }
+
 
         return view
     }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.FragmentBankDetailFormBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.BankDetailBean
 import com.finance.app.persistence.model.BankDetailModel
@@ -55,6 +56,10 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
         binding = initBinding(inflater, container, R.layout.fragment_bank_detail_form)
         binding.lifecycleOwner = this
         initViews()
+        LeadMetaData.getLeadData()?.let {
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
+               binding.imageAddBank.visibility = View.GONE
+        }
         setOnClickListeners()
         return view
     }

@@ -2,14 +2,17 @@ package com.finance.app.view.adapters.recycler.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemAssetBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.BankDetailBean
+import com.finance.app.utility.LeadMetaData
 import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import javax.inject.Inject
@@ -111,6 +114,10 @@ class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<A
 
             }
 
+            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+                binding.btnDelete.visibility = View.GONE
+                binding.btnEdit.visibility = View.GONE
+            }
 
 
             addClickListener(position, asset)

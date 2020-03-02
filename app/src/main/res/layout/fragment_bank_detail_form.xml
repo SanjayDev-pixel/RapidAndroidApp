@@ -74,6 +74,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
+                    android:id="@+id/imageAddBank"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_add_grey_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"

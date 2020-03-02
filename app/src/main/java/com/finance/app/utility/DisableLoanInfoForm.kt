@@ -10,14 +10,14 @@ import kotlinx.android.synthetic.main.layout_channel_partner.view.*
 
 class DisableLoanInfoForm(binding: FragmentLoanInformationBinding,
                           loanProduct: CustomSpinnerView<LoanProductMaster>,
-                          loanPurpose: CustomSpinnerView<LoanPurpose>,
                           loanScheme: CustomSpinnerView<DropdownMaster>,
                           interestType: CustomSpinnerView<DropdownMaster>
                         ) {
 
     init {
         loanProduct.disableSelf()
-        loanPurpose.disableSelf()
+
+        //loanPurpose.disableSelf()
         loanScheme.disableSelf()
         interestType.disableSelf()
         //sourcingPartnerName.disableSelf()
@@ -28,7 +28,6 @@ class DisableLoanInfoForm(binding: FragmentLoanInformationBinding,
         binding.etEmi.inputType = InputType.TYPE_NULL
         binding.cbPropertySelected.isClickable = false
         binding.btnNext.isEnabled = false
-        binding.viewChannelPartner.layoutSourcingPartner.isEnabled = false
 
     }
 }

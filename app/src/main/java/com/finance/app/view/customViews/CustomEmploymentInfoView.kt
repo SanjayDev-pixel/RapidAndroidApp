@@ -314,10 +314,10 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context, 
 
     private fun checkIncomeAndSubmission() {
         if (selectedApplicant.incomeConsidered.not()) {
-            DisableEmploymentForm(binding, senpSpinnerList, salarySpinnerList, profile, subProfile)
+//            DisableEmploymentForm(binding, senpSpinnerList, salarySpinnerList, profile, subProfile)
             showToast(context, context.getString(R.string.error_incone_consideration))
         } else if (LeadMetaData.getLeadData()?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
-            DisableEmploymentForm(binding, senpSpinnerList, salarySpinnerList, profile, subProfile)
+//            DisableEmploymentForm(binding, senpSpinnerList, salarySpinnerList, profile, subProfile)
             showToast(context, context.getString(R.string.status_lead_submission))
         }
     }

@@ -3,12 +3,15 @@ package com.finance.app.view.adapters.recycler.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemReferenceBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.ReferenceModel
+import com.finance.app.utility.LeadMetaData
 
 class ReferenceAdapter(private val c: Context, private val referencesList: ArrayList<ReferenceModel>?) : RecyclerView.Adapter<ReferenceAdapter.ReferenceViewHolder>() {
     private lateinit var binding: ItemReferenceBinding
@@ -32,6 +35,11 @@ class ReferenceAdapter(private val c: Context, private val referencesList: Array
             binding.tvKnownSince.text = reference.knowSince
 
             addClickListener(position, reference)
+            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+                binding.ivDelete.visibility = View.GONE
+                binding.ivEdit.visibility = View.GONE
+            }
+
         }
 
         private fun addClickListener(position: Int, reference: ReferenceModel) {

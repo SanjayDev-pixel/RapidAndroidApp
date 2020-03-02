@@ -2,7 +2,7 @@ package com.finance.app.persistence.model
 import java.io.Serializable
 
 class AddressDetail : Serializable {
-
+    var sameAsCurrentAddress : Boolean = false
     var address1: String = ""
     var address2: String = ""
     var addressID: Int? = null

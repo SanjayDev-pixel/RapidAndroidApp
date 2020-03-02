@@ -10,9 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemObligationBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.ObligationDetail
+import com.finance.app.utility.LeadMetaData
 import kotlinx.android.synthetic.main.asset_creditcard_dialog.*
 import kotlinx.android.synthetic.main.obligation_item_dialog.*
 
@@ -112,6 +114,12 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
 
 
             addClickListener(position, obligation)
+            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+                binding.btnDelete.visibility = View.GONE
+                binding.btnEdit.visibility = View.GONE
+                binding.btnEditNew.visibility = View.GONE
+            }
+
         }
 
         private fun addClickListener(position: Int, obligation: ObligationDetail) {

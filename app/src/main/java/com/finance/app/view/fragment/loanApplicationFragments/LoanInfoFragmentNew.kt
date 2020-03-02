@@ -178,8 +178,11 @@ class LoanInfoFragmentNew : BaseFragment() {
 
     private fun checkSubmission() {
         if (leadDetail!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
-            DisableLoanInfoForm(binding,loanProduct,loanPurpose,loanScheme,interestType)
-
+            //Three Field is remaining need to change
+            //1. Sourcing Channel Partner
+            //2. Channel Partner Name
+            //3.Loan purpose
+            DisableLoanInfoForm(binding,loanProduct,loanScheme,interestType)
         }
     }
 

@@ -2,14 +2,17 @@ package com.finance.app.view.adapters.recycler.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemCreditCardBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.CardDetail
+import com.finance.app.utility.LeadMetaData
 import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import motobeans.architecture.util.DateUtil
 import java.sql.Date
@@ -94,6 +97,11 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
 
 
             addClickListener(position, card)
+            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+                binding.btnDelete.visibility = View.GONE
+                binding.btnEdit.visibility = View.GONE
+            }
+
         }
 
         private fun addClickListener(position: Int, card: CardDetail) {

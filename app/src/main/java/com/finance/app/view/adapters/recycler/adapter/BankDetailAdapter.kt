@@ -2,12 +2,15 @@ package com.finance.app.view.adapters.recycler.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemBankBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.BankDetailBean
+import com.finance.app.utility.LeadMetaData
 
 class BankDetailAdapter(private val context: Context, private val bankDetailList: ArrayList<BankDetailBean>) : RecyclerView.Adapter<BankDetailAdapter.BankDetailViewHolder>() {
     private lateinit var binding: ItemBankBinding
@@ -25,6 +28,16 @@ class BankDetailAdapter(private val context: Context, private val bankDetailList
             binding.tvAccountHolder.text = bank.accountHolderName.toString()
             binding.tvAccountType.text = bank.accountTypeName.toString()
             binding.tvSalaryCreditedNum.text = bank.numberOfCredit.toString()
+            LeadMetaData.getLeadData()?.let {
+                if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
+                {
+                    binding.btnDelete.visibility = View.GONE
+                    binding.btnEdit.visibility = View.GONE
+                    binding.ivDelete.visibility = View.GONE
+                    binding.ivEdit.visibility = View.GONE
+                }
+
+            }
             addClickListener(position, bank)
         }
 
