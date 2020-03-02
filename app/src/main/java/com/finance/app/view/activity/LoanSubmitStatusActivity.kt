@@ -50,7 +50,6 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
 
 
 
-
     private fun initViews(finalSubmitLoanResponse:FinalSubmitLoanResponseNew?) {
 
         binding.leadNumber.setText(LeadMetaData.getLeadId().toString())
