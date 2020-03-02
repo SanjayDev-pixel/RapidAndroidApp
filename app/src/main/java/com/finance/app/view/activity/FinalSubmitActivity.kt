@@ -31,7 +31,7 @@ class FinalSubmitActivity : AppCompatActivity() {
     private val presenter = Presenter()
     private var progressBar: ProgressBar? = null// temp
     private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
-
+ private var leadData :AllLeadMaster?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,19 +42,29 @@ class FinalSubmitActivity : AppCompatActivity() {
 
 
         initView()
-        button_submitcall.setOnClickListener { view ->
-          //  progressBar!!.visibility = View.VISIBLE
-           // presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
-            val lead:AllLeadMaster?=LeadMetaData.getLeadData()
+        setOnclickListener()
 
-            checkAndStartLoanApplicationActivity(lead)
+
+    }
+
+
+    private fun initView() {
+
+         leadData = LeadMetaData.getLeadData()
+        leadData?.let {
 
         }
 
     }
+    private fun setOnclickListener() {
+        button_submitcall.setOnClickListener { view ->
+            //  progressBar!!.visibility = View.VISIBLE
+            // presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
 
-    private fun initView() {
+            val lead:AllLeadMaster?=LeadMetaData.getLeadData()
+            checkAndStartLoanApplicationActivity(lead)
 
+        }
     }
 
 
@@ -93,12 +103,14 @@ class FinalSubmitActivity : AppCompatActivity() {
                      intent.putExtra("SubmitResponse", submitLoanResponse )
                      startActivity(intent)
 
-                 }else{
+                 }else if(submitLoanResponse?.responseObj?.ruleEngineResponse?.hfcPolicyResponse!!.deviationFlag==false && submitLoanResponse?.responseObj?.ruleEngineResponse?.hfcPolicyResponse!!.rejectionFlag==false){
                      val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
                      intent.putExtra("SubmitResponse", submitLoanResponse  )
                      startActivity(intent)
 
-                 }
+                 }else{
+                   showToast(value.responseMsg)
+               }
 
                 finish()
 

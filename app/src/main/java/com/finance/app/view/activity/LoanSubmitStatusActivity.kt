@@ -39,6 +39,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
 
     override fun init() {
         hideSecondaryToolbar()
+
         bundle = intent!!.extras
         if(bundle!=null) {
             finalSubmitLoanResponse = bundle?.get("SubmitResponse") as FinalSubmitLoanResponseNew
