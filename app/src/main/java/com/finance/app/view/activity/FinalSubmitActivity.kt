@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.finance.app.R
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.ApplicantionSubmitModel
 import com.finance.app.persistence.model.FinalSubmitLoanResponseNew
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
@@ -61,11 +62,14 @@ class FinalSubmitActivity : AppCompatActivity() {
             //  progressBar!!.visibility = View.VISIBLE
             // presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
 
-            val lead:AllLeadMaster?=LeadMetaData.getLeadData()
-            checkAndStartLoanApplicationActivity(lead)
+            val lead: AllLeadMaster? = LeadMetaData.getLeadData()
+                checkAndStartLoanApplicationActivity(lead)
+
 
         }
     }
+
+
 
 
     private fun checkAndStartLoanApplicationActivity(lead: AllLeadMaster?) {
@@ -86,31 +90,24 @@ class FinalSubmitActivity : AppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseFinalSubmit) {
 
+
+
             if (value.responseCode == Constants.SUCCESS) {
                 Toast.makeText(context,"Submitted Successfully.",Toast.LENGTH_SHORT).show()
 
                 progressBar!!.visibility = View.GONE
 
-                val submitLoanResponse: FinalSubmitLoanResponseNew?=value.responseObj
-               if(submitLoanResponse?.responseObj?.ruleEngineResponse?.hfcPolicyResponse!!.deviationFlag==true){
+                val submitLoanResponse: ApplicantionSubmitModel?=value.responseObj
 
-                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                      intent.putExtra("SubmitResponse", submitLoanResponse  )
-                     startActivity(intent)
+                if(value.responseObj !=null) {
+                    val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
+                    intent.putExtra("SubmitResponse", submitLoanResponse)
+                    startActivity(intent)
+                }else{
 
-                 }else if(submitLoanResponse?.responseObj?.ruleEngineResponse?.hfcPolicyResponse!!.rejectionFlag==true){
-                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                     intent.putExtra("SubmitResponse", submitLoanResponse )
-                     startActivity(intent)
+                    showToast(value.responseMsg)
 
-                 }else if(submitLoanResponse?.responseObj?.ruleEngineResponse?.hfcPolicyResponse!!.deviationFlag==false && submitLoanResponse?.responseObj?.ruleEngineResponse?.hfcPolicyResponse!!.rejectionFlag==false){
-                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
-                     intent.putExtra("SubmitResponse", submitLoanResponse  )
-                     startActivity(intent)
-
-                 }else{
-                   showToast(value.responseMsg)
-               }
+                }
 
                 finish()
 
@@ -123,6 +120,7 @@ class FinalSubmitActivity : AppCompatActivity() {
         }
 
         override fun getApiFailure(msg:String) {
+
             if(msg.exIsNotEmptyOrNullOrBlank()){
             super.getApiFailure(msg)
                 progressBar!!.visibility = View.GONE
