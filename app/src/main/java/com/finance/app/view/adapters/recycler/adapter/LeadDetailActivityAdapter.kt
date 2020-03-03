@@ -34,6 +34,7 @@ class LeadDetailActivityAdapter(private val mContext: Context) : RecyclerView.Ad
                                          val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(name: Array<String>, position: Int, timeStamp: Array<Long>) {
             convertToHumanFormat(timeStamp)
+
         }
 
         private fun convertToHumanFormat(timeStamp: Array<Long>) {
@@ -42,6 +43,9 @@ class LeadDetailActivityAdapter(private val mContext: Context) : RecyclerView.Ad
             cal.timeInMillis = timeStamp[position] * 1000L
             val date = DateFormat.format("dd MMM", cal).toString()
             binding.tvActivityDate.text = date
+
+
+
         }
     }
 }

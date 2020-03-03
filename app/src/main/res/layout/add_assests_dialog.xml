@@ -7,22 +7,32 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-    <ImageButton
-        android:id="@+id/cancel_bttn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_close_black_48dp"
-        android:layout_gravity="right"
-        android:background="@color/white"
-        />
-    <TextView
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/asset_detail"
-        android:gravity="center"
-        android:textSize="@dimen/margin_20"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/cancel_bttn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_close_black_48dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/asset_detail"
+            android:textColor="@color/black"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
     <fr.ganfra.materialspinner.MaterialSpinner
         android:id="@+id/spinnerAssetType"

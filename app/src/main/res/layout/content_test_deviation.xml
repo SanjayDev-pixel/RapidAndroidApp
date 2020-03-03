@@ -109,11 +109,7 @@
                         android:textColor="@color/md_orange_300"
                         android:textSize="@dimen/text_size"
                         android:textStyle="bold"
-                        android:gravity="center"
-                        />
-
-
-
+                        android:gravity="center"/>
                 </LinearLayout>
 
                 <TextView

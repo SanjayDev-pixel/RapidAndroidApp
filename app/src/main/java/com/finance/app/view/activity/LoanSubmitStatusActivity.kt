@@ -1,73 +1,94 @@
 package com.finance.app.view.activity
 
+import android.content.Context
+import android.os.Bundle
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.finance.app.R
+import com.finance.app.databinding.ActivityLoanSubmitStatusBinding
+import com.finance.app.persistence.model.*
+import com.finance.app.utility.LeadMetaData
+import com.finance.app.view.adapters.recycler.adapter.LoanRejectionAdapter
+import com.finance.app.view.adapters.recycler.adapter.LoanSubmitStatusAdapter
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_loan_submit_status.view.*
+import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 
-class LoanSubmitStatusActivity {}
-/*class LoanSubmitStatusActivity : BaseAppCompatActivity() {
+
+class LoanSubmitStatusActivity : BaseAppCompatActivity() {
 
     private val binding: ActivityLoanSubmitStatusBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_loan_submit_status)
     private var bundle: Bundle? = null
-    public var finalSubmitLoanResponse:FinalSubmitLoanResponse?=null
-    private var loanSubmitStatusAdapter: LoanSubmitStatusAdapter?=null
-    private var loanRejectionAdapter:LoanRejectionAdapter?=null
-
+    public var finalSubmitLoanResponse: ApplicantionSubmitModel? = null
+    private var loanSubmitStatusAdapter: LoanSubmitStatusAdapter? = null
+    private var loanRejectionAdapter: LoanRejectionAdapter? = null
+    private var hfcPolicyResponse: HfcPolicyResponse? = null
 
 
     companion object {
         fun start(context: Context, msg: String?) {
+
         }
     }
 
 
     override fun init() {
-
-        bundle = intent?.extras
-      //  finalSubmitLoanResponse = bundle?.get("SubmitResponse") as FinalSubmitLoanResponse
-
-       // initViews(finalSubmitLoanResponse)
-    }
-
-
-
-
-
-    private fun initViews(finalSubmitLoanResponse:FinalSubmitLoanResponse?) {
-
-        binding.leadNumber.setText(LeadMetaData.getLeadId().toString())
-        binding.eligibleAmount.setText(("Rs. ").plus(finalSubmitLoanResponse?.hfcPolicyData!!.finalLoanOfferAmount))
-
-
-
-        if (finalSubmitLoanResponse?.hfcPolicyData!!.rejectionFlag==true){
-            binding.logoLayout.preapproved_text.setText(getString(R.string.rejection))
-            setRejectionAdapter(finalSubmitLoanResponse?.hfcPolicyData!!.rejectionList)
-
-        }else if(finalSubmitLoanResponse?.hfcPolicyData!!.deviationFlag==true){
-            binding.logoLayout.preapproved_text.setText(getText(R.string.deviation))
-            setStatusAdapter(finalSubmitLoanResponse?.hfcPolicyData!!.deviationList)
-        }else{
-
-            // already approved
-            setAlreadyApproved(finalSubmitLoanResponse)
-            binding.logoLayout.preapproved_text.setText(getString(R.string.preapproved))
-            binding.llstatus.tenure_text.setText(finalSubmitLoanResponse?.hfcPolicyData.finalTenure.toString().plus(" months"))
-            binding.llstatus.emi_text.setText(("Rs. ").plus(finalSubmitLoanResponse?.hfcPolicyData.proposedEMI.toString()))
-            //binding.llstatus.rate.setText(finalSubmitLoanResponse?.hfcPolicyData.)
-
-
-
-
+        hideSecondaryToolbar()
+        //val obj: ApplicantionSubmitModel = intent.getSerializableExtra("SubmitResponse") as ApplicantionSubmitModel
+        bundle = intent!!.extras
+        if (bundle != null) {
+            finalSubmitLoanResponse = bundle?.get("SubmitResponse") as ApplicantionSubmitModel
+            initViews(finalSubmitLoanResponse)
         }
 
 
     }
 
-    private fun setAlreadyApproved(finalSubmitLoanResponse: FinalSubmitLoanResponse?) {
+
+    private fun initViews(finalSubmitLoanResponse: ApplicantionSubmitModel?) {
+
+        binding.leadNumber.setText(LeadMetaData.getLeadId().toString())
+        binding.eligibleAmount.setText(("Rs. ").plus(finalSubmitLoanResponse?.eligibleLoanAmount))
+        binding.logoLayout.preapproved_text.setText(getString(R.string.preapproved))
+        val json = finalSubmitLoanResponse?.ruleEngineResponse
+        val gson = Gson()
+
+
+        val ruleEngineResponse = gson.fromJson(json, RuleEngineResponse::class.java)
+
+        binding.llstatus.tenure_text.setText(ruleEngineResponse.hfcPolicyResponse?.finalTenure.toString().plus(" months"))
+        binding.llstatus.emi_text.setText(("Rs. ").plus(ruleEngineResponse.hfcPolicyResponse?.proposedEMI.toString()))
+        //binding.llstatus.rate.setText(ruleEngineResponse.)
+
+
+
+       if (ruleEngineResponse.hfcPolicyResponse!!.rejectionFlag == true) {
+            binding.logoLayoutReject.visibility = View.VISIBLE
+            setRejectionAdapter(ruleEngineResponse.hfcPolicyResponse!!.rejectionList)
+
+        } else if (ruleEngineResponse.hfcPolicyResponse!!.deviationFlag == true) {
+            binding.logoLayoutDeviation.visibility =View.VISIBLE
+            setStatusAdapter(ruleEngineResponse.hfcPolicyResponse!!.deviationList)
+        } else {
+            binding.logoLayout.visibility= View.VISIBLE
+
+            // already approved
+            setAlreadyApproved(finalSubmitLoanResponse)
+        }
+
+        setOnClickListners()
+    }
+
+    private fun setAlreadyApproved(finalSubmitLoanResponse: ApplicantionSubmitModel?) {
+
 
 
     }
 
-    private fun setStatusAdapter(deviationList: ArrayList<DeviationList>){
+    private fun setStatusAdapter(deviationList: ArrayList<DeviationList>) {
 
         binding.recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         loanSubmitStatusAdapter = LoanSubmitStatusAdapter(this, deviationList)
@@ -80,7 +101,7 @@ class LoanSubmitStatusActivity {}
 
         binding.recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         loanRejectionAdapter = LoanRejectionAdapter(this, rejectionList)
-        binding.recyclerview.adapter = loanSubmitStatusAdapter
+        binding.recyclerview.adapter = loanRejectionAdapter
 
     }
 
@@ -92,5 +113,10 @@ class LoanSubmitStatusActivity {}
 
     private fun setOnClickListners() {
 
+        binding.bttnDashboard.setOnClickListener(){
+            DashboardActivity.start(this)
+            this.finish()
+        }
+
     }
-}*/
+}

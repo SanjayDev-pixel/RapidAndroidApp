@@ -41,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="@string/lead_number"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tvLeadNumber"
@@ -49,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textColor="@color/white"
-                tools:text="00003" />
+                tools:text="00003"
+                android:textSize="16sp"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -20,9 +20,9 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
         }
 
         binding.tvLeadName.text = lead.applicantFirstName
-        binding.tvLeadID.text = "Lead Id : ${lead.leadID.toString()}"
-        binding.tvLoanType.text = "Loan Type : ${lead.loanProductName}"
-        binding.tvCreatedDate.text = "Created Date : ${ConvertDate().convertDate(lead.createdOn!!)}"
+        binding.tvLeadID.text = ": ${lead.leadID.toString()}"
+        binding.tvLoanType.text = ": ${lead.loanProductName}"
+        binding.tvCreatedDate.text = ": ${ConvertDate().convertDate(lead.createdOn!!)}"
         binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
 
         when (lead.status) {

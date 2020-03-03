@@ -2,17 +2,17 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadCreateBinding
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.LoanInfoModel
-import com.finance.app.persistence.model.LoanProductMaster
-import com.finance.app.persistence.model.UserBranches
+import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
+import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.utility.SetCreateLeadMandatoryField
+import com.finance.app.view.customViews.ChannelPartnerViewCreateLead
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.viewModel.AppDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
@@ -66,11 +66,13 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             }
         }
     }
+
     private fun setupCustomView() {
         CreateLeadActivity.let { it->
                 binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
             }
     }
+
     private fun getLoanProductFromDB() {
         appDataViewModel.getLoanProductMaster().observe(this, Observer { loanProductValue ->
             loanProductValue?.let {
@@ -126,6 +128,9 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val loanAmount =binding.etLoanAmount.text.toString().toFloat()
+           val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
+            val sourcingChannelPartID :Int?=sPartner?.typeDetailID
+
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
                     applicantEmail = binding.etEmail.text.toString(),

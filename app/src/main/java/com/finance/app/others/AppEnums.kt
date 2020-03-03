@@ -66,4 +66,21 @@ class AppEnums {
         NEXT, PREVIOUS
     }
 
+    enum class PreviewType {
+        ASSETS, BANK, CARD, OBLIGATION, REFERNCE, DOCUMENT
+    }
+
+    enum class DropdownMasterType {
+        Gender, Caste, Branch, ChannelPartnerName, ChannelType, DOBProof, DetailQualification,
+        DocumentProof, EntityType, IdentificationType, LoanInformationInterestType, LoanOwnership,
+        LoanScheme, LoanType, MaritalStatus, Nationality, Obligate, OfficeType, Ownership, Qualification,
+        ReferedBy, Relationship, Religion, RepaymentBank, SourcingChannelPartner, TypeOfOrganisation,
+        VerifiedStatus, OccupationType, ProfileSegment, SubProfileSegment, EmploymentType, BusinessSetupType,
+        Industry, Sector, Constitution, AccountType, AddressProof, ResidenceType, LivingStandardIndicators,
+        PropertyUnitType, AlreadyOwnedProperty, PropertyOwnership, NatureOfPropertyTransaction,
+        PropertyOccupiedBy, ReferenceRelationship, TenantNocAvailable, SalaryCredit, BounceEmiPaidInSameMonth,
+        AssetSubType, CreditCardObligation, AssetOwnership, ReviewerResponseType, CustomerFollowUpStatus,
+        LeadType, LeadNotificationType, LeadRejectionReason, AssetDetail
+    }
+
 }

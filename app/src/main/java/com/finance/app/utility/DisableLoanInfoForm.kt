@@ -27,7 +27,7 @@ class DisableLoanInfoForm(binding: FragmentLoanInformationBinding,
         binding.etTenure.inputType = InputType.TYPE_NULL
         binding.etEmi.inputType = InputType.TYPE_NULL
         binding.cbPropertySelected.isClickable = false
-        binding.btnNext.isEnabled = false
+        //binding.btnNext.isEnabled = false
 
     }
 }

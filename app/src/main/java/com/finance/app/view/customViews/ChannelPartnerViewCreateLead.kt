@@ -94,8 +94,9 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
 
     private fun getPartnerNameFromApi(channelId: String) {
         mChannelTypeId = channelId
-        mBranchId = "1" //LeadMetaData.getLeadData()?.branchID
+        mBranchId = "1"//LeadMetaData.getLeadData()?.branchID
         empId = sharedPreferences.getEmpId()
+
 
         if ((mChannelTypeId?.toInt() ?: 0) == Constants.DIRECT) {
             presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName(LoanInfoModel()))

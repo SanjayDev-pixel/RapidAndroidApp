@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -19,6 +20,7 @@ import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
 import com.finance.app.view.activity.KYCActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -96,7 +98,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private fun setClickListeners(leadId: Int?, applicant: PersonalApplicantsModel) {
         binding.btnAddKYC.setOnClickListener { KYCActivity.start(context, applicant.leadApplicantNumber) }
 
-        binding.basicInfoLayout.btnGetOTP.setOnClickListener { showVerifyOTPDialog(leadId, applicant) }
+        binding.basicInfoLayout.btnGetOTP.setOnClickListener { if(binding.basicInfoLayout.etMobile.text.toString()!=""){showVerifyOTPDialog(leadId, applicant)}else{
+          Toast.makeText(context,"Please enter mobile number",Toast.LENGTH_SHORT).show()}
+        }
         binding.personalAddressLayout.cbSameAsCurrent.setOnClickListener {
             if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
                 binding.personalAddressLayout.llPermanentAddress.visibility = View.GONE
@@ -455,6 +459,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
                 .setCancelable(false)
 
         verifyOTPDialog = mBuilder.show()
+        verifyOTPDialog.tvMobile_no.setText("+91 ".plus(binding.basicInfoLayout.etMobile.text.toString()))
         val pinEntry = verifyOTPDialogView.etOTP
         pinEntry!!.setOnPinEnteredListener { pin ->
             if (pin.toString().length == 4) {
@@ -474,7 +479,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun handleResendOtpEvent(verifyOTPDialogView: View, applicant: PersonalApplicantsModel) {
-        verifyOTPDialogView.tvResendOTP?.exGone()
+        verifyOTPDialogView.lllayout_resend?.exGone()
         verifyOTPDialogView.tvResendOTPTimeLeftInfo?.exVisible()
         timerOtpResend.start()
 
@@ -485,7 +490,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun handleOtbResendTimerEndEvent() {
-        verifyOTPDialogView.tvResendOTP?.exVisible()
+        verifyOTPDialogView.lllayout_resend?.exVisible()
         verifyOTPDialogView.tvResendOTPTimeLeftInfo?.exGone()
         timerOtpResend.cancel()
     }

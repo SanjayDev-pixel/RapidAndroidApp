@@ -45,7 +45,7 @@ object Response {
     data class ResponseOTP(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
     data class ResponseCallUpdate(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
     data class ResponseLoanLeadData(val responseCode: String, val responseMsg: String, val responseObj: AllLeadMaster?, val timeStamp: Long)
-    data class ResponseFinalSubmit(val responseCode: String, val responseMsg: String, val responseObj: FinalSubmitLoanResponseNew?, val timeStamp: Long)
+    data class ResponseFinalSubmit(val responseCode: String, val responseMsg: String, val responseObj: ApplicantionSubmitModel?, val timeStamp: Long)
     data class ResponseKYC(val errorStack: String?, val responseCode: String, val responseMsg: String,
                            val responseObj: ObjectKYC?, val timeStamp: Long)
 

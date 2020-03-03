@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/_220sdp"
         android:layout_margin="@dimen/margin_10"
         android:layout_height="wrap_content"
         app:cardElevation="@dimen/margin5dp">
@@ -30,10 +30,11 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black_242424"
                         android:text="Loan Ownership : "
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/black_242424"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
                         android:layout_weight="1"
                         android:paddingLeft="@dimen/margin10dp"/>
 
@@ -57,10 +58,11 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black_242424"
                         android:text="Obligate : "
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/black_242424"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
                         android:layout_weight="1"
                         android:paddingLeft="@dimen/margin10dp"/>
 
@@ -85,10 +87,11 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black_242424"
                         android:text="Loan Type : "
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/black_242424"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
                         android:layout_weight="1"
                         android:paddingLeft="@dimen/margin10dp"/>
 
@@ -111,10 +114,11 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black_242424"
                         android:text="Financer : "
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/black_242424"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
                         android:layout_weight="1"
                         android:paddingLeft="@dimen/margin10dp"/>
 
@@ -137,10 +141,11 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black_242424"
                         android:text="Loan Amount : "
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/black_242424"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
                         android:layout_weight="1"
                         android:paddingLeft="@dimen/margin10dp"/>
 

@@ -77,7 +77,7 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
             binding.tvCardLimit.text = card.cardLimit.toString()
             binding.tvCurrentUtilization.text = card.currentUtilization.toString()
             binding.tvLastPaymentDate.text = dataUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2,DateUtil.dateFormattingType.TYPE_NORMAL_1,card.lastPaymentDate.toString())
-            binding.tvBankName.text
+
             for (i in 0 until allMasterDropDown1?.BankName!!.size) {
 
                 if (card.bankNameTypeDetailID == allMasterDropDown1!!.BankName?.get(i)?.typeDetailID) {
@@ -88,13 +88,10 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
             for (i in 0 until allMasterDropDown1?.Obligate!!.size) {
 
                 if (card.obligateTypeDetail == allMasterDropDown1!!.Obligate?.get(i)?.typeDetailID) {
-                    binding.tvObligate.setText(allMasterDropDown1!!.Obligate?.get(i)?.typeDetailCode)
+                    binding.tvObligate.setText(allMasterDropDown1!!.CreditCardObligation?.get(i)?.typeDetailCode)
 
                 }
             }
-
-
-
 
             addClickListener(position, card)
             LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
