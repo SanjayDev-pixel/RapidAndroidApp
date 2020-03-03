@@ -31,7 +31,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private var bundle: Bundle? = null
     private var lead: AllLeadMaster? = null
-    private var isLeadSycned = false
+    private var isSelectedLeadSynced = false
 
     private var leadContact: Long = 0
 
@@ -73,7 +73,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         id?.let {
             dataBase.provideDataBaseSource().allLeadsDao().getLead(it).observeForever { lead ->
                 lead?.let { leadDetails ->
-                    isLeadSycned = true
+                    isSelectedLeadSynced = true
                     leadDetails.let { LeadMetaData.setLeadData(leadDetails) }
                 }
             }
@@ -141,7 +141,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         val isLeadInfoAlreadySync = leadDataViewModel.isAllApiCallCompleted.value ?: false
         val isLeadOfflineDataSync = lead.isDetailAlreadySync
 
-        when (isLeadSycned && (isLeadInfoAlreadySync || isLeadOfflineDataSync)) {
+        when (isSelectedLeadSynced && (isLeadInfoAlreadySync || isLeadOfflineDataSync)) {
             true -> checkAndGoToNextScreen(lead)
             false -> showToast("We are trying to sync...")
         }

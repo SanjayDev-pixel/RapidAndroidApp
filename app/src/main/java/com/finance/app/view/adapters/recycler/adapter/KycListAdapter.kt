@@ -56,7 +56,7 @@ class KycListAdapter(private val context: Context, private val kycList: ArrayLis
     }
 
     fun updateItem(position: Int, kycDetail: KYCDetail) {
-        if (position >= 0 && position <= kycList.size) {
+        if (position >= 0 && position < kycList.size) {
             kycList[position] = kycDetail
             notifyDataSetChanged()
             listSize?.postValue(itemCount)

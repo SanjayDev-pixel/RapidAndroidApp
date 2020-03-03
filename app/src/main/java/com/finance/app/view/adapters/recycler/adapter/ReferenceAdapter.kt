@@ -62,7 +62,7 @@ class ReferenceAdapter(private val c: Context, private val referencesList: Array
 
     fun updateItem(position: Int, referenceDetail: ReferenceModel) {
         referencesList?.let {
-            if (position >= 0 && position <= it.size) {
+            if (position >= 0 && position < it.size) {
                 it[position] = referenceDetail
                 notifyDataSetChanged()
             }

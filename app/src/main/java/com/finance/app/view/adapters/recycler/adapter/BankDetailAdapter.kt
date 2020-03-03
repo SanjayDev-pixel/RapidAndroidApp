@@ -63,7 +63,7 @@ class BankDetailAdapter(private val context: Context, private val bankDetailList
     }
 
     fun deleteItem(position: Int) {
-        if (position >= 0 && position <= bankDetailList.size) {
+        if (position >= 0 && position < bankDetailList.size) {
             bankDetailList.removeAt(position)
             notifyDataSetChanged()
         }
