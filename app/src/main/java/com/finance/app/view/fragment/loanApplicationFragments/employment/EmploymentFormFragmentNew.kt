@@ -18,7 +18,6 @@ import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.*
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
-import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.view.utils.setSelectionFromList
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_employment_form.*
@@ -92,10 +91,10 @@ class EmploymentFormFragmentNew : BaseFragment() {
         shouldShowEmptyView()
         //Call Disable Functionality EmploymentFormFragment
         LeadMetaData.getLeadData()?.let {
-        if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
-            DisableEmploymentForm(binding)
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
+                DisableEmploymentForm(binding)
+        }
     }
-}
 
     private fun initViews() {
 //        binding.vwIncomeConsider.visibility = View.VISIBLE
@@ -478,7 +477,8 @@ class EmploymentFormFragmentNew : BaseFragment() {
     private fun getAddressDetails(binding: LayoutEmploymentAddressBinding): AddressDetail {
         val address = AddressDetail()
         address.zip = binding.customZipAddressView.pinCode
-        address.addressTypeDetail = Constants.CURRENT_ADDRESS
+        address.addressTypeDetailID = 120
+        address.addressTypeDetail = "EmploymentAddress"
         address.stateID = binding.customZipAddressView.getStateId()
         address.districtID = binding.customZipAddressView.getDistrictId()
         address.cityID = binding.customZipAddressView.getCityId()
