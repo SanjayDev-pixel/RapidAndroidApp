@@ -21,26 +21,14 @@
         android:allowBackup="false"
         android:fullBackupOnly="false"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/app_logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="lollipop">
-        <activity
-            android:name=".view.activity.TestApproved"
-            android:label="@string/title_activity_test_approved"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".view.activity.TestDeviationActivity"
-            android:label="@string/title_activity_test_deviation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".view.activity.TestApproveActivity"
-            android:label="@string/title_activity_test_approve"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activity.LoanSubmitStatusActivity" />
+        <activity android:name=".view.activity.DocumentUploadingActivity"></activity>
         <activity android:name=".view.activity.KYCActivity" />
         <activity
             android:name=".view.activity.FinalSubmitActivity"

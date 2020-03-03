@@ -3,6 +3,7 @@ package com.finance.app.utility
 import com.finance.app.persistence.model.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import java.util.*
 import javax.inject.Inject
 
 class LeadAndLoanDetail {
@@ -15,7 +16,8 @@ class LeadAndLoanDetail {
     }
 
     fun getLeadApplicantNum(leadNum: String, applicantNum: Int): String {
-        return "${leadNum}00${applicantNum + 1}"
+        return "${leadNum}_${Date().time}"
+//        return "${leadNum}00${applicantNum + 1}"
     }
 
     fun getApplicant(leadNum: String?): PersonalApplicantsModel {

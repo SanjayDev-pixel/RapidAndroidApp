@@ -31,6 +31,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private var bundle: Bundle? = null
     private var lead: AllLeadMaster? = null
+    private var isSelectedLeadSynced = false
 
     private var leadContact: Long = 0
 
@@ -50,8 +51,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         hideToolbar()
         hideSecondaryToolbar()
         getLead()
-
-
     }
 
     private fun getLead() {
@@ -62,18 +61,26 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             leadBundleData?.let {
                 lead = leadBundleData as AllLeadMaster
                 lead?.let {
-                    useLeadData(lead!!)
-                    saveLeadData(lead!!.leadID)
-                    leadDataViewModel.getLeadData(lead!!)
+                    useLeadData(it)
+                    syncLeadMetaData(it.leadID)
+                    leadDataViewModel.getLeadData(it)
                 }
             }
         }
     }
 
-    private fun saveLeadData(id: Int?) {
+    private fun syncLeadMetaData(id: Int?) {
         id?.let {
-            LeadMetaData().getAndPopulateLeadData(lead!!.leadID!!)
+            dataBase.provideDataBaseSource().allLeadsDao().getLead(it).observeForever { lead ->
+                lead?.let { leadDetails ->
+                    isSelectedLeadSynced = true
+                    leadDetails.let { LeadMetaData.setLeadData(leadDetails) }
+                }
+            }
         }
+//        id?.let {
+//            LeadMetaData().getAndPopulateLeadData(id)
+//        }
     }
 
     private fun useLeadData(lead: AllLeadMaster) {
@@ -134,9 +141,9 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         val isLeadInfoAlreadySync = leadDataViewModel.isAllApiCallCompleted.value ?: false
         val isLeadOfflineDataSync = lead.isDetailAlreadySync
 
-        when (isLeadInfoAlreadySync || isLeadOfflineDataSync) {
+        when (isSelectedLeadSynced && (isLeadInfoAlreadySync || isLeadOfflineDataSync)) {
             true -> checkAndGoToNextScreen(lead)
-            false -> showToast("Lead info detail is missing, We are trying to sync")
+            false -> showToast("We are trying to sync...")
         }
     }
 

@@ -21,19 +21,11 @@ interface FormValidation {
                                 spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>,
                                 customChannelPartnerView: CustomChannelPartnerView): Boolean
 
-    fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding, salarySpinnerList:
-    ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
-
-    fun validateSenpEmployment(senpBinding: LayoutSenpBinding, senpSpinnerList:
-    ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
-
+    fun validateSalaryEmployment(salaryBinding: LayoutSalaryBinding, salarySpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
+    fun validateSenpEmployment(senpBinding: LayoutSenpBinding, senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
     fun validateEmploymentSalary(salaryBinding: LayoutSalaryBinding): Boolean
-
     fun validateEmploymentBusiness(businessBinding: LayoutSenpBinding): Boolean
-
-    fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct:
-    CustomSpinnerView<LoanProductMaster>, branches: CustomSpinnerView<UserBranches>): Boolean
-
+    fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerView<LoanProductMaster>, branches: CustomSpinnerView<UserBranches>): Boolean
     fun validateBankDetail(binding: DialogBankDetailFormBinding): Boolean
     fun validateReference(binding: DialogReferenceDetailsBinding): Boolean
     fun validateProperty(binding: FragmentPropertyInfoBinding): Boolean
@@ -48,5 +40,6 @@ interface FormValidation {
     fun validateAssetsDialog(binding: AddAssestsDialogBinding): Boolean
     fun validateAssetLiabilityInfo(binding: LayoutCustomviewAssetliabilityBinding): Boolean
     fun validateKycDetail(binding: LayoutKycFormBinding): Boolean
+    fun validateKycDocumentDetail(binding: ActivityDocumentUploadingBinding):Boolean
 
 }

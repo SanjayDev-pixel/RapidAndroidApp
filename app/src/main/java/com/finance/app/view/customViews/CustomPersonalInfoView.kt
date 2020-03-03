@@ -68,6 +68,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private lateinit var currentResidenceType: CustomSpinnerView<DropdownMaster>
     private var spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
 
+    //This id is generated at client side so make sure this id must be created before any operation...
+    private lateinit var selectedApplicantNumber: String
+
     fun attachView(activity: FragmentActivity, index: Int, applicant: PersonalApplicantsModel, leadId: Int?) {
         this.activity = activity
         this.index = index
@@ -88,12 +91,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         binding.basicInfoLayout.etDOB.setOnClickListener {
             SelectDOB(context, binding.basicInfoLayout.etDOB, binding.basicInfoLayout.etAge)
         }
-//        binding.etIssueDate.setOnClickListener {
-//            SelectDate(binding.etIssueDate, context)
-//        }
-//        binding.etExpiryDate.setOnClickListener {
-//            SelectDate(binding.etExpiryDate, context)
-//        }
     }
 
     private fun setClickListeners(leadId: Int?, applicant: PersonalApplicantsModel) {
@@ -118,8 +115,16 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
 
     private fun proceedFurther(applicant: PersonalApplicantsModel) {
         ArchitectureApp.instance.component.inject(this)
+        generateLeadApplicantId(applicant)
         getDropDownsFromDB(applicant)
 
+    }
+
+    private fun generateLeadApplicantId(applicant: PersonalApplicantsModel) {
+        if (applicant.leadApplicantNumber.isNullOrEmpty()) //if applicant id is not generated...
+            applicant.leadApplicantNumber = LeadAndLoanDetail().getLeadApplicantNum(LeadMetaData.getLeadId().toString(), index)
+        //To use same lead applicant number for later...
+        selectedApplicantNumber = applicant.leadApplicantNumber!! //will always have a value
     }
 
     private fun getDropDownsFromDB(applicant: PersonalApplicantsModel) {
@@ -147,9 +152,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     private fun setMasterDropDownValue(dropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
         setCustomSpinner(dropDown, applicant)
         fillValueInMasterDropDown(applicant)
-        applicant.applicantKycList?.let { binding.kycApplicant.bindApplicantKycDetails(activity, it) }
+        applicant.applicantKycList?.let { binding.kycApplicant.bindApplicantKycDetails(activity, selectedApplicantNumber, it) }
     }
-
 
     private fun setUpRelationshipValue(allMasterDropDown: AllMasterDropDown, applicant: PersonalApplicantsModel) {
         if (index == 0) {
@@ -266,7 +270,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             //First Use the default name as pre-filled at lead creation screen
             if (index == 0) { //also check if this is a main applicant...
                 binding.basicInfoLayout.etFirstName.setText(leadDetails.applicantFirstName)
-                //System.out.println("Basic Details"+leadDetails.applicantFirstName+" "+leadDetails.applicantMiddleName+"last name>>"+leadDetails.applicantLastName)
                 binding.basicInfoLayout.etMiddleName.setText(leadDetails.applicantMiddleName)
                 binding.basicInfoLayout.etLastName.setText(leadDetails.applicantLastName)
             }
@@ -352,8 +355,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
 
 
         //Need to generate some applicant id... based on lead id
-        // currentApplicant.applicantID = "${LeadMetaData.getLeadId()}$index".toInt()
-        currentApplicant.leadApplicantNumber = LeadAndLoanDetail().getLeadApplicantNum(LeadMetaData.getLeadId().toString(), index)
+//        currentApplicant.leadApplicantNumber = LeadAndLoanDetail().getLeadApplicantNum(LeadMetaData.getLeadId().toString(), index)
+        currentApplicant.leadApplicantNumber = selectedApplicantNumber //Lead Applicant number already created above....
         currentApplicant.applicantKycList = binding.kycApplicant.getKycDetailsList()
         currentApplicant.casteTypeDetailID = casteDD?.typeDetailID
         currentApplicant.detailQualificationTypeDetailID = dQualificationDD?.typeDetailID
@@ -399,7 +402,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         val cAddressDetail = AddressDetail()
         val cResidenceType = currentResidenceType.getSelectedValue()
         val cAddressProof = currentAddressProof.getSelectedValue()
-
 
         cAddressDetail.rentAmount = CurrencyConversion().convertToNormalValue(binding.personalAddressLayout.etCurrentRentAmount.text.toString())
         cAddressDetail.stayingInYears = binding.personalAddressLayout.etCurrentStaying.text.toString().toFloat()

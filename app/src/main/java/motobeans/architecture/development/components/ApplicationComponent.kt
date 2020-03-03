@@ -31,6 +31,7 @@ import com.finance.app.viewModel.AppDataViewModel
 import com.finance.app.viewModel.LeadDataViewModel
 import com.finance.app.viewModel.SyncDataViewModel
 import com.finance.app.viewModel.TempViewModel
+import com.finance.app.workers.Workers.document.UploadDocumentWorker
 import com.optcrm.optreporting.AppModule
 import com.optcrm.optreporting.app.workers.UtilWorkersTask
 import dagger.Component
@@ -68,6 +69,7 @@ interface ApplicationComponent {
     fun inject(activity: AllLeadActivity)
     fun inject(activity: LeadDetailActivity)
     fun inject(activity: UpdateCallActivity)
+    fun inject(activity: DocumentUploadingActivity)
 
     /**
      * Fragment
@@ -141,9 +143,12 @@ interface ApplicationComponent {
     /**
      * Others
      */
+
     fun inject(other: SuperWorker)
 
     fun inject(other: UtilWorkersTask)
+    fun inject(other: UploadDocumentWorker)
+
     fun inject(other: LeadAndLoanDetail)
     fun inject(other: CustomEmploymentInfoView)
     fun inject(other: CustomPersonalInfoView)

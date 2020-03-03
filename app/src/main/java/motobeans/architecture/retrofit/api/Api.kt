@@ -7,6 +7,9 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.request.Requests.RequestSample
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.retrofit.response.Response.ResponseSample
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.http.*
 
 interface Api {
@@ -73,7 +76,19 @@ interface Api {
 
     @POST("api/v1/lead/followUp/{leadID}")
     fun postCallUpdate(@Path("leadID") leadId: Int, @Body requestPost: Requests.RequestCallUpdate): Observable<Response.ResponseCallUpdate>
+
     @POST("api/v1/kyc/user/data")
     fun postCallKYC(@Body requestPost: Requests.RequestKYC): Observable<Response.ResponseKYC>
+
+    @GET("api/v1/document/")
+    fun getDocumentType(@Query("codeID") codeId: Int): Observable<Response.ResponseDocumentList>
+
+    @GET("api/v1/document/")
+    fun getDocumentList(@Query("codeID") codeId: Int, @Query("lead") leadId: Int): Observable<Response.ResponseUploadedDocumentList>
+
+    @Multipart
+    @POST("api/v1/document/upload")
+    fun postUploadDocument(@Part document: MultipartBody.Part, @PartMap map: HashMap<String, RequestBody>): Call<Response.ResponseUploadDocument>
+
 
 }

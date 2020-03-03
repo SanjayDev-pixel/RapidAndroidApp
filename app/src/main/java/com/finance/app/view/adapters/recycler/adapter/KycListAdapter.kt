@@ -23,9 +23,9 @@ class KycListAdapter(private val context: Context, private val kycList: ArrayLis
 
     inner class KycViewHolder(val binding: ItemKycBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int, kyc: KYCDetail) {
-            binding.tvIdType.text = kyc.identificationTypeDetailID.toString()
+            binding.tvIdType.text = kyc.identificationTypeDetail.toString()
             binding.tvIdNum.text = kyc.identificationNumber
-            binding.tvVerifiedStatus.text = kyc.verifiedStatusTypeDetailID.toString()
+            binding.tvVerifiedStatus.text = kyc.verifiedStatusTypeDetail.toString()
             binding.tvIssueDate.text = ConvertDate().convertToAppFormat(kyc.issueDate)
             binding.tvExpiryDate.text = ConvertDate().convertToAppFormat(kyc.expireDate)
 
@@ -56,7 +56,7 @@ class KycListAdapter(private val context: Context, private val kycList: ArrayLis
     }
 
     fun updateItem(position: Int, kycDetail: KYCDetail) {
-        if (position >= 0 && position <= kycList.size) {
+        if (position >= 0 && position < kycList.size) {
             kycList[position] = kycDetail
             notifyDataSetChanged()
             listSize?.postValue(itemCount)

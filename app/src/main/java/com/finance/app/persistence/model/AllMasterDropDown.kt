@@ -68,5 +68,6 @@ class AllMasterDropDown : Serializable {
     var LeadType: ArrayList<DropdownMaster>? = null
     var LeadNotificationType: ArrayList<DropdownMaster>? = null
     var LeadRejectionReason: ArrayList<DropdownMaster>? = null
+    var DocumentCode: ArrayList<DropdownMaster>? = null
 
 }

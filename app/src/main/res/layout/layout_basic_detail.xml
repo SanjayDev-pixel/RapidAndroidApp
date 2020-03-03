@@ -6,8 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/linearChildView"
@@ -38,11 +37,10 @@
                         android:id="@+id/etFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:textAllCaps="true"
-                        android:inputType="text"
                         android:hint="@string/first_name"
+                        android:inputType="textCapWords"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -59,10 +57,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/middle_name"
-                        android:inputType="text"
-                        android:textAllCaps="true"
-                        android:singleLine="true"
                         android:minWidth="200dp"
+                        android:singleLine="true"
+                        android:inputType="textCapWords"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -79,10 +76,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/last_name"
-                        android:inputType="text"
-                        android:textAllCaps="true"
-                        android:singleLine="true"
                         android:minWidth="200dp"
+                        android:singleLine="true"
+                        android:inputType="textCapWords"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -105,9 +101,9 @@
                             android:id="@+id/etDOB"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:editable="false"
                             android:drawableEnd="@drawable/ic_calender"
+                            android:editable="false"
+                            android:focusable="false"
                             android:hint="@string/dob"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />
@@ -123,16 +119,16 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etAge"
-                            tools:editable="false"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/age"
-                            android:focusable="false"
                             android:clickable="false"
-                            android:maxLength="2"
+                            android:focusable="false"
+                            android:hint="@string/age"
                             android:inputType="number"
+                            android:maxLength="2"
                             android:minWidth="200dp"
-                            app:ms_hintTextSize="@dimen/hint_size" />
+                            app:ms_hintTextSize="@dimen/hint_size"
+                            tools:editable="false" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -156,11 +152,11 @@
                             android:id="@+id/etMobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:singleLine="true"
-                            android:maxLength="10"
                             android:hint="@string/mobile"
+                            android:inputType="number"
+                            android:maxLength="10"
                             android:minWidth="200dp"
+                            android:singleLine="true"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -168,19 +164,19 @@
                     <ImageView
                         android:id="@+id/ivVerifiedStatus"
                         android:layout_width="50sp"
-                        android:layout_weight="1"
-                        android:visibility="gone"
                         android:layout_height="50sp"
+                        android:layout_weight="1"
                         android:src="@drawable/verified_icon"
-                        android:textSize="@dimen/button_text_size" />
+                        android:textSize="@dimen/button_text_size"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/btnGetOTP"
                         android:layout_width="50sp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_10"
                         android:layout_marginStart="85sp"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/margin_10"
                         android:paddingEnd="@dimen/margin_10"
                         android:text="@string/get_otp"
                         android:textColor="@color/colorPrimary"
@@ -201,8 +197,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/email_id"
                         android:inputType="textWebEmailAddress"
-                        android:singleLine="true"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -219,10 +215,10 @@
 
                     <LinearLayout
                         android:id="@+id/layoutDobProof"
-                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -236,9 +232,9 @@
                             android:id="@+id/ivUploadDobProof"
                             android:layout_width="50sp"
                             android:layout_height="50sp"
-                            android:visibility="invisible"
                             android:layout_gravity="center"
-                            android:src="@drawable/upload_icon" />
+                            android:src="@drawable/upload_icon"
+                            android:visibility="invisible" />
 
                     </LinearLayout>
 
@@ -253,18 +249,18 @@
 
                     <LinearLayout
                         android:id="@+id/layoutGender"
-                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
 
                     <LinearLayout
                         android:id="@+id/layoutNationality"
-                        android:orientation="vertical"
-                        android:layout_marginStart="@dimen/margin_10"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
 
                 </LinearLayout>
 
@@ -277,26 +273,26 @@
 
                     <LinearLayout
                         android:id="@+id/layoutReligion"
-                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
 
                     <LinearLayout
                         android:id="@+id/layoutCaste"
-                        android:orientation="vertical"
-                        android:layout_marginStart="@dimen/margin_10"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layoutQualification"
-                    android:orientation="vertical"
-                    android:layout_marginTop="@dimen/fields_margin"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:orientation="vertical" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -307,18 +303,18 @@
 
                     <LinearLayout
                         android:id="@+id/layoutDetailQualification"
-                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
 
                     <LinearLayout
                         android:id="@+id/layoutMaritalStatus"
-                        android:orientation="vertical"
                         android:layout_width="0dp"
-                        android:layout_marginStart="@dimen/margin_10"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
 
                 </LinearLayout>
 
@@ -333,10 +329,10 @@
                         android:id="@+id/etFatherFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAllCaps="true"
-                        android:singleLine="true"
                         android:hint="@string/father_s_first_name"
                         android:minWidth="200dp"
+                        android:singleLine="true"
+                        android:textAllCaps="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -352,11 +348,11 @@
                         android:id="@+id/etFatherMiddleName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:textAllCaps="true"
                         android:hint="@string/father_middle_name"
-                        android:singleLine="true"
+                        android:inputType="text"
                         android:minWidth="200dp"
+                        android:singleLine="true"
+                        android:textAllCaps="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -372,81 +368,81 @@
                         android:id="@+id/etFatherLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/father_last_name"
                         android:inputType="text"
+                        android:minWidth="200dp"
                         android:singleLine="true"
                         android:textAllCaps="true"
-                        android:hint="@string/father_last_name"
-                        android:minWidth="200dp"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
+                    android:id="@+id/llSpouse"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="true"
-                    android:id="@+id/llSpouse"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_spouse_first_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etSpouseFirstName"
-                        android:layout_width="match_parent"
-                        android:textAllCaps="true"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:singleLine="true"
-                        android:hint="@string/spouse_first_name"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_spouse_middle_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:textColorHint="@color/hint_color">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etSpouseMiddleName"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_spouse_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAllCaps="true"
-                        android:singleLine="true"
-                        android:inputType="text"
-                        android:hint="@string/spouse_middle_name"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:textColorHint="@color/hint_color">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSpouseFirstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/spouse_first_name"
+                            android:inputType="text"
+                            android:minWidth="200dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            app:ms_hintTextSize="@dimen/hint_size" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:textColorHint="@color/hint_color">
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etSpouseLastName"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_spouse_middle_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/spouse_last_name"
-                        android:singleLine="true"
-                        android:textAllCaps="true"
-                        android:inputType="text"
-                        android:minWidth="200dp"
-                        app:ms_hintTextSize="@dimen/hint_size" />
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:textColorHint="@color/hint_color">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSpouseMiddleName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/spouse_middle_name"
+                            android:inputType="text"
+                            android:minWidth="200dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            app:ms_hintTextSize="@dimen/hint_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fields_margin"
+                        android:textColorHint="@color/hint_color">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSpouseLastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/spouse_last_name"
+                            android:inputType="text"
+                            android:minWidth="200dp"
+                            android:singleLine="true"
+                            android:textAllCaps="true"
+                            app:ms_hintTextSize="@dimen/hint_size" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
@@ -468,11 +464,11 @@
                             android:id="@+id/etAlternateNum"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:singleLine="true"
-                            android:maxLength="10"
                             android:hint="@string/alternate_contact_no"
+                            android:inputType="number"
+                            android:maxLength="10"
                             android:minWidth="200dp"
+                            android:singleLine="true"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -490,9 +486,9 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/number_of_dependent"
                             android:inputType="number"
-                            android:singleLine="true"
                             android:maxLength="2"
                             android:minWidth="200dp"
+                            android:singleLine="true"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -501,8 +497,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_no_of_earning_members"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/fields_margin"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -511,9 +507,9 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/number_of_earning_members"
                         android:inputType="number"
-                        android:singleLine="true"
                         android:maxLength="2"
                         android:minWidth="200dp"
+                        android:singleLine="true"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -527,18 +523,18 @@
 
                     <LinearLayout
                         android:id="@+id/layoutLivingStandard"
-                        android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
 
                     <LinearLayout
                         android:id="@+id/layoutRelationShip"
-                        android:orientation="vertical"
-                        android:layout_marginStart="@dimen/margin_10"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
 
                 </LinearLayout>
 
