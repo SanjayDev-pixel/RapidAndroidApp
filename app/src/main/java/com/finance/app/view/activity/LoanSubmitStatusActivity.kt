@@ -101,7 +101,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
 
         binding.recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         loanRejectionAdapter = LoanRejectionAdapter(this, rejectionList)
-        binding.recyclerview.adapter = loanSubmitStatusAdapter
+        binding.recyclerview.adapter = loanRejectionAdapter
 
     }
 
