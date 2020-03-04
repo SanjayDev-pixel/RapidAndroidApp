@@ -15,6 +15,8 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_loan_submit_status.view.*
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 
 class LoanSubmitStatusActivity : BaseAppCompatActivity() {
@@ -37,20 +39,19 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
 
     override fun init() {
         hideSecondaryToolbar()
-        //val obj: ApplicantionSubmitModel = intent.getSerializableExtra("SubmitResponse") as ApplicantionSubmitModel
+
         bundle = intent!!.extras
         if (bundle != null) {
             finalSubmitLoanResponse = bundle?.get("SubmitResponse") as ApplicantionSubmitModel
             initViews(finalSubmitLoanResponse)
         }
 
-
     }
 
 
     private fun initViews(finalSubmitLoanResponse: ApplicantionSubmitModel?) {
 
-        binding.leadNumber.setText(LeadMetaData.getLeadId().toString())
+        binding.leadNumber.setText(LeadMetaData.getLeadData()?.leadNumber)
         binding.eligibleAmount.setText(("Rs. ").plus(finalSubmitLoanResponse?.eligibleLoanAmount))
         binding.logoLayout.preapproved_text.setText(getString(R.string.preapproved))
         val json = finalSubmitLoanResponse?.ruleEngineResponse
@@ -60,8 +61,11 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
         val ruleEngineResponse = gson.fromJson(json, RuleEngineResponse::class.java)
 
         binding.llstatus.tenure_text.setText(ruleEngineResponse.hfcPolicyResponse?.finalTenure.toString().plus(" months"))
-        binding.llstatus.emi_text.setText(("Rs. ").plus(ruleEngineResponse.hfcPolicyResponse?.proposedEMI.toString()))
-        //binding.llstatus.rate.setText(ruleEngineResponse.)
+        var proposedEMI =ruleEngineResponse.hfcPolicyResponse?.proposedEMI
+        if(proposedEMI != null){
+        binding.llstatus.emi_text.setText(("Rs. ").plus(roundOffDecimal(proposedEMI)))
+        }
+        binding.llstatus.rate.setText(ruleEngineResponse.hfcPolicyResponse?.roi.toString().plus("%"))
 
 
 
@@ -74,7 +78,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
             setStatusAdapter(ruleEngineResponse.hfcPolicyResponse!!.deviationList)
         } else {
             binding.logoLayout.visibility= View.VISIBLE
-
+           binding.leadStatusTxt.setText("")
             // already approved
             setAlreadyApproved(finalSubmitLoanResponse)
         }
@@ -89,7 +93,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
     }
 
     private fun setStatusAdapter(deviationList: ArrayList<DeviationList>) {
-
+        binding.leadStatusTxt.setText("Deviation")
         binding.recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         loanSubmitStatusAdapter = LoanSubmitStatusAdapter(this, deviationList)
         binding.recyclerview.adapter = loanSubmitStatusAdapter
@@ -98,7 +102,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
 
 
     private fun setRejectionAdapter(rejectionList: ArrayList<RejectionList>) {
-
+        binding.leadStatusTxt.setText("Rejection")
         binding.recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         loanRejectionAdapter = LoanRejectionAdapter(this, rejectionList)
         binding.recyclerview.adapter = loanRejectionAdapter
@@ -118,5 +122,11 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
             this.finish()
         }
 
+    }
+
+    fun roundOffDecimal(number: Double): Double? {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(number).toDouble()
     }
 }

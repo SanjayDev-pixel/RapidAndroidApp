@@ -106,7 +106,6 @@ class FinalSubmitActivity : AppCompatActivity() {
                 }else{
 
                     showToast(value.responseMsg)
-
                 }
 
                 finish()
