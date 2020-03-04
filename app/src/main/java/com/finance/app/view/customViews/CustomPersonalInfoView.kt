@@ -198,8 +198,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         binding.personalAddressLayout.layoutCurrentAddressProof.addView(currentAddressProof)
         setUpRelationshipValue(allMasterDropDown, applicant)
         setCustomSpinnerWithCondition(allMasterDropDown)
-        LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
-            DisablePersonalForm(binding,dobProof,livingStandard,detailQualification,qualification,caste,religion,gender,permanentAddressProof,currentAddressProof,nationality,maritalStatus,currentResidenceType,permanentResidenceType)
+        LeadMetaData.getLeadData()?.let {
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
+                DisablePersonalForm(binding, dobProof, livingStandard, detailQualification, qualification, caste, religion, gender, permanentAddressProof, currentAddressProof, nationality, maritalStatus, currentResidenceType, permanentResidenceType)
         }
 
     }
@@ -320,7 +321,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount)
         binding.personalAddressLayout.etCurrentStaying.setText(addressDetail.stayingInYears?.toString())
-        currentAddressProof.setSelection(addressDetail.addressTypeDetailID?.toString())
+        currentAddressProof.setSelection(addressDetail.addressProof?.toString())
         currentResidenceType.setSelection(addressDetail.residenceTypeTypeDetailID?.toString())
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
     }
@@ -330,8 +331,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         binding.personalAddressLayout.etPermanentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etPermanentRentAmount.setText(addressDetail.rentAmount)
         binding.personalAddressLayout.etPermanentStaying.setText(addressDetail.stayingInYears?.toString())
-       // binding.personalAddressLayout.cbSameAsCurrent.isChecked = addressDetail
-        permanentAddressProof.setSelection(addressDetail.addressTypeDetailID?.toString())
+        // binding.personalAddressLayout.cbSameAsCurrent.isChecked = addressDetail
+        permanentAddressProof.setSelection(addressDetail.addressProof?.toString())
         permanentResidenceType.setSelection(addressDetail.residenceTypeTypeDetailID?.toString())
         updateCustomZipCode(customZipView = binding.personalAddressLayout.customPermanentZipAddressView, addressDetail = addressDetail)
     }
@@ -355,7 +356,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         val dependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
         val earningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString()
         val pResidenceType = currentResidenceType.getSelectedValue()
-        System.out.println("Residence Type>>>>"+pResidenceType)
+        System.out.println("Residence Type>>>>" + pResidenceType)
 
 
         //Need to generate some applicant id... based on lead id
@@ -417,7 +418,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         cAddressDetail.districtID = binding.personalAddressLayout.customCurrentZipAddressView.getDistrictId()
         cAddressDetail.cityID = binding.personalAddressLayout.customCurrentZipAddressView.getCityId()
         cAddressDetail.residenceTypeTypeDetailID = cResidenceType?.typeDetailID
-        cAddressDetail.addressTypeDetailID = cAddressProof?.typeDetailID
+        cAddressDetail.addressTypeDetailID = 83
+        cAddressDetail.addressTypeDetail = "Current"
+        cAddressDetail.addressProof = cAddressProof?.typeDetailID
         cAddressDetail.sameAsCurrentAddress = binding.personalAddressLayout.cbSameAsCurrent.isChecked
 
         var pAddressDetail = AddressDetail()
@@ -436,7 +439,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             pAddressDetail.landmark = binding.personalAddressLayout.etPermanentLandmark.text.toString()
             pAddressDetail.zip = binding.personalAddressLayout.customPermanentZipAddressView.pinCode
             pAddressDetail.residenceTypeTypeDetailID = pResidenceType?.typeDetailID
-            pAddressDetail.addressTypeDetailID = pAddressProof?.typeDetailID
+            pAddressDetail.addressTypeDetailID = 82
+            pAddressDetail.addressTypeDetail = "Permanent"
+            pAddressDetail.addressProof = pAddressProof?.typeDetailID
             pAddressDetail.stateID = binding.personalAddressLayout.customPermanentZipAddressView.getStateId()
             pAddressDetail.districtID = binding.personalAddressLayout.customPermanentZipAddressView.getDistrictId()
             pAddressDetail.cityID = binding.personalAddressLayout.customPermanentZipAddressView.getCityId()

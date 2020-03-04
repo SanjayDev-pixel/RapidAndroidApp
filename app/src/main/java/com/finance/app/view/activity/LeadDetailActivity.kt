@@ -73,8 +73,10 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         id?.let {
             dataBase.provideDataBaseSource().allLeadsDao().getLead(it).observeForever { lead ->
                 lead?.let { leadDetails ->
-                    isSelectedLeadSynced = true
-                    leadDetails.let { LeadMetaData.setLeadData(leadDetails) }
+                    leadDetails.let {
+                        isSelectedLeadSynced = true
+                        LeadMetaData.setLeadData(leadDetails)
+                    }
                 }
             }
         }
