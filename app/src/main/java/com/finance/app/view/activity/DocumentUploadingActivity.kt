@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.finance.app.R
@@ -89,6 +90,23 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         }
     }
 
+    inner class DownloadableDocumentLinkRequest(private val documentId: Int) : ViewGeneric<Requests.RequestDocumentDownloadableLink, Response.ResponseDocumentDownloadableLink>(context = this) {
+        override val apiRequest: Requests.RequestDocumentDownloadableLink?
+            get() = Requests.RequestDocumentDownloadableLink(documentId)
+
+        override fun getApiSuccess(value: Response.ResponseDocumentDownloadableLink) {
+            value.responseObj?.let { response ->
+                response.documentPath?.let { url ->
+                    val builder = CustomTabsIntent.Builder()
+                    builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+                    builder.setShowTitle(false)
+                    val customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(this@DocumentUploadingActivity, Uri.parse(url))
+                }
+            }
+        }
+    }
+
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
 
@@ -119,7 +137,13 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         val adapter = UploadedDocumentListAdapter(documentList)
         binding.rvUploadedDocumentList.adapter = adapter
         adapter.setOnItemClickListener(object : UploadedDocumentListAdapter.ItemClickListener {
-            override fun onKycDetailDeleteClicked(position: Int) {
+            override fun onKycDetailDownloadClicked(position: Int, documentTypeModel: DocumentTypeModel) {
+                documentTypeModel.applicationDocumentID?.let { id ->
+                    presenter.callNetwork(ConstantsApi.CALL_DOWNLOAD_DOCUMENT, dmiConnector = DownloadableDocumentLinkRequest(id))
+                }
+            }
+
+            override fun onKycDetailDeleteClicked(position: Int, documentTypeModel: DocumentTypeModel) {
             }
         })
     }
@@ -149,6 +173,10 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
 
     private fun getUploadedDocumentListRequest(): Requests.RequestUploadedDocumentList? {
         return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> Requests.RequestUploadedDocumentList(codeId, it) } }
+    }
+
+    private fun getSelectedDocumentID(): Requests.RequestDocumentDownloadableLink {
+        return Requests.RequestDocumentDownloadableLink(46)
     }
 
     private fun onDocumentSelected(data: Intent?) {
