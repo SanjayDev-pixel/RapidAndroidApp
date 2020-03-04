@@ -93,6 +93,7 @@
         <activity android:name=".view.activity.SyncActivity" />
         <activity android:name=".view.activity.TempActivity" />
         <activity android:name=".view.activity.PreviewActivity"/>
+        <activity android:name=".view.activity.LoanSubmitStatusActivity"/>
         <!-- <activity -->
         <!-- android:name="com.thefinestartist.finestwebview.FinestWebViewActivity" -->
         <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->

@@ -304,7 +304,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/mv_of_property"
                             android:inputType="number"
-                            android:maxLength="6"
+                            android:maxLength="14"
                             android:minWidth="200dp"
                             android:textSize="@dimen/text_size" />
 
