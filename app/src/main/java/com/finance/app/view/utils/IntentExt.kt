@@ -9,6 +9,6 @@ fun Activity.startFilePickerActivity(requestCode: Int) {
     intent.type = "*/*"
     val mimeTypes = arrayOf("image/*", "application/pdf")
     intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-    intent.addCategory(Intent.CATEGORY_OPENABLE)
+//    intent.addCategory(Intent.ACTION_GET_CONTENT )
     startActivityForResult(intent, requestCode)
 }

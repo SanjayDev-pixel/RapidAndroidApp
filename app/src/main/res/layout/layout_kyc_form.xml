@@ -72,7 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/identification_number"
-                    android:inputType="textCapCharacters"
+                    android:inputType="text|textCapCharacters"
                     android:maxLength="16"
                     android:singleLine="true"
                     app:ms_hintTextSize="@dimen/hint_size" />
