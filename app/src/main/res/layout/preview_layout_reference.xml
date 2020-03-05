@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_10"
-                android:text="@string/coApplicant"
+                android:text="@string/applicant"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="@dimen/margin_20"
                 android:textStyle="bold" />
