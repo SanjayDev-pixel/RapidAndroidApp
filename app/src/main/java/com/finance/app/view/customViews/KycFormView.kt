@@ -2,6 +2,7 @@ package com.finance.app.view.customViews
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -55,6 +56,8 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         lifecycleOwner = owner
         currentApplicantNumber = applicantNumber
 
+        initViews()
+
         setOnClickListener()
         //Set Kyc Adapter..
         setKycDetailListAdapter(kycDetailList)
@@ -62,6 +65,10 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         fetchSpinnersDataFromDB()
         //Check whether kyc list has items or not....
         shouldDisplayKycListViews()
+    }
+
+    private fun initViews() {
+        rootBinding.etIdNum.filters = arrayOf<InputFilter>(InputFilter.AllCaps())
     }
 
     private fun setOnClickListener() {

@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
+import com.afollestad.assent.Assent
+import com.afollestad.assent.AssentCallback
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDocumentUploadingBinding
 import com.finance.app.persistence.model.DocumentTypeModel
@@ -122,7 +124,11 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
     private fun setOnClickListener() {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
         binding.btnPickFile.setOnClickListener {
-            this.startFilePickerActivity(DOCUMENT_REQ_CODE)
+            Assent.requestPermissions(AssentCallback { result ->
+                if (result.allPermissionsGranted())
+                    this@DocumentUploadingActivity.startFilePickerActivity(DOCUMENT_REQ_CODE)
+            }, 1, Assent.WRITE_EXTERNAL_STORAGE)
+
         }
         binding.btnUpload.setOnClickListener { if (isKycDocumentDetailValid()) saveKycDocumentIntoDatabase() }
     }

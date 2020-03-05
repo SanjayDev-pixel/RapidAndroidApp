@@ -53,17 +53,29 @@ class LoanInfoFragmentNew : BaseFragment() {
     }
 
     override fun init() {
-        leadDetail = LeadMetaData.getLeadData()
+//        leadDetail = LeadMetaData.getLeadData()
 
         ArchitectureApp.instance.component.inject(this)
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
         SetLoanInfoMandatoryField(binding)
-        val loanInfo = leadDetail?.loanData
-        setUpCustomViews(loanInfo)
-        getDropDownsFromDB(loanInfo)
-        setClickListeners()
 
+        //Fetch lead details from database..
+        fetchLeadDetails()
+    }
+
+    private fun fetchLeadDetails() {
+        LeadMetaData.getLeadObservable().observe(this, Observer { leadDetails ->
+            leadDetails?.let {
+                this@LoanInfoFragmentNew.leadDetail = it
+
+                //Now set all dependable view..
+                val loanInfo = leadDetail?.loanData
+                setUpCustomViews(loanInfo)
+                getDropDownsFromDB(loanInfo)
+                setClickListeners()
+            }
+        })
     }
 
     private fun setUpCustomViews(loanInfo: LoanInfoModel?) {
