@@ -16,5 +16,7 @@ object Requests {
     data class RequestFinalSubmit(val leadID: Int)
     data class RequestKYC(val leadID: Int?, val leadApplicantNumber: String?)
     data class RequestDocumentList(val codeId: Int)
-    data class RequestUploadedDocumentList(val codeId: Int,val leadId: Int)
+    data class RequestUploadedDocumentList(val codeId: Int, val leadId: Int)
+    data class RequestDocumentDownloadableLink(val DocumentId: Int)
+
 }

@@ -62,7 +62,6 @@ class BankDetailAdapter(private val context: Context, private val bankDetailList
         return bankDetailList
     }
 
-
     fun addItem(bankDetail: BankDetailBean) {
         bankDetailList.add(0, bankDetail)
         notifyDataSetChanged()

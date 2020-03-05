@@ -3,6 +3,7 @@ package com.finance.app.persistence.model
 import java.io.Serializable
 
 class DocumentTypeModel : Serializable {
+    var applicationDocumentID: Int? = null
     var documentID: Int? = null
     var documentName: String? = null
     var uploadedDocumentPath: String? = null
