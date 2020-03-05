@@ -474,6 +474,4 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             }
         }
     }
-
-
 }

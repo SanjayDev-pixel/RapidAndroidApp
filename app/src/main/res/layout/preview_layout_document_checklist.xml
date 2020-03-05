@@ -13,6 +13,21 @@
             android:background="@color/md_grey_100"
             android:orientation="vertical">
 
+            <Button
+                android:visibility="gone"
+                android:id="@+id/btnSumbitlead"
+                android:minWidth="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_round_blue_btn_bkg"
+                android:gravity="center"
+                android:text="Final Submit"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/margin10dp"
+                android:layout_marginRight="@dimen/margin10dp"
+                android:layout_gravity="right"
+                />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -265,18 +280,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/btnSumbitlead"
-                android:minWidth="100dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_round_blue_btn_bkg"
-                android:gravity="center"
-                android:text="Final Submit"
-                android:textColor="@color/white"
-                android:layout_marginBottom="@dimen/margin10dp"
-                android:layout_gravity="right"
-                />
+
 
         </LinearLayout>
     </ScrollView>

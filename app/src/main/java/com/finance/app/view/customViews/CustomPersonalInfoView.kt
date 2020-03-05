@@ -20,6 +20,7 @@ import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
 import com.finance.app.view.activity.KYCActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import kotlinx.android.synthetic.main.fragment_property_info.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import motobeans.architecture.application.ArchitectureApp
@@ -415,14 +416,16 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         cAddressDetail.zip = binding.personalAddressLayout.customCurrentZipAddressView.pinCode
         cAddressDetail.addressTypeDetail = CURRENT_ADDRESS
         cAddressDetail.stateID = binding.personalAddressLayout.customCurrentZipAddressView.getStateId()
+        cAddressDetail.stateName=binding.personalAddressLayout.customCurrentZipAddressView.getStateName()
         cAddressDetail.districtID = binding.personalAddressLayout.customCurrentZipAddressView.getDistrictId()
+        cAddressDetail.districtName = binding.personalAddressLayout.customCurrentZipAddressView.getDistrictName()
         cAddressDetail.cityID = binding.personalAddressLayout.customCurrentZipAddressView.getCityId()
+        cAddressDetail.cityName=binding.personalAddressLayout.customCurrentZipAddressView.getCityName()
         cAddressDetail.residenceTypeTypeDetailID = cResidenceType?.typeDetailID
         cAddressDetail.addressTypeDetailID = 83
         cAddressDetail.addressTypeDetail = "Current"
         cAddressDetail.addressProof = cAddressProof?.typeDetailID
         cAddressDetail.sameAsCurrentAddress = binding.personalAddressLayout.cbSameAsCurrent.isChecked
-
         var pAddressDetail = AddressDetail()
         if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
             pAddressDetail = cAddressDetail
@@ -445,6 +448,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             pAddressDetail.stateID = binding.personalAddressLayout.customPermanentZipAddressView.getStateId()
             pAddressDetail.districtID = binding.personalAddressLayout.customPermanentZipAddressView.getDistrictId()
             pAddressDetail.cityID = binding.personalAddressLayout.customPermanentZipAddressView.getCityId()
+            pAddressDetail.cityName=binding.personalAddressLayout.customCurrentZipAddressView.getCityName()
+            pAddressDetail.districtName = binding.personalAddressLayout.customCurrentZipAddressView.getDistrictName()
+            pAddressDetail.stateName=binding.personalAddressLayout.customCurrentZipAddressView.getStateName()
+
         }
         pAddressDetail.addressTypeDetail = PERMANENT_ADDRESS
         if (addressDetailList.isNullOrEmpty()) {

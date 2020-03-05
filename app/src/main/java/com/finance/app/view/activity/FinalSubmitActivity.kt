@@ -3,6 +3,7 @@ package com.finance.app.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -37,7 +38,9 @@ class FinalSubmitActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_final_submit)
+
         setSupportActionBar(toolbar)
         progressBar = findViewById<ProgressBar>(R.id.progress_Bar) as ProgressBar
 
@@ -59,9 +62,8 @@ class FinalSubmitActivity : AppCompatActivity() {
     }
     private fun setOnclickListener() {
         button_submitcall.setOnClickListener { view ->
-            //  progressBar!!.visibility = View.VISIBLE
+              progressBar!!.visibility = View.VISIBLE
             // presenter.callNetwork(ConstantsApi.CALL_FINAL_SUBMIT, CallFinalSubmit())
-
             val lead: AllLeadMaster? = LeadMetaData.getLeadData()
                 checkAndStartLoanApplicationActivity(lead)
 

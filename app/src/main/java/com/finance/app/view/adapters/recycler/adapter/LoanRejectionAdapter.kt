@@ -37,15 +37,13 @@ class LoanRejectionAdapter  (private val c: Context, private val rejectionList:A
 
 
         fun bindItems(position: Int, rejection: RejectionList) {
-            binding.deviationheadingText.setText("Rejection")
-            binding.deviationheadingText.text = rejection.bName
+           // binding.deviationheadingText.setText("Rejection")
+            binding.name.text = rejection.bName
             binding.rejectionReason.text=rejection.rejectionReason
 
         }
 
 
     }
-
-
 }
 
