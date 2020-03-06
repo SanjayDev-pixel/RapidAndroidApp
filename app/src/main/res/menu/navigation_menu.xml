@@ -4,13 +4,11 @@
         <item
             android:id="@+id/dashboard"
             android:title="@string/dashboard"
-            android:icon="@drawable/ic_dashboard"
-            />
+            android:icon="@drawable/ic_dashboard" />
         <item
             android:id="@+id/assignedLeads"
             android:icon="@drawable/ic_assigned_lead"
-            android:title="@string/assigned_leads"
-            />
+            android:title="@string/assigned_leads" />
 
         <item
             android:id="@+id/createLead"
@@ -22,13 +20,11 @@
         <item
             android:id="@+id/notification"
             android:icon="@drawable/ic_notification"
-            android:title="@string/notification"
-           />
+            android:title="@string/notification" />
 
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
-            android:title="@string/logout"
-            />
+            android:title="@string/logout" />
     </group>
 </menu>

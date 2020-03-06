@@ -48,12 +48,9 @@ class PersonalInfoFragmentNew : BaseFragment() {
 
         setOnClickListeners()
         LeadMetaData.getLeadData()?.let {
-            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
-            {
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true)) {
                 binding.btnAddApplicantTab.visibility = View.GONE
-            }
-            else
-            {
+            } else {
                 binding.btnAddApplicantTab.visibility = View.VISIBLE
             }
         }
@@ -87,8 +84,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private fun setOnClickListeners() {
 
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
-        binding.btnNext.setOnClickListener { addApplicant()
-            System.out.println("Sanjay Sawan Rwat")}
+        binding.btnNext.setOnClickListener { addApplicant() }
         binding.btnAddApplicantTab.setOnClickListener {
             pagerAdapterApplicants?.addItem()
             if (binding.tabLead.tabCount > 2)//Scroll tab to last item....

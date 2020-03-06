@@ -146,7 +146,8 @@
                         android:maxLength="6"
                         android:minWidth="@dimen/text_min_width"
                         android:singleLine="true"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size"
+                        />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

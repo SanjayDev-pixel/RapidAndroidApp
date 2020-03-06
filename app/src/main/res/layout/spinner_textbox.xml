@@ -14,6 +14,6 @@
         android:text="@string/loan_amount"
         android:textSize="@dimen/text_size"
         android:textColor="@color/black"
-        android:textAppearance="?attr/textAppearanceSubtitle1"/>
+        android:textAppearance="?attr/textAppearanceSubtitle1" />
 
 </LinearLayout>

@@ -8,31 +8,30 @@
         android:padding="@dimen/margin_10"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/fields_margin"
-        android:padding="@dimen/margin_10"
-        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/fields_margin"
+            android:padding="@dimen/margin_10"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/otp_heading"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="@dimen/button_text_size"
-            />
-        <TextView
-            android:id="@+id/tvMobile_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="@dimen/button_text_size"
-            android:layout_marginTop="@dimen/margin5dp"
-            />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/otp_heading"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textSize="@dimen/button_text_size" />
+
+            <TextView
+                android:id="@+id/tvMobile_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textSize="@dimen/button_text_size"
+                android:layout_marginTop="@dimen/margin5dp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvMobileno"
@@ -40,8 +39,7 @@
             android:layout_height="wrap_content"
             android:text=""
             android:gravity="center"
-            android:textSize="@dimen/button_text_size"
-            />
+            android:textSize="@dimen/button_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,24 +54,23 @@
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="@dimen/margin10dp"
-                android:gravity="center"
-                />
+                android:gravity="center" />
 
-        <com.alimuzaffar.lib.pin.PinEntryEditText
-            android:id="@+id/etOTP"
-            android:layout_width="150dp"
-            android:layout_height="50sp"
-            android:cursorVisible="true"
-            android:inputType="number"
-            android:layoutDirection="ltr"
-            android:maxLength="4"
-            android:layout_marginTop="@dimen/margin10dp"
-            android:textIsSelectable="false"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@color/black"
-            app:pinLineStrokeSelected="2dp"
-            app:pinTextBottomPadding="@dimen/margin_10"
-            android:layout_marginEnd="10sp" />
+            <com.alimuzaffar.lib.pin.PinEntryEditText
+                android:id="@+id/etOTP"
+                android:layout_width="150dp"
+                android:layout_height="50sp"
+                android:cursorVisible="true"
+                android:inputType="number"
+                android:layoutDirection="ltr"
+                android:maxLength="4"
+                android:layout_marginTop="@dimen/margin10dp"
+                android:textIsSelectable="false"
+                android:textSize="@dimen/button_text_size"
+                android:textColor="@color/black"
+                app:pinLineStrokeSelected="2dp"
+                app:pinTextBottomPadding="@dimen/margin_10"
+                android:layout_marginEnd="10sp" />
         </LinearLayout>
 
         <TextView
@@ -94,6 +91,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/margin_20">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,19 +99,18 @@
                 android:textColor="@color/black"
                 android:gravity="end"
                 android:textSize="@dimen/text_size"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/tvResendOTP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10sp"
-            android:textColor="@color/colorPrimary"
-            android:text="@string/resend_otp"
-            android:textSize="@dimen/text_size"
-            android:gravity="start|center"
-            android:layout_weight="1"
-            />
+            <TextView
+                android:id="@+id/tvResendOTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/resend_otp"
+                android:textSize="@dimen/text_size"
+                android:gravity="start|center"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout

@@ -36,8 +36,7 @@
             android:layout_marginTop="@dimen/_25sdp"
 
             android:text="@string/proceed"
-            android:textColor="@color/white"
-             />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </layout>

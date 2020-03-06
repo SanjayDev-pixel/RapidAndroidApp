@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <LinearLayout
@@ -12,12 +11,12 @@
             android:id="@+id/btnTemp1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button 1"/>
+            android:text="Button 1" />
 
         <com.finance.app.view.customViews.CustomPersonalInfoView
             android:id="@+id/cvPersonalInfo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 </layout>
