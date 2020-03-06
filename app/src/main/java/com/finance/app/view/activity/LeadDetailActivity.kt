@@ -1,40 +1,50 @@
 package com.finance.app.view.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.AllMasterDropDown
+import com.finance.app.persistence.model.FollowUpResponse
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.LeadDetailActivityAdapter
 import com.finance.app.viewModel.LeadDataViewModel
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
+import motobeans.architecture.retrofit.request.Requests
+import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")
 class LeadDetailActivity : BaseAppCompatActivity() {
+    private val UPDATE_CALL_REQUEST = 1000
+
+    private val presenter = Presenter()
 
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_detail)
     private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
-
     @Inject
     lateinit var dataBase: DataBaseUtil
-
     private var bundle: Bundle? = null
     private var lead: AllLeadMaster? = null
     private var isSelectedLeadSynced = false
-
     private var leadContact: Long = 0
-
+    private var allMasterDropDown: AllMasterDropDown? = null
     companion object {
         private const val KEY_LEAD = "leadApplicant"
         fun start(context: Context, lead: AllLeadMaster) {
@@ -51,12 +61,17 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         hideToolbar()
         hideSecondaryToolbar()
         getLead()
+        //Initilise
+        fetchSpinnerDataFromDB()
+
     }
+
 
     private fun getLead() {
         bundle = intent.extras
         bundle?.let {
             val leadBundleData = bundle?.getSerializable(KEY_LEAD)
+
 
             leadBundleData?.let {
                 lead = leadBundleData as AllLeadMaster
@@ -87,7 +102,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun useLeadData(lead: AllLeadMaster) {
         fillLeadDetail(lead)
-        setUpRecyclerView()
+        //setUpRecyclerView()
         setClickListeners(lead)
         fillColor(lead)
     }
@@ -131,7 +146,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
 
         binding.btnUpdateCall.setOnClickListener {
-            UpdateCallActivity.start(this, lead)
+            UpdateCallActivity.startActivityForResult(this, lead, UPDATE_CALL_REQUEST)
         }
 
         binding.btnAddTask.setOnClickListener {
@@ -155,9 +170,54 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
     }
 
-    private fun setUpRecyclerView() {
+    private fun getFollowUpData() {
+
+
+        lead?.leadID?.let { presenter.callNetwork(ConstantsApi.CALL_FOLLOWUP, CallFollowUP(it)) }
+    }
+
+    private fun setUpRecyclerView(list: ArrayList<FollowUpResponse>) {
         binding.rcActivities.layoutManager = LinearLayoutManager(this)
-        binding.rcActivities.adapter = LeadDetailActivityAdapter(this)
+
+        binding.rcActivities.adapter = LeadDetailActivityAdapter(this, list, allMasterDropDown)
+    }
+
+    private fun fetchSpinnerDataFromDB() {
+        binding.progressBar.visibility = View.VISIBLE
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(this, Observer { masterDrownDownValues ->
+            masterDrownDownValues?.let {
+                allMasterDropDown = it
+                getFollowUpData()
+            }
+        })
+
+    }
+
+    inner class CallFollowUP(val leadId: Int) : ViewGeneric<Requests.RequestFollowUp, Response.ResponseFollowUp>(context = this) {
+        override val apiRequest: Requests.RequestFollowUp?
+            get() = Requests.RequestFollowUp(leadId)
+
+        override fun getApiSuccess(value: Response.ResponseFollowUp) {
+
+            value.responseObj?.let { list ->
+                binding.progressBar.visibility = View.GONE
+                setUpRecyclerView(list)
+            }
+
+        }
+
+        override fun getApiFailure(msg: String) {
+            super.getApiFailure(msg)
+        }
+
+
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == UPDATE_CALL_REQUEST && resultCode == Activity.RESULT_OK) {
+            getFollowUpData()
+        }
     }
 
 }
