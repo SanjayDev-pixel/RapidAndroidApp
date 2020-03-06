@@ -30,7 +30,6 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
 
     @Inject
     lateinit var dataBase: DataBaseUtil
-
     private lateinit var mContext: Context
     private lateinit var binding: FragmentReferenceBinding
 

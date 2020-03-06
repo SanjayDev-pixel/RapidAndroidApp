@@ -31,7 +31,6 @@ class Presenter {
     init {
         ArchitectureApp.instance.component.inject(this)
     }
-
     fun <RequestApi, ResponseApi> callNetwork(type: ConstantsApi, dmiConnector: Connector.ViewOpt<RequestApi, ResponseApi>) {
         val requestApi = when (type) {
             ConstantsApi.CALL_ADD_LEAD -> apiProject.api.addLead(dmiConnector.apiRequest as Requests.RequestAddLead)
@@ -54,6 +53,7 @@ class Presenter {
             ConstantsApi.CALL_POST_LOAN_APP -> apiProject.api.postLoanApp(dmiConnector.apiRequest as LoanApplicationRequest)
             ConstantsApi.CALL_UPDATE_CALL -> apiProject.api.postCallUpdate((dmiConnector.apiRequest as Requests.RequestCallUpdate).leadID, dmiConnector.apiRequest as Requests.RequestCallUpdate)
             ConstantsApi.CALL_FINAL_SUBMIT -> apiProject.api.finalSubmit((dmiConnector.apiRequest as Requests.RequestFinalSubmit).leadID)
+            ConstantsApi.CALL_FOLLOWUP -> apiProject.api.postCallFollowUp((dmiConnector.apiRequest as Requests.RequestFollowUp).leadID)
             ConstantsApi.CALL_KYC -> apiProject.api.postCallKYC(dmiConnector.apiRequest as Requests.RequestKYC)
             ConstantsApi.CALL_DOC_TYPE -> apiProject.api.getDocumentType((dmiConnector.apiRequest as Requests.RequestDocumentList).codeId)
             ConstantsApi.CALL_UPLOADED_DOC -> apiProject.api.getDocumentList((dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).codeId, (dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).leadId)

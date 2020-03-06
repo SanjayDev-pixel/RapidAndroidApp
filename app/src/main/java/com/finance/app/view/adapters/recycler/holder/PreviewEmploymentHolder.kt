@@ -75,6 +75,10 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
             binding.previewLayoutSalary.tvPinCode.text = data.addressBean?.zip
             binding.previewLayoutSalary.tvContact.text = data.addressBean?.contactNum
             viewModel.getStateNameFromId(data.addressBean?.stateID, binding.previewLayoutSalary.tvState)
+            binding.previewLayoutSalary.tvCity.text=data.addressBean?.cityName
+            binding.previewLayoutSalary.tvDistrict.text=data.addressBean?.districtName
+
+
         }
 
         data.incomeDetail?.let {
@@ -90,6 +94,7 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
         binding.previewLayoutSalary.tvJoiningDate.text = data.dateOfJoining
         binding.previewLayoutSalary.tvTotalExp.text = data.totalExperience
         binding.previewLayoutSalary.tvRetirementAge.text = data.retirementAge.toString()
+        binding.previewLayoutSalary.tvContact.text = data.employerContactNumber
 
         viewModel.getMasterDropdownNameFromId(data.sectorTypeDetailID, AppEnums.DropdownMasterType.Sector,
                 binding.previewLayoutSalary.tvSector)
@@ -113,6 +118,8 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
             binding.previewLayoutSenp.tvPinCode.text = data.addressBean!!.zip
             binding.previewLayoutSenp.tvContact.text = data.addressBean!!.contactNum
             viewModel.getStateNameFromId(data.addressBean!!.stateID, binding.previewLayoutSenp.tvState)
+            binding.previewLayoutSenp.tvCity.text=data.addressBean?.cityName
+            binding.previewLayoutSenp.tvDistrict.text=data.addressBean?.districtName
         }
 
         binding.previewLayoutSenp.tvBusinessName.text = data.companyName

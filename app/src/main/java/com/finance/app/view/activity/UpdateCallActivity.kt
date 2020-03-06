@@ -1,12 +1,14 @@
 package com.finance.app.view.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.ActivityUpdateCallBinding
@@ -25,6 +27,7 @@ import kotlinx.android.synthetic.main.layout_fixed_meeting.view.*
 import kotlinx.android.synthetic.main.layout_follow_up.view.*
 import kotlinx.android.synthetic.main.layout_not_interested.view.*
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -52,9 +55,7 @@ class UpdateCallActivity : BaseAppCompatActivity() {
     private var leadDetails: AllLeadMaster? = null
     private var allMasterDropDown: AllMasterDropDown? = null
     private val presenter = Presenter()
-
     private var selectedLayoutType: RequestLayout = RequestLayout.NOTHING
-
     // used to bind element of layout to activity
     private val binding: ActivityUpdateCallBinding by ActivityBindingProviderDelegate(this, R.layout.activity_update_call)
 
@@ -68,6 +69,15 @@ class UpdateCallActivity : BaseAppCompatActivity() {
             intent.putExtras(bundle)
             context.startActivity(intent)
         }
+
+        fun startActivityForResult(context: Context, lead: AllLeadMaster, requestCode: Int? = null) {
+            val intent = Intent(context, UpdateCallActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable(KEY_LEAD, lead)
+            intent.putExtras(bundle)
+            if (context is Activity) requestCode?.let { context.startActivityForResult(intent, it) }
+            else if (context is Fragment) requestCode?.let { context.startActivityForResult(intent, it) }
+        }
     }
 
     inner class CallUpdateRequest : ViewGeneric<Requests.RequestCallUpdate, Response.ResponseCallUpdate>(context = this) {
@@ -76,6 +86,11 @@ class UpdateCallActivity : BaseAppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseCallUpdate) {
             Toast.makeText(this@UpdateCallActivity, value.responseMsg, Toast.LENGTH_LONG).show()
+            if (value.responseCode == Constants.SUCCESS) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+
         }
 
         override fun getApiFailure(msg: String) {

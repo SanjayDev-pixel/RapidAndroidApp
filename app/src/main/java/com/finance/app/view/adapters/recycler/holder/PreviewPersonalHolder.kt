@@ -90,9 +90,9 @@ class PreviewPersonalHolder(val binding: PreviewLayoutPersonalBinding, val mCont
         binding.previewLayoutAddress.tvCurrentRentAmount.text = data.rentAmount
         binding.previewLayoutAddress.tvCurrentStaying.text = (data.stayingInYears).toString()
         binding.previewLayoutAddress.tvCurrentPinCode.text = data.zip
-        binding.previewLayoutAddress.tvCurrentState.text = data.rentAmount
-        binding.previewLayoutAddress.tvCurrentDistrict.text = data.rentAmount
-        binding.previewLayoutAddress.tvCurrentCity.text = data.rentAmount
+        binding.previewLayoutAddress.tvCurrentState.text = data.stateName
+        binding.previewLayoutAddress.tvCurrentDistrict.text = data.districtName
+        binding.previewLayoutAddress.tvCurrentCity.text = data.cityName
 
         viewModel.getMasterDropdownNameFromId(data.residenceTypeTypeDetailID, AppEnums.DropdownMasterType.ResidenceType,
                 binding.previewLayoutAddress.tvCurrentResidenceType)
@@ -108,8 +108,9 @@ class PreviewPersonalHolder(val binding: PreviewLayoutPersonalBinding, val mCont
         binding.previewLayoutAddress.tvPermanentRentAmount.text = data.rentAmount
         binding.previewLayoutAddress.tvPermanentStaying.text = (data.stayingInYears).toString()
         binding.previewLayoutAddress.tvPermanentPinCode.text = data.zip
-        binding.previewLayoutAddress.tvPermanentDistrict.text = data.rentAmount
-        binding.previewLayoutAddress.tvPermanentCity.text = data.rentAmount
+        binding.previewLayoutAddress.tvPermanentDistrict.text = data.districtName
+        binding.previewLayoutAddress.tvPermanentCity.text = data.cityName
+        binding.previewLayoutAddress.tvPermanentState.text = data.stateName
 
         viewModel.getMasterDropdownNameFromId(data.residenceTypeTypeDetailID, AppEnums.DropdownMasterType.ResidenceType,
                 binding.previewLayoutAddress.tvPermanentResidenceType)

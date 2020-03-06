@@ -53,6 +53,9 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var mCityId: String = ""
+    private var mStateName: String=""
+    private var mCityName: String=""
+    private var mDistrictName: String?=""
 
     private var listStatesDB: ArrayList<StatesMaster> = ArrayList()
     private var listStates: ArrayList<StatesMaster> = ArrayList()
@@ -133,6 +136,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
                 if (position >= 0) {
                     val state = parent.selectedItem as StatesMaster
                     mStateId = state.stateID.toString()
+                     mStateName=state.stateName
                     districtPresenter.callDistrictApi()
                 }
             }
@@ -144,6 +148,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
                 if (position >= 0) {
                     val district = parent.selectedItem as Response.DistrictObj?
                     mDistrictId = district?.districtID.toString()
+                    mDistrictName=district?.districtName
                     cityPresenter.callCityApi()
                 }
             }
@@ -256,6 +261,11 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     fun getDistrictId(): Int = parseAddressInt(value = districtId)
 
     fun getCityId(): Int = parseAddressInt(value = mCityId)
+    fun getCityName(): String = mCityName
+    fun getDistrictName():String?= mDistrictName
+    fun getStateName():String=mStateName
+
+
 
     override val stateId: String
         get() = mStateId
@@ -330,6 +340,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
             if (obj.cityID == pinCodeObj!!.cityID) {
                 spinnerCurrentCity.setSelection(index + 1)
                 mCityId = obj.cityID.toString()
+                mCityName=obj.cityName
                 spinnerCurrentCity.isEnabled = false
                 return
             }

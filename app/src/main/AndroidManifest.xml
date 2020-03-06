@@ -33,6 +33,7 @@
         <activity
             android:name=".view.activity.FinalSubmitActivity"
             android:label="@string/title_activity_final_submit"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.activity.SplashScreen"
@@ -93,7 +94,9 @@
         <activity android:name=".view.activity.SyncActivity" />
         <activity android:name=".view.activity.TempActivity" />
         <activity android:name=".view.activity.PreviewActivity" />
-        <activity android:name=".view.activity.LoanSubmitStatusActivity" />
+        <activity
+            android:name=".view.activity.LoanSubmitStatusActivity"
+            android:screenOrientation="portrait" />
         <!-- <activity -->
         <!-- android:name="com.thefinestartist.finestwebview.FinestWebViewActivity" -->
         <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->

@@ -44,6 +44,8 @@ class PreviewReferenceHolder(val binding: PreviewLayoutReferenceBinding, val mCo
             binding.tvLandmark.text = data.addressBean!!.landmark
             binding.tvPincode.text = data.addressBean!!.zip
             binding.tvState.text = data.addressBean!!.stateName
+            binding.tvCity.text= data.addressBean!!.cityName
+            binding.tvDistrict.text= data.addressBean!!.districtName
         }
 
         viewModel.getMasterDropdownNameFromId(data.relationTypeDetailID, AppEnums.DropdownMasterType.ReferenceRelationship,
