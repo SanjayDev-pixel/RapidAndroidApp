@@ -480,8 +480,11 @@ class EmploymentFormFragmentNew : BaseFragment() {
         address.addressTypeDetailID = 120
         address.addressTypeDetail = "EmploymentAddress"
         address.stateID = binding.customZipAddressView.getStateId()
+        address.stateName = binding.customZipAddressView.getStateName()
         address.districtID = binding.customZipAddressView.getDistrictId()
+        address.districtName=binding.customZipAddressView.getDistrictName()
         address.cityID = binding.customZipAddressView.getCityId()
+        address.cityName=binding.customZipAddressView.getCityName()
         address.address1 = binding.etAddress.text.toString()
         address.landmark = binding.etLandmark.text.toString()
         return address

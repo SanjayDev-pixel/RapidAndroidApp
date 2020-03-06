@@ -54,6 +54,7 @@ object Response {
     data class ResponseDocumentList(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: DocumentTypeResponse?, val timeStamp: Long?)
     data class ResponseUploadDocument(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
     data class ResponseUploadedDocumentList(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: UploadedDocumentResponse?, val timeStamp: Long?)
+    data class ResponseDocumentDownloadableLink(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: DocumentPathResponse?, val timeStamp: Long?)
 
 
 }

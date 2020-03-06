@@ -94,5 +94,7 @@ interface Api {
     @POST("api/v1/document/upload")
     fun postUploadDocument(@Part document: MultipartBody.Part, @PartMap map: HashMap<String, RequestBody>): Call<Response.ResponseUploadDocument>
 
+    @GET("api/v1/document/application-document/{documentId}")
+    fun getDocumentDownloadableLink(@Path("documentId") documentId: Int): Observable<Response.ResponseDocumentDownloadableLink>
 
 }

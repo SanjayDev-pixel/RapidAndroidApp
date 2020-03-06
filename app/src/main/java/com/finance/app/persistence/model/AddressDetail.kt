@@ -1,8 +1,9 @@
 package com.finance.app.persistence.model
+
 import java.io.Serializable
 
-class AddressDetail : Serializable {
-    var sameAsCurrentAddress : Boolean = false
+class AddressDetail : Serializable, Cloneable {
+    var sameAsCurrentAddress: Boolean = false
     var address1: String = ""
     var address2: String = ""
     var addressID: Int? = null
@@ -22,4 +23,9 @@ class AddressDetail : Serializable {
     var stateName: String? = ""
     var stayingInYears: Float? = 0.0f
     var contactNum: String? = ""
+
+    public override fun clone(): Any {
+        return super.clone()
+    }
+
 }

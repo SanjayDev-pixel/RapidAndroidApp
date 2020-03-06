@@ -94,14 +94,13 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             binding.layoutCreditCard.addcreditdilaog.visibility = View.GONE
             binding.layoutObligations.addcreditdilaog.visibility = View.GONE
         }
-       else
+            else
         {
             binding.addasset.visibility = View.VISIBLE
             binding.layoutCreditCard.addcreditdilaog.visibility = View.VISIBLE
             binding.layoutObligations.addcreditdilaog.visibility = View.VISIBLE
         }
         }
-
 
 
     }

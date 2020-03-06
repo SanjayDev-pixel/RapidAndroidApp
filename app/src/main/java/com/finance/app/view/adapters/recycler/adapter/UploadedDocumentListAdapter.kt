@@ -13,7 +13,8 @@ class UploadedDocumentListAdapter(private val documentList: ArrayList<DocumentTy
     private var itemClickListener: ItemClickListener? = null
 
     interface ItemClickListener {
-        fun onKycDetailDeleteClicked(position: Int)
+        fun onKycDetailDeleteClicked(position: Int, documentTypeModel: DocumentTypeModel)
+        fun onKycDetailDownloadClicked(position: Int, documentTypeModel: DocumentTypeModel)
     }
 
     inner class UploadedDocumentViewHolder(val binding: ItemUplodedDocumentBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -25,6 +26,9 @@ class UploadedDocumentListAdapter(private val documentList: ArrayList<DocumentTy
         }
 
         private fun addClickListener(position: Int, documentTypeModel: DocumentTypeModel) {
+            binding.ivDownload.setOnClickListener {
+                itemClickListener?.onKycDetailDownloadClicked(position, documentTypeModel)
+            }
         }
     }
 

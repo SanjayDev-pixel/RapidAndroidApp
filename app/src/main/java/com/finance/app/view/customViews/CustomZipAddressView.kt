@@ -53,6 +53,9 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     private var mStateId: String = ""
     private var mDistrictId: String = ""
     private var mCityId: String = ""
+    private var mStateName: String=""
+    private var mCityName: String=""
+    private var mDistrictName: String?=""
 
     private var listStatesDB: ArrayList<StatesMaster> = ArrayList()
     private var listStates: ArrayList<StatesMaster> = ArrayList()
@@ -133,6 +136,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
                 if (position >= 0) {
                     val state = parent.selectedItem as StatesMaster
                     mStateId = state.stateID.toString()
+                     mStateName=state.stateName
                     districtPresenter.callDistrictApi()
                 }
             }
@@ -144,6 +148,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
                 if (position >= 0) {
                     val district = parent.selectedItem as Response.DistrictObj?
                     mDistrictId = district?.districtID.toString()
+                    mDistrictName=district?.districtName
                     cityPresenter.callCityApi()
                 }
             }
@@ -157,14 +162,13 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (etCurrentPinCode.text!!.length == 6) {
-                    if(!userAutomaticValueSet) {
+                    if (!userAutomaticValueSet) {
                         pinCodePresenter.callPinCodeDetailApi()
                     } else {
                         userAutomaticValueSet = false
                         setServerCodes()
                     }
-                }
-                else clearPinCodes()
+                } else clearPinCodes()
             }
         })
     }
@@ -257,6 +261,11 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     fun getDistrictId(): Int = parseAddressInt(value = districtId)
 
     fun getCityId(): Int = parseAddressInt(value = mCityId)
+    fun getCityName(): String = mCityName
+    fun getDistrictName():String?= mDistrictName
+    fun getStateName():String=mStateName
+
+
 
     override val stateId: String
         get() = mStateId
@@ -297,7 +306,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun selectStateValue() {
-        for (index in 0 until listStatesDB.size - 1) {
+        for (index in 0 until listStatesDB.size) {
             val obj = listStatesDB[index]
             if (obj.stateID == pinCodeObj?.stateID) {
                 spinnerCurrentState.setSelection(index + 1)
@@ -311,7 +320,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun selectDistrictValue() {
-        for (index in 0 until listDistrict.size - 1) {
+        for (index in 0 until listDistrict.size) {
             val obj = listDistrict[index]
             if (obj.districtID == pinCodeObj?.districtID) {
                 spinnerCurrentDistrict.setSelection(index + 1)
@@ -326,11 +335,12 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun setUpCity(response: Response.ResponseCity) {
         updateCity(response.responseObj)
-        for (index in 0 until listCity.size - 1) {
+        for (index in 0 until listCity.size) {
             val obj = listCity[index]
             if (obj.cityID == pinCodeObj!!.cityID) {
                 spinnerCurrentCity.setSelection(index + 1)
                 mCityId = obj.cityID.toString()
+                mCityName=obj.cityName
                 spinnerCurrentCity.isEnabled = false
                 return
             }
@@ -341,10 +351,10 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
 
     fun disableSelf() {
         System.out.println("Disable Self")
-       /* etCurrentPinCode.isEnabled = false
-        spinnerCurrentCity.isEnabled = false
-        spinnerCurrentDistrict.isEnabled = false
-        spinnerCurrentCity.isEnabled = false*/
+        /* etCurrentPinCode.isEnabled = false
+         spinnerCurrentCity.isEnabled = false
+         spinnerCurrentDistrict.isEnabled = false
+         spinnerCurrentCity.isEnabled = false*/
         spinnerCurrentState.isEnabled = false
         spinnerCurrentDistrict.isEnabled = false
         spinnerCurrentCity.isEnabled = false

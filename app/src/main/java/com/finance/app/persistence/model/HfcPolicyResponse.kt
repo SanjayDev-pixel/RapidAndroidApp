@@ -26,6 +26,7 @@ class HfcPolicyResponse :Serializable {
     var finalFoir_WO_Insurance : Double?=null
     var finalEligibleLoan_Amount_WO_Insurance : Double?=null
     var finalProposedAmount_WO_Insurance : Double?=null
+    var roi: Double?=null
 
 
 
