@@ -54,6 +54,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
                 binding.btnAddApplicantTab.visibility = View.VISIBLE
             }
         }
+
         return binding.root
     }
 

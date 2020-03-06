@@ -9,8 +9,7 @@
         android:icon="@drawable/ic_upload_dcr"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_day_end"
+  <item android:id="@+id/action_day_end"
         android:title="@string/action_search"
         android:icon="@drawable/ic_vector_stop"
         app:showAsAction="always" />

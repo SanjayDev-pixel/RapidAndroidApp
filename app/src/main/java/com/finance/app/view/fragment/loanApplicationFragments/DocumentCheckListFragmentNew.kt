@@ -92,10 +92,6 @@ class DocumentCheckListFragmentNew : BaseFragment(){
 //            AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
 
-           //tempory calling
-           /* val intent = Intent(activity, FinalSubmitActivity::class.java)
-            startActivity(intent)*/
-
             PreviewActivity.start(this.requireActivity())
         }
     }
