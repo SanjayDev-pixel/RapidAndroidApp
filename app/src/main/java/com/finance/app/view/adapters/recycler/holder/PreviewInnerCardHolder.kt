@@ -22,7 +22,7 @@ class PreviewInnerCardHolder(val binding: PreviewInnerLayoutCreditCardBinding, v
         binding.tvCurrentUtilization.text = data.currentUtilization.toString()
         binding.tvLastPaymentDate.text = data.lastPaymentDate.toString()
 
-        viewModel.getMasterDropdownNameFromId(data.bankNameTypeDetailID, AppEnums.DropdownMasterType.RepaymentBank,
+        viewModel.getMasterDropdownNameFromId(data.bankNameTypeDetailID, AppEnums.DropdownMasterType.BankName,
                 binding.tvBankName)
         viewModel.getMasterDropdownNameFromId(data.obligateTypeDetail, AppEnums.DropdownMasterType.CreditCardObligation,
                 binding.tvObligate)

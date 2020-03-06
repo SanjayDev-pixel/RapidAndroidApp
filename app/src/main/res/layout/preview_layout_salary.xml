@@ -635,7 +635,10 @@
                 android:text="@string/income"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="@dimen/margin_20"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"

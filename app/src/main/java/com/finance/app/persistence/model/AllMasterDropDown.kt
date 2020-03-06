@@ -132,6 +132,8 @@ class AllMasterDropDown : Serializable {
         map[AppEnums.DropdownMasterType.LeadNotificationType] = LeadNotificationType
         map[AppEnums.DropdownMasterType.LeadRejectionReason] = LeadRejectionReason
         map[AppEnums.DropdownMasterType.AssetDetail] = AssetDetail
+        map[AppEnums.DropdownMasterType.BankName]=BankName
+
 
         return map
     }

@@ -64,7 +64,10 @@
                     android:text="@string/preivew_assets_list"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textSize="@dimen/margin_20"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:paddingLeft="@dimen/margin5dp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/white"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcAssetLiability"
@@ -82,7 +85,10 @@
                     android:text="@string/preview_card_data_list"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textSize="@dimen/margin_20"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:paddingLeft="@dimen/margin5dp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/white"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcCard"
@@ -100,7 +106,10 @@
                     android:text="@string/preview_obligations_list"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textSize="@dimen/margin_20"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:paddingLeft="@dimen/margin5dp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/white"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcObligations"

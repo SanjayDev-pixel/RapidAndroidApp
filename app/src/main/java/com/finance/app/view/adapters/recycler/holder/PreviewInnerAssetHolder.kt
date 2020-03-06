@@ -19,7 +19,7 @@ class PreviewInnerAssetHolder(val binding: PreviewInnerLayoutAssetBinding, val m
 
     private fun setValueInCard(data: AssetLiability, viewModel: AppDataViewModel) {
 
-        viewModel.getMasterDropdownNameFromId(data.assetDetailsID, AppEnums.DropdownMasterType.AssetDetail,
+        viewModel.getMasterDropdownNameFromId(data.assetDetailsTypeDetailID, AppEnums.DropdownMasterType.AssetDetail,
                 binding.tvAssetType)
 
         viewModel.getMasterDropdownNameFromId(data.subTypeOfAssetTypeDetailID, AppEnums.DropdownMasterType.AssetSubType,

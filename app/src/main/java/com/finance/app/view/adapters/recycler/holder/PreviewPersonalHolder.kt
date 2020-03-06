@@ -73,6 +73,7 @@ class PreviewPersonalHolder(val binding: PreviewLayoutPersonalBinding, val mCont
                 binding.previewLayoutBasic.tvGender)
         viewModel.getMasterDropdownNameFromId(data.genderTypeDetailID, AppEnums.DropdownMasterType.Gender,
                 binding.previewLayoutBasic.tvGender)
+        viewModel.getMasterDropdownNameFromId(data.livingStandardTypeDetailId,AppEnums.DropdownMasterType.LivingStandardIndicators,binding.previewLayoutBasic.tvLivingStandard)
 
         fillAddressData(data.addressDetailList, viewModel)
     }
@@ -96,7 +97,7 @@ class PreviewPersonalHolder(val binding: PreviewLayoutPersonalBinding, val mCont
 
         viewModel.getMasterDropdownNameFromId(data.residenceTypeTypeDetailID, AppEnums.DropdownMasterType.ResidenceType,
                 binding.previewLayoutAddress.tvCurrentResidenceType)
-        viewModel.getMasterDropdownNameFromId(data.addressTypeDetailID, AppEnums.DropdownMasterType.AddressProof,
+        viewModel.getMasterDropdownNameFromId(data.addressProof, AppEnums.DropdownMasterType.AddressProof,
                 binding.previewLayoutAddress.tvCurrentAddressProof)
         viewModel.getStateNameFromId(data.stateID, binding.previewLayoutAddress.tvCurrentState)
 
@@ -114,7 +115,7 @@ class PreviewPersonalHolder(val binding: PreviewLayoutPersonalBinding, val mCont
 
         viewModel.getMasterDropdownNameFromId(data.residenceTypeTypeDetailID, AppEnums.DropdownMasterType.ResidenceType,
                 binding.previewLayoutAddress.tvPermanentResidenceType)
-        viewModel.getMasterDropdownNameFromId(data.addressTypeDetailID, AppEnums.DropdownMasterType.AddressProof,
+        viewModel.getMasterDropdownNameFromId(data.addressProof, AppEnums.DropdownMasterType.AddressProof,
                 binding.previewLayoutAddress.tvPermanentAddressProof)
         viewModel.getStateNameFromId(data.stateID, binding.previewLayoutAddress.tvPermanentState)
 

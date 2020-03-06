@@ -39,5 +39,8 @@ class PreviewPropertyHolder(val binding: PreviewLayoutPropertyBinding, val mCont
                 AppEnums.DropdownMasterType.PropertyOccupiedBy, binding.tvOccupiedBy)
         viewModel.getMasterDropdownNameFromId(data.tenantNocAvailableTypeDetailID,
                 AppEnums.DropdownMasterType.TenantNocAvailable, binding.tvTenantNocAvailable)
+       /* viewModel.getMasterDropdownNameFromId(data.propertyNatureOfTransactionCategoryTypeDetailID,
+                AppEnums.DropdownMasterType.Pr, binding.tvTransactionCategory)*/
+
     }
 }
