@@ -114,9 +114,14 @@ class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<A
 
             }
 
-            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
-                binding.btnDelete.visibility = View.GONE
-                binding.btnEdit.visibility = View.GONE
+            LeadMetaData.getLeadData()?.let {
+                if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true)) {
+                    binding.btnDelete.visibility = View.GONE
+                    binding.btnEdit.visibility = View.GONE
+                } else {
+                    binding.btnDelete.visibility = View.VISIBLE
+                    binding.btnEdit.visibility = View.VISIBLE
+                }
             }
 
 

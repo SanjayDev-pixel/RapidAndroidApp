@@ -36,6 +36,13 @@ class BankDetailAdapter(private val context: Context, private val bankDetailList
                     binding.ivDelete.visibility = View.GONE
                     binding.ivEdit.visibility = View.GONE
                 }
+                else
+                {
+                    binding.btnDelete.visibility = View.VISIBLE
+                    binding.btnEdit.visibility = View.VISIBLE
+                    binding.ivDelete.visibility = View.VISIBLE
+                    binding.ivEdit.visibility = View.VISIBLE
+                }
 
             }
             addClickListener(position, bank)
