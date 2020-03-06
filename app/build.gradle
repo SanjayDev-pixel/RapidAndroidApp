@@ -200,5 +200,6 @@ dependencies {
         exclude group: 'androidx.appcompat', module: 'appcompat'
     }
 
-
+    //Mp-Chart Library
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

@@ -97,4 +97,8 @@ interface Api {
     @GET("api/v1/document/application-document/{documentId}")
     fun getDocumentDownloadableLink(@Path("documentId") documentId: Int): Observable<Response.ResponseDocumentDownloadableLink>
 
+    @GET("api/v1/loan/application/rule-engine-response/{leadID}/preliminary")
+    fun finalSubmittedResponse(@Path("leadID") leadId: Int): Observable<Response.ResponseFinalSubmitted>
+
+
 }

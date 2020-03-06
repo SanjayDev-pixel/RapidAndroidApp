@@ -19,5 +19,6 @@ object Requests {
     data class RequestDocumentList(val codeId: Int)
     data class RequestUploadedDocumentList(val codeId: Int, val leadId: Int)
     data class RequestDocumentDownloadableLink(val DocumentId: Int)
+    data class RequestSubmittedLead(val leadID: Int)
 
 }

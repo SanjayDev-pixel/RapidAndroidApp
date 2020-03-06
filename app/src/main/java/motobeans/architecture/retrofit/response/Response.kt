@@ -57,4 +57,14 @@ object Response {
     data class ResponseDocumentDownloadableLink(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: DocumentPathResponse?, val timeStamp: Long?)
 
 
+    data class DashboardResponse(val message: String?, val statusCode: Int?, val isSuccess: Boolean?, val dashboardData: DashboardData?)
+
+    data class DashboardData(val dashboardChildrens: ArrayList<DashboardChildrens>)
+
+    data class DashboardChildrens(val heading: String?, val description: String?, val chartData: ArrayList<ChartItems>)
+
+    data class ChartItems(val title: String, val total: Float, val data: ArrayList<ChartItemsData>)
+
+    data class ChartItemsData(val lable: String, val value: Float)
+    data class ResponseFinalSubmitted(val responseCode: String, val responseMsg: String, val responseObj: ApplicantionSubmitModel?, val timeStamp: Long)
 }

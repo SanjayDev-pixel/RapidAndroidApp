@@ -60,4 +60,203 @@ class Constants {
 
     }
 
+    object TEMP_DATA {
+        val apiChartResult = """
+            {
+                                    "message":"dashboard data",
+                                    "statusCode":200,
+                                    "isSuccess":true,
+                                    "dashboardData":{
+                                    "dashboardChildrens":[
+                                    {
+                                    "heading":"Dashboard Sample Heading 1",
+                                    "description":"Dashboard Sample Description 1",
+                                    "chartData":[
+                                    
+                                    {
+                                    "title":"chart H1-1",
+                                    "total":100.0,
+                                    "data":[
+                                    {
+                                    "lable":"H1-C1-1",
+                                    "value":45.3
+                                    },
+                                    {
+                                    "lable":"H1-C1-2",
+                                    "value":34.7
+                                    },
+                                    {
+                                    "lable":"H1-C1-3",
+                                    "value":20.0
+                                    }
+                                    ]
+                                    },
+                                    {
+                                    "title":"chart H1-2",
+                                    "total":120.0,
+                                    "data":[
+                                    {
+                                    "lable":"H1-C2-1",
+                                    "value":45.3
+                                    },
+                                    {
+                                    "lable":"H1-C2-2",
+                                    "value":34.7
+                                    },
+                                    {
+                                    "lable":"H1-C2-3",
+                                    "value":40.0
+                                    }
+                                    ]
+                                    },
+                                    {
+                                    "title":"chart H1-3",
+                                    "total":80.0,
+                                    "data":[
+                                    {
+                                    "lable":"H1-C3-1",
+                                    "value":25.3
+                                    },
+                                    {
+                                    "lable":"H1-C3-2",
+                                    "value":24.7
+                                    },
+                                    {
+                                    "lable":"H1-C3-3",
+                                    "value":30.0
+                                    }
+                                    ]
+                                    }
+                                    ]
+                                   
+                                   
+                                    },
+                                    {
+                                    "heading":"Dashboard Sample Heading 2",
+                                    "description":"Dashboard Sample Description 2",
+                                    "chartData":[
+                                    {
+                                    "title":"chart H2-1",
+                                    "total":100.0,
+                                    "data":[
+                                    {
+                                    "lable":"H2-C1-1",
+                                    "value":45.3
+                                    },
+                                    {
+                                    "lable":"H2-C1-2",
+                                    "value":34.7
+                                    },
+                                    {
+                                    "lable":"H2-C1-3",
+                                    "value":20.0
+                                    }
+                                    ]
+                                    },
+                                    {
+                                    "title":"chart H2-2",
+                                    "total":120.0,
+                                    "data":[
+                                    {
+                                    "lable":"H2-C2-1",
+                                    "value":45.3
+                                    },
+                                    {
+                                    "lable":"H2-C2-2",
+                                    "value":34.7
+                                    },
+                                    {
+                                    "lable":"H2-C2-3",
+                                    "value":40.0
+                                    }
+                                    ]
+                                    },
+                                    {
+                                    "title":"chart H2-3",
+                                    "total":80.0,
+                                    "data":[
+                                    {
+                                    "lable":"H2-C3-1",
+                                    "value":25.3
+                                    },
+                                    {
+                                    "lable":"H2-C3-2",
+                                    "value":24.7
+                                    },
+                                    {
+                                    "lable":"H2-C3-3",
+                                    "value":30.0
+                                    }
+                                    ]
+                                    }
+                                    ]
+                                   
+                                  
+                                    },
+                                    {
+                                    "heading":"Dashboard Sample Heading 3",
+                                    "description":"Dashboard Sample Description 3",
+                                    "chartData":[
+                                    
+                                    {
+                                    "title":"chart H3-1",
+                                    "total":100.0,
+                                    "data":[
+                                    {
+                                    "lable":"H3-C1-1",
+                                    "value":45.3
+                                    },
+                                    {
+                                    "lable":"H3-C1-2",
+                                    "value":34.7
+                                    },
+                                    {
+                                    "lable":"H3-C1-3",
+                                    "value":20.0
+                                    }
+                                    ]
+                                    },
+                                    {
+                                    "title":"chart H3-2",
+                                    "total":120.0,
+                                    "data":[
+                                    {
+                                    "lable":"H3-C2-1",
+                                    "value":45.3
+                                    },
+                                    {
+                                    "lable":"H3-C2-2",
+                                    "value":34.7
+                                    },
+                                    {
+                                    "lable":"H3-C2-3",
+                                    "value":40.0
+                                    }
+                                    ]
+                                    },
+                                    {
+                                    "title":"chart H3-3",
+                                    "total":80.0,
+                                    "data":[
+                                    {
+                                    "lable":"H3-C3-1",
+                                    "value":25.3
+                                    },
+                                    {
+                                    "lable":"H3-C3-2",
+                                    "value":24.7
+                                    },
+                                    {
+                                    "lable":"H3-C3-3",
+                                    "value":30.0
+                                    }
+                                    ]
+                                    }
+                                    ]
+                                    }
+                                    ]
+                                    }
+                                    }
+        """.trimIndent()
+    }
 }

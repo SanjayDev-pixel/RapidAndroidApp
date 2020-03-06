@@ -60,6 +60,8 @@ class PreviewDocumentsHolder(val binding: PreviewLayoutDocumentChecklistBinding,
 
             if (LeadMetaData.getLeadData()?.status == "Submitted") {
                 Toast.makeText(mContext, "Lead is already submitted.", Toast.LENGTH_SHORT).show()
+                val lead: AllLeadMaster? = LeadMetaData.getLeadData()
+                getSubmittedStateResponse(lead)
             } else {
 
                 val lead: AllLeadMaster? = LeadMetaData.getLeadData()
@@ -76,6 +78,13 @@ class PreviewDocumentsHolder(val binding: PreviewLayoutDocumentChecklistBinding,
 
     }
 
+    private fun getSubmittedStateResponse(lead: AllLeadMaster?) {
+
+        presenter.callNetwork(ConstantsApi.Call_FINAL_RESPONSE, CallFinalSubmitResponse())
+
+
+    }
+//
     private fun checkAndStartLoanApplicationActivity(lead: AllLeadMaster?) {
 
         val isLeadOfflineDataSync = lead!!.isDetailAlreadySync
@@ -137,5 +146,62 @@ class PreviewDocumentsHolder(val binding: PreviewLayoutDocumentChecklistBinding,
         }
 
     }
+
+    inner class CallFinalSubmitResponse:ViewGeneric<Requests.RequestSubmittedLead, Response.ResponseFinalSubmitted>(context = mContext) {
+        override val apiRequest: Requests.RequestSubmittedLead?
+            get() = getRequestSubmittedLead()
+
+
+        override fun getApiSuccess(value: Response.ResponseFinalSubmitted) {
+
+            if (value.responseCode == Constants.SUCCESS) {
+                Toast.makeText(context, "Submitted Successfully.", Toast.LENGTH_SHORT).show()
+
+                binding.progressBar!!.visibility = View.GONE
+
+                val submitLoanResponse: ApplicantionSubmitModel? = value.responseObj
+
+                if (value.responseObj != null) {
+                    val intent = Intent(mContext, LoanSubmitStatusActivity::class.java)
+                    intent.putExtra("SubmitResponse", submitLoanResponse)
+                    mContext.startActivity(intent)
+
+
+                } else {
+
+                    showToast(value.responseMsg)
+                }
+
+
+            } else {
+                showToast(value.responseMsg)
+                binding.progressBar!!.visibility = View.GONE
+            }
+
+        }
+
+        override fun getApiFailure(msg: String) {
+
+            if (msg.exIsNotEmptyOrNullOrBlank()) {
+                super.getApiFailure(msg)
+                binding.progressBar!!.visibility = View.GONE
+            } else {
+                super.getApiFailure("Time out Error")
+                binding.progressBar!!.visibility = View.GONE}
+
+        }
+
+
+
+        private fun getRequestSubmittedLead():Requests.RequestSubmittedLead?{
+            val leadId:Int?=LeadMetaData.getLeadId()
+            return Requests.RequestSubmittedLead(leadID=leadId!!)
+        }
+
+    }
+
+
+
+
 }
 

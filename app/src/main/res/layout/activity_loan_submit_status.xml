@@ -9,8 +9,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/ivProfileBg"
@@ -331,11 +330,10 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/margin10dp"/>
+            android:layout_marginTop="@dimen/margin20dp"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_weight="1"
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
