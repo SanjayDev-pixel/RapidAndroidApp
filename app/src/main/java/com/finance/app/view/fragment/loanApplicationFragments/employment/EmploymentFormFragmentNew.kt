@@ -393,7 +393,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
     }
 
     fun isEmploymentDetailsValid(): Boolean {
-        //TODO need to correct validation....
+        // need to correct validation....
         selectedApplicant?.let {
             if (it.incomeConsidered.not())
                 return true //No need to validate in case of while income is not considerd..

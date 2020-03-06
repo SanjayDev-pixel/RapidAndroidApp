@@ -94,9 +94,14 @@ class CardDetailAdapter(private val c: Context, private val cards: ArrayList<Car
             }
 
             addClickListener(position, card)
-            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true)) {
                 binding.btnDelete.visibility = View.GONE
                 binding.btnEdit.visibility = View.GONE
+            }
+                else{
+                binding.btnDelete.visibility = View.VISIBLE
+                binding.btnEdit.visibility = View.VISIBLE
+            }
             }
 
         }

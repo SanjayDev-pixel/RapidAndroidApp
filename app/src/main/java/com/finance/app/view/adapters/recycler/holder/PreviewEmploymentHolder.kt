@@ -103,6 +103,12 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
         viewModel.getMasterDropdownNameFromId(data.employmentTypeDetailID, AppEnums.DropdownMasterType.EmploymentType,
                 binding.previewLayoutSalary.tvEmploymentType)
 
+        if(data.isMainApplicant==true){
+            binding.tvCoApplicant.text="Applicant"
+        }else{
+            binding.tvCoApplicant.text="Co-Applicant"
+        }
+
     }
 
     private fun fillSenpData(data: EmploymentApplicantsModel, viewModel: AppDataViewModel) {
@@ -135,6 +141,13 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
                 binding.previewLayoutSenp.tvIndustry)
         viewModel.getMasterDropdownNameFromId(data.businessSetupTypeDetailID, AppEnums.DropdownMasterType.BusinessSetupType,
                 binding.previewLayoutSenp.tvBusinessSetUpType)
+
+
+        if(data.isMainApplicant==true){
+            binding.tvCoApplicant.text="Applicant"
+        }else{
+            binding.tvCoApplicant.text="Co-Applicant"
+        }
 
     }
 

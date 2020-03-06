@@ -114,13 +114,16 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
 
 
             addClickListener(position, obligation)
-            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true)) {
                 binding.btnDelete.visibility = View.GONE
                 binding.btnEdit.visibility = View.GONE
                 binding.btnEditNew.visibility = View.GONE
             }
-
-        }
+            else {binding.btnDelete.visibility = View.VISIBLE
+                binding.btnEdit.visibility = View.VISIBLE
+                binding.btnEditNew.visibility = View.VISIBLE}
+            }
+       }
 
         private fun addClickListener(position: Int, obligation: ObligationDetail) {
             binding.btnDelete.setOnClickListener {

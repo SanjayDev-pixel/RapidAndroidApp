@@ -461,7 +461,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
 
             binding.rcAsset.visibility = View.GONE
- binding.layoutObligations.rcObligation.visibility = View.GONE
+             binding.layoutObligations.rcObligation.visibility = View.GONE
             //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
             //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
            //            binding.pageIndicatorAsset.visibility = View.GONE
