@@ -16,20 +16,18 @@
             android:layout_height="match_parent" />
 
 
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start">
 
-           <!-- <ImageView
-                android:id="@+id/drawer_bg"
-                android:src="@drawable/nav_footer_background"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="1"
-                android:scaleType="centerCrop"/>-->
+            <!-- <ImageView
+                 android:id="@+id/drawer_bg"
+                 android:src="@drawable/nav_footer_background"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:alpha="1"
+                 android:scaleType="centerCrop"/>-->
 
             <com.google.android.material.navigation.NavigationView
                 android:id="@+id/nav_view"
@@ -39,7 +37,7 @@
                 app:menu="@menu/navigation_menu"
                 android:background="@color/md_grey_200"
                 app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:itemTextColor="@color/black"/>
+                app:itemTextColor="@color/black" />
 
         </RelativeLayout>
 

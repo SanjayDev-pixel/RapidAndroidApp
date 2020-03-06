@@ -21,6 +21,7 @@
                 android:padding="@dimen/margin_10"
                 android:orientation="vertical"
                 android:layout_weight="2">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:layout_weight="1"
-                        android:paddingLeft="@dimen/margin10dp"/>
+                        android:paddingLeft="@dimen/margin10dp" />
 
                     <TextView
                         android:id="@+id/tvLoanOwnership"
@@ -45,7 +46,7 @@
                         android:gravity="left"
                         android:text="Joint"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -64,7 +65,7 @@
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:layout_weight="1"
-                        android:paddingLeft="@dimen/margin10dp"/>
+                        android:paddingLeft="@dimen/margin10dp" />
 
                     <TextView
                         android:id="@+id/tvObligate"
@@ -73,7 +74,7 @@
                         android:gravity="left"
                         android:text="Yes"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
 
@@ -93,7 +94,7 @@
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:layout_weight="1"
-                        android:paddingLeft="@dimen/margin10dp"/>
+                        android:paddingLeft="@dimen/margin10dp" />
 
                     <TextView
                         android:id="@+id/tvLoanType"
@@ -102,8 +103,9 @@
                         android:gravity="left"
                         android:text="Personal Loan"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -120,7 +122,7 @@
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:layout_weight="1"
-                        android:paddingLeft="@dimen/margin10dp"/>
+                        android:paddingLeft="@dimen/margin10dp" />
 
                     <TextView
                         android:id="@+id/tvFinancerName"
@@ -129,8 +131,9 @@
                         android:gravity="left"
                         android:text="DMI"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,7 +150,7 @@
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:layout_weight="1"
-                        android:paddingLeft="@dimen/margin10dp"/>
+                        android:paddingLeft="@dimen/margin10dp" />
 
                     <TextView
                         android:id="@+id/tvLoanAmount"
@@ -156,7 +159,7 @@
                         android:gravity="left"
                         android:text="4000000"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -174,7 +177,7 @@
                         android:text="Tenure : "
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvTenure"
@@ -183,8 +186,9 @@
                         android:gravity="left"
                         android:text="12"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,7 +203,7 @@
                         android:text="Balance Tenure : "
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvBalanceTenure"
@@ -208,7 +212,7 @@
                         android:gravity="left"
                         android:text="400213"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -225,7 +229,7 @@
                         android:text="EMI : "
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvEMI"
@@ -234,7 +238,7 @@
                         android:gravity="left"
                         android:text="12000"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -251,7 +255,7 @@
                         android:text="@string/num_of_check_bounces_in_last_6_months"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvNumOfBouncesInSixMonths"
@@ -260,7 +264,7 @@
                         android:gravity="left"
                         android:text="5"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -277,7 +281,7 @@
                         android:text="@string/num_of_check_bounces_in_last_9_months"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvNumOfBouncesInNineMonths"
@@ -286,7 +290,7 @@
                         android:gravity="left"
                         android:text="5"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -303,7 +307,7 @@
                         android:text="@string/loan_a_c_num"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvLoanAcNum"
@@ -312,7 +316,7 @@
                         android:gravity="left"
                         android:text="3215461303126"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -329,7 +333,7 @@
                         android:text="Repayment Bank"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvRepaymentBank"
@@ -339,7 +343,7 @@
                         android:gravity="left"
                         android:text="Bank of India"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -356,7 +360,7 @@
                         android:text="EMI paid in same month : "
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvEmiPaid"
@@ -365,7 +369,7 @@
                         android:gravity="left"
                         android:text="Yes"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -382,7 +386,7 @@
                         android:text="Disbursement Date : "
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/tvDisbursementDate"
@@ -391,7 +395,7 @@
                         android:gravity="left"
                         android:text="12/9/19"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -402,6 +406,7 @@
                 android:baselineAligned="false"
                 android:orientation="vertical"
                 android:layout_weight="8">
+
                 <ImageView
                     android:id="@+id/btnEditNew"
                     android:layout_width="30dp"
@@ -411,8 +416,7 @@
                     android:padding="5sp"
                     android:layout_margin="@dimen/margin_10"
                     android:src="@drawable/ic_edit_grey"
-                    android:layout_alignParentRight="true"
-                    />
+                    android:layout_alignParentRight="true" />
 
                 <ImageView
                     android:id="@+id/btnDelete"
@@ -424,8 +428,7 @@
                     android:layout_margin="@dimen/margin_10"
                     android:src="@drawable/ic_delete_grey"
                     android:layout_below="@+id/btnEditNew"
-                    android:layout_alignParentRight="true"
-                    />
+                    android:layout_alignParentRight="true" />
 
                 <TextView
                     android:id="@+id/btnEdit"
@@ -438,7 +441,7 @@
                     android:text="@string/more"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/button_text_size"
-                    android:layout_marginRight="@dimen/margin5dp"/>
+                    android:layout_marginRight="@dimen/margin5dp" />
 
 
             </RelativeLayout>
