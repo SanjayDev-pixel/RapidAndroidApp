@@ -83,28 +83,28 @@
                 android:textSize="@dimen/small_text_size" />
 
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:orientation="horizontal">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5sp"
-                    android:orientation="horizontal">
+                    android:textColor="@color/black"
+                    android:text="Application Number : "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="Application Number : "
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size" />
+                <TextView
+                    android:id="@+id/tvApplicationNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="1122362"
+                    android:textSize="@dimen/small_text_size" />
 
-                    <TextView
-                        android:id="@+id/tvApplicationNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="1122362"
-                        android:textSize="@dimen/small_text_size" />
-
-                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

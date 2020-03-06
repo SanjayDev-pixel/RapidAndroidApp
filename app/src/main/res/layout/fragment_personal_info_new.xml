@@ -45,9 +45,7 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/llApplicantTab"
-            android:clipToPadding="false"
-            android:paddingBottom="20dp" />
+            android:layout_below="@id/llApplicantTab" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -67,12 +65,12 @@
 
             <Button
                 android:id="@+id/btnNext"
-                android:minWidth="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/ic_round_blue_btn_bkg"
                 android:gravity="center"
+                android:minWidth="100dp"
                 android:text="@string/next"
                 android:textColor="@color/white" />
         </RelativeLayout>
