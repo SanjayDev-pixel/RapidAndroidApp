@@ -23,9 +23,9 @@ import motobeans.architecture.util.AppUtilExtensions
 class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs),CheckListAdapter.CheckListClickListener{
 
     private lateinit var binding: CustomviewDocumentchecklistBinding
-    private lateinit var activity: FragmentActivity
-    private lateinit var selectedApplicant: PersonalApplicantsModel
-    private var checklistAdapter: CheckListAdapter? = null
+//    private lateinit var activity: FragmentActivity
+//    private lateinit var selectedApplicant: PersonalApplicantsModel
+//    private var checklistAdapter: CheckListAdapter? = null
 
 
 
@@ -47,9 +47,9 @@ class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, a
     }
 
     fun initApplicantDetails(it: FragmentActivity, applicant: PersonalApplicantsModel){
-        activity = it
-        selectedApplicant = applicant
-        selectedApplicant = applicant
+//        activity = it
+//        selectedApplicant = applicant
+//        selectedApplicant = applicant
 
         //fetch details
         fetchApplicantCheckListDetailsById(applicant.leadApplicantNumber.toString())
@@ -58,22 +58,22 @@ class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, a
 
     private fun fetchApplicantCheckListDetailsById(applicantNumber: String) {
 
-        LeadMetaData.getLeadObservable().observe(activity, Observer { allLeadDetails ->
-            allLeadDetails?.let {
-               // val selectedApplicantList = it.assetLiabilityData.applicantDetails.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
-
-                /*if (!selectedApplicantList.isNullOrEmpty()) {
-
-                    if (selectedApplicantList[0].applicantAssetLiabilityList.isNullOrEmpty()) {
-                        selectedApplicantList[0].applicantAssetLiabilityList = ArrayList()
-                        setDocumentCheckListAdapter(selectedApplicantList[0].applicantAssetLiabilityList!!)
-                    } else setDocumentCheckListAdapter(selectedApplicantList[0].applicantAssetLiabilityList!!)
-
-
-                }*/
-
-            }
-        })
+//        LeadMetaData.getLeadObservable().observe(activity, Observer { allLeadDetails ->
+//            allLeadDetails?.let {
+//               // val selectedApplicantList = it.assetLiabilityData.applicantDetails.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
+//
+//                /*if (!selectedApplicantList.isNullOrEmpty()) {
+//
+//                    if (selectedApplicantList[0].applicantAssetLiabilityList.isNullOrEmpty()) {
+//                        selectedApplicantList[0].applicantAssetLiabilityList = ArrayList()
+//                        setDocumentCheckListAdapter(selectedApplicantList[0].applicantAssetLiabilityList!!)
+//                    } else setDocumentCheckListAdapter(selectedApplicantList[0].applicantAssetLiabilityList!!)
+//
+//
+//                }*/
+//
+//            }
+//        })
 
 
 
@@ -90,10 +90,10 @@ class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, a
     }
 
     private fun setDocumentCheckListAdapter(checkList: ArrayList<DocumentCheckListDetailModel>) {
-            binding.recyclerviewChecklist.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            checklistAdapter = CheckListAdapter(context, checkList)
-            binding.recyclerviewChecklist.adapter = checklistAdapter
-           checklistAdapter?.setOnCheckListClickListener(this)
+//            binding.recyclerviewChecklist.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+//            checklistAdapter = CheckListAdapter(context, checkList)
+//            binding.recyclerviewChecklist.adapter = checklistAdapter
+//           checklistAdapter?.setOnCheckListClickListener(this)
 
         }
 
