@@ -37,6 +37,7 @@
     <string name="type_of_loan">Type Of Loan :</string>
     <string name="email">Email : </string>
     <string name="activities">Activities</string>
+    <string name="followup_details">Follow Up Details</string>
     <string name="you_have_no_pending_activities">You have no pending activities</string>
     <string name="add_task">Add Task</string>
     <string name="loan_information">Loan Information</string>

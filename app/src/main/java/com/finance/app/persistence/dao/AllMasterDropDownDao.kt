@@ -17,5 +17,7 @@ interface  AllMasterDropDownDao {
 
     @Query("DELETE FROM AllMasterDropDown")
     fun deleteAllMasterDropdownValue()
+    //Searching Value with in  list with the help of id
+
 
 }

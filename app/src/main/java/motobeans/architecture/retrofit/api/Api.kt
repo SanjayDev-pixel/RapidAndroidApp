@@ -8,6 +8,7 @@ import motobeans.architecture.retrofit.request.Requests.RequestSample
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.retrofit.response.Response.ResponseSample
 import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -82,6 +83,9 @@ interface Api {
 
     @GET("api/v1/document/")
     fun getDocumentType(@Query("codeID") codeId: Int): Observable<Response.ResponseDocumentList>
+    //For Calling FollowUp
+    @GET("api/v1/lead/followUp/{leadID}")
+    fun postCallFollowUp(@Path("leadID") leadId: Int) : Observable<Response.ResponseFollowUp>
 
     @GET("api/v1/document/")
     fun getDocumentList(@Query("codeID") codeId: Int, @Query("lead") leadId: Int): Observable<Response.ResponseUploadedDocumentList>

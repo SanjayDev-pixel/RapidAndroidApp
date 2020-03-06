@@ -89,11 +89,19 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         initViews()
         setOnClickListener()
 
-        LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+        LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true)) {
             binding.addasset.visibility = View.GONE
             binding.layoutCreditCard.addcreditdilaog.visibility = View.GONE
             binding.layoutObligations.addcreditdilaog.visibility = View.GONE
         }
+       else
+        {
+            binding.addasset.visibility = View.VISIBLE
+            binding.layoutCreditCard.addcreditdilaog.visibility = View.VISIBLE
+            binding.layoutObligations.addcreditdilaog.visibility = View.VISIBLE
+        }
+        }
+
 
 
     }
