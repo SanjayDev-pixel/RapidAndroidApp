@@ -22,25 +22,18 @@ class ObligationAdapter(private val c: Context, private val obligations: ArrayLi
     private lateinit var binding: ItemObligationBinding
     private var mOnObligationClickListener: ObligationClickListener? = null
     private var allMasterDropDown1: AllMasterDropDown? = allMasterDropDown
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObligationViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_obligation, parent, false)
         return ObligationViewHolder(binding, c)
     }
-
     override fun getItemCount() = obligations.size
-
     fun setOnObligationClickListener(listener: ObligationClickListener) {
         mOnObligationClickListener = listener
     }
     fun getItemList():ArrayList<ObligationDetail>{
-
     return obligations
     }
-
-
     fun addItem(position: Int = 0, obligationDetail: ObligationDetail) {
         obligations?.let {
             it.add(position, obligationDetail)
