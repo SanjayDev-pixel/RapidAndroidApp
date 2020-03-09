@@ -22,7 +22,8 @@ import org.greenrobot.eventbus.ThreadMode
 
 class LoanApplicationActivity : BaseAppCompatActivity() {
     private val binding: ActivityLoanApplicationBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_loan_application)
+        this, R.layout.activity_loan_application
+    )
 
     private lateinit var navFragment: NavMenuFragment
     private lateinit var secondaryFragment: Fragment
@@ -97,31 +98,31 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
         runOnUiThread {
             if (!isFinishing) {
                 AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.warning_msg))
-                        .setMessage(getString(R.string.data_loss_msg))
-                        .setCancelable(false)
-                        .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-                        .setPositiveButton("ok") { _, _ ->
-                            this.finish()
-                            super.onBackPressed()
-                        }.show()
+                    .setTitle(getString(R.string.warning_msg))
+                    .setMessage(getString(R.string.data_loss_msg))
+                    .setCancelable(false)
+                    .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                    .setPositiveButton("ok") { _, _ ->
+                        this.finish()
+                        super.onBackPressed()
+                    }.show()
             }
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(coApplicantsList: CoApplicantsList){
+    fun onEvent(coApplicantsList: CoApplicantsList) {
 
         binding.applicantName.text = coApplicantsList.firstName.plus(" " + coApplicantsList.middleName)
         binding.header.tvLeadNumber.text = coApplicantsList.leadApplicantNumber
-        binding.tvDesignation.text=coApplicantsList.applicantType
-        binding.tvMobile.text=coApplicantsList.mobile
+        binding.tvDesignation.text = coApplicantsList.applicantType
+        binding.tvMobile.text = coApplicantsList.mobile
     }
 
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
- }
+}
 
 

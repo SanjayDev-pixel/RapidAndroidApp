@@ -36,7 +36,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private val presenter = Presenter()
 
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_lead_detail)
+        this, R.layout.activity_lead_detail
+    )
     private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
     @Inject
     lateinit var dataBase: DataBaseUtil
@@ -45,6 +46,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private var isSelectedLeadSynced = false
     private var leadContact: Long = 0
     private var allMasterDropDown: AllMasterDropDown? = null
+
     companion object {
         private const val KEY_LEAD = "leadApplicant"
         fun start(context: Context, lead: AllLeadMaster) {
@@ -204,10 +206,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                 setUpRecyclerView(list)
             }
 
-        }
-
-        override fun getApiFailure(msg: String) {
-            super.getApiFailure(msg)
         }
 
 
