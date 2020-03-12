@@ -134,6 +134,8 @@ class NetworkModule {
                 original.body()
             )
             builder.header("ApplicationUserAgent", "dmi-droid")
+            builder.header("User-Agent", "android-${sharedPreferencesUtil.getUUID()}")
+
             val request = builder.build()
             chain.proceed(request)
         }

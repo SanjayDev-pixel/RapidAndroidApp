@@ -12,18 +12,40 @@ import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.sharedPreferences.SharedPreferencesBean
 import motobeans.architecture.sharedPreferences.SharedPreferencesCustom
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SharedPreferencesUtilImpl(private var context: Context) : SharedPreferencesUtil {
 
+    override fun getUUID(): String {
+        val uuidSharedPref = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_UUID)
+        var uuid = uuidSharedPref.getString(SharedPreferencesBean.KEY_UUID)
+        if (uuid.isNullOrEmpty()) {
+            uuid = UUID.randomUUID().toString()
+            setUUID(uuid)
+        }
+
+        return uuid
+    }
+
+    override fun setUUID(uuid: String) {
+        val uuidSharedPref = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_UUID)
+        uuidSharedPref.putString(SharedPreferencesBean.KEY_UUID, uuid)
+    }
+
+
     override fun saveCoApplicantsList(coApplicants: ArrayList<Response.CoApplicantsObj>) {
         val objCoApplicants = Gson().toJson(coApplicants)
-        val objSPCoApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_CO_APPLICANT_LIST)
+        val objSPCoApplicants =
+                SharedPreferencesCustom(context, SharedPreferencesBean.KEY_CO_APPLICANT_LIST)
         objSPCoApplicants.putString(SharedPreferencesBean.KEY_CO_APPLICANT_LIST, objCoApplicants)
     }
 
     override fun getCoApplicantsList(): ArrayList<Response.CoApplicantsObj>? {
-        val objSpCoApplicants = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_CO_APPLICANT_LIST)
-        val coApplicantString = objSpCoApplicants.getString(SharedPreferencesBean.KEY_CO_APPLICANT_LIST)
+        val objSpCoApplicants =
+                SharedPreferencesCustom(context, SharedPreferencesBean.KEY_CO_APPLICANT_LIST)
+        val coApplicantString =
+                objSpCoApplicants.getString(SharedPreferencesBean.KEY_CO_APPLICANT_LIST)
         val type = object : TypeToken<ArrayList<Response.CoApplicantsObj>>() {}.type
         return Gson().fromJson(coApplicantString, type)
     }
@@ -83,13 +105,16 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     }
 
     override fun setPropertySelection(value: String) {
-        val propertySelection = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PROPERTY_SELECTION)
+        val propertySelection =
+                SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PROPERTY_SELECTION)
         propertySelection.putString(SharedPreferencesBean.KEY_PROPERTY_SELECTION, value)
     }
 
     override fun getPropertySelection(): Boolean {
-        val spPropertySelection = SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PROPERTY_SELECTION)
-        val propertySelection = spPropertySelection.getString(SharedPreferencesBean.KEY_PROPERTY_SELECTION)
+        val spPropertySelection =
+                SharedPreferencesCustom(context, SharedPreferencesBean.KEY_PROPERTY_SELECTION)
+        val propertySelection =
+                spPropertySelection.getString(SharedPreferencesBean.KEY_PROPERTY_SELECTION)
         return propertySelection == "Yes"
     }
 
