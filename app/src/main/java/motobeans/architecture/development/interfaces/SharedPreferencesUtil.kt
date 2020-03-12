@@ -15,17 +15,19 @@ interface SharedPreferencesUtil {
     fun getUserToken(): String?
     fun getUserName(): String?
     fun setPropertySelection(value: String)
-    fun saveLeadDetail(lead:AllLeadMaster)
+    fun saveLeadDetail(lead: AllLeadMaster)
     fun saveCoApplicantsList(coApplicants: ArrayList<Response.CoApplicantsObj>)
-    fun getCoApplicantsList():ArrayList<Response.CoApplicantsObj>?
-    fun getLeadId():String?
-    fun getLeadDetail():AllLeadMaster?
-    fun getUserId():String?
+    fun getCoApplicantsList(): ArrayList<Response.CoApplicantsObj>?
+    fun getLeadId(): String?
+    fun getLeadDetail(): AllLeadMaster?
+    fun getUserId(): String?
     fun getEmpId(): String?
-    fun getLoanAppID():Int?
+    fun getLoanAppID(): Int?
     fun getPropertySelection(): Boolean
     fun getUserBranches(): ArrayList<UserBranches>?
-    fun getRolePrivilege():Response.RolePrivileges?
+    fun getRolePrivilege(): Response.RolePrivileges?
     fun getNavMenuItem(): List<AppEnums.ScreenLoanApp>?
+    fun getUUID(): String
+    fun setUUID(uuid: String)
     fun clearAll()
 }
