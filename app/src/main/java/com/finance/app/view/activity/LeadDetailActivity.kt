@@ -36,15 +36,17 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private val presenter = Presenter()
 
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_lead_detail)
+        this, R.layout.activity_lead_detail
+    )
     private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
     @Inject
     lateinit var dataBase: DataBaseUtil
     private var bundle: Bundle? = null
     private var lead: AllLeadMaster? = null
     private var isSelectedLeadSynced = false
-    private var leadContact: Long = 0
+    private var leadContact: Long? = null
     private var allMasterDropDown: AllMasterDropDown? = null
+
     companion object {
         private const val KEY_LEAD = "leadApplicant"
         fun start(context: Context, lead: AllLeadMaster) {
@@ -118,7 +120,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.tvPhone.text = lead.applicantContactNumber
         binding.tvTypeOfLoan.text = lead.loanProductName
         binding.tvLeadStatus.text = lead.status
-        leadContact = lead.applicantContactNumber?.toLong() ?: 0
+        leadContact = if (lead.applicantAlternativeContactNumber.isNullOrBlank().not()) lead.applicantContactNumber?.toLong() else null
         setLeadNum(lead.leadNumber)
 
     }
@@ -140,9 +142,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
 
         binding.ivCall.setOnClickListener {
-            val callIntent = Intent(Intent.ACTION_CALL)
-            callIntent.data = Uri.parse("tel: +91${leadContact}")
-            startActivity(callIntent)
+            leadContact?.let {
+                val callIntent = Intent(Intent.ACTION_CALL)
+                callIntent.data = Uri.parse("tel: +91${leadContact}")
+                startActivity(callIntent)
+            }
         }
 
         binding.btnUpdateCall.setOnClickListener {
@@ -204,10 +208,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                 setUpRecyclerView(list)
             }
 
-        }
-
-        override fun getApiFailure(msg: String) {
-            super.getApiFailure(msg)
         }
 
 

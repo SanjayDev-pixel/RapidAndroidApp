@@ -3,6 +3,8 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardNewBinding
 import com.finance.app.eventBusModel.AppEvents
@@ -23,7 +25,8 @@ import javax.inject.Inject
 
 class DashboardActivity : BaseAppCompatActivity() {
     private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_dashboard_new)
+        this, R.layout.activity_dashboard_new
+    )
     @Inject
     lateinit var dataBase: DataBaseUtil
     @Inject
@@ -68,6 +71,8 @@ class DashboardActivity : BaseAppCompatActivity() {
     private fun initChartAdapter(dashboardResponse: Response.DashboardResponse) {
         adapterChart = DashboardChartAdapter(mActivity = this, dashboardChartData = dashboardResponse)
         binding.rvDashboardCharts.adapter = adapterChart
+        binding.rvDashboardCharts.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+
     }
 
     public override fun onStart() {

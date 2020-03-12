@@ -23,6 +23,6 @@ class LoanInfoModel:Serializable {
     var salesOfficerEmpName: String? = ""
     var sourcingChannelPartnerTypeDetailID: Int? = null
     var tenure: Int? = 0
-    var processingFeePercentage: Double? = 0.0
+    var processingFeePercentage: Double? = null
     var isPropertySelected: Boolean? = false
 }
