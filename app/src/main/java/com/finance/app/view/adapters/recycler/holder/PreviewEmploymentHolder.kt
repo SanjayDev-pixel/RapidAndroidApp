@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.databinding.PreviewLayoutEmploymentBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.EmploymentApplicantsModel
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.viewModel.AppDataViewModel
+import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import kotlinx.android.synthetic.main.preview_layout_salary.view.*
 import kotlinx.android.synthetic.main.preview_layout_senp.view.*
 import kotlinx.android.synthetic.main.preview_layout_senp.view.tvAddress
@@ -24,6 +26,8 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
         if (!list.isNullOrEmpty()) {
             setValueInCard(list[pos], viewModel)
             handleCollapse()
+            binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
+
         }
     }
 
@@ -53,6 +57,8 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
         fillSenpData(data, viewModel)
 
         showDataBasedOnUserSelection(data.subProfileTypeDetailID)
+
+
     }
 
     private fun showDataBasedOnUserSelection(id: Int?) {
@@ -103,11 +109,19 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
         viewModel.getMasterDropdownNameFromId(data.employmentTypeDetailID, AppEnums.DropdownMasterType.EmploymentType,
                 binding.previewLayoutSalary.tvEmploymentType)
 
-        if(data.isMainApplicant==true){
+       /* if(data.isMainApplicant==true){
             binding.tvCoApplicant.text="Applicant"
         }else{
             binding.tvCoApplicant.text="Co-Applicant"
         }
+      val leadId: Int? = LeadMetaData.getLeadId()
+        leadId?.let {
+            viewModel.getCoapplicantsList(it)
+
+        }
+*/
+
+
 
     }
 
@@ -142,12 +156,13 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
         viewModel.getMasterDropdownNameFromId(data.businessSetupTypeDetailID, AppEnums.DropdownMasterType.BusinessSetupType,
                 binding.previewLayoutSenp.tvBusinessSetUpType)
 
-
+/*
         if(data.isMainApplicant==true){
             binding.tvCoApplicant.text="Applicant"
         }else{
             binding.tvCoApplicant.text="Co-Applicant"
-        }
+        }*/
+
 
     }
 

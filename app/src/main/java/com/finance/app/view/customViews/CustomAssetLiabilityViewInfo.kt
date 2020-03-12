@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
@@ -122,11 +123,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             binding.rcAsset.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
-            //            binding.pageIndicatorAsset.visibility = View.VISIBLE
-            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
-            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
-
-
 
         }
 
@@ -135,11 +131,6 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             binding.rcAsset.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
-            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
-            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
-            //            binding.pageIndicatorAsset.visibility = View.VISIBLE
-
-
 
         }
 
@@ -304,7 +295,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         val binding = DataBindingUtil.inflate<AddAssestsDialogBinding>(LayoutInflater.from(context), R.layout.add_assests_dialog, null, false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
-                .setCancelable(true)
+                .setCancelable(false)
 
         addAssestsDialog = mBuilder.show()
         binding.cancelBttn.cancel_bttn?.setOnClickListener() {
@@ -350,9 +341,10 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         val binding = DataBindingUtil.inflate<AddObligationDialogBinding>(LayoutInflater.from(context), R.layout.add_obligation_dialog, null, false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
-                .setCancelable(true)
+                .setCancelable(false)
 
         addObligationDialog = mBuilder.show()
+        addObligationDialog?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         addObligationDialog?.cancel_bttn?.setOnClickListener() {
             addObligationDialog?.dismiss()
 
@@ -418,7 +410,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         val binding = DataBindingUtil.inflate<AssetCreditcardDialogBinding>(LayoutInflater.from(context), R.layout.asset_creditcard_dialog, null, false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
-                .setCancelable(true)
+                .setCancelable(false)
 
         addCreditCardDialog = mBuilder.show()
         addCreditCardDialog?.cancel_bttn?.setOnClickListener() {
@@ -856,29 +848,18 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             binding.rcAsset.visibility = View.VISIBLE
             binding.layoutObligations.rcObligation.visibility = View.GONE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
-            //            binding.pageIndicatorAsset.visibility = View.VISIBLE
-            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
-            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
+
         } else if (flag.equals("card")) {
 
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
             binding.rcAsset.visibility = View.GONE
             binding.layoutObligations.rcObligation.visibility = View.GONE
-            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.VISIBLE
-            //            binding.pageIndicatorAsset.visibility = View.GONE
-            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.GONE
 
 
         } else {
             binding.layoutObligations.rcObligation.visibility = View.VISIBLE
             binding.layoutCreditCard.rcCreditCard.visibility = View.GONE
             binding.rcAsset.visibility = View.GONE
-            //            binding.layoutObligations.pageIndicatorObligation.visibility = View.VISIBLE
-            //            binding.pageIndicatorAsset.visibility = View.GONE
-            //            binding.layoutCreditCard.pageIndicatorCreditCard.visibility = View.GONE
-
-
-
 
         }
 

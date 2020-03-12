@@ -20,6 +20,7 @@ import com.finance.app.utility.SetLoanInfoMandatoryField
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import com.finance.app.viewModel.AppDataViewModel
+import kotlinx.android.synthetic.main.fragment_loan_information.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.FormValidation
@@ -81,6 +82,7 @@ class LoanInfoFragmentNew : BaseFragment() {
     private fun setUpCustomViews(loanInfo: LoanInfoModel?) {
         activity?.let {
             binding.viewChannelPartner.attachActivity(activity = activity!!, loanData = loanInfo)
+
         }
     }
 
@@ -137,6 +139,10 @@ class LoanInfoFragmentNew : BaseFragment() {
             binding.layoutLoanPurpose.removeAllViews()
             loanPurpose = CustomSpinnerView(mContext = activity!!, isMandatory = true, dropDowns = loan.loanPurposeList, label = "Loan Purpose *")
             binding.layoutLoanPurpose.addView(loanPurpose)
+            if (leadDetail!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
+                loanPurpose.disableSelf()
+
+            }
         }
 
         loanInfo?.loanPurposeID?.let {
@@ -194,7 +200,8 @@ class LoanInfoFragmentNew : BaseFragment() {
             //1. Sourcing Channel Partner
             //2. Channel Partner Name
             //3.Loan purpose
-            DisableLoanInfoForm(binding,loanProduct,loanScheme,interestType)
+            DisableLoanInfoForm(binding,loanProduct,loanScheme,interestType,binding.viewChannelPartner)
+
         }
     }
 

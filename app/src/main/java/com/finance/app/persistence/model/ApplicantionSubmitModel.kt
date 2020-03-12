@@ -29,6 +29,7 @@ class ApplicantionSubmitModel:Serializable {
     var loanApplicationID : Int?=null
     var requestedLoanAmount : Double?=null
     var requestedTenure : Double? =null
+    var roi : Double? =null
 
 
 
