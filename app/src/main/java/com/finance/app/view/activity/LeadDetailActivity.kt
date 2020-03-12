@@ -44,7 +44,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private var bundle: Bundle? = null
     private var lead: AllLeadMaster? = null
     private var isSelectedLeadSynced = false
-    private var leadContact: Long = 0
+    private var leadContact: Long? = null
     private var allMasterDropDown: AllMasterDropDown? = null
 
     companion object {
@@ -120,7 +120,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.tvPhone.text = lead.applicantContactNumber
         binding.tvTypeOfLoan.text = lead.loanProductName
         binding.tvLeadStatus.text = lead.status
-        leadContact = lead.applicantContactNumber?.toLong() ?: 0
+        leadContact = if (lead.applicantAlternativeContactNumber.isNullOrBlank().not()) lead.applicantContactNumber?.toLong() else null
         setLeadNum(lead.leadNumber)
 
     }
@@ -142,9 +142,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         }
 
         binding.ivCall.setOnClickListener {
-            val callIntent = Intent(Intent.ACTION_CALL)
-            callIntent.data = Uri.parse("tel: +91${leadContact}")
-            startActivity(callIntent)
+            leadContact?.let {
+                val callIntent = Intent(Intent.ACTION_CALL)
+                callIntent.data = Uri.parse("tel: +91${leadContact}")
+                startActivity(callIntent)
+            }
         }
 
         binding.btnUpdateCall.setOnClickListener {
