@@ -9,6 +9,7 @@ import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.persistence.model.AssetLiabilityModel
 import com.finance.app.persistence.model.CardDetail
 import com.finance.app.persistence.model.ObligationDetail
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.PreviewInnerAdapter
 import com.finance.app.viewModel.AppDataViewModel
 
@@ -22,6 +23,7 @@ class PreviewAssetsLiabilityHolder(val binding: PreviewLayoutAssetsLiabilityBind
             setUpCardsRecyclerView(list[pos].applicantCreditCardDetailList, viewModel)
             setUpObligationsRecyclerView(list[pos].applicantExistingObligationList, viewModel)
             handleCollapse()
+            binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
         }
     }
 

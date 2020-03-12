@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.databinding.PreviewLayoutReferenceBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.ReferenceModel
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.viewModel.AppDataViewModel
 
 class PreviewReferenceHolder(val binding: PreviewLayoutReferenceBinding, val mContext: Context)
@@ -16,6 +17,7 @@ class PreviewReferenceHolder(val binding: PreviewLayoutReferenceBinding, val mCo
         if (!list.isNullOrEmpty()) {
             setValueInCard(list[pos], viewModel)
             handleCollapse()
+            binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
         }
     }
 

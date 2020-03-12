@@ -125,11 +125,11 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         get() {
             val lProductDD = loanProduct.getSelectedValue()
             val branchDD = branches.getSelectedValue()
-            val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
-            val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val loanAmount =binding.etLoanAmount.text.toString().toFloat()
-           val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
-            val sourcingChannelPartID :Int?=sPartner?.typeDetailID
+           /* val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
+            val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
+            val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
+            val sourcingChannelPartID :Int?=sPartner?.typeDetailID*/
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),

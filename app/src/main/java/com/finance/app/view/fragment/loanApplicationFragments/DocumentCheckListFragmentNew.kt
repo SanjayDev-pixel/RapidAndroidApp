@@ -6,19 +6,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetliabilityNewBinding
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
 import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.persistence.model.AllLeadMaster
+import com.finance.app.persistence.model.ApplicantionSubmitModel
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
-import com.finance.app.view.activity.FinalSubmitActivity
-import com.finance.app.view.activity.PreviewActivity
-import com.finance.app.view.activity.SyncActivity
-import com.finance.app.view.activity.UpdateCallActivity
+import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckLIstPagerAdapter
 import kotlinx.android.synthetic.main.activity_update_call.*
 import kotlinx.android.synthetic.main.layout_fixed_meeting.view.*
@@ -34,6 +34,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.DateUtil
+import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -53,6 +54,7 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     private var pagerAdapterDocumentCheckList: DocumentCheckLIstPagerAdapter? = null
     private var applicantList: ArrayList<PersonalApplicantsModel>? = null
     private lateinit var mContext: Context
+    private val presenter = Presenter()
 
 
     companion object {
@@ -88,21 +90,36 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     private fun setOnClickListener() {
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-//            pagerAdapterAsset?.getALlAssetsAndLiability()?.let { it1 -> LeadMetaData().saveAssetLiabilityData(it1) }
+            //            pagerAdapterAsset?.getALlAssetsAndLiability()?.let { it1 -> LeadMetaData().saveAssetLiabilityData(it1) }
 //            AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
+            if (LeadMetaData.getLeadData()?.status == "Submitted") {
 
-            PreviewActivity.start(this.requireActivity())
+                val lead: AllLeadMaster? = LeadMetaData.getLeadData()
+                getSubmittedStateResponse(lead)
+            } else {
+
+                PreviewActivity.start(this.requireActivity())
+
+            }
+
         }
     }
 
+    private fun getSubmittedStateResponse(lead: AllLeadMaster?) {
 
+        presenter.callNetwork(ConstantsApi.Call_FINAL_RESPONSE, CallFinalSubmitResponse())
+
+
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchLeadDetails()
     }
+
+
 
 
     private fun fetchLeadDetails() {
@@ -123,6 +140,61 @@ class DocumentCheckListFragmentNew : BaseFragment(){
         binding.tabLead.setupWithViewPager(binding.viewPager)
     }
 
+
+
+
+    inner class CallFinalSubmitResponse:ViewGeneric<Requests.RequestSubmittedLead, Response.ResponseFinalSubmitted>(context = mContext) {
+        override val apiRequest: Requests.RequestSubmittedLead?
+            get() = getRequestSubmittedLead()
+
+
+        override fun getApiSuccess(value: Response.ResponseFinalSubmitted) {
+
+            if (value.responseCode == Constants.SUCCESS) {
+
+                //binding.progressBar!!.visibility = View.GONE
+
+                val submitLoanResponse: ApplicantionSubmitModel? = value.responseObj
+
+                if (value.responseObj != null) {
+                    val intent = Intent(mContext, LoanSubmitStatusActivity::class.java)
+                    intent.putExtra("SubmitResponse", submitLoanResponse)
+                    mContext.startActivity(intent)
+
+
+                } else {
+
+                    showToast(value.responseMsg)
+                }
+
+
+            } else {
+                showToast(value.responseMsg)
+                //binding.progressBar!!.visibility = View.GONE
+            }
+
+        }
+
+        override fun getApiFailure(msg: String) {
+
+            if (msg.exIsNotEmptyOrNullOrBlank()) {
+                super.getApiFailure(msg)
+             //   binding.progressBar!!.visibility = View.GONE
+            } else {
+                super.getApiFailure("Time out Error")
+               // binding.progressBar!!.visibility = View.GONE
+            }
+
+        }
+
+
+
+        private fun getRequestSubmittedLead():Requests.RequestSubmittedLead?{
+            val leadId:Int?=LeadMetaData.getLeadId()
+            return Requests.RequestSubmittedLead(leadID=leadId!!)
+        }
+
+    }
 
 
 }

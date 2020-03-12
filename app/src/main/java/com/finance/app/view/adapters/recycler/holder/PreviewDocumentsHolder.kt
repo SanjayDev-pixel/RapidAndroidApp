@@ -155,7 +155,6 @@ class PreviewDocumentsHolder(val binding: PreviewLayoutDocumentChecklistBinding,
         override fun getApiSuccess(value: Response.ResponseFinalSubmitted) {
 
             if (value.responseCode == Constants.SUCCESS) {
-                Toast.makeText(context, "Submitted Successfully.", Toast.LENGTH_SHORT).show()
 
                 binding.progressBar!!.visibility = View.GONE
 

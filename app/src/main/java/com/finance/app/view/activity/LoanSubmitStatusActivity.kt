@@ -65,7 +65,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
         if(proposedEMI != null){
         binding.llstatus.emi_text.setText(("Rs. ").plus(roundOffDecimal(proposedEMI)))
         }
-        binding.llstatus.rate.setText(ruleEngineResponse.hfcPolicyResponse?.roi.toString().plus("%"))
+        binding.llstatus.rate.setText(finalSubmitLoanResponse?.roi.toString().plus("%"))
 
 
 
@@ -75,10 +75,10 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
 
         } else if (ruleEngineResponse.hfcPolicyResponse!!.deviationFlag == true) {
             binding.logoLayoutDeviation.visibility =View.VISIBLE
+
             setStatusAdapter(ruleEngineResponse.hfcPolicyResponse!!.deviationList)
         } else {
             binding.logoLayout.visibility= View.VISIBLE
-           binding.leadStatusTxt.setText("")
             // already approved
             setAlreadyApproved(finalSubmitLoanResponse)
         }
@@ -87,7 +87,6 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
     }
 
     private fun setAlreadyApproved(finalSubmitLoanResponse: ApplicantionSubmitModel?) {
-
 
 
     }
