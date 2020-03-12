@@ -77,16 +77,16 @@ class Constants {
             "total": 100,
             "data": [
               {
-                "lable": "Rejected",
-                "value": 45.3
+                "lable": "Submitted",
+                "value": 20
               },
               {
                 "lable": "Pending",
                 "value": 34.7
               },
               {
-                "lable": "Submitted",
-                "value": 20
+                "lable": "Rejected",
+                "value": 45.3
               }
             ]
           }

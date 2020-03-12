@@ -21,6 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Chart Title"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 tools:visibility="visible" />
         </LinearLayout>
 

@@ -61,8 +61,8 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
 //            binding.chartData.setHoleColor(Color.WHITE)
 //            binding.chartData.setTransparentCircleColor(Color.WHITE)
 //            binding.chartData.setTransparentCircleAlpha(110)
-            binding.chartData.holeRadius = 40f
-            binding.chartData.transparentCircleRadius = 50f
+            binding.chartData.holeRadius = 50f
+            binding.chartData.transparentCircleRadius = 60f
             binding.chartData.setDrawCenterText(false)
             binding.chartData.isRotationEnabled = false
             binding.chartData.isHighlightPerTapEnabled = true
@@ -75,7 +75,7 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
             binding.chartData.legend.textSize = 15f
             val l: Legend = binding.chartData.legend
             l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-            l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
             l.orientation = Legend.LegendOrientation.HORIZONTAL
             l.setDrawInside(false)
             l.xEntrySpace = 7f
@@ -100,7 +100,7 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
             val data = PieData(dataSet)
 //            data.setValueFormatter(PercentFormatter())
             data.setValueTextSize(13f)
-            data.setValueTextColor(Color.WHITE)
+            data.setValueTextColor(Color.BLACK)
             //data.setValueTypeface(tfLight)
             binding.chartData.data = data
             binding.chartData.invalidate()
