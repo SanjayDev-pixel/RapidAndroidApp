@@ -36,7 +36,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private val presenter = Presenter()
 
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
-        this, R.layout.activity_lead_detail
+            this, R.layout.activity_lead_detail
     )
     private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
     @Inject
@@ -90,10 +90,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         id?.let {
             dataBase.provideDataBaseSource().allLeadsDao().getLead(it).observeForever { lead ->
                 lead?.let { leadDetails ->
-                    leadDetails.let {
-                        isSelectedLeadSynced = true
-                        LeadMetaData.setLeadData(leadDetails)
-                    }
+                    isSelectedLeadSynced = true
+                    LeadMetaData.setLeadData(leadDetails)
                 }
             }
         }
