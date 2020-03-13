@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/md_grey_100"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/backbttn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:drawableLeft="@drawable/ic_arrow_back_white_24dp"
+            android:padding="@dimen/margin10dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -19,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -85,7 +93,8 @@
                 android:layout_margin="5dp"
                 android:contentDescription="@string/edit"
                 android:src="@drawable/ic_edit_grey"
-                android:tint="@color/white" />
+                android:tint="@color/white"
+                android:visibility="invisible" />
 
             <LinearLayout
                 android:id="@+id/llAmount"
@@ -167,8 +176,45 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/layoutSubmitlead"
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_10" />
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.75"
+                android:background="@drawable/background_blue"
+                android:text="@string/cancel"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.75"
+                android:autoLink="phone"
+                android:background="@color/colorAccent"
+                android:text="@string/submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_text_size" />
+
+
+        </LinearLayout>
 
 
     </LinearLayout>
