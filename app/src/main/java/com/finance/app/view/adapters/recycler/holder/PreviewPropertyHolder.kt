@@ -23,6 +23,10 @@ class PreviewPropertyHolder(val binding: PreviewLayoutPropertyBinding, val mCont
         binding.tvDistanceFromResidence.text = data.distanceFromExistingResidence
         binding.tvLandmark.text = data.landmark
         binding.tvPinCode.text = data.pinCode
+        binding.tvState.text= data.stateName
+        binding.tvCity.text = data.cityName
+        binding.tvDistrict.text =data.districtName
+        binding.tvTransactionCategory.text = data.propertyNatureOfTransactionCategoryTypeDetailName
 
 
         viewModel.getMasterDropdownNameFromId(data.occupiedByTypeDetailID,

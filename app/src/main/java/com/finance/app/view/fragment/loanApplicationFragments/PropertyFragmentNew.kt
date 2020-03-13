@@ -323,6 +323,10 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             propertyModel.leadApplicantNumber = leadIdForApplicant ?: ""
             propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
             propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
+            propertyModel.cityName= city?.cityName
+            propertyModel.districtName =district?.districtName
+            propertyModel.stateName =state?.stateName
+            propertyModel.propertyNatureOfTransactionCategoryTypeDetailName= transactionCategory?.propertyNatureTransactionCategory
 
 
 

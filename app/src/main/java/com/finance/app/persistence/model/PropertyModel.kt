@@ -33,5 +33,9 @@ class PropertyModel:Serializable {
     var unitTypeTypeDetailID: Int? = null
     var leadApplicantNumber: String = ""
     var isMainApplicant:Boolean? = true
+    var stateName : String?=""
+    var cityName : String? =""
+    var districtName : String? =""
+    var propertyNatureOfTransactionCategoryTypeDetailName :String? =""
 
 }
