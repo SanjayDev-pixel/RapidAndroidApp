@@ -137,10 +137,9 @@ class FormValidationImpl : FormValidation {
         spinnerDMList.forEach { item ->
             if (!item.isValid()) ++spinnerError
         }
-        val partnerName: String =customChannelPartnerView.getPartnerName().toString()
+        
         val sourcingPartnerName : String= customChannelPartnerView.getSourcingPartner().toString()
         if(sourcingPartnerName == "null"){errorCount++}
-        if (partnerName == "null" ) {errorCount++}
 
         val totalErrors = errorCount + fieldError + spinnerError
         return isValidForm(totalErrors)
