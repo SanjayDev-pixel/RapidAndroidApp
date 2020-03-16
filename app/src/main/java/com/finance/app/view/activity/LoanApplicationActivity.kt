@@ -53,7 +53,6 @@ class LoanApplicationActivity : BaseAppCompatActivity() {
 
     private fun setClickListeners() {
         binding.collapseImageView.setOnClickListener { navFragment.toggleMenu() }
-
         val layoutBack: LinearLayout = findViewById(R.id.lytBack)
         layoutBack.setOnClickListener { showDialog() }
     }

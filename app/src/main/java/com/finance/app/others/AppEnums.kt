@@ -59,17 +59,15 @@ class AppEnums {
     enum class FormType(val type: String) {
         LOANINFO("LOAN_INFORMATION"), PERSONALINFO("APPLICANT_PERSONAL"), EMPLOYMENT("APPLICATION_EMPLOYMENT"),
         BANKDETAIL("BANK_DETAIL"), LIABILITYASSET("LIABILITY_AND_ASSET"), PROPERTY("APPLICATION_PROPERTY"),
-        REFERENCE("APPLICATION_REFERENCE")
+        REFERENCE("APPLICATION_REFERENCE"),DOCUMENT("DOCUMENT_DETAIL")
     }
 
     enum class EnumEventChangeLoanApplicationFragmentNavigation {
         NEXT, PREVIOUS
     }
-
     enum class PreviewType {
         ASSETS, BANK, CARD, OBLIGATION, REFERNCE, DOCUMENT
     }
-
     enum class DropdownMasterType {
         Gender, Caste, Branch, ChannelPartnerName, ChannelType, DOBProof, DetailQualification,
         DocumentProof, EntityType, IdentificationType, LoanInformationInterestType, LoanOwnership,

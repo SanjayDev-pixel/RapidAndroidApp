@@ -10,7 +10,7 @@ class DocumentCheckListDetailModel : Serializable {
     var description: String? = null
     var typeDetailId: Int? = null
     var typeDetailDisplayText: String? = null
-    @JsonIgnore
+    @Transient
     var selectedCheckListValue: ChecklistAnswerType? = null
 
 }
