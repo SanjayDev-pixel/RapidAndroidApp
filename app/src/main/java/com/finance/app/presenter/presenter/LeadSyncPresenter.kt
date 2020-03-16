@@ -12,6 +12,7 @@ import com.finance.app.utility.LeadRequestResponseConversion
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function7
+import io.reactivex.functions.Function8
 import io.reactivex.schedulers.Schedulers
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -80,6 +81,7 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
       val requestLiabilityAndAssets = leadRequest.getRequest(AppEnums.FormType.LIABILITYASSET, itemToSync)
       val requestProperty = leadRequest.getRequest(AppEnums.FormType.PROPERTY, itemToSync)
       val requestReference = leadRequest.getRequest(AppEnums.FormType.REFERENCE, itemToSync)
+      val requestDocument = leadRequest.getRequest(AppEnums.FormType.DOCUMENT, itemToSync)
 
       val observableLoanInfo = getObserverCommon(requestLoanInfo)
       val observablePersonal = getObserverCommon(requestPersonal)
@@ -88,16 +90,18 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
       val observableLiabilityAndAssets = getObserverCommon(requestLiabilityAndAssets)
       val observableProperty = getObserverCommon(requestProperty)
       val observableReference = getObserverCommon(requestReference)
+      val observableDocument = getObserverCommon(requestDocument)
 
       Observable.zip(observableLoanInfo, observablePersonal, observableEmployment,
               observableBank, observableLiabilityAndAssets, observableProperty, observableReference,
-              Function7 { responseLoanInfo: ResponseGetLoanApplication?, responsePersonal: ResponseGetLoanApplication?,
-                          responseEmployment: ResponseGetLoanApplication?, responseBank: ResponseGetLoanApplication?,
-                          responseLiabilityAndAssets: ResponseGetLoanApplication?, responseProperty: ResponseGetLoanApplication?,
-                          responseReference: ResponseGetLoanApplication? ->
+              observableDocument,
+              Function8 { responseLoanInfo: ResponseGetLoanApplication?, responsePersonal: ResponseGetLoanApplication?,
+                               responseEmployment: ResponseGetLoanApplication?, responseBank: ResponseGetLoanApplication?,
+                               responseLiabilityAndAssets: ResponseGetLoanApplication?, responseProperty: ResponseGetLoanApplication?,
+                               responseReference: ResponseGetLoanApplication?, responseDocument:ResponseGetLoanApplication? ->
 
                 val alResponses = listOf(responseLoanInfo, responsePersonal, responseEmployment,
-                        responseBank, responseLiabilityAndAssets, responseProperty, responseReference)
+                        responseBank, responseLiabilityAndAssets, responseProperty, responseReference,responseDocument)
                 val isValid = isAllResponsesValid(alResponses)
 
                 var objectToReturn =  AllLeadMaster()
