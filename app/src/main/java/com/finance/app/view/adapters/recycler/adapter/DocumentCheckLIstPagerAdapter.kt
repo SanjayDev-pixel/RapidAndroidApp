@@ -2,6 +2,8 @@ package com.finance.app.view.adapters.recycler.adapter
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.finance.app.others.APPLICANT
+import com.finance.app.others.CO_APPLICANT
 import com.finance.app.persistence.model.AssetLiabilityModel
 import com.finance.app.persistence.model.DocumentCheckList
 import com.finance.app.persistence.model.DocumentCheckListModel
@@ -12,7 +14,7 @@ class DocumentCheckLIstPagerAdapter  internal constructor(fm: FragmentManager, v
 
     private val fragmentList = ArrayList<DocumentChecklistForm>()
 
-    override fun getPageTitle(position: Int): CharSequence? = if (applicantsList[position].isMainApplicant) "Applicant" else "CoApplicant ${position}"
+    override fun getPageTitle(position: Int) = if (applicantsList[position].isMainApplicant) APPLICANT else "$CO_APPLICANT $position"
 
     override fun getCount() = applicantsList.size
 
@@ -23,14 +25,12 @@ class DocumentCheckLIstPagerAdapter  internal constructor(fm: FragmentManager, v
         fragmentList.add(fragmentItem)
         return fragmentItem
     }
-
 //model change to Documentchecklist model
     fun getAllChecklistDetail(): ArrayList<DocumentCheckList> {
         val list = ArrayList<DocumentCheckList>()
         fragmentList.forEach { it ->
             list.add(it.getDocumentChecklist())
         }
-
         return list
     }
    fun isDocumentDetailsValid(): Boolean {
@@ -40,9 +40,5 @@ class DocumentCheckLIstPagerAdapter  internal constructor(fm: FragmentManager, v
         }
         return true
     }
-    /*fun isDocumentDetailsIsValid() : Boolean{
-        fragmentList.forEach {  }
-    }*/
-
     fun getAllFragments() = fragmentList
 }

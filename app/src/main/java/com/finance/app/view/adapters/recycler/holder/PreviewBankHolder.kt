@@ -7,6 +7,7 @@ import com.finance.app.databinding.PreviewLayoutBankBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.BankDetailBean
 import com.finance.app.persistence.model.BankDetailModel
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.PreviewInnerAdapter
 import com.finance.app.viewModel.AppDataViewModel
 
@@ -18,6 +19,7 @@ class PreviewBankHolder(val binding: PreviewLayoutBankBinding, val mContext: Fra
         if (!list.isNullOrEmpty()) {
             setUpInnerRecyclerView(list[pos].applicantBankDetailsBean, viewModel)
             handleCollapse()
+            binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
         }
     }
 

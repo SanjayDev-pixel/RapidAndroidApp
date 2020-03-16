@@ -8,14 +8,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.LayoutChannelPartnerBinding
-import com.finance.app.persistence.model.AllMasterDropDown
-import com.finance.app.persistence.model.ChannelPartnerName
-import com.finance.app.persistence.model.DropdownMaster
-import com.finance.app.persistence.model.LoanInfoModel
+import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import kotlinx.android.synthetic.main.fragment_loan_information.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.APP.DIRECT
@@ -90,6 +88,7 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
         mChannelTypeId = channelId
         mBranchId = LeadMetaData.getLeadData()?.branchID
         empId = sharedPreferences.getEmpId()
+        var leadStatus= LeadMetaData.getLeadData()?.status
 
         if ((mChannelTypeId?.toInt() ?: 0) == DIRECT) {
             presenter.callNetwork(ConstantsApi.CALL_SOURCE_CHANNEL_PARTNER_NAME, CallSourcingPartnerName(loanData))
@@ -101,8 +100,12 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
     }
 
     private fun setSourcingPartner(loanData: LoanInfoModel?) {
+        var leadStatus= LeadMetaData.getLeadData()?.status
         loanData?.let {
             sourcingPartner!!.setSelection(loanData.sourcingChannelPartnerTypeDetailID.toString())
+            if (leadStatus=="Submitted"){
+                sourcingPartner?.disableSelf()
+            }
         }
     }
 
@@ -112,6 +115,17 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
 
     fun getPartnerName(): ChannelPartnerName? {
         return partnerName?.getSelectedValue()
+    }
+
+    fun disableSelf() {
+       sourcingPartner?.disableSelf()
+        partnerName?.disableSelf()
+    }
+
+    fun enableSelf() {
+        sourcingPartner?.enableSelf()
+        partnerName?.enableSelf()
+
     }
 
     inner class CallSourcingPartnerName(val loanData: LoanInfoModel?) : ViewGeneric<ArrayList<String?>,
@@ -130,9 +144,13 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
         private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
             partnerName = CustomSpinnerView(mContext = context, dropDowns = channelPartners, label = "Channel Partner Name")
             binding.layoutPartnerName.addView(partnerName)
-
+            var leadStatus= LeadMetaData.getLeadData()?.status
             loanData?.let {
                 partnerName?.setSelection(loanData.channelPartnerDsaID.toString())
+
+                if (leadStatus=="Submitted"){
+                    partnerName?.disableSelf()
+                }
             }
         }
     }

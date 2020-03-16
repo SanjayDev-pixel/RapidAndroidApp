@@ -1,4 +1,5 @@
 package motobeans.architecture.development.modules
+
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -32,141 +33,155 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-  @Provides
-  @Singleton
-  @Named(GSON_V1)
-  internal fun provideGsonV1(): Gson {
-    val gsonBuilder = GsonBuilder()
-    return gsonBuilder.create()
-  }
+    @Provides
+    @Singleton
+    @Named(GSON_V1)
+    internal fun provideGsonV1(): Gson {
+        val gsonBuilder = GsonBuilder()
+        return gsonBuilder.create()
+    }
 
-  @Provides
-  @Singleton
-  @Named(OKHHTP_CACHE_V1)
-  internal fun provideOkHttpCacheV1(application: Application): Cache {
-    // Install an HTTP cache in the application cache directory.
-    val cacheDir = File(application.cacheDir, "http")
+    @Provides
+    @Singleton
+    @Named(OKHHTP_CACHE_V1)
+    internal fun provideOkHttpCacheV1(application: Application): Cache {
+        // Install an HTTP cache in the application cache directory.
+        val cacheDir = File(application.cacheDir, "http")
 
-    return Cache(cacheDir, DISK_CACHE_SIZE.toLong())
-  }
+        return Cache(cacheDir, DISK_CACHE_SIZE.toLong())
+    }
 
-  @Provides
-  @Singleton
-  @Named(OKHHTP_CLIENT_V1)
-  internal fun provideOkHttpClientV1(@Named(OKHHTP_CACHE_V1) cache: Cache,
-      @Named(INTERCEPTOR_LOGGING_V1) logging: HttpLoggingInterceptor,
-      @Named(INTERCEPTOR_HEADER_V1) headerInterceptor: Interceptor,
-      @Named(INTERCEPTOR_RESPONSE_V1) globalResponseInterceptor: Interceptor): OkHttpClient {
-    val builder = OkHttpClient.Builder()
-    //builder.networkInterceptors().add(cachingControlInterceptor);
+    @Provides
+    @Singleton
+    @Named(OKHHTP_CLIENT_V1)
+    internal fun provideOkHttpClientV1(
+        @Named(OKHHTP_CACHE_V1) cache: Cache,
+        @Named(INTERCEPTOR_LOGGING_V1) logging: HttpLoggingInterceptor,
+        @Named(INTERCEPTOR_HEADER_V1) headerInterceptor: Interceptor,
+        @Named(INTERCEPTOR_RESPONSE_V1) globalResponseInterceptor: Interceptor
+    ): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+        //builder.networkInterceptors().add(cachingControlInterceptor);
 
-    return builder
-        .addInterceptor(headerInterceptor)
-        .readTimeout(60, TimeUnit.SECONDS)
-        .connectTimeout(60, TimeUnit.SECONDS)
-        .addInterceptor(logging)
-        .addInterceptor(globalResponseInterceptor)
-        .cache(cache)
-        .build()
-  }
-
-  @Provides
-  @Singleton
-  @Named(INTERCEPTOR_RESPONSE_V1)
-  internal fun provideGlobalApiResponseInterceptorV1(application: Application,
-      sharedPreferencesUtil: SharedPreferencesUtil): Interceptor {
-    return Interceptor { chain ->
-
-      val request = chain.request()
-      val response = chain.proceed(request)
-      //val responseTemp = chain.proceed(request)
-      var responseOriginal: Response? = null
-
-      try {
-        val responseBody = response.body()?.string()
-        val jsonObject = JSONObject(responseBody)
-        jsonObject?.let {
-          val isStatusCodeNotValid = jsonObject.optInt("status", 0)
-          if (isStatusCodeNotValid != 0) {
-            if (isStatusCodeNotValid == 1001) {
-              //logout(application, sharedPreferencesUtil)
-            }
-          }
-        }
-
-        responseOriginal = response.newBuilder()
-            .body(ResponseBody.create(response.body()?.contentType(), responseBody))
+        return builder
+            .addInterceptor(headerInterceptor)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor(logging)
+            .addInterceptor(globalResponseInterceptor)
+            .cache(null)
             .build()
-
-      } catch (e: Exception) {
-        e.printStackTrace()
-      }
-
-      responseOriginal
     }
-  }
 
-  private fun logout(application: Application, sharedPreferencesUtil: SharedPreferencesUtil) {
-    sharedPreferencesUtil.clearAll()
-  }
+    @Provides
+    @Singleton
+    @Named(INTERCEPTOR_RESPONSE_V1)
+    internal fun provideGlobalApiResponseInterceptorV1(
+        application: Application,
+        sharedPreferencesUtil: SharedPreferencesUtil
+    ): Interceptor {
+        return Interceptor { chain ->
 
+            val request = chain.request()
+            val response = chain.proceed(request)
+            //val responseTemp = chain.proceed(request)
+            var responseOriginal: Response? = null
 
-  @Provides
-  @Singleton
-  @Named(INTERCEPTOR_HEADER_V1)
-  internal fun provideRetrofitHeaderV1(sharedPreferencesUtil: SharedPreferencesUtil,
-      application: Application): Interceptor {
-    return Interceptor { chain ->
-      val original = chain.request()
-      val builder = original.newBuilder()
-      sharedPreferencesUtil.getUserToken()?.let {
-        builder.header("Authorization", "Bearer ${sharedPreferencesUtil.getUserToken()}")
-      }
-      builder.header("Content-Type", "application/json").method(original.method(),
-              original.body())
-      builder.header("ApplicationUserAgent", "dmi-droid")
-      val request = builder.build()
-      chain.proceed(request)
+            try {
+                val responseBody = response.body()?.string()
+                val jsonObject = JSONObject(responseBody)
+                jsonObject?.let {
+                    val isStatusCodeNotValid = jsonObject.optInt("status", 0)
+                    if (isStatusCodeNotValid != 0) {
+                        if (isStatusCodeNotValid == 1001) {
+                            //logout(application, sharedPreferencesUtil)
+                        }
+                    }
+                }
+
+                responseOriginal = response.newBuilder()
+                    .body(ResponseBody.create(response.body()?.contentType(), responseBody))
+                    .build()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            responseOriginal
+        }
     }
-  }
 
-  @Provides
-  @Singleton
-  @Named(INTERCEPTOR_LOGGING_V1)
-  internal fun provideLoggingInterceptorV1(): HttpLoggingInterceptor {
-    val logging = HttpLoggingInterceptor()
-    logging.level = HttpLoggingInterceptor.Level.BODY
-    return logging
-  }
+    private fun logout(application: Application, sharedPreferencesUtil: SharedPreferencesUtil) {
+        sharedPreferencesUtil.clearAll()
+    }
 
-  @Provides
-  @Named(ENDPOINT_V1)
-  internal fun provideEndPointV1(@Named(Constants.Injection.API_CURRENT_URL)
-  URL: String): EndPoint {
-    return ApiEndPointImpl().setEndPoint(URL)
-  }
 
-  @Provides
-  @Singleton
-  @Named(RETROFIT_V1)
-  internal fun provideRetrofitV1(@Named(GSON_V1) gson: Gson,
-      @Named(OKHHTP_CLIENT_V1) okHttpClient: OkHttpClient,
-      @Named(ENDPOINT_V1) endPoint: EndPoint): Retrofit {
-    return Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .baseUrl(endPoint.url!!)
-        .client(okHttpClient)
-        .build()
-  }
+    @Provides
+    @Singleton
+    @Named(INTERCEPTOR_HEADER_V1)
+    internal fun provideRetrofitHeaderV1(
+        sharedPreferencesUtil: SharedPreferencesUtil,
+        application: Application
+    ): Interceptor {
+        return Interceptor { chain ->
+            val original = chain.request()
+            val builder = original.newBuilder()
+            sharedPreferencesUtil.getUserToken()?.let {
+                builder.header("Authorization", "Bearer ${sharedPreferencesUtil.getUserToken()}")
+            }
+            builder.header("Content-Type", "application/json").method(
+                original.method(),
+                original.body()
+            )
+            builder.header("ApplicationUserAgent", "dmi-droid")
+            builder.header("User-Agent", "android-${sharedPreferencesUtil.getUUID()}")
 
-  @Provides
-  @Singleton
-  internal fun provideRetrofitApiV1(@Named(RETROFIT_V1) retrofit: Retrofit): ApiProject {
-    return ApiProjectImpl(retrofit)
-  }
+            val request = builder.build()
+            chain.proceed(request)
+        }
+    }
 
-  companion object {
-    internal val DISK_CACHE_SIZE = 1024 * 1024
-  }
+    @Provides
+    @Singleton
+    @Named(INTERCEPTOR_LOGGING_V1)
+    internal fun provideLoggingInterceptorV1(): HttpLoggingInterceptor {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        return logging
+    }
+
+    @Provides
+    @Named(ENDPOINT_V1)
+    internal fun provideEndPointV1(
+        @Named(Constants.Injection.API_CURRENT_URL)
+        URL: String
+    ): EndPoint {
+        return ApiEndPointImpl().setEndPoint(URL)
+    }
+
+    @Provides
+    @Singleton
+    @Named(RETROFIT_V1)
+    internal fun provideRetrofitV1(
+        @Named(GSON_V1) gson: Gson,
+        @Named(OKHHTP_CLIENT_V1) okHttpClient: OkHttpClient,
+        @Named(ENDPOINT_V1) endPoint: EndPoint
+    ): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl(endPoint.url!!)
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideRetrofitApiV1(@Named(RETROFIT_V1) retrofit: Retrofit): ApiProject {
+        return ApiProjectImpl(retrofit)
+    }
+
+    companion object {
+        internal val DISK_CACHE_SIZE = 1024 * 1024
+    }
 }

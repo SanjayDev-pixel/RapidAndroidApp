@@ -23,6 +23,10 @@ class PreviewPropertyHolder(val binding: PreviewLayoutPropertyBinding, val mCont
         binding.tvDistanceFromResidence.text = data.distanceFromExistingResidence
         binding.tvLandmark.text = data.landmark
         binding.tvPinCode.text = data.pinCode
+        binding.tvState.text= data.stateName
+        binding.tvCity.text = data.cityName
+        binding.tvDistrict.text =data.districtName
+        binding.tvTransactionCategory.text = data.propertyNatureOfTransactionCategoryTypeDetailName
 
 
         viewModel.getMasterDropdownNameFromId(data.occupiedByTypeDetailID,
@@ -39,5 +43,8 @@ class PreviewPropertyHolder(val binding: PreviewLayoutPropertyBinding, val mCont
                 AppEnums.DropdownMasterType.PropertyOccupiedBy, binding.tvOccupiedBy)
         viewModel.getMasterDropdownNameFromId(data.tenantNocAvailableTypeDetailID,
                 AppEnums.DropdownMasterType.TenantNocAvailable, binding.tvTenantNocAvailable)
+       /* viewModel.getMasterDropdownNameFromId(data.propertyNatureOfTransactionCategoryTypeDetailID,
+                AppEnums.DropdownMasterType.Pr, binding.tvTransactionCategory)*/
+
     }
 }

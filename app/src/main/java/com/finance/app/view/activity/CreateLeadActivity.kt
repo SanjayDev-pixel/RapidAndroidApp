@@ -3,6 +3,7 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
@@ -61,8 +62,12 @@ class CreateLeadActivity : BaseAppCompatActivity() {
        // setupCustomView()
 
         binding.btnCreate.setOnClickListener {
+
             if (formValidation.validateAddLead(binding, loanProduct, branches)) {
-                presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
+                if(loanProduct.getSelectedValue().toString()!= "null" && branches.getSelectedValue().toString() != "null"){
+                presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())}else{
+                    Toast.makeText(this,"Please fill maindatory fields",Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -125,11 +130,11 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         get() {
             val lProductDD = loanProduct.getSelectedValue()
             val branchDD = branches.getSelectedValue()
-            val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
-            val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val loanAmount =binding.etLoanAmount.text.toString().toFloat()
-           val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
-            val sourcingChannelPartID :Int?=sPartner?.typeDetailID
+           /* val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
+            val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
+            val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
+            val sourcingChannelPartID :Int?=sPartner?.typeDetailID*/
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),

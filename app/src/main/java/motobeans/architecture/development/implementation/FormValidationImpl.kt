@@ -1,5 +1,6 @@
 package motobeans.architecture.development.implementation
 
+import android.view.View
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
@@ -136,7 +137,10 @@ class FormValidationImpl : FormValidation {
         spinnerDMList.forEach { item ->
             if (!item.isValid()) ++spinnerError
         }
-
+        val partnerName: String =customChannelPartnerView.getPartnerName().toString()
+        val sourcingPartnerName : String= customChannelPartnerView.getSourcingPartner().toString()
+        if(sourcingPartnerName == "null"){errorCount++}
+        if (partnerName == "null" ) {errorCount++}
 
         val totalErrors = errorCount + fieldError + spinnerError
         return isValidForm(totalErrors)
@@ -725,17 +729,22 @@ class FormValidationImpl : FormValidation {
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()
         val contact = binding.etContactNum.text.toString()
+        val loanAmount:String = binding.etLoanAmount.text.toString()
+
+
 
         val fieldError = (when {
-            !area.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
             !name.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etApplicantFirstName)
+            !loanAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etLoanAmount)
             !isValidMobile(contact) -> setFieldError(binding.etContactNum)
+            !area.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etArea)
             !isValidEmail(email) -> setFieldError(binding.etEmail)
+
             else -> 0
         })
 
         var spinnerError = 0
-        if (!loanProduct.isValid()) ++spinnerError
+        if (!loanProduct.isValid()){ ++spinnerError}
         if (!branches.isValid()) ++spinnerError
 
         return isValidForm(fieldError + spinnerError)
@@ -887,7 +896,7 @@ class FormValidationImpl : FormValidation {
     }
 
     private fun isValidMobile(phone: String): Boolean {
-        return if (phone.exIsNotEmptyOrNullOrBlank()) {
+        return if (!phone.exIsNotEmptyOrNullOrBlank()) {
             return android.util.Patterns.PHONE.matcher(phone).matches()
         } else true
     }

@@ -1,41 +1,8 @@
 package com.finance.app.view.fragment
 
-import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.finance.app.R
-import com.finance.app.databinding.FragmentBankDetailBinding
-import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.others.AppEnums
-import com.finance.app.persistence.model.*
-import com.finance.app.presenter.connector.LoanApplicationConnector
-import com.finance.app.presenter.presenter.LoanAppGetPresenter
-import com.finance.app.presenter.presenter.LoanAppPostPresenter
-import com.finance.app.utility.LeadAndLoanDetail
-
-import com.finance.app.view.adapters.recycler.adapter.ApplicantsAdapter
-import com.finance.app.view.adapters.recycler.adapter.BankDetailAdapter
-import com.finance.app.view.dialogs.BankDetailDialogFragment
-import com.finance.app.viewModel.AppDataViewModel
-import kotlinx.android.synthetic.main.delete_dialog.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import motobeans.architecture.application.ArchitectureApp
-import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseFragment
-import motobeans.architecture.development.interfaces.DataBaseUtil
-import motobeans.architecture.development.interfaces.FormValidation
-import motobeans.architecture.development.interfaces.SharedPreferencesUtil
-import motobeans.architecture.retrofit.response.Response
-import javax.inject.Inject
 
-class BankDetailFragment():BaseFragment(){
+class BankDetailFragment() : BaseFragment() {
     override fun init() {
 
     }

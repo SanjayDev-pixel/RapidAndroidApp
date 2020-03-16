@@ -378,5 +378,6 @@
     <string name="preview_emi_paid_in_same_month">Emi Paid in same month</string>
     <string name="preview_disbursement_date">Disbursement Date*</string>
     <string name="column">:</string>
+    <string name="currentaddress">Current Address</string>
 
 </resources>

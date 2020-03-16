@@ -18,11 +18,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30sp"
+                    android:layout_margin="@dimen/activity_vertical_margin"
                     android:layout_marginBottom="@dimen/margin_10"
                     android:background="@color/md_red_300"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_margin="@dimen/activity_vertical_margin">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvVersionName"
@@ -33,10 +33,22 @@
                         android:textSize="@dimen/text_size" />
                 </LinearLayout>
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="10dp"
+                    android:checked="true"
+                    android:text="Yearly" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvDashboardCharts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:padding="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </LinearLayout>
