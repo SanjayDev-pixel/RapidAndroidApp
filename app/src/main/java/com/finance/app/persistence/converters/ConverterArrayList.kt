@@ -1,4 +1,5 @@
 package com.finance.app.persistence.converters
+
 import androidx.room.TypeConverter
 import com.finance.app.persistence.model.*
 import com.google.gson.Gson
@@ -93,6 +94,18 @@ class ConverterArrayList {
     }
 
     @TypeConverter
+    fun fromStringToArrayListAllDocumentCheckListMaster(value: String?): ArrayList<AllDocumentCheckListMaster>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayLisyType = object : TypeToken<ArrayList<AllDocumentCheckListMaster>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<AllDocumentCheckListMaster>>(value, arrayLisyType)
+
+    }
+
+    @TypeConverter
     fun fromCoApplicantsMasterArrayListToString(ArrayList: ArrayList<CoApplicantsMaster>?): String? {
         ArrayList?.let {
             val gson = Gson()
@@ -100,6 +113,16 @@ class ConverterArrayList {
         }
         return null
     }
+
+    @TypeConverter
+    fun fromDocumentListMasterArrayListToString(ArrayList: ArrayList<AllDocumentCheckListMaster>?): String? {
+        ArrayList?.let {
+            val gson = Gson()
+            return gson.toJson(ArrayList)
+        }
+        return null
+    }
+
 
     @TypeConverter
     fun fromStringToArrayListAssetDetail(value: String?): ArrayList<AssetLiability>? {
@@ -319,6 +342,26 @@ class ConverterArrayList {
             return gson.toJson(ArrayList)
         }
         return null
+    }
+    //Add Document Checklist Details
+    @TypeConverter
+    fun fromDocumentCheckListToString(arrayModel: ArrayList<DocumentCheckListDetailModel>?): String? {
+        arrayModel?.let {
+            val gson = Gson()
+            return gson.toJson(arrayModel)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToArrayListDocumentCheckList(value: String?): ArrayList<DocumentCheckListDetailModel>? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val arrayListType = object : TypeToken<ArrayList<DocumentCheckListDetailModel>>() {
+
+        }.type
+        return Gson().fromJson<ArrayList<DocumentCheckListDetailModel>>(value, arrayListType)
     }
 
 }

@@ -19,4 +19,9 @@ fun ArrayList<DropdownMaster>.getDisplayText(typeDetailID: Int?): String {
     if (list.isNullOrEmpty().not()) return list[0].typeDetailDisplayText.toString()
     return ""
 }
+fun ArrayList<DropdownMaster>.getTypeDetailId(typeDetailText : String ?) : Int{
+    val list = this.filter { it.typeDetailDisplayText.equals(typeDetailText,true) }
+    if(list.isNullOrEmpty().not()) return list[0].typeDetailID
+    return 0
+}
 

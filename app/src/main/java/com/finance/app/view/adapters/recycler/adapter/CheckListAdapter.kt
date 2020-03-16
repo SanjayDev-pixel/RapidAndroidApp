@@ -3,13 +3,18 @@ package com.finance.app.view.adapters.recycler.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.RadioGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemDocumentChecklistBinding
+import com.finance.app.persistence.model.ChecklistAnswerType
 import com.finance.app.persistence.model.DocumentCheckListDetailModel
 
-class CheckListAdapter (private val c: Context, private val documentCheck: ArrayList<DocumentCheckListDetailModel>) : RecyclerView.Adapter<CheckListAdapter.CheckListDetailViewHolder>() {
+class CheckListAdapter(private val c: Context, private val documentCheckList: ArrayList<DocumentCheckListDetailModel>) : RecyclerView.Adapter<CheckListAdapter.CheckListDetailViewHolder>() {
+
+
     private lateinit var binding: ItemDocumentChecklistBinding
     private var mOnCheckClickListener: CheckListClickListener? = null
 
@@ -19,7 +24,8 @@ class CheckListAdapter (private val c: Context, private val documentCheck: Array
         return CheckListDetailViewHolder(binding, c)
     }
 
-    override fun getItemCount() = documentCheck.size
+    override fun getItemCount() = documentCheckList.size
+
 
     fun setOnCheckListClickListener(listner: CheckListClickListener) {
         mOnCheckClickListener = listner
@@ -29,37 +35,49 @@ class CheckListAdapter (private val c: Context, private val documentCheck: Array
 
     }
 
-
     fun getItemList(): ArrayList<DocumentCheckListDetailModel> {
-        return documentCheck
+        return documentCheckList
     }
 
-//    fun addItem(position: Int = 0, checkListDetail: DocumentCheckListDetailModel) {
-//        documentCheck?.let {
-//            it.add(position, checkListDetail)
-//            notifyDataSetChanged()
-//        }
-//    }
-
-
-
-
-
     override fun onBindViewHolder(holder: CheckListDetailViewHolder, position: Int) {
-        holder.bindItems(position, documentCheck[position])
+
+        holder.bindItems(position, documentCheckList[position])
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     inner class CheckListDetailViewHolder(val binding: ItemDocumentChecklistBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
+
         fun bindItems(position: Int, documentCheck: DocumentCheckListDetailModel) {
-          //  binding.tvValue.text = documentCheck.assetValue.toString()
-            binding.questionNo.text=(position+1).toString()
-          //  binding.questiontext.text=documentCheck.
+            //  binding.tvValue.text = documentCheck.assetValue.toString()
 
-
+            binding.questionNo.text = (position + 1).toString()
+            binding.questiontext.text = documentCheck.description
+            binding.radiogroup.tag = position
+            //  binding.questiontext.text=documentCheck.
+            when {
+                documentCheck.selectedCheckListValue == ChecklistAnswerType.YES || documentCheck.typeDetailDisplayText.equals("YES", true) -> binding.radiogroup.check(binding.rbYes.id)
+                documentCheck.selectedCheckListValue == ChecklistAnswerType.NO || documentCheck.typeDetailDisplayText.equals("NO", true) -> binding.radiogroup.check(binding.rbNo.id)
+                documentCheck.selectedCheckListValue == ChecklistAnswerType.NA || documentCheck.typeDetailDisplayText.equals("NA", true) -> binding.radiogroup.check(binding.rbNa.id)
+            }
             addClickListener(position, documentCheck)
         }
 
         private fun addClickListener(position: Int, documentCheck: DocumentCheckListDetailModel) {
+
+            binding.radiogroup.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
+                override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+
+                    when (checkedId) {
+                        binding.rbYes.id -> documentCheck.selectedCheckListValue = ChecklistAnswerType.YES
+                        binding.rbNo.id -> documentCheck.selectedCheckListValue = ChecklistAnswerType.NO
+                        binding.rbNa.id -> documentCheck.selectedCheckListValue = ChecklistAnswerType.NA
+                    }
+                }
+            })
 
         }
     }

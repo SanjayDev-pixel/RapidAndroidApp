@@ -44,6 +44,7 @@ class AllLeadMaster : Serializable {
     var assetLiabilityData: AssetLiabilityList = AssetLiabilityList()
     var propertyData: PropertyModel = PropertyModel()
     var referenceData = ReferencesList()
+    var documentData : DocumentDetailList = DocumentDetailList()
     var isDetailAlreadySync: Boolean = false
     var isSyncWithServer: Boolean = true
 }

@@ -14,6 +14,7 @@ import com.finance.app.view.adapters.recycler.holder.NavDrawerViewHolder
 import com.finance.app.view.fragment.loanApplicationFragments.*
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.document_checklist.DocumentCheckListFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentInfoFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.personal.PersonalInfoFragmentNew
 import java.lang.Exception

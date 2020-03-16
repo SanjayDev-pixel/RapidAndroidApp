@@ -120,7 +120,13 @@ class SyncDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         override fun getApiSuccess(value: Response.ResponseDocumentCheckLists) {
              if(value.responseCode == Constants.SUCCESS)
              {
-                 System.out.println("Response>>>>>"+value.responseMsg)
+                 GlobalScope.launch {
+                     dataBase.provideDataBaseSource().allDocumentDao().insertDocumentList(value.responseObj)
+                 }
+             }
+            else
+             {
+                 showToast(value.responseMsg)
              }
         }
     }

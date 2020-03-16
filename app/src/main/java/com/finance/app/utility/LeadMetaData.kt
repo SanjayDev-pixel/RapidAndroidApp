@@ -10,6 +10,7 @@ import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class LeadMetaData : Observable() {
 
@@ -31,7 +32,7 @@ class LeadMetaData : Observable() {
 
         fun setLeadData(leadDetail: AllLeadMaster?) {
             leadData.value = leadDetail
-            System.out.println("lead Data>>>>"+ leadData.value)
+            System.out.println("lead Data>>>>" + leadData.value)
         }
 
         fun getLeadObservable() = leadData
@@ -103,4 +104,13 @@ class LeadMetaData : Observable() {
 
         }
     }
+
+    fun saveDocumentData(documentListData: ArrayList<DocumentCheckList>) {
+        val lead = getLeadData()
+        lead?.let {
+            lead.documentData.documentDetailList = documentListData
+            insertLeadInfoIntoDB(lead)
+        }
+    }
+
 }

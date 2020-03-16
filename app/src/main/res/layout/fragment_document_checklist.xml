@@ -31,14 +31,6 @@
                 app:tabSelectedTextColor="@color/colorPrimary"
                 app:tabTextColor="@color/black" />
 
-            <Button
-                android:id="@+id/btnAddApplicant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_icon"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size"
-                android:visibility="gone"/>
 
         </LinearLayout>
 
