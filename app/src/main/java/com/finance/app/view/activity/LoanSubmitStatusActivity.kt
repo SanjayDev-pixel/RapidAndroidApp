@@ -36,7 +36,6 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
         }
     }
 
-
     override fun init() {
         hideSecondaryToolbar()
 
@@ -47,8 +46,6 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
         }
 
     }
-
-
     private fun initViews(finalSubmitLoanResponse: ApplicantionSubmitModel?) {
 
         binding.leadNumber.setText(LeadMetaData.getLeadData()?.leadNumber)
@@ -67,9 +64,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
         }
         binding.llstatus.rate.setText(finalSubmitLoanResponse?.roi.toString().plus("%"))
 
-
-
-       if (ruleEngineResponse.hfcPolicyResponse!!.rejectionFlag == true) {
+        if (ruleEngineResponse.hfcPolicyResponse!!.rejectionFlag == true) {
             binding.logoLayoutReject.visibility = View.VISIBLE
             setRejectionAdapter(ruleEngineResponse.hfcPolicyResponse!!.rejectionList)
 
@@ -107,7 +102,6 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
         binding.recyclerview.adapter = loanRejectionAdapter
 
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

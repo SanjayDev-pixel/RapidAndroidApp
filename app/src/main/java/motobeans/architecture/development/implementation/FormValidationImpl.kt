@@ -37,6 +37,7 @@ class FormValidationImpl : FormValidation {
         val email = binding.basicInfoLayout.etEmail.text.toString()
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
+        val father_Name =binding.basicInfoLayout.etFatherFirstName.text.toString()
 
         if (age.exIsNotEmptyOrNullOrBlank()) {
             if (age.toInt() !in 99 downTo 14) {
@@ -58,6 +59,11 @@ class FormValidationImpl : FormValidation {
             errorCount.plus(checkPermanentAddressFields(binding))
         }
 
+        if(!father_Name.exIsNotEmptyOrNullOrBlank()){
+            binding.basicInfoLayout.etFatherFirstName.error="Enter your Father's Name"
+            errorCount++
+        }
+
         val fieldError = when {
             !currentLandmark.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentLandmark)
             !dob.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.basicInfoLayout.etDOB)
@@ -65,6 +71,7 @@ class FormValidationImpl : FormValidation {
             !currentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentAddress)
             !isValidEmail(email) -> setFieldError(binding.basicInfoLayout.etEmail)
             !isValidMobile(mobile) -> setFieldError(binding.basicInfoLayout.etMobile)
+
             else -> 0
         }
 
@@ -133,11 +140,16 @@ class FormValidationImpl : FormValidation {
             else -> 0
         }
 
+        if(emi.equals("0")){
+            setFieldError(binding.etEmi)
+            errorCount++
+        }
+
         var spinnerError = 0
         spinnerDMList.forEach { item ->
             if (!item.isValid()) ++spinnerError
         }
-        
+
         val sourcingPartnerName : String= customChannelPartnerView.getSourcingPartner().toString()
         if(sourcingPartnerName == "null"){errorCount++}
 

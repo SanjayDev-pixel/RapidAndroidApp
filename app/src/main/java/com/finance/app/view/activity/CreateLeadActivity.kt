@@ -118,6 +118,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseAddLead) {
             if (value.responseCode == Constants.SUCCESS) {
                 AllLeadActivity.start(this@CreateLeadActivity)
+                this@CreateLeadActivity.finish()
 
 
             } else {

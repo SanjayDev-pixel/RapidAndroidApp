@@ -48,7 +48,7 @@ class PreviewInnerAdapter<T>(private val mContext: FragmentActivity, private val
                 PreviewInnerObligationHolder(obligationPreviewBinding, mContext)
             }
             AppEnums.PreviewType.DOCUMENT -> {
-                documentsPreviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.preview_layout_document_checklist, parent, false)
+                documentsPreviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.preview_document_checklist_item, parent, false)
                 PreviewDocumentsHolder(documentsPreviewBinding, mContext)
             }
             else -> {

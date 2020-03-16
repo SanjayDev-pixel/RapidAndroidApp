@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/margin10dp">
+
+    <TextView
+        android:id="@+id/questiontext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Q.1 bla bla bla "
+        android:textStyle="bold"
+        android:textSize="@dimen/text_size"/>
+
+    <TextView
+        android:id="@+id/q_ans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Yes"
+        android:layout_marginTop="@dimen/margin5dp"/>
+
+</LinearLayout>

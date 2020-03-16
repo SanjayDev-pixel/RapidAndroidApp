@@ -187,8 +187,6 @@ class DocumentCheckListFragmentNew : BaseFragment(){
 
         }
 
-
-
         private fun getRequestSubmittedLead():Requests.RequestSubmittedLead?{
             val leadId:Int?=LeadMetaData.getLeadId()
             return Requests.RequestSubmittedLead(leadID=leadId!!)
