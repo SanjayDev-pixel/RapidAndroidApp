@@ -110,6 +110,7 @@ class Converters {
         return null
     }
 
+
     @TypeConverter
     fun fromStringToLoanInfoObj(value: String?): LoanInfoModel? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
@@ -317,6 +318,42 @@ class Converters {
         kycDocumentModel?.let {
             val gson = Gson()
             return gson.toJson(kycDocumentModel)
+        }
+        return null
+    }
+    @TypeConverter
+    fun fromStringToDocumentChecklistModel(value : String?): AllDocumentCheckListMaster?
+    {
+        if(!value.exIsNotEmptyOrNullOrBlank()){
+            return null
+        }
+        val listType = object : TypeToken<AllDocumentCheckListMaster>() {}.type
+        return Gson().fromJson<AllDocumentCheckListMaster>(value, listType)
+    }
+    @TypeConverter
+    fun fromDocumentChecklistModelToString(documentCheckListMaster: AllDocumentCheckListMaster) : String ?{
+        documentCheckListMaster?.let {
+            val gson = Gson()
+            return gson.toJson(documentCheckListMaster)
+        }
+        return null
+    }
+    @TypeConverter
+    fun fromStringToDocumentInfoObj(value: String?): DocumentDetailList? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+        val listType = object : TypeToken<DocumentDetailList>() {
+
+        }.type
+        return Gson().fromJson<DocumentDetailList>(value, listType)
+    }
+
+    @TypeConverter
+    fun fromDocumentInfoObjToString(documentCheckList: DocumentDetailList?): String? {
+        documentCheckList?.let {
+            val gson = Gson()
+            return gson.toJson(documentCheckList)
         }
         return null
     }

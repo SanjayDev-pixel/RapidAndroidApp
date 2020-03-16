@@ -24,9 +24,6 @@ class AssetDetailAdapter(private val c: Context, private val assets: ArrayList<A
     lateinit var dataBase: DataBaseUtil
     private var allMasterDropDown1: AllMasterDropDown? = allMasterDropDown
 
-
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetDetailViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_asset, parent, false)

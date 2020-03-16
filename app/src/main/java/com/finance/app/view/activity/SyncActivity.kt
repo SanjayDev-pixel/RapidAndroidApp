@@ -54,6 +54,6 @@ class SyncActivity : BaseAppCompatActivity() {
     }
 
     private fun getAllAppRelatedDataFromApi() {
-        viewModel.getOtherDropdownValue()
+        viewModel.getUpdatedDataFromServer()
     }
 }

@@ -19,6 +19,7 @@ import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.A
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFormFragment
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.document_checklist.DocumentCheckListFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.document_checklist.DocumentChecklistForm
 import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentFormFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentInfoFragmentNew

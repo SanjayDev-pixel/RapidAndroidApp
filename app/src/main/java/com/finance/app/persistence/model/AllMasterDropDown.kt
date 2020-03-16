@@ -70,7 +70,6 @@ class AllMasterDropDown : Serializable {
     var LeadNotificationType: ArrayList<DropdownMaster>? = null
     var LeadRejectionReason: ArrayList<DropdownMaster>? = null
     var DocumentCode: ArrayList<DropdownMaster>? = null
-
     fun getMasterDropDownMap(): HashMap<AppEnums.DropdownMasterType, ArrayList<DropdownMaster>?> {
         val map = HashMap<AppEnums.DropdownMasterType, ArrayList<DropdownMaster>?>()
         map[AppEnums.DropdownMasterType.Gender] = Gender

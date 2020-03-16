@@ -91,7 +91,7 @@ class PreviewInnerAdapter<T>(private val mContext: FragmentActivity, private val
 
     private fun initLayoutInnerDocumentPreview(holder: PreviewDocumentsHolder, pos: Int) {
         val data = dataList as ArrayList<BankDetailBean>
-//        holder.bindItems(data, pos, viewModel)
+        //holder.bindItems(data, pos, viewModel)
     }
 
 }

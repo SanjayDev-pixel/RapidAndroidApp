@@ -1,4 +1,4 @@
-package com.finance.app.view.fragment.loanApplicationFragments
+package com.finance.app.view.fragment.loanApplicationFragments.document_checklist
 
 import android.content.Context
 import android.content.Intent
@@ -62,17 +62,12 @@ class DocumentCheckListFragmentNew : BaseFragment(){
             return DocumentCheckListFragmentNew()
         }
     }
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ArchitectureApp.instance.component.inject(this)
         mContext=context!!
     }
-
     override fun init() {}
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -90,23 +85,25 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     private fun setOnClickListener() {
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-            //            pagerAdapterAsset?.getALlAssetsAndLiability()?.let { it1 -> LeadMetaData().saveAssetLiabilityData(it1) }
-//            AppEvents.fireEventLoanAppChangeNavFragmentNext()
-
             if (LeadMetaData.getLeadData()?.status == "Submitted") {
-
-                val lead: AllLeadMaster? = LeadMetaData.getLeadData()
-                getSubmittedStateResponse(lead)
+               getSubmittedStateResponse()
             } else {
-
-                PreviewActivity.start(this.requireActivity())
+                pagerAdapterDocumentCheckList?.let { adapter->
+                    if(adapter.isDocumentDetailsValid()){
+                        LeadMetaData().saveDocumentData(adapter.getAllChecklistDetail())
+                        PreviewActivity.start(mContext)
+                    }
+                    else
+                    {
+                        Toast.makeText(mContext,"Kindly fill all details", Toast.LENGTH_LONG).show()
+                    }
+                }
 
             }
-
         }
     }
 
-    private fun getSubmittedStateResponse(lead: AllLeadMaster?) {
+    private fun getSubmittedStateResponse() {
 
         presenter.callNetwork(ConstantsApi.Call_FINAL_RESPONSE, CallFinalSubmitResponse())
 
@@ -118,10 +115,6 @@ class DocumentCheckListFragmentNew : BaseFragment(){
         super.onViewCreated(view, savedInstanceState)
         fetchLeadDetails()
     }
-
-
-
-
     private fun fetchLeadDetails() {
         LeadMetaData.getLeadObservable().observe(this, androidx.lifecycle.Observer { leadDetail ->
             leadDetail?.let {
@@ -136,67 +129,42 @@ class DocumentCheckListFragmentNew : BaseFragment(){
 
     private fun setApplicantTabAdapter(applicantList: ArrayList<PersonalApplicantsModel>) {
         pagerAdapterDocumentCheckList = DocumentCheckLIstPagerAdapter(fragmentManager!!, applicantList)
-        binding.viewPager.adapter = pagerAdapterDocumentCheckList
-        binding.tabLead.setupWithViewPager(binding.viewPager)
+        binding.vpDocumentDetailForm.adapter = pagerAdapterDocumentCheckList
+        binding.tabLead.setupWithViewPager(binding.vpDocumentDetailForm)
     }
-
-
-
-
     inner class CallFinalSubmitResponse:ViewGeneric<Requests.RequestSubmittedLead, Response.ResponseFinalSubmitted>(context = mContext) {
         override val apiRequest: Requests.RequestSubmittedLead?
             get() = getRequestSubmittedLead()
-
-
         override fun getApiSuccess(value: Response.ResponseFinalSubmitted) {
-
             if (value.responseCode == Constants.SUCCESS) {
-
-                //binding.progressBar!!.visibility = View.GONE
-
                 val submitLoanResponse: ApplicantionSubmitModel? = value.responseObj
-
                 if (value.responseObj != null) {
                     val intent = Intent(mContext, LoanSubmitStatusActivity::class.java)
                     intent.putExtra("SubmitResponse", submitLoanResponse)
                     mContext.startActivity(intent)
-
-
                 } else {
-
                     showToast(value.responseMsg)
                 }
-
-
             } else {
                 showToast(value.responseMsg)
                 //binding.progressBar!!.visibility = View.GONE
             }
-
         }
-
         override fun getApiFailure(msg: String) {
 
             if (msg.exIsNotEmptyOrNullOrBlank()) {
-                super.getApiFailure(msg)
-             //   binding.progressBar!!.visibility = View.GONE
+                    super.getApiFailure(msg)
+                //   binding.progressBar!!.visibility = View.GONE
             } else {
                 super.getApiFailure("Time out Error")
-               // binding.progressBar!!.visibility = View.GONE
+                // binding.progressBar!!.visibility = View.GONE
             }
 
         }
-
-
-
         private fun getRequestSubmittedLead():Requests.RequestSubmittedLead?{
             val leadId:Int?=LeadMetaData.getLeadId()
             return Requests.RequestSubmittedLead(leadID=leadId!!)
         }
-
     }
-
-
 }
-
 

@@ -5,72 +5,57 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/app_bkg"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/llApplicantTab"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLead"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_10"
-
-                android:minHeight="?actionBarSize"
-                android:textSize="@dimen/button_text_size"
-                app:tabBackground="@color/white"
-                app:tabGravity="fill"
-                app:tabIndicatorColor="@color/colorPrimary"
-                app:tabIndicatorHeight="3dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/colorPrimary"
-                app:tabTextColor="@color/black" />
-
-            <Button
-                android:id="@+id/btnAddApplicant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_icon"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size"
-                android:visibility="gone"/>
-
-        </LinearLayout>
+            android:layout_alignParentTop="true"
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="@color/black" />
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_height="wrap_content"
+            android:id="@+id/vpDocumentDetailForm"
             android:layout_width="match_parent"
-            android:layout_above="@id/rlButton"
-            android:layout_below="@id/llApplicantTab" />
+            android:layout_height="match_parent"
+            android:layout_above="@id/layoutBottomNav"
+            android:layout_below="@id/tabLead" />
 
         <RelativeLayout
-            android:id="@+id/rlButton"
+            android:id="@+id/layoutBottomNav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/btnPrevious"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/ic_round_grey_btn_bkg"
+                android:minWidth="100dp"
                 android:text="@string/previous"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btnNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_round_blue_btn_bkg"
+                android:gravity="center"
+                android:minWidth="100dp"
                 android:text="@string/next"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button_text_size" />
+                android:textColor="@color/white" />
         </RelativeLayout>
+
     </RelativeLayout>
 </layout>
