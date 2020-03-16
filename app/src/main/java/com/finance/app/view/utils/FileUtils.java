@@ -50,7 +50,7 @@ import okhttp3.ResponseBody;
 public class FileUtils {
     public static final String DOCUMENTS_DIR = "documents";
     // configured android:authorities in AndroidManifest (https://developer.android.com/reference/android/support/v4/content/FileProvider)
-    public static final String AUTHORITY = "YOUR_AUTHORITY.provider";
+    public static final String AUTHORITY = "android.support.v4.content.FileProvider";
     public static final String HIDDEN_PREFIX = ".";
     /**
      * TAG for log messages.
@@ -691,6 +691,8 @@ public class FileUtils {
         File storageDir = new File(context.getCacheDir(), DOCUMENTS_DIR);
         return File.createTempFile(fileName, ".jpg", storageDir);
     }
+
+
 
     public static String getFileName(@NonNull Context context, Uri uri) {
         String mimeType = context.getContentResolver().getType(uri);

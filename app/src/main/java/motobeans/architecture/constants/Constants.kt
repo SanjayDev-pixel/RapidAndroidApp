@@ -58,6 +58,9 @@ class Constants {
         const val CASH_SALARY = 118
         const val BANK_SALARY = 119
 
+        const val ACTION_PICK_FILE="Pick File"
+        const val ACTION_TAKE_IMAGE="Take Image"
+
     }
 
     object TEMP_DATA {

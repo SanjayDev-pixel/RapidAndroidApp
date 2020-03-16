@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -22,7 +23,9 @@ import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.UploadedDocumentListAdapter
+import com.finance.app.view.utils.getImageUriForImagePicker
 import com.finance.app.view.utils.startFilePickerActivity
+import com.finance.app.view.utils.startImagePickerActivity
 import com.finance.app.workers.Workers.document.UploadDocumentWorker
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,6 +38,7 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import java.util.*
 import javax.inject.Inject
 
 
@@ -55,6 +59,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
 
     companion object {
         const val DOCUMENT_REQ_CODE = 1000
+        const val DOCUMENT_IMAGE_REQ_CODE = 1001
         const val DOCUMENT_UPLOAD_BUNDLE = "document_upload_bundle"
 
         fun startActivity(context: Context, bundle: Bundle) {
@@ -116,9 +121,14 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         hideSecondaryToolbar()
         setOnClickListener()
 
+        setLeadNumber()
         fetchBundleData()
         fetchDocumentTypeList()
         fetchUploadedDocumentList()
+    }
+
+    private fun setLeadNumber() {
+        binding.header.tvLeadNumber.text = "${LeadMetaData.getLeadData()?.leadNumber}"
     }
 
     private fun setOnClickListener() {
@@ -126,8 +136,8 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         binding.btnPickFile.setOnClickListener {
             Assent.requestPermissions(AssentCallback { result ->
                 if (result.allPermissionsGranted())
-                    this@DocumentUploadingActivity.startFilePickerActivity(DOCUMENT_REQ_CODE)
-            }, 1, Assent.WRITE_EXTERNAL_STORAGE)
+                    showFileTypeChooserDialog()
+            }, 1, Assent.WRITE_EXTERNAL_STORAGE, Assent.CAMERA)
 
         }
         binding.btnUpload.setOnClickListener { if (isKycDocumentDetailValid()) saveKycDocumentIntoDatabase() }
@@ -137,6 +147,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         val adapter = ArrayAdapter<DocumentTypeModel>(this, android.R.layout.simple_spinner_item, documentTypes)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerDocumentType.adapter = adapter
+
     }
 
     private fun setUploadedDocumentListAdapter(documentList: ArrayList<DocumentTypeModel>) {
@@ -181,13 +192,33 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> Requests.RequestUploadedDocumentList(codeId, it) } }
     }
 
-    private fun getSelectedDocumentID(): Requests.RequestDocumentDownloadableLink {
-        return Requests.RequestDocumentDownloadableLink(46)
+    private fun showFileTypeChooserDialog() {
+        val actionList = arrayOf(Constants.ACTION_PICK_FILE, Constants.ACTION_TAKE_IMAGE)
+        val builder = AlertDialog.Builder(this@DocumentUploadingActivity)
+        builder.setTitle("Choose Action!")
+        builder.setItems(actionList) { _, which ->
+            when (actionList[which]) {
+                Constants.ACTION_PICK_FILE -> this@DocumentUploadingActivity.startFilePickerActivity(DOCUMENT_REQ_CODE)
+                Constants.ACTION_TAKE_IMAGE -> {
+                    selectedDocumentUri = this@DocumentUploadingActivity.getImageUriForImagePicker("doc_image_${Date().time}")
+                    selectedDocumentUri?.let { uri ->
+                        this@DocumentUploadingActivity.startImagePickerActivity(DOCUMENT_IMAGE_REQ_CODE, uri)
+                    }
+                }
+            }
+        }
+        builder.show()
     }
 
     private fun onDocumentSelected(data: Intent?) {
         data?.let {
             selectedDocumentUri = it.data
+            binding.btnPickFile.error = null
+        }
+    }
+
+    private fun onImageSelected(data: Uri?) {
+        data?.let {
             binding.btnPickFile.error = null
         }
     }
@@ -205,7 +236,6 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         kycDocumentModel.leadID = LeadMetaData.getLeadId()
         kycDocumentModel.leadApplicantNumber = applicantNumber
         kycDocumentModel.documentID = (binding.spinnerDocumentType.selectedItem as DocumentTypeModel?)?.documentID
-//        kycDocumentModel.isSyncWithServer = false
         kycDocumentModel.documentName = binding.etDocumentName.text.toString()
         kycDocumentModel.document = selectedDocumentUri.toString()
 
@@ -229,8 +259,11 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            DOCUMENT_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onDocumentSelected(data)
+            DOCUMENT_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onDocumentSelected(data) else selectedDocumentUri = null
+            DOCUMENT_IMAGE_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onImageSelected(selectedDocumentUri) else selectedDocumentUri = null
             else -> Toast.makeText(this@DocumentUploadingActivity, "Did not pick image, please try again!", Toast.LENGTH_LONG).show()
         }
     }
+
+
 }
