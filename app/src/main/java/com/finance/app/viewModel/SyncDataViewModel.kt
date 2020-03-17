@@ -54,10 +54,11 @@ class SyncDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
                                 val isEmptyData: Boolean = false,
                                 val errorMessage: String? = null)
 
-    fun getOtherDropdownValue() {
+    fun getUpdatedDataFromServer() {
         presenter.callNetwork(ConstantsApi.CALL_ALL_MASTER_VALUE, dmiConnector = AllMasterDropdownData())
         presenter.callNetwork(ConstantsApi.CALL_LOAN_PRODUCT, dmiConnector = LoanProductsDropdown())
         presenter.callNetwork(ConstantsApi.CALL_ALL_STATES, dmiConnector = AllStatesList())
+        presenter.callNetwork(ConstantsApi.CALL_DOCUMENT_CHECKLIST,dmiConnector = AllDocumentCheckList())
         getAllLeads()
     }
 
@@ -108,6 +109,25 @@ class SyncDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
             } else {
                 showToast(value.responseMsg)
             }
+        }
+    }
+    //Inner class for Download DocumentCheckList
+    inner class AllDocumentCheckList : ViewGeneric<String?,Response.ResponseDocumentCheckLists>(context = activity)
+    {
+        override val apiRequest: String?
+            get() = null
+
+        override fun getApiSuccess(value: Response.ResponseDocumentCheckLists) {
+             if(value.responseCode == Constants.SUCCESS)
+             {
+                 GlobalScope.launch {
+                     dataBase.provideDataBaseSource().allDocumentDao().insertDocumentList(value.responseObj)
+                 }
+             }
+            else
+             {
+                 showToast(value.responseMsg)
+             }
         }
     }
 

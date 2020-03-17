@@ -13,7 +13,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
 @Database(entities = [AllMasterDropDown::class, LoanProductMaster::class, AllLeadMaster::class, StatesMaster::class,
-    CoApplicantsMaster::class, KycDocumentModel::class], version = 1)
+    CoApplicantsMaster::class, KycDocumentModel::class,AllDocumentCheckListMaster::class], version = 1)
 
 @TypeConverters(value = [Converters::class, ConverterArrayList::class])
 abstract class MasterDB : RoomDatabase() {
@@ -61,6 +61,9 @@ abstract class MasterDB : RoomDatabase() {
 
     @SuppressWarnings("WeakerAccess")
     abstract fun coApplicantsDao(): CoApplicantDao
+
+    @SuppressWarnings("WeakerAccess")
+    abstract fun allDocumentDao() : DocumentCheckListDao
 
     @SuppressWarnings("WeakerAccess")
     abstract fun kycDocumentDao(): KycDocumentDao

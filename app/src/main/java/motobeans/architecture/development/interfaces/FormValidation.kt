@@ -7,6 +7,7 @@ import com.finance.app.persistence.model.LoanPurpose
 import com.finance.app.persistence.model.UserBranches
 import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.view.customViews.CustomChannelPartnerView
+import com.finance.app.view.customViews.CustomDocumentCheckListView
 import com.finance.app.view.customViews.CustomSpinnerView
 
 interface FormValidation {
@@ -41,5 +42,6 @@ interface FormValidation {
     fun validateAssetLiabilityInfo(binding: LayoutCustomviewAssetliabilityBinding): Boolean
     fun validateKycDetail(binding: LayoutKycFormBinding): Boolean
     fun validateKycDocumentDetail(binding: ActivityDocumentUploadingBinding):Boolean
+
 
 }

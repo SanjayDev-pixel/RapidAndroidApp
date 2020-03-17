@@ -7,10 +7,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemDocumentChecklistBinding
+import com.finance.app.persistence.model.DocumentCheckListDetailModel
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.view.customViews.CustomSpinnerView
 
-class DocumentCheckListAdapter(private val mContext: Context, private val dropDowns: ArrayList<DropdownMaster>?) : RecyclerView.Adapter<DocumentCheckListAdapter.DocumentCheckListViewHolder>() {
+class DocumentCheckListAdapter(private val mContext: Context, private val documentList: ArrayList<DocumentCheckListDetailModel>?) : RecyclerView.Adapter<DocumentCheckListAdapter.DocumentCheckListViewHolder>() {
     private lateinit var binding: ItemDocumentChecklistBinding
     private lateinit var selection: CustomSpinnerView<DropdownMaster>
 
@@ -20,7 +21,7 @@ class DocumentCheckListAdapter(private val mContext: Context, private val dropDo
         return DocumentCheckListViewHolder(binding, mContext)
     }
 
-    override fun getItemCount() = dropDowns?.size ?: 0
+    override fun getItemCount() = documentList?.size ?: 0
 
     override fun onBindViewHolder(holder: DocumentCheckListViewHolder, position: Int) {
         holder.bindItems(position)
@@ -28,7 +29,7 @@ class DocumentCheckListAdapter(private val mContext: Context, private val dropDo
 
     inner class DocumentCheckListViewHolder(val binding: ItemDocumentChecklistBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int) {
-            selection = CustomSpinnerView(mContext = mContext, dropDowns = dropDowns, label = "Select *")
+            //selection = CustomSpinnerView(mContext = mContext, dropDowns = dropDowns, label = "Select *")
  //           binding.layoutDocumentStatus.addView(selection)
         }
     }

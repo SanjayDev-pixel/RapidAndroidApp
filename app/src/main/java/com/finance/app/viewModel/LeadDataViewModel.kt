@@ -52,13 +52,14 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
     private val isLeadSyncLiabilityAndAssets = MutableLiveData<Boolean>()
     private val isLeadSyncProperty = MutableLiveData<Boolean>()
     private val isLeadSyncReference = MutableLiveData<Boolean>()
-    private val isLeadSyncDocumentChecklist = MutableLiveData<Boolean>()
+    private val isLeadSyncDocument = MutableLiveData<Boolean>()
+
 
     private var leadData: AllLeadMaster? = null
 
     private val listOfToSyncData = listOf(isLeadSyncLoanInfo,
             isLeadSyncPersonalInfo, isLeadSyncEmployment, isLeadSyncBankDetail,
-            isLeadSyncLiabilityAndAssets, isLeadSyncReference,isLeadSyncProperty)
+            isLeadSyncLiabilityAndAssets, isLeadSyncReference,isLeadSyncProperty,isLeadSyncDocument)
 
     init {
         ArchitectureApp.instance.component.inject(this)
@@ -110,6 +111,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.LIABILITYASSET))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.PROPERTY))
         presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP, CallGetLoan(leadData = leadData, leadId = leadId, form = AppEnums.FormType.REFERENCE))
+        presenter.callNetwork(ConstantsApi.CALL_GET_LOAN_APP,CallGetLoan(leadData = leadData, leadId = leadId,form = AppEnums.FormType.DOCUMENT))
 
     }
 
@@ -144,6 +146,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
                 AppEnums.FormType.LIABILITYASSET -> handleAssetsAndLiabilityResponse(apiResponseObject)
                 AppEnums.FormType.PROPERTY -> handlePropertyResponse(apiResponseObject)
                 AppEnums.FormType.REFERENCE -> handleReferenceResponse(apiResponseObject)
+                AppEnums.FormType.DOCUMENT -> handleDocumentResponse(apiResponseObject)
             }
         }
 
@@ -180,6 +183,10 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
         private fun handleReferenceResponse(apiResponseObject: Serializable?) {
             apiResponseObject?.let { leadData.referenceData = apiResponseObject as ReferencesList }
             setObservableValueTrue(isLeadSyncReference)
+        }
+        private fun handleDocumentResponse(apiResponseObject: Serializable?){
+            apiResponseObject?.let { leadData.documentData = apiResponseObject as DocumentDetailList }
+            setObservableValueTrue(isLeadSyncDocument)
         }
 
         private fun setObservableValueTrue(observableSync: MutableLiveData<Boolean>) {

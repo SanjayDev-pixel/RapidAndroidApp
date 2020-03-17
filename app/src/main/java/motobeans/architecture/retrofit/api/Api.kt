@@ -45,6 +45,9 @@ interface Api {
     @GET("api/v1/master/states/")
     fun getStates(): Observable<Response.ResponseStatesDropdown>
 
+    @GET("api/v1/loan/application/applicant/document/checklist/")
+    fun getDocumentList() : Observable<Response.ResponseDocumentCheckLists>
+
     @GET("api/v1/master/state/{stateId}/district/")
     fun getDistricts(@Path("stateId") stateId: String): Observable<Response.ResponseDistrict>
 

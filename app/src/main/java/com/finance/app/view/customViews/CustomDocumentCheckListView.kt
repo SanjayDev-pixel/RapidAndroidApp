@@ -10,92 +10,120 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.CustomviewDocumentchecklistBinding
 import com.finance.app.databinding.LayoutCustomviewAssetliabilityBinding
-import com.finance.app.persistence.model.DocumentCheckListDetailModel
-import com.finance.app.persistence.model.DocumentCheckListModel
-import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.persistence.model.*
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
 import com.finance.app.view.adapters.recycler.adapter.CheckListAdapter
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckListAdapter
+import com.finance.app.view.utils.getTypeDetailId
+import kotlinx.android.synthetic.main.activity_update_call.view.*
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.util.AppUtilExtensions
+import javax.inject.Inject
 
-class CustomDocumentCheckListView  @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs),CheckListAdapter.CheckListClickListener{
-
+class CustomDocumentCheckListView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs), CheckListAdapter.CheckListClickListener {
     private lateinit var binding: CustomviewDocumentchecklistBinding
-//    private lateinit var activity: FragmentActivity
-//    private lateinit var selectedApplicant: PersonalApplicantsModel
-//    private var checklistAdapter: CheckListAdapter? = null
-
-
-
+    private lateinit var activity: FragmentActivity
+    private var selectedApplicant: PersonalApplicantsModel? = null
+    private var checklistAdapter: CheckListAdapter? = null
+    @Inject
+    lateinit var dataBase: DataBaseUtil
+    //private var leadDetail: AllDocumentCheckListMaster? = null
+    private var documentDetail: AllDocumentCheckListMaster? = null
+    private var allMasterDropDown: AllMasterDropDown? = null
 
     init {
         ArchitectureApp.instance.component.inject(this)
         binding = AppUtilExtensions.initCustomViewBinding(context = context, layoutId = R.layout.customview_documentchecklist, container = this)
-
         initViews()
-        setOnClickListener()
     }
-
 
     private fun initViews() {
+        //Fetch Document details from database..
+        //fetchDocumentsDetails()
     }
 
-    private fun setOnClickListener() {
+    fun initApplicantDetails(it: FragmentActivity, applicant: PersonalApplicantsModel) {
+        selectedApplicant = applicant
+        activity = it
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity, Observer { masterDrownDownValues ->
+            masterDrownDownValues?.let {
+                allMasterDropDown = it
 
-    }
-
-    fun initApplicantDetails(it: FragmentActivity, applicant: PersonalApplicantsModel){
-//        activity = it
-//        selectedApplicant = applicant
-//        selectedApplicant = applicant
-
-        //fetch details
-        fetchApplicantCheckListDetailsById(applicant.leadApplicantNumber.toString())
-
-    }
-
-    private fun fetchApplicantCheckListDetailsById(applicantNumber: String) {
-
-//        LeadMetaData.getLeadObservable().observe(activity, Observer { allLeadDetails ->
-//            allLeadDetails?.let {
-//               // val selectedApplicantList = it.assetLiabilityData.applicantDetails.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
-//
-//                /*if (!selectedApplicantList.isNullOrEmpty()) {
-//
-//                    if (selectedApplicantList[0].applicantAssetLiabilityList.isNullOrEmpty()) {
-//                        selectedApplicantList[0].applicantAssetLiabilityList = ArrayList()
-//                        setDocumentCheckListAdapter(selectedApplicantList[0].applicantAssetLiabilityList!!)
-//                    } else setDocumentCheckListAdapter(selectedApplicantList[0].applicantAssetLiabilityList!!)
-//
-//
-//                }*/
-//
-//            }
-//        })
-
-
+            }
+        })
+        fetchDocumentDetails()
 
     }
 
+
+    private fun fetchDocumentDetails() {
+        LeadMetaData.getLeadObservable().observe(activity, Observer {
+            it?.let { documentDetails ->
+                val selectedApplicantDocumentDetails = documentDetails.documentData.documentDetailList.filter { documentDetail -> documentDetail.leadApplicantNumber.equals(selectedApplicant?.leadApplicantNumber, true) }
+                if (selectedApplicantDocumentDetails.isNotEmpty())
+                    selectedApplicantDocumentDetails[0].checklistDetails?.let { it1 -> setDocumentCheckListAdapter(it1) }
+                else {
+                    val documentList = dataBase.provideDataBaseSource().allDocumentDao().getDocumentCheckList(LeadMetaData.getLeadData()?.loanProductID)
+                    documentList.observeForever {
+                        it?.let { documentMaster ->
+                            setDocumentCheckListAdapter(documentMaster.checklistDetails)
+                            documentDetail = documentMaster
+                        }
+                    }
+                }
+            }
+        })
+    }
 
     //get current applicant
-    fun getCurrentApplicant(): DocumentCheckListModel{
-        var currentApplicant:DocumentCheckListModel= DocumentCheckListModel()
-
-
+    fun getCurrentApplicant(): DocumentCheckList {
+        var currentApplicant: DocumentCheckList = DocumentCheckList()
         return currentApplicant
 
     }
 
     private fun setDocumentCheckListAdapter(checkList: ArrayList<DocumentCheckListDetailModel>) {
-//            binding.recyclerviewChecklist.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-//            checklistAdapter = CheckListAdapter(context, checkList)
-//            binding.recyclerviewChecklist.adapter = checklistAdapter
-//           checklistAdapter?.setOnCheckListClickListener(this)
+        binding.recyclerviewChecklist.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        checklistAdapter = CheckListAdapter(context, checkList)
+        binding.recyclerviewChecklist.adapter = checklistAdapter
+        //checklistAdapter.addItem()
+        checklistAdapter?.setOnCheckListClickListener(this)
 
+    }
+
+    fun getDocumentChecklist(): DocumentCheckList {
+        val documentCheckList = DocumentCheckList()
+        documentCheckList.productID = documentDetail?.productID
+        documentCheckList.productName = documentDetail?.productName
+        documentCheckList.isMainApplicant = selectedApplicant?.isMainApplicant!!
+        documentCheckList.leadApplicantNumber = selectedApplicant?.leadApplicantNumber
+        val updatedList = checklistAdapter?.getItemList()?.map { item ->
+            if (item.selectedCheckListValue == ChecklistAnswerType.YES) {
+                item.typeDetailId = allMasterDropDown?.ReviewerResponseType?.getTypeDetailId(item?.selectedCheckListValue.toString())
+                item.typeDetailDisplayText = item?.selectedCheckListValue.toString()
+            } else if (item.selectedCheckListValue == ChecklistAnswerType.NO) {
+                item.typeDetailId = allMasterDropDown?.ReviewerResponseType?.getTypeDetailId(item?.selectedCheckListValue.toString())
+                item.typeDetailDisplayText = item?.selectedCheckListValue.toString()
+            } else if (item.selectedCheckListValue == ChecklistAnswerType.NA) {
+                item.typeDetailId = allMasterDropDown?.ReviewerResponseType?.getTypeDetailId(item?.selectedCheckListValue.toString())
+                item.typeDetailDisplayText = item?.selectedCheckListValue.toString()
+            }
+            item
         }
+
+        documentCheckList.checklistDetails = if (updatedList.isNullOrEmpty()) ArrayList() else ArrayList(updatedList)
+        return documentCheckList
+    }
+    fun isDocumentDetailsValid() : Boolean{
+
+        var checkedError = false
+        for (i in 0 until getDocumentChecklist()?.checklistDetails?.size!!){
+            checkedError = getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText != null
+        }
+        return checkedError
+    }
 
 
 }
