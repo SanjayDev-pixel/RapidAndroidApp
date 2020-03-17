@@ -195,7 +195,7 @@ class PreviewActivity : BaseAppCompatActivity() {
             if (value.responseCode == Constants.SUCCESS) {
                 Toast.makeText(context, "Submitted Successfully.", Toast.LENGTH_SHORT).show()
 
-                //binding.progressBar!!.visibility = View.GONE
+                binding.progressBar!!.visibility = View.GONE
 
                 val submitLoanResponse: ApplicantionSubmitModel? = value.responseObj
 
@@ -214,7 +214,7 @@ class PreviewActivity : BaseAppCompatActivity() {
 
             } else {
                 showToast(value.responseMsg)
-//                binding.progressBar!!.visibility = View.GONE
+                binding.progressBar!!.visibility = View.GONE
             }
 
         }
@@ -223,16 +223,17 @@ class PreviewActivity : BaseAppCompatActivity() {
 
             if (msg.exIsNotEmptyOrNullOrBlank()) {
                 super.getApiFailure(msg)
-              //  binding.progressBar!!.visibility = View.GONE
+                binding.progressBar!!.visibility = View.GONE
             } else {
                 super.getApiFailure("Time out Error")
-              //  binding.progressBar!!.visibility = View.GONE
+                binding.progressBar!!.visibility = View.GONE
                   }
 
         }
 
 
         private fun getCallUpdateRequest(): Requests.RequestFinalSubmit? {
+            binding.progressBar!!.visibility =View.VISIBLE
             val leadId = LeadMetaData.getLeadId()
             return Requests.RequestFinalSubmit(leadID = leadId!!)
 

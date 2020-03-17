@@ -26,7 +26,7 @@ class PreviewBankHolder(val binding: PreviewLayoutBankBinding, val mContext: Fra
     private fun setUpInnerRecyclerView(data: ArrayList<BankDetailBean>, viewModel: AppDataViewModel) {
         val previewInnerAdapter = PreviewInnerAdapter(mContext,
                 dataList = data, viewModel = viewModel, previewTypeEnums = AppEnums.PreviewType.BANK)
-        binding.rcBank.adapter = previewInnerAdapter
+             binding.rcBank.adapter = previewInnerAdapter
 
     }
 

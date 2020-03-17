@@ -27,6 +27,7 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import javax.inject.Inject
 
 class CreateLeadActivity : BaseAppCompatActivity() {
@@ -60,12 +61,13 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         getLoanProductFromDB()
         setBranchesDropDownValue()
        // setupCustomView()
-
         binding.btnCreate.setOnClickListener {
 
             if (formValidation.validateAddLead(binding, loanProduct, branches)) {
                 if(loanProduct.getSelectedValue().toString()!= "null" && branches.getSelectedValue().toString() != "null"){
-                presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())}else{
+                presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
+                    binding.progressBar!!.visibility =View.VISIBLE
+                }else{
                     Toast.makeText(this,"Please fill maindatory fields",Toast.LENGTH_SHORT).show()
                 }
             }
@@ -117,14 +119,29 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseAddLead) {
             if (value.responseCode == Constants.SUCCESS) {
+                binding.progressBar!!.visibility =View.GONE
                 AllLeadActivity.start(this@CreateLeadActivity)
                 this@CreateLeadActivity.finish()
 
 
             } else {
                 showToast(value.responseMsg)
+                binding.progressBar!!.visibility =View.GONE
             }
         }
+
+        override fun getApiFailure(msg: String) {
+
+            if (msg.exIsNotEmptyOrNullOrBlank()) {
+                super.getApiFailure(msg)
+                binding.progressBar!!.visibility = View.GONE
+            } else {
+                super.getApiFailure("Time out Error")
+                binding.progressBar!!.visibility = View.GONE
+            }
+
+        }
+
     }
 
     private val leadRequest: Requests.RequestAddLead

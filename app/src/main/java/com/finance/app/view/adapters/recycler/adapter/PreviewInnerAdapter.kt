@@ -8,10 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.*
 import com.finance.app.others.AppEnums
-import com.finance.app.persistence.model.AssetLiability
-import com.finance.app.persistence.model.BankDetailBean
-import com.finance.app.persistence.model.CardDetail
-import com.finance.app.persistence.model.ObligationDetail
+import com.finance.app.persistence.model.*
 import com.finance.app.view.adapters.recycler.holder.*
 import com.finance.app.viewModel.AppDataViewModel
 
@@ -22,7 +19,7 @@ class PreviewInnerAdapter<T>(private val mContext: FragmentActivity, private val
     private lateinit var assetsPreviewBinding: PreviewInnerLayoutAssetBinding
     private lateinit var cardsPreviewBinding: PreviewInnerLayoutCreditCardBinding
     private lateinit var obligationPreviewBinding: PreviewInnerLayoutObligationBinding
-    private lateinit var documentsPreviewBinding: PreviewLayoutDocumentChecklistBinding
+    private lateinit var documentsPreviewBinding: PreviewDocumentChecklistItemBinding
 
     override fun getItemCount() = dataList.size
 
@@ -49,11 +46,11 @@ class PreviewInnerAdapter<T>(private val mContext: FragmentActivity, private val
             }
             AppEnums.PreviewType.DOCUMENT -> {
                 documentsPreviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.preview_document_checklist_item, parent, false)
-                PreviewDocumentsHolder(documentsPreviewBinding, mContext)
+                PreviewInnerDocumentHolder(documentsPreviewBinding, mContext)
             }
             else -> {
-                documentsPreviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.preview_layout_document_checklist, parent, false)
-                PreviewDocumentsHolder(documentsPreviewBinding, mContext)
+                //documentsPreviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.preview_document_checklist_item, parent, false)
+                PreviewInnerDocumentHolder(documentsPreviewBinding, mContext)
             }
         }
     }
@@ -64,7 +61,7 @@ class PreviewInnerAdapter<T>(private val mContext: FragmentActivity, private val
             AppEnums.PreviewType.ASSETS -> initLayoutInnerAssetsPreview(holder as PreviewInnerAssetHolder, position)
             AppEnums.PreviewType.CARD -> initLayoutInnerCreditCardPreview(holder as PreviewInnerCardHolder, position)
             AppEnums.PreviewType.OBLIGATION -> initLayoutInnerObligationPreview(holder as PreviewInnerObligationHolder, position)
-            AppEnums.PreviewType.DOCUMENT -> initLayoutInnerDocumentPreview(holder as PreviewDocumentsHolder, position)
+            AppEnums.PreviewType.DOCUMENT -> initLayoutInnerDocumentPreview(holder as PreviewInnerDocumentHolder, position)
             else -> initLayoutInnerBankPreview(holder as PreviewInnerBankHolder, position)
         }
     }
@@ -89,9 +86,9 @@ class PreviewInnerAdapter<T>(private val mContext: FragmentActivity, private val
         holder.bindItems(data, pos, viewModel)
     }
 
-    private fun initLayoutInnerDocumentPreview(holder: PreviewDocumentsHolder, pos: Int) {
-        val data = dataList as ArrayList<BankDetailBean>
-        //holder.bindItems(data, pos, viewModel)
+    private fun initLayoutInnerDocumentPreview(holder: PreviewInnerDocumentHolder, pos: Int) {
+        val data = dataList as ArrayList<DocumentCheckListDetailModel>
+        holder.bindItems(data, pos, viewModel)
     }
 
 }

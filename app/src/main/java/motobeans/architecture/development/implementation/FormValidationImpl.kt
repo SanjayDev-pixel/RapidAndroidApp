@@ -754,6 +754,14 @@ class FormValidationImpl : FormValidation {
             else -> 0
         })
 
+        val loan = loanProduct.getSelectedValue()
+        if (loan != null && loanAmount != "") {
+
+            if (loanAmount.toInt() > loan.maxAmount || loanAmount.toInt() < loan.minAmount) {
+                binding.etLoanAmount.error = "Range:${loan.minAmount} - ${loan.maxAmount}"
+            }
+        }
+
         var spinnerError = 0
         if (!loanProduct.isValid()){ ++spinnerError}
         if (!branches.isValid()) ++spinnerError
