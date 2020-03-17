@@ -9,9 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/llChartTitle"
@@ -24,9 +22,11 @@
                 android:id="@+id/tvChartTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:text="Chart Title"
-                android:textSize="23sp"
+                android:textSize="27sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -46,9 +46,12 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChartItems"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
     </LinearLayout>
     <!--    </androidx.cardview.widget.CardView>-->
 </layout>

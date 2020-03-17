@@ -198,11 +198,13 @@
                                 android:text="Update"
                                 android:textColor="#585858"
                                 android:textSize="15sp"
+                                android:visibility="invisible"
                                 android:layout_gravity="right"
                                 android:layout_marginRight="25dp"
                                 android:fontFamily="@font/roboto_medium" />
 
                             <TextView
+                                android:visibility="invisible"
                                 android:id="@+id/tvUpdatedDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
