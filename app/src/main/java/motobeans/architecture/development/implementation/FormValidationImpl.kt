@@ -87,19 +87,23 @@ class FormValidationImpl : FormValidation {
             errorCount++
         }
 
-        return errorCount.plus(when {
-            !permanentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentAddress)
-            !permanentStaying.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentStaying)
-            !rentAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentRentAmount)
-            else -> 0
-        })
+        return errorCount.plus(
+                when {
+                    !permanentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentAddress)
+                    !permanentStaying.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentStaying)
+                    !rentAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etPermanentRentAmount)
+                    else -> 0
+                }
+        )
     }
 
-    override fun validateLoanInformation(binding: FragmentLoanInformationBinding,
-                                         loanProduct: CustomSpinnerView<LoanProductMaster>,
-                                         loanPurpose: CustomSpinnerView<LoanPurpose>,
-                                         spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>,
-                                         customChannelPartnerView: CustomChannelPartnerView): Boolean {
+    override fun validateLoanInformation(
+            binding: FragmentLoanInformationBinding,
+            loanProduct: CustomSpinnerView<LoanProductMaster>,
+            loanPurpose: CustomSpinnerView<LoanPurpose>,
+            spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>,
+            customChannelPartnerView: CustomChannelPartnerView
+    ): Boolean {
 
         var errorCount = 0
         val loanAmount = CurrencyConversion().convertToNormalValue(binding.etAmountRequest.text.toString())
@@ -137,10 +141,14 @@ class FormValidationImpl : FormValidation {
         spinnerDMList.forEach { item ->
             if (!item.isValid()) ++spinnerError
         }
-        val partnerName: String =customChannelPartnerView.getPartnerName().toString()
-        val sourcingPartnerName : String= customChannelPartnerView.getSourcingPartner().toString()
-        if(sourcingPartnerName == "null"){errorCount++}
-        if (partnerName == "null" ) {errorCount++}
+        val partnerName: String = customChannelPartnerView.getPartnerName().toString()
+        val sourcingPartnerName: String = customChannelPartnerView.getSourcingPartner().toString()
+        if (sourcingPartnerName == "null") {
+            errorCount++
+        }
+        if (partnerName == "null") {
+            errorCount++
+        }
 
         val totalErrors = errorCount + fieldError + spinnerError
         return isValidForm(totalErrors)
@@ -235,6 +243,9 @@ class FormValidationImpl : FormValidation {
         val gstVatRegistration = businessBinding.etGstRegistration.text.toString()
         val incorporationDate = businessBinding.etIncorporationDate.text.toString()
         val businessVintage = businessBinding.etBusinessVintage.text.toString()
+        val montlyIncome = businessBinding.etMonthlyIncome.text.toString()
+        val lastYearIncome = businessBinding.etLastYearIncome.text.toString()
+        val currentYearIncome = businessBinding.etCurrentYearIncome.text.toString()
 
         var fieldError = 0
 
@@ -255,6 +266,19 @@ class FormValidationImpl : FormValidation {
             fieldError++
         }
 
+        if (businessBinding.inputMonthlyIncome.visibility == View.VISIBLE && montlyIncome.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(businessBinding.etMonthlyIncome)
+            fieldError++
+        }
+
+        if (businessBinding.lytYearlyIncome.visibility == View.VISIBLE && (lastYearIncome.exIsNotEmptyOrNullOrBlank().not() || currentYearIncome.exIsNotEmptyOrNullOrBlank().not())) {
+            if (lastYearIncome.exIsNotEmptyOrNullOrBlank().not())
+                setFieldError(businessBinding.etLastYearIncome)
+            if (currentYearIncome.exIsNotEmptyOrNullOrBlank().not())
+                setFieldError(businessBinding.etCurrentYearIncome)
+
+            fieldError++
+        }
 
         var spinnerError = 0
 
@@ -723,14 +747,15 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
-    override fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerView<LoanProductMaster>,
-                                 branches: CustomSpinnerView<UserBranches>): Boolean {
+    override fun validateAddLead(
+            binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerView<LoanProductMaster>,
+            branches: CustomSpinnerView<UserBranches>
+    ): Boolean {
         val area = binding.etArea.text.toString()
         val name = binding.etApplicantFirstName.text.toString()
         val email = binding.etEmail.text.toString()
         val contact = binding.etContactNum.text.toString()
-        val loanAmount:String = binding.etLoanAmount.text.toString()
-
+        val loanAmount: String = binding.etLoanAmount.text.toString()
 
 
         val fieldError = (when {
@@ -744,7 +769,9 @@ class FormValidationImpl : FormValidation {
         })
 
         var spinnerError = 0
-        if (!loanProduct.isValid()){ ++spinnerError}
+        if (!loanProduct.isValid()) {
+            ++spinnerError
+        }
         if (!branches.isValid()) ++spinnerError
 
         return isValidForm(fieldError + spinnerError)

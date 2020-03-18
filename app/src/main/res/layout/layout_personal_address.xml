@@ -16,6 +16,20 @@
             android:textAppearance="?android:textAppearanceLarge"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/btnUploadAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_theme_style"
+            android:drawableLeft="@drawable/ic_file_upload_white_24dp"
+            android:drawablePadding="10dp"
+            android:padding="5sp"
+            android:text="Upload Address Proof Document"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
         <LinearLayout
             android:id="@+id/llCurrentAddress"
             android:layout_width="match_parent"
@@ -158,11 +172,26 @@
             android:text="@string/same_as_current_address"
             android:textSize="@dimen/button_text_size" />
 
+
         <LinearLayout
             android:id="@+id/llPermanentAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnUploadPermanentAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_theme_style"
+                android:drawableLeft="@drawable/ic_file_upload_white_24dp"
+                android:drawablePadding="10dp"
+                android:padding="5sp"
+                android:text="Upload Address Proof Document"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
