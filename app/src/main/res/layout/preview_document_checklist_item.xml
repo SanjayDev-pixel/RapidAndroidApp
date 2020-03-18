@@ -36,16 +36,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Q.  "
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size"/>
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/questiontext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="bla bla bla "
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="@dimen/button_text_size"
             android:textStyle="bold"
-            android:textSize="@dimen/text_size"
             android:layout_toEndOf="@+id/serial_no"
             android:layout_marginLeft="@dimen/margin5dp"/>
 
@@ -61,8 +63,9 @@
             android:layout_height="wrap_content"
             android:text="Ans."
             android:layout_marginTop="@dimen/margin5dp"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size"/>
+            android:textSize="@dimen/text_size"
+            android:textAppearance="?android:textAppearanceLarge"
+            />
 
         <TextView
             android:id="@+id/q_ans"
@@ -70,7 +73,9 @@
             android:layout_height="wrap_content"
             tools:text="Yes"
             android:layout_marginTop="@dimen/margin5dp"
-            android:layout_marginLeft="@dimen/margin5dp"/>
+            android:layout_marginLeft="@dimen/margin5dp"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="@dimen/text_size"/>
 
     </LinearLayout>
 

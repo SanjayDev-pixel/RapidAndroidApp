@@ -231,6 +231,7 @@ class LoanInfoFragmentNew : BaseFragment() {
         loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
         loanInfoObj.logginUserEntityID = sharedPreferences.getUserId()!!.toInt()
+        loanInfoObj.channelPartnerName =cPartnerName.toString()
         if (binding.etApplicationNumber.text.toString().startsWith("GG")) {
             loanInfoObj.applicationNumber = binding.etApplicationNumber.text.toString()
         } else {

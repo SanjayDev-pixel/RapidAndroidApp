@@ -19,7 +19,12 @@ class PreviewBankHolder(val binding: PreviewLayoutBankBinding, val mContext: Fra
         if (!list.isNullOrEmpty()) {
             setUpInnerRecyclerView(list[pos].applicantBankDetailsBean, viewModel)
             handleCollapse()
-            binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
+            //binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
+            var applicantType :String = ""
+            if(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].isMainApplicant==true){
+                applicantType =  "Applicant"
+            }else{ applicantType="Co-Applicant"}
+            binding.tvCoApplicant.setText(applicantType.plus("   : ").plus(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName))
         }
     }
 

@@ -20,7 +20,14 @@ class PreviewDocumentsHolder(val binding: PreviewLayoutDocumentChecklistBinding,
         if (!list.isNullOrEmpty()) {
             setUpInnerRecyclerView(list[pos].checklistDetails, viewModel)
             handleCollapse()
-            binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
+          //  binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
+            var applicantType :String = ""
+            if(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].isMainApplicant==true){
+                applicantType =  "Applicant"
+            }else{ applicantType="Co-Applicant"}
+
+            //binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName?.plus("   ").plus(applicantType))
+            binding.tvCoApplicant.setText(applicantType.plus("   : ").plus(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName))
         }
     }
 
