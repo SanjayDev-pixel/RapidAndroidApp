@@ -23,7 +23,11 @@ class PreviewAssetsLiabilityHolder(val binding: PreviewLayoutAssetsLiabilityBind
             setUpCardsRecyclerView(list[pos].applicantCreditCardDetailList, viewModel)
             setUpObligationsRecyclerView(list[pos].applicantExistingObligationList, viewModel)
             handleCollapse()
-            binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
+            var applicantType :String = ""
+            if(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].isMainApplicant==true){
+                applicantType =  "Applicant"
+            }else{ applicantType="Co-Applicant"}
+            binding.tvCoApplicant.setText(applicantType.plus("   : ").plus(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName))
         }
     }
 

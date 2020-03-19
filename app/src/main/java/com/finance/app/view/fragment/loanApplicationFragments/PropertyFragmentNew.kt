@@ -64,10 +64,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
     private var propertyModel: PropertyModel? = PropertyModel()
     private var mLead: AllLeadMaster? = null
     private lateinit var ownnerShipSpinner: CustomSpinnerView<DropdownMaster>
-
-
     private var leadIdForApplicant: String = ""
-
     private var pinCodeObj: Response.PinCodeObj? = null
     private var mOwnershipId: String = ""
     private var mTransactionId: String = ""
@@ -106,11 +103,10 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
 
 
     fun initilaizeViews() {
+
         SetPropertyMandatoryField(binding)
         fetchLeadDetails()
         getDropDownsFromDB()
-
-
     }
 
     private fun fetchLeadDetails() {
@@ -146,21 +142,27 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
 
 
     private fun showDataOnView(propertyModel: PropertyModel?) {
-        binding.cbIsFirstProperty.isChecked = propertyModel!!.isFirstProperty
-        binding.etDistanceFromBranch.setText(propertyModel.distanceFromBranch)
-        binding.etDistanceFromResidence.setText(propertyModel.distanceFromExistingResidence)
-        binding.etPropertyArea.setText(propertyModel.propertyAreaSquareFt.toString())
-        binding.etPropertyAddress.setText(propertyModel.propertyAddress)
-        binding.etLandmark.setText(propertyModel.landmark)
-        binding.etNumOfTenants.setText(propertyModel.numberOfTenants.toString())
-        binding.etCashOcr.setText(propertyModel.cashOCRValue.toString())
-        binding.etOcr.setText(propertyModel.ocrValue.toString())
-        binding.etPinCode.setText(propertyModel.pinCode)
-        binding.etMvProperty.setText(propertyModel.mvOfProperty)
-        binding.etAgreementValue.setText(propertyModel.agreementValue.toString())
+
+        if(LeadMetaData.getLeadData()?.loanData?.isPropertySelected==false){
+            binding.vmpropertynotselected.visibility = View.VISIBLE
+            binding.scrollviewll.visibility = View.GONE
+        }else {
+            binding.cbIsFirstProperty.isChecked = propertyModel!!.isFirstProperty
+            binding.etDistanceFromBranch.setText(propertyModel.distanceFromBranch)
+            binding.etDistanceFromResidence.setText(propertyModel.distanceFromExistingResidence)
+            binding.etPropertyArea.setText(propertyModel.propertyAreaSquareFt.toString())
+            binding.etPropertyAddress.setText(propertyModel.propertyAddress)
+            binding.etLandmark.setText(propertyModel.landmark)
+            binding.etNumOfTenants.setText(propertyModel.numberOfTenants.toString())
+            binding.etCashOcr.setText(propertyModel.cashOCRValue.toString())
+            binding.etOcr.setText(propertyModel.ocrValue.toString())
+            binding.etPinCode.setText(propertyModel.pinCode)
+            binding.etMvProperty.setText(propertyModel.mvOfProperty)
+            binding.etAgreementValue.setText(propertyModel.agreementValue.toString())
 
 
-        checkSubmission()
+            checkSubmission()
+        }
     }
 
 
@@ -278,16 +280,18 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         pinCodeListener(binding.etPinCode)
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
         binding.btnNext.setOnClickListener {
-            onSavePropertyData()
 
+            onSavePropertyData()
         }
 
     }
 
     private fun onSavePropertyData() {
+        if(LeadMetaData.getLeadData()?.loanData!!.isPropertySelected==true){
+
         if (formValidation.validateProperty(binding)) {
 
-            val propertyModel = PropertyModel()
+
             val transactionCategory = binding.spinnerTransactionCategory.selectedItem as Response.TransactionCategoryObj?
             val propertyNature = binding.spinnerPropertyNature.selectedItem as DropdownMaster?
             val state = binding.spinnerState.selectedItem as StatesMaster?
@@ -299,6 +303,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
             val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
 
+            val propertyModel=PropertyModel()
             propertyModel.leadID = (leadIdForApplicant?.toInt() ?: 0)
             propertyModel.cityID = city?.cityID
             propertyModel.districtID = district?.districtID
@@ -323,11 +328,10 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             propertyModel.leadApplicantNumber = leadIdForApplicant ?: ""
             propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
             propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
-            propertyModel.cityName= city?.cityName
-            propertyModel.districtName =district?.districtName
-            propertyModel.stateName =state?.stateName
-            propertyModel.propertyNatureOfTransactionCategoryTypeDetailName= transactionCategory?.propertyNatureTransactionCategory
-
+            propertyModel.cityName = city?.cityName
+            propertyModel.districtName = district?.districtName
+            propertyModel.stateName = state?.stateName
+            propertyModel.propertyNatureOfTransactionCategoryTypeDetailName = transactionCategory?.propertyNatureTransactionCategory
 
 
 //save data in database
@@ -335,9 +339,11 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             // after save data go to next page
             AppEvents.fireEventLoanAppChangeNavFragmentNext()
 
+
         } else {
             showToast(getString(R.string.validation_error))
         }
+        }else{ AppEvents.fireEventLoanAppChangeNavFragmentNext()}
 
 
     }

@@ -1,6 +1,8 @@
 package com.finance.app.view.fragment.loanApplicationFragments
 
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +22,6 @@ import com.finance.app.utility.SetLoanInfoMandatoryField
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import com.finance.app.viewModel.AppDataViewModel
-import kotlinx.android.synthetic.main.fragment_loan_information.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.FormValidation
@@ -31,6 +32,7 @@ class LoanInfoFragmentNew : BaseFragment() {
 
     @Inject
     lateinit var formValidation: FormValidation
+
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     private lateinit var binding: FragmentLoanInformationBinding
@@ -166,10 +168,11 @@ class LoanInfoFragmentNew : BaseFragment() {
 
     private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
         binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toString())
-        System.out.println("Loan Amount Requested>>>>>"+loanInfo.loanAmountRequest)
+        System.out.println("Loan Amount Requested>>>>>" + loanInfo.loanAmountRequest)
         binding.etEmi.setText(loanInfo.affordableEMI!!.toInt().toString())
         binding.etTenure.setText(loanInfo.tenure!!.toInt().toString())
         binding.cbPropertySelected.isChecked = loanInfo.isPropertySelected!!
+        // binding.etApplicationNumber.filters = arrayOf<InputFilter>(LengthFilter(14))
         binding.etApplicationNumber.setText(loanInfo.applicationNumber)
         interestType.setSelection(loanInfo.interestTypeTypeDetailID?.toString())
     }
@@ -200,7 +203,7 @@ class LoanInfoFragmentNew : BaseFragment() {
             //1. Sourcing Channel Partner
             //2. Channel Partner Name
             //3.Loan purpose
-            DisableLoanInfoForm(binding,loanProduct,loanScheme,interestType,binding.viewChannelPartner)
+            DisableLoanInfoForm(binding, loanProduct, loanScheme, interestType, binding.viewChannelPartner)
 
         }
     }
@@ -228,10 +231,11 @@ class LoanInfoFragmentNew : BaseFragment() {
         loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
         loanInfoObj.logginUserEntityID = sharedPreferences.getUserId()!!.toInt()
-        if(binding.etApplicationNumber.text.toString().startsWith("GG")){
-            loanInfoObj.applicationNumber= binding.etApplicationNumber.text.toString()
-        }else{
-            loanInfoObj.applicationNumber= "GG".plus(binding.etApplicationNumber.text.toString())
+        loanInfoObj.channelPartnerName =cPartnerName.toString()
+        if (binding.etApplicationNumber.text.toString().startsWith("GG")) {
+            loanInfoObj.applicationNumber = binding.etApplicationNumber.text.toString()
+        } else {
+            loanInfoObj.applicationNumber = "GG".plus(binding.etApplicationNumber.text.toString())
         }
 
         return loanInfoObj

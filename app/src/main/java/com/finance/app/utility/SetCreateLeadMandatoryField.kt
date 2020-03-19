@@ -8,5 +8,6 @@ class SetCreateLeadMandatoryField(binding: ActivityLeadCreateBinding) {
         ShowAsMandatory(binding.inputLayoutApplicantFirstName)
         ShowAsMandatory(binding.inputLayoutContactNum)
         ShowAsMandatory(binding.inputLayoutAddress)
+        ShowAsMandatory(binding.inputLayoutLoanAmount)
     }
 }

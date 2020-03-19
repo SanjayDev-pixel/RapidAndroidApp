@@ -25,4 +25,5 @@ class LoanInfoModel:Serializable {
     var tenure: Int? = 0
     var processingFeePercentage: Double? = null
     var isPropertySelected: Boolean? = false
+    var channelPartnerName: String?= null
 }

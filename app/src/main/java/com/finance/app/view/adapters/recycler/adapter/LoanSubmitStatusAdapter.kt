@@ -28,14 +28,9 @@ class LoanSubmitStatusAdapter(private val c: Context, private val deviationList:
 
     override fun onBindViewHolder(holder: LoanSubmitStatusAdapter.LoanSubmitViewHolder, position: Int) {
         holder.bindItems(position,deviationList[position] )
-
-
     }
 
-
     inner class LoanSubmitViewHolder(val binding: DeviationListItemBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
-
-
         fun bindItems(position: Int, deviation: DeviationList) {
             binding.deviationheadingText.text=deviation.head
             binding.deviationtext.text=deviation.deviation
@@ -43,11 +38,7 @@ class LoanSubmitStatusAdapter(private val c: Context, private val deviationList:
             binding.migrationfact.text=deviation.multigatingFact
 
         }
-
-
     }
-
-
 }
 
 
