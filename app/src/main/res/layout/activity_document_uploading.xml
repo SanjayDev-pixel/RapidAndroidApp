@@ -102,12 +102,12 @@
             android:background="@color/black_242424" />
 
         <TextView
+            android:id="@+id/tvLabelTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:padding="5dp"
-            android:text="Uploaded Document"
             android:textColor="@color/black_242424"
             android:textSize="21sp"
             android:textStyle="bold" />

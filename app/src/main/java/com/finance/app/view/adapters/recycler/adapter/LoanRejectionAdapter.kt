@@ -21,18 +21,13 @@ class LoanRejectionAdapter  (private val c: Context, private val rejectionList:A
 
     override fun getItemCount() = rejectionList.size
 
-
     fun getItemList(): ArrayList<RejectionList> {
         return rejectionList
     }
 
     override fun onBindViewHolder(holder: LoanRejectionAdapter.LoanSubmitViewHolder, position: Int) {
         holder.bindItems(position,rejectionList[position] )
-
-
     }
-
-
     inner class LoanSubmitViewHolder(val binding: RejectionListItemBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
 
 
@@ -42,8 +37,6 @@ class LoanRejectionAdapter  (private val c: Context, private val rejectionList:A
             binding.rejectionReason.text=rejection.rejectionReason
 
         }
-
-
     }
 }
 

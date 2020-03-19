@@ -24,13 +24,15 @@ import javax.inject.Inject
 
 
 class DashboardActivity : BaseAppCompatActivity() {
-    private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(
-        this, R.layout.activity_dashboard_new
-    )
+
     @Inject
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+
+    private var adapterChart: DashboardChartAdapter? = null
+    private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(this, R.layout.activity_dashboard_new)
+
 
     companion object {
         fun start(context: Context) {
@@ -67,7 +69,6 @@ class DashboardActivity : BaseAppCompatActivity() {
         initChartAdapter(dashboardResponse = dashboardResponse)
     }
 
-    private var adapterChart: DashboardChartAdapter? = null
     private fun initChartAdapter(dashboardResponse: Response.DashboardResponse) {
         adapterChart = DashboardChartAdapter(mActivity = this, dashboardChartData = dashboardResponse)
         binding.rvDashboardCharts.adapter = adapterChart

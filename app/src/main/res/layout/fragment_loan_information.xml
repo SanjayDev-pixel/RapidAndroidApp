@@ -41,7 +41,6 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/application_number"
                         android:inputType="number"
-                        android:maxLength="8"
                         android:minWidth="@dimen/text_min_width"
                         android:singleLine="true"
                         android:textSize="@dimen/text_size" />

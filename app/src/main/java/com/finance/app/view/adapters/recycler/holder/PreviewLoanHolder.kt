@@ -15,7 +15,7 @@ class PreviewLoanHolder(val binding: PreviewLayoutLoanBinding, val mContext: Con
         binding.tvLoanAmount.text = data.loanAmountRequest.toString()
         binding.tvTenure.text = data.tenure.toString()
         binding.tvAffordableEmi.text = data.affordableEMI.toString()
-        binding.tvChannelPartnerName.text = data.channelPartnerDsaID.toString()
+        binding.tvChannelPartnerName.text = data.channelPartnerName.toString()
 
         viewModel.getLoanProductNameFromId(data.productID, binding.tvLoanProduct)
         viewModel.getLoanPurposeNameFromId(data.productID, data.loanPurposeID, binding.tvLoanPurpose)
@@ -25,6 +25,8 @@ class PreviewLoanHolder(val binding: PreviewLayoutLoanBinding, val mContext: Con
 
         viewModel.getMasterDropdownNameFromId(data.sourcingChannelPartnerTypeDetailID,
                 AppEnums.DropdownMasterType.SourcingChannelPartner, binding.tvChannelPartner)
+
+        //viewModel.getMasterDropdownNameFromId(data.channelPartnerDsaID,AppEnums.DropdownMasterType.ChannelPartnerName,binding.tvChannelPartnerName)
 
     }
 }

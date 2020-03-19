@@ -19,6 +19,9 @@ class SetEmploymentMandatoryField(binding: FragmentEmploymentFormBinding) {
         ShowAsMandatory(binding.layoutAddress.inputLayoutAddress)
         ShowAsMandatory(binding.layoutAddress.inputLayoutLandmark)
         ShowAsMandatory(binding.layoutAddress.inputLayoutContact)
+        ShowAsMandatory(binding.inputLayoutLastYearIncome)
+        ShowAsMandatory(binding.inputLayoutCurrentYearIncome)
+        ShowAsMandatory(binding.inputMonthlyIncome)
     }
 
     private fun setSalaryMandatoryField(binding: LayoutSalaryBinding) {

@@ -105,7 +105,9 @@ class PreviewAdapter(private val mContext: FragmentActivity, private val lead: A
     }
 
     private fun initLayoutBankPreview(holder: PreviewBankHolder, pos: Int) {
+
         holder.bindItems(lead.bankData.bankDetailList, pos, viewModel)
+
     }
 
     private fun initLayoutAssetsLiabilityPreview(holder: PreviewAssetsLiabilityHolder, pos: Int) {
@@ -121,7 +123,7 @@ class PreviewAdapter(private val mContext: FragmentActivity, private val lead: A
     }
 
     private fun initLayoutDocumentPreview(holder: PreviewDocumentsHolder, pos: Int) {
-        holder.bindItems(lead.personalData.applicantDetails, pos, viewModel)
+        holder.bindItems(lead.documentData.documentDetailList, pos, viewModel)
     }
 
 }

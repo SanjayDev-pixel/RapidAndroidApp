@@ -37,6 +37,7 @@ class FormValidationImpl : FormValidation {
         val email = binding.basicInfoLayout.etEmail.text.toString()
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
+        val father_Name =binding.basicInfoLayout.etFatherFirstName.text.toString()
 
         if (age.exIsNotEmptyOrNullOrBlank()) {
             if (age.toInt() !in 99 downTo 14) {
@@ -56,6 +57,11 @@ class FormValidationImpl : FormValidation {
 
         if (!binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
             errorCount.plus(checkPermanentAddressFields(binding))
+        }
+
+        if(!father_Name.exIsNotEmptyOrNullOrBlank()){
+            binding.basicInfoLayout.etFatherFirstName.error="Enter your Father's Name"
+            errorCount++
         }
 
         val fieldError = when {
@@ -133,14 +139,18 @@ class FormValidationImpl : FormValidation {
             else -> 0
         }
 
+        if(emi.equals("0")){
+            setFieldError(binding.etEmi)
+            errorCount++
+        }
+
         var spinnerError = 0
         spinnerDMList.forEach { item ->
             if (!item.isValid()) ++spinnerError
         }
-        val partnerName: String =customChannelPartnerView.getPartnerName().toString()
+
         val sourcingPartnerName : String= customChannelPartnerView.getSourcingPartner().toString()
         if(sourcingPartnerName == "null"){errorCount++}
-        if (partnerName == "null" ) {errorCount++}
 
         val totalErrors = errorCount + fieldError + spinnerError
         return isValidForm(totalErrors)
@@ -235,6 +245,9 @@ class FormValidationImpl : FormValidation {
         val gstVatRegistration = businessBinding.etGstRegistration.text.toString()
         val incorporationDate = businessBinding.etIncorporationDate.text.toString()
         val businessVintage = businessBinding.etBusinessVintage.text.toString()
+        val montlyIncome = businessBinding.etMonthlyIncome.text.toString()
+        val lastYearIncome = businessBinding.etLastYearIncome.text.toString()
+        val currentYearIncome = businessBinding.etCurrentYearIncome.text.toString()
 
         var fieldError = 0
 
@@ -255,6 +268,19 @@ class FormValidationImpl : FormValidation {
             fieldError++
         }
 
+        if (businessBinding.inputMonthlyIncome.visibility == View.VISIBLE && montlyIncome.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(businessBinding.etMonthlyIncome)
+            fieldError++
+        }
+
+        if (businessBinding.lytYearlyIncome.visibility == View.VISIBLE && (lastYearIncome.exIsNotEmptyOrNullOrBlank().not() || currentYearIncome.exIsNotEmptyOrNullOrBlank().not())) {
+            if (lastYearIncome.exIsNotEmptyOrNullOrBlank().not())
+                setFieldError(businessBinding.etLastYearIncome)
+            if (currentYearIncome.exIsNotEmptyOrNullOrBlank().not())
+                setFieldError(businessBinding.etCurrentYearIncome)
+
+            fieldError++
+        }
 
         var spinnerError = 0
 
@@ -732,7 +758,6 @@ class FormValidationImpl : FormValidation {
         val loanAmount:String = binding.etLoanAmount.text.toString()
 
 
-
         val fieldError = (when {
             !name.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etApplicantFirstName)
             !loanAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etLoanAmount)
@@ -742,6 +767,14 @@ class FormValidationImpl : FormValidation {
 
             else -> 0
         })
+
+        val loan = loanProduct.getSelectedValue()
+        if (loan != null && loanAmount != "") {
+
+            if (loanAmount.toInt() > loan.maxAmount || loanAmount.toInt() < loan.minAmount) {
+                binding.etLoanAmount.error = "Range:${loan.minAmount} - ${loan.maxAmount}"
+            }
+        }
 
         var spinnerError = 0
         if (!loanProduct.isValid()){ ++spinnerError}

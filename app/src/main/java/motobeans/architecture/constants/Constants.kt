@@ -48,6 +48,7 @@ class Constants {
         const val KEY_PERSONAL_APPLICANT = "personalApplicantModel"
         const val KEY_LEAD_APP_NUM = "leadApplicantNum"
         const val KEY_DOC_ID = "doc_id"
+        const val KEY_TITLE = "title"
         const val KEY_APPLICANT_NUMBER = "applicant_number"
         const val KEY_APPLICATION_SCREEN = "applicationScreen"
 
@@ -58,8 +59,8 @@ class Constants {
         const val CASH_SALARY = 118
         const val BANK_SALARY = 119
 
-        const val ACTION_PICK_FILE="Pick File"
-        const val ACTION_TAKE_IMAGE="Take Image"
+        const val ACTION_PICK_FILE = "Pick File"
+        const val ACTION_TAKE_IMAGE = "Take Image"
 
     }
 

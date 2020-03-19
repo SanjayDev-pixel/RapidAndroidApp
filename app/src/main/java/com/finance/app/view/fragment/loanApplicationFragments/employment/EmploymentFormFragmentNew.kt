@@ -17,6 +17,7 @@ import com.finance.app.databinding.LayoutSenpBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.*
+import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.utils.setSelectionFromList
 import com.google.android.material.textfield.TextInputEditText
@@ -80,6 +81,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+        setOnClickListener()
         setOnTextChangeListener()
         setOnTextConversionListener()
 
@@ -103,6 +105,16 @@ class EmploymentFormFragmentNew : BaseFragment() {
         SetEmploymentMandatoryField(binding)
         bindDatePickerToViews()
 
+    }
+
+    private fun setOnClickListener() {
+        binding.btnUploadEmployment.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(Constants.KEY_DOC_ID, 354)//Hardcoded for Address proof...
+            bundle.putString(Constants.KEY_TITLE, getString(R.string.employment))
+            bundle.putString(Constants.KEY_APPLICANT_NUMBER, selectedApplicant?.leadApplicantNumber)
+            context?.let { c -> DocumentUploadingActivity.startActivity(c, bundle) }
+        }
     }
 
     private fun setOnTextChangeListener() {
@@ -482,9 +494,9 @@ class EmploymentFormFragmentNew : BaseFragment() {
         address.stateID = binding.customZipAddressView.getStateId()
         address.stateName = binding.customZipAddressView.getStateName()
         address.districtID = binding.customZipAddressView.getDistrictId()
-        address.districtName=binding.customZipAddressView.getDistrictName()
+        address.districtName = binding.customZipAddressView.getDistrictName()
         address.cityID = binding.customZipAddressView.getCityId()
-        address.cityName=binding.customZipAddressView.getCityName()
+        address.cityName = binding.customZipAddressView.getCityName()
         address.address1 = binding.etAddress.text.toString()
         address.landmark = binding.etLandmark.text.toString()
         return address
