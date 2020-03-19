@@ -1,10 +1,7 @@
 package com.finance.app.persistence.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.finance.app.persistence.model.AllLeadMaster
 
 @Dao
@@ -33,4 +30,16 @@ interface AllLeadsDao {
 
     @Query("DELETE FROM AllLeadMaster")
     fun deleteAllLeadMaster()
+
+    @Query("SELECT * FROM AllLeadMaster WHERE leadID LIKE :leadID")
+    fun getAllLeadSearch(leadID: String): LiveData<List<AllLeadMaster>?>
+
+    @Query("SELECT * FROM AllLeadMaster WHERE leadID LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
+    fun getAllLeads(searchParam: String): LiveData<List<AllLeadMaster>?>
+
+    @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus AND leadID LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
+    fun getLeadsByStatus(leadStatus: String, searchParam: String): LiveData<List<AllLeadMaster>?>
+
+
+
 }

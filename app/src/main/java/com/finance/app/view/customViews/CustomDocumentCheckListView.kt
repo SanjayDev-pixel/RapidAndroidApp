@@ -117,7 +117,6 @@ class CustomDocumentCheckListView @JvmOverloads constructor(context: Context, at
         return documentCheckList
     }
     fun isDocumentDetailsValid() : Boolean{
-
         var checkedError = false
         for (i in 0 until getDocumentChecklist()?.checklistDetails?.size!!){
             checkedError = getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText != null

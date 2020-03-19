@@ -18,13 +18,11 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
         if (adapterFor == AppEnums.LEAD_TYPE.ALL) {
             binding.tvStatusLine.setTextVertically(lead.status)
         }
-
         binding.tvLeadName.text = lead.applicantFirstName
         binding.tvLeadID.text = ": ${lead.leadID.toString()}"
         binding.tvLoanType.text = ": ${lead.loanProductName}"
         binding.tvCreatedDate.text = ": ${ConvertDate().convertDate(lead.createdOn!!)}"
         binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
-
         when (lead.status) {
             AppEnums.LEAD_TYPE.NEW.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_new))
             AppEnums.LEAD_TYPE.SUBMITTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_submitted))
