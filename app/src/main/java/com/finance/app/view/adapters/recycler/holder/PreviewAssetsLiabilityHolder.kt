@@ -19,9 +19,11 @@ class PreviewAssetsLiabilityHolder(val binding: PreviewLayoutAssetsLiabilityBind
     fun bindItems(list: ArrayList<AssetLiabilityModel>?, pos: Int, viewModel: AppDataViewModel) {
 
         if (!list.isNullOrEmpty()) {
-            setUpAssetsRecyclerView(list[pos].applicantAssetDetailList, viewModel)
-            setUpCardsRecyclerView(list[pos].applicantCreditCardDetailList, viewModel)
-            setUpObligationsRecyclerView(list[pos].applicantExistingObligationList, viewModel)
+            try {
+                setUpAssetsRecyclerView(list[pos].applicantAssetDetailList, viewModel)
+                setUpCardsRecyclerView(list[pos].applicantCreditCardDetailList, viewModel)
+                setUpObligationsRecyclerView(list[pos].applicantExistingObligationList, viewModel)
+            }catch(e:IndexOutOfBoundsException){e.printStackTrace()}
             handleCollapse()
             var applicantType :String = ""
             if(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].isMainApplicant==true){

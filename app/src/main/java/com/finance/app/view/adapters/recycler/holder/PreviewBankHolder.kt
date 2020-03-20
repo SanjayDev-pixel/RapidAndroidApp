@@ -17,7 +17,14 @@ class PreviewBankHolder(val binding: PreviewLayoutBankBinding, val mContext: Fra
     fun bindItems(list: ArrayList<BankDetailModel>?, pos: Int, viewModel: AppDataViewModel) {
 
         if (!list.isNullOrEmpty()) {
-            setUpInnerRecyclerView(list[pos].applicantBankDetailsBean, viewModel)
+
+            try {
+                setUpInnerRecyclerView(list[pos].applicantBankDetailsBean, viewModel)
+            }catch (e : IndexOutOfBoundsException ){
+
+
+            }
+
             handleCollapse()
             //binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
             var applicantType :String = ""
