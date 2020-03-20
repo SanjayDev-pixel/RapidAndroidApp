@@ -18,7 +18,9 @@ class PreviewDocumentsHolder(val binding: PreviewLayoutDocumentChecklistBinding,
 
     fun bindItems(list: ArrayList<DocumentCheckList>, pos: Int, viewModel: AppDataViewModel) {
         if (!list.isNullOrEmpty()) {
+            try{
             setUpInnerRecyclerView(list[pos].checklistDetails, viewModel)
+        }catch(e:IndexOutOfBoundsException){e.printStackTrace()}
             handleCollapse()
           //  binding.tvCoApplicant.setText(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName)
             var applicantType :String = ""

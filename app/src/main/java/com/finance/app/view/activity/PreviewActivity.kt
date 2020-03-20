@@ -1,5 +1,6 @@
 package com.finance.app.view.activity
 
+import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -66,10 +67,13 @@ class PreviewActivity : BaseAppCompatActivity() {
             this.finish()
         }
         binding.layoutSubmitlead.btnSubmit.setOnClickListener(){
+
+            validationBeforeSubmit()
             val lead: AllLeadMaster? = LeadMetaData.getLeadData()
-                checkAndStartLoanApplicationActivity(lead)
+               // checkAndStartLoanApplicationActivity(lead)
         }
     }
+
 
     private fun checkAndStartLoanApplicationActivity(lead: AllLeadMaster?) {
 
@@ -240,5 +244,97 @@ class PreviewActivity : BaseAppCompatActivity() {
         }
 
     }
+
+    // validation code before submit the lead
+    private fun validationBeforeSubmit() {
+        var errorCount = 0
+       val lead = LeadMetaData.getLeadData()
+        var isPropertySelected:Boolean?= false // if  property selected  check propertyData otherwise not
+        var isIncomeConsidered:Boolean?=false
+        var isMainApplicant: Boolean?=false
+        var checkEmpBankDetail_other:Boolean?=false // if
+        var iskycdata : Int = 0
+
+
+        if(lead?.loanData?.applicationNumber!=null )
+        {
+            isPropertySelected = lead?.loanData?.isPropertySelected
+
+        }else{
+
+            Toast.makeText(this@PreviewActivity,"Please check Loan Detail",Toast.LENGTH_SHORT).show()
+            errorCount++
+        }
+
+
+        if(lead?.personalData?.applicantDetails!!.size>0 ){
+
+            for (i in 0 until lead?.personalData?.applicantDetails.size) {
+
+                isIncomeConsidered= lead?.personalData?.applicantDetails[i].incomeConsidered
+                isMainApplicant= lead?.personalData?.applicantDetails[i].isMainApplicant
+                iskycdata =lead?.personalData?.applicantDetails[i].applicantKycList!!.size
+
+
+                if(isIncomeConsidered == true && iskycdata >0){
+                    checkEmpBankDetail_other= true
+                    if(lead?.employmentData?.applicantDetails!!.size >0){
+
+                    }
+                    else
+                    {
+                        Toast.makeText(this@PreviewActivity,"Please check Employment Detail",Toast.LENGTH_SHORT).show()
+                        errorCount++
+                    }
+                    if(lead.bankData.bankDetailList.size >0){}else{
+                        Toast.makeText(this@PreviewActivity,"Please check Bank Detail",Toast.LENGTH_SHORT).show()
+                        errorCount++
+                    }
+
+                }else if(isIncomeConsidered == false && iskycdata >0){
+                    checkEmpBankDetail_other= false
+                }else if(isIncomeConsidered == false && iskycdata ==0){
+                    errorCount++
+                    Toast.makeText(this@PreviewActivity,"Please complete your KYC",Toast.LENGTH_SHORT).show()
+                }else if(isIncomeConsidered == false && iskycdata ==0){
+                    errorCount++
+                    Toast.makeText(this@PreviewActivity,"Please complete your KYC",Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+        }else{
+            Toast.makeText(this@PreviewActivity,"Please check Personal Detail",Toast.LENGTH_SHORT).show()
+            errorCount++
+        }
+
+
+
+        if(lead.referenceData.loanApplicationObj.size > 0){}else{
+                Toast.makeText(this@PreviewActivity,"Please check Refrence Detail",Toast.LENGTH_SHORT).show()
+                errorCount++
+            }
+
+
+
+
+        if(isPropertySelected==true){
+            if(lead.propertyData.unitTypeTypeDetailID !=null){}else{
+                if(isPropertySelected==true)
+                Toast.makeText(this@PreviewActivity,"Please check Property Detail",Toast.LENGTH_SHORT).show()
+                errorCount++
+            }
+        }
+        if(errorCount==0){
+            val lead: AllLeadMaster? = LeadMetaData.getLeadData()
+             checkAndStartLoanApplicationActivity(lead)
+        }else{
+            Toast.makeText(this@PreviewActivity,"Please fill maindatory fields.",Toast.LENGTH_SHORT).show()
+        }
+
+
+    }
+
+
 
 }

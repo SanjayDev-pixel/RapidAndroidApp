@@ -13,7 +13,7 @@ class PreviewInnerBankHolder(val binding: PreviewInnerLayoutBankBinding, val mCo
     fun bindItems(list: ArrayList<BankDetailBean>?, pos: Int, viewModel: AppDataViewModel) {
 
         if (!list.isNullOrEmpty()) {
-            setValueInCard(list[pos], viewModel)
+                setValueInCard(list[pos], viewModel)
         }
     }
 
