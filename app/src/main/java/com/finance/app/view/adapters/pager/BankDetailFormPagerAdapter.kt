@@ -35,7 +35,7 @@ class BankDetailFormPagerAdapter(fm: FragmentManager, private val applicantsList
             }
         }
 
-        return true
+        return true //
     }
 
     fun getBankDetailsList(): ArrayList<BankDetailModel> {
