@@ -49,6 +49,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var formValidation: FormValidation
 
+    private var screenTitle: String? = ""
     private var docCodeId: Int? = null
     private var applicantNumber: String? = null
     private var selectedDocumentUri: Uri? = null
@@ -121,14 +122,22 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         hideSecondaryToolbar()
         setOnClickListener()
 
+        getBundleData()
+
         setLeadNumber()
-        fetchBundleData()
+        setScreenTitle()
+
         fetchDocumentTypeList()
         fetchUploadedDocumentList()
+
     }
 
     private fun setLeadNumber() {
         binding.header.tvLeadNumber.text = "${LeadMetaData.getLeadData()?.leadNumber}"
+    }
+
+    private fun setScreenTitle() {
+        binding.tvLabelTitle.text = screenTitle?.let { title -> "$title Uploaded Document" } ?: run { "Uploaded Document" }
     }
 
     private fun setOnClickListener() {
@@ -165,9 +174,10 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         })
     }
 
-    private fun fetchBundleData() {
+    private fun getBundleData() {
         val bundle = intent.getBundleExtra(DOCUMENT_UPLOAD_BUNDLE)
         bundle?.let {
+            screenTitle = it.getString(Constants.KEY_TITLE)
             docCodeId = it.getInt(Constants.KEY_DOC_ID)
             applicantNumber = it.getString(Constants.KEY_APPLICANT_NUMBER)
         }

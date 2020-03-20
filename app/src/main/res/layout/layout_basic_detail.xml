@@ -7,9 +7,9 @@
         android:layout_height="match_parent">
 
         <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/linearChildView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linearChildView"
             android:orientation="vertical">
 
             <TextView
@@ -57,9 +57,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/middle_name"
+                        android:inputType="textCapWords"
                         android:minWidth="200dp"
                         android:singleLine="true"
-                        android:inputType="textCapWords"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -76,9 +76,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/last_name"
+                        android:inputType="textCapWords"
                         android:minWidth="200dp"
                         android:singleLine="true"
-                        android:inputType="textCapWords"
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -131,7 +131,42 @@
                             tools:editable="false" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearDOBProofView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/layoutDobProof"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical" />
+
+                    <Button
+                        android:id="@+id/btnUploadDob"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_theme_style"
+                        android:drawableLeft="@drawable/ic_file_upload_white_24dp"
+                        android:drawablePadding="10dp"
+                        android:padding="5sp"
+                        android:text="Upload DOB Proof Document"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -202,43 +237,6 @@
                         app:ms_hintTextSize="@dimen/hint_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/fields_margin"
-                    android:baselineAligned="true"
-                    android:id="@+id/linearDOBProofView"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/layoutDobProof"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/ivUploadDobProof"
-                            android:layout_width="50sp"
-                            android:layout_height="50sp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/upload_icon"
-                            android:visibility="invisible" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

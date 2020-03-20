@@ -13,6 +13,7 @@
             android:id="@+id/llChartTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:baselineAligned="false"
             android:orientation="vertical">
 
@@ -30,7 +31,9 @@
             android:id="@+id/llChartDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:baselineAligned="false"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <TextView
@@ -43,9 +46,10 @@
 
 
         <com.github.mikephil.charting.charts.PieChart
+            android:layout_gravity="center_horizontal"
             android:id="@+id/chartData"
-            android:layout_width="270dp"
-            android:layout_height="270dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_marginTop="5dp" />
     </LinearLayout>
 </layout>

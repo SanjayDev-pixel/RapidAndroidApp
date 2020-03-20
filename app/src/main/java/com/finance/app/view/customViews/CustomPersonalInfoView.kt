@@ -2,6 +2,7 @@ package com.finance.app.view.customViews
 
 import android.app.Dialog
 import android.content.Context
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -18,9 +19,9 @@ import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
+import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.activity.KYCActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
-import kotlinx.android.synthetic.main.fragment_property_info.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import motobeans.architecture.application.ArchitectureApp
@@ -41,8 +42,7 @@ import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import motobeans.architecture.util.exVisible
 import javax.inject.Inject
 
-class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
-    : LinearLayout(context, attrs) {
+class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
     @Inject
     lateinit var dataBase: DataBaseUtil
@@ -105,6 +105,27 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             } else {
                 Toast.makeText(context, "Please enter mobile number", Toast.LENGTH_SHORT).show()
             }
+        }
+        binding.basicInfoLayout.btnUploadDob.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(Constants.KEY_DOC_ID, 351)//Hardcoded for DOB proof...
+            bundle.putString(Constants.KEY_TITLE, context.getString(R.string.dob))
+            bundle.putString(Constants.KEY_APPLICANT_NUMBER, selectedApplicantNumber)
+            DocumentUploadingActivity.startActivity(context, bundle)
+        }
+        binding.personalAddressLayout.btnUploadAddress.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(Constants.KEY_DOC_ID, 353)//Hardcoded for Address proof...
+            bundle.putString(Constants.KEY_TITLE, context.getString(R.string.address))
+            bundle.putString(Constants.KEY_APPLICANT_NUMBER, selectedApplicantNumber)
+            DocumentUploadingActivity.startActivity(context, bundle)
+        }
+        binding.personalAddressLayout.btnUploadPermanentAddress.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(Constants.KEY_DOC_ID, 353)//Hardcoded for Address proof...
+            bundle.putString(Constants.KEY_TITLE, context.getString(R.string.address))
+            bundle.putString(Constants.KEY_APPLICANT_NUMBER, selectedApplicantNumber)
+            DocumentUploadingActivity.startActivity(context, bundle)
         }
         binding.personalAddressLayout.cbSameAsCurrent.setOnClickListener {
             if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
@@ -252,9 +273,11 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
     }
 
     private fun setDropDownList() {
-        spinnerDMList = arrayListOf(dobProof, livingStandard, maritalStatus, gender,
+        spinnerDMList = arrayListOf(
+                dobProof, livingStandard, maritalStatus, gender,
                 nationality, religion, caste, qualification, detailQualification, livingStandard,
-                relationship, currentResidenceType, currentAddressProof)
+                relationship, currentResidenceType, currentAddressProof
+        )
     }
 
     private fun fillValueInMasterDropDown(currentApplicant: PersonalApplicantsModel) {
@@ -419,11 +442,11 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         cAddressDetail.landmark = binding.personalAddressLayout.etCurrentLandmark.text.toString()
         cAddressDetail.zip = binding.personalAddressLayout.customCurrentZipAddressView.pinCode
         cAddressDetail.stateID = binding.personalAddressLayout.customCurrentZipAddressView.getStateId()
-        cAddressDetail.stateName=binding.personalAddressLayout.customCurrentZipAddressView.getStateName()
+        cAddressDetail.stateName = binding.personalAddressLayout.customCurrentZipAddressView.getStateName()
         cAddressDetail.districtID = binding.personalAddressLayout.customCurrentZipAddressView.getDistrictId()
         cAddressDetail.districtName = binding.personalAddressLayout.customCurrentZipAddressView.getDistrictName()
         cAddressDetail.cityID = binding.personalAddressLayout.customCurrentZipAddressView.getCityId()
-        cAddressDetail.cityName=binding.personalAddressLayout.customCurrentZipAddressView.getCityName()
+        cAddressDetail.cityName = binding.personalAddressLayout.customCurrentZipAddressView.getCityName()
         cAddressDetail.residenceTypeTypeDetailID = cResidenceType?.typeDetailID
 
         cAddressDetail.addressProof = cAddressProof?.typeDetailID
@@ -450,9 +473,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             pAddressDetail.stateID = binding.personalAddressLayout.customPermanentZipAddressView.getStateId()
             pAddressDetail.districtID = binding.personalAddressLayout.customPermanentZipAddressView.getDistrictId()
             pAddressDetail.cityID = binding.personalAddressLayout.customPermanentZipAddressView.getCityId()
-            pAddressDetail.cityName=binding.personalAddressLayout.customCurrentZipAddressView.getCityName()
+            pAddressDetail.cityName = binding.personalAddressLayout.customCurrentZipAddressView.getCityName()
             pAddressDetail.districtName = binding.personalAddressLayout.customCurrentZipAddressView.getDistrictName()
-            pAddressDetail.stateName=binding.personalAddressLayout.customCurrentZipAddressView.getStateName()
+            pAddressDetail.stateName = binding.personalAddressLayout.customCurrentZipAddressView.getStateName()
 
         }
 

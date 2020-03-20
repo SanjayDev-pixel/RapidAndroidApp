@@ -75,7 +75,7 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
             binding.chartData.legend.textSize = 15f
             val l: Legend = binding.chartData.legend
             l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-            l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+            l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
             l.orientation = Legend.LegendOrientation.HORIZONTAL
             l.setDrawInside(false)
             l.xEntrySpace = 7f

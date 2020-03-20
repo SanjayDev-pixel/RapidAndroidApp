@@ -71,7 +71,6 @@ class FormValidationImpl : FormValidation {
             !currentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentAddress)
             !isValidEmail(email) -> setFieldError(binding.basicInfoLayout.etEmail)
             !isValidMobile(mobile) -> setFieldError(binding.basicInfoLayout.etMobile)
-
             else -> 0
         }
 
@@ -246,6 +245,9 @@ class FormValidationImpl : FormValidation {
         val gstVatRegistration = businessBinding.etGstRegistration.text.toString()
         val incorporationDate = businessBinding.etIncorporationDate.text.toString()
         val businessVintage = businessBinding.etBusinessVintage.text.toString()
+        val montlyIncome = businessBinding.etMonthlyIncome.text.toString()
+        val lastYearIncome = businessBinding.etLastYearIncome.text.toString()
+        val currentYearIncome = businessBinding.etCurrentYearIncome.text.toString()
 
         var fieldError = 0
 
@@ -266,6 +268,19 @@ class FormValidationImpl : FormValidation {
             fieldError++
         }
 
+        if (businessBinding.inputMonthlyIncome.visibility == View.VISIBLE && montlyIncome.exIsNotEmptyOrNullOrBlank().not()) {
+            setFieldError(businessBinding.etMonthlyIncome)
+            fieldError++
+        }
+
+        if (businessBinding.lytYearlyIncome.visibility == View.VISIBLE && (lastYearIncome.exIsNotEmptyOrNullOrBlank().not() || currentYearIncome.exIsNotEmptyOrNullOrBlank().not())) {
+            if (lastYearIncome.exIsNotEmptyOrNullOrBlank().not())
+                setFieldError(businessBinding.etLastYearIncome)
+            if (currentYearIncome.exIsNotEmptyOrNullOrBlank().not())
+                setFieldError(businessBinding.etCurrentYearIncome)
+
+            fieldError++
+        }
 
         var spinnerError = 0
 
@@ -741,7 +756,6 @@ class FormValidationImpl : FormValidation {
         val email = binding.etEmail.text.toString()
         val contact = binding.etContactNum.text.toString()
         val loanAmount:String = binding.etLoanAmount.text.toString()
-
 
 
         val fieldError = (when {

@@ -24,6 +24,7 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
         binding.tvLoanType.text = ": ${lead.loanProductName}"
         binding.tvCreatedDate.text = ": ${ConvertDate().convertDate(lead.createdOn!!)}"
         binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
+        binding.tvAmountValue.text = lead.amountRequest?.let { ": Rs. $it" } ?: kotlin.run { ": Rs. N/A" }
 
         when (lead.status) {
             AppEnums.LEAD_TYPE.NEW.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_new))

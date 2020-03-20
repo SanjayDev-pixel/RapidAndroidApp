@@ -2,7 +2,6 @@ package com.finance.app.persistence.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
 import java.io.Serializable
 
 @Entity
@@ -23,10 +22,11 @@ class AllLeadMaster : Serializable {
     var currentStatus: String? = ""
     var dsaID: String? = null
     var estimatedCompletionDate: String? = null
-    var isConvertedToLoanApplication:Boolean = false
+    var isConvertedToLoanApplication: Boolean = false
     var lastModifiedOn: String? = ""
     var leadFailedReason: String? = ""
     var leadNumber: String? = ""
+    var amountRequest: Long? = 0
     var leadOwnershipEntityID: String? = null
     var leadReference: String? = null
     var leadSourceTypeDetailID: Int? = null
@@ -45,7 +45,7 @@ class AllLeadMaster : Serializable {
     var assetLiabilityData: AssetLiabilityList = AssetLiabilityList()
     var propertyData: PropertyModel = PropertyModel()
     var referenceData = ReferencesList()
-    var documentData : DocumentDetailList = DocumentDetailList()
+    var documentData: DocumentDetailList = DocumentDetailList()
     var isDetailAlreadySync: Boolean = false
     var isSyncWithServer: Boolean = true
 }

@@ -87,6 +87,7 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         rootBinding.btnUploadKyc.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(Constants.KEY_DOC_ID, 405)//Hardcoded for KYC proof...
+            bundle.putString(Constants.KEY_TITLE, context.getString(R.string.kyc))
             bundle.putString(Constants.KEY_APPLICANT_NUMBER, currentApplicantNumber)
             DocumentUploadingActivity.startActivity(context, bundle)
         }
