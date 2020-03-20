@@ -268,21 +268,14 @@ class PreviewActivity : BaseAppCompatActivity() {
 
 
         if(lead?.personalData?.applicantDetails!!.size>0 ){
-
             for (i in 0 until lead?.personalData?.applicantDetails.size) {
-
                 isIncomeConsidered= lead?.personalData?.applicantDetails[i].incomeConsidered
                 isMainApplicant= lead?.personalData?.applicantDetails[i].isMainApplicant
                 iskycdata =lead?.personalData?.applicantDetails[i].applicantKycList!!.size
 
-
                 if(isIncomeConsidered == true && iskycdata >0){
                     checkEmpBankDetail_other= true
-                    if(lead?.employmentData?.applicantDetails!!.size >0){
-
-                    }
-                    else
-                    {
+                    if(lead?.employmentData?.applicantDetails!!.size >0){} else {
                         Toast.makeText(this@PreviewActivity,"Please check Employment Detail",Toast.LENGTH_SHORT).show()
                         errorCount++
                     }
@@ -308,15 +301,10 @@ class PreviewActivity : BaseAppCompatActivity() {
             errorCount++
         }
 
-
-
         if(lead.referenceData.loanApplicationObj.size > 0){}else{
                 Toast.makeText(this@PreviewActivity,"Please check Refrence Detail",Toast.LENGTH_SHORT).show()
                 errorCount++
             }
-
-
-
 
         if(isPropertySelected==true){
             if(lead.propertyData.unitTypeTypeDetailID !=null){}else{
@@ -331,10 +319,6 @@ class PreviewActivity : BaseAppCompatActivity() {
         }else{
             Toast.makeText(this@PreviewActivity,"Please fill maindatory fields.",Toast.LENGTH_SHORT).show()
         }
-
-
     }
-
-
 
 }
