@@ -16,7 +16,7 @@ class HfcPolicyResponse :Serializable {
     var ltv : Double?=null
     var ltvMutiplier : Double?=null
     var finalTenure : Float?=null
-    var finalEligibility : Int?=null
+    var finalEligibility : Double?=null
     var insrValue : Float?=null
     var proposedEMI : Double?=null
     var finalLTV : Double?=null
