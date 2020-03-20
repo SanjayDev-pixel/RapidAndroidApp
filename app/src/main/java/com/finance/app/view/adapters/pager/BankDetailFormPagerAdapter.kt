@@ -25,6 +25,15 @@ class BankDetailFormPagerAdapter(fm: FragmentManager, private val applicantsList
         return fragment //        return BankDetailFormFragment.newInstance(applicantsList[position])
     }
 
+
+    fun isBankDetailListAvailable(): Boolean {
+        fragmentList.forEachIndexed { index, _ ->
+            return if (getItem(index).isBankDetailRequiredForApplicant()) getItem(index).isBankDetailAvailable()
+            else true
+        }
+        return false
+    }
+
     fun getBankDetailsList(): ArrayList<BankDetailModel> {
         val list = ArrayList<BankDetailModel>()
         fragmentList.forEachIndexed { index, _ ->
