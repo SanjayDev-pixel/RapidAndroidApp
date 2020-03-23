@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.finance.app.R
 import com.finance.app.databinding.FragmentBankDetailBinding
@@ -65,8 +66,12 @@ class BankDetailFragmentNew : BaseFragment() {
     private fun setOnClickListeners() {
         binding.btnNext.setOnClickListener {
             bankDetailFormPagerAdapter?.let {
-                LeadMetaData().saveBankData(it.getBankDetailsList())
-                AppEvents.fireEventLoanAppChangeNavFragmentNext()
+                if (it.isBankDetailListAvailable()) {
+                    LeadMetaData().saveBankData(it.getBankDetailsList())
+                    AppEvents.fireEventLoanAppChangeNavFragmentNext()
+                } else {
+                    Toast.makeText(context, "Please Provide Bank Details.", Toast.LENGTH_LONG).show()
+                }
             }
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }

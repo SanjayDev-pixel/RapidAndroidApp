@@ -24,7 +24,9 @@ class PreviewEmploymentHolder(val binding: PreviewLayoutEmploymentBinding, val m
     fun bindItems(list: ArrayList<EmploymentApplicantsModel>?, pos: Int, viewModel: AppDataViewModel) {
 
         if (!list.isNullOrEmpty()) {
-            setValueInCard(list[pos], viewModel)
+            try {
+                setValueInCard(list[pos], viewModel)
+            }catch(e:IndexOutOfBoundsException){e.printStackTrace()}
             handleCollapse()
 
 

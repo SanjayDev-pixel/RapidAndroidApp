@@ -1,4 +1,5 @@
 package com.finance.app.view.fragment.loanApplicationFragments.bank
+
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,6 +38,7 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     private var selectedApplicant: PersonalApplicantsModel? = null
     private var selectedBankDetailPosition = -1
     private lateinit var binding: FragmentBankDetailFormBinding
+
     companion object {
         fun newInstance(selectedApplicant: PersonalApplicantsModel): BankDetailFormFragment {
             val fragment = BankDetailFormFragment()
@@ -44,6 +46,7 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
             return fragment
         }
     }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         mContext = context!!
@@ -52,17 +55,19 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
 
     override fun init() {
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_bank_detail_form)
         binding.lifecycleOwner = this
         initViews()
         LeadMetaData.getLeadData()?.let {
             if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
-               binding.imageAddBank.visibility = View.GONE
+                binding.imageAddBank.visibility = View.GONE
         }
         setOnClickListeners()
         return view
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Now fetch data from where-ever you want....
@@ -71,11 +76,14 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
         //Show empty view if this applicant details not required...
         shouldShowEmptyView()
     }
+
     private fun initViews() {
     }
+
     private fun setOnClickListeners() {
         binding.vwAdd.setOnClickListener { showBankDetailFormDialog(BankDetailDialogFragment.Action.NEW) }
     }
+
     private fun shouldShowEmptyView() {
         selectedApplicant?.let {
             if (it.incomeConsidered) {
@@ -90,12 +98,14 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
             binding.vwIncomeNotConsider.visibility = View.VISIBLE
         }
     }
+
     private fun setBankDetailAdapter(bankDetailList: ArrayList<BankDetailBean>) {
         binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
         bankAdapter = BankDetailAdapter(mContext, bankDetailList)
         binding.rcBank.adapter = bankAdapter
         bankAdapter?.setOnItemClickListener(this)
     }
+
     private fun fetchLeadBankDetail() {
         LeadMetaData.getLeadObservable().observe(this@BankDetailFormFragment, Observer {
             it?.let { leadDetails ->
@@ -155,6 +165,20 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
 
     private fun onDeleteBankDetail() {
         bankAdapter?.deleteItem(selectedBankDetailPosition)
+    }
+
+    fun isBankDetailRequiredForApplicant(): Boolean {
+        selectedApplicant?.let { applicant -> return applicant.incomeConsidered }
+        return false
+    }
+
+    fun isBankDetailAvailable(): Boolean {
+        selectedApplicant?.let {
+            bankAdapter?.let { adapter ->
+                return adapter.getItemList().size > 0
+            }
+        }
+        return false
     }
 
     fun getApplicantBankDetails(): BankDetailModel {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -74,8 +75,14 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
     private fun setOnClickListeners() {
         binding.vwAdd.setOnClickListener { showReferenceDetailFormDialog(ReferenceDetailDialogFragment.Action.NEW) }
         binding.btnNext.setOnClickListener {
-            leadDetails?.let { it.referenceData.loanApplicationObj.let { referenceDetails -> LeadMetaData().saveReferenceData(referenceDetails) } }
-            AppEvents.fireEventLoanAppChangeNavFragmentNext()
+
+            leadDetails?.let { it.referenceData.loanApplicationObj.let {
+                referenceDetails -> LeadMetaData().saveReferenceData(referenceDetails)
+                if(it.referenceData.loanApplicationObj.size > 0){
+                    AppEvents.fireEventLoanAppChangeNavFragmentNext()}else{
+                    Toast.makeText(mContext,"Please fill refrence detail", Toast.LENGTH_SHORT).show()}} }
+
+
         }
         binding.btnPrevious.setOnClickListener { AppEvents.fireEventLoanAppChangeNavFragmentPrevious() }
     }

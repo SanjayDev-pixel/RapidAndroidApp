@@ -54,29 +54,33 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
         val json = finalSubmitLoanResponse?.ruleEngineResponse
         val gson = Gson()
 
+try {
+    val ruleEngineResponse = gson.fromJson(json, RuleEngineResponse::class.java)
 
-        val ruleEngineResponse = gson.fromJson(json, RuleEngineResponse::class.java)
-
-        binding.llstatus.tenure_text.setText(ruleEngineResponse.hfcPolicyResponse?.finalTenure.toString().plus(" months"))
-        var proposedEMI =ruleEngineResponse.hfcPolicyResponse?.proposedEMI
-        if(proposedEMI != null){
+    binding.llstatus.tenure_text.setText(ruleEngineResponse.hfcPolicyResponse?.finalTenure.toString().plus(" months"))
+    var proposedEMI =ruleEngineResponse.hfcPolicyResponse?.proposedEMI
+    if(proposedEMI != null){
         binding.llstatus.emi_text.setText(("Rs. ").plus(roundOffDecimal(proposedEMI)))
-        }
-        binding.llstatus.rate.setText(finalSubmitLoanResponse?.roi.toString().plus("%"))
+    }
+    binding.llstatus.rate.setText(finalSubmitLoanResponse?.roi.toString().plus("%"))
 
-        if (ruleEngineResponse.hfcPolicyResponse!!.rejectionFlag == true) {
-            binding.logoLayoutReject.visibility = View.VISIBLE
-            setRejectionAdapter(ruleEngineResponse.hfcPolicyResponse!!.rejectionList)
+    if (ruleEngineResponse.hfcPolicyResponse!!.rejectionFlag == true) {
+        binding.logoLayoutReject.visibility = View.VISIBLE
+        setRejectionAdapter(ruleEngineResponse.hfcPolicyResponse!!.rejectionList)
 
-        } else if (ruleEngineResponse.hfcPolicyResponse!!.deviationFlag == true) {
-            binding.logoLayoutDeviation.visibility =View.VISIBLE
+    } else if (ruleEngineResponse.hfcPolicyResponse!!.deviationFlag == true) {
+        binding.logoLayoutDeviation.visibility =View.VISIBLE
 
-            setStatusAdapter(ruleEngineResponse.hfcPolicyResponse!!.deviationList)
-        } else {
-            binding.logoLayout.visibility= View.VISIBLE
-            // already approved
-            setAlreadyApproved(finalSubmitLoanResponse)
-        }
+        setStatusAdapter(ruleEngineResponse.hfcPolicyResponse!!.deviationList)
+    } else {
+        binding.logoLayout.visibility= View.VISIBLE
+        // already approved
+        setAlreadyApproved(finalSubmitLoanResponse)
+    }
+    }catch(e: Exception){
+     e.printStackTrace()
+   }
+
 
         setOnClickListners()
     }
