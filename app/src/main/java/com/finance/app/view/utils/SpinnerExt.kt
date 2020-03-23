@@ -1,5 +1,6 @@
 package com.finance.app.view.utils
 
+import android.widget.AutoCompleteTextView
 import com.finance.app.persistence.model.DropdownMaster
 import fr.ganfra.materialspinner.MaterialSpinner
 import java.util.*
@@ -25,3 +26,11 @@ fun ArrayList<DropdownMaster>.getTypeDetailId(typeDetailText : String ?) : Int{
     return 0
 }
 
+
+fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {
+    this.setText(text)
+    this.showDropDown()
+//    this.setSelection(position)
+    this.listSelection = position
+    this.performCompletion()
+}

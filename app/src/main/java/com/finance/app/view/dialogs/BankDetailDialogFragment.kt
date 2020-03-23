@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.finance.app.R
@@ -15,6 +16,7 @@ import com.finance.app.persistence.model.BankDetailBean
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
+import com.finance.app.view.utils.selectItem
 import kotlinx.android.synthetic.main.dialog_bank_detail_form.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.FormValidation
@@ -54,7 +56,7 @@ class BankDetailDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ArchitectureApp.instance.component.inject(this)
-        isCancelable=false
+        isCancelable = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,7 +78,15 @@ class BankDetailDialogFragment : DialogFragment() {
         ShowAsMandatory(binding.inputLayoutAccountHolderName)
         ShowAsMandatory(binding.inputLayoutAccountNum)
 
-        binding.spinnerBankName.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.BankName!!)
+//        binding.spinnerBankName.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.BankName!!)
+        val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, allMasterDropDown.BankName!!)
+        binding.actBankName.setAdapter(adapter)
+        binding.actBankName.setOnItemClickListener { parent, view, position, id ->
+            binding.actBankName.tag = parent.getItemAtPosition(position) as DropdownMaster
+        }
+
+
+
         binding.spinnerAccountType.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.AccountType!!)
         binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.SalaryCredit!!)
         binding.spinnerSalaryCredit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -115,7 +125,9 @@ class BankDetailDialogFragment : DialogFragment() {
     private fun setFormDetails(bankDetail: BankDetailBean) {
         allMasterDropDown.BankName?.forEachIndexed { index, dropdownMaster ->
             if (dropdownMaster.typeDetailID == bankDetail.bankNameTypeDetailID) {
-                binding.spinnerBankName.setSelection(index + 1)
+                (binding.actBankName.selectItem(dropdownMaster.typeDetailDisplayText.toString(), index))
+
+//                binding.spinnerBankName.setSelection(index + 1)
                 return@forEachIndexed
             }
         }
@@ -141,7 +153,9 @@ class BankDetailDialogFragment : DialogFragment() {
 
     private fun getFilledBankDetails(): BankDetailBean {
         val bankDetails = BankDetailBean()
-        val bName = binding.spinnerBankName.selectedItem as DropdownMaster?
+        //For Auto complete view..
+        val bName = binding.actBankName.tag as DropdownMaster?
+
         val aType = binding.spinnerAccountType.selectedItem as DropdownMaster?
         val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
 
