@@ -109,10 +109,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun fillLeadDetail(lead: AllLeadMaster) {
         val leadName = lead.applicantFirstName + " " + lead.applicantLastName
-
         binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLeadName.text = leadName
-
         binding.tvEmail.text = lead.applicantEmail
         binding.tvLocation.text = lead.applicantAddress
         binding.tvPhone.text = lead.applicantContactNumber

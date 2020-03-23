@@ -128,7 +128,7 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     }
 
     private fun setApplicantTabAdapter(applicantList: ArrayList<PersonalApplicantsModel>) {
-        pagerAdapterDocumentCheckList = DocumentCheckLIstPagerAdapter(fragmentManager!!, applicantList)
+        pagerAdapterDocumentCheckList = DocumentCheckLIstPagerAdapter(childFragmentManager!!, applicantList)
         binding.vpDocumentDetailForm.adapter = pagerAdapterDocumentCheckList
         binding.tabLead.setupWithViewPager(binding.vpDocumentDetailForm)
     }

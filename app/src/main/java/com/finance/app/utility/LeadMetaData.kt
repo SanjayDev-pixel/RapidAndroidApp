@@ -107,7 +107,9 @@ class LeadMetaData : Observable() {
 
     fun saveDocumentData(documentListData: ArrayList<DocumentCheckList>) {
         val lead = getLeadData()
+        val leadId = getLeadId()
         lead?.let {
+            lead.documentData.leadID = leadId
             lead.documentData.documentDetailList = documentListData
             insertLeadInfoIntoDB(lead)
         }
