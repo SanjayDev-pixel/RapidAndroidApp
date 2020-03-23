@@ -42,7 +42,7 @@ class AllLeadActivity : BaseAppCompatActivity() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         hideSecondaryToolbar()
-        //refreshLead()
+        refreshLead()
         setUpLeadFragments()
         setUpClickListener()
     }
