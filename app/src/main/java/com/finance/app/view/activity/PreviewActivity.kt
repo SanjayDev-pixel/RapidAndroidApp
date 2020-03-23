@@ -273,7 +273,11 @@ class PreviewActivity : BaseAppCompatActivity() {
                 isMainApplicant= lead?.personalData?.applicantDetails[i].isMainApplicant
                 iskycdata =lead?.personalData?.applicantDetails[i].applicantKycList!!.size
 
-                if(isIncomeConsidered == true && iskycdata >0){
+                if(lead?.personalData?.applicantDetails[i].applicantKycList!!.size>0){}else{
+                    errorCount++
+                    Toast.makeText(this@PreviewActivity,"Please complete your KYC",Toast.LENGTH_SHORT).show()
+                }
+                if(isIncomeConsidered == true ){
                     checkEmpBankDetail_other= true
                     if(lead?.employmentData?.applicantDetails!!.size >0){} else {
                         Toast.makeText(this@PreviewActivity,"Please check Employment Detail",Toast.LENGTH_SHORT).show()
@@ -292,6 +296,12 @@ class PreviewActivity : BaseAppCompatActivity() {
                 }else if(isIncomeConsidered == false && iskycdata ==0){
                     errorCount++
                     Toast.makeText(this@PreviewActivity,"Please complete your KYC",Toast.LENGTH_SHORT).show()
+                }else if(isIncomeConsidered==true && lead?.employmentData?.applicantDetails.size==0){
+                    errorCount++
+                    Toast.makeText(this@PreviewActivity,"Please check Employement Details",Toast.LENGTH_SHORT).show()
+                }else if(isIncomeConsidered==true && lead.bankData.bankDetailList.size==0){
+                    errorCount++
+                    Toast.makeText(this@PreviewActivity,"Please check Bank Details",Toast.LENGTH_SHORT).show()
                 }
 
             }
