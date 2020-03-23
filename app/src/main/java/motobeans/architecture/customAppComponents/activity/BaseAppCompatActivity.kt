@@ -1,6 +1,7 @@
 package motobeans.architecture.customAppComponents.activity
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
@@ -86,7 +87,9 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         DashboardActivity.start(this)
       }
       R.id.createLead -> {
-        CreateLeadActivity.start(this)
+        //CreateLeadActivity.start(this)
+        val intent = Intent(this, CreateLeadActivity::class.java)
+        this.startActivity(intent)
       }
       R.id.logout -> {
         sharedPreferencesUtil.clearAll()
