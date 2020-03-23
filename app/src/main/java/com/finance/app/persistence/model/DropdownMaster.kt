@@ -21,6 +21,7 @@ class DropdownMaster : Serializable, IspinnerModel {
     }
 
     override fun toString(): String {
-        return "$typeDetailCode"
+//        return "$typeDetailCode"
+        return "$typeDetailDisplayText"
     }
 }
