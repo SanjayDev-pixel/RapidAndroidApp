@@ -713,7 +713,7 @@ class FormValidationImpl : FormValidation {
     override fun validateObligationDialog(binding: AddObligationDialogBinding): Boolean {
         val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
         val loanType = binding.spinnerLoanType.selectedItem as DropdownMaster?
-        val repaymentBank = binding.spinnerRepaymentBank.selectedItem as DropdownMaster?
+        val repaymentBank = binding.spinnerRepaymentBank.tag as DropdownMaster?
         val ownership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
         val financierName = binding.etFinancierName.text.toString()
         val accountNum = binding.etAccountNum.text.toString()
@@ -722,11 +722,18 @@ class FormValidationImpl : FormValidation {
         val emiAmount = binding.etEmiAmount.text.toString()
         val bouncesIn6 = binding.etBouncesInLastSixMonths.text.toString()
         val bouncesIn9 = binding.etBouncesInLastNineMonths.text.toString()
+        var errorBank:Int=0
+
+        if (repaymentBank==null){
+            errorBank++
+            binding.spinnerRepaymentBank.error = "Required Field"
+
+        }
 
         val spinnerError = when {
             loanType == null -> setSpinnerError(binding.spinnerLoanType)
             obligate == null -> setSpinnerError(binding.spinnerObligate)
-            repaymentBank == null -> setSpinnerError(binding.spinnerRepaymentBank)
+           // repaymentBank == null -> setSpinnerError(binding.spinnerRepaymentBank)
             ownership == null -> setSpinnerError(binding.spinnerLoanOwnership)
             else -> 0
         }
@@ -742,7 +749,7 @@ class FormValidationImpl : FormValidation {
 
             else -> 0
         }
-        var errorCount = spinnerError + fieldError
+        var errorCount = spinnerError + fieldError+errorBank
 
         if (bouncesIn6.exIsNotEmptyOrNullOrBlank() && bouncesIn9.exIsNotEmptyOrNullOrBlank()) {
             if (binding.etBouncesInLastSixMonths?.text.toString().toInt() > binding.etBouncesInLastNineMonths?.text.toString().toInt()) {
@@ -836,10 +843,15 @@ class FormValidationImpl : FormValidation {
     }
 
     override fun validateCardsDialog(binding: AssetCreditcardDialogBinding): Boolean {
-       // val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
+        val bankName = binding.spinnerBankName.tag as DropdownMaster?
         val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
         val cardLimit = binding.etCreditCardLimit.text.toString()
         val utilization = binding.etCurrentUtilization.text.toString()
+var bankerror:Int=0
+        if (bankName == null) {
+           bankerror++
+            binding.spinnerBankName.error = "Required Field"
+        }
 
         val spinnerError = when {
            // bankName == null -> setSpinnerError(binding.spinnerBankName)
@@ -854,7 +866,7 @@ class FormValidationImpl : FormValidation {
                 setFieldError(binding.etCurrentUtilization)
             else -> 0
         }
-        val errorCount = spinnerError + fieldError
+        val errorCount = spinnerError + fieldError+bankerror
         return isValidForm(errorCount)
     }
 
