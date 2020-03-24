@@ -20,5 +20,7 @@ object Requests {
     data class RequestUploadedDocumentList(val codeId: Int, val leadId: Int)
     data class RequestDocumentDownloadableLink(val DocumentId: Int)
     data class RequestSubmittedLead(val leadID: Int)
+    data class RequestEditLead(val leadID:Int?,val applicantFirstName: String,val applicantMiddleName:String,val applicantLastName : String,val applicantContactNumber:String,
+    val applicantAlternativeContactNumber:String?,val applicantEmail:String,val applicantAddress:String,val remarks:String?,val loanProductID:Int?,val branchID: Int?,val amountRequest:Float? )
 
 }

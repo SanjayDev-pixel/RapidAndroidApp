@@ -29,13 +29,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="lollipop">
 
-<!--        <provider-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="android.support.v4.content.FileProvider">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_paths" />-->
-<!--        </provider>-->
+        <!-- <provider -->
+        <!-- android:name="androidx.core.content.FileProvider" -->
+        <!-- android:authorities="android.support.v4.content.FileProvider"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/file_paths" /> -->
+        <!-- </provider> -->
 
         <activity android:name=".view.activity.DocumentUploadingActivity"></activity>
         <activity android:name=".view.activity.KYCActivity" />

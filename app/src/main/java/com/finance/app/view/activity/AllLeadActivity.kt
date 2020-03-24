@@ -48,7 +48,11 @@ class AllLeadActivity : BaseAppCompatActivity() {
     }
     private fun refreshLead() = syncDataViewModel.getAllLeads()
     private fun setUpClickListener() {
-        binding.fabCreate.setOnClickListener { CreateLeadActivity.start(this) }
+        binding.fabCreate.setOnClickListener {
+            //CreateLeadActivity.start(this)
+            val intent = Intent(this, CreateLeadActivity::class.java)
+            this.startActivity(intent)
+        }
     }
     private fun setUpLeadFragments() {
         pagerAdapter = LeadPagerAdapter(supportFragmentManager)

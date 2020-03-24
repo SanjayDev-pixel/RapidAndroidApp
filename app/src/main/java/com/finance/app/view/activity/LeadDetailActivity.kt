@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
@@ -154,6 +155,18 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
         binding.btnAddTask.setOnClickListener {
             AddTaskActivity.start(this)
+        }
+
+        binding.ivEdit.setOnClickListener(){
+            if (LeadMetaData.getLeadData()?.status == "Submitted") {
+                showToast("Subitted Lead can't be edit")
+            }else {
+
+                val intent = Intent(this, CreateLeadActivity::class.java)
+                intent.putExtra("key_id", LeadMetaData.getLeadId())
+                this.startActivity(intent)
+            }
+
         }
     }
 
