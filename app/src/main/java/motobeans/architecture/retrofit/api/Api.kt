@@ -103,5 +103,8 @@ interface Api {
     @GET("api/v1/loan/application/rule-engine-response/{leadID}/preliminary")
     fun finalSubmittedResponse(@Path("leadID") leadId: Int): Observable<Response.ResponseFinalSubmitted>
 
+   // editLead
+    @PUT("api/v1/lead/{leadID}")
+    fun editLead(@Body request: Requests.RequestEditLead): Observable<Response.ResponseEditLead>
 
 }

@@ -60,6 +60,7 @@ class Presenter {
             ConstantsApi.CALL_UPLOADED_DOC -> apiProject.api.getDocumentList((dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).codeId, (dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).leadId)
             ConstantsApi.CALL_DOWNLOAD_DOCUMENT -> apiProject.api.getDocumentDownloadableLink((dmiConnector.apiRequest as Requests.RequestDocumentDownloadableLink).DocumentId)
             ConstantsApi.Call_FINAL_RESPONSE ->apiProject.api.finalSubmittedResponse((dmiConnector.apiRequest as Requests.RequestSubmittedLead).leadID)
+            ConstantsApi.CALL_EDIT_LEAD -> apiProject.api.editLead(dmiConnector.apiRequest as Requests.RequestEditLead)
 
             else -> return
         }
