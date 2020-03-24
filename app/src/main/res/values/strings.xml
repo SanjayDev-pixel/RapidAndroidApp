@@ -254,7 +254,7 @@
     <string name="title_activity_test_approve">ApproveActivity</string>
     <string name="title_activity_test_deviation">TestDeviationActivity</string>
     <string name="title_activity_test_approved">TestApproved</string>
- <string name="otp_heading">Otp has been send to your Mobile Number</string>
+    <string name="otp_heading">Otp has been send to your Mobile Number</string>
 
 
     <string name="preview_loan_purpose">Loan Purpose*</string>
@@ -379,5 +379,6 @@
     <string name="preview_disbursement_date">Disbursement Date*</string>
     <string name="column">:</string>
     <string name="currentaddress">Current Address</string>
+    <string name="edit_lead">Edit Lead</string>
 
 </resources>
