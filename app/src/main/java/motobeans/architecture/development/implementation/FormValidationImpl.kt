@@ -836,13 +836,13 @@ class FormValidationImpl : FormValidation {
     }
 
     override fun validateCardsDialog(binding: AssetCreditcardDialogBinding): Boolean {
-        val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
+       // val bankName = binding.spinnerBankName.selectedItem as DropdownMaster?
         val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
         val cardLimit = binding.etCreditCardLimit.text.toString()
         val utilization = binding.etCurrentUtilization.text.toString()
 
         val spinnerError = when {
-            bankName == null -> setSpinnerError(binding.spinnerBankName)
+           // bankName == null -> setSpinnerError(binding.spinnerBankName)
             obligate == null -> setSpinnerError(binding.spinnerObligate)
             else -> 0
         }

@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
@@ -417,7 +418,15 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             addCreditCardDialog?.dismiss()
         }
 
-        addCreditCardDialog?.spinnerBankName?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BankName!!)
+        //addCreditCardDialog?.spinnerBankName?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BankName!!)
+
+        val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, allMasterDropDown?.BankName!!)
+        binding.spinnerBankName.setAdapter(adapter)
+        binding.spinnerBankName.setOnItemClickListener { parent, view, position, id ->
+            binding.spinnerBankName.tag = parent.getItemAtPosition(position) as DropdownMaster
+        }
+
+
         addCreditCardDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.CreditCardObligation!!)
         addCreditCardDialog?.etLastPaymentDate?.setOnClickListener {
             SelectDate(addCreditCardDialog?.etLastPaymentDate!!, context)
@@ -713,7 +722,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         addCreditCardDialog?.spinnerBankName?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BankName!!)
         addCreditCardDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.CreditCardObligation!!)
 
-        selectMasterDropdownValue(binding.spinnerBankName, card.bankNameTypeDetailID)
+       /* selectMasterDropdownValue(binding.spinnerBankName, card.bankNameTypeDetailID)*/
         selectMasterDropdownValue(binding.spinnerObligate, card.obligateTypeDetail)
         binding.etCreditCardLimit.setText(card.cardLimit.toString())
         binding.etCurrentUtilization.setText(card.currentUtilization.toString())
@@ -732,7 +741,10 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             if (formValidation.validateCardsDialog(binding)) {
                 var mydate:DateUtil= DateUtil()
                 val currentCard = CardDetail()
-                val bankName = addCreditCardDialog?.spinnerBankName?.selectedItem as DropdownMaster?
+              //  val bankName = addCreditCardDialog?.spinnerBankName?.selectedItem as DropdownMaster?
+
+                //For Auto complete view..
+                val bankName = addCreditCardDialog?.spinnerBankName?.tag as DropdownMaster?
                 val obligate = addCreditCardDialog?.spinnerObligate?.selectedItem as DropdownMaster?
                 currentCard.lastPaymentDate = mydate.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1, DateUtil.dateFormattingType.TYPE_API_REQUEST_2, addCreditCardDialog?.etLastPaymentDate?.text.toString())//addCreditCardDialog?.etLastPaymentDate?.text.toString()
                 currentCard.cardLimit = addCreditCardDialog?.etCreditCardLimit!!.text.toString().toInt()
