@@ -46,6 +46,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private var isSelectedLeadSynced = false
     private var leadContact: Long? = null
     private var allMasterDropDown: AllMasterDropDown? = null
+    private var followupResponse : ArrayList<FollowUpResponse> ? = null
 
     companion object {
         private const val KEY_LEAD = "leadApplicant"
@@ -62,9 +63,10 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
-        getLead()
+
         //Initilise
         fetchSpinnerDataFromDB()
+        getLead()
 
     }
 
@@ -134,6 +136,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
 
         binding.btnUpdateApplication.setOnClickListener {
+
             checkAndStartLoanApplicationActivity(lead)
         }
 
@@ -198,9 +201,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             get() = Requests.RequestFollowUp(leadId)
 
         override fun getApiSuccess(value: Response.ResponseFollowUp) {
+                  followupResponse?.clear()
 
             value.responseObj?.let { list ->
                 binding.progressBar.visibility = View.GONE
+                followupResponse = list
                 setUpRecyclerView(list)
             }
 
