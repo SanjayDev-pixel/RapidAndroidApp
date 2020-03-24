@@ -54,12 +54,6 @@ class UploadDocumentWorker(context: Context, workerParams: WorkerParameters) : W
         body["documentName"] = RequestBody.create(MediaType.parse("text/plain"), documentModel.documentName.toString())
         body["leadApplicantNumber"] = RequestBody.create(MediaType.parse("text/plain"), documentModel.leadApplicantNumber.toString())
 
-        //For Testing Purpose..
-//        body["leadID"] = RequestBody.create(MediaType.parse("text/plain"), "2")
-//        body["documentID"] = RequestBody.create(MediaType.parse("text/plain"), "3")
-//        body["documentName"] = RequestBody.create(MediaType.parse("text/plain"), "test")
-//        body["leadApplicantNumber"] = RequestBody.create(MediaType.parse("text/plain"), "2003")
-
         return body
     }
 }
