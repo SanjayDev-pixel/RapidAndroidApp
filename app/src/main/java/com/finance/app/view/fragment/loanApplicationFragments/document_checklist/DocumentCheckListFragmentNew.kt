@@ -104,13 +104,8 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     }
 
     private fun getSubmittedStateResponse() {
-
         presenter.callNetwork(ConstantsApi.Call_FINAL_RESPONSE, CallFinalSubmitResponse())
-
-
     }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchLeadDetails()

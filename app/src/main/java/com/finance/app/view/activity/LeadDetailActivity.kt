@@ -123,7 +123,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         setLeadNum(lead.leadNumber)
 
     }
-
     private fun fillColor(lead: AllLeadMaster) {
         when (lead.status) {
             AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_pending))
@@ -135,12 +134,9 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun setClickListeners(lead: AllLeadMaster) {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
-
         binding.btnUpdateApplication.setOnClickListener {
-
             checkAndStartLoanApplicationActivity(lead)
         }
-
         binding.ivCall.setOnClickListener {
             leadContact?.let {
                 val callIntent = Intent(Intent.ACTION_CALL)
@@ -148,20 +144,16 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                 startActivity(callIntent)
             }
         }
-
         binding.btnUpdateCall.setOnClickListener {
             UpdateCallActivity.startActivityForResult(this, lead, UPDATE_CALL_REQUEST)
         }
-
         binding.btnAddTask.setOnClickListener {
             AddTaskActivity.start(this)
         }
-
         binding.ivEdit.setOnClickListener(){
             if (LeadMetaData.getLeadData()?.status == "Submitted") {
-                showToast("Subitted Lead can't be edit")
+                showToast("Submitted Lead can't be edit")
             }else {
-
                 val intent = Intent(this, CreateLeadActivity::class.java)
                 intent.putExtra("key_id", LeadMetaData.getLeadId())
                 this.startActivity(intent)
