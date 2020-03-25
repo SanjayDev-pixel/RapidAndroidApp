@@ -125,9 +125,8 @@ class BankDetailDialogFragment : DialogFragment() {
     private fun setFormDetails(bankDetail: BankDetailBean) {
         allMasterDropDown.BankName?.forEachIndexed { index, dropdownMaster ->
             if (dropdownMaster.typeDetailID == bankDetail.bankNameTypeDetailID) {
-                (binding.actBankName.selectItem(dropdownMaster.typeDetailDisplayText.toString(), index))
-
-//                binding.spinnerBankName.setSelection(index + 1)
+                (binding.actBankName.setText(dropdownMaster.typeDetailDisplayText.toString(),false))
+                binding.actBankName.tag = dropdownMaster
                 return@forEachIndexed
             }
         }

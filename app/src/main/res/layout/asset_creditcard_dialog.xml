@@ -42,7 +42,7 @@
         android:layout_margin="@dimen/margin10dp">
 
 
-    <fr.ganfra.materialspinner.MaterialSpinner
+    <!--<fr.ganfra.materialspinner.MaterialSpinner
         android:id="@+id/spinnerBankName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +56,23 @@
         app:ms_hintColor="@color/hint_color"
         app:ms_hintTextSize="@dimen/hint_size"
         app:ms_multiline="false"
-        android:layout_marginTop="@dimen/margin20dp"/>
+        android:layout_marginTop="@dimen/margin20dp"/>-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fields_margin"
+            android:hint="Bank Name *"
+            android:minWidth="@dimen/text_min_width"
+            android:textColorHint="@color/grey_585858">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spinnerBankName"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout_credit_card_limit"
