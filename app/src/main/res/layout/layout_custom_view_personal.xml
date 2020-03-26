@@ -25,6 +25,10 @@
                     android:id="@+id/kycApplicant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnAddKYC"
@@ -37,6 +41,19 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
+                <Button
+                    android:id="@+id/btnKyclist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_theme_style"
+                    android:text="KYC list"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button_text_size" />
+                </LinearLayout>
+
 
                 <include
                     android:id="@+id/basicInfoLayout"
@@ -49,6 +66,13 @@
             </LinearLayout>
 
         </ScrollView>
-
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            />
     </RelativeLayout>
 </layout>
