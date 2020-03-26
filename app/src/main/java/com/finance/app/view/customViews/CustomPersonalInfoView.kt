@@ -697,18 +697,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
         private fun getKycDetail():Requests.RequestKycDetail{
             val leadId:Int?=LeadMetaData.getLeadId()
-            return Requests.RequestKycDetail(leadID=2) //leadId!!
+            return Requests.RequestKycDetail(leadID=leadId!!) //2
         }
     }
 
-
-    /*fun splitString(str: String) {
-
-
-        var delimiter = " "
-
-        val parts = str.split(delimiter)
-
-        return (parts:List<String>)
-    }*/
 }
