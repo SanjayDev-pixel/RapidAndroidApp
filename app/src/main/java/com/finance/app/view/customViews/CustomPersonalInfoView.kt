@@ -2,7 +2,6 @@ package com.finance.app.view.customViews
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.AttributeSet
@@ -23,10 +22,8 @@ import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
 import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.activity.KYCActivity
-import com.finance.app.view.activity.LoanSubmitStatusActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.layout_personal_address.view.*
+import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import motobeans.architecture.application.ArchitectureApp
@@ -45,9 +42,6 @@ import motobeans.architecture.util.AppUtilExtensions
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import motobeans.architecture.util.exVisible
-import org.json.JSONArray
-import org.json.JSONObject
-import java.lang.Exception
 import javax.inject.Inject
 
 class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
@@ -143,7 +137,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
             }
         }
 
-        binding.btnKyclist.setOnClickListener(){
+        binding.btnKyclist.setOnClickListener() {
             callApiKycList(leadId)
         }
         CurrencyConversion().convertToCurrencyType(binding.personalAddressLayout.etPermanentRentAmount)
@@ -616,63 +610,64 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    fun isApplicantDetailsValid() = formValidation.validatePersonalInfo(binding, spinnerDMList)
-
-    fun getApplicant(): PersonalApplicantsModel {
-        return getCurrentApplicant()
-    }
-
-
-
-    inner class CallKYCDetail:ViewGeneric<Requests.RequestKycDetail, Response.ResponseKycDetail>(context = context) {
+    inner class CallKYCDetail : ViewGeneric<Requests.RequestKycDetail, Response.ResponseKycDetail>(context = context) {
         override val apiRequest: Requests.RequestKycDetail
             get() = getKycDetail()
+
         override fun getApiSuccess(value: Response.ResponseKycDetail) {
             if (value.responseCode == Constants.SUCCESS) {
                 binding.progressBar!!.visibility = View.GONE
-             Log.e("TAG","Sandeep ")
+                Log.e("TAG", "Sandeep ")
                 if (value.responseObj != null) {
-                    val kycDetailResponse: KycListModel =value.responseObj
-                  for(i in 0 until   kycDetailResponse.kycApplicantDetailsList.size){
+                    val kycDetailResponse: KycListModel = value.responseObj
+                    for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
 
-                      for(j in 0 until  kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size){
-                          var pincode= kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
-                          var name= kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
-                          var genderValue= kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
-                          var dob= kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
-                          var address =kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
-                          binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormatNew(dob))
-                          binding.personalAddressLayout.customPermanentZipAddressView.pinCode
-                          address = address!!.substring(0, address.length - 7)
-                          binding.personalAddressLayout.etCurrentAddress.setText(address)
+                        for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size) {
+                            var pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
+                            var name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
+                            var genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
+                            var dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
+                            var address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
+                            binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormatNew(dob))
+                            binding.personalAddressLayout.customPermanentZipAddressView.pinCode
+                            address = address!!.substring(0, address.length - 7)
+                            binding.personalAddressLayout.etCurrentAddress.setText(address)
 
 
+                            var delimiter = " "
+                            val parts = name!!.split(delimiter)
+                            for (i in 0 until parts.size) {
+                                if (parts.size == 1) {
+                                    binding.basicInfoLayout.etFirstName.setText(parts[0])
+                                }
+                                if (parts.size == 2) {
+                                    binding.basicInfoLayout.etFirstName.setText(parts[0])
+                                    binding.basicInfoLayout.etLastName.setText(parts[1])
+                                }
+                                if (parts.size == 3) {
+                                    binding.basicInfoLayout.etFirstName.setText(parts[0])
+                                    binding.basicInfoLayout.etMiddleName.setText(parts[1])
+                                    binding.basicInfoLayout.etLastName.setText(parts[2])
+                                }
+                            }
 
-                          var delimiter = " "
-                          val parts = name!!.split(delimiter)
-                          for(i in 0 until parts.size){
-                              if(parts.size==1){
-                                  binding.basicInfoLayout.etFirstName.setText(parts[0])
-                              }
-                              if(parts.size==2){
-                                  binding.basicInfoLayout.etFirstName.setText(parts[0])
-                                  binding.basicInfoLayout.etLastName.setText(parts[1])
-                              }
-                              if(parts.size==3){
-                                  binding.basicInfoLayout.etFirstName.setText(parts[0])
-                                  binding.basicInfoLayout.etMiddleName.setText(parts[1])
-                                  binding.basicInfoLayout.etLastName.setText(parts[2])
-                              }
-                          }
+                            if (genderValue.equals("M")) {
+                                gender.setSelection("1")
+                            } else if (genderValue.equals("F")) {
+                                gender.setSelection("2")
+                            } else {
+                                gender.setSelection("3")
+                            }
 
-                        if(genderValue.equals("M")){ gender.setSelection("1")}else if(genderValue.equals("F")){gender.setSelection("2")}else{gender.setSelection("3")}
+                            binding.personalAddressLayout.customCurrentZipAddressView.etCurrentPinCode.setText(pincode.toString())
+
 //                         val addressDetail: AddressDetail= AddressDetail()
 //                          addressDetail.zip = pincode.toString()
 //                          updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
 
-                      }
+                        }
 
-                  }
+                    }
 
 
                 } else {
@@ -684,21 +679,29 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
                 binding.progressBar!!.visibility = View.GONE
             }
         }
+
         override fun getApiFailure(msg: String) {
 
             if (msg.exIsNotEmptyOrNullOrBlank()) {
                 super.getApiFailure(msg)
-                   binding.progressBar!!.visibility = View.GONE
+                binding.progressBar!!.visibility = View.GONE
             } else {
                 super.getApiFailure("Time out Error")
-                 binding.progressBar!!.visibility = View.GONE
+                binding.progressBar!!.visibility = View.GONE
             }
 
         }
-        private fun getKycDetail():Requests.RequestKycDetail{
-            val leadId:Int?=LeadMetaData.getLeadId()
-            return Requests.RequestKycDetail(leadID=2) //leadId!!
+
+        private fun getKycDetail(): Requests.RequestKycDetail {
+            val leadId: Int? = LeadMetaData.getLeadId()
+            return Requests.RequestKycDetail(leadID = 2) //leadId!!
         }
+    }
+
+    fun isApplicantDetailsValid() = formValidation.validatePersonalInfo(binding, spinnerDMList)
+
+    fun getApplicant(): PersonalApplicantsModel {
+        return getCurrentApplicant()
     }
 
 
