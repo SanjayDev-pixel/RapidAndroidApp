@@ -92,5 +92,6 @@ object Response {
 
     data class ChartItemsData(val lable: String, val value: Float)
     data class ResponseFinalSubmitted(val responseCode: String, val responseMsg: String, val responseObj: ApplicantionSubmitModel?, val timeStamp: Long)
-    data class ResponseEditLead(val error: String, val responseCode: String, val responseMsg: String, val responseObj: Any? = null, val timeStamp: Long)
+    data class ResponseEditLead(val error: String, val responseCode: String, val responseMsg: String, val responseObj: Any? , val timeStamp: Long)
+    data class ResponseKycDetail(val responseCode: String, val responseMsg: String, val responseObj: KycListModel, val timeStamp: Long)
 }
