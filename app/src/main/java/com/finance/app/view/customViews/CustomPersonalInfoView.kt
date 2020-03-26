@@ -661,10 +661,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
 
                             binding.personalAddressLayout.customCurrentZipAddressView.etCurrentPinCode.setText(pincode.toString())
 
-//                         val addressDetail: AddressDetail= AddressDetail()
-//                          addressDetail.zip = pincode.toString()
-//                          updateCustomZipCode(customZipView = binding.personalAddressLayout.customCurrentZipAddressView, addressDetail = addressDetail)
-
                         }
 
                     }
@@ -703,14 +699,4 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         return getCurrentApplicant()
     }
 
-
-    /*fun splitString(str: String) {
-
-
-        var delimiter = " "
-
-        val parts = str.split(delimiter)
-
-        return (parts:List<String>)
-    }*/
 }
