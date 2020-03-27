@@ -48,7 +48,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/questionNo"
+                    android:id="@+id/questionNo "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin5dp"
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin5dp"
                     android:maxLines="4"
-                    android:text="Submitted Address Prof"
+                    android:text="Submitted Address Prof *"
                     android:textSize="@dimen/button_text_size"
                     android:textStyle="bold" />
 

@@ -29,8 +29,8 @@ class DisablePropertyFields(binding: FragmentPropertyInfoBinding) {
         binding.etPropertyAddress.inputType = InputType.TYPE_NULL
         binding.etLandmark.inputType = InputType.TYPE_NULL
         binding.etPinCode.inputType = InputType.TYPE_NULL
-        binding.btnPrevious.isEnabled = false
-        binding.btnNext.isEnabled = false
+        //binding.btnPrevious.isEnabled = false
+        //binding.btnNext.isEnabled = false
 
     }
 }

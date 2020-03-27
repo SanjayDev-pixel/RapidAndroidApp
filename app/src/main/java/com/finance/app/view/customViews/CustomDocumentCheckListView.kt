@@ -98,6 +98,7 @@ class CustomDocumentCheckListView @JvmOverloads constructor(context: Context, at
         documentCheckList.productID = documentDetail?.productID
         documentCheckList.productName = documentDetail?.productName
         documentCheckList.isMainApplicant = selectedApplicant?.isMainApplicant!!
+
         documentCheckList.leadApplicantNumber = selectedApplicant?.leadApplicantNumber
         val updatedList = checklistAdapter?.getItemList()?.map { item ->
             if (item.selectedCheckListValue == ChecklistAnswerType.YES) {
@@ -117,7 +118,6 @@ class CustomDocumentCheckListView @JvmOverloads constructor(context: Context, at
         return documentCheckList
     }
     fun isDocumentDetailsValid() : Boolean{
-
         var checkedError = false
         for (i in 0 until getDocumentChecklist()?.checklistDetails?.size!!){
             checkedError = getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText != null

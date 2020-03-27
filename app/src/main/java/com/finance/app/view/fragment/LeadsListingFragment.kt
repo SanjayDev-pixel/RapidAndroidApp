@@ -28,9 +28,8 @@ class LeadsListingFragment : BaseFragment() {
     private lateinit var binding: FragmentLeadListingBinding
     private lateinit var appDataViewModel: AppDataViewModel
     private var adapter: LeadListingAdapter? = null
-
+    private var leads = ArrayList<AllLeadMaster>()
     private var currentLeadStatus: AppEnums.LEAD_TYPE? = null
-
     companion object {
         const val KEY_LEAD_STATUS = "leadStatus"
 
@@ -44,32 +43,27 @@ class LeadsListingFragment : BaseFragment() {
             return fragment
         }
     }
+    override fun init() {
 
-    override fun init() {}
-
+    }
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         ArchitectureApp.instance.component.inject(this)
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_lead_listing)
-
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
-
         setOnSwipeListener()
-
+        getDataAfterSerach()
         return binding.root
     }
-
     private fun setOnSwipeListener() {
         binding.swipeLayoutRoot.setOnRefreshListener {
             //Now fetch lead data from database if we got the Lead Status...
             currentLeadStatus?.let { fetchLeadFromDatabase(it) }
         }
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.getSerializable(KEY_LEAD_STATUS)?.let { status ->
             val leadStatus = status as AppEnums.LEAD_TYPE
@@ -78,7 +72,6 @@ class LeadsListingFragment : BaseFragment() {
             fetchLeadFromDatabase(leadStatus)
         }
     }
-
     private fun setLeadListAdapter(list: ArrayList<AllLeadMaster>, leadStatus: AppEnums.LEAD_TYPE) {
         if (adapter == null) {
             binding.rcLeads.layoutManager = LinearLayoutManager(this.activity)
@@ -88,25 +81,42 @@ class LeadsListingFragment : BaseFragment() {
             adapter?.updateAdapterList(list)
         }
     }
-
+    private var leadAdapter: LeadListingAdapter? = null
+    private fun setUpRecyclerView(leadStatus: AppEnums.LEAD_TYPE) {
+        leadAdapter = LeadListingAdapter(mContext = this.requireActivity(), leadList = leads, leadStatusEnums = leadStatus)
+        binding.rcLeads.adapter = leadAdapter
+        //hideProgressDialog()
+    }
     override fun showProgressDialog() {
         binding.swipeLayoutRoot.isRefreshing = true
     }
-
     override fun hideProgressDialog() {
         binding.swipeLayoutRoot.isRefreshing = false
     }
-
     private fun fetchLeadFromDatabase(leadStatus: AppEnums.LEAD_TYPE) {
         val observer = when (leadStatus) {
             AppEnums.LEAD_TYPE.ALL -> appDataViewModel.getAllLeads()
             else -> appDataViewModel.getLeadsByStatus(leadStatus.type)
         }
-
         showProgressDialog() //Show progress bar...
         observer.observe(this@LeadsListingFragment, Observer { leadList ->
             hideProgressDialog() //Hide progress bar...
             leadList?.let { setLeadListAdapter(ArrayList(it), leadStatus) }
         })
+    }
+    private fun getDataAfterSerach(){
+        //showProgressDialog()
+        arguments?.getSerializable(KEY_LEAD_STATUS)?.let { leadStatus ->
+            val leadStatusEnum = leadStatus as AppEnums.LEAD_TYPE
+            appDataViewModel.getLeadsLiveDataByStatus(leadStatusEnum)?.observe(this, Observer { itemsFromDB ->
+                itemsFromDB?.let {
+                    leads.clear()
+                    leads.addAll(itemsFromDB)
+                    setUpRecyclerView(leadStatusEnum)
+                }
+            })
+
+        }
+
     }
 }

@@ -6,7 +6,6 @@ import java.io.Serializable
 
 @Entity
 class AllLeadMaster : Serializable {
-
     @PrimaryKey
     var leadID: Int? = null
     var actualCompletionDate: String? = null

@@ -20,13 +20,10 @@ class SyncActivity : BaseAppCompatActivity() {
             this, R.layout.activity_sync)
     private val viewModel: SyncDataViewModel by viewModelProvider(activity = this,
             viewModelType = ViewModelType.WITH_DAO)
-
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
     @Inject
     lateinit var formValidation: FormValidation
-
-
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, SyncActivity::class.java)

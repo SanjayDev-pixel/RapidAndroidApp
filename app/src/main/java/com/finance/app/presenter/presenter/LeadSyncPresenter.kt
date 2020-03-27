@@ -115,6 +115,7 @@ class LeadSyncPresenter(private val viewOptLocalToServer: LeadSyncConnector.View
 
                 objectToReturn
               })
+
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe({ result ->
