@@ -107,4 +107,7 @@ interface Api {
     @PUT("api/v1/lead/{leadID}")
     fun editLead(@Body request: Requests.RequestEditLead): Observable<Response.ResponseEditLead>
 
+    //getKycDetail
+    @GET("api/v1/kyc/getKycDetails/{leadID}")
+    fun getKycDetail(@Path("leadID") leadId: Int): Observable<Response.ResponseKycDetail>
 }

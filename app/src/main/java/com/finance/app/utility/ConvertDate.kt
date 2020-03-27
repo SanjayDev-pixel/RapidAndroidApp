@@ -58,4 +58,20 @@ class ConvertDate {
             ""
         }
     }
+
+    fun convertToAppFormatNew(mDate: String?): String {
+        return try {
+            if (mDate.exIsNotEmptyOrNullOrBlank()) {
+                val pattern = "dd-MM-yyyy"
+                val desirablePattern = "dd-MMM-yyyy"
+                val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
+                val date = sdf.parse(mDate)
+                val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)
+                desiredSdf.format(date)
+            } else ""
+        } catch (e: Exception) {
+            getDifferenceFromDate(date = mDate)
+        }
+    }
+
 }
