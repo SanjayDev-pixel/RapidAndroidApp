@@ -4,25 +4,23 @@ import java.io.Serializable
 
 class AddressDetail : Serializable, Cloneable {
     var sameAsCurrentAddress: Boolean = false
-    var address1: String = ""
-    var address2: String = ""
-    var addressID: Int? = null
+    var address1: String? = null
     var addressProof: Int? = null
     var addressTypeDetailID: Int? = null
-    var addressTypeDetail: String? = ""
+    var addressTypeDetail: String? = null
     var cityID: Int? = null
-    var cityName: String? = ""
+    var cityName: String? = null
     var districtID: Int? = null
-    var districtName: String? = ""
-    var entityID: Int? = 0
-    var landmark: String = ""
-    var rentAmount: String? = ""
+    var districtName: String? = null
+    var entityID: Int? = null
+    var landmark: String? = null
+    var rentAmount: String? = null
     var residenceTypeTypeDetailID: Int? = null
-    var zip: String = ""
+    var zip: String? = null
     var stateID: Int? = null
-    var stateName: String? = ""
-    var stayingInYears: Float? = 0.0f
-    var contactNum: String? = ""
+    var stateName: String? = null
+    var stayingInYears: Float? = null
+    var contactNum: String? = null
 
     public override fun clone(): Any {
         return super.clone()

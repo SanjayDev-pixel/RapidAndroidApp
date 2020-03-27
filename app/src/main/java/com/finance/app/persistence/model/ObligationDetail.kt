@@ -9,7 +9,7 @@ class ObligationDetail : Serializable {
     var emiAmount: Int? = null
     var numberOfBouncesInLastSixMonth: Int? = null
     var numberOfBouncesInLastNineMonth: Int? = null
-    var financerName: String? = ""
+    var financerName: String? = null
     var loanAccountNumber: String? = null
     var borrowerNameTypeDetailID: Int? = null
     var bounseEmiPaidInSameMonth: Int? = null
@@ -17,8 +17,5 @@ class ObligationDetail : Serializable {
     var obligateTypeDetailID: Int? = null
     var loanTypeTypeDetailID: Int? = null
     var repaymentBankTypeDetailID: Int? = null
-    var loanDisbursementDate: String?=""
-    var loanOwnershipName:String?=null
-    var obligateName:String?=null
-    var loanTypeName:String?=null
+    var loanDisbursementDate: String? = null
 }
