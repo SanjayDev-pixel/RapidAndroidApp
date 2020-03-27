@@ -27,8 +27,9 @@ class FormValidationImpl : FormValidation {
         return isValidForm(error)
     }
 
-    override fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding, spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean {
+    override fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding, spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>,religion:CustomSpinnerView<DropdownMaster>): Boolean {
         var errorCount = 0
+
         val firstName = binding.basicInfoLayout.etFirstName.text.toString()
         val dob = binding.basicInfoLayout.etDOB.text.toString()
         val currentAddress = binding.personalAddressLayout.etCurrentAddress.text.toString()
@@ -38,6 +39,11 @@ class FormValidationImpl : FormValidation {
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
         val father_Name = binding.basicInfoLayout.etFatherFirstName.text.toString()
+        if(religion.getSelectedValue()==null){
+            errorCount++
+            religion.showError(true)
+        }
+        religion.getSelectedValue()
 
         if (age.exIsNotEmptyOrNullOrBlank()) {
             if (age.toInt() !in 99 downTo 14) {
@@ -347,7 +353,6 @@ class FormValidationImpl : FormValidation {
 
 
         var spinnerError = 0
-
         val sector = salaryBinding.spinnerSector.selectedItem as DropdownMaster?
         if (sector == null) {
             spinnerError++
@@ -586,7 +591,7 @@ class FormValidationImpl : FormValidation {
             binding.etCashOcr.error = "Cannot be greater than  OCR"
         }
 
-        if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
+        if (!propertyMv.exIsNotEmptyOrNullOrBlank() && !agreementValue.exIsNotEmptyOrNullOrBlank()) {
             if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
                 errorCount++
                 binding.etAgreementValue.error = "Cannot be greater than MV of property"
@@ -596,7 +601,7 @@ class FormValidationImpl : FormValidation {
             binding.etAgreementValue.error = "Cannot be greater than MV of property"
         }
 
-        if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
+        if (!propertyMv.exIsNotEmptyOrNullOrBlank() && !agreementValue.exIsNotEmptyOrNullOrBlank()) {
             if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
                     CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
                 errorCount++
@@ -733,7 +738,7 @@ class FormValidationImpl : FormValidation {
         val spinnerError = when {
             loanType == null -> setSpinnerError(binding.spinnerLoanType)
             obligate == null -> setSpinnerError(binding.spinnerObligate)
-           // repaymentBank == null -> setSpinnerError(binding.spinnerRepaymentBank)
+            // repaymentBank == null -> setSpinnerError(binding.spinnerRepaymentBank)
             ownership == null -> setSpinnerError(binding.spinnerLoanOwnership)
             else -> 0
         }
@@ -847,14 +852,14 @@ class FormValidationImpl : FormValidation {
         val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
         val cardLimit = binding.etCreditCardLimit.text.toString()
         val utilization = binding.etCurrentUtilization.text.toString()
-var bankerror:Int=0
+        var bankerror:Int=0
         if (bankName == null) {
-           bankerror++
+            bankerror++
             binding.spinnerBankName.error = "Required Field"
         }
 
         val spinnerError = when {
-           // bankName == null -> setSpinnerError(binding.spinnerBankName)
+            // bankName == null -> setSpinnerError(binding.spinnerBankName)
             obligate == null -> setSpinnerError(binding.spinnerObligate)
             else -> 0
         }

@@ -693,7 +693,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    fun isApplicantDetailsValid() = formValidation.validatePersonalInfo(binding, spinnerDMList)
+    fun isApplicantDetailsValid() = formValidation.validatePersonalInfo(binding, spinnerDMList,religion)
 
     fun getApplicant(): PersonalApplicantsModel {
         return getCurrentApplicant()

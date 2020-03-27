@@ -14,7 +14,7 @@ interface FormValidation {
     fun validateTemp(binding: TempActivityBinding): Boolean
     fun validateLogin(binding: ActivityLoginBinding): Boolean
     fun validatePersonalInfo(binding: LayoutCustomViewPersonalBinding,
-                             spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
+                             spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>>,religion:CustomSpinnerView<DropdownMaster> ): Boolean
 
     fun validateLoanInformation(binding: FragmentLoanInformationBinding,
                                 loanProduct: CustomSpinnerView<LoanProductMaster>,

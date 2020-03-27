@@ -22,6 +22,7 @@ import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.utils.setSelectionFromList
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_employment_form.*
+import kotlinx.android.synthetic.main.layout_salary.view.*
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
