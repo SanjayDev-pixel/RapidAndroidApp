@@ -34,7 +34,7 @@ import javax.inject.Inject
 
 class EmploymentFormFragmentNew : BaseFragment() {
     enum class FORM_TYPE {
-        SALARY_DETAIL, BUSINESS_DETAIL, NONE
+        SALARY_DETAIL, BUSINESS_DETAIL,NONE
     }
 
     private lateinit var mContext: Context

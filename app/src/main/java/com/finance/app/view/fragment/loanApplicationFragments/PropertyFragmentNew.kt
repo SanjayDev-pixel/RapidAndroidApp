@@ -147,7 +147,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             binding.vmpropertynotselected.visibility = View.VISIBLE
             binding.scrollviewll.visibility = View.GONE
         }else {
-            binding.cbIsFirstProperty.isChecked = propertyModel!!.isFirstProperty
+            binding.cbIsFirstProperty.isChecked = propertyModel!!.isFirstProperty!!
             binding.etDistanceFromBranch.setText(propertyModel.distanceFromBranch)
             binding.etDistanceFromResidence.setText(propertyModel.distanceFromExistingResidence)
             if(propertyModel.propertyAreaSquareFt.toString().equals("null")){
