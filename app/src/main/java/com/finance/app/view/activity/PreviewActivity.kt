@@ -18,6 +18,8 @@ import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.PreviewPagerAdapter
 import com.finance.app.view.fragment.loanApplicationFragments.FragmentPreview
 import kotlinx.android.synthetic.main.activity_preview.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
@@ -39,10 +41,8 @@ class PreviewActivity : BaseAppCompatActivity() {
     lateinit var dataBase: DataBaseUtil
     private var pagerAdapter: PreviewPagerAdapter? = null
     private val presenter = Presenter()
-
-    companion object {
+      companion object {
         var master: HashMap<AppEnums.DropdownMasterType, ArrayList<DropdownMaster>?>? = null
-
         fun start(context: Context) {
             val intent = Intent(context, PreviewActivity::class.java)
             context.startActivity(intent)
@@ -50,6 +50,7 @@ class PreviewActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
+
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
@@ -59,6 +60,8 @@ class PreviewActivity : BaseAppCompatActivity() {
     }
 
     private fun setOnClickListeners() {
+
+
         binding.backbttn.setOnClickListener() {
             this.finish()
         }
@@ -200,9 +203,10 @@ class PreviewActivity : BaseAppCompatActivity() {
                 Toast.makeText(context, "Submitted Successfully.", Toast.LENGTH_SHORT).show()
 
                 binding.progressBar!!.visibility = View.GONE
-
-                val submitLoanResponse: ApplicantionSubmitModel? = value.responseObj
-
+                //Update the status of lead
+                 val leadId = LeadMetaData.getLeadId()
+                 LeadMetaData().updateLeadStatusIntoDB("Submitted",leadId)
+                 val submitLoanResponse: ApplicantionSubmitModel? = value.responseObj
                 if (value.responseObj != null) {
                     val intent = Intent(this@PreviewActivity, LoanSubmitStatusActivity::class.java)
                     intent.putExtra("SubmitResponse", submitLoanResponse)
@@ -222,7 +226,6 @@ class PreviewActivity : BaseAppCompatActivity() {
             }
 
         }
-
         override fun getApiFailure(msg: String) {
 
             if (msg.exIsNotEmptyOrNullOrBlank()) {
@@ -234,17 +237,13 @@ class PreviewActivity : BaseAppCompatActivity() {
                   }
 
         }
-
-
         private fun getCallUpdateRequest(): Requests.RequestFinalSubmit? {
             binding.progressBar!!.visibility =View.VISIBLE
             val leadId = LeadMetaData.getLeadId()
             return Requests.RequestFinalSubmit(leadID = leadId!!)
 
         }
-
     }
-
     // validation code before submit the lead
     private fun validationBeforeSubmit() {
         var errorCount = 0

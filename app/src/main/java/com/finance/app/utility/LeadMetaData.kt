@@ -13,33 +13,31 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class LeadMetaData : Observable() {
-
     @Inject
     lateinit var dataBase: DataBaseUtil
-
     init {
         ArchitectureApp.instance.component.inject(this)
     }
-
     fun getAndPopulateLeadData(leadId: Int) {
         dataBase.provideDataBaseSource().allLeadsDao().getLead(leadId).observeForever { lead ->
             setLeadData(lead) //Bug: return null frequently..
         }
     }
-
     companion object {
         private var leadData = MutableLiveData<AllLeadMaster?>()
-
         fun setLeadData(leadDetail: AllLeadMaster?) {
             leadData.value = leadDetail
             System.out.println("lead Data>>>>" + leadData.value)
         }
-
         fun getLeadObservable() = leadData
         fun getLeadData() = leadData.value
         fun getLeadId() = leadData.value?.leadID
     }
-
+     fun updateLeadStatusIntoDB(status : String , leadId: Int?){
+         GlobalScope.launch {
+            dataBase.provideDataBaseSource().allLeadsDao().updateLeadStatus(status,leadId)
+        }
+    }
     private fun insertLeadInfoIntoDB(lead: AllLeadMaster): Job {
         return GlobalScope.launch {
             lead.isSyncWithServer = false
@@ -104,7 +102,6 @@ class LeadMetaData : Observable() {
 
         }
     }
-
     fun saveDocumentData(documentListData: ArrayList<DocumentCheckList>) {
         val lead = getLeadData()
         val leadId = getLeadId()

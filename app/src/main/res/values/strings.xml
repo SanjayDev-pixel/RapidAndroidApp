@@ -380,5 +380,7 @@
     <string name="column">:</string>
     <string name="currentaddress">Current Address</string>
     <string name="edit_lead">Edit Lead</string>
+    <string name="alert_message">This lead has been closed. Do you want to create New Lead?</string>
+    <string name="alert_warning">Alert!</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
@@ -131,11 +132,27 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             else -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_new))
         }
     }
+    private fun showAlert() {
+                AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.alert_warning))
+                        .setMessage(getString(R.string.alert_message))
+                        .setCancelable(false)
+                        .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                        .setPositiveButton("ok") { _, _ ->
+                            val intent = Intent(this, CreateLeadActivity::class.java)
+                            this.startActivity(intent)
+                        }.show()
+    }
 
     private fun setClickListeners(lead: AllLeadMaster) {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
         binding.btnUpdateApplication.setOnClickListener {
+            if (LeadMetaData.getLeadData()?.status == "Rejected") {
+                showAlert()
+            }
+            else{
             checkAndStartLoanApplicationActivity(lead)
+            }
         }
         binding.ivCall.setOnClickListener {
             leadContact?.let {
@@ -145,7 +162,12 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             }
         }
         binding.btnUpdateCall.setOnClickListener {
-            UpdateCallActivity.startActivityForResult(this, lead, UPDATE_CALL_REQUEST)
+            if(LeadMetaData.getLeadData()?.status == "Rejected"){
+                showAlert()
+            }else{
+                UpdateCallActivity.startActivityForResult(this, lead, UPDATE_CALL_REQUEST)
+            }
+
         }
         binding.btnAddTask.setOnClickListener {
             AddTaskActivity.start(this)
@@ -153,7 +175,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.ivEdit.setOnClickListener(){
             if (LeadMetaData.getLeadData()?.status == "Submitted") {
                 showToast("Submitted Lead can't be edit")
-            }else {
+            }else if(LeadMetaData.getLeadData()?.status == "Rejected")
+            {
+                showAlert()
+            }
+            else {
                 val intent = Intent(this, CreateLeadActivity::class.java)
                 intent.putExtra("key_id", LeadMetaData.getLeadId())
                 this.startActivity(intent)

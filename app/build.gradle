@@ -16,6 +16,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
+    aaptOptions {
+        cruncherEnabled = false
+    }
 
     buildTypes {
         release {
