@@ -9,8 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemDocumentChecklistBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.ChecklistAnswerType
 import com.finance.app.persistence.model.DocumentCheckListDetailModel
+import com.finance.app.utility.LeadMetaData
 
 class CheckListAdapter(private val c: Context, private val documentCheckList: ArrayList<DocumentCheckListDetailModel>) : RecyclerView.Adapter<CheckListAdapter.CheckListDetailViewHolder>() {
 
@@ -63,7 +65,15 @@ class CheckListAdapter(private val c: Context, private val documentCheckList: Ar
                 documentCheck.selectedCheckListValue == ChecklistAnswerType.NO || documentCheck.typeDetailDisplayText.equals("NO", true) -> binding.radiogroup.check(binding.rbNo.id)
                 documentCheck.selectedCheckListValue == ChecklistAnswerType.NA || documentCheck.typeDetailDisplayText.equals("NA", true) -> binding.radiogroup.check(binding.rbNa.id)
             }
-            addClickListener(position, documentCheck)
+            LeadMetaData.getLeadData()?.let {
+                if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type , true)) {
+                    disableDocumentChecklist()
+                } else {
+                    addClickListener(position , documentCheck)
+                }
+            }
+
+
         }
 
         private fun addClickListener(position: Int, documentCheck: DocumentCheckListDetailModel) {
@@ -80,5 +90,10 @@ class CheckListAdapter(private val c: Context, private val documentCheckList: Ar
             })
 
         }
+    }
+    private fun disableDocumentChecklist(){
+        binding.rbYes.isEnabled = false
+        binding.rbNa.isEnabled = false
+        binding.rbNo.isEnabled = false
     }
 }

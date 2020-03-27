@@ -50,7 +50,7 @@
             <LinearLayout
                 android:id="@+id/logo_layout"
                 android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_55sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_below="@+id/lllead"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -58,8 +58,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_35sdp"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin10dp"
                     android:background="@color/white"
@@ -70,7 +70,7 @@
                     android:id="@+id/preapproved_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin5dp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center"
                     android:text="@string/preapproved"
                     android:textColor="@color/md_green_300"
@@ -82,7 +82,7 @@
             <LinearLayout
                 android:id="@+id/logo_layout_reject"
                 android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_55sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_below="@+id/lllead"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -91,21 +91,21 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin10dp"
                     android:background="@color/white"
-
                     android:src="@drawable/ic_letterx" />
 
                 <TextView
                     android:id="@+id/preapproved_text_reject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin10dp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center"
-                    android:paddingLeft="@dimen/margin10dp"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp"
                     android:text="@string/reject"
                     android:textColor="@color/md_red_500"
                     android:textSize="@dimen/text_size"
@@ -115,7 +115,7 @@
             <LinearLayout
                 android:id="@+id/logo_layout_deviation"
                 android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_55sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_below="@+id/lllead"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -124,8 +124,8 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_35sdp"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin10dp"
                     android:background="@color/white"
@@ -136,9 +136,10 @@
                     android:id="@+id/preapproved_text_deviation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin5dp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center"
-                    android:paddingLeft="@dimen/margin10dp"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp"
                     android:text="@string/deviation"
                     android:textColor="@color/md_orange_300"
                     android:textSize="@dimen/text_size"
@@ -148,7 +149,7 @@
 
             <TextView
                 android:id="@+id/eligibility_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/logo_layout"
                 android:layout_centerInParent="true"
@@ -179,7 +180,8 @@
                 android:layout_height="210dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="@dimen/_140sdp"
+
+                android:layout_marginTop="@dimen/_190sdp"
                 android:layout_marginRight="30dp"
                 android:background="@color/white"
                 android:orientation="vertical"
@@ -331,7 +333,6 @@
             android:textSize="@dimen/text_size"
             android:textStyle="bold"
             android:layout_marginTop="@dimen/margin20dp"/>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"

@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
@@ -47,6 +48,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private var isSelectedLeadSynced = false
     private var leadContact: Long? = null
     private var allMasterDropDown: AllMasterDropDown? = null
+    private var followupResponse : ArrayList<FollowUpResponse> ? = null
 
     companion object {
         private const val KEY_LEAD = "leadApplicant"
@@ -63,9 +65,10 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
-        getLead()
+
         //Initilise
         fetchSpinnerDataFromDB()
+        getLead()
 
     }
 
@@ -110,10 +113,8 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 
     private fun fillLeadDetail(lead: AllLeadMaster) {
         val leadName = lead.applicantFirstName + " " + lead.applicantLastName
-
         binding.header.tvLeadNumber.text = lead.leadNumber
         binding.tvLeadName.text = leadName
-
         binding.tvEmail.text = lead.applicantEmail
         binding.tvLocation.text = lead.applicantAddress
         binding.tvPhone.text = lead.applicantContactNumber
@@ -123,7 +124,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         setLeadNum(lead.leadNumber)
 
     }
-
     private fun fillColor(lead: AllLeadMaster) {
         when (lead.status) {
             AppEnums.LEAD_TYPE.PENDING.type -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_pending))
@@ -132,14 +132,28 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             else -> binding.tvLeadStatus.setTextColor(resources.getColor(R.color.lead_status_new))
         }
     }
+    private fun showAlert() {
+                AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.alert_warning))
+                        .setMessage(getString(R.string.alert_message))
+                        .setCancelable(false)
+                        .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                        .setPositiveButton("ok") { _, _ ->
+                            val intent = Intent(this, CreateLeadActivity::class.java)
+                            this.startActivity(intent)
+                        }.show()
+    }
 
     private fun setClickListeners(lead: AllLeadMaster) {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
-
         binding.btnUpdateApplication.setOnClickListener {
+            if (LeadMetaData.getLeadData()?.status == "Rejected") {
+                showAlert()
+            }
+            else{
             checkAndStartLoanApplicationActivity(lead)
+            }
         }
-
         binding.ivCall.setOnClickListener {
             leadContact?.let {
                 val callIntent = Intent(Intent.ACTION_CALL)
@@ -147,20 +161,25 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                 startActivity(callIntent)
             }
         }
-
         binding.btnUpdateCall.setOnClickListener {
-            UpdateCallActivity.startActivityForResult(this, lead, UPDATE_CALL_REQUEST)
-        }
+            if(LeadMetaData.getLeadData()?.status == "Rejected"){
+                showAlert()
+            }else{
+                UpdateCallActivity.startActivityForResult(this, lead, UPDATE_CALL_REQUEST)
+            }
 
+        }
         binding.btnAddTask.setOnClickListener {
             AddTaskActivity.start(this)
         }
-
         binding.ivEdit.setOnClickListener(){
             if (LeadMetaData.getLeadData()?.status == "Submitted") {
-                showToast("Subitted Lead can't be edit")
-            }else {
-
+                showToast("Submitted Lead can't be edit")
+            }else if(LeadMetaData.getLeadData()?.status == "Rejected")
+            {
+                showAlert()
+            }
+            else {
                 val intent = Intent(this, CreateLeadActivity::class.java)
                 intent.putExtra("key_id", LeadMetaData.getLeadId())
                 this.startActivity(intent)
@@ -213,9 +232,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             get() = Requests.RequestFollowUp(leadId)
 
         override fun getApiSuccess(value: Response.ResponseFollowUp) {
+                  followupResponse?.clear()
 
             value.responseObj?.let { list ->
                 binding.progressBar.visibility = View.GONE
+                followupResponse = list
                 setUpRecyclerView(list)
             }
 

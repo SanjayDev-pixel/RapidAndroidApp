@@ -150,15 +150,35 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             binding.cbIsFirstProperty.isChecked = propertyModel!!.isFirstProperty
             binding.etDistanceFromBranch.setText(propertyModel.distanceFromBranch)
             binding.etDistanceFromResidence.setText(propertyModel.distanceFromExistingResidence)
-            binding.etPropertyArea.setText(propertyModel.propertyAreaSquareFt.toString())
+            if(propertyModel.propertyAreaSquareFt.toString().equals("null")){
+                binding.etPropertyArea.setText("")
+            }else {
+                binding.etPropertyArea.setText(propertyModel.propertyAreaSquareFt.toString())
+            }
             binding.etPropertyAddress.setText(propertyModel.propertyAddress)
             binding.etLandmark.setText(propertyModel.landmark)
-            binding.etNumOfTenants.setText(propertyModel.numberOfTenants.toString())
-            binding.etCashOcr.setText(propertyModel.cashOCRValue.toString())
+            if(propertyModel.numberOfTenants.toString().equals("null")){
+                binding.etNumOfTenants.setText("")
+            }else {
+                binding.etNumOfTenants.setText(propertyModel.numberOfTenants.toString())
+            }
+            if(propertyModel.cashOCRValue.toString().equals("null")){
+                binding.etCashOcr.setText("")
+            }else {
+                binding.etCashOcr.setText(propertyModel.cashOCRValue.toString())
+            }
+            if(propertyModel.ocrValue.toString().equals("null")){
+                binding.etOcr.setText("")
+            }else{
             binding.etOcr.setText(propertyModel.ocrValue.toString())
+            }
             binding.etPinCode.setText(propertyModel.pinCode)
             binding.etMvProperty.setText(propertyModel.mvOfProperty)
-            binding.etAgreementValue.setText(propertyModel.agreementValue.toString())
+            if(propertyModel.agreementValue.toString().equals("null")){
+                binding.etAgreementValue.setText("")
+            }else {
+                binding.etAgreementValue.setText(propertyModel.agreementValue.toString())
+            }
 
 
             checkSubmission()

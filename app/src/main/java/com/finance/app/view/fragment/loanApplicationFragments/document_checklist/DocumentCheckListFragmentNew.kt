@@ -104,13 +104,8 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     }
 
     private fun getSubmittedStateResponse() {
-
         presenter.callNetwork(ConstantsApi.Call_FINAL_RESPONSE, CallFinalSubmitResponse())
-
-
     }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchLeadDetails()
@@ -128,7 +123,7 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     }
 
     private fun setApplicantTabAdapter(applicantList: ArrayList<PersonalApplicantsModel>) {
-        pagerAdapterDocumentCheckList = DocumentCheckLIstPagerAdapter(fragmentManager!!, applicantList)
+        pagerAdapterDocumentCheckList = DocumentCheckLIstPagerAdapter(childFragmentManager!!, applicantList)
         binding.vpDocumentDetailForm.adapter = pagerAdapterDocumentCheckList
         binding.tabLead.setupWithViewPager(binding.vpDocumentDetailForm)
     }

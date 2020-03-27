@@ -33,4 +33,21 @@ interface AllLeadsDao {
 
     @Query("DELETE FROM AllLeadMaster")
     fun deleteAllLeadMaster()
+
+    @Query("SELECT * FROM AllLeadMaster WHERE leadID LIKE :leadID")
+    fun getAllLeadSearch(leadID: String): LiveData<List<AllLeadMaster>?>
+
+    @Query("SELECT * FROM AllLeadMaster WHERE leadID LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
+    fun getAllLeads(searchParam: String): LiveData<List<AllLeadMaster>?>
+
+    @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus AND leadID LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
+    fun getLeadsByStatus(leadStatus: String, searchParam: String): LiveData<List<AllLeadMaster>?>
+    /**
+     * Updating only status
+     * By lead id
+     */
+    @Query("UPDATE AllLeadMaster SET status = :status WHERE leadID =:id")
+    fun updateLeadStatus(status: String? , id: Int?)
+
+
 }

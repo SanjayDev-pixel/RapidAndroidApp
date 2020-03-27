@@ -26,7 +26,7 @@ import motobeans.architecture.util.exShowToast
 /**
  * Created by munishkumarthakur on 09/12/17.
  */
-open class BaseViewModel(private val activity: FragmentActivity, private val masterDB: MasterDB? = null) : ViewModel(),
+open class BaseViewModel(private  val activity: FragmentActivity, private val masterDB: MasterDB? = null) : ViewModel(),
         ReusableView {
 
     private var progressCounter = 0
