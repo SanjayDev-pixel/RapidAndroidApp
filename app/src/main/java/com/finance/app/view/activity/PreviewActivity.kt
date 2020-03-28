@@ -253,6 +253,8 @@ class PreviewActivity : BaseAppCompatActivity() {
         var isMainApplicant: Boolean?=false
         var checkEmpBankDetail_other:Boolean?=false // if
         var iskycdata : Int = 0
+        var isIncomeConsideredMaindatory:Boolean? = false
+        var maindateIncomeFlag: Boolean? =false
 
 
         if(lead?.loanData?.applicationNumber!=null )
@@ -267,6 +269,27 @@ class PreviewActivity : BaseAppCompatActivity() {
 
 
         if(lead?.personalData?.applicantDetails!!.size>0 ){
+            //condition  for applicant list size > 1 than isIncomeConsider is maindatory for at least one applicant
+            if(lead?.personalData?.applicantDetails!!.size>1){
+                for (i in 0 until lead?.personalData?.applicantDetails.size) {
+                    isIncomeConsideredMaindatory = lead?.personalData?.applicantDetails[i].incomeConsidered
+                    if(isIncomeConsideredMaindatory == true){
+                        maindateIncomeFlag = true
+                    }
+                }
+            }
+
+
+            if(lead?.personalData?.applicantDetails!!.size == 1){
+                for (i in 0 until lead?.personalData?.applicantDetails.size) {
+                    isIncomeConsideredMaindatory = lead?.personalData?.applicantDetails[i].incomeConsidered
+                    if(isIncomeConsideredMaindatory == false){
+                        errorCount++
+                        Toast.makeText(this@PreviewActivity,"Income Consider is maindatory ",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            //other conditions
             for (i in 0 until lead?.personalData?.applicantDetails.size) {
                 isIncomeConsidered= lead?.personalData?.applicantDetails[i].incomeConsidered
                 isMainApplicant= lead?.personalData?.applicantDetails[i].isMainApplicant
@@ -321,6 +344,14 @@ class PreviewActivity : BaseAppCompatActivity() {
                 Toast.makeText(this@PreviewActivity,"Please check Property Detail",Toast.LENGTH_SHORT).show()
                 errorCount++
             }
+        }
+
+        if (lead?.personalData?.applicantDetails!!.size>1){
+            if(maindateIncomeFlag==true){}else{
+                errorCount++
+                Toast.makeText(this@PreviewActivity,"Select income consider in Employment at least for one applicant.",Toast.LENGTH_SHORT).show()
+            }
+
         }
         if(errorCount==0){
             val lead: AllLeadMaster? = LeadMetaData.getLeadData()
