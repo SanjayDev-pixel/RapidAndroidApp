@@ -29,7 +29,7 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDetailDialogCallback, BankDetailAdapter.ItemClickListener {
+class BankDetailFormFragment : BaseFragment() , BankDetailDialogFragment.OnBankDetailDialogCallback , BankDetailAdapter.ItemClickListener {
     private lateinit var mContext: Context
     @Inject
     lateinit var dataBase: DataBaseUtil
@@ -56,20 +56,20 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     override fun init() {
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.fragment_bank_detail_form)
+    override fun onCreateView(inflater: LayoutInflater , container: ViewGroup? , savedInstanceState: Bundle?): View? {
+        binding = initBinding(inflater , container , R.layout.fragment_bank_detail_form)
         binding.lifecycleOwner = this
         initViews()
         LeadMetaData.getLeadData()?.let {
-            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true))
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type , true))
                 binding.imageAddBank.visibility = View.GONE
         }
         setOnClickListeners()
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
         //Now fetch data from where-ever you want....
         fetchLeadBankDetail()
         fetchSpinnersDataFromDB()
@@ -86,7 +86,7 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
 
     private fun shouldShowEmptyView() {
         selectedApplicant?.let {
-            if (it.incomeConsidered) {
+            if (it.incomeConsidered != null && it.incomeConsidered!!) {
                 binding.vwIncomeConsider.visibility = View.VISIBLE
                 binding.vwIncomeNotConsider.visibility = View.GONE
             } else {
@@ -100,16 +100,16 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     }
 
     private fun setBankDetailAdapter(bankDetailList: ArrayList<BankDetailBean>) {
-        binding.rcBank.layoutManager = LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
-        bankAdapter = BankDetailAdapter(mContext, bankDetailList)
+        binding.rcBank.layoutManager = LinearLayoutManager(mContext , RecyclerView.VERTICAL , false)
+        bankAdapter = BankDetailAdapter(mContext , bankDetailList)
         binding.rcBank.adapter = bankAdapter
         bankAdapter?.setOnItemClickListener(this)
     }
 
     private fun fetchLeadBankDetail() {
-        LeadMetaData.getLeadObservable().observe(this@BankDetailFormFragment, Observer {
+        LeadMetaData.getLeadObservable().observe(this@BankDetailFormFragment , Observer {
             it?.let { leadDetails ->
-                val selectedApplicantBankDetails = leadDetails.bankData.bankDetailList.filter { bankDetail -> bankDetail.leadApplicantNumber.equals(selectedApplicant?.leadApplicantNumber, true) }
+                val selectedApplicantBankDetails = leadDetails.bankData.bankDetailList.filter { bankDetail -> bankDetail.leadApplicantNumber.equals(selectedApplicant?.leadApplicantNumber , true) }
                 if (selectedApplicantBankDetails.isNotEmpty())
                     setBankDetailAdapter(selectedApplicantBankDetails[0].applicantBankDetailsBean)
                 else setBankDetailAdapter(ArrayList())
@@ -118,19 +118,19 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     }
 
     private fun fetchSpinnersDataFromDB() {
-        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(viewLifecycleOwner , Observer { masterDrownDownValues ->
             masterDrownDownValues?.let {
                 allMasterDropDown = it
             }
         })
     }
 
-    private fun showBankDetailFormDialog(action: BankDetailDialogFragment.Action, bankDetail: BankDetailBean? = null) {
-        allMasterDropDown?.let { BankDetailDialogFragment.newInstance(action, this@BankDetailFormFragment, it, bankDetail).show(fragmentManager, "Bank Detail") }
+    private fun showBankDetailFormDialog(action: BankDetailDialogFragment.Action , bankDetail: BankDetailBean? = null) {
+        allMasterDropDown?.let { BankDetailDialogFragment.newInstance(action , this@BankDetailFormFragment , it , bankDetail).show(fragmentManager , "Bank Detail") }
     }
 
     private fun showBankDetailConfirmDeleteDialog() {
-        val deleteDialogView = LayoutInflater.from(activity).inflate(R.layout.delete_dialog, null)
+        val deleteDialogView = LayoutInflater.from(activity).inflate(R.layout.delete_dialog , null)
         val mBuilder = AlertDialog.Builder(mContext)
                 .setView(deleteDialogView)
                 .setTitle("Delete Bank Detail")
@@ -147,9 +147,9 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
         showBankDetailConfirmDeleteDialog()
     }
 
-    override fun onBankDetailEditClicked(position: Int, bank: BankDetailBean) {
+    override fun onBankDetailEditClicked(position: Int , bank: BankDetailBean) {
         selectedBankDetailPosition = position
-        showBankDetailFormDialog(BankDetailDialogFragment.Action.EDIT, bank)
+        showBankDetailFormDialog(BankDetailDialogFragment.Action.EDIT , bank)
 //        showBankDetailFormDialog(
 //                if (leadDetails?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) BankDetailDialogFragment.Action.SUBMITTED
 //                else BankDetailDialogFragment.Action.EDIT, bank)
@@ -160,7 +160,7 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     }
 
     override fun onEditBankDetail(bankDetail: BankDetailBean) {
-        bankAdapter?.updateItem(selectedBankDetailPosition, bankDetail)
+        bankAdapter?.updateItem(selectedBankDetailPosition , bankDetail)
     }
 
     private fun onDeleteBankDetail() {
@@ -168,7 +168,7 @@ class BankDetailFormFragment : BaseFragment(), BankDetailDialogFragment.OnBankDe
     }
 
     fun isBankDetailRequiredForApplicant(): Boolean {
-        selectedApplicant?.let { applicant -> return applicant.incomeConsidered }
+        selectedApplicant?.let { applicant -> applicant.incomeConsidered?.let { return it } }
         return false
     }
 

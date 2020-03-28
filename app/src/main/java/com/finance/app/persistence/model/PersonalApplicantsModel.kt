@@ -34,6 +34,6 @@ class PersonalApplicantsModel : Serializable {
     var spouseFirstName: String? = null
     var spouseLastName: String? = null
     var spouseMiddleName: String? = null
-    var incomeConsidered: Boolean = false
+    var incomeConsidered: Boolean? = null
     var livingStandardTypeDetailId: Int? = null
 }

@@ -7,30 +7,37 @@ import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AssetLiability
 import com.finance.app.viewModel.AppDataViewModel
 
-class PreviewInnerAssetHolder(val binding: PreviewInnerLayoutAssetBinding, val mContext: Context)
-    : RecyclerView.ViewHolder(binding.root) {
+class PreviewInnerAssetHolder(val binding: PreviewInnerLayoutAssetBinding , val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindItems(list: ArrayList<AssetLiability>?, pos: Int, viewModel: AppDataViewModel) {
+    fun bindItems(list: ArrayList<AssetLiability>? , pos: Int , viewModel: AppDataViewModel) {
 
         if (!list.isNullOrEmpty()) {
-            setValueInCard(list[pos], viewModel)
+            setValueInCard(list[pos] , viewModel)
         }
     }
 
-    private fun setValueInCard(data: AssetLiability, viewModel: AppDataViewModel) {
+    private fun setValueInCard(data: AssetLiability , viewModel: AppDataViewModel) {
 
-        viewModel.getMasterDropdownNameFromId(data.assetDetailsTypeDetailID, AppEnums.DropdownMasterType.AssetDetail,
-                binding.tvAssetType)
+        viewModel.getMasterDropdownNameFromId(
+                data.assetDetailsTypeDetailID , AppEnums.DropdownMasterType.AssetDetail ,
+                binding.tvAssetType
+        )
 
-        viewModel.getMasterDropdownNameFromId(data.subTypeOfAssetTypeDetailID, AppEnums.DropdownMasterType.AssetSubType,
-                binding.tvAssetSubType)
+        viewModel.getMasterDropdownNameFromId(
+                data.subTypeOfAssetTypeDetailID , AppEnums.DropdownMasterType.AssetSubType ,
+                binding.tvAssetSubType
+        )
 
-        viewModel.getMasterDropdownNameFromId(data.ownershipTypeDetailID, AppEnums.DropdownMasterType.AssetOwnership,
-                binding.tvOwnership)
+        viewModel.getMasterDropdownNameFromId(
+                data.ownershipTypeDetailID , AppEnums.DropdownMasterType.AssetOwnership ,
+                binding.tvOwnership
+        )
 
-        viewModel.getMasterDropdownNameFromId(data.documentedProofTypeDetailID, AppEnums.DropdownMasterType.DocumentProof,
-                binding.tvDocumentProof)
+        viewModel.getMasterDropdownNameFromId(
+                data.documentedProofTypeDetailID , AppEnums.DropdownMasterType.DocumentProof ,
+                binding.tvDocumentProof
+        )
 
-        binding.tvValue.text = data.assetValue.toString()
+        data.assetValue?.let { binding.tvValue.text = it.toString() }
     }
 }

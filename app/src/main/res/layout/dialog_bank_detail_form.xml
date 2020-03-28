@@ -156,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:hint="No. of Salary Credited In 6 months"
                 android:inputType="number"
+                android:digits="123456"
                 android:maxLength="1"
                 android:minWidth="200dp"
                 android:textSize="@dimen/text_size" />

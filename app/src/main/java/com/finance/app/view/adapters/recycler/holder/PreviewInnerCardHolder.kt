@@ -7,24 +7,27 @@ import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.CardDetail
 import com.finance.app.viewModel.AppDataViewModel
 
-class PreviewInnerCardHolder(val binding: PreviewInnerLayoutCreditCardBinding, val mContext: Context)
-    : RecyclerView.ViewHolder(binding.root) {
+class PreviewInnerCardHolder(val binding: PreviewInnerLayoutCreditCardBinding , val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindItems(list: ArrayList<CardDetail>?, pos: Int, viewModel: AppDataViewModel) {
+    fun bindItems(list: ArrayList<CardDetail>? , pos: Int , viewModel: AppDataViewModel) {
 
         if (!list.isNullOrEmpty()) {
-            setValueInCard(list[pos], viewModel)
+            setValueInCard(list[pos] , viewModel)
         }
     }
 
-    private fun setValueInCard(data: CardDetail, viewModel: AppDataViewModel) {
-        binding.tvCreditCardLimit.text = data.cardLimit.toString()
-        binding.tvCurrentUtilization.text = data.currentUtilization.toString()
+    private fun setValueInCard(data: CardDetail , viewModel: AppDataViewModel) {
+        data.cardLimit?.let { binding.tvCreditCardLimit.text = it.toString() }
+        data.currentUtilization?.let { binding.tvCurrentUtilization.text = it.toString() }
         binding.tvLastPaymentDate.text = data.lastPaymentDate.toString()
 
-        viewModel.getMasterDropdownNameFromId(data.bankNameTypeDetailID, AppEnums.DropdownMasterType.BankName,
-                binding.tvBankName)
-        viewModel.getMasterDropdownNameFromId(data.obligateTypeDetail, AppEnums.DropdownMasterType.CreditCardObligation,
-                binding.tvObligate)
+        viewModel.getMasterDropdownNameFromId(
+                data.bankNameTypeDetailID , AppEnums.DropdownMasterType.BankName ,
+                binding.tvBankName
+        )
+        viewModel.getMasterDropdownNameFromId(
+                data.obligateTypeDetail , AppEnums.DropdownMasterType.CreditCardObligation ,
+                binding.tvObligate
+        )
     }
 }

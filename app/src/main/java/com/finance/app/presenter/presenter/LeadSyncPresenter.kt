@@ -23,7 +23,7 @@ import motobeans.architecture.retrofit.response.Response.ResponseGetLoanApplicat
 import javax.inject.Inject
 
 class LeadSyncPresenter(
-        private val viewOptLocalToServer: LeadSyncConnector.ViewOptLocalToServer? = null,
+        private val viewOptLocalToServer: LeadSyncConnector.ViewOptLocalToServer? = null ,
         private val viewOptServerToLocal: LeadSyncConnector.ViewOptServerToLocal? = null
 ) : LeadSyncConnector.PresenterOpt {
 
@@ -74,14 +74,14 @@ class LeadSyncPresenter(
     private fun hitApiLeadSyncLocalToServerSeparateApiHits(itemToSync: AllLeadMaster?) {
         itemToSync?.let {
             val leadRequest = LeadRequestResponseConversion()
-            val requestLoanInfo = leadRequest.getRequest(AppEnums.FormType.LOANINFO, itemToSync)
-            val requestPersonal = leadRequest.getRequest(AppEnums.FormType.PERSONALINFO, itemToSync)
-            val requestEmployment = leadRequest.getRequest(AppEnums.FormType.EMPLOYMENT, itemToSync)
-            val requestBank = leadRequest.getRequest(AppEnums.FormType.BANKDETAIL, itemToSync)
-            val requestLiabilityAndAssets = leadRequest.getRequest(AppEnums.FormType.LIABILITYASSET, itemToSync)
-            val requestProperty = leadRequest.getRequest(AppEnums.FormType.PROPERTY, itemToSync)
-            val requestReference = leadRequest.getRequest(AppEnums.FormType.REFERENCE, itemToSync)
-            val requestDocument = leadRequest.getRequest(AppEnums.FormType.DOCUMENT, itemToSync)
+            val requestLoanInfo = leadRequest.getRequest(AppEnums.FormType.LOANINFO , itemToSync)
+            val requestPersonal = leadRequest.getRequest(AppEnums.FormType.PERSONALINFO , itemToSync)
+            val requestEmployment = leadRequest.getRequest(AppEnums.FormType.EMPLOYMENT , itemToSync)
+            val requestBank = leadRequest.getRequest(AppEnums.FormType.BANKDETAIL , itemToSync)
+            val requestLiabilityAndAssets = leadRequest.getRequest(AppEnums.FormType.LIABILITYASSET , itemToSync)
+            val requestProperty = leadRequest.getRequest(AppEnums.FormType.PROPERTY , itemToSync)
+            val requestReference = leadRequest.getRequest(AppEnums.FormType.REFERENCE , itemToSync)
+            val requestDocument = leadRequest.getRequest(AppEnums.FormType.DOCUMENT , itemToSync)
 
             val observableLoanInfo = getObserverCommon(requestLoanInfo)
             val observablePersonal = getObserverCommon(requestPersonal)
@@ -91,11 +91,14 @@ class LeadSyncPresenter(
             var observableBank: Observable<ResponseGetLoanApplication>? = null
             var observableLiabilityAndAssets: Observable<ResponseGetLoanApplication>? = null
             itemToSync.personalData.applicantDetails.forEach { personalDetails ->
-                if (personalDetails.incomeConsidered) {
-                    observableEmployment = getObserverCommon(requestEmployment)
-                    observableBank = getObserverCommon(requestBank)
-                    observableLiabilityAndAssets = getObserverCommon(requestLiabilityAndAssets)
+                personalDetails.incomeConsidered?.let { incomeConsidered ->
+                    if (incomeConsidered) {
+                        observableEmployment = getObserverCommon(requestEmployment)
+                        observableBank = getObserverCommon(requestBank)
+                        observableLiabilityAndAssets = getObserverCommon(requestLiabilityAndAssets)
+                    }
                 }
+
             }
 
 
@@ -103,17 +106,17 @@ class LeadSyncPresenter(
             val observableReference = getObserverCommon(requestReference)
             val observableDocument = getObserverCommon(requestDocument)
 
-            Observable.zip(observableLoanInfo, observablePersonal, observableEmployment,
-                    observableBank, observableLiabilityAndAssets, observableProperty, observableReference,
-                    observableDocument,
-                    Function8 { responseLoanInfo: ResponseGetLoanApplication?, responsePersonal: ResponseGetLoanApplication?,
-                                responseEmployment: ResponseGetLoanApplication?, responseBank: ResponseGetLoanApplication?,
-                                responseLiabilityAndAssets: ResponseGetLoanApplication?, responseProperty: ResponseGetLoanApplication?,
-                                responseReference: ResponseGetLoanApplication?, responseDocument: ResponseGetLoanApplication? ->
+            Observable.zip(observableLoanInfo , observablePersonal , observableEmployment ,
+                    observableBank , observableLiabilityAndAssets , observableProperty , observableReference ,
+                    observableDocument ,
+                    Function8 { responseLoanInfo: ResponseGetLoanApplication? , responsePersonal: ResponseGetLoanApplication? ,
+                                responseEmployment: ResponseGetLoanApplication? , responseBank: ResponseGetLoanApplication? ,
+                                responseLiabilityAndAssets: ResponseGetLoanApplication? , responseProperty: ResponseGetLoanApplication? ,
+                                responseReference: ResponseGetLoanApplication? , responseDocument: ResponseGetLoanApplication? ->
 
                         val alResponses = listOf(
-                                responseLoanInfo, responsePersonal, responseEmployment,
-                                responseBank, responseLiabilityAndAssets, responseProperty, responseReference, responseDocument
+                                responseLoanInfo , responsePersonal , responseEmployment ,
+                                responseBank , responseLiabilityAndAssets , responseProperty , responseReference , responseDocument
                         )
                         val isValid = isAllResponsesValid(alResponses)
 
@@ -132,7 +135,7 @@ class LeadSyncPresenter(
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ result ->
                         onCreateOrderSyncSuccessfully(result)
-                    },
+                    } ,
                             { e -> apiFailure(e) })
         }
     }
@@ -167,7 +170,7 @@ class LeadSyncPresenter(
             requestApi
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ response -> onCreateOrderSyncSuccessfully(response.responseObj) },
+                    .subscribe({ response -> onCreateOrderSyncSuccessfully(response.responseObj) } ,
                             { e ->
                                 viewOptLocalToServer?.getLocalLeadSyncLocalToServerFailure(e?.message ?: "")
                             })

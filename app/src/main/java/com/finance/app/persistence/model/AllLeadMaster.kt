@@ -9,16 +9,16 @@ class AllLeadMaster : Serializable {
     @PrimaryKey
     var leadID: Int? = null
     var actualCompletionDate: String? = null
-    var applicantAddress: String? = ""
+    var applicantAddress: String? = null
     var applicantAlternativeContactNumber: String? = null
-    var applicantContactNumber: String? = ""
-    var applicantEmail: String? = ""
-    var applicantFirstName: String? = ""
-    var applicantLastName: String? = ""
-    var applicantMiddleName: String? = ""
+    var applicantContactNumber: String? = null
+    var applicantEmail: String? = null
+    var applicantFirstName: String? = null
+    var applicantLastName: String? = null
+    var applicantMiddleName: String? = null
     var branchID: String? = null
-    var createdOn: String? = ""
-    var currentStatus: String? = ""
+    var createdOn: String? = null
+    var currentStatus: String? = null
     var dsaID: String? = null
     var estimatedCompletionDate: String? = null
     var isConvertedToLoanApplication: Boolean = false
