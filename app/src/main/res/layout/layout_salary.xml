@@ -57,7 +57,8 @@
                     android:orientation="vertical"
                     app:ms_enableFloatingLabel="true"
                     app:ms_floatingLabelText="Sector *"
-                    app:ms_hint="Sector *" />
+                    app:ms_hint="Sector *"
+                    app:ms_arrowColor="@color/black"/>
 
                 <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerIndustry"
@@ -68,7 +69,8 @@
                     android:orientation="vertical"
                     app:ms_enableFloatingLabel="true"
                     app:ms_floatingLabelText="Industry *"
-                    app:ms_hint="Industry *" />
+                    app:ms_hint="Industry *"
+                    app:ms_arrowColor="@color/black"/>
 
             </LinearLayout>
 
@@ -78,7 +80,8 @@
                 android:layout_height="wrap_content"
                 app:ms_enableFloatingLabel="true"
                 app:ms_floatingLabelText="Employment Type *"
-                app:ms_hint="Employment Type *" />
+                app:ms_hint="Employment Type *"
+                app:ms_arrowColor="@color/black"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_designation"

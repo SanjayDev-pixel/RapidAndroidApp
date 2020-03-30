@@ -427,6 +427,11 @@ class FormValidationImpl : FormValidation {
             errorCount++
             binding.etAccountHolderName.error = "Account holder name can not be blank"
         }
+        val numberOfSalary:Int= binding.etSalaryCreditedInSixMonths.text.toString().toInt()
+        if(numberOfSalary>6){
+            errorCount++
+            binding.etSalaryCreditedInSixMonths.error =" Credited salary not more than six."
+        }
 
         return isValidForm(errorCount)
     }
@@ -755,12 +760,22 @@ class FormValidationImpl : FormValidation {
             else -> 0
         }
         var errorCount = spinnerError + fieldError+errorBank
+        if(bouncesIn6.exIsNotEmptyOrNullOrBlank()){
+            if (bouncesIn6.toInt() >6 ){
+                binding.etBouncesInLastSixMonths.error = "Number of check bounce not more than six."
+            }
+        }
 
         if (bouncesIn6.exIsNotEmptyOrNullOrBlank() && bouncesIn9.exIsNotEmptyOrNullOrBlank()) {
             if (binding.etBouncesInLastSixMonths?.text.toString().toInt() > binding.etBouncesInLastNineMonths?.text.toString().toInt()) {
                 errorCount++
-                binding.etBouncesInLastNineMonths.error = "Number of Emi not less than 6 months bounce emi"
+                binding.etBouncesInLastNineMonths.error = "Number of check bounce not less than six"
             }
+        }
+
+        if(tenure.toInt() < balanceTenure.toInt()){
+            errorCount++
+            binding.etBalanceTenure.error = "Balance Tenure  value is not more than Tenure Value"
         }
 
 
