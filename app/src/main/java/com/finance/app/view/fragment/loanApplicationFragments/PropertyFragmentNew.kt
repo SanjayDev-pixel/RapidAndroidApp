@@ -142,42 +142,41 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
 
 
     private fun showDataOnView(propertyModel: PropertyModel?) {
-
         if(LeadMetaData.getLeadData()?.loanData?.isPropertySelected==false){
             binding.vmpropertynotselected.visibility = View.VISIBLE
             binding.scrollviewll.visibility = View.GONE
         }else {
-            binding.cbIsFirstProperty.isChecked = propertyModel!!.isFirstProperty!!
-            binding.etDistanceFromBranch.setText(propertyModel.distanceFromBranch)
-            binding.etDistanceFromResidence.setText(propertyModel.distanceFromExistingResidence)
-            if(propertyModel.propertyAreaSquareFt.toString().equals("null")){
+            propertyModel?.isFirstProperty?.let { binding.cbIsFirstProperty.isChecked = it }
+            binding.etDistanceFromBranch.setText(propertyModel?.distanceFromBranch)
+            binding.etDistanceFromResidence.setText(propertyModel?.distanceFromExistingResidence)
+            if(propertyModel?.propertyAreaSquareFt.toString().equals("null")){
                 binding.etPropertyArea.setText("")
             }else {
-                binding.etPropertyArea.setText(propertyModel.propertyAreaSquareFt.toString())
+                binding.etPropertyArea.setText(propertyModel?.propertyAreaSquareFt.toString())
             }
-            binding.etPropertyAddress.setText(propertyModel.propertyAddress)
-            binding.etLandmark.setText(propertyModel.landmark)
-            if(propertyModel.numberOfTenants.toString().equals("null")){
+            binding.etPropertyAddress.setText(propertyModel?.propertyAddress)
+            binding.etLandmark.setText(propertyModel?.landmark)
+            if(propertyModel?.numberOfTenants.toString().equals("null")){
                 binding.etNumOfTenants.setText("")
             }else {
-                binding.etNumOfTenants.setText(propertyModel.numberOfTenants.toString())
+                binding.etNumOfTenants.setText(propertyModel?.numberOfTenants.toString())
             }
-            if(propertyModel.cashOCRValue.toString().equals("null")){
+            if(propertyModel?.cashOCRValue.toString().equals("null")){
                 binding.etCashOcr.setText("")
             }else {
-                binding.etCashOcr.setText(propertyModel.cashOCRValue.toString())
+                binding.etCashOcr.setText(propertyModel?.cashOCRValue.toString())
             }
-            if(propertyModel.ocrValue.toString().equals("null")){
+            if(propertyModel?.ocrValue.toString().equals("null")){
                 binding.etOcr.setText("")
             }else{
-            binding.etOcr.setText(propertyModel.ocrValue.toString())
+            binding.etOcr.setText(propertyModel?.ocrValue.toString())
             }
-            binding.etPinCode.setText(propertyModel.pinCode)
-            binding.etMvProperty.setText(propertyModel.mvOfProperty)
-            if(propertyModel.agreementValue.toString().equals("null")){
+            binding.etPinCode.setText(propertyModel?.pinCode)
+            binding.etMvProperty.setText(propertyModel?.mvOfProperty)
+            if(propertyModel?.agreementValue.toString().equals("null")){
                 binding.etAgreementValue.setText("")
             }else {
-                binding.etAgreementValue.setText(propertyModel.agreementValue.toString())
+                binding.etAgreementValue.setText(propertyModel?.agreementValue.toString())
             }
 
 

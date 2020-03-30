@@ -116,7 +116,6 @@ class LeadSyncPresenter(
                                 objectToReturn = itemToSync
                             }
                         }
-
                         objectToReturn
                     })
                     .subscribeOn(Schedulers.io())
@@ -127,7 +126,6 @@ class LeadSyncPresenter(
                             { e -> apiFailure(e) })
         }
     }
-
     private fun isAllResponsesValid(alResponses: List<ResponseGetLoanApplication?>): Boolean {
         var isAllResponseValid = true
         alResponses.forEach {
