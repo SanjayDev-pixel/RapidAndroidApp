@@ -2,6 +2,8 @@ package com.finance.app.view.fragment.loanApplicationFragments.employment
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -22,7 +24,6 @@ import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.utils.setSelectionFromList
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_employment_form.*
-import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.APP.KEY_APPLICANT
@@ -178,7 +179,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
 
     private fun shouldShowEmptyView() {
         selectedApplicant?.let {
-            if (it.incomeConsidered!=null && it.incomeConsidered!!) {
+            if (it.incomeConsidered != null && it.incomeConsidered!!) {
                 binding.vwIncomeConsider.visibility = View.VISIBLE
                 binding.vwIncomeNotConsider.visibility = View.GONE
             } else {
@@ -212,7 +213,10 @@ class EmploymentFormFragmentNew : BaseFragment() {
                 bindSalarySpinnersData()
                 bindCustomAddressSpinnersData()
                 //Now fetch the applicant employment data from db, if available...
-                selectedApplicant?.let { applicant -> fetchApplicantEmploymentDetails(applicant) }
+                val handler = Handler(Looper.getMainLooper())
+                handler.postDelayed({
+                    selectedApplicant?.let { applicant -> fetchApplicantEmploymentDetails(applicant) }
+                } , 1000)
             }
         })
     }
@@ -399,7 +403,8 @@ class EmploymentFormFragmentNew : BaseFragment() {
     private fun fillAddressDetails(binding: LayoutEmploymentAddressBinding , address: AddressDetail) {
         binding.etAddress.setText(address.address1)
         binding.etLandmark.setText(address.landmark)
-        binding.customZipAddressView.etCurrentPinCode.setText(address.zip.toString()) //will fetch details automatically once zip is available
+//        binding.customZipAddressView.etCurrentPinCode.setText(address.zip.toString()) //will fetch details automatically once zip is available
+        binding.customZipAddressView.updateAddressData(addressDetail = address)
     }
 
     fun isEmploymentDetailsValid(): Boolean {
