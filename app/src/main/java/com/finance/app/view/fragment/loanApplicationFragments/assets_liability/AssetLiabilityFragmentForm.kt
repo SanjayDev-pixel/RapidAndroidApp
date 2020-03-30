@@ -48,8 +48,8 @@ class AssetLiabilityFragmentForm : BaseFragment() {
         ArchitectureApp.instance.component.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.asset_liability_fragment_form)
+    override fun onCreateView(inflater: LayoutInflater , container: ViewGroup? , savedInstanceState: Bundle?): View? {
+        binding = initBinding(inflater , container , R.layout.asset_liability_fragment_form)
 
         initViews()
         setOnClickListener()
@@ -67,7 +67,7 @@ class AssetLiabilityFragmentForm : BaseFragment() {
 
     private fun shouldShowEmptyView() {
         selectedApplicant?.let {
-            if (it.incomeConsidered) {
+            if (it.incomeConsidered != null && it.incomeConsidered!!) {
                 binding.vwIncomeConsider.visibility = View.VISIBLE
                 binding.vwIncomeNotConsider.visibility = View.GONE
             } else {
@@ -80,11 +80,11 @@ class AssetLiabilityFragmentForm : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
 
         shouldShowEmptyView()
-        activity?.let { selectedApplicant?.let { applicant -> binding.customAssetView.initApplicantDetails(it, applicant) } }
+        activity?.let { selectedApplicant?.let { applicant -> binding.customAssetView.initApplicantDetails(it , applicant) } }
     }
 
     fun getAssetsAndLiability(): AssetLiabilityModel {

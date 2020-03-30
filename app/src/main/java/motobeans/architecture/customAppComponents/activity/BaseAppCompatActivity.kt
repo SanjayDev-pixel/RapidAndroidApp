@@ -56,7 +56,6 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     initializeViewBindingTemp()
   }
 
-
   private fun initializeViewBindingTemp() {
     view = bindingParent.root
     initializeOtherViews()

@@ -21,7 +21,6 @@ import com.finance.app.databinding.*
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
-import com.finance.app.utility.DisableAssetLiabilityForm
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SelectDate
 import com.finance.app.view.adapters.recycler.adapter.AssetDetailAdapter
@@ -34,14 +33,10 @@ import kotlinx.android.synthetic.main.add_assests_dialog.view.*
 import kotlinx.android.synthetic.main.add_obligation_dialog.*
 import kotlinx.android.synthetic.main.asset_creditcard_dialog.*
 import kotlinx.android.synthetic.main.delete_dialog.view.*
-import kotlinx.android.synthetic.main.layout_credit_card_details.view.*
-import kotlinx.android.synthetic.main.layout_credit_card_details.view.addcreditdilaog
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.etCreditCardLimit
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.etCurrentUtilization
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.etLastPaymentDate
-import kotlinx.android.synthetic.main.layout_credit_card_details_new.spinnerBankName
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.spinnerObligate
-import kotlinx.android.synthetic.main.layout_obligation.view.*
 import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -50,7 +45,7 @@ import motobeans.architecture.util.AppUtilExtensions
 import motobeans.architecture.util.DateUtil
 import javax.inject.Inject
 
-class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs), AssetDetailAdapter.AssetClickListener, CardDetailAdapter.CardClickListener,
+class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , attrs: AttributeSet? = null) : LinearLayout(context , attrs) , AssetDetailAdapter.AssetClickListener , CardDetailAdapter.CardClickListener ,
         ObligationAdapter.ObligationClickListener {
 
     private val TAG = this.javaClass.canonicalName
@@ -86,22 +81,21 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
     init {
         ArchitectureApp.instance.component.inject(this)
-        binding = AppUtilExtensions.initCustomViewBinding(context = context, layoutId = R.layout.layout_customview_assetliability, container = this)
+        binding = AppUtilExtensions.initCustomViewBinding(context = context , layoutId = R.layout.layout_customview_assetliability , container = this)
 
         initViews()
         setOnClickListener()
 
-        LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true)) {
-            binding.addasset.visibility = View.GONE
-            binding.layoutCreditCard.addcreditdilaog.visibility = View.GONE
-            binding.layoutObligations.addcreditdilaog.visibility = View.GONE
-        }
-            else
-        {
-            binding.addasset.visibility = View.VISIBLE
-            binding.layoutCreditCard.addcreditdilaog.visibility = View.VISIBLE
-            binding.layoutObligations.addcreditdilaog.visibility = View.VISIBLE
-        }
+        LeadMetaData.getLeadData()?.let {
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type , true)) {
+                binding.addasset.visibility = View.GONE
+                binding.layoutCreditCard.addcreditdilaog.visibility = View.GONE
+                binding.layoutObligations.addcreditdilaog.visibility = View.GONE
+            } else {
+                binding.addasset.visibility = View.VISIBLE
+                binding.layoutCreditCard.addcreditdilaog.visibility = View.VISIBLE
+                binding.layoutObligations.addcreditdilaog.visibility = View.VISIBLE
+            }
         }
 
 
@@ -142,7 +136,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
 
-    fun initApplicantDetails(fragmentActivity: FragmentActivity, applicant: PersonalApplicantsModel) {
+    fun initApplicantDetails(fragmentActivity: FragmentActivity , applicant: PersonalApplicantsModel) {
         activity = fragmentActivity
         selectedApplicant = applicant
 
@@ -151,9 +145,9 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         fetchApplicantAssetsAndLibilityDetailsById(applicant.leadApplicantNumber.toString())
     }
 
-    private fun setAssetAdapter(assets: ArrayList<AssetLiability>,allMasterDropDown: AllMasterDropDown?) {
-        binding.rcAsset.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        assetAdapter = AssetDetailAdapter(context, assets,allMasterDropDown)
+    private fun setAssetAdapter(assets: ArrayList<AssetLiability> , allMasterDropDown: AllMasterDropDown?) {
+        binding.rcAsset.layoutManager = LinearLayoutManager(context , RecyclerView.HORIZONTAL , false)
+        assetAdapter = AssetDetailAdapter(context , assets , allMasterDropDown)
         binding.rcAsset.adapter = assetAdapter
         assetAdapter?.setOnAssetClickListener(this)
 //        binding.pageIndicatorAsset.attachTo(binding.rcAsset)
@@ -174,18 +168,18 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
     }
 
-    private fun setCardDetailAdapter(cards: ArrayList<CardDetail>,allMasterDropDown: AllMasterDropDown?) {
-        binding.layoutCreditCard.rcCreditCard.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        cardDetailAdapter = CardDetailAdapter(context, cards,allMasterDropDown)
+    private fun setCardDetailAdapter(cards: ArrayList<CardDetail> , allMasterDropDown: AllMasterDropDown?) {
+        binding.layoutCreditCard.rcCreditCard.layoutManager = LinearLayoutManager(context , RecyclerView.HORIZONTAL , false)
+        cardDetailAdapter = CardDetailAdapter(context , cards , allMasterDropDown)
         binding.layoutCreditCard.rcCreditCard.adapter = cardDetailAdapter
         cardDetailAdapter?.setOnCardClickListener(this)
 //        binding.layoutCreditCard.pageIndicatorCreditCard.attachTo(binding.layoutCreditCard.rcCreditCard)
         binding.layoutCreditCard.creditcardcounter.setText(cards.size.toString())
     }
 
-    private fun setObligationAdapter(obligations: ArrayList<ObligationDetail>,allMasterDropDown: AllMasterDropDown?) {
-        binding.layoutObligations.rcObligation.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        obligationAdapter = ObligationAdapter(context, obligations,allMasterDropDown)
+    private fun setObligationAdapter(obligations: ArrayList<ObligationDetail> , allMasterDropDown: AllMasterDropDown?) {
+        binding.layoutObligations.rcObligation.layoutManager = LinearLayoutManager(context , RecyclerView.HORIZONTAL , false)
+        obligationAdapter = ObligationAdapter(context , obligations , allMasterDropDown)
         binding.layoutObligations.rcObligation.adapter = obligationAdapter
         obligationAdapter?.setOnObligationClickListener(this)
 //        binding.layoutObligations.pageIndicatorObligation.attachTo(binding.layoutObligations.rcObligation)
@@ -197,31 +191,31 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
     private fun fetchApplicantAssetsAndLibilityDetailsById(applicantNumber: String) {
 
-        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity,
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity ,
                 Observer { allMasterDropdown ->
                     allMasterDropdown?.let {
                         allMasterDropDown = it
-                        callMydata(allMasterDropdown,applicantNumber)
+                        callMydata(allMasterDropdown , applicantNumber)
                     }
                 })
 
 
     }
 
-    private fun callMydata(allMasterDropdown: AllMasterDropDown,applicantNumber:String) {
+    private fun callMydata(allMasterDropdown: AllMasterDropDown , applicantNumber: String) {
 
-        LeadMetaData.getLeadObservable().observe(activity, Observer { allLeadDetails ->
+        LeadMetaData.getLeadObservable().observe(activity , Observer { allLeadDetails ->
             allLeadDetails?.let {
-                val selectedApplicantList = it.assetLiabilityData.loanApplicationObj.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber, true) }
+                val selectedApplicantList = it.assetLiabilityData.loanApplicationObj.filter { assetsLiability -> applicantNumber.equals(assetsLiability.leadApplicantNumber , true) }
 
                 if (selectedApplicantList.isNotEmpty()) {
-                    setAssetAdapter(selectedApplicantList[0].applicantAssetDetailList,allMasterDropDown)
-                    setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList,allMasterDropDown)
-                    setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList,allMasterDropDown)
+                    setAssetAdapter(selectedApplicantList[0].applicantAssetDetailList , allMasterDropDown)
+                    setCardDetailAdapter(selectedApplicantList[0].applicantCreditCardDetailList , allMasterDropDown)
+                    setObligationAdapter(selectedApplicantList[0].applicantExistingObligationList , allMasterDropDown)
                 } else {
-                    setAssetAdapter(ArrayList(),allMasterDropDown)
-                    setCardDetailAdapter(ArrayList(),allMasterDropDown)
-                    setObligationAdapter(ArrayList(),allMasterDropDown)
+                    setAssetAdapter(ArrayList() , allMasterDropDown)
+                    setCardDetailAdapter(ArrayList() , allMasterDropDown)
+                    setObligationAdapter(ArrayList() , allMasterDropDown)
                 }
 
             }
@@ -267,14 +261,14 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
      }*/
 
-   /* private fun proceedFurther(applicant: AssetLiabilityModel?) {
+    /* private fun proceedFurther(applicant: AssetLiabilityModel?) {
 
-        fetchDropDownsFromDB()
-    }
-*/
+         fetchDropDownsFromDB()
+     }
+ */
 
     private fun fetchDropDownsFromDB() {
-        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity,
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity ,
                 Observer { allMasterDropdown ->
                     allMasterDropdown?.let {
                         allMasterDropDown = it
@@ -293,7 +287,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     // dialog for add asset
     private fun showDialogtoAddAssests() {
 
-        val binding = DataBindingUtil.inflate<AddAssestsDialogBinding>(LayoutInflater.from(context), R.layout.add_assests_dialog, null, false)
+        val binding = DataBindingUtil.inflate<AddAssestsDialogBinding>(LayoutInflater.from(context) , R.layout.add_assests_dialog , null , false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
                 .setCancelable(false)
@@ -303,10 +297,10 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             addAssestsDialog?.dismiss()
         }
 
-        addAssestsDialog?.spinnerAssetType?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.AssetDetail!!)
-        addAssestsDialog?.spinnerAssetSubType?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.AssetSubType!!)
-        addAssestsDialog?.spinnerOwnership?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.AssetOwnership!!)
-        addAssestsDialog?.spinnerDocumentProof?.adapter = MasterSpinnerAdapter(context, allMasterDropDown!!.DocumentProof!!)
+        addAssestsDialog?.spinnerAssetType?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.AssetDetail!!)
+        addAssestsDialog?.spinnerAssetSubType?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.AssetSubType!!)
+        addAssestsDialog?.spinnerOwnership?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.AssetOwnership!!)
+        addAssestsDialog?.spinnerDocumentProof?.adapter = MasterSpinnerAdapter(context , allMasterDropDown!!.DocumentProof!!)
 
         addAssestsDialog?.btnAddAsset?.setOnClickListener() {
             if (formValidation.validateAssetsDialog(binding)) {
@@ -321,7 +315,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentAsset.ownershipTypeDetailID = ownership?.typeDetailID
                 currentAsset.documentedProofTypeDetailID = documentProof?.typeDetailID
 
-                assetAdapter?.addItem(currentPosition, currentAsset)
+                assetAdapter?.addItem(currentPosition , currentAsset)
                 addAssestsDialog?.dismiss()
                 setAssetCounter(assetAdapter?.getItemList())
                 showAssetRecyclerView("asset")
@@ -329,7 +323,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
             } else {
                 //showToast(getString(R.string.validation_error))
-                Toast.makeText(context, context.getString(R.string.validation_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , context.getString(R.string.validation_error) , Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -339,7 +333,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
     //add obligation Detail
     private fun showDialogtoAddObligation() {
-        val binding = DataBindingUtil.inflate<AddObligationDialogBinding>(LayoutInflater.from(context), R.layout.add_obligation_dialog, null, false)
+        val binding = DataBindingUtil.inflate<AddObligationDialogBinding>(LayoutInflater.from(context) , R.layout.add_obligation_dialog , null , false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
                 .setCancelable(false)
@@ -351,21 +345,21 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
         }
 
-        addObligationDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.Obligate!!)
-        addObligationDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.Obligate!!)
-        addObligationDialog?.spinnerLoanOwnership?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.LoanOwnership!!)
-        addObligationDialog?.spinnerLoanType?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.LoanType!!)
-       // addObligationDialog?.spinnerRepaymentBank?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.RepaymentBank!!)
-        addObligationDialog?.spinnerEmiPaidInSameMonth?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BounceEmiPaidInSameMonth!!)
+        addObligationDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.Obligate!!)
+        addObligationDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.Obligate!!)
+        addObligationDialog?.spinnerLoanOwnership?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.LoanOwnership!!)
+        addObligationDialog?.spinnerLoanType?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.LoanType!!)
+        // addObligationDialog?.spinnerRepaymentBank?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.RepaymentBank!!)
+        addObligationDialog?.spinnerEmiPaidInSameMonth?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.BounceEmiPaidInSameMonth!!)
 
-        val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, allMasterDropDown?.RepaymentBank!!)
+        val adapter = ArrayAdapter(context!! , android.R.layout.simple_list_item_1 , allMasterDropDown?.RepaymentBank!!)
         addObligationDialog?.spinnerRepaymentBank?.setAdapter(adapter)
-        addObligationDialog?.spinnerRepaymentBank?.setOnItemClickListener { parent, view, position, id ->
+        addObligationDialog?.spinnerRepaymentBank?.setOnItemClickListener { parent , view , position , id ->
             addObligationDialog?.spinnerRepaymentBank?.tag = parent.getItemAtPosition(position) as DropdownMaster
         }
 
         addObligationDialog?.etDisbursementDate?.setOnClickListener() {
-            SelectDate(addObligationDialog?.etDisbursementDate!!, context)
+            SelectDate(addObligationDialog?.etDisbursementDate!! , context)
         }
 
         addObligationDialog?.cancel_bttn?.setOnClickListener() {
@@ -376,7 +370,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
 
             if (formValidation.validateObligationDialog(binding)) {
-                val dateUtil:DateUtil= DateUtil()
+                val dateUtil: DateUtil = DateUtil()
                 val currentObligation = ObligationDetail()
                 val loanOwnership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
                 val obligate = addObligationDialog?.spinnerObligate?.selectedItem as DropdownMaster?
@@ -396,9 +390,9 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentObligation.loanTypeTypeDetailID = loanType?.typeDetailID
                 currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
                 currentObligation.bounseEmiPaidInSameMonth = emiPaidInSameMonth?.typeDetailID
-                currentObligation.loanDisbursementDate= dateUtil.getFormattedDate( DateUtil.dateFormattingType.TYPE_NORMAL_1,DateUtil.dateFormattingType.TYPE_API_REQUEST_2 ,addObligationDialog!!.etDisbursementDate?.text.toString())
+                currentObligation.loanDisbursementDate = dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1 , DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , addObligationDialog!!.etDisbursementDate?.text.toString())
 
-                obligationAdapter?.addItem(currentPosition, currentObligation)
+                obligationAdapter?.addItem(currentPosition , currentObligation)
                 addObligationDialog?.dismiss()
                 setObligationCounter(obligationAdapter?.getItemList())
                 showAssetRecyclerView("obligation")
@@ -407,14 +401,14 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             } else {
 
                 //showToast(context.getString(R.string.validation_error))
-                Toast.makeText(context, context.getString(R.string.validation_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , context.getString(R.string.validation_error) , Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     // diaolog for credit card
     private fun showDialogtoAddCreditCard() {
-        val binding = DataBindingUtil.inflate<AssetCreditcardDialogBinding>(LayoutInflater.from(context), R.layout.asset_creditcard_dialog, null, false)
+        val binding = DataBindingUtil.inflate<AssetCreditcardDialogBinding>(LayoutInflater.from(context) , R.layout.asset_creditcard_dialog , null , false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
                 .setCancelable(false)
@@ -426,16 +420,16 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
         //addCreditCardDialog?.spinnerBankName?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BankName!!)
 
-        val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, allMasterDropDown?.BankName!!)
+        val adapter = ArrayAdapter(context!! , android.R.layout.simple_list_item_1 , allMasterDropDown?.BankName!!)
         binding.spinnerBankName.setAdapter(adapter)
-        binding.spinnerBankName.setOnItemClickListener { parent, view, position, id ->
+        binding.spinnerBankName.setOnItemClickListener { parent , view , position , id ->
             binding.spinnerBankName.tag = parent.getItemAtPosition(position) as DropdownMaster
         }
 
 
-        addCreditCardDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.CreditCardObligation!!)
+        addCreditCardDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.CreditCardObligation!!)
         addCreditCardDialog?.etLastPaymentDate?.setOnClickListener {
-            SelectDate(addCreditCardDialog?.etLastPaymentDate!!, context)
+            SelectDate(addCreditCardDialog?.etLastPaymentDate!! , context)
         }
 
         addCreditCardDialog?.btnAddcrdetail?.setOnClickListener() {
@@ -444,21 +438,21 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 val mydate: DateUtil = DateUtil()
                 val currentCard = CardDetail()
                 //val bankName = addCreditCardDialog?.spinnerBankName?.selectedItem as DropdownMaster?
-                val bankName =  binding?.spinnerBankName?.tag as DropdownMaster?
+                val bankName = binding?.spinnerBankName?.tag as DropdownMaster?
                 val obligate = addCreditCardDialog?.spinnerObligate?.selectedItem as DropdownMaster?
-                currentCard.lastPaymentDate = mydate.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1, DateUtil.dateFormattingType.TYPE_API_REQUEST_2, addCreditCardDialog?.etLastPaymentDate?.text.toString()) //addCreditCardDialog?.etLastPaymentDate?.text.toString()
+                currentCard.lastPaymentDate = mydate.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1 , DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , addCreditCardDialog?.etLastPaymentDate?.text.toString()) //addCreditCardDialog?.etLastPaymentDate?.text.toString()
                 currentCard.cardLimit = addCreditCardDialog?.etCreditCardLimit!!.text.toString().toInt()
                 currentCard.currentUtilization = addCreditCardDialog?.etCurrentUtilization!!.text.toString().toInt()
                 currentCard.bankNameTypeDetailID = bankName?.typeDetailID
                 currentCard.obligateTypeDetail = obligate?.typeDetailID
 
-                cardDetailAdapter?.addItem(currentPosition, currentCard)
+                cardDetailAdapter?.addItem(currentPosition , currentCard)
                 addCreditCardDialog?.dismiss()
                 setCreditCardCounter(cardDetailAdapter?.getItemList())
                 showAssetRecyclerView("card")
 
             } else {
-                Toast.makeText(context, context.getString(R.string.validation_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , context.getString(R.string.validation_error) , Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -469,7 +463,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             binding.layoutCreditCard.rcCreditCard.visibility = View.VISIBLE
 
             binding.rcAsset.visibility = View.GONE
-             binding.layoutObligations.rcObligation.visibility = View.GONE
+            binding.layoutObligations.rcObligation.visibility = View.GONE
 
         }
 
@@ -521,29 +515,29 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
 
-    override fun onAssetEditClicked(position: Int, asset: AssetLiability) {
+    override fun onAssetEditClicked(position: Int , asset: AssetLiability) {
 
-        showDialogtoEditAssests(position, asset)
+        showDialogtoEditAssests(position , asset)
     }
 
-    override fun onCardDetailEditClicked(position: Int, card: CardDetail) {
-        showDialogEditCreditCard(position, card)
+    override fun onCardDetailEditClicked(position: Int , card: CardDetail) {
+        showDialogEditCreditCard(position , card)
     }
 
-    override fun onObligationEditNewClick(position: Int, obligation: ObligationDetail) {
-        showDialogToEditObligation(position, obligation)
+    override fun onObligationEditNewClick(position: Int , obligation: ObligationDetail) {
+        showDialogToEditObligation(position , obligation)
     }
 
 
-    override fun onAssetDeleteClicked(position: Int) = showAlertDialog(position, ASSET)
+    override fun onAssetDeleteClicked(position: Int) = showAlertDialog(position , ASSET)
 
-    override fun onObligationDeleteClicked(position: Int) = showAlertDialog(position, OBLIGATION)
+    override fun onObligationDeleteClicked(position: Int) = showAlertDialog(position , OBLIGATION)
 
-    override fun onCardDetailDeleteClicked(position: Int) = showAlertDialog(position, CARD)
+    override fun onCardDetailDeleteClicked(position: Int) = showAlertDialog(position , CARD)
 
 
-    private fun showAlertDialog(position: Int, formType: Int) {
-        val deleteDialogView = LayoutInflater.from(context).inflate(R.layout.delete_dialog, null)
+    private fun showAlertDialog(position: Int , formType: Int) {
+        val deleteDialogView = LayoutInflater.from(context).inflate(R.layout.delete_dialog , null)
         val mBuilder = android.app.AlertDialog.Builder(context)
                 .setView(deleteDialogView)
                 .setTitle("Delete Detail")
@@ -577,10 +571,10 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
     //not in use further remove
-    override fun onObligationEditClicked(position: Int, obligation: ObligationDetail) {
+    override fun onObligationEditClicked(position: Int , obligation: ObligationDetail) {
 
 
-        obligationItemDetailDialogView = LayoutInflater.from(context).inflate(R.layout.obligation_item_dialog, null)
+        obligationItemDetailDialogView = LayoutInflater.from(context).inflate(R.layout.obligation_item_dialog , null)
         val mBuilder = androidx.appcompat.app.AlertDialog.Builder(context)
                 .setView(obligationItemDetailDialogView)
                 .setCancelable(true)
@@ -597,8 +591,8 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         obligationItemDetailDialog.tvLoanAcNum.setText(obligation.loanAccountNumber)
         obligationItemDetailDialog.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
         obligationItemDetailDialog.tvLoanAmount.setText(obligation.loanAmount.toString())
-        val dateUtil:DateUtil= DateUtil()
-        obligationItemDetailDialog.tvDisbursementDate.setText(dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2,DateUtil.dateFormattingType.TYPE_NORMAL_1,obligation.loanDisbursementDate))
+        val dateUtil: DateUtil = DateUtil()
+        obligationItemDetailDialog.tvDisbursementDate.setText(dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , DateUtil.dateFormattingType.TYPE_NORMAL_1 , obligation.loanDisbursementDate))
 
 
 
@@ -641,7 +635,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
 
-    private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
+    private fun selectMasterDropdownValue(spinner: Spinner , id: Int?) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
             if (obj.typeDetailID == id) {
@@ -652,10 +646,9 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
 
-
     //edit asset item
-    private fun showDialogtoEditAssests(position: Int, asset: AssetLiability) {
-        val binding = DataBindingUtil.inflate<AddAssestsDialogBinding>(LayoutInflater.from(context), R.layout.add_assests_dialog, null, false)
+    private fun showDialogtoEditAssests(position: Int , asset: AssetLiability) {
+        val binding = DataBindingUtil.inflate<AddAssestsDialogBinding>(LayoutInflater.from(context) , R.layout.add_assests_dialog , null , false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
                 .setCancelable(true)
@@ -665,16 +658,16 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             addAssestsDialog?.dismiss()
         }
 
-        binding?.spinnerAssetType?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.AssetDetail!!)
-        binding?.spinnerAssetSubType?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.AssetSubType!!)
-        binding?.spinnerOwnership?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.AssetOwnership!!)
-        binding?.spinnerDocumentProof?.adapter = MasterSpinnerAdapter(context, allMasterDropDown!!.DocumentProof!!)
+        binding?.spinnerAssetType?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.AssetDetail!!)
+        binding?.spinnerAssetSubType?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.AssetSubType!!)
+        binding?.spinnerOwnership?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.AssetOwnership!!)
+        binding?.spinnerDocumentProof?.adapter = MasterSpinnerAdapter(context , allMasterDropDown!!.DocumentProof!!)
 
-        selectMasterDropdownValue(binding.spinnerAssetType, asset.assetDetailsTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerAssetSubType, asset.subTypeOfAssetTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerOwnership, asset.ownershipTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerDocumentProof, asset.documentedProofTypeDetailID)
-        binding.etValue.setText(asset.assetValue.toString())
+        selectMasterDropdownValue(binding.spinnerAssetType , asset.assetDetailsTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerAssetSubType , asset.subTypeOfAssetTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerOwnership , asset.ownershipTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerDocumentProof , asset.documentedProofTypeDetailID)
+        asset.assetValue?.let { binding.etValue.setText(it.toString()) }
         binding.btnAddAsset.setText(R.string.edit)
 
 
@@ -691,21 +684,21 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentAsset.ownershipTypeDetailID = ownership?.typeDetailID
                 currentAsset.documentedProofTypeDetailID = documentProof?.typeDetailID
 
-                assetAdapter?.updateItem(position, currentAsset)
+                assetAdapter?.updateItem(position , currentAsset)
                 addAssestsDialog?.dismiss()
                 assetAdapter?.notifyDataSetChanged()
 
 
             } else {
                 //showToast(getString(R.string.validation_error))
-                Toast.makeText(context, context.getString(R.string.validation_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , context.getString(R.string.validation_error) , Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     //edit credit card item
-    private fun showDialogEditCreditCard(position: Int, card: CardDetail) {
-        val binding = DataBindingUtil.inflate<AssetCreditcardDialogBinding>(LayoutInflater.from(context), R.layout.asset_creditcard_dialog, null, false)
+    private fun showDialogEditCreditCard(position: Int , card: CardDetail) {
+        val binding = DataBindingUtil.inflate<AssetCreditcardDialogBinding>(LayoutInflater.from(context) , R.layout.asset_creditcard_dialog , null , false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
                 .setCancelable(true)
@@ -715,59 +708,60 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             addCreditCardDialog?.dismiss()
         }
         val dateUtils: DateUtil = DateUtil()
-       // addCreditCardDialog?.spinnerBankName?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BankName!!)
-        val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, allMasterDropDown?.BankName!!)
+        // addCreditCardDialog?.spinnerBankName?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BankName!!)
+        val adapter = ArrayAdapter(context!! , android.R.layout.simple_list_item_1 , allMasterDropDown?.BankName!!)
         binding.spinnerBankName.setAdapter(adapter)
-        binding.spinnerBankName.setOnItemClickListener { parent, view, position, id ->
+        binding.spinnerBankName.setOnItemClickListener { parent , view , position , id ->
             binding.spinnerBankName.tag = parent.getItemAtPosition(position) as DropdownMaster
         }
-        allMasterDropDown?.BankName?.forEachIndexed { index, dropdownMaster ->
+        allMasterDropDown?.BankName?.forEachIndexed { index , dropdownMaster ->
             if (dropdownMaster.typeDetailID == card.bankNameTypeDetailID) {
-                (binding.spinnerBankName.setText(dropdownMaster.typeDetailDisplayText.toString(), false))
+                (binding.spinnerBankName.setText(dropdownMaster.typeDetailDisplayText.toString() , false))
                 binding.spinnerBankName.tag = dropdownMaster
                 return@forEachIndexed
             }
         }
 
-        addCreditCardDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.CreditCardObligation!!)
-       //  selectMasterDropdownValue(binding.spinnerBankName, card.bankNameTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerObligate, card.obligateTypeDetail)
-        binding.etCreditCardLimit.setText(card.cardLimit.toString())
-        binding.etCurrentUtilization.setText(card.currentUtilization.toString())
-        binding.etLastPaymentDate.setText(dateUtils.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2, DateUtil.dateFormattingType.TYPE_NORMAL_1, card.lastPaymentDate.toString())
+        addCreditCardDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.CreditCardObligation!!)
+        //  selectMasterDropdownValue(binding.spinnerBankName, card.bankNameTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerObligate , card.obligateTypeDetail)
+        card.cardLimit?.let { binding.etCreditCardLimit.setText(it.toString()) }
+        card.currentUtilization?.let { binding.etCurrentUtilization.setText(it.toString()) }
+        binding.etLastPaymentDate.setText(
+                dateUtils.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , DateUtil.dateFormattingType.TYPE_NORMAL_1 , card.lastPaymentDate.toString())
         )
         binding.btnAddcrdetail.setText(R.string.edit)
 
 
 
         addCreditCardDialog?.etLastPaymentDate?.setOnClickListener {
-            SelectDate(addCreditCardDialog?.etLastPaymentDate!!, context)
+            SelectDate(addCreditCardDialog?.etLastPaymentDate!! , context)
         }
 
         addCreditCardDialog?.btnAddcrdetail?.setOnClickListener() {
 
             if (formValidation.validateCardsDialog(binding)) {
-                var mydate:DateUtil= DateUtil()
+                var mydate: DateUtil = DateUtil()
                 val currentCard = CardDetail()
-              //  val bankName = addCreditCardDialog?.spinnerBankName?.selectedItem as DropdownMaster?
+                //  val bankName = addCreditCardDialog?.spinnerBankName?.selectedItem as DropdownMaster?
 
                 //For Auto complete view..
                 val bankName = binding?.spinnerBankName?.tag as DropdownMaster?
                 val obligate = addCreditCardDialog?.spinnerObligate?.selectedItem as DropdownMaster?
-                currentCard.lastPaymentDate = mydate.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1, DateUtil.dateFormattingType.TYPE_API_REQUEST_2, addCreditCardDialog?.etLastPaymentDate?.text.toString())//addCreditCardDialog?.etLastPaymentDate?.text.toString()
+                currentCard.lastPaymentDate = mydate.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1 , DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , addCreditCardDialog?.etLastPaymentDate?.text.toString())//addCreditCardDialog?.etLastPaymentDate?.text.toString()
                 currentCard.cardLimit = addCreditCardDialog?.etCreditCardLimit!!.text.toString().toInt()
                 currentCard.currentUtilization = addCreditCardDialog?.etCurrentUtilization!!.text.toString().toInt()
                 currentCard.bankNameTypeDetailID = bankName?.typeDetailID
                 currentCard.obligateTypeDetail = obligate?.typeDetailID
 
 
-                cardDetailAdapter?.updateItem(position, currentCard)
+                cardDetailAdapter?.updateItem(position , currentCard)
                 addCreditCardDialog?.dismiss()
                 cardDetailAdapter?.notifyDataSetChanged()
 
 
             } else {
-                Toast.makeText(context, context.getString(R.string.validation_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , context.getString(R.string.validation_error) , Toast.LENGTH_SHORT).show()
             }
 
 
@@ -775,46 +769,47 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
     }
 
     //edit obligation item
-    private fun showDialogToEditObligation(position: Int, obligation: ObligationDetail) {
+    private fun showDialogToEditObligation(position: Int , obligation: ObligationDetail) {
 
-        val binding = DataBindingUtil.inflate<AddObligationDialogBinding>(LayoutInflater.from(context), R.layout.add_obligation_dialog, null, false)
+        val binding = DataBindingUtil.inflate<AddObligationDialogBinding>(LayoutInflater.from(context) , R.layout.add_obligation_dialog , null , false)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(binding.root)
                 .setCancelable(true)
 
         addObligationDialog = mBuilder.show()
-        addObligationDialog?.cancel_bttn?.setOnClickListener() { addObligationDialog?.dismiss()
+        addObligationDialog?.cancel_bttn?.setOnClickListener() {
+            addObligationDialog?.dismiss()
 
         }
 
-        addObligationDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.Obligate!!)
-        addObligationDialog?.spinnerLoanOwnership?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.LoanOwnership!!)
-        addObligationDialog?.spinnerLoanType?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.LoanType!!)
-       // addObligationDialog?.spinnerRepaymentBank?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.RepaymentBank!!)
-        addObligationDialog?.spinnerEmiPaidInSameMonth?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.BounceEmiPaidInSameMonth!!)
-        val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, allMasterDropDown?.RepaymentBank!!)
+        addObligationDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.Obligate!!)
+        addObligationDialog?.spinnerLoanOwnership?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.LoanOwnership!!)
+        addObligationDialog?.spinnerLoanType?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.LoanType!!)
+        // addObligationDialog?.spinnerRepaymentBank?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.RepaymentBank!!)
+        addObligationDialog?.spinnerEmiPaidInSameMonth?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.BounceEmiPaidInSameMonth!!)
+        val adapter = ArrayAdapter(context!! , android.R.layout.simple_list_item_1 , allMasterDropDown?.RepaymentBank!!)
         addObligationDialog?.spinnerRepaymentBank?.setAdapter(adapter)
-        addObligationDialog?.spinnerRepaymentBank?.setOnItemClickListener { parent, view, position, id ->
+        addObligationDialog?.spinnerRepaymentBank?.setOnItemClickListener { parent , view , position , id ->
             addObligationDialog?.spinnerRepaymentBank?.tag = parent.getItemAtPosition(position) as DropdownMaster
         }
 
 
-        allMasterDropDown?.RepaymentBank?.forEachIndexed { index, dropdownMaster ->
+        allMasterDropDown?.RepaymentBank?.forEachIndexed { index , dropdownMaster ->
             if (dropdownMaster.typeDetailID == obligation.repaymentBankTypeDetailID) {
-                (binding.spinnerRepaymentBank.setText(dropdownMaster.typeDetailDisplayText.toString(), false))
+                (binding.spinnerRepaymentBank.setText(dropdownMaster.typeDetailDisplayText.toString() , false))
                 binding.spinnerRepaymentBank.tag = dropdownMaster
                 dropdownMaster
                 return@forEachIndexed
             }
         }
 
-        val dateUtil:DateUtil= DateUtil()
+        val dateUtil: DateUtil = DateUtil()
 
-        selectMasterDropdownValue(binding!!.spinnerObligate, obligation.obligateTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerLoanOwnership, obligation.loanOwnershipTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerLoanType, obligation.loanTypeTypeDetailID)
+        selectMasterDropdownValue(binding!!.spinnerObligate , obligation.obligateTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerLoanOwnership , obligation.loanOwnershipTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerLoanType , obligation.loanTypeTypeDetailID)
         //selectMasterDropdownValue(binding.spinnerRepaymentBank, obligation.repaymentBankTypeDetailID)
-        selectMasterDropdownValue(binding.spinnerEmiPaidInSameMonth, obligation.bounseEmiPaidInSameMonth)
+        selectMasterDropdownValue(binding.spinnerEmiPaidInSameMonth , obligation.bounseEmiPaidInSameMonth)
 
         binding.etLoanAmount.setText(obligation.loanAmount.toString())
         binding.etFinancierName.setText(obligation.financerName.toString())
@@ -825,14 +820,14 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
         binding.etEmiAmount.setText(obligation.emiAmount.toString())
         binding.etBouncesInLastSixMonths.setText((obligation.numberOfBouncesInLastSixMonth.toString()))
         binding.etBouncesInLastNineMonths.setText((obligation.numberOfBouncesInLastNineMonth.toString()))
-         binding.etDisbursementDate.setText(dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2,DateUtil.dateFormattingType.TYPE_NORMAL_1 ,obligation.loanDisbursementDate))
+        binding.etDisbursementDate.setText(dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , DateUtil.dateFormattingType.TYPE_NORMAL_1 , obligation.loanDisbursementDate))
         binding.btnAddObligation.setText(R.string.edit)
 
 
 
 
         addObligationDialog?.etDisbursementDate?.setOnClickListener() {
-            SelectDate(addObligationDialog?.etDisbursementDate!!, context)
+            SelectDate(addObligationDialog?.etDisbursementDate!! , context)
         }
 
         addObligationDialog?.cancel_bttn?.setOnClickListener() {
@@ -843,7 +838,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
 
 
             if (formValidation.validateObligationDialog(binding)) {
-              val dateUtil:DateUtil= DateUtil()
+                val dateUtil: DateUtil = DateUtil()
                 val currentObligation = ObligationDetail()
                 val loanOwnership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
                 val obligate = addObligationDialog?.spinnerObligate?.selectedItem as DropdownMaster?
@@ -863,9 +858,9 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
                 currentObligation.loanTypeTypeDetailID = loanType?.typeDetailID
                 currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
                 currentObligation.bounseEmiPaidInSameMonth = emiPaidInSameMonth?.typeDetailID
-                currentObligation.loanDisbursementDate= dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1,DateUtil.dateFormattingType.TYPE_API_REQUEST_2,addObligationDialog!!.etDisbursementDate.text.toString())
+                currentObligation.loanDisbursementDate = dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1 , DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , addObligationDialog!!.etDisbursementDate.text.toString())
 
-                obligationAdapter?.updateItem(position, currentObligation)
+                obligationAdapter?.updateItem(position , currentObligation)
                 addObligationDialog?.dismiss()
                 obligationAdapter?.notifyDataSetChanged()
 
@@ -873,7 +868,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context, a
             } else {
 
                 //showToast(context.getString(R.string.validation_error))
-                Toast.makeText(context, context.getString(R.string.validation_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context , context.getString(R.string.validation_error) , Toast.LENGTH_SHORT).show()
             }
         }
 

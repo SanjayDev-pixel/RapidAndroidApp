@@ -5,17 +5,13 @@ import java.io.Serializable
 class ReferenceModel : Serializable {
 
     var addressBean: ReferenceAddressDetail? = ReferenceAddressDetail()
-    var applicantReferenceDetailID: Int? = null
-    var contactNumber: String? = ""
-    var name: String? = ""
-    var knowSince: String? = ""
-    var address: String? = ""
-    var serialNumber: Int = 0
-    var applicantID: Int? = null
-    var relationTypeDetailID: Int? = 0
-    var occupationTypeDetailID: Int? = 0
+    var contactNumber: String? = null
+    var name: String? = null
+    var knowSince: String? = null
+    var address: String? = null
+    var relationTypeDetailID: Int? = null
+    var occupationTypeDetailID: Int? = null
     var relationTypeName: String? = null
     var occupationTypeName: String? = null
-    var active: Boolean? = true
 
 }

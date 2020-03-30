@@ -4,12 +4,11 @@ import java.io.Serializable
 
 class EmploymentApplicantsModel : Serializable {
     var addressBean: AddressDetail? = null
-    var allEarningMembers = false
-    var applicantID: Int? = null
+    var allEarningMembers: Boolean? = null
     var businessSetupTypeDetailID: Int? = null
     var businessVinatgeInYear: Int? = null
     var companyName: String? = null
-    var isMainApplicant = false
+    var isMainApplicant: Boolean? = false
     var constitutionTypeDetailID: Int? = null
     var dateOfIncorporation: String? = null
     var dateOfJoining: String? = null
@@ -18,12 +17,10 @@ class EmploymentApplicantsModel : Serializable {
     var gstRegistration: String? = null
     var industryTypeDetailID: Int? = null
     var loanApplicationID: Int? = null
-    var occupationDetailID: Int? = null
-    var occupationalDetailID: Int? = null
     var officialMailID: String? = null
     var leadApplicantNumber: String? = null
-    var incomeConsidered: Boolean = false
-    var isPensioner: Boolean = false
+    var incomeConsidered: Boolean? = null
+    var isPensioner: Boolean? = null
     var profileSegmentTypeDetailID: Int? = null
     var retirementAge: Int? = null
     var sectorTypeDetailID: Int? = null

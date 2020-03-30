@@ -9,5 +9,5 @@ class DocumentCheckList : Serializable {
     var productName : String ? = null
     var checklistDetails : ArrayList<DocumentCheckListDetailModel> =  ArrayList()
     var isMainApplicant: Boolean = false
-    var leadApplicantNumber: String? = ""
+    var leadApplicantNumber: String? = null
 }
