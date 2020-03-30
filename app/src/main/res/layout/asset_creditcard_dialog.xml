@@ -129,7 +129,8 @@
         app:ms_hintColor="@color/hint_color"
         app:ms_hintTextSize="@dimen/hint_size"
         app:ms_multiline="false"
-        android:layout_marginTop="@dimen/margin20dp"/>
+        android:layout_marginTop="@dimen/margin20dp"
+        android:theme="@style/MatchSpinnerTheme"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout_last_payment_date"
