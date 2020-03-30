@@ -126,7 +126,6 @@ class LeadSyncPresenter(
                             { e -> apiFailure(e) })
         }
     }
-
     private fun isAllResponsesValid(alResponses: List<ResponseGetLoanApplication?>): Boolean {
         var isAllResponseValid = true
         alResponses.forEach {
