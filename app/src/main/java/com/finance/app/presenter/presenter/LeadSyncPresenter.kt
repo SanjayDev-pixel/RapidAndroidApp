@@ -128,7 +128,6 @@ class LeadSyncPresenter(
                                 objectToReturn = itemToSync
                             }
                         }
-
                         objectToReturn
                     })
                     .subscribeOn(Schedulers.io())
