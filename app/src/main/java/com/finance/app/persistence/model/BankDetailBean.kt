@@ -4,21 +4,14 @@ import java.io.Serializable
 import java.text.DecimalFormat
 
 class BankDetailBean : Serializable {
-    var accountHolderName: String? = ""
-    var accountNumber: String? = ""
+    var accountHolderName: String? = null
+    var accountNumber: String? = null
     var accountTypeDetailID: Int? = null
-    var accountTypeName: String? = ""
-    var active: Boolean = true
-    var applicantBankTransectionList: Any? = null
-    var applicantID: Int? = 0
-    var bankDetailID: Int? = null
-    var bankName: String? = ""
+    var accountTypeName: String? = null
+    var bankName: String? = null
     var bankNameTypeDetailID: Int? = null
-    var bankStatementProof: String? = ""
-    var firstName: String? = ""
-    var loanApplicationID: Int? = 0
-    var numberOfCredit: String? = ""
-    var numberOfDebit: Int? = 0
+    var firstName: String? = null
+    var loanApplicationID: Int? = null
+    var numberOfCredit: String? = null
     var salaryCreditTypeDetailID: Int? = null
-    var transection: Int? = null
 }

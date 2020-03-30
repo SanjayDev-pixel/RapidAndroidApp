@@ -4,9 +4,8 @@ import java.io.Serializable
 
 class LoanApplicationRequest : Serializable {
 
-    var draftData: String = ""
+    var draftData: String? = null
     var editable: Boolean? = null
-    var leadID: Int = 0
-    var loanApplictionDraftDetailID: Int? = null
+    var leadID: Int? = null
     var storageType: String? = null
 }

@@ -1,8 +1,6 @@
 package com.finance.app.view.fragment.loanApplicationFragments
 
 import android.os.Bundle
-import android.text.InputFilter
-import android.text.InputFilter.LengthFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,8 +46,8 @@ class LoanInfoFragmentNew : BaseFragment() {
         fun newInstance(): LoanInfoFragmentNew = LoanInfoFragmentNew()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = initBinding(inflater, container, R.layout.fragment_loan_information)
+    override fun onCreateView(inflater: LayoutInflater , container: ViewGroup? , savedInstanceState: Bundle?): View? {
+        binding = initBinding(inflater , container , R.layout.fragment_loan_information)
         binding.lifecycleOwner = this
         init()
         return view
@@ -60,7 +58,7 @@ class LoanInfoFragmentNew : BaseFragment() {
 
         ArchitectureApp.instance.component.inject(this)
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
-        appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
+        appDataViewModel = ViewModelProviders.of(activity!! , viewModelFactory).get(AppDataViewModel::class.java)
         SetLoanInfoMandatoryField(binding)
 
         //Fetch lead details from database..
@@ -68,7 +66,7 @@ class LoanInfoFragmentNew : BaseFragment() {
     }
 
     private fun fetchLeadDetails() {
-        LeadMetaData.getLeadObservable().observe(this, Observer { leadDetails ->
+        LeadMetaData.getLeadObservable().observe(this , Observer { leadDetails ->
             leadDetails?.let {
                 this@LoanInfoFragmentNew.leadDetail = it
 
@@ -83,7 +81,7 @@ class LoanInfoFragmentNew : BaseFragment() {
 
     private fun setUpCustomViews(loanInfo: LoanInfoModel?) {
         activity?.let {
-            binding.viewChannelPartner.attachActivity(activity = activity!!, loanData = loanInfo)
+            binding.viewChannelPartner.attachActivity(activity = activity!! , loanData = loanInfo)
 
         }
     }
@@ -93,8 +91,10 @@ class LoanInfoFragmentNew : BaseFragment() {
         binding.btnNext.setOnClickListener {
             val lProductDD = loanProduct.getSelectedValue()
             if (lProductDD != null) {
-                if (formValidation.validateLoanInformation(binding, loanProduct, loanPurpose,
-                                spinnerDMList, binding.viewChannelPartner)) {
+                if (formValidation.validateLoanInformation(
+                                binding , loanProduct , loanPurpose ,
+                                spinnerDMList , binding.viewChannelPartner
+                        )) {
                     checkPropertySelection()
                     LeadMetaData().saveLoanData(getLoanData())
                     AppEvents.fireEventLoanAppChangeNavFragmentNext()
@@ -108,25 +108,25 @@ class LoanInfoFragmentNew : BaseFragment() {
     }
 
     private fun getDropDownsFromDB(loanInfo: LoanInfoModel?) {
-        appDataViewModel.getLoanProductMaster().observe(viewLifecycleOwner, Observer { loanProductValue ->
+        appDataViewModel.getLoanProductMaster().observe(viewLifecycleOwner , Observer { loanProductValue ->
             loanProductValue?.let {
                 val arrayListOfLoanProducts = ArrayList<LoanProductMaster>()
                 arrayListOfLoanProducts.addAll(loanProductValue)
-                setLoanProductDropdown(arrayListOfLoanProducts, loanInfo)
+                setLoanProductDropdown(arrayListOfLoanProducts , loanInfo)
             }
         })
 
-        appDataViewModel.getAllMasterDropdown().observe(viewLifecycleOwner, Observer { masterDrownDownValues ->
+        appDataViewModel.getAllMasterDropdown().observe(viewLifecycleOwner , Observer { masterDrownDownValues ->
             masterDrownDownValues?.let {
-                setMasterDropDownValue(masterDrownDownValues, loanInfo)
+                setMasterDropDownValue(masterDrownDownValues , loanInfo)
             }
         })
     }
 
-    private fun setLoanProductDropdown(products: ArrayList<LoanProductMaster>, loanInfo: LoanInfoModel?) {
-        loanProduct = CustomSpinnerView(mContext = activity!!, isMandatory = true, dropDowns = products, label = "Loan Product *", iSpinnerMainView = object : IspinnerMainView<LoanProductMaster> {
+    private fun setLoanProductDropdown(products: ArrayList<LoanProductMaster> , loanInfo: LoanInfoModel?) {
+        loanProduct = CustomSpinnerView(mContext = activity!! , isMandatory = true , dropDowns = products , label = "Loan Product *" , iSpinnerMainView = object : IspinnerMainView<LoanProductMaster> {
             override fun getSelectedValue(value: LoanProductMaster) {
-                setLoanPurposeDropdown(value, loanInfo)
+                setLoanPurposeDropdown(value , loanInfo)
             }
         })
         binding.layoutLoanProduct.addView(loanProduct)
@@ -136,10 +136,10 @@ class LoanInfoFragmentNew : BaseFragment() {
         } else loanProduct.setSelection(leadDetail?.loanProductID.toString())
     }
 
-    private fun setLoanPurposeDropdown(loan: LoanProductMaster?, loanInfo: LoanInfoModel?) {
+    private fun setLoanPurposeDropdown(loan: LoanProductMaster? , loanInfo: LoanInfoModel?) {
         loan?.let {
             binding.layoutLoanPurpose.removeAllViews()
-            loanPurpose = CustomSpinnerView(mContext = activity!!, isMandatory = true, dropDowns = loan.loanPurposeList, label = "Loan Purpose *")
+            loanPurpose = CustomSpinnerView(mContext = activity!! , isMandatory = true , dropDowns = loan.loanPurposeList , label = "Loan Purpose *")
             binding.layoutLoanPurpose.addView(loanPurpose)
             if (leadDetail!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
                 loanPurpose.disableSelf()
@@ -152,7 +152,7 @@ class LoanInfoFragmentNew : BaseFragment() {
         }
     }
 
-    private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown, loanInfo: LoanInfoModel?) {
+    private fun setMasterDropDownValue(allMasterDropDown: AllMasterDropDown , loanInfo: LoanInfoModel?) {
         setCustomSpinner(allMasterDropDown)
         loanInfo?.let {
             selectSpinnerValue(loanInfo)
@@ -167,13 +167,12 @@ class LoanInfoFragmentNew : BaseFragment() {
     }
 
     private fun fillFormWithLoanData(loanInfo: LoanInfoModel) {
-        binding.etAmountRequest.setText(loanInfo.loanAmountRequest.toString())
+        loanInfo.loanAmountRequest?.let { binding.etAmountRequest.setText(it.toString()) }
         System.out.println("Loan Amount Requested>>>>>" + loanInfo.loanAmountRequest)
-        binding.etEmi.setText(loanInfo.affordableEMI!!.toInt().toString())
-        binding.etTenure.setText(loanInfo.tenure!!.toInt().toString())
-        binding.cbPropertySelected.isChecked = loanInfo.isPropertySelected!!
-        // binding.etApplicationNumber.filters = arrayOf<InputFilter>(LengthFilter(14))
-        binding.etApplicationNumber.setText(loanInfo.applicationNumber)
+        loanInfo.affordableEMI?.let { binding.etEmi.setText(it.toInt().toString()) }
+        loanInfo.tenure?.let { binding.etTenure.setText(it.toString()) }
+        loanInfo.isPropertySelected?.let { binding.cbPropertySelected.isChecked = it }
+        loanInfo.applicationNumber?.let { binding.etApplicationNumber.setText(it) }
         interestType.setSelection(loanInfo.interestTypeTypeDetailID?.toString())
     }
 
@@ -186,11 +185,11 @@ class LoanInfoFragmentNew : BaseFragment() {
     }
 
     private fun setCustomSpinner(allMasterDropDown: AllMasterDropDown) {
-        interestType = CustomSpinnerView(mContext = activity!!, isMandatory = true, dropDowns = allMasterDropDown.LoanInformationInterestType!!, label = "Interest Type *")
+        interestType = CustomSpinnerView(mContext = activity!! , isMandatory = true , dropDowns = allMasterDropDown.LoanInformationInterestType!! , label = "Interest Type *")
         binding.layoutInterestType.addView(interestType)
         interestType.setSelection(allMasterDropDown.LoanInformationInterestType!![1].typeDetailID.toString())
 
-        loanScheme = CustomSpinnerView(mContext = activity!!, isMandatory = true, dropDowns = allMasterDropDown.LoanScheme!!, label = "Loan Scheme *")
+        loanScheme = CustomSpinnerView(mContext = activity!! , isMandatory = true , dropDowns = allMasterDropDown.LoanScheme!! , label = "Loan Scheme *")
         binding.layoutLoanScheme.addView(loanScheme)
 
         spinnerDMList.add(interestType)
@@ -203,7 +202,7 @@ class LoanInfoFragmentNew : BaseFragment() {
             //1. Sourcing Channel Partner
             //2. Channel Partner Name
             //3.Loan purpose
-            DisableLoanInfoForm(binding, loanProduct, loanScheme, interestType, binding.viewChannelPartner)
+            DisableLoanInfoForm(binding , loanProduct , loanScheme , interestType , binding.viewChannelPartner)
 
         }
     }
@@ -231,7 +230,7 @@ class LoanInfoFragmentNew : BaseFragment() {
         loanInfoObj.channelPartnerDsaID = cPartnerName?.dsaID
         loanInfoObj.affordableEMI = binding.etEmi.text.toString().toDouble()
         loanInfoObj.logginUserEntityID = sharedPreferences.getUserId()!!.toInt()
-        loanInfoObj.channelPartnerName =cPartnerName.toString()
+        loanInfoObj.channelPartnerName = cPartnerName.toString()
         if (binding.etApplicationNumber.text.toString().startsWith("GG")) {
             loanInfoObj.applicationNumber = binding.etApplicationNumber.text.toString()
         } else {
