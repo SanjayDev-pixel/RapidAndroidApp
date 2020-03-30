@@ -537,7 +537,6 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         verifyOTPDialogView.lllayout_resend?.exGone()
         verifyOTPDialogView.tvResendOTPTimeLeftInfo?.exVisible()
         timerOtpResend.start()
-
         val leadMaster = LeadMetaData.getLeadData()
         leadMaster?.let {
             presenter.callNetwork(ConstantsApi.CALL_SEND_OTP , CallSendOTP(leadMaster , applicant))

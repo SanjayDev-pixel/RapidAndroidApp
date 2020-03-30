@@ -47,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
+                    android:visibility="gone"
                     android:background="@drawable/button_theme_style"
                     android:text="KYC list"
                     android:textAllCaps="false"

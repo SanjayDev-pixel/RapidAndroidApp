@@ -266,8 +266,6 @@ class PreviewActivity : BaseAppCompatActivity() {
             Toast.makeText(this@PreviewActivity,"Please check Loan Detail",Toast.LENGTH_SHORT).show()
             errorCount++
         }
-
-
         if(lead?.personalData?.applicantDetails!!.size>0 ){
             //condition  for applicant list size > 1 than isIncomeConsider is maindatory for at least one applicant
             if(lead?.personalData?.applicantDetails!!.size>1){

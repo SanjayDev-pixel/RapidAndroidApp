@@ -2,14 +2,17 @@ package com.finance.app.view.adapters.recycler.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemKycBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.KYCDetail
 import com.finance.app.utility.ConvertDate
+import com.finance.app.utility.LeadMetaData
 
 class KycListAdapter(private val context: Context, private val kycList: ArrayList<KYCDetail>) : RecyclerView.Adapter<KycListAdapter.KycViewHolder>() {
 
@@ -28,6 +31,15 @@ class KycListAdapter(private val context: Context, private val kycList: ArrayLis
             binding.tvVerifiedStatus.text = kyc.verifiedStatusTypeDetail.toString()
             binding.tvIssueDate.text = ConvertDate().convertToAppFormat(kyc.issueDate)
             binding.tvExpiryDate.text = ConvertDate().convertToAppFormat(kyc.expireDate)
+            LeadMetaData.getLeadData()?.let {
+                if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type , true)) {
+                    binding.ivDelete.visibility = View.GONE
+                    binding.ivEdit.visibility = View.GONE
+                } else {
+                    binding.ivDelete.visibility = View.VISIBLE
+                    binding.ivEdit.visibility = View.VISIBLE
+                }
+           }
 
             addClickListener(position, kyc)
 
