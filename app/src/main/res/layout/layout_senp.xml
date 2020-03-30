@@ -48,7 +48,8 @@
                 app:ms_enableFloatingLabel="true"
                 app:ms_floatingLabelText="Constitution *"
                 app:ms_hint="Constitution *"
-                app:ms_arrowColor="@color/black"/>
+                app:ms_arrowColor="@color/black"
+                android:theme="@style/MatchSpinnerTheme"/>
 
             <!--            <LinearLayout-->
             <!--                android:id="@+id/layoutConstitution"-->
@@ -74,7 +75,8 @@
                     app:ms_enableFloatingLabel="true"
                     app:ms_floatingLabelText="Industry *"
                     app:ms_hint="Industry *"
-                    app:ms_arrowColor="@color/black"/>
+                    app:ms_arrowColor="@color/black"
+                    android:theme="@style/MatchSpinnerTheme"/>
 
                 <fr.ganfra.materialspinner.MaterialSpinner
                     android:id="@+id/spinnerBusinessSetupType"
@@ -86,7 +88,8 @@
                     app:ms_enableFloatingLabel="true"
                     app:ms_floatingLabelText="Business Setup Type *"
                     app:ms_hint="Business Setup Type *"
-                    app:ms_arrowColor="@color/black"/>
+                    app:ms_arrowColor="@color/black"
+                    android:theme="@style/MatchSpinnerTheme"/>
 
             </LinearLayout>
 

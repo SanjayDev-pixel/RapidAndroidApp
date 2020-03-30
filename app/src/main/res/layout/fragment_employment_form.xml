@@ -85,7 +85,8 @@
                         app:ms_enableFloatingLabel="true"
                         app:ms_floatingLabelText="Profile Segment *"
                         app:ms_hint="Profile Segment *"
-                        app:ms_arrowColor="@color/black"/>
+                        app:ms_arrowColor="@color/black"
+                        android:theme="@style/MatchSpinnerTheme"/>
 
                     <fr.ganfra.materialspinner.MaterialSpinner
                         android:id="@+id/spinnerSubProfile"
@@ -97,7 +98,8 @@
                         app:ms_enableFloatingLabel="true"
                         app:ms_floatingLabelText="Sub-Profile *"
                         app:ms_hint="Sub-Profile *"
-                        app:ms_arrowColor="@color/black"/>
+                        app:ms_arrowColor="@color/black"
+                        android:theme="@style/MatchSpinnerTheme"/>
 
                 </LinearLayout>
 
