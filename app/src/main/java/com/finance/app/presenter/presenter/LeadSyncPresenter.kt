@@ -85,21 +85,9 @@ class LeadSyncPresenter(
 
             val observableLoanInfo = getObserverCommon(requestLoanInfo)
             val observablePersonal = getObserverCommon(requestPersonal)
-
-
-            var observableEmployment: Observable<ResponseGetLoanApplication>? = null
-            var observableBank: Observable<ResponseGetLoanApplication>? = null
-            var observableLiabilityAndAssets: Observable<ResponseGetLoanApplication>? = null
-            itemToSync.personalData.applicantDetails.forEach { personalDetails ->
-                personalDetails.incomeConsidered?.let { incomeConsidered ->
-                    if (incomeConsidered) {
-                        observableEmployment = getObserverCommon(requestEmployment)
-                        observableBank = getObserverCommon(requestBank)
-                        observableLiabilityAndAssets = getObserverCommon(requestLiabilityAndAssets)
-                    }
-                }
-
-            }
+            val observableEmployment = getObserverCommon(requestEmployment)
+            val observableBank = getObserverCommon(requestBank)
+            val observableLiabilityAndAssets = getObserverCommon(requestLiabilityAndAssets)
 
 
             val observableProperty = getObserverCommon(requestProperty)
