@@ -3,7 +3,6 @@ package com.finance.app.persistence.model
 import java.io.Serializable
 
 class LoanInfoModel:Serializable {
-
     var affordableEMI: Double? = 0.0
     var applicationNumber: String? = null
     var channelPartnerNameTypeDetailID: Int? = null

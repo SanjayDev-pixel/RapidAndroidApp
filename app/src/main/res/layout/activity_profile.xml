@@ -27,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/margin_20"
+                    android:visibility="gone"
                     android:src="@drawable/ic_edit" />
 
                 <TextView
@@ -103,12 +104,14 @@
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:progress="45"
+                    android:visibility="gone"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="15sp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="wrap_content">
 
                     <TextView
@@ -143,6 +146,7 @@
                     android:layout_marginTop="@dimen/margin_20"
                     android:layout_marginBottom="@dimen/margin_20"
                     android:baselineAligned="false"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <LinearLayout

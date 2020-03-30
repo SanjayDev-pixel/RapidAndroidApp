@@ -14,10 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.LayoutKycFormBinding
+import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllMasterDropDown
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.persistence.model.KYCDetail
 import com.finance.app.utility.ConvertDate
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SelectDate
 import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.adapters.recycler.adapter.KycListAdapter
@@ -65,6 +67,20 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         fetchSpinnersDataFromDB()
         //Check whether kyc list has items or not....
         shouldDisplayKycListViews()
+        //For submited record
+        disableView()
+
+    }
+    private fun disableView(){
+        LeadMetaData.getLeadData()?.let {
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true)) {
+                rootBinding.imageAddKYC.visibility = View.INVISIBLE
+                rootBinding.vwAdd.isEnabled = false
+            }else{
+                rootBinding.imageAddKYC.visibility = View.VISIBLE
+                rootBinding.vwAdd.isEnabled = true
+            }
+        }
     }
 
     private fun initViews() {

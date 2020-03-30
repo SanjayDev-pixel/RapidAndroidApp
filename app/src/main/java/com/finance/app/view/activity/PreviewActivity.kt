@@ -264,8 +264,6 @@ class PreviewActivity : BaseAppCompatActivity() {
             Toast.makeText(this@PreviewActivity,"Please check Loan Detail",Toast.LENGTH_SHORT).show()
             errorCount++
         }
-
-
         if(lead?.personalData?.applicantDetails!!.size>0 ){
             for (i in 0 until lead?.personalData?.applicantDetails.size) {
                 isIncomeConsidered= lead?.personalData?.applicantDetails[i].incomeConsidered
