@@ -301,11 +301,14 @@ class PreviewActivity : BaseAppCompatActivity() {
                 }
                 if(isIncomeConsidered == true ){
                     checkEmpBankDetail_other= true
-                    if(lead?.employmentData?.applicantDetails!!.size >0){} else {
+                    if(lead?.employmentData?.applicantDetails!!.size >0 &&  lead?.employmentData?.applicantDetails[i].profileSegmentTypeDetailID !=null){
+
+
+                    } else {
                         Toast.makeText(this@PreviewActivity,"Please check Employment Detail",Toast.LENGTH_SHORT).show()
                         errorCount++
                     }
-                    if(lead.bankData.bankDetailList.size >0){}else{
+                    if(lead.bankData.bankDetailList.size >0 && lead.bankData.bankDetailList[i].applicantBankDetailsBean.size >0){}else{
                         Toast.makeText(this@PreviewActivity,"Please check Bank Detail",Toast.LENGTH_SHORT).show()
                         errorCount++
                     }
