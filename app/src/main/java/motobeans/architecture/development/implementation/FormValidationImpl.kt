@@ -7,6 +7,7 @@ import com.finance.app.utility.CurrencyConversion
 import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerView
+import com.finance.app.view.utils.EditTexNormal
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
@@ -946,6 +947,10 @@ class FormValidationImpl : FormValidation {
     }
 
     private fun setFieldError(field: TextInputEditText): Int {
+        field.error = "Invalid Input"
+        return 2
+    }
+    private fun setFieldError(field: EditTexNormal): Int {
         field.error = "Invalid Input"
         return 2
     }
