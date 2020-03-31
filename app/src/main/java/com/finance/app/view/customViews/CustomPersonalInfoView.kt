@@ -129,12 +129,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
             DocumentUploadingActivity.startActivity(context , bundle)
         }
-        binding.personalAddressLayout.cbSameAsCurrent.setOnClickListener {
-            if (binding.personalAddressLayout.cbSameAsCurrent.isChecked) {
-                binding.personalAddressLayout.llPermanentAddress.visibility = View.GONE
-            } else {
-                binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
-            }
+        binding.personalAddressLayout.cbSameAsCurrent.setOnCheckedChangeListener { buttonView , isChecked ->
+            if (isChecked) binding.personalAddressLayout.llPermanentAddress.visibility = View.GONE
+            else binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
         }
 
         binding.btnKyclist.setOnClickListener() {
@@ -357,6 +354,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
     private fun fillCurrentAddressInfo(addressDetail: AddressDetail) {
         binding.personalAddressLayout.cbSameAsCurrent.isChecked = addressDetail.sameAsCurrentAddress
+
         binding.personalAddressLayout.etCurrentAddress.setText(addressDetail.address1)
         binding.personalAddressLayout.etCurrentLandmark.setText(addressDetail.landmark)
         binding.personalAddressLayout.etCurrentRentAmount.setText(addressDetail.rentAmount)

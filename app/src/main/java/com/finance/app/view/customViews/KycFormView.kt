@@ -71,6 +71,7 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         disableView()
 
     }
+
     private fun disableView(){
         LeadMetaData.getLeadData()?.let {
             if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true)) {
