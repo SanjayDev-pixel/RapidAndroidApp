@@ -428,10 +428,18 @@ class FormValidationImpl : FormValidation {
             errorCount++
             binding.etAccountHolderName.error = "Account holder name can not be blank"
         }
-        val numberOfSalary:Int= binding.etSalaryCreditedInSixMonths.text.toString().toInt()
-        if(numberOfSalary>6){
-            errorCount++
-            binding.etSalaryCreditedInSixMonths.error =" Credited salary not more than six."
+
+
+        var numberOfSalary: String=binding.etSalaryCreditedInSixMonths.text.toString()
+        if(!numberOfSalary.equals("")) {
+            var salaryNumber: Int = 0
+            numberOfSalary?.let {
+                salaryNumber = it.toInt()
+            }
+            if (salaryNumber != 0 && salaryNumber > 6) {
+                errorCount++
+                binding.etSalaryCreditedInSixMonths.error = " Credited salary not more than six."
+            }
         }
 
         return isValidForm(errorCount)
