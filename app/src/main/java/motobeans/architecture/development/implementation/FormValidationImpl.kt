@@ -1,5 +1,6 @@
 package motobeans.architecture.development.implementation
 
+import android.util.Log
 import android.view.View
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.*
@@ -14,6 +15,8 @@ import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class FormValidationImpl : FormValidation {
 
@@ -782,9 +785,11 @@ class FormValidationImpl : FormValidation {
             }
         }
 
-        if(tenure.toInt() < balanceTenure.toInt()){
-            errorCount++
-            binding.etBalanceTenure.error = "Balance Tenure  value is not more than Tenure Value"
+        if( !tenure.equals("") && !balanceTenure.equals("") ){
+            if(tenure.toInt() < balanceTenure.toInt()) {
+                errorCount++
+                binding.etBalanceTenure.error = "Balance Tenure  value is not more than Tenure Value"
+            }
         }
 
 
@@ -940,6 +945,45 @@ class FormValidationImpl : FormValidation {
         if (verifiedStatus == null) {
             errorCount++
             binding.spinnerVerifiedStatus.error = "Required Field"
+        }
+
+        if(identificationType != null  && identificationType.typeDetailCode.equals("PAN")){
+            val patternPan: Pattern = Pattern.compile("([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}")
+                    val matcher: Matcher = patternPan.matcher(idNum)
+            if(matcher.matches()){ }else{
+                errorCount++
+                binding.etIdNum.error = "Please enter valid Pan number."
+            }
+        } else if(identificationType != null  && identificationType.typeDetailCode.equals("UID")){
+            val patternUid: Pattern = Pattern.compile("([0-9]){12}")
+            val matcher: Matcher = patternUid.matcher(idNum)
+            if(matcher.matches()){ }else{
+                errorCount++
+                binding.etIdNum.error = "Please enter valid Adhar number."
+            }
+        }else if(identificationType != null  && identificationType.typeDetailCode.equals("Passport")){
+            val patternUid: Pattern = Pattern.compile("(?!^0+\$)[a-zA-Z0-9]{3,20}$")
+            val matcher: Matcher = patternUid.matcher(idNum)
+            if(matcher.matches()){ }else{
+                errorCount++
+                binding.etIdNum.error = "Please enter valid Passport number."
+            }
+        }else if(identificationType != null  && identificationType.typeDetailCode.equals("Driving License")){
+            val patternUid: Pattern = Pattern.compile("[a-zA-Z0-9-_ ]*\$")
+            val matcher: Matcher = patternUid.matcher(idNum)
+            if(matcher.matches()){ }else{
+                errorCount++
+                binding.etIdNum.error = "Please enter valid Driving License number."
+            }
+
+        }else if(identificationType != null  && identificationType.typeDetailCode.equals("VoterID")) {
+            val patternUid: Pattern = Pattern.compile("[a-zA-Z0-9-_ ]*\$")
+            val matcher: Matcher = patternUid.matcher(idNum)
+            if (matcher.matches()) {
+            } else {
+                errorCount++
+                binding.etIdNum.error = "Please enter valid VoterId number."
+            }
         }
 
 
