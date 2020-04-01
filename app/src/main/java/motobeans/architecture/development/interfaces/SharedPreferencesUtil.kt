@@ -30,4 +30,5 @@ interface SharedPreferencesUtil {
     fun getUUID(): String
     fun setUUID(uuid: String)
     fun clearAll()
+    fun getRoleName():String?
 }
