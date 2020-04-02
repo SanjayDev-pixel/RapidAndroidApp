@@ -605,10 +605,11 @@ class FormValidationImpl : FormValidation {
                 binding.etCashOcr.error = "Cannot be greater than  OCR"
             }
         } else {
+            errorCount++
             binding.etCashOcr.error = "Cannot be greater than  OCR"
         }
 
-        if (!propertyMv.exIsNotEmptyOrNullOrBlank() && !agreementValue.exIsNotEmptyOrNullOrBlank()) {
+        if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
             if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
                 errorCount++
                 binding.etAgreementValue.error = "Cannot be greater than MV of property"
@@ -618,7 +619,7 @@ class FormValidationImpl : FormValidation {
             binding.etAgreementValue.error = "Cannot be greater than MV of property"
         }
 
-        if (!propertyMv.exIsNotEmptyOrNullOrBlank() && !agreementValue.exIsNotEmptyOrNullOrBlank()) {
+        if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
             if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
                     CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
                 errorCount++
