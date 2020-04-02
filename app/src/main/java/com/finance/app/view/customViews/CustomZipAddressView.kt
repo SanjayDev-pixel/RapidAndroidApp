@@ -24,6 +24,7 @@ import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.view.adapters.recycler.spinner.CitySpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.DistrictSpinnerAdapter
 import com.finance.app.view.adapters.recycler.spinner.StatesSpinnerAdapter
+import com.finance.app.view.utils.EditTexNormal
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import fr.ganfra.materialspinner.MaterialSpinner
@@ -70,7 +71,7 @@ class CustomZipAddressView @JvmOverloads constructor(context: Context, attrs: At
     private var serverPinCodeObj: Response.PinCodeObj? = null
 
     private lateinit var inputLayoutCurrentPinCode: TextInputLayout
-    private lateinit var etCurrentPinCode: TextInputEditText
+    private lateinit var etCurrentPinCode: EditTexNormal
     private lateinit var spinnerCurrentState: MaterialSpinner
     private lateinit var spinnerCurrentDistrict: MaterialSpinner
     private lateinit var spinnerCurrentCity: MaterialSpinner

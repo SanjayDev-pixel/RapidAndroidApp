@@ -6,28 +6,28 @@ import android.util.AttributeSet
 class TextViewBold : androidx.appcompat.widget.AppCompatTextView {
     constructor(context: Context) : super(context)
     {
-        init(null);
+        init(null)
     }
     constructor(context: Context,attributeSet: AttributeSet) :super(context,attributeSet)
     {
-        init(context);
+        init(context)
     }
-    constructor(context: Context , attributeSet: AttributeSet , defStyle:Int) : super(context,attributeSet,defStyle)
+    /*constructor(context: Context , attributeSet: AttributeSet , defStyle:Int) : super(context,attributeSet,defStyle)
     {
-        init(context);
-    }
+        init(context)
+    }*/
     private fun init(context: Context?)
     {
         try {
             if(context!=null)
             {
-                val myTypeface = Typeface.createFromAsset(context.assets,"fonts/Raleway-Bold.ttf");
-                 typeface = myTypeface;
+                val myTypeface = Typeface.createFromAsset(context.assets,"fonts/Raleway-Bold.ttf")
+                 typeface = myTypeface
             }
         }
         catch(e:Exception)
         {
-            e.printStackTrace();
+            e.printStackTrace()
         }
     }
 

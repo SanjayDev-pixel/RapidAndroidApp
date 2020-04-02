@@ -28,6 +28,7 @@ import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SetPropertyMandatoryField
 import com.finance.app.view.adapters.recycler.spinner.*
 import com.finance.app.view.customViews.CustomSpinnerView
+import com.finance.app.view.utils.EditTexNormal
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.application.ArchitectureApp
@@ -377,7 +378,18 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             }
         })
     }
-
+    private fun pinCodeListener(pinCodeField: EditTexNormal?) {
+        pinCodeField!!.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (pinCodeField.text!!.length == 6) {
+                    mPinCode = pinCodeField.text.toString()
+                    pinCodePresenter.callPinCodeDetailApi()
+                }
+            }
+        })
+    }
     override val stateId: String
         get() = mStateId
 

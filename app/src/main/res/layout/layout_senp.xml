@@ -28,7 +28,7 @@
                 android:layout_marginTop="@dimen/fields_margin"
                 android:textColorHint="@color/hint_color">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.finance.app.view.utils.EditTexNormal
                     android:id="@+id/etBusinessName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 android:layout_marginTop="@dimen/fields_margin"
                 android:textColorHint="@color/hint_color">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.finance.app.view.utils.EditTexNormal
                     android:id="@+id/etGstRegistration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                     android:layout_weight="1"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etIncorporationDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                     android:singleLine="true"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etBusinessVintage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                 android:id="@+id/layoutAddress"
                 layout="@layout/layout_employment_address" />
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fields_margin"
@@ -200,7 +200,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etLastYearIncome"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -220,7 +220,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etCurrentYearIncome"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -242,7 +242,7 @@
                     android:layout_marginTop="@dimen/fields_margin"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etAverageMonthlyIncome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -268,7 +268,7 @@
                 android:visibility="gone"
                 tools:visibility="visible">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.finance.app.view.utils.EditTexNormal
                     android:id="@+id/etMonthlyIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

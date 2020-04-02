@@ -27,16 +27,15 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Loan Ownership : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvLoanOwnership"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -55,16 +54,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Obligate : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvObligate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -84,16 +82,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Loan Type : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvLoanType"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -111,16 +108,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Financer : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvFinancerName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -138,16 +134,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Loan Amount : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvLoanAmount"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -166,16 +161,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Tenure : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvTenure"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -193,16 +187,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Balance Tenure : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvBalanceTenure"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -221,16 +214,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="EMI : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvEMI"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -249,16 +241,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="@string/num_of_check_bounces_in_last_6_months"
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvNumOfBouncesInSixMonths"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -277,16 +268,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="@string/num_of_check_bounces_in_last_9_months"
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvNumOfBouncesInNineMonths"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -305,16 +295,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="@string/loan_a_c_num"
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvLoanAcNum"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -333,16 +322,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Repayment Bank"
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvRepaymentBank"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -362,16 +350,16 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="EMI paid in same month : "
-                        android:textAppearance="?android:textAppearanceLarge"
+
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvEmiPaid"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -390,16 +378,15 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:paddingLeft="@dimen/margin10dp">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_242424"
                         android:text="Disbursement Date : "
-                        android:textAppearance="?android:textAppearanceLarge"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvDisbursementDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

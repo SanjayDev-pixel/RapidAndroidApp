@@ -44,14 +44,13 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/heading_background"
                     android:text="@string/property_details"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/black"
-                    android:textStyle="bold" />
+                   />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -190,7 +189,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etNumOfTenants"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -236,7 +235,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etCashOcr"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -255,7 +254,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etOcr"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -283,7 +282,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etPropertyArea"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -322,7 +321,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etMvProperty"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -341,7 +340,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etAgreementValue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -362,7 +361,7 @@
                     android:layout_marginTop="15dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etPropertyAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -386,7 +385,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etDistanceFromBranch"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -405,7 +404,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etDistanceFromResidence"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -432,7 +431,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etLandmark"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -449,7 +448,7 @@
                         android:layout_weight="1"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etPinCode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -529,33 +528,36 @@
         </ScrollView>
 
         <RelativeLayout
-            android:id="@+id/bottomlayout"
+            android:id="@+id/layoutBottomNav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="10dp">
-
-
-            <Button
-                android:id="@+id/btnPrevious"
-                android:layout_width="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:background="@drawable/ic_round_grey_btn_bkg"
-                android:minWidth="100dp"
-                android:text="@string/previous"
-                android:textColor="@color/white" />
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:id="@+id/btnPrevious"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/grey_585858"
+                    android:text="@string/previous"
+                    android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/btnNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/ic_round_blue_btn_bkg"
-                android:gravity="center"
-                android:minWidth="100dp"
-                android:text="@string/next"
-                android:textColor="@color/white" />
+                <Button
+                    android:id="@+id/btnNext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:alpha="0.75"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/next"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
 
         </RelativeLayout>
 

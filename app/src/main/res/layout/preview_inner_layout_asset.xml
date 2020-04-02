@@ -37,16 +37,16 @@
                         android:orientation="horizontal"
                         android:weightSum="3">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/preview_asset_type"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                             />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -54,9 +54,9 @@
                             android:gravity="center"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                             />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvAssetType"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -74,16 +74,16 @@
                         android:orientation="horizontal"
                         android:weightSum="3">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/preview_asset_sub_type"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                             />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -91,9 +91,9 @@
                             android:gravity="center"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                            />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvAssetSubType"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -112,16 +112,16 @@
                         android:orientation="horizontal"
                         android:weightSum="3">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/preview_ownership"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                             />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -129,9 +129,9 @@
                             android:gravity="center"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                             />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvOwnership"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -150,16 +150,16 @@
                         android:orientation="horizontal"
                         android:weightSum="3">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/preview_document_proof"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                             />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -167,9 +167,9 @@
                             android:gravity="center"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                           />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvDocumentProof"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -188,16 +188,16 @@
                         android:orientation="horizontal"
                         android:weightSum="3">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/preview_value"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                             />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -205,9 +205,9 @@
                             android:gravity="center"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textSize="@dimen/button_text_size"
-                            android:textStyle="bold" />
+                             />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvValue"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

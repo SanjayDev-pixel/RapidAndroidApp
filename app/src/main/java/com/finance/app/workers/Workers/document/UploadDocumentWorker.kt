@@ -15,7 +15,8 @@ import okhttp3.RequestBody
 import javax.inject.Inject
 
 
-class UploadDocumentWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class
+UploadDocumentWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 
     @Inject
     lateinit var database: DataBaseUtil

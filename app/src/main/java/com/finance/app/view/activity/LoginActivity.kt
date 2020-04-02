@@ -78,12 +78,14 @@ class LoginActivity : BaseAppCompatActivity() {
             }
 
         override fun getApiSuccess(value: ResponseLogin) {
+
             if (value.responseCode == Constants.SUCCESS) {
                 System.out.println("loginValue>>>>"+value)
                 sharedPreferences.saveLoginData(value)
                 SyncActivity.start(this@LoginActivity)
             } else {
                 showToast(value.responseMsg)
+                System.out.println("ResponseMsg>>>"+value.responseMsg)
             }
         }
 

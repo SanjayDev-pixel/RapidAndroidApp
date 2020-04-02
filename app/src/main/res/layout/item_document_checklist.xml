@@ -47,17 +47,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/questionNo "
+                <com.finance.app.view.utils.TextViewBold
+                    android:id="@+id/questionNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin5dp"
                     android:text="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/button_text_size"
-                    android:textStyle="bold" />
+                     />
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:id="@+id/questiontext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                     android:maxLines="4"
                     android:text="Submitted Address Prof *"
                     android:textSize="@dimen/button_text_size"
-                    android:textStyle="bold" />
+                     />
 
             </LinearLayout>
 

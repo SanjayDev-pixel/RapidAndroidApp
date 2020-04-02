@@ -24,7 +24,7 @@
                 android:layout_gravity="end"
                 android:src="@drawable/ic_close_black_48dp" />
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -78,7 +78,7 @@
             android:layout_marginTop="@dimen/fields_margin"
             android:textColorHint="@color/grey_585858">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.finance.app.view.utils.EditTexNormal
                 android:id="@+id/etAccountNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
             android:layout_marginTop="@dimen/fields_margin"
             android:textColorHint="@color/grey_585858">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.finance.app.view.utils.EditTexNormal
                 android:id="@+id/etAccountHolderName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
             android:visibility="gone"
             tools:visibility="invisible">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.finance.app.view.utils.EditTexNormal
                 android:id="@+id/etSalaryCreditedInSixMonths"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,11 +166,12 @@
 
         <Button
             android:id="@+id/btnAdd"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/fields_margin"
-            android:background="@color/md_grey_500"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
             android:text="@string/add" />
 
 

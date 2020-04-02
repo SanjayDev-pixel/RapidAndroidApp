@@ -94,7 +94,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.CreateLeadActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".view.activity.UploadDocumentActivity"
             android:screenOrientation="portrait" />

@@ -6,7 +6,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <com.finance.app.view.utils.TextViewNormal
             android:id="@+id/deviationheading_text"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -18,7 +18,7 @@
             android:textStyle="bold"
             android:paddingLeft="@dimen/margin10dp" />
 
-        <TextView
+        <com.finance.app.view.utils.TextViewNormal
             android:id="@+id/deviationtext"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -43,14 +43,14 @@
                 android:orientation="vertical"
                 android:layout_weight="1">
 
-                <TextView
+                <com.finance.app.view.utils.TextViewNormal
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/approval_auth"
                     android:layout_margin="@dimen/margin5dp"
                     android:textSize="@dimen/text_size" />
 
-                <TextView
+                <com.finance.app.view.utils.TextViewNormal
                     android:id="@+id/approval_authority"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,14 +67,14 @@
                 android:orientation="vertical"
                 android:layout_weight="1">
 
-                <TextView
+                <com.finance.app.view.utils.TextViewNormal
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mitigating_factor"
                     android:layout_margin="@dimen/margin5dp"
                     android:textSize="@dimen/text_size" />
 
-                <TextView
+                <com.finance.app.view.utils.TextViewNormal
                     android:id="@+id/migrationfact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

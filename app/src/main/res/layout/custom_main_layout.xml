@@ -54,7 +54,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size" />
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size"
@@ -64,7 +64,7 @@
                 android:drawablePadding="@dimen/margin_20"
                 android:text="@string/lead_number" />
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:id="@+id/tvLeadNumber"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"

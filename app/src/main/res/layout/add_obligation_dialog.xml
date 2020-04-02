@@ -23,7 +23,7 @@
                 android:layout_gravity="end"
                 android:src="@drawable/ic_close_black_48dp" />
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -116,7 +116,7 @@
                         android:layout_marginTop="@dimen/margin10dp"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etLoanAmount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etFinancierName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etAccountNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etTenure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etBalanceTenure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -249,7 +249,7 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etEmiAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -270,7 +270,7 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etBouncesInLastSixMonths"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -290,7 +290,7 @@
                     android:layout_marginTop="@dimen/margin10dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etBouncesInLastNineMonths"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -328,7 +328,7 @@
                     android:layout_marginTop="@dimen/spinner_date_margin"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etDisbursementDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -344,14 +344,15 @@
 
                 <Button
                     android:id="@+id/btnAddObligation"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin20dp"
                     android:layout_marginBottom="@dimen/margin10dp"
+                    android:background="@color/colorPrimary"
                     android:gravity="center"
                     android:text="@string/add_obligation"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
             </LinearLayout>
         </ScrollView>
