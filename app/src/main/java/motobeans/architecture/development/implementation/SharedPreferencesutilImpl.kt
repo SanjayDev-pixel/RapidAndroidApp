@@ -177,4 +177,8 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         } catch (e: Exception) {
         }
     }
+
+    override fun getRoleName(): String? {
+        return getLoginData()?.responseObj?.userDetails!!.roleList[0].roleName.toString()
+    }
 }

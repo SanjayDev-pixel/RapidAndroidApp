@@ -27,17 +27,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:id="@+id/heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/heading_background"
                 android:text="@string/add_lead"
+                android:textAppearance="?android:textAppearanceLarge"
                 android:layout_marginTop="@dimen/margin_20"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textStyle="bold" />
+                 />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/hint_color">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etApplicantFirstName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

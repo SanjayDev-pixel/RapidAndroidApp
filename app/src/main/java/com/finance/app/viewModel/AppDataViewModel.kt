@@ -24,7 +24,10 @@ class AppDataViewModel(val activity: FragmentActivity, private val masterDB: Mas
         leadsAll.value = ArrayList()
     }
     fun getAllLeads(): LiveData<List<AllLeadMaster>?> {
-        var searchParam = liveSearchParam?.value ?: ""
+        return masterDB.allLeadsDao().getAllLeads()
+    }
+    fun searchAllLead(status: String) : LiveData<List<AllLeadMaster>?>{
+        var searchParam = liveSearchParam?.value?:""
         return masterDB.allLeadsDao().getAllLeads(searchParam = searchParam)
     }
       fun getLeadsByStatus(status: String): LiveData<List<AllLeadMaster>?> {
@@ -139,7 +142,7 @@ class AppDataViewModel(val activity: FragmentActivity, private val masterDB: Mas
         return null
     }
     private fun initLeadsData() {
-        observeAllLeads(activity = activity,leadLiveData = leadsAll)
+        observeAllLeads(activity = activity,leadStatus = AppEnums.LEAD_TYPE.ALL,leadLiveData = leadsAll)
          observeAllLeadsByStatus(activity = activity, leadStatus = AppEnums.LEAD_TYPE.PENDING, leadLiveData = leadsPending)
         observeAllLeadsByStatus(activity = activity, leadStatus = AppEnums.LEAD_TYPE.SUBMITTED, leadLiveData = leadsSubmitted)
         observeAllLeadsByStatus(activity = activity, leadStatus = AppEnums.LEAD_TYPE.REJECTED, leadLiveData = leadsRejected)
@@ -159,19 +162,20 @@ class AppDataViewModel(val activity: FragmentActivity, private val masterDB: Mas
             observeAllLeadsByStatus(activity = activity, leadStatus = AppEnums.LEAD_TYPE.REJECTED, leadLiveData = leadsRejected)
         }
         else if (pagerPosition == 3) {
-            observeAllLeads(activity = activity,leadLiveData = leadsAll)
+            observeAllLeads(activity = activity,leadStatus = AppEnums.LEAD_TYPE.ALL,leadLiveData = leadsAll)
         }
 
         //initLeadsData()
     }
-    private fun observeAllLeads(activity: FragmentActivity, leadLiveData: MutableLiveData<List<AllLeadMaster>>) {
+    private fun observeAllLeads(activity: FragmentActivity,leadStatus: AppEnums.LEAD_TYPE, leadLiveData: MutableLiveData<List<AllLeadMaster>>) {
 
-        getAllLeads().observe(activity, Observer { itemsFromDB ->
+        searchAllLead(leadStatus.type).observe(activity, Observer { itemsFromDB ->
             itemsFromDB?.let {
                 leadLiveData.value = itemsFromDB
             }
         })
-    }
+
+       }
 
     private fun observeAllLeadsByStatus(activity: FragmentActivity, leadStatus: AppEnums.LEAD_TYPE, leadLiveData: MutableLiveData<List<AllLeadMaster>>) {
 

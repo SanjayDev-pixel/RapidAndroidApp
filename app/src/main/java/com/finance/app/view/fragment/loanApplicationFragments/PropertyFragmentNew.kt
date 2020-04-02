@@ -139,8 +139,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         })
 
     }
-
-
     private fun showDataOnView(propertyModel: PropertyModel?) {
         if(LeadMetaData.getLeadData()?.loanData?.isPropertySelected==false){
             binding.vmpropertynotselected.visibility = View.VISIBLE

@@ -55,7 +55,7 @@ class LeadsListingFragment : BaseFragment() {
         val viewModelFactory: ViewModelProvider.Factory = Injection.provideViewModelFactory(activity!!)
         appDataViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(AppDataViewModel::class.java)
         setOnSwipeListener()
-        getDataAfterSerach()
+
         return binding.root
     }
     private fun setOnSwipeListener() {
@@ -70,6 +70,7 @@ class LeadsListingFragment : BaseFragment() {
             currentLeadStatus = leadStatus
             //Now fetch lead data from database if we got the Lead Status...
             fetchLeadFromDatabase(leadStatus)
+            getDataAfterSerach(leadStatus)
         }
     }
     private fun setLeadListAdapter(list: ArrayList<AllLeadMaster>, leadStatus: AppEnums.LEAD_TYPE) {
@@ -104,19 +105,15 @@ class LeadsListingFragment : BaseFragment() {
             leadList?.let { setLeadListAdapter(ArrayList(it), leadStatus) }
         })
     }
-    private fun getDataAfterSerach(){
-        //showProgressDialog()
-        arguments?.getSerializable(KEY_LEAD_STATUS)?.let { leadStatus ->
-            val leadStatusEnum = leadStatus as AppEnums.LEAD_TYPE
-            appDataViewModel.getLeadsLiveDataByStatus(leadStatusEnum)?.observe(this, Observer { itemsFromDB ->
-                itemsFromDB?.let {
-                    leads.clear()
-                    leads.addAll(itemsFromDB)
-                    setUpRecyclerView(leadStatusEnum)
-                }
-            })
+    private fun getDataAfterSerach(leadStatus: AppEnums.LEAD_TYPE){
+        appDataViewModel.getLeadsLiveDataByStatus(leadStatus)?.observe(this, Observer { itemsFromDB ->
+            itemsFromDB?.let {
+                leads.clear()
+                leads.addAll(itemsFromDB)
+                setUpRecyclerView(leadStatus)
+            }
+        })
 
-        }
 
     }
 }

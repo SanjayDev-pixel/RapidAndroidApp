@@ -108,6 +108,6 @@ interface Api {
     fun editLead(@Body request: Requests.RequestEditLead): Observable<Response.ResponseEditLead>
 
     //getKycDetail
-    @GET("api/v1/kyc/getKycDetails/{leadID}")
-    fun getKycDetail(@Path("leadID") leadId: Int): Observable<Response.ResponseKycDetail>
+    @GET("api/v1/kyc/getKycDetails/{leadID}/applicant/{leadApplicantNumber}")
+    fun getKycDetail(@Path("leadID") leadId: Int,@Path("leadApplicantNumber")leadApplicantNumber:String): Observable<Response.ResponseKycDetail>
 }

@@ -15,13 +15,16 @@ class PreviewReferenceHolder(val binding: PreviewLayoutReferenceBinding, val mCo
     fun bindItems(list: ArrayList<ReferenceModel>?, pos: Int, viewModel: AppDataViewModel) {
 
         if (!list.isNullOrEmpty()) {
+            try{
             setValueInCard(list[pos], viewModel)
+                var applicantType :String = ""
+                if(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].isMainApplicant==true){
+                    applicantType =  "Applicant"
+                }else{ applicantType="Co-Applicant"}
+                binding.tvCoApplicant.setText(applicantType.plus("   : ").plus(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName))
+        }catch(e:IndexOutOfBoundsException){e.printStackTrace()}
             handleCollapse()
-            var applicantType :String = ""
-            if(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].isMainApplicant==true){
-                applicantType =  "Applicant"
-            }else{ applicantType="Co-Applicant"}
-            binding.tvCoApplicant.setText(applicantType.plus("   : ").plus(LeadMetaData.getLeadData()?.personalData!!.applicantDetails[pos].firstName))
+
         }
     }
 

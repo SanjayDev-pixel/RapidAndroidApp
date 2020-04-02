@@ -16,13 +16,13 @@ interface AllLeadsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLead(product: AllLeadMaster)
 
-    @Query("SELECT * FROM AllLeadMaster")
+    @Query("SELECT * FROM AllLeadMaster ORDER BY createdOn DESC")
     fun getAllLeads(): LiveData<List<AllLeadMaster>?>
 
     @Query("SELECT * FROM AllLeadMaster")
     fun getAllLeadsSynchron(): List<AllLeadMaster>?
 
-    @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus")
+    @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus ORDER BY createdOn DESC")
     fun getLeadsByStatus(leadStatus: String): LiveData<List<AllLeadMaster>?>
 
     @Query("SELECT * FROM AllLeadMaster WHERE isSyncWithServer = :isSyncWithServer")
@@ -37,10 +37,10 @@ interface AllLeadsDao {
     @Query("SELECT * FROM AllLeadMaster WHERE leadID LIKE :leadID")
     fun getAllLeadSearch(leadID: String): LiveData<List<AllLeadMaster>?>
 
-    @Query("SELECT * FROM AllLeadMaster WHERE leadID LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
+    @Query("SELECT * FROM AllLeadMaster WHERE leadNumber LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
     fun getAllLeads(searchParam: String): LiveData<List<AllLeadMaster>?>
 
-    @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus AND leadID LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
+    @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus AND leadNumber LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
     fun getLeadsByStatus(leadStatus: String, searchParam: String): LiveData<List<AllLeadMaster>?>
     /**
      * Updating only status

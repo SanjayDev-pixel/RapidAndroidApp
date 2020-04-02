@@ -614,7 +614,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         override fun getApiSuccess(value: Response.ResponseKycDetail) {
             if (value.responseCode == Constants.SUCCESS) {
                 binding.progressBar!!.visibility = View.GONE
-                Log.e("TAG" , "Sandeep ")
+
                 if (value.responseObj != null) {
                     val kycDetailResponse: KycListModel = value.responseObj
                     for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
@@ -687,7 +687,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
         private fun getKycDetail(): Requests.RequestKycDetail {
             val leadId: Int? = LeadMetaData.getLeadId()
-            return Requests.RequestKycDetail(leadID = leadId!!) //2
+            val leadApplicantNumber:String =selectedApplicantNumber
+
+            return Requests.RequestKycDetail(leadID = leadId!!,leadApplicantNumber=leadApplicantNumber) //2leadID = leadId!!,leadApplicantNumber=leadApplicantNumber
         }
     }
 
