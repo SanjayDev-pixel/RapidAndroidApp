@@ -36,7 +36,7 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 
-class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr), KycListAdapter.ItemClickListener {
+class KycFormView @JvmOverloads constructor(context: Context , attrs: AttributeSet? = null , defStyleAttr: Int = 0) : LinearLayout(context , attrs , defStyleAttr) , KycListAdapter.ItemClickListener {
 
     @Inject
     lateinit var dataBase: DataBaseUtil
@@ -49,11 +49,11 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private var currentApplicantNumber: String? = null
     private var selectedKycDetailPosition = -1
+    private var generatedKycDocumentId: String? = null
 
+    private var rootBinding: LayoutKycFormBinding = AppUtilExtensions.initCustomViewBinding(context = context , layoutId = R.layout.layout_kyc_form , container = this)
 
-    private var rootBinding: LayoutKycFormBinding = AppUtilExtensions.initCustomViewBinding(context = context, layoutId = R.layout.layout_kyc_form, container = this)
-
-    fun bindApplicantKycDetails(owner: LifecycleOwner, applicantNumber: String, kycDetailList: ArrayList<KYCDetail>) {
+    fun bindApplicantKycDetails(owner: LifecycleOwner , applicantNumber: String , kycDetailList: ArrayList<KYCDetail>) {
         ArchitectureApp.instance.component.inject(this)
         lifecycleOwner = owner
         currentApplicantNumber = applicantNumber
@@ -72,12 +72,12 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     }
 
-    private fun disableView(){
+    private fun disableView() {
         LeadMetaData.getLeadData()?.let {
-            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true)) {
+            if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type , true)) {
                 rootBinding.imageAddKYC.visibility = View.INVISIBLE
                 rootBinding.vwAdd.isEnabled = false
-            }else{
+            } else {
                 rootBinding.imageAddKYC.visibility = View.VISIBLE
                 rootBinding.vwAdd.isEnabled = true
             }
@@ -89,7 +89,10 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun setOnClickListener() {
-        rootBinding.vwAdd.setOnClickListener { showKycForm(true) }
+        rootBinding.vwAdd.setOnClickListener {
+            generatedKycDocumentId = Date().time.toString()
+            showKycForm(true)
+        }
         rootBinding.btnAddKYC.setOnClickListener {
             if (isKycDetailsValid()) {
                 addOrUpdateKycDetails();showKycForm(false)
@@ -104,23 +107,24 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         rootBinding.btnUploadKyc.setOnClickListener {
             if (isKycDetailsValid()) {
                 val bundle = Bundle()
-                bundle.putInt(Constants.KEY_DOC_ID, 405)//Hardcoded for KYC proof...
-                bundle.putString(Constants.KEY_TITLE, context.getString(R.string.kyc))
-                bundle.putString(Constants.KEY_APPLICANT_NUMBER, currentApplicantNumber)
-                DocumentUploadingActivity.startActivity(context, bundle)
+                bundle.putInt(Constants.KEY_DOC_ID , 405)//Hardcoded for KYC proof...
+                bundle.putString(Constants.KEY_TITLE , context.getString(R.string.kyc))
+                bundle.putString(Constants.KEY_APPLICANT_NUMBER , currentApplicantNumber)
+                bundle.putString(Constants.KEY_FORM_ID , generatedKycDocumentId)
+                DocumentUploadingActivity.startActivity(context , bundle)
             }
         }
-        rootBinding.etIssueDate.setOnClickListener { SelectDate(rootBinding.etIssueDate, context, maxDate = Date().time) }
-        rootBinding.etExpiryDate.setOnClickListener { SelectDate(rootBinding.etExpiryDate, context, minDate = Date().time) }
+        rootBinding.etIssueDate.setOnClickListener { SelectDate(rootBinding.etIssueDate , context , maxDate = Date().time) }
+        rootBinding.etExpiryDate.setOnClickListener { SelectDate(rootBinding.etExpiryDate , context , minDate = Date().time) }
     }
 
     private fun setKycDetailListAdapter(list: ArrayList<KYCDetail>) {
-        kycListAdapter = KycListAdapter(context, list)
+        kycListAdapter = KycListAdapter(context , list)
         kycListAdapter?.setOnItemClickListener(this)
-        rootBinding.rcKycList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rootBinding.rcKycList.layoutManager = LinearLayoutManager(context , LinearLayoutManager.HORIZONTAL , false)
         rootBinding.rcKycList.adapter = kycListAdapter
         lifecycleOwner?.let {
-            kycListAdapter?.getItemCountObserver()?.observe(it, Observer { listCount ->
+            kycListAdapter?.getItemCountObserver()?.observe(it , Observer { listCount ->
                 if (listCount > 0) {
                     showKycListView(true);showKycEmptyView(false)
                 } else {
@@ -131,11 +135,13 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun setKycSpinner(allMasterDropDown: AllMasterDropDown) {
-        rootBinding.spinnerIdentificationType.adapter = MasterSpinnerAdapter(context, allMasterDropDown.IdentificationType!!)
-        rootBinding.spinnerVerifiedStatus.adapter = MasterSpinnerAdapter(context, allMasterDropDown.VerifiedStatus!!)
+        rootBinding.spinnerIdentificationType.adapter = MasterSpinnerAdapter(context , allMasterDropDown.IdentificationType!!)
+        rootBinding.spinnerVerifiedStatus.adapter = MasterSpinnerAdapter(context , allMasterDropDown.VerifiedStatus!!)
+        rootBinding.spinnerVerifiedStatus.setSelection(2)
+        rootBinding.spinnerVerifiedStatus.isEnabled = false
     }
 
-    private fun showKycForm(show: Boolean, isUpdateKycForm: Boolean = false) {
+    private fun showKycForm(show: Boolean , isUpdateKycForm: Boolean = false) {
         rootBinding.vwKycForm.visibility = if (show) View.VISIBLE else View.GONE
         rootBinding.btnUpdateKYC.visibility = if (isUpdateKycForm) View.VISIBLE else View.GONE
         rootBinding.btnAddKYC.visibility = if (isUpdateKycForm) View.GONE else View.VISIBLE
@@ -163,7 +169,7 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private fun fetchSpinnersDataFromDB() {
         lifecycleOwner?.let { lifecycleOwner ->
-            dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(lifecycleOwner, Observer { masterDrownDownValues ->
+            dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(lifecycleOwner , Observer { masterDrownDownValues ->
                 masterDrownDownValues?.let {
                     allMasterDropDown = it
                     setKycSpinner(it)
@@ -173,15 +179,16 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun fillKycDetails(kycDetail: KYCDetail) {
+        generatedKycDocumentId = kycDetail.formId
         rootBinding.etIdNum.setText(kycDetail.identificationNumber)
         rootBinding.etIssueDate.setText(ConvertDate().convertToAppFormat(kycDetail.issueDate))
         rootBinding.etExpiryDate.setText(ConvertDate().convertToAppFormat(kycDetail.expireDate))
-        allMasterDropDown?.IdentificationType?.let { list -> kycDetail.identificationTypeDetailID?.let { id -> rootBinding.spinnerIdentificationType.setSelectionFromList(list, id) } }
-        allMasterDropDown?.VerifiedStatus?.let { list -> kycDetail.verifiedStatusTypeDetailID?.let { id -> rootBinding.spinnerVerifiedStatus.setSelectionFromList(list, id) } }
+        allMasterDropDown?.IdentificationType?.let { list -> kycDetail.identificationTypeDetailID?.let { id -> rootBinding.spinnerIdentificationType.setSelectionFromList(list , id) } }
+//        allMasterDropDown?.VerifiedStatus?.let { list -> kycDetail.verifiedStatusTypeDetailID?.let { id -> rootBinding.spinnerVerifiedStatus.setSelectionFromList(list, id) } }
     }
 
     private fun showKycDetailConfirmDeleteDialog() {
-        val deleteDialogView = LayoutInflater.from(context).inflate(R.layout.delete_dialog, null)
+        val deleteDialogView = LayoutInflater.from(context).inflate(R.layout.delete_dialog , null)
         val mBuilder = AlertDialog.Builder(context)
                 .setView(deleteDialogView)
                 .setTitle("Delete Kyc Detail")
@@ -195,6 +202,10 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private fun addOrUpdateKycDetails(shouldUpdate: Boolean = false) {
         val kycDetail = KYCDetail()
+
+        if (shouldUpdate.not()) kycDetail.formId = generatedKycDocumentId
+        else kycDetail.formId = kycListAdapter?.getItem(selectedKycDetailPosition)?.formId
+
         kycDetail.identificationTypeDetailID = (rootBinding.spinnerIdentificationType.selectedItem as DropdownMaster?)?.typeDetailID
         kycDetail.identificationTypeDetail = (rootBinding.spinnerIdentificationType.selectedItem as DropdownMaster?)?.typeDetailDisplayText
         kycDetail.identificationNumber = rootBinding.etIdNum.text.toString()
@@ -204,7 +215,7 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         kycDetail.verifiedStatusTypeDetail = (rootBinding.spinnerVerifiedStatus.selectedItem as DropdownMaster?)?.typeDetailDisplayText
 
         if (shouldUpdate.not()) kycListAdapter?.addItem(kycDetail)
-        else kycListAdapter?.updateItem(selectedKycDetailPosition, kycDetail)
+        else kycListAdapter?.updateItem(selectedKycDetailPosition , kycDetail)
     }
 
     override fun onKycDetailDeleteClicked(position: Int) {
@@ -212,9 +223,9 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         showKycDetailConfirmDeleteDialog()
     }
 
-    override fun onKycDetailEditClicked(position: Int, kycDetail: KYCDetail) {
+    override fun onKycDetailEditClicked(position: Int , kycDetail: KYCDetail) {
         selectedKycDetailPosition = position
-        showKycForm(show = true, isUpdateKycForm = true)
+        showKycForm(show = true , isUpdateKycForm = true)
         fillKycDetails(kycDetail)
     }
 
@@ -226,7 +237,7 @@ class KycFormView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         rootBinding.etIdNum.setText("")
         rootBinding.etExpiryDate.setText("")
         rootBinding.etIssueDate.setText("")
-        rootBinding.spinnerVerifiedStatus.setSelection(0)
+//        rootBinding.spinnerVerifiedStatus.setSelection(0)
         rootBinding.spinnerIdentificationType.setSelection(0)
     }
 

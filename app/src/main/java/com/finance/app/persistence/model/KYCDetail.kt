@@ -4,6 +4,7 @@ import java.io.Serializable
 
 class KYCDetail : Serializable {
 
+    var formId: String? = null
     var identificationNumber: String = ""
     var issueDate: String = ""
     var loanApplicationID: Int? = 0
