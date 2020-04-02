@@ -179,6 +179,20 @@
 
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/btnUploadBankStatement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button_theme_style"
+                    android:drawableLeft="@drawable/ic_file_upload_white_24dp"
+                    android:drawablePadding="10dp"
+                    android:padding="5sp"
+                    android:text="Upload Document"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
 
             </LinearLayout>
 

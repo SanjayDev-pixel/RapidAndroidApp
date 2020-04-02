@@ -53,24 +53,25 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
     private var docCodeId: Int? = null
     private var applicantNumber: String? = null
     private var selectedDocumentUri: Uri? = null
+    private var applicationDocumentID: String? = null
 
     private val presenter = Presenter()
 
-    private val binding: ActivityDocumentUploadingBinding by ActivityBindingProviderDelegate(this, R.layout.activity_document_uploading)
+    private val binding: ActivityDocumentUploadingBinding by ActivityBindingProviderDelegate(this , R.layout.activity_document_uploading)
 
     companion object {
         const val DOCUMENT_REQ_CODE = 1000
         const val DOCUMENT_IMAGE_REQ_CODE = 1001
         const val DOCUMENT_UPLOAD_BUNDLE = "document_upload_bundle"
 
-        fun startActivity(context: Context, bundle: Bundle) {
-            val intent = Intent(context, DocumentUploadingActivity::class.java)
-            intent.putExtra(DOCUMENT_UPLOAD_BUNDLE, bundle)
+        fun startActivity(context: Context , bundle: Bundle) {
+            val intent = Intent(context , DocumentUploadingActivity::class.java)
+            intent.putExtra(DOCUMENT_UPLOAD_BUNDLE , bundle)
             context.startActivity(intent)
         }
     }
 
-    inner class DocumentTypeListRequest : ViewGeneric<Requests.RequestDocumentList, Response.ResponseDocumentList>(context = this) {
+    inner class DocumentTypeListRequest : ViewGeneric<Requests.RequestDocumentList , Response.ResponseDocumentList>(context = this) {
         override val apiRequest: Requests.RequestDocumentList?
             get() = getDocumentTypeListRequest()
 
@@ -81,11 +82,11 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
 
         override fun getApiFailure(msg: String) {
             hideProgressDialog()
-            Toast.makeText(this@DocumentUploadingActivity, msg, Toast.LENGTH_LONG).show()
+            Toast.makeText(this@DocumentUploadingActivity , msg , Toast.LENGTH_LONG).show()
         }
     }
 
-    inner class UploadedDocumentListRequest : ViewGeneric<Requests.RequestUploadedDocumentList, Response.ResponseUploadedDocumentList>(context = this) {
+    inner class UploadedDocumentListRequest : ViewGeneric<Requests.RequestUploadedDocumentList , Response.ResponseUploadedDocumentList>(context = this) {
         override val apiRequest: Requests.RequestUploadedDocumentList?
             get() = getUploadedDocumentListRequest()
 
@@ -98,7 +99,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         }
     }
 
-    inner class DownloadableDocumentLinkRequest(private val documentId: Int) : ViewGeneric<Requests.RequestDocumentDownloadableLink, Response.ResponseDocumentDownloadableLink>(context = this) {
+    inner class DownloadableDocumentLinkRequest(private val documentId: Int) : ViewGeneric<Requests.RequestDocumentDownloadableLink , Response.ResponseDocumentDownloadableLink>(context = this) {
         override val apiRequest: Requests.RequestDocumentDownloadableLink?
             get() = Requests.RequestDocumentDownloadableLink(documentId)
 
@@ -109,7 +110,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
                     builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
                     builder.setShowTitle(false)
                     val customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(this@DocumentUploadingActivity, Uri.parse(url))
+                    customTabsIntent.launchUrl(this@DocumentUploadingActivity , Uri.parse(url))
                 }
             }
         }
@@ -146,14 +147,14 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             Assent.requestPermissions(AssentCallback { result ->
                 if (result.allPermissionsGranted())
                     showFileTypeChooserDialog()
-            }, 1, Assent.WRITE_EXTERNAL_STORAGE, Assent.CAMERA)
+            } , 1 , Assent.WRITE_EXTERNAL_STORAGE , Assent.CAMERA)
 
         }
         binding.btnUpload.setOnClickListener { if (isKycDocumentDetailValid()) saveKycDocumentIntoDatabase() }
     }
 
     private fun setDocumentTypeSpinner(documentTypes: ArrayList<DocumentTypeModel>) {
-        val adapter = ArrayAdapter<DocumentTypeModel>(this, android.R.layout.simple_spinner_item, documentTypes)
+        val adapter = ArrayAdapter<DocumentTypeModel>(this , android.R.layout.simple_spinner_item , documentTypes)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerDocumentType.adapter = adapter
 
@@ -163,13 +164,13 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         val adapter = UploadedDocumentListAdapter(documentList)
         binding.rvUploadedDocumentList.adapter = adapter
         adapter.setOnItemClickListener(object : UploadedDocumentListAdapter.ItemClickListener {
-            override fun onKycDetailDownloadClicked(position: Int, documentTypeModel: DocumentTypeModel) {
+            override fun onKycDetailDownloadClicked(position: Int , documentTypeModel: DocumentTypeModel) {
                 documentTypeModel.applicationDocumentID?.let { id ->
-                    presenter.callNetwork(ConstantsApi.CALL_DOWNLOAD_DOCUMENT, dmiConnector = DownloadableDocumentLinkRequest(id))
+                    presenter.callNetwork(ConstantsApi.CALL_DOWNLOAD_DOCUMENT , dmiConnector = DownloadableDocumentLinkRequest(id))
                 }
             }
 
-            override fun onKycDetailDeleteClicked(position: Int, documentTypeModel: DocumentTypeModel) {
+            override fun onKycDetailDeleteClicked(position: Int , documentTypeModel: DocumentTypeModel) {
             }
         })
     }
@@ -180,18 +181,21 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             screenTitle = it.getString(Constants.KEY_TITLE)
             docCodeId = it.getInt(Constants.KEY_DOC_ID)
             applicantNumber = it.getString(Constants.KEY_APPLICANT_NUMBER)
+            if (it.containsKey(Constants.KEY_FORM_ID)) {
+                applicationDocumentID = it.getString(Constants.KEY_FORM_ID)
+            }
         }
     }
 
     private fun fetchDocumentTypeList() {
         showProgressDialog()
         if (docCodeId != null)
-            presenter.callNetwork(ConstantsApi.CALL_DOC_TYPE, dmiConnector = DocumentTypeListRequest())
+            presenter.callNetwork(ConstantsApi.CALL_DOC_TYPE , dmiConnector = DocumentTypeListRequest())
     }
 
     private fun fetchUploadedDocumentList() {
         if (LeadMetaData.getLeadId() != null && docCodeId != null)
-            presenter.callNetwork(ConstantsApi.CALL_UPLOADED_DOC, dmiConnector = UploadedDocumentListRequest())
+            presenter.callNetwork(ConstantsApi.CALL_UPLOADED_DOC , dmiConnector = UploadedDocumentListRequest())
     }
 
     private fun getDocumentTypeListRequest(): Requests.RequestDocumentList? {
@@ -199,20 +203,20 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
     }
 
     private fun getUploadedDocumentListRequest(): Requests.RequestUploadedDocumentList? {
-        return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> Requests.RequestUploadedDocumentList(codeId, it) } }
+        return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> Requests.RequestUploadedDocumentList(codeId , it) } }
     }
 
     private fun showFileTypeChooserDialog() {
-        val actionList = arrayOf(Constants.ACTION_PICK_FILE, Constants.ACTION_TAKE_IMAGE)
+        val actionList = arrayOf(Constants.ACTION_PICK_FILE , Constants.ACTION_TAKE_IMAGE)
         val builder = AlertDialog.Builder(this@DocumentUploadingActivity)
         builder.setTitle("Choose Action!")
-        builder.setItems(actionList) { _, which ->
+        builder.setItems(actionList) { _ , which ->
             when (actionList[which]) {
                 Constants.ACTION_PICK_FILE -> this@DocumentUploadingActivity.startFilePickerActivity(DOCUMENT_REQ_CODE)
                 Constants.ACTION_TAKE_IMAGE -> {
                     selectedDocumentUri = this@DocumentUploadingActivity.getImageUriForImagePicker("doc_image_${Date().time}")
                     selectedDocumentUri?.let { uri ->
-                        this@DocumentUploadingActivity.startImagePickerActivity(DOCUMENT_IMAGE_REQ_CODE, uri)
+                        this@DocumentUploadingActivity.startImagePickerActivity(DOCUMENT_IMAGE_REQ_CODE , uri)
                     }
                 }
             }
@@ -245,6 +249,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         val kycDocumentModel = KycDocumentModel()
         kycDocumentModel.leadID = LeadMetaData.getLeadId()
         kycDocumentModel.leadApplicantNumber = applicantNumber
+        kycDocumentModel.applicationDocumentID = applicationDocumentID
         kycDocumentModel.documentID = (binding.spinnerDocumentType.selectedItem as DocumentTypeModel?)?.documentID
         kycDocumentModel.documentName = binding.etDocumentName.text.toString()
         kycDocumentModel.document = selectedDocumentUri.toString()
@@ -255,7 +260,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             dataBase.provideDataBaseSource().kycDocumentDao().add(kycDocumentModel)
             startDocumentWorkerTask()
             handler.post {
-                Toast.makeText(this@DocumentUploadingActivity, "Document Saved Successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@DocumentUploadingActivity , "Document Saved Successfully" , Toast.LENGTH_LONG).show()
             }
         }
 
@@ -267,11 +272,11 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         mWorkManager.enqueue(mRequest)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int , resultCode: Int , data: Intent?) {
         when (requestCode) {
             DOCUMENT_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onDocumentSelected(data) else selectedDocumentUri = null
             DOCUMENT_IMAGE_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onImageSelected(selectedDocumentUri) else selectedDocumentUri = null
-            else -> Toast.makeText(this@DocumentUploadingActivity, "Did not pick image, please try again!", Toast.LENGTH_LONG).show()
+            else -> Toast.makeText(this@DocumentUploadingActivity , "Did not pick image, please try again!" , Toast.LENGTH_LONG).show()
         }
     }
 

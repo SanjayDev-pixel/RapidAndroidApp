@@ -18,10 +18,12 @@ import com.finance.app.persistence.model.BankDetailBean
 import com.finance.app.persistence.model.BankDetailModel
 import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.utility.LeadMetaData
+import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.adapters.recycler.adapter.BankDetailAdapter
 import com.finance.app.view.dialogs.BankDetailDialogFragment
 import kotlinx.android.synthetic.main.delete_dialog.view.*
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.customAppComponents.activity.BaseFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import javax.inject.Inject
@@ -150,9 +152,6 @@ class BankDetailFormFragment : BaseFragment() , BankDetailDialogFragment.OnBankD
     override fun onBankDetailEditClicked(position: Int , bank: BankDetailBean) {
         selectedBankDetailPosition = position
         showBankDetailFormDialog(BankDetailDialogFragment.Action.EDIT , bank)
-//        showBankDetailFormDialog(
-//                if (leadDetails?.status == AppEnums.LEAD_TYPE.SUBMITTED.type) BankDetailDialogFragment.Action.SUBMITTED
-//                else BankDetailDialogFragment.Action.EDIT, bank)
     }
 
     override fun onSaveBankDetail(bankDetail: BankDetailBean) {
@@ -161,6 +160,17 @@ class BankDetailFormFragment : BaseFragment() , BankDetailDialogFragment.OnBankD
 
     override fun onEditBankDetail(bankDetail: BankDetailBean) {
         bankAdapter?.updateItem(selectedBankDetailPosition , bankDetail)
+    }
+
+    override fun onUploadBankDetailClicked(position: Int , bank: BankDetailBean) {
+        context?.let {
+            val bundle = Bundle()
+            bundle.putInt(Constants.KEY_DOC_ID , 356)//Hardcoded for KYC proof...
+            bundle.putString(Constants.KEY_TITLE , "Bank")
+            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicant?.applicantID.toString())
+            bundle.putString(Constants.KEY_FORM_ID , bank.applicationDocumentID)
+            DocumentUploadingActivity.startActivity(it , bundle)
+        }
     }
 
     private fun onDeleteBankDetail() {

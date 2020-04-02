@@ -3,18 +3,25 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import com.finance.app.R
 import com.finance.app.databinding.ActivityProfileBinding
+import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import java.io.IOException
+import javax.inject.Inject
 
 class ProfileActivity : BaseAppCompatActivity() {
 
+
     private val binding: ActivityProfileBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_profile)
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
 
     companion object {
         private const val CAMERA = 1
@@ -23,19 +30,46 @@ class ProfileActivity : BaseAppCompatActivity() {
             context.startActivity(intent)
         }
     }
+    /*override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ArchitectureApp.instance.component.inject(this)
+
+    }*/
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         hideToolbar()
+        hideSecondaryToolbar()
+
+
         binding.progressBar.progress = 5 / 2 * 100
         binding.icEdit.setOnClickListener {
             binding.icEdit.visibility = View.GONE
             binding.icChangePhoto.visibility = View.VISIBLE
+
         }
 
         binding.icChangePhoto.setOnClickListener {
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(cameraIntent, CAMERA)
         }
+        binding.header.tvLeadNumber.visibility =View.GONE
+        binding.header.leadtext.visibility =View.GONE
+        binding.header.lytBack.setOnClickListener(){
+            this.finish()
+        }
+
+        setDataOnView()
+    }
+
+
+    private fun setDataOnView() {
+        val name:String = sharedPreferencesUtil.getUserName().toString()
+        val role:String= sharedPreferencesUtil.getRoleName().toString()
+        binding.tvProfileName.setText(name)
+        binding.tvDesignation.setText(role)
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

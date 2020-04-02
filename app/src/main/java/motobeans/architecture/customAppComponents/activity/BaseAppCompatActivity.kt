@@ -15,6 +15,7 @@ import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.presenter.connector.ReusableView
 import com.finance.app.view.activity.*
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.drawer_header.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -178,7 +179,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
   private fun setUpHeaderView() {
       bindingParent.navView.inflateHeaderView(R.layout.drawer_header)
       val headerLayout = bindingParent.navView.getHeaderView(0)
-      headerLayout.setOnClickListener {
+    headerLayout.tvProfileName.setText(sharedPreferencesUtil.getUserName())
+    headerLayout.setOnClickListener {
           ProfileActivity.start(this)
       }
   }

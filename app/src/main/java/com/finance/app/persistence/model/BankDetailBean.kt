@@ -1,9 +1,9 @@
 package com.finance.app.persistence.model
 
 import java.io.Serializable
-import java.text.DecimalFormat
 
 class BankDetailBean : Serializable {
+    var applicationDocumentID: String? = null
     var accountHolderName: String? = null
     var accountNumber: String? = null
     var accountTypeDetailID: Int? = null
