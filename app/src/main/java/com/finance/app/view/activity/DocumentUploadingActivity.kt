@@ -53,7 +53,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
     private var docCodeId: Int? = null
     private var applicantNumber: String? = null
     private var selectedDocumentUri: Uri? = null
-    private var formId: String? = null
+    private var applicationDocumentID: String? = null
 
     private val presenter = Presenter()
 
@@ -182,7 +182,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             docCodeId = it.getInt(Constants.KEY_DOC_ID)
             applicantNumber = it.getString(Constants.KEY_APPLICANT_NUMBER)
             if (it.containsKey(Constants.KEY_FORM_ID)) {
-                formId = it.getString(Constants.KEY_FORM_ID)
+                applicationDocumentID = it.getString(Constants.KEY_FORM_ID)
             }
         }
     }
@@ -249,7 +249,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         val kycDocumentModel = KycDocumentModel()
         kycDocumentModel.leadID = LeadMetaData.getLeadId()
         kycDocumentModel.leadApplicantNumber = applicantNumber
-        kycDocumentModel.formId = formId
+        kycDocumentModel.applicationDocumentID = applicationDocumentID
         kycDocumentModel.documentID = (binding.spinnerDocumentType.selectedItem as DocumentTypeModel?)?.documentID
         kycDocumentModel.documentName = binding.etDocumentName.text.toString()
         kycDocumentModel.document = selectedDocumentUri.toString()

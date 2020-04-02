@@ -179,7 +179,7 @@ class KycFormView @JvmOverloads constructor(context: Context , attrs: AttributeS
     }
 
     private fun fillKycDetails(kycDetail: KYCDetail) {
-        generatedKycDocumentId = kycDetail.formId
+        generatedKycDocumentId = kycDetail.applicationDocumentID
         rootBinding.etIdNum.setText(kycDetail.identificationNumber)
         rootBinding.etIssueDate.setText(ConvertDate().convertToAppFormat(kycDetail.issueDate))
         rootBinding.etExpiryDate.setText(ConvertDate().convertToAppFormat(kycDetail.expireDate))
@@ -203,8 +203,8 @@ class KycFormView @JvmOverloads constructor(context: Context , attrs: AttributeS
     private fun addOrUpdateKycDetails(shouldUpdate: Boolean = false) {
         val kycDetail = KYCDetail()
 
-        if (shouldUpdate.not()) kycDetail.formId = generatedKycDocumentId
-        else kycDetail.formId = kycListAdapter?.getItem(selectedKycDetailPosition)?.formId
+        if (shouldUpdate.not()) kycDetail.applicationDocumentID = generatedKycDocumentId
+        else kycDetail.applicationDocumentID = kycListAdapter?.getItem(selectedKycDetailPosition)?.applicationDocumentID
 
         kycDetail.identificationTypeDetailID = (rootBinding.spinnerIdentificationType.selectedItem as DropdownMaster?)?.typeDetailID
         kycDetail.identificationTypeDetail = (rootBinding.spinnerIdentificationType.selectedItem as DropdownMaster?)?.typeDetailDisplayText

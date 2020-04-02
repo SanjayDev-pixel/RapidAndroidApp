@@ -50,7 +50,7 @@ class UploadDocumentWorker(context: Context , workerParams: WorkerParameters) : 
     private fun prepareMultipartBody(documentModel: KycDocumentModel): HashMap<String , RequestBody> {
         val body = HashMap<String , RequestBody>()
         body["leadID"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.leadID.toString())
-        body["formId"] = if (documentModel.formId.isNullOrEmpty().not()) RequestBody.create(MediaType.parse("text/plain") , documentModel.formId.toString()) else RequestBody.create(MediaType.parse("text/plain") , "")
+        body["rowIdentifier"] = if (documentModel.applicationDocumentID.isNullOrEmpty().not()) RequestBody.create(MediaType.parse("text/plain") , documentModel.applicationDocumentID.toString()) else RequestBody.create(MediaType.parse("text/plain") , "")
         body["documentID"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.documentID.toString())
         body["documentName"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.documentName.toString())
         body["leadApplicantNumber"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.leadApplicantNumber.toString())
