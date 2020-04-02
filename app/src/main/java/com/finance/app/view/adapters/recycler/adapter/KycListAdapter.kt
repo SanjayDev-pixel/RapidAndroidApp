@@ -14,18 +14,18 @@ import com.finance.app.persistence.model.KYCDetail
 import com.finance.app.utility.ConvertDate
 import com.finance.app.utility.LeadMetaData
 
-class KycListAdapter(private val context: Context, private val kycList: ArrayList<KYCDetail>) : RecyclerView.Adapter<KycListAdapter.KycViewHolder>() {
+class KycListAdapter(private val context: Context , private val kycList: ArrayList<KYCDetail>) : RecyclerView.Adapter<KycListAdapter.KycViewHolder>() {
 
     private var listSize: MutableLiveData<Int>? = MutableLiveData()
     private var itemClickListener: ItemClickListener? = null
 
     interface ItemClickListener {
         fun onKycDetailDeleteClicked(position: Int)
-        fun onKycDetailEditClicked(position: Int, kycDetail: KYCDetail)
+        fun onKycDetailEditClicked(position: Int , kycDetail: KYCDetail)
     }
 
     inner class KycViewHolder(val binding: ItemKycBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bindItems(position: Int, kyc: KYCDetail) {
+        fun bindItems(position: Int , kyc: KYCDetail) {
             binding.tvIdType.text = kyc.identificationTypeDetail.toString()
             binding.tvIdNum.text = kyc.identificationNumber
             binding.tvVerifiedStatus.text = kyc.verifiedStatusTypeDetail.toString()
@@ -39,19 +39,19 @@ class KycListAdapter(private val context: Context, private val kycList: ArrayLis
                     binding.ivDelete.visibility = View.VISIBLE
                     binding.ivEdit.visibility = View.VISIBLE
                 }
-           }
+            }
 
-            addClickListener(position, kyc)
+            addClickListener(position , kyc)
 
         }
 
-        private fun addClickListener(position: Int, kycDetail: KYCDetail) {
+        private fun addClickListener(position: Int , kycDetail: KYCDetail) {
             binding.ivDelete.setOnClickListener {
                 itemClickListener?.onKycDetailDeleteClicked(position)
             }
 
             binding.ivEdit.setOnClickListener {
-                itemClickListener?.onKycDetailEditClicked(position, kycDetail)
+                itemClickListener?.onKycDetailEditClicked(position , kycDetail)
             }
         }
 
@@ -61,13 +61,17 @@ class KycListAdapter(private val context: Context, private val kycList: ArrayLis
         itemClickListener = listener
     }
 
+    fun getItem(position: Int): KYCDetail {
+        return kycList[position]
+    }
+
     fun addItem(kycDetail: KYCDetail) {
-        kycList.add(0, kycDetail)
+        kycList.add(0 , kycDetail)
         notifyDataSetChanged()
         listSize?.postValue(itemCount)
     }
 
-    fun updateItem(position: Int, kycDetail: KYCDetail) {
+    fun updateItem(position: Int , kycDetail: KYCDetail) {
         if (position >= 0 && position < kycList.size) {
             kycList[position] = kycDetail
             notifyDataSetChanged()
@@ -89,13 +93,13 @@ class KycListAdapter(private val context: Context, private val kycList: ArrayLis
 
     override fun getItemCount(): Int = kycList.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KycViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup , viewType: Int): KycViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return KycViewHolder(DataBindingUtil.inflate(layoutInflater, R.layout.item_kyc, parent, false))
+        return KycViewHolder(DataBindingUtil.inflate(layoutInflater , R.layout.item_kyc , parent , false))
     }
 
-    override fun onBindViewHolder(holder: KycViewHolder, position: Int) {
-        holder.bindItems(position, kycList[position])
+    override fun onBindViewHolder(holder: KycViewHolder , position: Int) {
+        holder.bindItems(position , kycList[position])
     }
 
 }

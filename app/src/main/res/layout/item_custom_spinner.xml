@@ -7,7 +7,7 @@
         android:background="@android:color/transparent"
         android:orientation="vertical">
 
-        <TextView
+        <com.finance.app.view.utils.TextViewBold
             android:id="@+id/tvSpinnerValue"
             style="@style/spinner_style"
             android:layout_width="match_parent"

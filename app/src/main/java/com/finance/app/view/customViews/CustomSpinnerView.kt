@@ -2,6 +2,7 @@ package com.finance.app.view.customViews
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -63,7 +64,9 @@ class CustomSpinnerView<Type : IspinnerModel>(val mContext: Context, private val
     }
 
     private fun setDropdownLabel(msg: String) {
+        val myTypeface = Typeface.createFromAsset(context.assets, "fonts/Raleway-Bold.ttf")
         spinnerType.hint = msg
+        spinnerType.typeface = myTypeface
         spinnerType.floatingLabelText = msg
     }
 
@@ -105,6 +108,7 @@ class CustomSpinnerView<Type : IspinnerModel>(val mContext: Context, private val
     }
 
     fun disableSelf() {
+        spinnerType.disabledColor = R.color.black
         spinnerType.isEnabled = false
     }
 

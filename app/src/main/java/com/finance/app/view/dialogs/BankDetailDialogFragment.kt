@@ -16,17 +16,17 @@ import com.finance.app.persistence.model.BankDetailBean
 import com.finance.app.persistence.model.DropdownMaster
 import com.finance.app.utility.ShowAsMandatory
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
-import com.finance.app.view.utils.selectItem
 import kotlinx.android.synthetic.main.dialog_bank_detail_form.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.AppUtils.showToast
+import java.util.*
 import javax.inject.Inject
 
 class BankDetailDialogFragment : DialogFragment() {
     enum class Action {
-        NEW,
-        EDIT,
+        NEW ,
+        EDIT ,
         SUBMITTED;
     }
 
@@ -43,7 +43,7 @@ class BankDetailDialogFragment : DialogFragment() {
 
     companion object {
         private const val SALARIED = 93
-        fun newInstance(action: Action, dialogCallback: OnBankDetailDialogCallback, allMasterDropDown: AllMasterDropDown, bankDetail: BankDetailBean? = null): BankDetailDialogFragment {
+        fun newInstance(action: Action , dialogCallback: OnBankDetailDialogCallback , allMasterDropDown: AllMasterDropDown , bankDetail: BankDetailBean? = null): BankDetailDialogFragment {
             val fragment = BankDetailDialogFragment()
             fragment.action = action
             fragment.dialogCallback = dialogCallback
@@ -59,14 +59,14 @@ class BankDetailDialogFragment : DialogFragment() {
         isCancelable = false
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_bank_detail_form, container, false)
+    override fun onCreateView(inflater: LayoutInflater , container: ViewGroup? , savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater , R.layout.dialog_bank_detail_form , container , false)
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
 
 
         initViews()
@@ -79,19 +79,19 @@ class BankDetailDialogFragment : DialogFragment() {
         ShowAsMandatory(binding.inputLayoutAccountNum)
 
 //        binding.spinnerBankName.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.BankName!!)
-        val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, allMasterDropDown.BankName!!)
+        val adapter = ArrayAdapter(context!! , android.R.layout.simple_list_item_1 , allMasterDropDown.BankName!!)
         binding.actBankName.setAdapter(adapter)
-        binding.actBankName.setOnItemClickListener { parent, view, position, id ->
+        binding.actBankName.setOnItemClickListener { parent , view , position , id ->
             binding.actBankName.tag = parent.getItemAtPosition(position) as DropdownMaster
         }
 
 
 
-        binding.spinnerAccountType.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.AccountType!!)
-        binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(context!!, allMasterDropDown.SalaryCredit!!)
+        binding.spinnerAccountType.adapter = MasterSpinnerAdapter(context!! , allMasterDropDown.AccountType!!)
+        binding.spinnerSalaryCredit.adapter = MasterSpinnerAdapter(context!! , allMasterDropDown.SalaryCredit!!)
         binding.spinnerSalaryCredit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*> , view: View? , position: Int , id: Long) {
                 if (position >= 0) {
                     val salaryCredit = parent.selectedItem as DropdownMaster
                     if (salaryCredit.typeDetailID == SALARIED) binding.inputLayoutSalaryCreditInSixMonth.visibility = View.VISIBLE
@@ -108,7 +108,7 @@ class BankDetailDialogFragment : DialogFragment() {
                 if (action == Action.NEW) dialogCallback.onSaveBankDetail(getFilledBankDetails())
                 else if (action == Action.EDIT) dialogCallback.onEditBankDetail(getFilledBankDetails())
                 dismiss()
-            } else showToast(context, getString(R.string.validation_error))
+            } else showToast(context , getString(R.string.validation_error))
         }
     }
 
@@ -123,22 +123,22 @@ class BankDetailDialogFragment : DialogFragment() {
     }
 
     private fun setFormDetails(bankDetail: BankDetailBean) {
-        allMasterDropDown.BankName?.forEachIndexed { index, dropdownMaster ->
+        allMasterDropDown.BankName?.forEachIndexed { index , dropdownMaster ->
             if (dropdownMaster.typeDetailID == bankDetail.bankNameTypeDetailID) {
-                (binding.actBankName.setText(dropdownMaster.typeDetailDisplayText.toString(),false))
+                (binding.actBankName.setText(dropdownMaster.typeDetailDisplayText.toString() , false))
                 binding.actBankName.tag = dropdownMaster
                 return@forEachIndexed
             }
         }
 
-        allMasterDropDown.AccountType?.forEachIndexed { index, dropdownMaster ->
+        allMasterDropDown.AccountType?.forEachIndexed { index , dropdownMaster ->
             if (dropdownMaster.typeDetailID == bankDetail.accountTypeDetailID) {
                 binding.spinnerAccountType.setSelection(index + 1)
                 return@forEachIndexed
             }
         }
 
-        allMasterDropDown.SalaryCredit?.forEachIndexed { index, dropdownMaster ->
+        allMasterDropDown.SalaryCredit?.forEachIndexed { index , dropdownMaster ->
             if (dropdownMaster.typeDetailID == bankDetail.salaryCreditTypeDetailID) {
                 binding.spinnerSalaryCredit.setSelection(index + 1)
                 return@forEachIndexed
@@ -158,6 +158,7 @@ class BankDetailDialogFragment : DialogFragment() {
         val aType = binding.spinnerAccountType.selectedItem as DropdownMaster?
         val salaryCredit = binding.spinnerSalaryCredit.selectedItem as DropdownMaster?
 
+        bankDetails.applicationDocumentID = if (this.bankDetail?.applicationDocumentID.isNullOrEmpty()) Date().time.toString() else this.bankDetail?.applicationDocumentID
         bankDetails.bankNameTypeDetailID = bName?.typeDetailID
         bankDetails.bankName = bName?.typeDetailCode
         bankDetails.accountTypeDetailID = aType?.typeDetailID

@@ -34,7 +34,7 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
@@ -42,10 +42,9 @@
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textColor="@color/black_242424"
                             android:textSize="14sp"
-                            android:textStyle="bold"
                             android:paddingLeft="@dimen/margin10dp" />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvBankName"
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -64,7 +63,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="@dimen/margin10dp">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -72,10 +71,9 @@
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textColor="@color/black_242424"
                             android:textSize="14sp"
-                            android:textStyle="bold"
                             android:paddingLeft="@dimen/margin10dp" />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvCardLimit"
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -95,7 +93,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="@dimen/margin10dp">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
@@ -103,10 +101,9 @@
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textColor="@color/black_242424"
                             android:textSize="14sp"
-                            android:textStyle="bold"
                             android:paddingLeft="@dimen/margin10dp" />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvCurrentUtilization"
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -124,7 +121,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="@dimen/margin10dp">
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewBold
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
@@ -132,10 +129,9 @@
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textColor="@color/black_242424"
                             android:textSize="14sp"
-                            android:textStyle="bold"
                             android:paddingLeft="@dimen/margin10dp" />
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvLastPaymentDate"
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -156,7 +152,7 @@
                     android:layout_marginBottom="@dimen/margin_10"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -165,9 +161,9 @@
                         android:paddingLeft="@dimen/margin10dp"
                         android:textColor="@color/black_242424"
                         android:textSize="14sp"
-                        android:textStyle="bold" />
+                         />
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/tvObligate"
                         android:layout_width="0dp"
                         android:layout_weight="1"

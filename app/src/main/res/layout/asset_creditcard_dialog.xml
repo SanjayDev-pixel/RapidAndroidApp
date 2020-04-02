@@ -22,7 +22,7 @@
             android:layout_gravity="end"
             android:src="@drawable/ic_close_black_48dp" />
 
-        <TextView
+        <com.finance.app.view.utils.TextViewBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -31,7 +31,7 @@
             android:text="@string/credit_card_details"
             android:textColor="@color/black"
             android:textSize="23sp"
-            android:textStyle="bold" />
+           />
 
     </RelativeLayout>
 
@@ -81,7 +81,7 @@
         android:textColorHint="@color/hint_color"
         android:layout_marginTop="@dimen/margin20dp">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.finance.app.view.utils.EditTexNormal
             android:id="@+id/etCreditCardLimit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
         android:textColorHint="@color/hint_color"
         android:layout_marginTop="@dimen/margin20dp">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.finance.app.view.utils.EditTexNormal
             android:id="@+id/etCurrentUtilization"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
         android:layout_marginTop="@dimen/margin20dp"
         android:textColorHint="@color/hint_color">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.finance.app.view.utils.EditTexNormal
             android:id="@+id/etLastPaymentDate"
             android:layout_width="match_parent"
             android:editable="false"
@@ -154,12 +154,13 @@
 
     <Button
         android:id="@+id/btnAddcrdetail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add"
         android:gravity="center"
         android:layout_gravity="center"
-        android:textColor="@color/black"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="@dimen/button_text_size"
         android:layout_marginTop="@dimen/margin20dp"
         android:layout_marginBottom="@dimen/margin10dp"/>

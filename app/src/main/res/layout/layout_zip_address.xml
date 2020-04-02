@@ -20,7 +20,7 @@
                 android:layout_marginTop="@dimen/fields_margin"
                 android:textColorHint="@color/hint_color">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.finance.app.view.utils.EditTexNormal
                     android:id="@+id/etCurrentPinCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

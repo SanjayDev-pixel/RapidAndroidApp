@@ -15,7 +15,7 @@ import okhttp3.RequestBody
 import javax.inject.Inject
 
 
-class UploadDocumentWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class UploadDocumentWorker(context: Context , workerParams: WorkerParameters) : Worker(context , workerParams) {
 
     @Inject
     lateinit var database: DataBaseUtil
@@ -30,7 +30,7 @@ class UploadDocumentWorker(context: Context, workerParams: WorkerParameters) : W
         val documentList = database.provideDataBaseSource().kycDocumentDao().get()
         documentList.forEach { document ->
             document?.let {
-                val uploadCall = apiProject.api.postUploadDocument(prepareMultipartFile(it), prepareMultipartBody(it))
+                val uploadCall = apiProject.api.postUploadDocument(prepareMultipartFile(it) , prepareMultipartBody(it))
                 val response = uploadCall.execute()
                 if (response.isSuccessful) {
                     database.provideDataBaseSource().kycDocumentDao().delete(it.id)
@@ -42,17 +42,18 @@ class UploadDocumentWorker(context: Context, workerParams: WorkerParameters) : W
     }
 
     private fun prepareMultipartFile(documentModel: KycDocumentModel): MultipartBody.Part {
-        val file = FileUtils.getFile(applicationContext, Uri.parse(documentModel.document))
-        val fileBody = RequestBody.create(MediaType.parse(applicationContext.contentResolver.getType(Uri.parse(documentModel.document))), file)
-        return MultipartBody.Part.createFormData("document", file.name, fileBody)
+        val file = FileUtils.getFile(applicationContext , Uri.parse(documentModel.document))
+        val fileBody = RequestBody.create(MediaType.parse(applicationContext.contentResolver.getType(Uri.parse(documentModel.document))) , file)
+        return MultipartBody.Part.createFormData("document" , file.name , fileBody)
     }
 
-    private fun prepareMultipartBody(documentModel: KycDocumentModel): HashMap<String, RequestBody> {
-        val body = HashMap<String, RequestBody>()
-        body["leadID"] = RequestBody.create(MediaType.parse("text/plain"), documentModel.leadID.toString())
-        body["documentID"] = RequestBody.create(MediaType.parse("text/plain"), documentModel.documentID.toString())
-        body["documentName"] = RequestBody.create(MediaType.parse("text/plain"), documentModel.documentName.toString())
-        body["leadApplicantNumber"] = RequestBody.create(MediaType.parse("text/plain"), documentModel.leadApplicantNumber.toString())
+    private fun prepareMultipartBody(documentModel: KycDocumentModel): HashMap<String , RequestBody> {
+        val body = HashMap<String , RequestBody>()
+        body["leadID"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.leadID.toString())
+        body["rowIdentifier"] = if (documentModel.applicationDocumentID.isNullOrEmpty().not()) RequestBody.create(MediaType.parse("text/plain") , documentModel.applicationDocumentID.toString()) else RequestBody.create(MediaType.parse("text/plain") , "")
+        body["documentID"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.documentID.toString())
+        body["documentName"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.documentName.toString())
+        body["leadApplicantNumber"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.leadApplicantNumber.toString())
 
         return body
     }

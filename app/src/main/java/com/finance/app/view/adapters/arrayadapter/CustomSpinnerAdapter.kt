@@ -1,6 +1,7 @@
 package com.finance.app.view.adapters.arrayadapter
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,8 @@ class CustomSpinnerAdapter<T>(mContext: Context, private val resourceId: Int,
         val tempValue = data[position]
         val tvTitle = row.findViewById(R.id.tvSpinnerValue) as TextView?
         row.tag = tempValue
+        val myTypeface = Typeface.createFromAsset(context.assets, "fonts/montserrat.otf")
+        tvTitle?.typeface = myTypeface
         tvTitle?.text = tempValue.toString()
 
         return row

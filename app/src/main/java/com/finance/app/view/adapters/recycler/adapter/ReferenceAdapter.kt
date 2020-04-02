@@ -37,9 +37,14 @@ class ReferenceAdapter(private val c: Context, private val referencesList: Array
 
 
             addClickListener(position, reference)
-            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true))
+            LeadMetaData.getLeadData()?.let { if(it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type,true)) {
                 binding.ivDelete.visibility = View.GONE
                 binding.ivEdit.visibility = View.GONE
+            }else
+            {
+                binding.ivDelete.visibility = View.VISIBLE
+                binding.ivEdit.visibility = View.VISIBLE
+            }
             }
 
         }
