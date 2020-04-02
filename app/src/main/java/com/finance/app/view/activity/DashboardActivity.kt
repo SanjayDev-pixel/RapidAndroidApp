@@ -9,8 +9,11 @@ import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardNewBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.view.adapters.recycler.adapter.DashboardChartAdapter
+import com.finance.app.viewModel.SyncDataViewModel
 import com.finance.app.workers.UtilWorkManager
 import com.google.gson.Gson
+import motobeans.architecture.appDelegates.ViewModelType
+import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
@@ -32,6 +35,8 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     private var adapterChart: DashboardChartAdapter? = null
     private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(this, R.layout.activity_dashboard_new)
+    private val viewModel: SyncDataViewModel by viewModelProvider(activity = this,
+            viewModelType = ViewModelType.WITH_DAO)
 
 
     companion object {
@@ -46,6 +51,7 @@ class DashboardActivity : BaseAppCompatActivity() {
         ArchitectureApp.instance.component.inject(this)
 
         UtilWorkManager.globalWorkManagerPeriodically()
+        viewModel.getUpdatedDataFromServer()
 
         hideSecondaryToolbar()
         setVersionName()
