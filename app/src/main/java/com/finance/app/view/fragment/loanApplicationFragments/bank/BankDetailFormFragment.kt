@@ -167,7 +167,7 @@ class BankDetailFormFragment : BaseFragment() , BankDetailDialogFragment.OnBankD
             val bundle = Bundle()
             bundle.putInt(Constants.KEY_DOC_ID , 356)//Hardcoded for KYC proof...
             bundle.putString(Constants.KEY_TITLE , "Bank")
-            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicant?.applicantID.toString())
+            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicant?.leadApplicantNumber.toString())
             bundle.putString(Constants.KEY_FORM_ID , bank.applicationDocumentID)
             DocumentUploadingActivity.startActivity(it , bundle)
         }
