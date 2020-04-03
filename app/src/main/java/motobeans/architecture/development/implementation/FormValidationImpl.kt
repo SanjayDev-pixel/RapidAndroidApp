@@ -745,6 +745,8 @@ class FormValidationImpl : FormValidation {
         val emiAmount = binding.etEmiAmount.text.toString()
         val bouncesIn6 = binding.etBouncesInLastSixMonths.text.toString()
         val bouncesIn9 = binding.etBouncesInLastNineMonths.text.toString()
+        val loanAmount=binding.etLoanAmount.text.toString()
+
         var errorBank:Int=0
 
         if (repaymentBank==null){
@@ -769,6 +771,7 @@ class FormValidationImpl : FormValidation {
             !emiAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmiAmount)
             !bouncesIn6.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastSixMonths)
             !bouncesIn9.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBouncesInLastNineMonths)
+            !loanAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etLoanAmount)
 
             else -> 0
         }
