@@ -30,11 +30,6 @@ class ProfileActivity : BaseAppCompatActivity() {
             context.startActivity(intent)
         }
     }
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ArchitectureApp.instance.component.inject(this)
-
-    }*/
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)

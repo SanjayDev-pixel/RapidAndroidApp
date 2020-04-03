@@ -110,4 +110,7 @@ interface Api {
     //getKycDetail
     @GET("api/v1/kyc/getKycDetails/{leadID}/applicant/{leadApplicantNumber}")
     fun getKycDetail(@Path("leadID") leadId: Int,@Path("leadApplicantNumber")leadApplicantNumber:String): Observable<Response.ResponseKycDetail>
+
+    @POST("api/v1/changePassword/submit/")
+    fun resetPassword(@Body requestPost: Requests.RequestResetPassword): Observable<Response.ResponseResetPassword>
 }
