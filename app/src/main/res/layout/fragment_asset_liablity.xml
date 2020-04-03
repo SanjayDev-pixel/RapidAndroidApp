@@ -67,11 +67,11 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@color/app_bkg"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:gravity="center">
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewBold
                         android:id="@+id/tv_assetdetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                         android:textStyle="bold"
                         android:layout_marginTop="5dp"/>
 
-                    <TextView
+                    <com.finance.app.view.utils.TextViewNormal
                         android:id="@+id/assetcounter"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -101,7 +101,7 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_add_grey_24dp"
+                        android:src="@drawable/ic_add_box_black_24dp"
                         />
 
                 </RelativeLayout>
@@ -270,7 +270,7 @@
                         android:text="@string/previous"
                         android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size"
-                        android:background="@color/md_grey_500"
+                        android:background="@color/grey_585858"
                         android:layout_marginLeft="@dimen/margin20dp"/>
 
                     <Button
@@ -281,7 +281,7 @@
                         android:layout_alignParentEnd="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/button_text_size"
-                        android:background="@color/md_applicant_blue"
+                        android:background="@color/colorPrimary"
                         android:layout_marginRight="@dimen/margin20dp"/>
                 </RelativeLayout>
             </LinearLayout>

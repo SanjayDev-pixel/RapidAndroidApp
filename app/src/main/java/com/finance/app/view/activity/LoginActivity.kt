@@ -64,8 +64,8 @@ class LoginActivity : BaseAppCompatActivity() {
             get() {
                 /*binding.etUserName.setText("dmi")
                 binding.etPassword.setText("Default@123")*/
-                //binding.etUserName.setText("dmi")
-                //binding.etPassword.setText("Default@123")
+//                binding.etUserName.setText("dmi")
+//                binding.etPassword.setText("Default@123")
                 val username = binding.etUserName.text.toString()
                 val password = binding.etPassword.text.toString()
                 val company = mCompany
@@ -78,12 +78,17 @@ class LoginActivity : BaseAppCompatActivity() {
             }
 
         override fun getApiSuccess(value: ResponseLogin) {
+
             if (value.responseCode == Constants.SUCCESS) {
                 System.out.println("loginValue>>>>"+value)
                 sharedPreferences.saveLoginData(value)
-                SyncActivity.start(this@LoginActivity)
+                //SyncActivity.start(this@LoginActivity)
+                //viewModel.getUpdatedDataFromServer()
+                DashboardActivity.start(this@LoginActivity)
+
             } else {
                 showToast(value.responseMsg)
+                System.out.println("ResponseMsg>>>"+value.responseMsg)
             }
         }
 

@@ -44,7 +44,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:id="@+id/labelBankDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                     android:text="Bank Detail"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -74,12 +74,14 @@
 
                 <ImageView
                     android:id="@+id/imageAddBank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_grey_24dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_add_box_black_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

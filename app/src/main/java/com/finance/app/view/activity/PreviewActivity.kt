@@ -50,12 +50,13 @@ class PreviewActivity : BaseAppCompatActivity() {
     }
 
     override fun init() {
-
+        System.out.println("time test1>>>")
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
         getLead()
         setOnClickListeners()
+        System.out.println("time test2>>>")
 
     }
 

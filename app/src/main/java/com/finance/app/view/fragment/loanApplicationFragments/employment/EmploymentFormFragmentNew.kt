@@ -21,6 +21,7 @@ import com.finance.app.persistence.model.*
 import com.finance.app.utility.*
 import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
+import com.finance.app.view.utils.EditTexNormal
 import com.finance.app.view.utils.setSelectionFromList
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_employment_form.*
@@ -135,7 +136,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         CurrencyConversion().convertToCurrencyType(binding.lytBusinessDetail.etMonthlyIncome)
     }
 
-    private fun setSalaryIncomeTextChangeListener(amountField: TextInputEditText?) {
+    private fun setSalaryIncomeTextChangeListener(amountField: EditTexNormal?) {
         amountField?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (binding.lytSalaryDetail.etGrossIncome.text.toString().isBlank() || binding.lytSalaryDetail.etDeduction.text.toString().isBlank())
@@ -159,7 +160,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         })
     }
 
-    private fun setBusinessIncomeTextChangeListener(amountField: TextInputEditText?) {
+    private fun setBusinessIncomeTextChangeListener(amountField: EditTexNormal?) {
         amountField?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (binding.lytBusinessDetail.etLastYearIncome.text.toString().isBlank() || binding.lytBusinessDetail.etCurrentYearIncome.text.toString().isBlank()) return //Return if string is empty

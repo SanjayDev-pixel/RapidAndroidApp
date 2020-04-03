@@ -58,7 +58,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <TextView
+                                <com.finance.app.view.utils.TextViewBold
                                     android:id="@+id/tvLeadName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                                         android:layout_gravity="center"
                                         android:src="@drawable/ic_location_red" />
 
-                                    <TextView
+                                    <com.finance.app.view.utils.TextViewNormal
                                         android:id="@+id/tvLocation"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                                         android:layout_height="25sp"
                                         android:src="@drawable/ic_call" />
 
-                                    <TextView
+                                    <com.finance.app.view.utils.TextViewNormal
                                         android:id="@+id/tvPhone"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
                                         android:layout_height="25sp"
                                         android:src="@drawable/ic_email_black_24dp" />
 
-                                    <TextView
+                                    <com.finance.app.view.utils.TextViewNormal
                                         android:id="@+id/tvEmail"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -184,14 +184,14 @@
                                     android:layout_marginTop="@dimen/fields_margin"
                                     android:orientation="horizontal">
 
-                                    <TextView
+                                    <com.finance.app.view.utils.TextViewNormal
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/type_of_loan"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_size" />
 
-                                    <TextView
+                                    <com.finance.app.view.utils.TextViewBold
                                         android:id="@+id/tvTypeOfLoan"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -210,14 +210,14 @@
                                     android:layout_marginTop="@dimen/margin_10"
                                     android:orientation="horizontal">
 
-                                    <TextView
+                                    <com.finance.app.view.utils.TextViewNormal
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Lead Status : "
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_size" />
 
-                                    <TextView
+                                    <com.finance.app.view.utils.TextViewBold
                                         android:id="@+id/tvLeadStatus"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -298,7 +298,7 @@
                         android:orientation="vertical"
                         >
 
-                        <TextView
+                        <com.finance.app.view.utils.TextViewNormal
                             android:id="@+id/tvActivities"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

@@ -14,7 +14,7 @@
             android:layout_marginTop="@dimen/fields_margin"
             android:orientation="horizontal">
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:id="@+id/tvCoApplicant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
                 android:text="@string/applicant"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="@dimen/margin_20"
-                android:textStyle="bold" />
+                 />
 
             <ImageView
                 android:id="@+id/expandForm"
@@ -58,16 +58,15 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/preivew_assets_list"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textSize="@dimen/margin_20"
-                    android:textStyle="bold"
                     android:paddingLeft="@dimen/margin5dp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/white"/>
+                    android:background="@color/app_bkg"
+                    android:textColor="@color/black"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcAssetLiability"
@@ -78,17 +77,17 @@
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:text="@string/preview_card_data_list"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textSize="@dimen/margin_20"
-                    android:textStyle="bold"
+
                     android:paddingLeft="@dimen/margin5dp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/white"/>
+                    android:background="@color/app_bkg"
+                    android:textColor="@color/black"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcCard"
@@ -99,17 +98,16 @@
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:text="@string/preview_obligations_list"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textSize="@dimen/margin_20"
-                    android:textStyle="bold"
                     android:paddingLeft="@dimen/margin5dp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/white"/>
+                    android:background="@color/app_bkg"
+                    android:textColor="@color/black"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcObligations"

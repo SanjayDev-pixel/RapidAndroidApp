@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent">
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:id="@+id/applicant_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.finance.app.view.utils.TextViewNormal
                 android:id="@+id/tvDesignation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
-            <TextView
+            <com.finance.app.view.utils.TextViewNormal
                 android:id="@+id/tvMobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

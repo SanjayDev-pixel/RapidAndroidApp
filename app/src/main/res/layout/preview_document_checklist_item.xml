@@ -31,16 +31,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <com.finance.app.view.utils.TextViewBold
             android:id="@+id/serial_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Q.  "
             android:textAppearance="?android:textAppearanceLarge"
             android:textSize="@dimen/button_text_size"
-            android:textStyle="bold"/>
+            />
 
-        <TextView
+        <com.finance.app.view.utils.TextViewNormal
             android:id="@+id/questiontext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
+        <com.finance.app.view.utils.TextViewBold
             android:id="@+id/ans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             android:textAppearance="?android:textAppearanceLarge"
             />
 
-        <TextView
+        <com.finance.app.view.utils.TextViewBold
             android:id="@+id/q_ans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

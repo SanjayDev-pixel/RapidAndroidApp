@@ -17,6 +17,7 @@ import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.*
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import com.finance.app.view.utils.EditTexNormal
 import com.google.android.material.textfield.TextInputEditText
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -123,7 +124,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context ,
         CurrencyConversion().convertToCurrencyType(binding.layoutSenp.etMonthlyIncome)
     }
 
-    private fun salaryIncomeListener(amountField: TextInputEditText? , type: AppEnums.INCOME_TYPE) {
+    private fun salaryIncomeListener(amountField: EditTexNormal? , type: AppEnums.INCOME_TYPE) {
         amountField?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence , start: Int , count: Int , after: Int) {}
@@ -142,7 +143,7 @@ class CustomEmploymentInfoView @JvmOverloads constructor(val mContext: Context ,
         })
     }
 
-    private fun senpIncomeListener(amountField: TextInputEditText? , type: AppEnums.INCOME_TYPE) {
+    private fun senpIncomeListener(amountField: EditTexNormal? , type: AppEnums.INCOME_TYPE) {
         amountField?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence , start: Int , count: Int , after: Int) {}

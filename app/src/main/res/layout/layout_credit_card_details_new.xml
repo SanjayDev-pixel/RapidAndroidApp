@@ -15,16 +15,16 @@
             android:layout_marginTop="@dimen/fields_margin"
             android:gravity="center">
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:id="@+id/tv_assetdetail"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="@string/credit_card_details"
                 android:textColor="@color/black"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textStyle="bold"/>
+                />
 
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:id="@+id/assetcounter"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -33,7 +33,6 @@
                 android:textColor="@color/white"
                 android:background="@drawable/blue_circle"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:textAppearance="?android:textAppearanceLarge"
                 android:textSize="@dimen/button_text_size"
                 android:layout_marginTop="5dp"
                 android:gravity="center"/>
@@ -86,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etCreditCardLimit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -106,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etCurrentUtilization"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -152,7 +151,7 @@
                     android:layout_marginTop="8dp"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etLastPaymentDate"
                         android:layout_width="match_parent"
                         android:editable="false"

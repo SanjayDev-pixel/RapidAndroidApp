@@ -101,7 +101,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
 
     private fun setValuesonView(leadData: AllLeadMaster?) {
-
         binding.etApplicantFirstName.setText(leadData?.applicantFirstName)
         binding.etApplicantMiddleName.setText(leadData?.applicantMiddleName)
         binding.etApplicantLastName.setText(leadData?.applicantLastName)
@@ -111,17 +110,12 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         binding.etContactNum.setText(leadData?.applicantContactNumber)
         binding.btnCreate.setText(R.string.save)
         binding.heading.setText("Edit Lead")
-
-
-
     }
-
     private fun setupCustomView() {
         CreateLeadActivity.let { it->
                 binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
-            }
+      }
     }
-
     private fun getLoanProductFromDB() {
         appDataViewModel.getLoanProductMaster().observe(this, Observer { loanProductValue ->
             loanProductValue?.let {
@@ -140,8 +134,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             }
         })
     }
-
-
     private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
         loanProduct = CustomSpinnerView(mContext = this, dropDowns = products, label = "Loan Product *")
         binding.layoutLoanProduct.addView(loanProduct)
@@ -168,9 +160,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     private fun editLead(leadId: Any?) {
         presenter.callNetwork(ConstantsApi.CALL_EDIT_LEAD, CallEditLead())
         binding.progressBar!!.visibility = View.VISIBLE
-
-
-
     }
 
     inner class CallCreateLead : ViewGeneric<Requests.RequestAddLead, Response.ResponseAddLead>(context = this) {
@@ -257,15 +246,12 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         }
 
     }
-
     private val editLeadRequest: Requests.RequestEditLead
         get() {
             val lProductDD = loanProduct.getSelectedValue()
             val branchDD = branches.getSelectedValue()
             val loanAmount =binding.etLoanAmount.text.toString().toFloat()
             val leadId=LeadMetaData.getLeadId()
-
-
             return Requests.RequestEditLead(leadID=leadId,applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),

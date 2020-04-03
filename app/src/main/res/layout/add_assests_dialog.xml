@@ -8,13 +8,10 @@
         android:orientation="vertical"
         android:padding="5dp"
         android:windowSoftInputMode="adjustResize">
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin10dp">
-
             <ImageView
                 android:id="@+id/cancel_bttn"
                 android:layout_width="wrap_content"
@@ -23,7 +20,6 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="end"
                 android:src="@drawable/ic_close_black_48dp" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,9 +30,7 @@
                 android:textColor="@color/black"
                 android:textSize="23sp"
                 android:textStyle="bold" />
-
         </RelativeLayout>
-
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinnerAssetType"
             android:layout_width="match_parent"
@@ -55,7 +49,6 @@
             android:layout_marginEnd="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_20"
             android:theme="@style/MatchSpinnerTheme"/>
-
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinnerAssetSubType"
             android:layout_width="match_parent"
@@ -74,7 +67,6 @@
             android:layout_marginEnd="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_10"
             android:theme="@style/MatchSpinnerTheme"/>
-
         <fr.ganfra.materialspinner.MaterialSpinner
             android:id="@+id/spinnerOwnership"
             android:layout_width="match_parent"
@@ -98,7 +90,6 @@
             android:id="@+id/spinnerDocumentProof"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:minWidth="@dimen/text_min_width"
             app:ms_arrowColor="@color/black"
             app:ms_arrowSize="16dp"
@@ -137,13 +128,14 @@
 
         <Button
             android:id="@+id/btnAddAsset"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/fields_margin"
             android:text="@string/add"
             android:gravity="center"
+            android:background="@color/colorPrimary"
             android:layout_gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/button_text_size" />
 
 
