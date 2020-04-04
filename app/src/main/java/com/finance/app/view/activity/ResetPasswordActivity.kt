@@ -66,9 +66,9 @@ class ResetPasswordActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseResetPassword) {
             if (value.responseCode == Constants.SUCCESS) {
                 binding.progressBar!!.visibility = View.GONE
-
+                sharedPreferencesUtil.clearAll()
                 this@ResetPasswordActivity.finish()
-
+                LoginActivity.start(this@ResetPasswordActivity)
 
             } else {
                 showToast(value.responseMsg)
