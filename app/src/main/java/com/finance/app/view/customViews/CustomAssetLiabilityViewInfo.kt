@@ -431,9 +431,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
         addCreditCardDialog?.etLastPaymentDate?.setOnClickListener {
             SelectDate(addCreditCardDialog?.etLastPaymentDate!! , context)
         }
-
         addCreditCardDialog?.btnAddcrdetail?.setOnClickListener() {
-
             if (formValidation.validateCardsDialog(binding)) {
                 val mydate: DateUtil = DateUtil()
                 val currentCard = CardDetail()
@@ -445,17 +443,14 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
                 currentCard.currentUtilization = addCreditCardDialog?.etCurrentUtilization!!.text.toString().toInt()
                 currentCard.bankNameTypeDetailID = bankName?.typeDetailID
                 currentCard.obligateTypeDetail = obligate?.typeDetailID
-
                 cardDetailAdapter?.addItem(currentPosition , currentCard)
                 addCreditCardDialog?.dismiss()
                 setCreditCardCounter(cardDetailAdapter?.getItemList())
                 showAssetRecyclerView("card")
-
             } else {
                 Toast.makeText(context , context.getString(R.string.validation_error) , Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun cardDetailFormListeners(layoutCreditCard: LayoutCreditCardDetailsBinding?) {
