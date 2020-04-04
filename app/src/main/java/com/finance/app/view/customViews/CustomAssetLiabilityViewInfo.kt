@@ -565,7 +565,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
         return currentApplicant
     }
 
-    //not in use further remove
+
     override fun onObligationEditClicked(position: Int , obligation: ObligationDetail) {
 
 
@@ -584,7 +584,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
         obligationItemDetailDialog.tvNumOfBouncesInSixMonths.setText(obligation.numberOfBouncesInLastSixMonth.toString())
         obligationItemDetailDialog.tvNumOfBouncesInNineMonths.setText(obligation.numberOfBouncesInLastNineMonth.toString())
         obligationItemDetailDialog.tvLoanAcNum.setText(obligation.loanAccountNumber)
-        obligationItemDetailDialog.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
+//        obligationItemDetailDialog.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
         obligationItemDetailDialog.tvLoanAmount.setText(obligation.loanAmount.toString())
         val dateUtil: DateUtil = DateUtil()
         obligationItemDetailDialog.tvDisbursementDate.setText(dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , DateUtil.dateFormattingType.TYPE_NORMAL_1 , obligation.loanDisbursementDate))
@@ -623,6 +623,11 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
             if (obligation.obligateTypeDetailID == allMasterDropDown!!.Obligate?.get(i)?.typeDetailID) {
                 obligationItemDetailDialog.tvObligate.setText(allMasterDropDown!!.Obligate?.get(i)?.typeDetailCode)
 
+            }
+        }
+        for(i:Int in 0 until  allMasterDropDown?.BounceEmiPaidInSameMonth!!.size){
+            if(obligation.bounseEmiPaidInSameMonth == allMasterDropDown?.BounceEmiPaidInSameMonth?.get(i)?.typeDetailID){
+                obligationItemDetailDialog.tvEmiPaid.setText(allMasterDropDown?.BounceEmiPaidInSameMonth?.get(i)?.typeDetailCode)
             }
         }
 

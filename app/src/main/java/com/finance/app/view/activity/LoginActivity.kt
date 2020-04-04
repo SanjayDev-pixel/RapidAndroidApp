@@ -83,8 +83,12 @@ class LoginActivity : BaseAppCompatActivity() {
                 System.out.println("loginValue>>>>"+value)
                 sharedPreferences.saveLoginData(value)
                 //SyncActivity.start(this@LoginActivity)
-                //viewModel.getUpdatedDataFromServer()
-                DashboardActivity.start(this@LoginActivity)
+
+                if(sharedPreferences.getPasswordChangeRequired() ==true){
+                    ResetPasswordActivity.start(this@LoginActivity)
+                }else{
+                    DashboardActivity.start(this@LoginActivity)
+                }
 
             } else {
                 showToast(value.responseMsg)

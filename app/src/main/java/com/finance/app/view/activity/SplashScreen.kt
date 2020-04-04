@@ -32,7 +32,12 @@ class SplashScreen : BaseAppCompatActivity() {
         Handler().postDelayed({
 
             if (sharedPreferences.isLogin()) {
-                DashboardActivity.start(this)
+                if(sharedPreferences.getPasswordChangeRequired() ==true){
+                    ResetPasswordActivity.start(this)
+                }else{
+                    DashboardActivity.start(this)
+                }
+
             } else {
                 val nextActivity = Intent(this,
                         LoginActivity::class.java)
