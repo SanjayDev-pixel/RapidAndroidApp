@@ -21,7 +21,6 @@ class UploadedFormDataActivity : BaseAppCompatActivity() {
             this, R.layout.activity_uploaded_form_data)
     private var bundle: Bundle? = null
     private lateinit var imageAdapter: UploadFormDataAdapter
-
     companion object {
         private const val KEY_IMAGE = "image"
         private const val KEY_PDF = "pdf"
@@ -30,7 +29,6 @@ class UploadedFormDataActivity : BaseAppCompatActivity() {
         private var pdf: Uri? = null
         private lateinit var imageBitmap: ArrayList<Bitmap>
         private lateinit var pdfURI: ArrayList<Uri>
-
         fun start(context: Context, image: Bitmap?, pdf: Uri?) {
             val bundle = Bundle()
             bundle.putParcelable(KEY_IMAGE, image)
@@ -79,7 +77,6 @@ class UploadedFormDataActivity : BaseAppCompatActivity() {
                 val bitmap = data?.extras!!.get("data") as Bitmap
                 imageBitmap.add(bitmap)
                 binding.rcView.adapter!!.notifyDataSetChanged()
-
             } catch (e: IOException) {
                 e.printStackTrace()
                 Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
