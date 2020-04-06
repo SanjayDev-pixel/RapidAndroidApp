@@ -113,4 +113,6 @@ interface Api {
 
     @POST("api/v1/changePassword/submit/")
     fun resetPassword(@Body requestPost: Requests.RequestResetPassword): Observable<Response.ResponseResetPassword>
+    @POST("api/v1/changePassword/getOtp/")
+    fun getOTP(@Body requestPost: Requests.RequestGetOTP) : Observable<Response.ResponseGetOTP>
 }

@@ -42,6 +42,7 @@ interface FormValidation {
     fun validateKycDetail(binding: LayoutKycFormBinding): Boolean
     fun validateKycDocumentDetail(binding: ActivityDocumentUploadingBinding):Boolean
     fun validateResetPassword(binding:ActivityResetPasswordBinding):Boolean
+    fun validateForgetPassword(binding: ActivityForgetPasswordBinding): Boolean
 
 
 }

@@ -46,13 +46,12 @@ class ResetPasswordActivity : BaseAppCompatActivity() {
         hideSecondaryToolbar()
         binding.btnResetPassword.setOnClickListener {
            // LoginActivity.start(context = getContext())
-
-           if( formValidations.validateResetPassword(binding)){
+           if(formValidations.validateResetPassword(binding)){
 
                presenter.callNetwork(ConstantsApi.Call_RESET_PASSWORD, CallResetPassword())
                 binding.progressBar!!.visibility = View.VISIBLE
            }else{
-               Toast.makeText(this,"Please fill maindatory fields", Toast.LENGTH_SHORT).show()
+               Toast.makeText(this,"Please fill mandatory fields", Toast.LENGTH_SHORT).show()
            }
 
         }
@@ -66,6 +65,7 @@ class ResetPasswordActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseResetPassword) {
             if (value.responseCode == Constants.SUCCESS) {
                 binding.progressBar!!.visibility = View.GONE
+                showToast(value.responseMsg)
                 sharedPreferencesUtil.clearAll()
                 this@ResetPasswordActivity.finish()
                 LoginActivity.start(this@ResetPasswordActivity)
@@ -95,7 +95,6 @@ class ResetPasswordActivity : BaseAppCompatActivity() {
             val oldpassword = binding.etOldPassword.text.toString()
             val newpassword = binding.etNewPassword.text.toString()
             val username:String = sharedPreferencesUtil.getUserName().toString()
-
             return Requests.RequestResetPassword(
                     userName=username.toString(),newPassword =newpassword, oldPassword = oldpassword, changeType = "reset"
                     )

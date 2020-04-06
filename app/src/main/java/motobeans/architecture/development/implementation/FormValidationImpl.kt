@@ -1066,6 +1066,19 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
+    override fun validateForgetPassword(binding: ActivityForgetPasswordBinding) : Boolean {
+        val strUserName = binding.etMobile.text.toString()
+        var errorCount = 0
+        if(!strUserName.exIsNotEmptyOrNullOrBlank()){
+            binding.etMobile.error = "Field can not be left blank"
+            errorCount++
+        }
+        else{
+            errorCount =0
+        }
+        return isValidForm(errorCount)
+    }
+
     private fun isValidMobile(phone: String): Boolean {
         return if (!phone.exIsNotEmptyOrNullOrBlank()) {
             return android.util.Patterns.PHONE.matcher(phone).matches()

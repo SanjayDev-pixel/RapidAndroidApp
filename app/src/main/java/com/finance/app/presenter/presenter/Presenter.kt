@@ -63,6 +63,7 @@ class Presenter {
             ConstantsApi.CALL_EDIT_LEAD -> apiProject.api.editLead(dmiConnector.apiRequest as Requests.RequestEditLead)
             ConstantsApi.CALL_KYC_DETAIL -> apiProject.api.getKycDetail((dmiConnector.apiRequest as Requests.RequestKycDetail).leadID, (dmiConnector.apiRequest as Requests.RequestKycDetail).leadApplicantNumber)
             ConstantsApi.Call_RESET_PASSWORD -> apiProject.api.resetPassword(dmiConnector.apiRequest as Requests.RequestResetPassword)
+            ConstantsApi.CALL_GET_OTP-> apiProject.api.getOTP((dmiConnector.apiRequest as Requests.RequestGetOTP))
 
             else -> return
         }
