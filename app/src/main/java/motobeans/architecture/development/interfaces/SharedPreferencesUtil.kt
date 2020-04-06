@@ -31,4 +31,5 @@ interface SharedPreferencesUtil {
     fun setUUID(uuid: String)
     fun clearAll()
     fun getRoleName():String?
+    fun getPasswordChangeRequired():Boolean
 }

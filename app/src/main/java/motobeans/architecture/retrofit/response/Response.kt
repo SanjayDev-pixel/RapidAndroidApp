@@ -94,4 +94,6 @@ object Response {
     data class ResponseFinalSubmitted(val responseCode: String, val responseMsg: String, val responseObj: ApplicantionSubmitModel?, val timeStamp: Long)
     data class ResponseEditLead(val error: String, val responseCode: String, val responseMsg: String, val responseObj: Any? , val timeStamp: Long)
     data class ResponseKycDetail(val responseCode: String, val responseMsg: String, val responseObj: KycListModel, val timeStamp: Long)
+    data class ResponseResetPassword(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
+    data class ResponseGetOTP(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
 }

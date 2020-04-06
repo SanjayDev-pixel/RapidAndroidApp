@@ -382,5 +382,6 @@
     <string name="edit_lead">Edit Lead</string>
     <string name="alert_message">This lead has been closed. Do you want to create New Lead?</string>
     <string name="alert_warning">Alert!</string>
+    <string name="old_password">Old Password</string>
 
 </resources>

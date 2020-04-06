@@ -68,6 +68,7 @@ interface ApplicationComponent {
     fun inject(activity: LeadDetailActivity)
     fun inject(activity: UpdateCallActivity)
     fun inject(activity: DocumentUploadingActivity)
+    fun inject(activity: ForgetPasswordActivity)
 
     /**
      * Fragment

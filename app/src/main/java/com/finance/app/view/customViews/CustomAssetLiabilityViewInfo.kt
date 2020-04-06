@@ -431,9 +431,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
         addCreditCardDialog?.etLastPaymentDate?.setOnClickListener {
             SelectDate(addCreditCardDialog?.etLastPaymentDate!! , context)
         }
-
         addCreditCardDialog?.btnAddcrdetail?.setOnClickListener() {
-
             if (formValidation.validateCardsDialog(binding)) {
                 val mydate: DateUtil = DateUtil()
                 val currentCard = CardDetail()
@@ -445,17 +443,14 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
                 currentCard.currentUtilization = addCreditCardDialog?.etCurrentUtilization!!.text.toString().toInt()
                 currentCard.bankNameTypeDetailID = bankName?.typeDetailID
                 currentCard.obligateTypeDetail = obligate?.typeDetailID
-
                 cardDetailAdapter?.addItem(currentPosition , currentCard)
                 addCreditCardDialog?.dismiss()
                 setCreditCardCounter(cardDetailAdapter?.getItemList())
                 showAssetRecyclerView("card")
-
             } else {
                 Toast.makeText(context , context.getString(R.string.validation_error) , Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun cardDetailFormListeners(layoutCreditCard: LayoutCreditCardDetailsBinding?) {
@@ -570,7 +565,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
         return currentApplicant
     }
 
-    //not in use further remove
+
     override fun onObligationEditClicked(position: Int , obligation: ObligationDetail) {
 
 
@@ -589,7 +584,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
         obligationItemDetailDialog.tvNumOfBouncesInSixMonths.setText(obligation.numberOfBouncesInLastSixMonth.toString())
         obligationItemDetailDialog.tvNumOfBouncesInNineMonths.setText(obligation.numberOfBouncesInLastNineMonth.toString())
         obligationItemDetailDialog.tvLoanAcNum.setText(obligation.loanAccountNumber)
-        obligationItemDetailDialog.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
+//        obligationItemDetailDialog.tvEmiPaid.setText(obligation.bounseEmiPaidInSameMonth.toString())
         obligationItemDetailDialog.tvLoanAmount.setText(obligation.loanAmount.toString())
         val dateUtil: DateUtil = DateUtil()
         obligationItemDetailDialog.tvDisbursementDate.setText(dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , DateUtil.dateFormattingType.TYPE_NORMAL_1 , obligation.loanDisbursementDate))
@@ -628,6 +623,11 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
             if (obligation.obligateTypeDetailID == allMasterDropDown!!.Obligate?.get(i)?.typeDetailID) {
                 obligationItemDetailDialog.tvObligate.setText(allMasterDropDown!!.Obligate?.get(i)?.typeDetailCode)
 
+            }
+        }
+        for(i:Int in 0 until  allMasterDropDown?.BounceEmiPaidInSameMonth!!.size){
+            if(obligation.bounseEmiPaidInSameMonth == allMasterDropDown?.BounceEmiPaidInSameMonth?.get(i)?.typeDetailID){
+                obligationItemDetailDialog.tvEmiPaid.setText(allMasterDropDown?.BounceEmiPaidInSameMonth?.get(i)?.typeDetailCode)
             }
         }
 

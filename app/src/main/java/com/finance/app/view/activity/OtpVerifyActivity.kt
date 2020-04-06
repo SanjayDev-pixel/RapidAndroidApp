@@ -25,7 +25,7 @@ class OtpVerifyActivity : BaseAppCompatActivity() {
         hideToolbar()
         hideSecondaryToolbar()
         binding.btnProceed.setOnClickListener {
-            ResetPasswordActivity.start(context = getContext())
+          //  ResetPasswordActivity.start(context = getContext())
 
         }
     }

@@ -187,7 +187,7 @@
                         <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etArea"
                             android:layout_width="match_parent"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:layout_height="wrap_content"
                             android:minWidth="200dp"
                             app:ms_hintTextSize="@dimen/hint_size" />

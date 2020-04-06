@@ -183,11 +183,12 @@ class UpdateCallActivity : BaseAppCompatActivity() {
     private fun setLeadDetailsToViews(lead: AllLeadMaster) {
         binding.header.tvLeadNumber.text = lead.leadNumber
         binding.leadDetails.tvStatusLine.setTextVertically(lead.status)
-
         binding.leadDetails.tvLeadName.text = lead.applicantFirstName
-        binding.leadDetails.tvLeadID.text = "Lead Id : ${lead.leadID.toString()}"
-        binding.leadDetails.tvLoanType.text = "Loan Type : ${lead.loanProductName}"
-        binding.leadDetails.tvCreatedDate.text = "Created Date : ${ConvertDate().convertDate(lead.createdOn!!)}"
+        binding.leadDetails.tvLeadID.text = ": ${lead.leadID.toString()}"
+        binding.leadDetails.tvLoanType.text = ": ${lead.loanProductName}"
+        binding.leadDetails.tvLeadnumber.text = ": ${lead.leadNumber}"
+        binding.leadDetails.tvAmountValue.text = lead.amountRequest?.let { ": Rs. $it" } ?: kotlin.run { ": Rs. N/A" }
+        binding.leadDetails.tvCreatedDate.text = ": ${ConvertDate().convertDate(lead.createdOn!!)}"
         binding.leadDetails.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
 
         when (lead.status) {

@@ -41,6 +41,8 @@ interface FormValidation {
     fun validateAssetLiabilityInfo(binding: LayoutCustomviewAssetliabilityBinding): Boolean
     fun validateKycDetail(binding: LayoutKycFormBinding): Boolean
     fun validateKycDocumentDetail(binding: ActivityDocumentUploadingBinding):Boolean
+    fun validateResetPassword(binding:ActivityResetPasswordBinding):Boolean
+    fun validateForgetPassword(binding: ActivityForgetPasswordBinding): Boolean
 
 
 }

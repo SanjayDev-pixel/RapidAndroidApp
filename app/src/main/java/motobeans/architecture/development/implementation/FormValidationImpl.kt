@@ -1,6 +1,5 @@
 package motobeans.architecture.development.implementation
 
-import android.util.Log
 import android.view.View
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.*
@@ -1012,6 +1011,42 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
+
+
+
+    override  fun validateResetPassword(binding:ActivityResetPasswordBinding):Boolean{
+        var errorCount = 0
+      val oldPassword =binding.etOldPassword.text.toString()
+        val newPassword =binding.etNewPassword.text.toString()
+        val confirmPassword =binding.etConfirmNewPassword.text.toString()
+
+        val fieldError = (when {
+            !oldPassword.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etOldPassword)
+            !newPassword.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etNewPassword)
+            !confirmPassword.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etConfirmNewPassword)
+           /* !isValidPassword(newPassword) -> setFieldError(binding.etNewPassword)
+            !isValidPassword(confirmPassword) -> setFieldError(binding.etConfirmNewPassword*/
+
+            else -> 0
+        })
+
+        if(newPassword.length<8 || confirmPassword.length < 8 ){
+            binding.etNewPassword.error= "Password length must have 8"
+            binding.etConfirmNewPassword.error= "Password length must have 8"
+        } else if(!isValidPassword(newPassword)){  binding.etNewPassword.error= "Password must have alphanumeric, 1 caps at least one special character"
+        } else if(!isValidPassword(confirmPassword)) {
+            binding.etConfirmNewPassword.error = "Password must have alphanumeric, 1 caps at least one special character"
+        }else if(newPassword.exIsNotEmptyOrNullOrBlank() &&  confirmPassword.exIsNotEmptyOrNullOrBlank()) {
+            if(!newPassword.equals(confirmPassword)) {
+                errorCount++
+                binding.etNewPassword.error = " Password not match"
+                binding.etConfirmNewPassword.error = " Password not match"
+            }
+        }
+
+      return isValidForm(errorCount +fieldError)
+    }
+
     private fun setSpinnerError(spinner: MaterialSpinner): Int {
         spinner.error = "Required Field"
         return 2
@@ -1031,6 +1066,19 @@ class FormValidationImpl : FormValidation {
         return isValidForm(errorCount)
     }
 
+    override fun validateForgetPassword(binding: ActivityForgetPasswordBinding) : Boolean {
+        val strUserName = binding.etMobile.text.toString()
+        var errorCount = 0
+        if(!strUserName.exIsNotEmptyOrNullOrBlank()){
+            binding.etMobile.error = "Field can not be left blank"
+            errorCount++
+        }
+        else{
+            errorCount =0
+        }
+        return isValidForm(errorCount)
+    }
+
     private fun isValidMobile(phone: String): Boolean {
         return if (!phone.exIsNotEmptyOrNullOrBlank()) {
             return android.util.Patterns.PHONE.matcher(phone).matches()
@@ -1044,6 +1092,15 @@ class FormValidationImpl : FormValidation {
     }
 
     private fun isValidForm(errorCount: Int): Boolean = errorCount <= 0
+
+    fun isValidPassword(password: String?): Boolean {
+        val pattern: Pattern
+        val matcher: Matcher
+        val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$"
+        pattern = Pattern.compile(PASSWORD_PATTERN)
+        matcher = pattern.matcher(password)
+        return matcher.matches()
+    }
 
 
 }
