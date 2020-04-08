@@ -38,10 +38,10 @@ class ArchitectureApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/toboto_regular.ttf");
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/toboto_regular.ttf");
-        FontsOverride.setDefaultFont(this, "SERIF", "fonts/toboto_regular.ttf");
-        FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/toboto_regular.ttf");
+        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Raleway-Regular.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Raleway-Regular.ttf");
+        FontsOverride.setDefaultFont(this, "SERIF", "fonts/Raleway-Regular.ttf");
+        FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/Raleway-Regular.ttf");
         instance = this
         component.inject(this)
 

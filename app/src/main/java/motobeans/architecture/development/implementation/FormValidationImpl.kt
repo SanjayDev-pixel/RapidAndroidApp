@@ -720,7 +720,7 @@ class FormValidationImpl : FormValidation {
 
         val fieldError = when {
             !financierName.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etFinancierName)
-            !accountNum.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAccountNum)
+//            !accountNum.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAccountNum)
             !tenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etTenure)
             !balanceTenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBalanceTenure)
             !emiAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmiAmount)
@@ -764,7 +764,7 @@ class FormValidationImpl : FormValidation {
 
         val fieldError = when {
             !financierName.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etFinancierName)
-            !accountNum.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAccountNum)
+           // !accountNum.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etAccountNum)
             !tenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etTenure)
             !balanceTenure.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etBalanceTenure)
             !emiAmount.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etEmiAmount)

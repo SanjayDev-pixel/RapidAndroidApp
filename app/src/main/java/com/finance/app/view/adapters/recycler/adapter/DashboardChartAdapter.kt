@@ -18,7 +18,7 @@ class DashboardChartAdapter(private val mActivity: FragmentActivity, private val
 
     init {
         items.addAll(dashboardChartData.dashboardData?.dashboardChildrens ?: ArrayList())
-    }
+}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardChartHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

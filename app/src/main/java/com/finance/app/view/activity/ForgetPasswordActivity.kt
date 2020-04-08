@@ -56,6 +56,7 @@ class ForgetPasswordActivity : BaseAppCompatActivity() {
             } else {
                 showToast(value.responseMsg)
                 binding.progressBar.visibility = View.GONE
+                OtpVerifyActivity.start(context = getContext())
             }
         }
 
