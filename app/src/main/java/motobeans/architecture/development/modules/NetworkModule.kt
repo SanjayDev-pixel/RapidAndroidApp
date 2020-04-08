@@ -65,8 +65,8 @@ class NetworkModule {
 
         return builder
             .addInterceptor(headerInterceptor)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(120, TimeUnit.SECONDS)
             .addInterceptor(logging)
             .addInterceptor(globalResponseInterceptor)
             .cache(null)

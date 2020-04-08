@@ -91,6 +91,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             get() = getUploadedDocumentListRequest()
 
         override fun getApiSuccess(value: Response.ResponseUploadedDocumentList) {
+            binding.swipeLayoutDocument.isRefreshing=false
             value.responseObj?.let { response ->
                 response.documents?.let { documentList ->
                     setUploadedDocumentListAdapter(documentList)
@@ -142,6 +143,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
     }
 
     private fun setOnClickListener() {
+        binding.swipeLayoutDocument.setOnRefreshListener { fetchUploadedDocumentList() }
         binding.header.lytBack.setOnClickListener { onBackPressed() }
         binding.btnPickFile.setOnClickListener {
             Assent.requestPermissions(AssentCallback { result ->
