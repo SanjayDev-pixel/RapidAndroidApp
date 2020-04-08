@@ -68,93 +68,209 @@ class Constants {
     object TEMP_DATA {
         val apiChartResult = """
        {
-  "message": "dashboard data",
-  "statusCode": 200,
-  "isSuccess": true,
-  "dashboardData": {
-    "dashboardChildrens": [
-      {
-        "heading": "Lead",
-        "description": "Dashboard Sample Description 1",
-        "chartData": [
-          {
-            "title": "Current Month",
-            "total": 100,
-            "data": [
-              {
-                "lable": "Submitted",
-                "value": 20
-              },
-              {
-                "lable": "Pending",
-                "value": 34.7
-              },
-              {
-                "lable": "Rejected",
-                "value": 45.3
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "heading": "Login",
-        "description": "",
-        "chartData": [
-          {
-            "title": "Number of Files Login",
-            "total": 100,
-            "data": [
-              {
-                "lable": "Achived",
-                "value": 45.3
-              },
-              {
-                "lable": "Shortfall",
-                "value": 34.7
-              }
-            ]
-          },
-          {
-            "title": "Login Amount",
-            "total": 100,
-            "data": [
-              {
-                "lable": "Achived",
-                "value": 110
-              },
-              {
-                "lable": "Shortfall",
-                "value": 50
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "heading": "Sanction",
-        "description": "",
-        "chartData": [
-          {
-            "title": "Number of Files Sanction",
-            "total": 100000,
-            "data": [
-              {
-                "lable": "Achived",
-                "value": 80000
-              },
-              {
-                "lable": "Shortfall",
-                "value": 20000   
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-}
+
+       	"message": "dashboard data",
+
+       	"statusCode": 200,
+
+       	"isSuccess": true,
+
+       	"dashboardData": {
+
+       		"dashboardChildrens": [
+
+       			{
+
+       				"heading": "Lead",
+
+       				"description": "",
+
+       				"chartData": [
+
+       					{
+
+       						"title": "Current Month",
+
+       						"total": 100,
+
+       						"data": [
+
+       							{
+
+       								"lable": "Submitted",
+
+       								"value": 20
+
+       							},
+
+       							{
+
+       								"lable": "Pending",
+
+       								"value": 70
+
+       							},
+
+       							{
+
+       								"lable": "Rejected",
+
+       								"value": 10
+
+       							}
+
+       						]
+
+       					}
+
+       				]
+
+       			},
+
+       			{
+
+       				"heading": "Login",
+
+       				"description": "",
+
+       				"chartData": [
+
+       					{
+
+       						"title": "Number of Files Login",
+
+       						"total": 6,
+
+       						"data": [
+
+       							{
+
+       								"lable": "Achived",
+
+       								"value": 3
+
+       							},
+
+       							{
+
+       								"lable": "Shortfall",
+
+       								"value": 3
+
+       							}
+
+       						]
+
+       					},
+
+       					{
+
+       						"title": "Login Amount",
+
+       						"total": 6000000,
+
+       						"data": [
+
+       							{
+
+       								"lable": "Achived",
+
+       								"value": 4000000
+
+       							},
+
+       							{
+
+       								"lable": "Shortfall",
+
+       								"value": 2000000
+
+       							}
+
+       						]
+
+       					}
+
+       				]
+
+       			},
+
+       			{
+
+       				"heading": "Sanction",
+
+       				"description": "",
+
+       				"chartData": [
+
+       					{
+
+       						"title": "Number of Files Sanction",
+
+       						"total": 4,
+
+       						"data": [
+
+       							{
+
+       								"lable": "Achived",
+
+       								"value": 1
+
+       							},
+
+       							{
+
+       								"lable": "Shortfall",
+
+       								"value": 3
+
+       							}
+
+       						]
+
+       					},
+
+       					{
+
+       						"title": "Sanction Amount",
+
+       						"total": 4000000,
+
+       						"data": [
+
+       							{
+
+       								"lable": "Achived",
+
+       								"value": 2000000
+
+       							},
+
+       							{
+
+       								"lable": "Shortfall",
+
+       								"value": 2000000
+
+       							}
+
+       						]
+
+       					}
+
+       				]
+
+       			}
+
+       		]
+
+       	}
+
+       }
   
         """.trimIndent()
     }
+
+
 }

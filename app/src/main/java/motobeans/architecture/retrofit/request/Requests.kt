@@ -24,4 +24,5 @@ object Requests {
     data class RequestKycDetail(val leadID: Int,val leadApplicantNumber:String)
     data class RequestResetPassword(val userName: String,val newPassword: String, val oldPassword: String , val changeType: String)
     data class RequestGetOTP(val userName : String)
+    data class RequestVerifyOTPforForgetPassword(val otpValue: Int)
 }
