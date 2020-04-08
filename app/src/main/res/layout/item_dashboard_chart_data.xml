@@ -43,8 +43,6 @@
                 android:text="Chart Title"
                 tools:visibility="visible" />
         </LinearLayout>
-
-
         <com.github.mikephil.charting.charts.PieChart
             android:layout_gravity="center_horizontal"
             android:id="@+id/chartData"

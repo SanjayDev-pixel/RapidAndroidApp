@@ -11,24 +11,21 @@
             android:id="@+id/vwAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/heading_background"
+            android:background="@color/app_bkg"
             android:gravity="center_vertical">
-
-            <TextView
+            <com.finance.app.view.utils.TextViewBold
                 android:id="@+id/labelBankDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="KYC"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:id="@+id/imageAddKYC"
                 android:src="@drawable/ic_add_box_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +33,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
         <LinearLayout
             android:id="@+id/vwKycForm"
             android:layout_width="match_parent"
@@ -69,7 +65,7 @@
                 android:layout_marginTop="10dp"
                 android:textColorHint="@color/hint_color">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.finance.app.view.utils.EditTexNormal
                     android:id="@+id/etIdNum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,7 +92,7 @@
                     android:layout_weight="1"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etIssueDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -116,7 +112,7 @@
                     android:layout_weight="1"
                     android:textColorHint="@color/hint_color">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etExpiryDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -167,7 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10sp"
-                        android:background="@drawable/button_theme_style"
+                        android:background="@color/colorPrimary"
                         android:drawableLeft="@drawable/ic_file_upload_white_24dp"
                         android:drawablePadding="10dp"
                         android:padding="5sp"
@@ -187,23 +183,25 @@
 
                 <Button
                     android:id="@+id/btnAddKYC"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/button_theme_style"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
                     android:text="@string/add_kyc"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
 
                 <Button
                     android:id="@+id/btnUpdateKYC"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/button_theme_style"
+                    android:background="@color/colorPrimary"
                     android:text="@string/update_kyc"
+                    android:layout_weight="1"
                     android:textColor="@color/white"
                     android:visibility="gone"
                     tools:visibility="visible"
@@ -212,12 +210,13 @@
 
                 <Button
                     android:id="@+id/btnCancel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/cancel_button_theme_style"
+                    android:background="@color/grey_585858"
                     android:text="Cancel"
+                    android:layout_weight="1"
                     android:textColor="@color/white"
                     android:textSize="@dimen/button_text_size" />
 
@@ -236,7 +235,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/vwEmpty"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
@@ -248,13 +247,13 @@
             app:cardUseCompatPadding="true"
             tools:visibility="visible">
 
-            <TextView
+            <com.finance.app.view.utils.TextViewNormal
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Kyc Not Done!"
-                android:textSize="21sp" />
+                android:text="Kyc Not Done"
+                android:textSize="18sp" />
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>

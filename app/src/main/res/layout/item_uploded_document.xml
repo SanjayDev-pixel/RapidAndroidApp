@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.3"
@@ -60,9 +60,9 @@
                     android:text="Document Type :"
                     android:textColor="@color/black_242424"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                   />
 
-                <TextView
+                <com.finance.app.view.utils.TextViewNormal
                     android:id="@+id/tvDocType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.3"
@@ -87,9 +87,9 @@
                     android:text="Document Name :"
                     android:textColor="@color/black_242424"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    />
 
-                <TextView
+                <com.finance.app.view.utils.TextViewNormal
                     android:id="@+id/tvDocName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
