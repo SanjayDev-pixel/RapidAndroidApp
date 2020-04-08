@@ -337,6 +337,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         if (currentApplicant.middleName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etMiddleName.setText(currentApplicant.middleName)
         if (currentApplicant.lastName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etNumOfDependent.setText(currentApplicant.numberOfDependents.toString())
         currentApplicant.numberOfEarningMembers?.let { binding.basicInfoLayout.etNumOfEarningMember.setText(it.toString()) }
+        currentApplicant.numberOfFamilyMembersOthers?.let { binding.basicInfoLayout.etNoOffamilymembers.setText(it.toString()) }
         //binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
         currentApplicant.age?.let { binding.basicInfoLayout.etAge.setText(it.toString()) }
         currentApplicant.alternateContact?.let { binding.basicInfoLayout.etAlternateNum.setText(it) }
@@ -394,6 +395,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         val dependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
         val earningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString()
         val pResidenceType = currentResidenceType.getSelectedValue()
+        val numberOfFamilyMember =binding.basicInfoLayout.etNoOffamilymembers.text.toString()
         System.out.println("Residence Type>>>>" + pResidenceType)
 
 
@@ -430,6 +432,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         currentApplicant.contactDetail = getContactDetail()
         currentApplicant.addressDetailList = getAddressDetailList(currentApplicant.addressDetailList)
         currentApplicant.presentAccommodationTypeDetailID = pResidenceType?.typeDetailID
+        currentApplicant.numberOfFamilyMembersOthers =if(numberOfFamilyMember == "") 0 else numberOfFamilyMember.toInt()
 
         return currentApplicant
     }

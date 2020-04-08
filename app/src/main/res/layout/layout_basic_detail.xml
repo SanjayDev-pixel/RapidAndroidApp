@@ -493,6 +493,27 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_noOffamilymembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fields_margin"
+                    android:textColorHint="@color/hint_color">
+
+                    <com.finance.app.view.utils.EditTexNormal
+                        android:id="@+id/etNoOffamilymembers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/number_of_family_members"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:minWidth="200dp"
+                        android:singleLine="true"
+                        app:ms_hintTextSize="@dimen/hint_size" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_no_of_earning_members"
                     android:layout_width="match_parent"

@@ -270,10 +270,10 @@ class FormValidationImpl : FormValidation {
             setFieldError(businessBinding.etBusinessName)
             fieldError++
         }
-        if (gstVatRegistration.exIsNotEmptyOrNullOrBlank().not()) {
+        /*if (gstVatRegistration.exIsNotEmptyOrNullOrBlank().not()) {
             setFieldError(businessBinding.etGstRegistration)
             fieldError++
-        }
+        }*/
         if (incorporationDate.exIsNotEmptyOrNullOrBlank().not()) {
             setFieldError(businessBinding.etIncorporationDate)
             fieldError++

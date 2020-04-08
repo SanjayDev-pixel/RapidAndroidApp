@@ -17,5 +17,6 @@ class SetPersonalMandatoryField(binding: LayoutCustomViewPersonalBinding) {
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutPermanentStaying)
         ShowAsMandatory(binding.personalAddressLayout.inputLayoutCurrentRentAmount)
         ShowAsMandatory(binding.basicInfoLayout.inputLayoutMobile)
+        ShowAsMandatory(binding.basicInfoLayout.inputLayoutNoOffamilymembers)
     }
 }

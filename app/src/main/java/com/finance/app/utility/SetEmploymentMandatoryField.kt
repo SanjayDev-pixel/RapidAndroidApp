@@ -14,7 +14,7 @@ class SetEmploymentMandatoryField(binding: FragmentEmploymentFormBinding) {
     private fun setSenpMandatoryField(binding: LayoutSenpBinding) {
         ShowAsMandatory(binding.inputBusinessName)
         ShowAsMandatory(binding.inputLayoutIncorporationDate)
-        ShowAsMandatory(binding.inputGstRegistration)
+        //ShowAsMandatory(binding.inputGstRegistration)
         ShowAsMandatory(binding.inputLayoutBusinessVintage)
         ShowAsMandatory(binding.layoutAddress.inputLayoutAddress)
         ShowAsMandatory(binding.layoutAddress.inputLayoutLandmark)
