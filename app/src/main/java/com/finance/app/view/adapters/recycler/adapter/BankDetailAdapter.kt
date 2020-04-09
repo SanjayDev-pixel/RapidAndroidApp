@@ -39,6 +39,7 @@ class BankDetailAdapter(private val context: Context , private val bankDetailLis
                     binding.btnEdit.visibility = View.GONE
                     binding.ivDelete.visibility = View.GONE
                     binding.ivEdit.visibility = View.GONE
+                    binding.btnUploadBankStatement.visibility = View.GONE
                 } else {
                     binding.btnDelete.visibility = View.VISIBLE
                     binding.btnEdit.visibility = View.VISIBLE

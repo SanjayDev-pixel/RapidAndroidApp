@@ -14,6 +14,7 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentFormBinding) 
     private fun disableProfileSubProfile() {
         binding.spinnerProfile.isEnabled = false
         binding.spinnerSubProfile.isEnabled = false
+        binding.btnUploadEmployment.isClickable =false
     }
 
     private fun disableSalaryForm() {
@@ -59,6 +60,7 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentFormBinding) 
         binding.lytBusinessDetail.layoutAddress.etLandmark.inputType = InputType.TYPE_NULL
         binding.lytBusinessDetail.layoutAddress.etContactNum.inputType = InputType.TYPE_NULL
         binding.lytBusinessDetail.layoutAddress.etAddress.inputType = InputType.TYPE_NULL
+        binding.lytBusinessDetail.layoutAddress.customZipAddressView.inputLayoutCurrentPinCode.etCurrentPinCode.inputType = InputType.TYPE_NULL
         disableSenpDropdown()
     }
 

@@ -42,6 +42,7 @@ class FormValidationImpl : FormValidation {
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
         val father_Name = binding.basicInfoLayout.etFatherFirstName.text.toString()
+        val numberOfFamilyMenmbers=binding.basicInfoLayout.etNumOfEarningMember.text.toString()
         if(religion.getSelectedValue()==null){
             errorCount++
             religion.showError(true)
@@ -73,6 +74,11 @@ class FormValidationImpl : FormValidation {
             errorCount++
         }
 
+        if(!numberOfFamilyMenmbers.exIsNotEmptyOrNullOrBlank()){
+            binding.basicInfoLayout.etNoOffamilymembers.error = "Enter your Family member number"
+            errorCount++
+        }
+
         val fieldError = when {
             !currentLandmark.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentLandmark)
             !dob.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.basicInfoLayout.etDOB)
@@ -80,6 +86,7 @@ class FormValidationImpl : FormValidation {
             !currentAddress.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.personalAddressLayout.etCurrentAddress)
             !isValidEmail(email) -> setFieldError(binding.basicInfoLayout.etEmail)
             !isValidMobile(mobile) -> setFieldError(binding.basicInfoLayout.etMobile)
+            !numberOfFamilyMenmbers.exIsNotEmptyOrNullOrBlank()-> setFieldError(binding.basicInfoLayout.etNoOffamilymembers)
             else -> 0
         }
 
