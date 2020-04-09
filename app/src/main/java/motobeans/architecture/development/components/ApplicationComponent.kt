@@ -10,6 +10,7 @@ import com.finance.app.view.adapters.recycler.adapter.TempRecyclerAdapter
 import com.finance.app.view.adapters.recycler.holder.TempHolder
 import com.finance.app.view.customViews.*
 import com.finance.app.view.dialogs.BankDetailDialogFragment
+import com.finance.app.view.dialogs.KycDetailDialog
 import com.finance.app.view.dialogs.ReferenceDetailDialogFragment
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.view.fragment.NavMenuFragment
@@ -95,6 +96,7 @@ interface ApplicationComponent {
     fun inject(fragment: DocumentCheckListFragmentNew)
     fun inject(dialogFragment: BankDetailDialogFragment)
     fun inject(dialogFragment: ReferenceDetailDialogFragment)
+    fun inject(dialogFragment: KycDetailDialog)
 
     fun inject(fragment: FragmentPreview)
     /**

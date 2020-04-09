@@ -53,9 +53,20 @@ class DisablePersonalForm(binding: LayoutCustomViewPersonalBinding,
         binding.basicInfoLayout.etEmail.inputType = InputType.TYPE_NULL
         binding.basicInfoLayout.etAge.inputType = InputType.TYPE_NULL
         binding.basicInfoLayout.btnGetOTP.inputType = InputType.TYPE_NULL
+        binding.basicInfoLayout.etNoOffamilymembers.inputType = InputType.TYPE_NULL
+        binding.basicInfoLayout.etNumOfEarningMember.inputType =InputType.TYPE_NULL
+        binding.basicInfoLayout.etNumOfDependent.inputType =InputType.TYPE_NULL
+        binding.basicInfoLayout.etFatherLastName.inputType =InputType.TYPE_NULL
+        binding.basicInfoLayout.etFatherMiddleName.inputType =InputType.TYPE_NULL
+        binding.basicInfoLayout.etFatherLastName.inputType =InputType.TYPE_NULL
+        binding.basicInfoLayout.etAlternateNum.inputType =InputType.TYPE_NULL
+
 //        binding.basicInfoLayout.ivUploadDobProof.isClickable = false
+        binding.basicInfoLayout.btnUploadDob.isClickable = false
         binding.basicInfoLayout.cbIncomeConsidered.isClickable = false
         binding.btnAddKYC.isClickable = false
+        binding.btnKyclist.isClickable= false
+
         //Disable Current Address
         binding.personalAddressLayout.cbSameAsCurrent.isClickable = false
         binding.personalAddressLayout.etCurrentAddress.inputType = InputType.TYPE_NULL
@@ -73,6 +84,8 @@ class DisablePersonalForm(binding: LayoutCustomViewPersonalBinding,
         binding.personalAddressLayout.etPermanentStaying.inputType = InputType.TYPE_NULL
         binding.personalAddressLayout.etPermanentRentAmount.inputType = InputType.TYPE_NULL
         binding.personalAddressLayout.customPermanentZipAddressView.inputLayoutCurrentPinCode.etCurrentPinCode.inputType = InputType.TYPE_NULL
+        binding.personalAddressLayout.btnUploadAddress.isClickable = false
+        binding.personalAddressLayout.btnUploadPermanentAddress.isClickable = false
         //binding.personalAddressLayout.customCurrentZipAddressView.disableSelf()
 
     }

@@ -9,11 +9,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
+import com.finance.app.databinding.AssetCreditcardDialogBinding
+import com.finance.app.databinding.DialogKycDetailBinding
 import com.finance.app.databinding.LayoutCustomViewPersonalBinding
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
@@ -23,6 +27,9 @@ import com.finance.app.utility.*
 import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.activity.KYCActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import com.finance.app.view.dialogs.KycDetailDialog
+import kotlinx.android.synthetic.main.add_assests_dialog.*
+import kotlinx.android.synthetic.main.dialog_kyc_detail.*
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
@@ -42,7 +49,10 @@ import motobeans.architecture.util.AppUtilExtensions
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import motobeans.architecture.util.exVisible
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs: AttributeSet? = null) : LinearLayout(context , attrs) {
 
@@ -72,6 +82,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
     private lateinit var permanentResidenceType: CustomSpinnerView<DropdownMaster>
     private lateinit var currentResidenceType: CustomSpinnerView<DropdownMaster>
     private var spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
+    private var detailKycDialog: Dialog? = null
 
     //This id is generated at client side so make sure this id must be created before any operation...
     private lateinit var selectedApplicantNumber: String
@@ -620,52 +631,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
                 if (value.responseObj != null) {
                     val kycDetailResponse: KycListModel = value.responseObj
-                    for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
 
-                        for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size) {
-                            var pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
-                            var name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
-                            var genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
-                            var dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
-                            var address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
-                            binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormatNew(dob))
-                            binding.personalAddressLayout.customPermanentZipAddressView.pinCode
-                            address = address!!.substring(0 , address.length - 7)
-                            binding.personalAddressLayout.etCurrentAddress.setText(address)
-
-
-                            var delimiter = " "
-                            val parts = name!!.split(delimiter)
-                            for (i in 0 until parts.size) {
-                                if (parts.size == 1) {
-                                    binding.basicInfoLayout.etFirstName.setText(parts[0])
-                                }
-                                if (parts.size == 2) {
-                                    binding.basicInfoLayout.etFirstName.setText(parts[0])
-                                    binding.basicInfoLayout.etLastName.setText(parts[1])
-                                }
-                                if (parts.size == 3) {
-                                    binding.basicInfoLayout.etFirstName.setText(parts[0])
-                                    binding.basicInfoLayout.etMiddleName.setText(parts[1])
-                                    binding.basicInfoLayout.etLastName.setText(parts[2])
-                                }
-                            }
-
-                            if (genderValue.equals("M")) {
-                                gender.setSelection("1")
-                            } else if (genderValue.equals("F")) {
-                                gender.setSelection("2")
-                            } else {
-                                gender.setSelection("3")
-                            }
-
-                            binding.personalAddressLayout.customCurrentZipAddressView.etCurrentPinCode.setText(pincode.toString())
-
-                        }
-
-                    }
-
-
+                    // open Fragment Dilaog here
+                    showKYCDetailDialog(kycDetailResponse)
                 } else {
                     showToast(value.responseMsg)
                     binding.progressBar!!.visibility = View.GONE
@@ -692,14 +660,104 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             val leadId: Int? = LeadMetaData.getLeadId()
             val leadApplicantNumber:String =selectedApplicantNumber
 
-            return Requests.RequestKycDetail(leadID = leadId!!,leadApplicantNumber=leadApplicantNumber) //2leadID = leadId!!,leadApplicantNumber=leadApplicantNumber
+            return Requests.RequestKycDetail(leadID = 2,leadApplicantNumber= "2001") //2leadID = leadId!!,leadApplicantNumber=leadApplicantNumber
         }
     }
+
+
 
     fun isApplicantDetailsValid() = formValidation.validatePersonalInfo(binding , spinnerDMList , religion)
 
     fun getApplicant(): PersonalApplicantsModel {
         return getCurrentApplicant()
+    }
+
+    private fun showKYCDetailDialog(kycDetailResponse: KycListModel) {
+
+        val bindingDialog = DataBindingUtil.inflate<DialogKycDetailBinding>(LayoutInflater.from(context) , R.layout.dialog_kyc_detail , null , false)
+        val mBuilder = AlertDialog.Builder(context)
+                .setView(bindingDialog.root)
+                .setCancelable(false)
+
+        detailKycDialog = mBuilder.show()
+
+         var name:String? = ""
+        var pincode:String? = ""
+        var genderValue:String? = ""
+        var dob:String? = ""
+        var address:String? = ""
+        var careOf:String? = ""
+        var addressNew: String?=""
+
+        for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
+
+            for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size) {
+                 pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
+                 name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
+                 genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
+                 dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
+                 address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
+                 careOf= kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
+
+
+                bindingDialog.tvName.text =name
+                bindingDialog.tvcareof.text=careOf
+                bindingDialog.tvGender.text= if(genderValue.equals("M")) "Male" else if(genderValue.equals("F")) "Female" else "TransGender"
+                bindingDialog.tvAddress.text= address
+                bindingDialog.tvdob.text =ConvertDate().convertToAppFormatNew(dob)
+            }
+        }
+
+        bindingDialog?.btnClose?.setOnClickListener() {
+            detailKycDialog?.dismiss()
+        }
+        bindingDialog?.btnMove?.setOnClickListener() {
+
+            var delimiter = " "
+            val parts = name!!.split(delimiter)
+            for (i in 0 until parts.size) {
+                if (parts.size == 1) {
+                    binding.basicInfoLayout.etFirstName.setText(parts[0])
+                }
+                if (parts.size == 2) {
+                    binding.basicInfoLayout.etFirstName.setText(parts[0])
+                    binding.basicInfoLayout.etLastName.setText(parts[1])
+                }
+                if (parts.size == 3) {
+                    binding.basicInfoLayout.etFirstName.setText(parts[0])
+                    binding.basicInfoLayout.etMiddleName.setText(parts[1])
+                    binding.basicInfoLayout.etLastName.setText(parts[2])
+                }
+            }
+
+            if (genderValue.equals("M")) {
+                gender.setSelection("1")
+            } else if (genderValue.equals("F")) {
+                gender.setSelection("2")
+            } else {
+                gender.setSelection("3")
+            }
+
+            binding.personalAddressLayout.customCurrentZipAddressView.etCurrentPinCode.setText(pincode.toString())
+            binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormatNew(dob))
+            binding.personalAddressLayout.customPermanentZipAddressView.pinCode
+            addressNew = address!!.substring(0 , address.length - 7)
+            binding.personalAddressLayout.etCurrentAddress.setText(address)
+            val pattern = "dd-MM-yyyy"
+            val sdf = SimpleDateFormat(pattern, Locale.US)
+            val date = sdf.parse(dob)
+            setDifferenceInField(date,binding.basicInfoLayout.etAge)
+
+            detailKycDialog?.dismiss()
+
+        }
+
+    }
+
+    private fun setDifferenceInField(date: Date , differenceField: TextView) {
+        val todayDate = Date()
+        val difference = todayDate.year - date.year
+        differenceField.text = difference.toString()
     }
 
 }
