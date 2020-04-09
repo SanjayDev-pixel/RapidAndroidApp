@@ -64,7 +64,8 @@ class Presenter {
             ConstantsApi.CALL_KYC_DETAIL -> apiProject.api.getKycDetail((dmiConnector.apiRequest as Requests.RequestKycDetail).leadID, (dmiConnector.apiRequest as Requests.RequestKycDetail).leadApplicantNumber)
             ConstantsApi.Call_RESET_PASSWORD -> apiProject.api.resetPassword(dmiConnector.apiRequest as Requests.RequestResetPassword)
             ConstantsApi.CALL_GET_OTP-> apiProject.api.getOTP((dmiConnector.apiRequest as Requests.RequestGetOTP))
-
+            ConstantsApi.CALL_VERIFY_FORGOT_OTP-> apiProject.api.verifyOTP(dmiConnector.apiRequest as Requests.RequestVerifyOTPforForgetPassword)
+            ConstantsApi.CALL_SUBMIT_PASSWORD -> apiProject.api.submitPassword(dmiConnector.apiRequest as Requests.RequestSubmitPassword)
             else -> return
         }
 

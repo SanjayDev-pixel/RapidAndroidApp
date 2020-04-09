@@ -1101,6 +1101,21 @@ class FormValidationImpl : FormValidation {
         matcher = pattern.matcher(password)
         return matcher.matches()
     }
-
+ override fun validatePassword(binding: ActivitySetPasswordBinding) : Boolean{
+     val strPassword = binding.etNewPassword.text.toString()
+     var errorCount = 0
+     val fieldError = (when {
+         !strPassword.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etNewPassword)
+         else -> 0
+     })
+     if(strPassword.length < 8){
+         binding.etNewPassword.error= "Password length must have 8"
+         errorCount++
+     } else if(!isValidPassword(strPassword)){
+         binding.etNewPassword.error= "Password must have alphanumeric, 1 caps and at least one special character"
+         errorCount++
+     }
+     return isValidForm(errorCount +fieldError)
+ }
 
 }
