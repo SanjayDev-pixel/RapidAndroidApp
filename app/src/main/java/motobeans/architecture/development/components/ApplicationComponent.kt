@@ -69,6 +69,7 @@ interface ApplicationComponent {
     fun inject(activity: UpdateCallActivity)
     fun inject(activity: DocumentUploadingActivity)
     fun inject(activity: ForgetPasswordActivity)
+    fun inject(activity : SetPasswordActivity)
 
     /**
      * Fragment
@@ -126,7 +127,6 @@ interface ApplicationComponent {
      * View Model
      */
     fun inject(viewModel: TempViewModel)
-
     fun inject(viewModel: SyncDataViewModel)
     fun inject(viewModel: LeadDataViewModel)
     fun inject(viewModel: AppDataViewModel)

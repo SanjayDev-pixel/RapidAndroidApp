@@ -52,11 +52,17 @@ class ForgetPasswordActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseGetOTP) {
             if (value.responseCode == Constants.SUCCESS) {
                 binding.progressBar.visibility = View.GONE
-                OtpVerifyActivity.start(context = getContext())
+                showToast(value.responseMsg)
+                //OtpVerifyActivity.start(context = getContext())
+                val intent = Intent(context, OtpVerifyActivity::class.java)
+                intent.putExtra("userName", binding.etMobile.text.toString())
+                startActivity(intent)
+                finish()
+
             } else {
                 showToast(value.responseMsg)
                 binding.progressBar.visibility = View.GONE
-                OtpVerifyActivity.start(context = getContext())
+
             }
         }
 
@@ -74,11 +80,17 @@ class ForgetPasswordActivity : BaseAppCompatActivity() {
     }
     private val requestOTP: Requests.RequestGetOTP
         get() {
+            val company = mCompany
             val strUserName = binding.etMobile.text.toString()
             System.out.println("strUserName>>>>"+strUserName)
-            return Requests.RequestGetOTP(userName = strUserName
+            return Requests.RequestGetOTP(userName = strUserName,company = company
             )
         }
+    private val mCompany: Requests.Company
+        get() {
+            return Requests.Company(1, "DMI_HFC")
+        }
+
 
 
 }

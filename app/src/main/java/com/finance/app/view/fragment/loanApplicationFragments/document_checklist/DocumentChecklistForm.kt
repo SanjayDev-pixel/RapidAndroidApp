@@ -65,7 +65,6 @@ class DocumentChecklistForm : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.let { selectedApplicant?.let { it1 -> binding.customDocumentchecklistView.initApplicantDetails(it, it1) } }
     }
-
     fun getDocumentChecklist() = binding.customDocumentchecklistView.getDocumentChecklist()
     fun isDocumentDetailsValid() = binding.customDocumentchecklistView.isDocumentDetailsValid()
 

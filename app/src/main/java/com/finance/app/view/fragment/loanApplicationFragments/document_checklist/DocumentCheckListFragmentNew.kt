@@ -55,8 +55,6 @@ class DocumentCheckListFragmentNew : BaseFragment(){
     private var applicantList: ArrayList<PersonalApplicantsModel>? = null
     private lateinit var mContext: Context
     private val presenter = Presenter()
-
-
     companion object {
         fun newInstance(): DocumentCheckListFragmentNew {
             return DocumentCheckListFragmentNew()

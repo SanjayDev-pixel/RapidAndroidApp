@@ -3,78 +3,71 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import android.widget.Toast
 import com.finance.app.R
-import com.finance.app.databinding.ActivityOtpVerifyBinding
+import com.finance.app.databinding.ActivitySetPasswordBinding
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
-import com.finance.app.utility.LeadMetaData
+import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.development.interfaces.FormValidation
+import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import java.lang.Exception
+import javax.inject.Inject
 
-class OtpVerifyActivity : BaseAppCompatActivity() {
-
+class SetPasswordActivity : BaseAppCompatActivity() {
     // used to bind element of layout to activity
-    private val binding: ActivityOtpVerifyBinding by ActivityBindingProviderDelegate(
-            this, R.layout.activity_otp_verify)
+    private val binding: ActivitySetPasswordBinding by ActivityBindingProviderDelegate(
+            this, R.layout.activity_set_password)
+    @Inject
+    lateinit var formValidation: FormValidation
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesUtil
     private val presenter = Presenter()
     var userName : String ? = null
-
     companion object {
         fun start(context: Context) {
-            val intent = Intent(context, OtpVerifyActivity::class.java)
+            val intent = Intent(context, SetPasswordActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
-
     }
 
     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         try {
             userName = intent!!.extras["userName"].toString()
+            binding.etUserName.setText(userName)
         }catch(e: Exception){
             e.printStackTrace()
         }
         hideToolbar()
         hideSecondaryToolbar()
-        binding.btnProceed.setOnClickListener {
-            val otpValue = binding.otpView.text.toString()
-            if(otpValue.length<4)
-            {
-                Toast.makeText(this , "Enter 4 digit OTP Number" , Toast.LENGTH_SHORT).show()
-            }
-            else{
-                binding.progressBar.visibility = View.VISIBLE
-                presenter.callNetwork(ConstantsApi.CALL_VERIFY_FORGOT_OTP,dmiConnector = callGetVerifyOTP())
-            }
-          //  ResetPasswordActivity.start(context = getContext())
 
+        binding.btnResetPassword.setOnClickListener(){
+            if(formValidation.validatePassword(binding)){
+                presenter.callNetwork(ConstantsApi.CALL_SUBMIT_PASSWORD,dmiConnector = callGetSubmitPassword())
+
+            }
         }
     }
-    inner class callGetVerifyOTP : ViewGeneric<Requests.RequestVerifyOTPforForgetPassword , Response.ResponseVerifyOTP>(context = this) {
-        override val apiRequest: Requests.RequestVerifyOTPforForgetPassword?
-            get() = requestVerifyOTP//To change initializer of created properties use File | Settings | File Templates.
+    inner class callGetSubmitPassword : ViewGeneric<Requests.RequestSubmitPassword , Response.ResponseSubmitPassword>(context = this) {
+        override val apiRequest: Requests.RequestSubmitPassword?
+            get() = requestPassword//To change initializer of created properties use File | Settings | File Templates.
 
-        override fun getApiSuccess(value: Response.ResponseVerifyOTP) {
+        override fun getApiSuccess(value: Response.ResponseSubmitPassword) {
             if (value.responseCode == Constants.SUCCESS) {
                 binding.progressBar.visibility = View.GONE
                 showToast(value.responseMsg)
-                val intent = Intent(context, SetPasswordActivity::class.java)
-                intent.putExtra("userName", userName)
-                startActivity(intent)
-                finish()
-                //SetPasswordActivity.start(context = getContext())
-
+                LoginActivity.start(context = getContext())
             } else {
                 showToast(value.responseMsg)
                 binding.progressBar.visibility = View.GONE
-
             }
         }
 
@@ -90,17 +83,11 @@ class OtpVerifyActivity : BaseAppCompatActivity() {
 
         }
     }
-    private val requestVerifyOTP: Requests.RequestVerifyOTPforForgetPassword
+    private val requestPassword: Requests.RequestSubmitPassword
         get() {
             val company = mCompany
-            val otpValue = binding.otpView.text.toString()
-            var enteredOTP :String? = null
-            if(otpValue.length==4)
-            {
-               enteredOTP = otpValue
-            }
-            return enteredOTP?.let {
-                Requests.RequestVerifyOTPforForgetPassword(otpValue = it ,company = company
+            return this.userName?.let {
+                Requests.RequestSubmitPassword(userName = it ,newPassword =binding.etNewPassword.text.toString(), company = company
                 )
             }!!
         }
@@ -108,4 +95,5 @@ class OtpVerifyActivity : BaseAppCompatActivity() {
         get() {
             return Requests.Company(1, "DMI_HFC")
         }
+
 }
