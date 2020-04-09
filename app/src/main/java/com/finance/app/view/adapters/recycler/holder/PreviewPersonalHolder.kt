@@ -50,6 +50,7 @@ class PreviewPersonalHolder(val binding: PreviewLayoutPersonalBinding, val mCont
         binding.previewLayoutBasic.tvAlternateContactNum.text = data.alternateContact
         binding.previewLayoutBasic.tvNumOfDependents.text = (data.numberOfDependents).toString()
         binding.previewLayoutBasic.tvNumOfEarningMembers.text = data.numberOfEarningMembers.toString()
+        binding.previewLayoutBasic.tvNumOfFamilymembers.text =data.numberOfFamilyMembersOthers.toString()
 
         viewModel.getMasterDropdownNameFromId(data.dobProofTypeDetailID, AppEnums.DropdownMasterType.DOBProof,
                 binding.previewLayoutBasic.tvDobProof)

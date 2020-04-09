@@ -30,6 +30,4 @@ fun Activity.getImageUriForImagePicker(imageTitle: String): Uri? {
     values.put(MediaStore.Images.Media.TITLE, imageTitle)
     values.put(MediaStore.Images.Media.DESCRIPTION, "")
     return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-
-
 }

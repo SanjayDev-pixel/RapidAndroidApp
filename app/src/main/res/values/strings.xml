@@ -383,5 +383,7 @@
     <string name="alert_message">This lead has been closed. Do you want to create New Lead?</string>
     <string name="alert_warning">Alert!</string>
     <string name="old_password">Old Password</string>
+    <string name="number_of_family_members">Number of Family Members</string>
+    <string name="preview_num_of_family">Number of Family Members</string>
 
 </resources>
