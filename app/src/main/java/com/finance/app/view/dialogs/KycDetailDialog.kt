@@ -75,7 +75,7 @@ class KycDetailDialog : DialogFragment() {
     }
 
     private fun initViews() {
-      // 
+      //
     }
 
     interface OnKycDetailDialogCallback {

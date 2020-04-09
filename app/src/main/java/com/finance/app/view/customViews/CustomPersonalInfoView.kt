@@ -660,7 +660,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             val leadId: Int? = LeadMetaData.getLeadId()
             val leadApplicantNumber:String =selectedApplicantNumber
 
-            return Requests.RequestKycDetail(leadID = 2,leadApplicantNumber= "2001") //2leadID = leadId!!,leadApplicantNumber=leadApplicantNumber
+            return Requests.RequestKycDetail(leadID = leadId!!,leadApplicantNumber= leadApplicantNumber) //2leadID = leadId!!,leadApplicantNumber=leadApplicantNumber
         }
     }
 
