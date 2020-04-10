@@ -42,7 +42,7 @@ class FormValidationImpl : FormValidation {
         val age = binding.basicInfoLayout.etAge.text.toString()
         val mobile = binding.basicInfoLayout.etMobile.text.toString()
         val father_Name = binding.basicInfoLayout.etFatherFirstName.text.toString()
-        val numberOfFamilyMenmbers=binding.basicInfoLayout.etNumOfEarningMember.text.toString()
+        val numberOfFamilyMenmbers=binding.basicInfoLayout.etNoOffamilymembers.text.toString()
         if(religion.getSelectedValue()==null){
             errorCount++
             religion.showError(true)
