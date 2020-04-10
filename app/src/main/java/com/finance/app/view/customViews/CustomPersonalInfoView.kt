@@ -629,13 +629,13 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             if (value.responseCode == Constants.SUCCESS) {
                 binding.progressBar!!.visibility = View.GONE
 
-                if (value.responseObj != null) {
+                if (value.responseObj.kycApplicantDetailsList.size > 0) {
                     val kycDetailResponse: KycListModel = value.responseObj
 
                     // open Fragment Dilaog here
                     showKYCDetailDialog(kycDetailResponse)
                 } else {
-                    showToast(value.responseMsg)
+                    showToast("KYC is not available now.")  //value.responseMsg
                     binding.progressBar!!.visibility = View.GONE
                 }
             } else {
@@ -660,7 +660,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             val leadId: Int? = LeadMetaData.getLeadId()
             val leadApplicantNumber:String =selectedApplicantNumber
 
-            return Requests.RequestKycDetail(leadID = leadId!!,leadApplicantNumber= leadApplicantNumber) //2leadID = leadId!!,leadApplicantNumber=leadApplicantNumber
+            return Requests.RequestKycDetail(leadID = leadId!!,leadApplicantNumber= leadApplicantNumber) //return Requests.RequestKycDetail(leadID = 2,leadApplicantNumber= "2001")
+
         }
     }
 
