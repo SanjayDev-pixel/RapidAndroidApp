@@ -119,4 +119,7 @@ interface Api {
     fun verifyOTP(@Body requestPost: Requests.RequestVerifyOTPforForgetPassword) :Observable<Response.ResponseVerifyOTP>
     @POST("api/v1/auth/forgot/submit/")
     fun submitPassword(@Body requestPost : Requests.RequestSubmitPassword) : Observable<Response.ResponseSubmitPassword>
+
+    @GET("api/v1/dashboard/")
+    fun getDasboardData(): Observable<Response.ResponseDashboard>
 }

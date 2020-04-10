@@ -26,4 +26,5 @@ object Requests {
     data class RequestGetOTP(val userName : String,val company: Company)
     data class RequestVerifyOTPforForgetPassword(val otpValue: String,val company: Company)
     data class RequestSubmitPassword(val userName: String,val newPassword: String,val company: Company)
+    data class RequestDashBoard(val userName:String?)
 }

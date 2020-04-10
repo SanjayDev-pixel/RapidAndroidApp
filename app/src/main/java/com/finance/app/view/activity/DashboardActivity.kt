@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardNewBinding
 import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.presenter.presenter.Presenter
+import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.DashboardChartAdapter
 import com.finance.app.viewModel.SyncDataViewModel
 import com.finance.app.workers.UtilWorkManager
@@ -16,11 +18,14 @@ import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
+import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
@@ -34,6 +39,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferencesUtil
 
     private var adapterChart: DashboardChartAdapter? = null
+    private val presenter = Presenter()
     private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(this, R.layout.activity_dashboard_new)
     private val viewModel: SyncDataViewModel by viewModelProvider(activity = this,
             viewModelType = ViewModelType.WITH_DAO)
@@ -70,9 +76,10 @@ class DashboardActivity : BaseAppCompatActivity() {
     }
 
     fun initializeChartData() {
-        val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
+        presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
 
-        initChartAdapter(dashboardResponse = dashboardResponse)
+        /*val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
+        initChartAdapter(dashboardResponse = dashboardResponse)*/
     }
 
     private fun initChartAdapter(dashboardResponse: Response.DashboardResponse) {
@@ -100,4 +107,41 @@ class DashboardActivity : BaseAppCompatActivity() {
     fun getEventBackgroundSync(syncEnum: AppEvents.BackGroundSyncEvent) {
         AppEvents().initiateBackgroundSync(syncEnum = syncEnum)
     }
+
+    inner class CallDasboardData : ViewGeneric<Requests.RequestDashBoard , Response.ResponseDashboard>(context = this) {
+        override val apiRequest: Requests.RequestDashBoard
+            get() = dasboardRequest
+
+        override fun getApiSuccess(value: Response.ResponseDashboard) {
+            if (value.responseCode == Constants.SUCCESS) {
+               // binding.progressBar!!.visibility =View.GONE
+           val response: String = value.responseObj.toString()
+          val dashboardResponse = Gson().fromJson(response, Response.DashboardResponse::class.java)
+           initChartAdapter(dashboardResponse = dashboardResponse)
+
+            } else {
+                showToast(value.responseMsg)
+               // binding.progressBar!!.visibility =View.GONE
+            }
+        }
+
+        override fun getApiFailure(msg: String) {
+
+            if (msg.exIsNotEmptyOrNullOrBlank()) {
+                super.getApiFailure(msg)
+               // binding.progressBar!!.visibility = View.GONE
+            } else {
+                super.getApiFailure("Time out Error")
+               // binding.progressBar!!.visibility = View.GONE
+            }
+
+        }
+
+    }
+
+    private val dasboardRequest: Requests.RequestDashBoard
+        get() {
+            val userName =""
+            return Requests.RequestDashBoard(userName = userName)
+        }
 }
