@@ -529,6 +529,8 @@ class FormValidationImpl : FormValidation {
         val state = binding.spinnerState.selectedItem as StatesMaster?
         val district = binding.spinnerDistrict.selectedItem as Response.DistrictObj?
         val city = binding.spinnerCity.selectedItem as Response.CityObj?
+        val propertyType = binding.spinnerPropertytype.selectedItem as DropdownMaster?
+        val transactionType=binding.spinnerTrancactiontype.selectedItem as DropdownMaster?
 
         if (unitType == null) {
             errorCount++
@@ -557,6 +559,14 @@ class FormValidationImpl : FormValidation {
             errorCount++
             binding.spinnerOwnedProperty.error = "Required Field"
         }
+        if (propertyType == null) {
+            errorCount++
+            binding.spinnerPropertytype.error = "Required Field"
+        }
+        if (transactionType == null) {
+            errorCount++
+            binding.spinnerTrancactiontype.error = "Required Field"
+        }
 
         if (district == null) {
             errorCount++
@@ -570,6 +580,7 @@ class FormValidationImpl : FormValidation {
             errorCount++
             binding.spinnerState.error = "Required Field"
         }
+
         val tenants = binding.etNumOfTenants.text.toString()
         if (!tenants.exIsNotEmptyOrNullOrBlank()) {
             errorCount++

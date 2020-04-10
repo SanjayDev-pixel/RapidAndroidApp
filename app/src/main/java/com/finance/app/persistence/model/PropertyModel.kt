@@ -37,6 +37,8 @@ class PropertyModel:Serializable {
     var cityName : String? = null
     var districtName : String? = null
     var propertyNatureOfTransactionCategoryTypeDetailName :String? = null
-    //Testing Sanjay commit
+    var propertyTypeDetailID: Int? = null
+    var transactionTypeDetailID: Int? = null
+
 
 }

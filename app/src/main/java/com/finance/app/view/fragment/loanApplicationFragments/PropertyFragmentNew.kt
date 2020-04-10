@@ -192,6 +192,8 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         selectMasterDropdownValue(binding.spinnerOccupiedBy, propertyModel.occupiedByTypeDetailID)
         selectMasterDropdownValue(binding.spinnerTenantNocAvailable, propertyModel.tenantNocAvailableTypeDetailID)
         selectPropertyNatureValue(binding.spinnerPropertyNature)
+        selectMasterDropdownValue(binding.spinnerPropertytype,propertyModel.propertyTypeDetailID)
+        selectMasterDropdownValue(binding.spinnerTrancactiontype,propertyModel.transactionTypeDetailID)
 
 
     }
@@ -230,6 +232,8 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         binding.spinnerOccupiedBy.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.PropertyOccupiedBy!!)
         binding.spinnerTenantNocAvailable.adapter = MasterSpinnerAdapter(mContext, allMasterDropDown.TenantNocAvailable!!)
         binding.spinnerTransactionCategory.adapter = PropertyNatureSpinnerAdapter(mContext, ArrayList())
+        binding.spinnerPropertytype.adapter =MasterSpinnerAdapter(mContext,allMasterDropDown.PropertyType!!)
+        binding.spinnerTrancactiontype.adapter =MasterSpinnerAdapter(mContext,allMasterDropDown.TransactionType!!)
         setUpOwnership(binding.spinnerOwnership, allMasterDropDown)
         setUpPropertyNature(binding.spinnerPropertyNature, allMasterDropDown)
         fillDropDownValue(propertyModel)
@@ -320,6 +324,9 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             val ownedProperty = binding.spinnerOwnedProperty.selectedItem as DropdownMaster?
             val occupiedBy = binding.spinnerOccupiedBy.selectedItem as DropdownMaster?
             val tenantNoc = binding.spinnerTenantNocAvailable.selectedItem as DropdownMaster?
+            val propertyType = binding.spinnerPropertytype.selectedItem as DropdownMaster?
+            val transactionType=binding.spinnerTrancactiontype.selectedItem as DropdownMaster?
+
 
             val propertyModel=PropertyModel()
             propertyModel.leadID = (leadIdForApplicant?.toInt() ?: 0)
@@ -350,6 +357,9 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             propertyModel.districtName = district?.districtName
             propertyModel.stateName = state?.stateName
             propertyModel.propertyNatureOfTransactionCategoryTypeDetailName = transactionCategory?.propertyNatureTransactionCategory
+            propertyModel.propertyTypeDetailID = propertyType?.typeDetailID
+            propertyModel.transactionTypeDetailID = transactionType?.typeDetailID
+
 
 
 //save data in database

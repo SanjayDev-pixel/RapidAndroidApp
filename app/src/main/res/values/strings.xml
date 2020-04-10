@@ -385,5 +385,8 @@
     <string name="old_password">Old Password</string>
     <string name="number_of_family_members">Number of Family Members</string>
     <string name="preview_num_of_family">Number of Family Members</string>
+    <string name="property_type">Property Type</string>
+    <string name="transaction_type">Transaction Type</string>
+
 
 </resources>
