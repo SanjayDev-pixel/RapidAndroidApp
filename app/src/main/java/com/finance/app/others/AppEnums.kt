@@ -78,7 +78,7 @@ class AppEnums {
         PropertyUnitType, AlreadyOwnedProperty, PropertyOwnership, NatureOfPropertyTransaction,
         PropertyOccupiedBy, ReferenceRelationship, TenantNocAvailable, SalaryCredit, BounceEmiPaidInSameMonth,
         AssetSubType, CreditCardObligation, AssetOwnership, ReviewerResponseType, CustomerFollowUpStatus,
-        LeadType, LeadNotificationType, LeadRejectionReason, AssetDetail,BankName
+        LeadType, LeadNotificationType, LeadRejectionReason, AssetDetail,BankName,PropertyType,TransactionType
     }
 
 }

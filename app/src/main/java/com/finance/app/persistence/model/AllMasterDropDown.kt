@@ -4,6 +4,7 @@ import androidx.room.PrimaryKey
 import com.finance.app.others.AppEnums
 import java.io.Serializable
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Entity
 class AllMasterDropDown : Serializable {
@@ -70,6 +71,8 @@ class AllMasterDropDown : Serializable {
     var LeadNotificationType: ArrayList<DropdownMaster>? = null
     var LeadRejectionReason: ArrayList<DropdownMaster>? = null
     var DocumentCode: ArrayList<DropdownMaster>? = null
+    var PropertyType : ArrayList<DropdownMaster>? = null
+    var TransactionType : ArrayList<DropdownMaster>? = null
     fun getMasterDropDownMap(): HashMap<AppEnums.DropdownMasterType, ArrayList<DropdownMaster>?> {
         val map = HashMap<AppEnums.DropdownMasterType, ArrayList<DropdownMaster>?>()
         map[AppEnums.DropdownMasterType.Gender] = Gender
@@ -132,8 +135,8 @@ class AllMasterDropDown : Serializable {
         map[AppEnums.DropdownMasterType.LeadRejectionReason] = LeadRejectionReason
         map[AppEnums.DropdownMasterType.AssetDetail] = AssetDetail
         map[AppEnums.DropdownMasterType.BankName]=BankName
-
-
+        map[AppEnums.DropdownMasterType.PropertyType] = PropertyType
+        map[AppEnums.DropdownMasterType.TransactionType] = TransactionType
         return map
     }
 
