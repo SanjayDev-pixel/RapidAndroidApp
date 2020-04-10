@@ -61,6 +61,8 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentFormBinding) 
         binding.lytBusinessDetail.layoutAddress.etContactNum.inputType = InputType.TYPE_NULL
         binding.lytBusinessDetail.layoutAddress.etAddress.inputType = InputType.TYPE_NULL
         binding.lytBusinessDetail.layoutAddress.customZipAddressView.inputLayoutCurrentPinCode.etCurrentPinCode.inputType = InputType.TYPE_NULL
+        binding.lytBusinessDetail.etIncorporationDate.inputType = InputType.TYPE_NULL
+        binding.lytBusinessDetail.inputLayoutIncorporationDate.isClickable = false
         disableSenpDropdown()
     }
 
