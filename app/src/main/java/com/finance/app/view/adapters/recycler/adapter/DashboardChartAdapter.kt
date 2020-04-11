@@ -11,13 +11,13 @@ import com.finance.app.R
 import com.finance.app.databinding.ItemDashboardRowDataBinding
 import motobeans.architecture.retrofit.response.Response
 
-class DashboardChartAdapter(private val mActivity: FragmentActivity, private val dashboardChartData: Response.DashboardResponse) : RecyclerView.Adapter<DashboardChartAdapter.DashboardChartHolder>() {
+class DashboardChartAdapter(private val mActivity: FragmentActivity, private val dashboardChartData: Response.ResponseDashboard) : RecyclerView.Adapter<DashboardChartAdapter.DashboardChartHolder>() {
 
     private lateinit var binding: ItemDashboardRowDataBinding
     private var items = ArrayList<Response.DashboardChildrens>()
 
     init {
-        items.addAll(dashboardChartData.dashboardData?.dashboardChildrens ?: ArrayList())
+        items.addAll(dashboardChartData?.responseObj?.dashboardChildrens?: ArrayList())
 }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardChartHolder {

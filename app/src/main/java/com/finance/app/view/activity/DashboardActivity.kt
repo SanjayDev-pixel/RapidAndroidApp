@@ -3,11 +3,13 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardNewBinding
 import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.persistence.model.DashboardData
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.DashboardChartAdapter
@@ -18,7 +20,7 @@ import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
-
+import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -28,6 +30,7 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -76,12 +79,13 @@ class DashboardActivity : BaseAppCompatActivity() {
     }
 
     fun initializeChartData() {
-        //presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
-        val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
-        initChartAdapter(dashboardResponse = dashboardResponse)
+        presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
+
+       /* val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
+        initChartAdapter(dashboardResponse = dashboardResponse)*/
     }
 
-    private fun initChartAdapter(dashboardResponse: Response.DashboardResponse) {
+    private fun initChartAdapter(dashboardResponse: Response.ResponseDashboard) {
         adapterChart = DashboardChartAdapter(mActivity = this, dashboardChartData = dashboardResponse)
         binding.rvDashboardCharts.adapter = adapterChart
         binding.rvDashboardCharts.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
@@ -114,10 +118,7 @@ class DashboardActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseDashboard) {
             if (value.responseCode == Constants.SUCCESS) {
                // binding.progressBar!!.visibility =View.GONE
-           val response: String = value.responseObj.toString().trimIndent()
-                System.out.println("trim>>>"+response)
-          val dashboardResponse = Gson().fromJson(response, Response.DashboardResponse::class.java)
-           initChartAdapter(dashboardResponse = dashboardResponse)
+                initChartAdapter(dashboardResponse = value)
 
             } else {
                 showToast(value.responseMsg)

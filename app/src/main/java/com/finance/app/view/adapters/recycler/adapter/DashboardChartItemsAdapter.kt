@@ -21,7 +21,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import motobeans.architecture.retrofit.response.Response
 
-class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, private val chartDataItems: ArrayList<Response.ChartItems>) :
+class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, private val chartDataItems: ArrayList<Response.ChartData>) :
     RecyclerView.Adapter<DashboardChartItemsAdapter.DashboardChartItemsHolder>() {
 
     private lateinit var binding: ItemDashboardChartDataBinding
@@ -40,8 +40,8 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
 
     inner class DashboardChartItemsHolder(val binding: ItemDashboardChartDataBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var itemChartData: Response.ChartItems
-        fun bindItems(itemChartData: Response.ChartItems) {
+        private lateinit var itemChartData: Response.ChartData
+        fun bindItems(itemChartData: Response.ChartData) {
             this.itemChartData = itemChartData
             binding.tvChartTitle.text = itemChartData.title
 //            binding.tvChartDescription.text = itemChartData.total.toString()
