@@ -18,7 +18,7 @@ import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
-import motobeans.architecture.constants.ConstantsApi
+
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -76,10 +76,9 @@ class DashboardActivity : BaseAppCompatActivity() {
     }
 
     fun initializeChartData() {
-        presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
-
-        /*val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
-        initChartAdapter(dashboardResponse = dashboardResponse)*/
+        //presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
+        val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
+        initChartAdapter(dashboardResponse = dashboardResponse)
     }
 
     private fun initChartAdapter(dashboardResponse: Response.DashboardResponse) {
@@ -115,7 +114,8 @@ class DashboardActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseDashboard) {
             if (value.responseCode == Constants.SUCCESS) {
                // binding.progressBar!!.visibility =View.GONE
-           val response: String = value.responseObj.toString()
+           val response: String = value.responseObj.toString().trimIndent()
+                System.out.println("trim>>>"+response)
           val dashboardResponse = Gson().fromJson(response, Response.DashboardResponse::class.java)
            initChartAdapter(dashboardResponse = dashboardResponse)
 

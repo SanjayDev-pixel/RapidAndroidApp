@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">DMI HFC</string>
+    <string name="app_name">DMI RAPID</string>
     <string name="action_sync">Sync</string>
     <string name="action_search">Search</string>
     <string name="user_name">User Name</string>
-    <string name="password">Password</string>
+    <string name="password">Password</string>    
     <string name="login">Login</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="select_company">Select Company</string>
