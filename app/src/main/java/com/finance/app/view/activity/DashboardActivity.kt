@@ -119,7 +119,7 @@ class DashboardActivity : BaseAppCompatActivity() {
             if (value.responseCode == Constants.SUCCESS) {
                // binding.progressBar!!.visibility =View.GONE
                 
-          val dashboardResponse = Gson().fromJson(value.toString(), Response.DashboardResponse::class.java)
+//          val dashboardResponse = Gson().fromJson(value.toString(), Response.DashboardResponse::class.java)
 
         //   initChartAdapter(dashboardResponse = dashboardResponse)
 
