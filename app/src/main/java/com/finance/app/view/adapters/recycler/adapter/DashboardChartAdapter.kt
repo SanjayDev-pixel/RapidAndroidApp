@@ -17,7 +17,7 @@ class DashboardChartAdapter(private val mActivity: FragmentActivity, private val
     private var items = ArrayList<Response.DashboardChildrens>()
 
     init {
-        items.addAll(dashboardChartData.responseObj?.dashboardChildrens ?: ArrayList())
+        items.addAll(dashboardChartData?.responseObj?.dashboardChildrens?: ArrayList())
 }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardChartHolder {

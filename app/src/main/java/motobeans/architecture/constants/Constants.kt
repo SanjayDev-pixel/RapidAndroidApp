@@ -68,206 +68,103 @@ class Constants {
     object TEMP_DATA {
         val apiChartResult = """
        {
-
-       	"message": "dashboard data",
-
-       	"statusCode": 200,
-
-       	"isSuccess": true,
-
-       	"dashboardData": {
-
-       		"dashboardChildrens": [
-
-       			{
-
-       				"heading": "Lead",
-
-       				"description": "",
-
-       				"chartData": [
-
-       					{
-
-       						"title": "Current Month",
-
-       						"total": 100,
-
-       						"data": [
-
-       							{
-
-       								"lable": "Submitted",
-
-       								"value": 20
-
-       							},
-
-       							{
-
-       								"lable": "Pending",
-
-       								"value": 70
-
-       							},
-
-       							{
-
-       								"lable": "Rejected",
-
-       								"value": 10
-
-       							}
-
-       						]
-
-       					}
-
-       				]
-
-       			},
-
-       			{
-
-       				"heading": "Login",
-
-       				"description": "",
-
-       				"chartData": [
-
-       					{
-
-       						"title": "Number of Files Login",
-
-       						"total": 6,
-
-       						"data": [
-
-       							{
-
-       								"lable": "Achived",
-
-       								"value": 3
-
-       							},
-
-       							{
-
-       								"lable": "Shortfall",
-
-       								"value": 3
-
-       							}
-
-       						]
-
-       					},
-
-       					{
-
-       						"title": "Login Amount",
-
-       						"total": 6000000,
-
-       						"data": [
-
-       							{
-
-       								"lable": "Achived",
-
-       								"value": 4000000
-
-       							},
-
-       							{
-
-       								"lable": "Shortfall",
-
-       								"value": 2000000
-
-       							}
-
-       						]
-
-       					}
-
-       				]
-
-       			},
-
-       			{
-
-       				"heading": "Sanction",
-
-       				"description": "",
-
-       				"chartData": [
-
-       					{
-
-       						"title": "Number of Files Sanction",
-
-       						"total": 4,
-
-       						"data": [
-
-       							{
-
-       								"lable": "Achived",
-
-       								"value": 1
-
-       							},
-
-       							{
-
-       								"lable": "Shortfall",
-
-       								"value": 3
-
-       							}
-
-       						]
-
-       					},
-
-       					{
-
-       						"title": "Sanction Amount",
-
-       						"total": 4000000,
-
-       						"data": [
-
-       							{
-
-       								"lable": "Achived",
-
-       								"value": 2000000
-
-       							},
-
-       							{
-
-       								"lable": "Shortfall",
-
-       								"value": 2000000
-
-       							}
-
-       						]
-
-       					}
-
-       				]
-
-       			}
-
-       		]
-
-       	}
-
-       }
+    "responseCode": "200",
+    "responseMsg": "Dashboard Data",
+    "errorStack": null,
+    "timeStamp": 1586514956189,
+    "responseObj": {
+        "dashboardChildrens": [
+            {
+                "heading": "Lead",
+                "description": "Lead Description",
+                "chartData": [
+                    {
+                        "title": "2020-Apr",
+                        "total": 14,
+                        "data": [
+                            {
+                                "label": "Submitted",
+                                "value": 7
+                            },
+                            {
+                                "label": "Pending",
+                                "value": 7
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "heading": "Login",
+                "description": "Login Description",
+                "chartData": [
+                    {
+                        "title": "Number of Files Login",
+                        "total": 64,
+                        "data": [
+                            {
+                                "label": "Archived",
+                                "value": 1
+                            },
+                            {
+                                "label": "Shortfall",
+                                "value": 63
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Login Amount",
+                        "total": 64000000,
+                        "data": [
+                            {
+                                "label": "Archived",
+                                "value": 900000.0
+                            },
+                            {
+                                "label": "Shortfall",
+                                "value": 63100000
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "heading": "Sanction",
+                "description": "Sanction Description",
+                "chartData": [
+                    {
+                        "title": "Number of Files Sanction",
+                        "total": "64",
+                        "data": [
+                            {
+                                "label": "Archived",
+                                "value": 0
+                            },
+                            {
+                                "label": "Shortfall",
+                                "value": 64
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Sanction Amount",
+                        "total": 64000000,
+                        "data": [
+                            {
+                                "label": "Archived",
+                                "value": 0.0
+                            },
+                            {
+                                "label": "Shortfall",
+                                "value": 64000000
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
   
         """.trimIndent()
     }

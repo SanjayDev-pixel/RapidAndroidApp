@@ -3,11 +3,13 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardNewBinding
 import com.finance.app.eventBusModel.AppEvents
+import com.finance.app.persistence.model.DashboardData
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.DashboardChartAdapter
@@ -28,6 +30,7 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -78,7 +81,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     fun initializeChartData() {
         presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
 
-        /*val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
+       /* val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
         initChartAdapter(dashboardResponse = dashboardResponse)*/
     }
 
@@ -115,9 +118,10 @@ class DashboardActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseDashboard) {
             if (value.responseCode == Constants.SUCCESS) {
                // binding.progressBar!!.visibility =View.GONE
-           val response: String = value.responseObj.toString()
-          val dashboardResponse = Gson().fromJson(response, Response.DashboardResponse::class.java)
-           initChartAdapter(dashboardResponse = dashboardResponse)
+                
+          val dashboardResponse = Gson().fromJson(value.toString(), Response.DashboardResponse::class.java)
+
+        //   initChartAdapter(dashboardResponse = dashboardResponse)
 
             } else {
                 showToast(value.responseMsg)

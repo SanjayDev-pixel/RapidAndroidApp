@@ -79,11 +79,12 @@ object Response {
     data class ResponseUploadDocument(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
     data class ResponseUploadedDocumentList(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: UploadedDocumentResponse?, val timeStamp: Long?)
     data class ResponseDocumentDownloadableLink(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: DocumentPathResponse?, val timeStamp: Long?)
-    data class DashboardResponse(val message: String?, val statusCode: Int?, val isSuccess: Boolean?, val responseObj: ResponseObj?)
+    data class DashboardResponse(val responseMsg: String?, val responseCode: Int?,val errorStack : String, val responseObj: ResponseObj?,val timeStamp:Double?)
+   // data class DashboardResponse( val responseObj: ResponseObj?)
     data class ResponseObj(val dashboardChildrens: ArrayList<DashboardChildrens>)
-    data class DashboardChildrens(val heading: String?, val description: String?, val chartData: ArrayList<ChartItems>)
-    data class ChartItems(val title: String, val total: Float, val data: ArrayList<ChartItemsData>)
-    data class ChartItemsData(val lable: String, val value: Float)
+    data class DashboardChildrens(val heading: String?, val description: String?, val chartData: ArrayList<ChartData>)
+    data class ChartData(val title: String, val total: Float, val data: ArrayList<Data>)
+    data class Data(val lable: String, val value: Float)
     data class ResponseFinalSubmitted(val responseCode: String, val responseMsg: String, val responseObj: ApplicantionSubmitModel?, val timeStamp: Long)
     data class ResponseEditLead(val error: String, val responseCode: String, val responseMsg: String, val responseObj: Any? , val timeStamp: Long)
     data class ResponseKycDetail(val responseCode: String, val responseMsg: String, val responseObj: KycListModel, val timeStamp: Long)
@@ -92,4 +93,11 @@ object Response {
     data class ResponseVerifyOTP(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
     data class ResponseSubmitPassword(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
     data class ResponseDashboard(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
+
+
+    data class DashboardResponseNEW(val dashboardChildrens: ArrayList<DashboardChildrens>)
+    //data class ResponseObj(val dashboardChildrens: ArrayList<DashboardChildrens>)
+    /*data class DashboardChildrens(val heading: String?, val description: String?, val chartData: ArrayList<ChartItems>)
+    data class ChartItems(val title: String, val total: String, val data: ArrayList<ChartItemsData>)
+    data class ChartItemsData(val lable: String, val value: String)*/
 }
