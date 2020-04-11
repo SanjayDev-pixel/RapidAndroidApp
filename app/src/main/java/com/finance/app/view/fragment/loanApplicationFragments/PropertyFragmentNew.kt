@@ -340,7 +340,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             propertyModel.alreadyOwnedPropertyTypeDetailID = ownedProperty?.typeDetailID
             propertyModel.ownershipTypeDetailID = ownership?.typeDetailID
             propertyModel.propertyAreaSquareFt = binding.etPropertyArea.text.toString().toInt()
-            propertyModel.propertyAddress = binding.etPropertyArea.text.toString()
+            propertyModel.propertyAddress = binding.etPropertyAddress.text.toString()
             propertyModel.landmark = binding.etLandmark.text.toString()
             propertyModel.pinCode = binding.etPinCode.text.toString()
             propertyModel.distanceFromBranch = binding.etDistanceFromBranch.text.toString()
