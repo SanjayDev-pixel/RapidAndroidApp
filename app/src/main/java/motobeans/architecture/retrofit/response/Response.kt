@@ -80,7 +80,6 @@ object Response {
     data class ResponseUploadedDocumentList(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: UploadedDocumentResponse?, val timeStamp: Long?)
     data class ResponseDocumentDownloadableLink(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: DocumentPathResponse?, val timeStamp: Long?)
     data class DashboardResponse(val responseMsg: String?, val responseCode: Int?,val errorStack : String, val responseObj: ResponseObj?,val timeStamp:Double?)
-   // data class DashboardResponse( val responseObj: ResponseObj?)
     data class ResponseObj(val dashboardChildrens: ArrayList<DashboardChildrens>)
     data class DashboardChildrens(val heading: String?, val description: String?, val chartData: ArrayList<ChartData>)
     data class ChartData(val title: String, val total: Float, val data: ArrayList<Data>)
@@ -95,9 +94,4 @@ object Response {
     data class ResponseDashboard(val responseCode: String, val responseMsg: String, val responseObj: ResponseObj?, val timeStamp: Long)
 
 
-    data class DashboardResponseNEW(val dashboardChildrens: ArrayList<DashboardChildrens>)
-    //data class ResponseObj(val dashboardChildrens: ArrayList<DashboardChildrens>)
-    /*data class DashboardChildrens(val heading: String?, val description: String?, val chartData: ArrayList<ChartItems>)
-    data class ChartItems(val title: String, val total: String, val data: ArrayList<ChartItemsData>)
-    data class ChartItemsData(val lable: String, val value: String)*/
 }

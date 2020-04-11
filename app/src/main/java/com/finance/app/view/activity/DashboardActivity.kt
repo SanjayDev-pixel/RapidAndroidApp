@@ -85,7 +85,7 @@ class DashboardActivity : BaseAppCompatActivity() {
         initChartAdapter(dashboardResponse = dashboardResponse)*/
     }
 
-    private fun initChartAdapter(dashboardResponse: Response.DashboardResponse) {
+    private fun initChartAdapter(dashboardResponse: Response.ResponseDashboard) {
         adapterChart = DashboardChartAdapter(mActivity = this, dashboardChartData = dashboardResponse)
         binding.rvDashboardCharts.adapter = adapterChart
         binding.rvDashboardCharts.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
@@ -118,10 +118,7 @@ class DashboardActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: Response.ResponseDashboard) {
             if (value.responseCode == Constants.SUCCESS) {
                // binding.progressBar!!.visibility =View.GONE
-                
-//          val dashboardResponse = Gson().fromJson(value.toString(), Response.DashboardResponse::class.java)
-
-        //   initChartAdapter(dashboardResponse = dashboardResponse)
+                initChartAdapter(dashboardResponse = value)
 
             } else {
                 showToast(value.responseMsg)
