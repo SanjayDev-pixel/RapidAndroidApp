@@ -31,6 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_10"
                     android:background="@color/white"
+                    android:visibility="gone"
                     android:orientation="horizontal"
                     android:weightSum="3">
 
@@ -105,6 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_10"
+                    android:visibility="gone"
                     android:background="@color/white"
                     android:orientation="horizontal"
                     android:weightSum="3">
@@ -144,6 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_10"
                     android:background="@color/white"
+                    android:visibility="gone"
                     android:orientation="horizontal"
                     android:weightSum="3">
 

@@ -341,7 +341,9 @@ class PreviewActivity : BaseAppCompatActivity() {
             }
 
         if(isPropertySelected==true){
-            if(lead.propertyData.unitTypeTypeDetailID !=null){}else{
+            if(lead.propertyData.propertyTypeDetailID !=null){
+
+            }else{
                 if(isPropertySelected==true)
                 Toast.makeText(this@PreviewActivity,"Please check Property Detail",Toast.LENGTH_SHORT).show()
                 errorCount++

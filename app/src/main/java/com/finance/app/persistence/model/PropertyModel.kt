@@ -21,22 +21,22 @@ class PropertyModel:Serializable {
     var alreadyOwnedPropertyTypeDetailID: Int? = null
     var applicationPropertyDetail: Int ?= null
     var cashOCRValue: Double ? = null
-    var natureOfPropertyTransactionTypeDetailID: Int? = null
+    var natureOfPropertyTransactionTypeDetailID: Int? = 131
     var numberOfTenants: Int ? = null
     var occupiedByTypeDetailID: Int? = null
     var ocrValue: Double ? = null
     var ownershipTypeDetailID: Int? = null
     var pinCode: String? = null
     var propertyAddress: String? = null
-    var propertyNatureOfTransactionCategoryTypeDetailID: Int? = null
+    var propertyNatureOfTransactionCategoryTypeDetailID: Int? = 1
     var tenantNocAvailableTypeDetailID: Int? = null
-    var unitTypeTypeDetailID: Int? = null
+    var unitTypeTypeDetailID: Int? = 178
     var leadApplicantNumber: String? = null
     var isMainApplicant:Boolean? = null
     var stateName : String? = null
     var cityName : String? = null
     var districtName : String? = null
-    var propertyNatureOfTransactionCategoryTypeDetailName :String? = null
+    var propertyNatureOfTransactionCategoryTypeDetailName :String? = "Nature 1"
     var propertyTypeDetailID: Int? = null
     var transactionTypeDetailID: Int? = null
 

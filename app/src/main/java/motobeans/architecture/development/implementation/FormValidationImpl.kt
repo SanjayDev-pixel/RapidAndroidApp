@@ -532,15 +532,15 @@ class FormValidationImpl : FormValidation {
         val propertyType = binding.spinnerPropertytype.selectedItem as DropdownMaster?
         val transactionType=binding.spinnerTrancactiontype.selectedItem as DropdownMaster?
 
-        if (unitType == null) {
+        /*if (unitType == null) {
             errorCount++
             binding.spinnerUnitType.error = "Required Field"
-        }
+        }*/
 
-        if (propertyTransaction == null) {
+        /*if (propertyTransaction == null) {
             errorCount++
             binding.spinnerPropertyNature.error = "Required Field"
-        }
+        }*/
         if (occupiedBy == null) {
             errorCount++
             binding.spinnerOccupiedBy.error = "Required Field"
