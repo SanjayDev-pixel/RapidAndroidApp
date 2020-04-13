@@ -1,7 +1,9 @@
 package com.finance.app.view.activity
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,7 @@ import com.finance.app.view.adapters.recycler.adapter.LoanRejectionAdapter
 import com.finance.app.view.adapters.recycler.adapter.LoanSubmitStatusAdapter
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_loan_submit_status.view.*
+import kotlinx.android.synthetic.main.delete_dialog.view.*
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import java.math.RoundingMode
@@ -28,6 +31,7 @@ class LoanSubmitStatusActivity : BaseAppCompatActivity() {
     private var loanSubmitStatusAdapter: LoanSubmitStatusAdapter? = null
     private var loanRejectionAdapter: LoanRejectionAdapter? = null
     private var hfcPolicyResponse: HfcPolicyResponse? = null
+    var alertDialog: Dialog ?= null
 
 
     companion object {
@@ -125,5 +129,26 @@ try {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.CEILING
         return df.format(number).toDouble()
+    }
+
+
+    override fun onBackPressed() {
+       // super.onBackPressed()
+        showAlertDialog()
+
+    }
+
+    private fun showAlertDialog() {
+        val deleteDialogView = LayoutInflater.from(this).inflate(R.layout.delete_dialog , null)
+        val mBuilder = android.app.AlertDialog.Builder(this)
+                .setView(deleteDialogView)
+                .setTitle("Alert !")
+        alertDialog = mBuilder.show()
+         deleteDialogView.tvTitle.text ="Do you want to go DashBoard?"
+        deleteDialogView.tvDeleteConfirm.setOnClickListener {
+            DashboardActivity.start(this)
+            this.finish()
+        }
+        deleteDialogView.tvDonotDelete.setOnClickListener { alertDialog?.dismiss() }
     }
 }

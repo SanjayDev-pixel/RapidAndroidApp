@@ -139,7 +139,8 @@
                         android:textSize="@dimen/text_size" />
                 </LinearLayout>
 
-                <include layout="@layout/line_separator" />
+                <include layout="@layout/line_separator"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

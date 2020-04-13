@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,10 +13,14 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import com.finance.app.R
 import com.finance.app.databinding.ActivityBaseBinding
+import com.finance.app.persistence.dao.AllMasterDropDownDao
+import com.finance.app.persistence.db.MasterDB
 import com.finance.app.presenter.connector.ReusableView
 import com.finance.app.view.activity.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.drawer_header.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
@@ -93,9 +98,11 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
       }
       R.id.logout -> {
         sharedPreferencesUtil.clearAll()
-        LoginActivity.start(this)
+        GlobalScope.launch {
+           mDataBase.provideDataBaseSource().allMasterDropDownDao().deleteAllMasterDropdownValue()
+         }
         this.finish()
-
+        LoginActivity.start(this)
       }
       R.id.assignedLeads -> {
         AllLeadActivity.start(this)
