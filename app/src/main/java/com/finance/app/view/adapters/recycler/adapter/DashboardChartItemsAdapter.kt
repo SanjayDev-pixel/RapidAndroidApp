@@ -90,7 +90,7 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
             val values = ArrayList<PieEntry>()
 
             itemChartData.data.forEach { chartData ->
-                values.add(PieEntry(chartData.value, chartData.lable))
+                values.add(PieEntry(chartData.value, chartData.label))
             }
             val dataSet = PieDataSet(values, "")
             dataSet.sliceSpace = 3f
