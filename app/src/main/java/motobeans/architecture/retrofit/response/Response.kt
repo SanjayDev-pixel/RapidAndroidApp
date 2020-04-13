@@ -83,7 +83,7 @@ object Response {
     data class ResponseObj(val dashboardChildrens: ArrayList<DashboardChildrens>)
     data class DashboardChildrens(val heading: String?, val description: String?, val chartData: ArrayList<ChartData>)
     data class ChartData(val title: String, val total: Float, val data: ArrayList<Data>)
-    data class Data(val lable: String, val value: Float)
+    data class Data(val label: String , val value: Float)
     data class ResponseFinalSubmitted(val responseCode: String, val responseMsg: String, val responseObj: ApplicantionSubmitModel?, val timeStamp: Long)
     data class ResponseEditLead(val error: String, val responseCode: String, val responseMsg: String, val responseObj: Any? , val timeStamp: Long)
     data class ResponseKycDetail(val responseCode: String, val responseMsg: String, val responseObj: KycListModel, val timeStamp: Long)
