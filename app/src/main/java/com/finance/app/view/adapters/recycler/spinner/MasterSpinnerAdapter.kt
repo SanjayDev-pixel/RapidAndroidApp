@@ -1,6 +1,7 @@
 package com.finance.app.view.adapters.recycler.spinner
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ class MasterSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMaste
 
     private var inflater: LayoutInflater = context1.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val myTypeface = Typeface.createFromAsset(context1.assets, "fonts/Raleway-Bold.ttf")
 
     private lateinit var spinnerValue: DropdownMaster
 
@@ -40,6 +42,7 @@ class MasterSpinnerAdapter(context1: Context, val value: ArrayList<DropdownMaste
         if (convertView == null) {
             view = inflater.inflate(R.layout.item_custom_spinner, parent, false)
             val textView = view.findViewById<View>(R.id.tvSpinnerValue) as TextView
+           textView.typeface = myTypeface
             textView.text = spinnerValue.typeDetailDisplayText
         } else {
             view = convertView

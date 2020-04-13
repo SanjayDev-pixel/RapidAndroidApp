@@ -68,6 +68,7 @@ class CustomSpinnerView<Type : IspinnerModel>(val mContext: Context, private val
         spinnerType.hint = msg
         spinnerType.typeface = myTypeface
         spinnerType.floatingLabelText = msg
+
     }
 
     override fun resetValidation() {
@@ -108,7 +109,9 @@ class CustomSpinnerView<Type : IspinnerModel>(val mContext: Context, private val
     }
 
     fun disableSelf() {
+        val myTypeface = Typeface.createFromAsset(context.assets, "fonts/Raleway-Bold.ttf")
         spinnerType.disabledColor = R.color.black
+        spinnerType.typeface = myTypeface
         spinnerType.isEnabled = false
     }
 

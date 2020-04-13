@@ -1,19 +1,28 @@
 package com.finance.app.utility
 
+import android.content.Context
+import android.graphics.Typeface
 import android.text.InputType
+import com.finance.app.R
 import com.finance.app.databinding.FragmentEmploymentFormBinding
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
 
-class DisableEmploymentForm(private val binding: FragmentEmploymentFormBinding) {
-
+class DisableEmploymentForm(private val binding: FragmentEmploymentFormBinding,context1: Context) {
+    val myTypeface = Typeface.createFromAsset(context1.assets, "fonts/Raleway-Bold.ttf")
     init {
-        disableProfileSubProfile()
+        disableProfileSubProfile(context1)
         disableSalaryForm()
         disableSenpForm()
+
     }
-    private fun disableProfileSubProfile() {
+    private fun disableProfileSubProfile(context : Context) {
+
+        binding.spinnerProfile.disabledColor = R.color.black
+        binding.spinnerProfile.typeface = myTypeface
         binding.spinnerProfile.isEnabled = false
         binding.spinnerSubProfile.isEnabled = false
+        binding.spinnerSubProfile.disabledColor = R.color.black
+        binding.spinnerSubProfile.typeface = myTypeface
         binding.btnUploadEmployment.isClickable =false
     }
 
@@ -40,10 +49,15 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentFormBinding) 
     }
 
     private fun disableSalaryDropdown() {
-        binding.lytSalaryDetail.spinnerSector.isEnabled = false
+        binding.lytSalaryDetail.spinnerSector.disabledColor = R.color.black
+        binding.lytSalaryDetail.spinnerSector.typeface = myTypeface
         binding.lytSalaryDetail.spinnerSector.isEnabled = false
         binding.lytSalaryDetail.spinnerIndustry.isEnabled = false
+        binding.lytSalaryDetail.spinnerIndustry.disabledColor = R.color.black
+        binding.lytSalaryDetail.spinnerIndustry.typeface = myTypeface
         binding.lytSalaryDetail.spinnerEmploymentType.isEnabled = false
+        binding.lytSalaryDetail.spinnerEmploymentType.disabledColor = R.color.black
+        binding.lytSalaryDetail.spinnerEmploymentType.typeface = myTypeface
 
     }
 
@@ -68,8 +82,14 @@ class DisableEmploymentForm(private val binding: FragmentEmploymentFormBinding) 
 
     private fun disableSenpDropdown() {
         binding.lytBusinessDetail.spinnerBusinessSetupType.isEnabled = false
+        binding.lytBusinessDetail.spinnerBusinessSetupType.disabledColor = R.color.black
+        binding.lytBusinessDetail.spinnerBusinessSetupType.typeface = myTypeface
         binding.lytBusinessDetail.spinnerConstitution.isEnabled = false
+        binding.lytBusinessDetail.spinnerConstitution.disabledColor = R.color.black
+        binding.lytBusinessDetail.spinnerConstitution.typeface = myTypeface
         binding.lytBusinessDetail.spinnerIndustry.isEnabled = false
+        binding.lytBusinessDetail.spinnerIndustry.disabledColor = R.color.black
+        binding.lytBusinessDetail.spinnerIndustry.typeface = myTypeface
         }
 
 }

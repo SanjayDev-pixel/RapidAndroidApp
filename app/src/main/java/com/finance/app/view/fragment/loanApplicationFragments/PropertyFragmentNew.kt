@@ -200,7 +200,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
 
     private fun checkSubmission() {
         if (mLead!!.status == AppEnums.LEAD_TYPE.SUBMITTED.type) {
-            DisablePropertyFields(binding)
+            DisablePropertyFields(binding,mContext)
         }
     }
 

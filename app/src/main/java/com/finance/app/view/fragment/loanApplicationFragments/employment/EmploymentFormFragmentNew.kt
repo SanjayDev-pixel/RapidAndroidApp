@@ -96,7 +96,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         //Call Disable Functionality EmploymentFormFragment
         LeadMetaData.getLeadData()?.let {
             if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type , true))
-                DisableEmploymentForm(binding)
+                DisableEmploymentForm(binding,mContext)
         }
     }
 
@@ -232,6 +232,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
     }
 
     private fun bindProfileSelectionSpinnerData() {
+        
         binding.spinnerProfile.adapter = MasterSpinnerAdapter(mContext , allMasterDropDown?.ProfileSegment)
         binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(mContext , ArrayList())
 

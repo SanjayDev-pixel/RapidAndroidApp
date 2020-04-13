@@ -180,16 +180,17 @@
                         android:id="@+id/input_layout_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/area"
+                        android:hint="Address"
                         android:layout_marginTop="@dimen/fields_margin"
                         android:textColorHint="@color/hint_color">
 
                         <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etArea"
                             android:layout_width="match_parent"
-                            android:inputType="number"
+                            android:inputType="text"
                             android:layout_height="wrap_content"
                             android:minWidth="200dp"
+                            android:maxLength="500"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>

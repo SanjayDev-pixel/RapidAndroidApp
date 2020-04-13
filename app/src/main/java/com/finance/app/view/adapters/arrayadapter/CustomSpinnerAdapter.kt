@@ -27,7 +27,7 @@ class CustomSpinnerAdapter<T>(mContext: Context, private val resourceId: Int,
         val tempValue = data[position]
         val tvTitle = row.findViewById(R.id.tvSpinnerValue) as TextView?
         row.tag = tempValue
-        val myTypeface = Typeface.createFromAsset(context.assets, "fonts/montserrat.otf")
+        val myTypeface = Typeface.createFromAsset(context.assets, "fonts/Raleway-Bold.ttf")
         tvTitle?.typeface = myTypeface
         tvTitle?.text = tempValue.toString()
 
