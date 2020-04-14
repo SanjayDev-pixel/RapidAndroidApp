@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -38,6 +39,7 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import java.io.FileNotFoundException
 import java.util.*
 import javax.inject.Inject
 
@@ -91,7 +93,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             get() = getUploadedDocumentListRequest()
 
         override fun getApiSuccess(value: Response.ResponseUploadedDocumentList) {
-            binding.swipeLayoutDocument.isRefreshing=false
+            binding.swipeLayoutDocument.isRefreshing = false
             value.responseObj?.let { response ->
                 response.documents?.let { documentList ->
                     setUploadedDocumentListAdapter(documentList)
@@ -208,6 +210,13 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> Requests.RequestUploadedDocumentList(codeId , it) } }
     }
 
+    private fun onClearSelectedDocumentDetails() {
+        binding.spinnerDocumentType.setSelection(0)
+        binding.etDocumentName.setText("")
+        binding.tvFileSizeErrorLabel.visibility = View.INVISIBLE
+        selectedDocumentUri = null
+    }
+
     private fun showFileTypeChooserDialog() {
         val actionList = arrayOf(Constants.ACTION_PICK_FILE , Constants.ACTION_TAKE_IMAGE)
         val builder = AlertDialog.Builder(this@DocumentUploadingActivity)
@@ -244,6 +253,19 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             binding.btnPickFile.error = "Please choose document file"
             return false
         }
+
+        try {
+            val totalFileSizeInBytes = contentResolver?.openAssetFileDescriptor(selectedDocumentUri!! , "r")?.length
+            totalFileSizeInBytes?.let { size ->
+                if (size >= Constants.FILE_SIZE_ALLOWED) {
+                    binding.tvFileSizeErrorLabel.visibility = View.VISIBLE
+                    return false
+                }
+            }
+        } catch (exp: FileNotFoundException) {
+            return false
+        }
+
         return formValidation.validateKycDocumentDetail(binding)
     }
 
@@ -266,7 +288,10 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             }
         }
 
+        //Now Clear the screen...
+        onClearSelectedDocumentDetails()
     }
+
 
     private fun startDocumentWorkerTask() {
         val mWorkManager = WorkManager.getInstance()

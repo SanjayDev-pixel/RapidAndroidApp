@@ -98,6 +98,16 @@
                         android:textSize="15sp" />
 
                 </LinearLayout>
+
+                <com.finance.app.view.utils.TextViewNormal
+                    android:id="@+id/tvFileSizeErrorLabel"
+                    android:layout_width="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="File is must not be greater than 5 MB!"
+                    android:textColor="@color/md_red_500" />
+
             </LinearLayout>
 
             <View
@@ -106,16 +116,15 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/black_242424" />
 
-        <com.finance.app.view.utils.TextViewBold
-            android:id="@+id/tvLabelTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
-            android:textColor="@color/black_242424"
-            android:textSize="21sp"
-          />
+            <com.finance.app.view.utils.TextViewBold
+                android:id="@+id/tvLabelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:textColor="@color/black_242424"
+                android:textSize="21sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvUploadedDocumentList"
