@@ -2,9 +2,9 @@ package motobeans.architecture.application
 
 import android.app.Application
 import android.content.Context
-import com.crashlytics.android.Crashlytics
+//import com.crashlytics.android.Crashlytics
 import com.optcrm.optreporting.AppModule
-import io.fabric.sdk.android.Fabric
+//import io.fabric.sdk.android.Fabric
 import motobeans.architecture.development.components.ApplicationComponent
 import motobeans.architecture.development.components.DaggerApplicationComponent
 import motobeans.architecture.development.modules.NetworkModule
@@ -45,7 +45,7 @@ class ArchitectureApp : Application() {
         instance = this
         component.inject(this)
 
-        Fabric.with(this, Crashlytics())
+       // Fabric.with(this, Crashlytics())
     }
 
     override fun onTerminate() {

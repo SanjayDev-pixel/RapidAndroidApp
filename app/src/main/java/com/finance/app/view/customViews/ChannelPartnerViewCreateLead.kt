@@ -1,6 +1,7 @@
 package com.finance.app.view.customViews
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -34,6 +35,7 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
     lateinit var dataBase: DataBaseUtil
     @Inject
     lateinit var sharedPreferences: SharedPreferencesUtil
+    private lateinit var preferences: SharedPreferences
 
     private lateinit var binding: ChannelpartnernewBinding
 
@@ -93,8 +95,10 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
     }
 
     private fun getPartnerNameFromApi(channelId: String) {
+        preferences=context.getSharedPreferences("dmi_brancnId",0)
+        val sharedBranchId = preferences.getString("branchID","")
         mChannelTypeId = channelId
-        mBranchId = "1"//LeadMetaData.getLeadData()?.branchID
+        mBranchId = sharedBranchId
         empId = sharedPreferences.getEmpId()
 
 

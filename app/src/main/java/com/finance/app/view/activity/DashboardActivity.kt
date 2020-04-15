@@ -15,6 +15,7 @@ import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.DashboardChartAdapter
 import com.finance.app.viewModel.SyncDataViewModel
 import com.finance.app.workers.UtilWorkManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.appDelegates.viewModelProvider
@@ -46,7 +47,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(this, R.layout.activity_dashboard_new)
     private val viewModel: SyncDataViewModel by viewModelProvider(activity = this,
             viewModelType = ViewModelType.WITH_DAO)
-
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     companion object {
         fun start(context: Context) {
@@ -58,7 +59,7 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         UtilWorkManager.globalWorkManagerPeriodically()
         viewModel.getUpdatedDataFromServer()
 
@@ -79,6 +80,7 @@ class DashboardActivity : BaseAppCompatActivity() {
     }
 
     fun initializeChartData() {
+
         presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
 
        /* val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
