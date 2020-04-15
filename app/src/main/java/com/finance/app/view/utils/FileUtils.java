@@ -417,6 +417,27 @@ public class FileUtils {
         return null;
     }
 
+    public static String getFileSize(File file) {
+        String modifiedFileSize = null;
+        double fileSize = 0.0;
+        if (file.isFile()) {
+            fileSize = (double) file.length();//in Bytes
+
+            if (fileSize < 1024) {
+                modifiedFileSize = String.valueOf(fileSize).concat("B");
+            } else if (fileSize > 1024 && fileSize < (1024 * 1024)) {
+                modifiedFileSize = String.valueOf(Math.round((fileSize / 1024 * 100.0)) / 100.0).concat("KB");
+            } else {
+                modifiedFileSize = String.valueOf(Math.round((fileSize / (1024 * 1204) * 100.0)) / 100.0).concat("MB");
+            }
+        } else {
+            modifiedFileSize = "Unknown";
+        }
+
+        return modifiedFileSize;
+    }
+
+
     /**
      * Get the file size in a human-readable string.
      *
@@ -691,7 +712,6 @@ public class FileUtils {
         File storageDir = new File(context.getCacheDir(), DOCUMENTS_DIR);
         return File.createTempFile(fileName, ".jpg", storageDir);
     }
-
 
 
     public static String getFileName(@NonNull Context context, Uri uri) {
