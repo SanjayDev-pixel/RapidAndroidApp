@@ -6,6 +6,7 @@ import com.finance.app.persistence.model.LoanProductMaster
 import com.finance.app.persistence.model.LoanPurpose
 import com.finance.app.persistence.model.UserBranches
 import com.finance.app.view.activity.UpdateCallActivity
+import com.finance.app.view.customViews.ChannelPartnerViewCreateLead
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomDocumentCheckListView
 import com.finance.app.view.customViews.CustomSpinnerView
@@ -25,7 +26,7 @@ interface FormValidation {
     fun validateSenpEmployment(senpBinding: LayoutSenpBinding, senpSpinnerList: ArrayList<CustomSpinnerView<DropdownMaster>>): Boolean
     fun validateEmploymentSalary(salaryBinding: LayoutSalaryBinding): Boolean
     fun validateEmploymentBusiness(businessBinding: LayoutSenpBinding): Boolean
-    fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerView<LoanProductMaster>, branches: CustomSpinnerView<UserBranches>): Boolean
+    fun validateAddLead(binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerView<LoanProductMaster>, branches: CustomSpinnerView<UserBranches>,customChannelPartnerViewCreateLead: ChannelPartnerViewCreateLead): Boolean
     fun validateBankDetail(binding: DialogBankDetailFormBinding): Boolean
     fun validateReference(binding: DialogReferenceDetailsBinding): Boolean
     fun validateProperty(binding: FragmentPropertyInfoBinding): Boolean

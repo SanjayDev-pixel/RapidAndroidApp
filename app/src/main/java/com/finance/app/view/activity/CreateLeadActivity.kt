@@ -89,7 +89,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
         binding.btnCreate.setOnClickListener {
 
-            if (formValidation.validateAddLead(binding, loanProduct, branches)) {
+            if (formValidation.validateAddLead(binding, loanProduct, branches,binding.viewChannelPartnernew)) {
                 if(loanProduct.getSelectedValue().toString()!= "null" && branches.getSelectedValue().toString() != "null"){
                     if(leadId!=null && leadId !=0){
                        editLead(leadId)
@@ -100,6 +100,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                 }else{
                     Toast.makeText(this,"Please fill maindatory fields",Toast.LENGTH_SHORT).show()
                 }
+            }else{
+                Toast.makeText(this,"Please fill maindatory fields",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -235,7 +237,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     applicantLastName = binding.etApplicantLastName.text.toString(),
                     branchID = branchDD?.branchID,
                     loanProductID = lProductDD?.productID,
-                    channelPartnerID=1,
+                    channelPartnerID=cpnameTypeDetailId,
                     sourcingChannelPartnerTypeDetailCode=sourcingChannelPartID,
                     amountRequest=loanAmount)
         }
@@ -282,7 +284,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
-            val sourcingChannelPartID :Int?=sPartner?.typeDetailID
+            val sourcingChannelPartID :String?=sPartner?.typeDetailID.toString()
             return Requests.RequestEditLead(leadID=leadId,applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
@@ -292,6 +294,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     applicantAddress = binding.etArea.text.toString(),
                     remarks=null,
                     loanProductID = lProductDD?.productID,amountRequest=loanAmount,
-                    branchID = branchDD?.branchID )
+                    branchID = branchDD?.branchID,
+                    channelPartnerID=cpnameTypeDetailId,
+                    sourcingChannelPartnerTypeDetailCode=sourcingChannelPartID)
         }
 }
