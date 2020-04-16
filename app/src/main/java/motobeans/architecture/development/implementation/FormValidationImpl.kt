@@ -1,10 +1,12 @@
 package motobeans.architecture.development.implementation
 
 import android.view.View
+import android.widget.Toast
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
 import com.finance.app.view.activity.UpdateCallActivity
+import com.finance.app.view.customViews.ChannelPartnerViewCreateLead
 import com.finance.app.view.customViews.CustomChannelPartnerView
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.view.utils.EditTexNormal
@@ -819,7 +821,7 @@ class FormValidationImpl : FormValidation {
 
     override fun validateAddLead(
             binding: ActivityLeadCreateBinding, loanProduct: CustomSpinnerView<LoanProductMaster>,
-            branches: CustomSpinnerView<UserBranches>
+            branches: CustomSpinnerView<UserBranches>,customChannelPartnerViewCreateLead: ChannelPartnerViewCreateLead
     ): Boolean {
         val area = binding.etArea.text.toString()
         val name = binding.etApplicantFirstName.text.toString()
@@ -851,6 +853,11 @@ class FormValidationImpl : FormValidation {
             ++spinnerError
         }
         if (!branches.isValid()) ++spinnerError
+
+        val sourcingPartnerName: String = customChannelPartnerViewCreateLead.getSourcingPartner().toString()
+        if (sourcingPartnerName == "null") {
+            spinnerError++
+        }
 
         return isValidForm(fieldError + spinnerError)
     }
