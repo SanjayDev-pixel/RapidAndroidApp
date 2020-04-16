@@ -2,8 +2,11 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -15,9 +18,12 @@ import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.utility.SetCreateLeadMandatoryField
+import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.customViews.ChannelPartnerViewCreateLead
 import com.finance.app.view.customViews.CustomSpinnerView
+import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import com.finance.app.viewModel.AppDataViewModel
+import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -73,7 +79,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         SetCreateLeadMandatoryField(binding)
         getLoanProductFromDB()
         setBranchesDropDownValue()
-       // setupCustomView()
+        setupCustomView()
 
 
        if( leadId !=null && leadId != 0){
@@ -129,11 +135,14 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 //add new @S
         appDataViewModel.getAllMasterDropdown().observe(this,Observer{masterDrownDownValues->
             masterDrownDownValues?.let {
-               // setMasterDropDownValue(masterDrownDownValues)
+          //      initializeSourcingPartner(it, LoanInfoModel())
 
             }
         })
     }
+
+
+
     private fun setProductDropDownValue(products: ArrayList<LoanProductMaster>) {
         loanProduct = CustomSpinnerView(mContext = this, dropDowns = products, label = "Loan Product *")
         binding.layoutLoanProduct.addView(loanProduct)
@@ -147,13 +156,28 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     private fun setBranchesDropDownValue() {
         val branchList = sharedPreferences.getUserBranches()
         val branch = ArrayList(branchList!!)
-        branches = CustomSpinnerView(mContext = this, dropDowns = branch, label = "Select Branch *")
+        //branches = CustomSpinnerView(mContext = this, dropDowns = branch, label = "Select Branch *")
+        branches = CustomSpinnerView(mContext = this,
+                dropDowns = branch, label = "Select Branch *",
+                iSpinnerMainView = object : IspinnerMainView<UserBranches> {
+
+                    override fun getSelectedValue(value: UserBranches) {
+                        val branchId = value.branchID.toString()
+                        val sharedPref: SharedPreferences = getSharedPreferences("dmi_brancnId", 0)
+                        val editor:SharedPreferences.Editor =  sharedPref.edit()
+                        editor.putString("branchID",branchId)
+                        editor.apply()
+                        editor.commit()
+
+                    }
+                })
         binding.layoutBranches.addView(branches)
 
         if(leadId !=null && leadId !=0){
             lead=LeadMetaData.getLeadData()
             branches.setSelection(lead?.branchID.toString())
         }
+
 
     }
 
@@ -198,10 +222,10 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val lProductDD = loanProduct.getSelectedValue()
             val branchDD = branches.getSelectedValue()
             val loanAmount =binding.etLoanAmount.text.toString().toFloat()
-           /* val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
+            val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
-            val sourcingChannelPartID :Int?=sPartner?.typeDetailID*/
+            val sourcingChannelPartID :String?=sPartner?.typeDetailID.toString()
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
@@ -209,8 +233,11 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
-                    branchID = branchDD?.branchID, loanProductID = lProductDD?.productID,
-                    channelPartnerID=null,sourcingChannelPartnerTypeDetailCode=null,amountRequest=loanAmount)
+                    branchID = branchDD?.branchID,
+                    loanProductID = lProductDD?.productID,
+                    channelPartnerID=1,
+                    sourcingChannelPartnerTypeDetailCode=sourcingChannelPartID,
+                    amountRequest=loanAmount)
         }
 
 
@@ -252,6 +279,10 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val branchDD = branches.getSelectedValue()
             val loanAmount =binding.etLoanAmount.text.toString().toFloat()
             val leadId=LeadMetaData.getLeadId()
+            val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
+            val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
+            val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
+            val sourcingChannelPartID :Int?=sPartner?.typeDetailID
             return Requests.RequestEditLead(leadID=leadId,applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),

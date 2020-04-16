@@ -51,8 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/margin_20"
-                   >
+                    android:padding="@dimen/margin_20">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_applicant_first_name"
@@ -175,6 +174,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/fields_margin"
                         android:visibility="visible" />
+
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_address"
