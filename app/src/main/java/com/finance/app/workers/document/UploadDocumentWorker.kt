@@ -1,4 +1,4 @@
-package com.finance.app.workers.Workers.document
+package com.finance.app.workers.document
 
 import android.content.Context
 import android.net.Uri

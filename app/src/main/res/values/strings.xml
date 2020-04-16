@@ -387,6 +387,7 @@
     <string name="preview_num_of_family">Number of Family Members</string>
     <string name="property_type">Property Type</string>
     <string name="transaction_type">Transaction Type</string>
+    <string name="profile_img">Profile Image</string>
 
 
 </resources>

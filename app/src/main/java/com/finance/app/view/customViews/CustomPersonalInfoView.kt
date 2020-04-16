@@ -119,6 +119,15 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 Toast.makeText(context , "Please enter mobile number" , Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.basicInfoLayout.btnUploadProfileImage.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(Constants.KEY_DOC_ID , 1181)//Hardcoded for Profile proof...
+            bundle.putString(Constants.KEY_TITLE , context.getString(R.string.profile_img))
+            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
+            DocumentUploadingActivity.startActivity(context , bundle)
+        }
+
         binding.basicInfoLayout.btnUploadDob.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(Constants.KEY_DOC_ID , 351)//Hardcoded for DOB proof...
@@ -126,6 +135,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
             DocumentUploadingActivity.startActivity(context , bundle)
         }
+
+
         binding.personalAddressLayout.btnUploadAddress.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(Constants.KEY_DOC_ID , 353)//Hardcoded for Address proof...
