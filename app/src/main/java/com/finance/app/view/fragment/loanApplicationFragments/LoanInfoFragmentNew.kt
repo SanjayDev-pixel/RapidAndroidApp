@@ -72,11 +72,22 @@ class LoanInfoFragmentNew : BaseFragment() {
 
                 //Now set all dependable view..
                 val loanInfo = leadDetail?.loanData
+
                 setUpCustomViews(loanInfo)
                 getDropDownsFromDB(loanInfo)
+                setLeadInformation()
                 setClickListeners()
             }
         })
+    }
+
+    private fun setLeadInformation() {
+        LeadMetaData.getLeadData()?.amountRequest?.let { binding.etAmountRequest.setText(it.toString()) }
+        //System.out.println("Loan Amount Requested>>>>>" + loanInfo.loanAmountRequest)
+
+
+
+
     }
 
     private fun setUpCustomViews(loanInfo: LoanInfoModel?) {
@@ -131,7 +142,7 @@ class LoanInfoFragmentNew : BaseFragment() {
         })
         binding.layoutLoanProduct.addView(loanProduct)
 
-        if (loanInfo != null) {
+        if (loanInfo != null && loanInfo.applicationNumber != null) {
             loanProduct.setSelection(loanInfo.productID.toString())
         } else loanProduct.setSelection(leadDetail?.loanProductID.toString())
     }
