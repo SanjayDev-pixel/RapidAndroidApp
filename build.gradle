@@ -18,6 +18,7 @@ buildscript {
     // Add the Crashlytics Gradle plugin.
     classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta04'
 
+
   }
 }
 
