@@ -164,12 +164,15 @@ class BankDetailFormFragment : BaseFragment() , BankDetailDialogFragment.OnBankD
 
     override fun onUploadBankDetailClicked(position: Int , bank: BankDetailBean) {
         context?.let {
-            val bundle = Bundle()
-            bundle.putInt(Constants.KEY_DOC_ID , 356)//Hardcoded for KYC proof...
-            bundle.putString(Constants.KEY_TITLE , "Bank")
-            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicant?.leadApplicantNumber.toString())
-            bundle.putString(Constants.KEY_FORM_ID , bank.applicationDocumentID)
-            DocumentUploadingActivity.startActivity(it , bundle)
+            allMasterDropDown?.let { dropDown ->
+                val docCodeID = dropDown.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.BANK_STATEMENT , true) }
+                val bundle = Bundle()
+                bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)//Hardcoded for KYC proof...
+                bundle.putString(Constants.KEY_TITLE , "Bank")
+                bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicant?.leadApplicantNumber.toString())
+                bundle.putString(Constants.KEY_FORM_ID , bank.applicationDocumentID)
+                DocumentUploadingActivity.startActivity(it , bundle)
+            }
         }
     }
 

@@ -121,7 +121,7 @@ class NetworkModule {
     @Named(INTERCEPTOR_HEADER_V1)
     internal fun provideRetrofitHeaderV1(
         sharedPreferencesUtil: SharedPreferencesUtil,
-        application: Application
+         application: Application
     ): Interceptor {
         return Interceptor { chain ->
             val original = chain.request()
