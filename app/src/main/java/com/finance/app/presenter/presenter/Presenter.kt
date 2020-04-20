@@ -2,6 +2,7 @@ package com.finance.app.presenter.presenter
 
 import android.app.ProgressDialog
 import android.content.Context
+import com.finance.app.R
 import com.finance.app.persistence.model.LoanApplicationRequest
 import com.finance.app.presenter.connector.Connector
 import io.reactivex.Observable
@@ -115,7 +116,7 @@ abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context) : Conn
     }
 
     override fun getApiFailure(msg: String) {
-        showToast(msg)
-//        showToast(context.getString(R.string.error_api_failure))
+       // showToast(msg)
+        showToast(context.getString(R.string.error_api_failure))
     }
 }

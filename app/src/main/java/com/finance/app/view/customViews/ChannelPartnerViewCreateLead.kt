@@ -139,10 +139,12 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
         override fun getApiSuccess(value: Response.ResponseSourceChannelPartnerName) {
             if (value.responseCode == Constants.SUCCESS) {
                 binding.layoutPartnerName.removeAllViews()
-                setChannelPartnerNameDropDown(value.responseObj)
-                val editor: SharedPreferences.Editor = preferences.edit();
-                editor.remove("branchID")
-                editor.apply()
+                if(value.responseObj.size > 0) {
+                    setChannelPartnerNameDropDown(value.responseObj)
+                    val editor: SharedPreferences.Editor = preferences.edit();
+                    editor.remove("branchID")
+                    editor.apply()
+                }
             }
         }
 
