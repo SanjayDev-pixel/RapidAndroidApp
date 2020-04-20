@@ -387,6 +387,7 @@
     <string name="preview_num_of_family">Number of Family Members</string>
     <string name="property_type">Property Type</string>
     <string name="transaction_type">Transaction Type</string>
+    <string name="profile_img">Profile Image</string>
 
     <string name="action_settings">Settings</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>

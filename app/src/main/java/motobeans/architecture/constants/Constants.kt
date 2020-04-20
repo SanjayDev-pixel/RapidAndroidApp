@@ -63,6 +63,12 @@ class Constants {
         const val ACTION_PICK_FILE = "Pick File"
         const val ACTION_TAKE_IMAGE = "Take Image"
 
+        const val KYC_DOCUMENT="KycDocument"
+        const val PERSONAL = "Personal"
+        const val DOB = "DOB"
+        const val ADDRESS_PROOF = "AddressProof"
+        const val EMPLOYMENT_PROOF = "EmploymentProof"
+        const val BANK_STATEMENT = "BankStatement"
         const val FILE_SIZE_ALLOWED = 5000000
 
     }

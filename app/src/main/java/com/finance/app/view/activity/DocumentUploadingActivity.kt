@@ -27,7 +27,7 @@ import com.finance.app.view.adapters.recycler.adapter.UploadedDocumentListAdapte
 import com.finance.app.view.utils.getImageUriForImagePicker
 import com.finance.app.view.utils.startFilePickerActivity
 import com.finance.app.view.utils.startImagePickerActivity
-import com.finance.app.workers.Workers.document.UploadDocumentWorker
+import com.finance.app.workers.document.UploadDocumentWorker
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp

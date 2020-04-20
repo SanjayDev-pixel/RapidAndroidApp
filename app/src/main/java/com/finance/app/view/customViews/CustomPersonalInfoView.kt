@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -16,7 +15,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.finance.app.R
-import com.finance.app.databinding.AssetCreditcardDialogBinding
 import com.finance.app.databinding.DialogKycDetailBinding
 import com.finance.app.databinding.LayoutCustomViewPersonalBinding
 import com.finance.app.others.AppEnums
@@ -27,16 +25,16 @@ import com.finance.app.utility.*
 import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.activity.KYCActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
-import com.finance.app.view.dialogs.KycDetailDialog
-import kotlinx.android.synthetic.main.add_assests_dialog.*
-import kotlinx.android.synthetic.main.dialog_kyc_detail.*
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
+import motobeans.architecture.constants.Constants.APP.ADDRESS_PROOF
 import motobeans.architecture.constants.Constants.APP.CURRENT_ADDRESS
+import motobeans.architecture.constants.Constants.APP.DOB
 import motobeans.architecture.constants.Constants.APP.PERMANENT_ADDRESS
+import motobeans.architecture.constants.Constants.APP.PERSONAL
 import motobeans.architecture.constants.Constants.APP.RENTED
 import motobeans.architecture.constants.Constants.APP.SELF
 import motobeans.architecture.constants.Constants.APP.SINGLE
@@ -83,6 +81,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
     private lateinit var currentResidenceType: CustomSpinnerView<DropdownMaster>
     private var spinnerDMList: ArrayList<CustomSpinnerView<DropdownMaster>> = ArrayList()
     private var detailKycDialog: Dialog? = null
+    private var allMasterDropdown: AllMasterDropDown? = null
 
     //This id is generated at client side so make sure this id must be created before any operation...
     private lateinit var selectedApplicantNumber: String
@@ -119,27 +118,52 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 Toast.makeText(context , "Please enter mobile number" , Toast.LENGTH_SHORT).show()
             }
         }
-        binding.basicInfoLayout.btnUploadDob.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt(Constants.KEY_DOC_ID , 351)//Hardcoded for DOB proof...
-            bundle.putString(Constants.KEY_TITLE , context.getString(R.string.dob))
-            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
-            DocumentUploadingActivity.startActivity(context , bundle)
+
+        binding.basicInfoLayout.btnUploadProfileImage.setOnClickListener {
+            allMasterDropdown?.let {
+                val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(PERSONAL , true) }
+                val bundle = Bundle()
+                bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)//Hardcoded for Profile proof...
+                bundle.putString(Constants.KEY_TITLE , context.getString(R.string.profile_img))
+                bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
+                DocumentUploadingActivity.startActivity(context , bundle)
+            }
+
         }
+
+        binding.basicInfoLayout.btnUploadDob.setOnClickListener {
+            allMasterDropdown?.let {
+                val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(DOB , true) }
+                val bundle = Bundle()
+                bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)//Hardcoded for DOB proof...
+                bundle.putString(Constants.KEY_TITLE , context.getString(R.string.dob))
+                bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
+                DocumentUploadingActivity.startActivity(context , bundle)
+            }
+        }
+
+
         binding.personalAddressLayout.btnUploadAddress.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt(Constants.KEY_DOC_ID , 353)//Hardcoded for Address proof...
-            bundle.putString(Constants.KEY_TITLE , context.getString(R.string.address))
-            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
-            DocumentUploadingActivity.startActivity(context , bundle)
+            allMasterDropdown?.let {
+                val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(ADDRESS_PROOF , true) }
+                val bundle = Bundle()
+                bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)//Hardcoded for Address proof...
+                bundle.putString(Constants.KEY_TITLE , context.getString(R.string.address))
+                bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
+                DocumentUploadingActivity.startActivity(context , bundle)
+            }
         }
         binding.personalAddressLayout.btnUploadPermanentAddress.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt(Constants.KEY_DOC_ID , 353)//Hardcoded for Address proof...
-            bundle.putString(Constants.KEY_TITLE , context.getString(R.string.address))
-            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
-            DocumentUploadingActivity.startActivity(context , bundle)
+            allMasterDropdown?.let {
+                val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(ADDRESS_PROOF , true) }
+                val bundle = Bundle()
+                bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)//Hardcoded for Address proof...
+                bundle.putString(Constants.KEY_TITLE , context.getString(R.string.address))
+                bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicantNumber)
+                DocumentUploadingActivity.startActivity(context , bundle)
+            }
         }
+
         binding.personalAddressLayout.cbSameAsCurrent.setOnCheckedChangeListener { buttonView , isChecked ->
             if (isChecked) binding.personalAddressLayout.llPermanentAddress.visibility = View.GONE
             else binding.personalAddressLayout.llPermanentAddress.visibility = View.VISIBLE
@@ -181,6 +205,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(activity ,
                 Observer { allMasterDropdown ->
                     allMasterDropdown?.let {
+                        this@CustomPersonalInfoView.allMasterDropdown = allMasterDropdown
                         setMasterDropDownValue(allMasterDropdown , applicant)
                     }
                 })
@@ -406,7 +431,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         val dependents = binding.basicInfoLayout.etNumOfDependent.text.toString()
         val earningMembers = binding.basicInfoLayout.etNumOfEarningMember.text.toString()
         val pResidenceType = currentResidenceType.getSelectedValue()
-        val numberOfFamilyMember =binding.basicInfoLayout.etNoOffamilymembers.text.toString()
+        val numberOfFamilyMember = binding.basicInfoLayout.etNoOffamilymembers.text.toString()
         System.out.println("Residence Type>>>>" + pResidenceType)
 
 
@@ -443,7 +468,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         currentApplicant.contactDetail = getContactDetail()
         currentApplicant.addressDetailList = getAddressDetailList(currentApplicant.addressDetailList)
         currentApplicant.presentAccommodationTypeDetailID = pResidenceType?.typeDetailID
-        currentApplicant.numberOfFamilyMembersOthers =if(numberOfFamilyMember == "") 0 else numberOfFamilyMember.toInt()
+        currentApplicant.numberOfFamilyMembersOthers = if (numberOfFamilyMember == "") 0 else numberOfFamilyMember.toInt()
 
         return currentApplicant
     }
@@ -658,13 +683,12 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
         private fun getKycDetail(): Requests.RequestKycDetail {
             val leadId: Int? = LeadMetaData.getLeadId()
-            val leadApplicantNumber:String =selectedApplicantNumber
+            val leadApplicantNumber: String = selectedApplicantNumber
 
-            return Requests.RequestKycDetail(leadID = leadId!!,leadApplicantNumber= leadApplicantNumber) //return Requests.RequestKycDetail(leadID = 2,leadApplicantNumber= "2001")
+            return Requests.RequestKycDetail(leadID = leadId!! , leadApplicantNumber = leadApplicantNumber) //return Requests.RequestKycDetail(leadID = 2,leadApplicantNumber= "2001")
 
         }
     }
-
 
 
     fun isApplicantDetailsValid() = formValidation.validatePersonalInfo(binding , spinnerDMList , religion)
@@ -682,30 +706,30 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
         detailKycDialog = mBuilder.show()
 
-         var name:String? = ""
-        var pincode:String? = ""
-        var genderValue:String? = ""
-        var dob:String? = ""
-        var address:String? = ""
-        var careOf:String? = ""
-        var addressNew: String?=""
+        var name: String? = ""
+        var pincode: String? = ""
+        var genderValue: String? = ""
+        var dob: String? = ""
+        var address: String? = ""
+        var careOf: String? = ""
+        var addressNew: String? = ""
 
         for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
 
             for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size) {
-                 pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
-                 name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
-                 genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
-                 dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
-                 address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
-                 careOf= kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
+                pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
+                name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
+                genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
+                dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
+                address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
+                careOf = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
 
 
-                bindingDialog.tvName.text =name
-                bindingDialog.tvcareof.text=careOf
-                bindingDialog.tvGender.text= if(genderValue.equals("M")) "Male" else if(genderValue.equals("F")) "Female" else "TransGender"
-                bindingDialog.tvAddress.text= address
-                bindingDialog.tvdob.text =ConvertDate().convertToAppFormatNew(dob)
+                bindingDialog.tvName.text = name
+                bindingDialog.tvcareof.text = careOf
+                bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
+                bindingDialog.tvAddress.text = address
+                bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
             }
         }
 
@@ -745,9 +769,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             addressNew = address!!.substring(0 , address.length - 7)
             binding.personalAddressLayout.etCurrentAddress.setText(address)
             val pattern = "dd-MM-yyyy"
-            val sdf = SimpleDateFormat(pattern, Locale.US)
+            val sdf = SimpleDateFormat(pattern , Locale.US)
             val date = sdf.parse(dob)
-            setDifferenceInField(date,binding.basicInfoLayout.etAge)
+            setDifferenceInField(date , binding.basicInfoLayout.etAge)
 
             detailKycDialog?.dismiss()
 

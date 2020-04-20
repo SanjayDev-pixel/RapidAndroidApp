@@ -23,7 +23,6 @@ import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.utils.EditTexNormal
 import com.finance.app.view.utils.setSelectionFromList
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_employment_form.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
@@ -96,7 +95,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
         //Call Disable Functionality EmploymentFormFragment
         LeadMetaData.getLeadData()?.let {
             if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type , true))
-                DisableEmploymentForm(binding,mContext)
+                DisableEmploymentForm(binding , mContext)
         }
     }
 
@@ -111,11 +110,14 @@ class EmploymentFormFragmentNew : BaseFragment() {
 
     private fun setOnClickListener() {
         binding.btnUploadEmployment.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt(Constants.KEY_DOC_ID , 354)//Hardcoded for Address proof...
-            bundle.putString(Constants.KEY_TITLE , getString(R.string.employment))
-            bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicant?.leadApplicantNumber)
-            context?.let { c -> DocumentUploadingActivity.startActivity(c , bundle) }
+            allMasterDropDown?.let { dropDown ->
+                val docCodeID = dropDown.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.EMPLOYMENT_PROOF , true) }
+                val bundle = Bundle()
+                bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)//Hardcoded for Address proof...
+                bundle.putString(Constants.KEY_TITLE , getString(R.string.employment))
+                bundle.putString(Constants.KEY_APPLICANT_NUMBER , selectedApplicant?.leadApplicantNumber)
+                context?.let { c -> DocumentUploadingActivity.startActivity(c , bundle) }
+            }
         }
     }
 
@@ -232,7 +234,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
     }
 
     private fun bindProfileSelectionSpinnerData() {
-        
+
         binding.spinnerProfile.adapter = MasterSpinnerAdapter(mContext , allMasterDropDown?.ProfileSegment)
         binding.spinnerSubProfile.adapter = MasterSpinnerAdapter(mContext , ArrayList())
 

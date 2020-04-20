@@ -106,12 +106,15 @@ class KycFormView @JvmOverloads constructor(context: Context , attrs: AttributeS
         rootBinding.btnCancel.setOnClickListener { showKycForm(false) }
         rootBinding.btnUploadKyc.setOnClickListener {
             if (isKycDetailsValid()) {
-                val bundle = Bundle()
-                bundle.putInt(Constants.KEY_DOC_ID , 405)//Hardcoded for KYC proof...
-                bundle.putString(Constants.KEY_TITLE , context.getString(R.string.kyc))
-                bundle.putString(Constants.KEY_APPLICANT_NUMBER , currentApplicantNumber)
-                bundle.putString(Constants.KEY_FORM_ID , generatedKycDocumentId)
-                DocumentUploadingActivity.startActivity(context , bundle)
+                allMasterDropDown?.let {
+                    val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                    val bundle = Bundle()
+                    bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)//Hardcoded for KYC proof...
+                    bundle.putString(Constants.KEY_TITLE , context.getString(R.string.kyc))
+                    bundle.putString(Constants.KEY_APPLICANT_NUMBER , currentApplicantNumber)
+                    bundle.putString(Constants.KEY_FORM_ID , generatedKycDocumentId)
+                    DocumentUploadingActivity.startActivity(context , bundle)
+                }
             }
         }
         rootBinding.etIssueDate.setOnClickListener { SelectDate(rootBinding.etIssueDate , context , maxDate = Date().time) }

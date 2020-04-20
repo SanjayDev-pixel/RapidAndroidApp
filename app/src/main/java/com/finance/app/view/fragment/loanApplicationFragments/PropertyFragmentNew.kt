@@ -177,8 +177,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             }else {
                 binding.etAgreementValue.setText(propertyModel?.agreementValue.toString())
             }
-
-
             checkSubmission()
         }
     }
@@ -502,8 +500,6 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             }
         }
     }
-
-
     private fun selectMasterDropdownValue(spinner: Spinner, id: Int?) {
         for (index in 0 until spinner.count - 1) {
             val obj = spinner.getItemAtPosition(index) as DropdownMaster
