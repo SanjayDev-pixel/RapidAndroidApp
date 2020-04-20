@@ -96,7 +96,8 @@
                     android:padding="5sp"
                     android:text="Upload Profile Picture"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:alpha="0.75"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

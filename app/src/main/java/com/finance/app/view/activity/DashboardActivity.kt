@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finance.app.R
@@ -15,7 +16,9 @@ import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.DashboardChartAdapter
 import com.finance.app.viewModel.SyncDataViewModel
 import com.finance.app.workers.UtilWorkManager
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.appDelegates.viewModelProvider
