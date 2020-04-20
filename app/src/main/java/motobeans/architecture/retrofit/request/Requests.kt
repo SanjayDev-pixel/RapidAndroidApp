@@ -6,7 +6,7 @@ object Requests {
     data class Company(val companyId: Int, val companySlug: String)
     data class RequestAddLead(val applicantAddress: String, val applicantContactNumber: String, val loanProductID: Int?,
                               val applicantEmail: String, val applicantFirstName: String, val applicantLastName: String,
-                              val applicantMiddleName: String, val branchID: Int?, val channelPartnerID: Int?, val sourcingChannelPartnerTypeDetailCode: String?, val amountRequest: Float?)
+                              val applicantMiddleName: String, val branchID: Int?, val channelPartnerID: Int?, val sourcingChannelPartnerTypeDetailID: Int?, val amountRequest: Float?)
 
     data class AddressBean(val address1: String, val address2: Any? = null, val addressProof: Int? = null, val cityID: Int, val cityName: String, val districtID: Int, val landmark: String, val rentAmount: Any? = null, val residenceTypeTypeDetailID: Any? = null, val zip: String)
     data class Document(val documentTypeDetailID: Int, val uploadedDocumentPath: String)
@@ -20,7 +20,7 @@ object Requests {
     data class RequestUploadedDocumentList(val codeId: Int, val leadId: Int)
     data class RequestDocumentDownloadableLink(val DocumentId: Int)
     data class RequestSubmittedLead(val leadID: Int)
-    data class RequestEditLead(val leadID:Int?,val applicantFirstName: String,val applicantMiddleName:String,val applicantLastName : String,val applicantContactNumber:String, val applicantAlternativeContactNumber:String?,val applicantEmail:String,val applicantAddress:String,val remarks:String?,val loanProductID:Int?,val branchID: Int?,val amountRequest:Float?,val channelPartnerID:Int?, val sourcingChannelPartnerTypeDetailCode: String?)
+    data class RequestEditLead(val leadID:Int?,val applicantFirstName: String,val applicantMiddleName:String,val applicantLastName : String,val applicantContactNumber:String, val applicantAlternativeContactNumber:String?,val applicantEmail:String,val applicantAddress:String,val remarks:String?,val loanProductID:Int?,val branchID: Int?,val amountRequest:Float?,val channelPartnerID:Int?, val sourcingChannelPartnerTypeDetailID: Int?)
     data class RequestKycDetail(val leadID: Int,val leadApplicantNumber:String)
     data class RequestResetPassword(val userName: String,val newPassword: String, val oldPassword: String , val changeType: String)
     data class RequestGetOTP(val userName : String,val company: Company)

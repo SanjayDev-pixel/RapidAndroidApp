@@ -41,7 +41,9 @@
                     android:layout_weight="1"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
+                    android:textSize="@dimen/button_text_size"
+                    android:alpha=".75"
+                    />
                 <Button
                     android:id="@+id/btnKyclist"
                     android:layout_width="match_parent"
@@ -54,7 +56,9 @@
                     android:text="KYC List"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
+                    android:textSize="@dimen/button_text_size"
+                    android:alpha=".75"/>
+
                 </LinearLayout>
 
 

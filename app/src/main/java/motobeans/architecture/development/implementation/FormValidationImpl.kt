@@ -217,7 +217,7 @@ class FormValidationImpl : FormValidation {
         val retirementAge = salaryBinding.etRetirementAge.text.toString()
         val grossIncome = salaryBinding.etGrossIncome.text.toString()
         val deduction = salaryBinding.etDeduction.text.toString()
-        val employeeId = salaryBinding.etEmployeeId.text.toString()
+       // val employeeId = salaryBinding.etEmployeeId.text.toString()
 
         val fieldError = when {
             !companyName.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etCompanyName)
@@ -226,7 +226,7 @@ class FormValidationImpl : FormValidation {
             !retirementAge.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etRetirementAge)
             !grossIncome.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etGrossIncome)
             !deduction.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etDeduction)
-            !employeeId.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etEmployeeId)
+           // !employeeId.exIsNotEmptyOrNullOrBlank() -> setFieldError(salaryBinding.etEmployeeId)
             else -> 0
         }
 
@@ -338,7 +338,7 @@ class FormValidationImpl : FormValidation {
         val retirementAge = salaryBinding.etRetirementAge.text.toString()
         val grossIncome = salaryBinding.etGrossIncome.text.toString()
         val deduction = salaryBinding.etDeduction.text.toString()
-        val employeeId = salaryBinding.etEmployeeId.text.toString()
+        //val employeeId = salaryBinding.etEmployeeId.text.toString()
 
         var fieldError = 0
         if (companyName.exIsNotEmptyOrNullOrBlank().not()) {
@@ -359,9 +359,9 @@ class FormValidationImpl : FormValidation {
         if (deduction.exIsNotEmptyOrNullOrBlank().not()) {
             setFieldError(salaryBinding.etDeduction);fieldError++
         }
-        if (employeeId.exIsNotEmptyOrNullOrBlank().not()) {
+        /*if (employeeId.exIsNotEmptyOrNullOrBlank().not()) {
             setFieldError(salaryBinding.etEmployeeId);fieldError++
-        }
+        }*/
 
 
         var spinnerError = 0
@@ -857,6 +857,7 @@ class FormValidationImpl : FormValidation {
         val sourcingPartnerName: String = customChannelPartnerViewCreateLead.getSourcingPartner().toString()
         if (sourcingPartnerName == "null") {
             spinnerError++
+
         }
 
         return isValidForm(fieldError + spinnerError)

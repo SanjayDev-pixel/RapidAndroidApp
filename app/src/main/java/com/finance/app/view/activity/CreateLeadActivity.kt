@@ -62,7 +62,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     companion object {
         fun start(context: Context,lead: AllLeadMaster) {
             val intent = Intent(context, CreateLeadActivity::class.java)
-
             context.startActivity(intent)
         }
     }
@@ -82,8 +81,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         setupCustomView()
 
 
-       if( leadId !=null && leadId != 0){
-        setValuesonView(LeadMetaData.getLeadData())
+        if( leadId !=null && leadId != 0){
+            setValuesonView(LeadMetaData.getLeadData())
         }
 
 
@@ -92,7 +91,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             if (formValidation.validateAddLead(binding, loanProduct, branches,binding.viewChannelPartnernew)) {
                 if(loanProduct.getSelectedValue().toString()!= "null" && branches.getSelectedValue().toString() != "null"){
                     if(leadId!=null && leadId !=0){
-                       editLead(leadId)
+                        editLead(leadId)
                     }else {
                         presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
                         binding.progressBar!!.visibility = View.VISIBLE
@@ -121,8 +120,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     }
     private fun setupCustomView() {
         CreateLeadActivity.let { it->
-                binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
-      }
+            binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
+        }
     }
     private fun getLoanProductFromDB() {
         appDataViewModel.getLoanProductMaster().observe(this, Observer { loanProductValue ->
@@ -137,7 +136,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 //add new @S
         appDataViewModel.getAllMasterDropdown().observe(this,Observer{masterDrownDownValues->
             masterDrownDownValues?.let {
-          //      initializeSourcingPartner(it, LoanInfoModel())
+                //      initializeSourcingPartner(it, LoanInfoModel())
 
             }
         })
@@ -227,7 +226,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
-            val sourcingChannelPartID :String?=sPartner?.typeDetailID.toString()
+            val sourcingChannelPartID :Int?=sPartner?.typeDetailID
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
@@ -238,7 +237,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     branchID = branchDD?.branchID,
                     loanProductID = lProductDD?.productID,
                     channelPartnerID=cpnameTypeDetailId,
-                    sourcingChannelPartnerTypeDetailCode=sourcingChannelPartID,
+                    sourcingChannelPartnerTypeDetailID=sourcingChannelPartID,
                     amountRequest=loanAmount)
         }
 
@@ -284,7 +283,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val sPartner = binding.viewChannelPartnernew.getSourcingPartner()
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
-            val sourcingChannelPartID :String?=sPartner?.typeDetailID.toString()
+            val sourcingChannelPartID :Int?=sPartner?.typeDetailID
             return Requests.RequestEditLead(leadID=leadId,applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
@@ -296,6 +295,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     loanProductID = lProductDD?.productID,amountRequest=loanAmount,
                     branchID = branchDD?.branchID,
                     channelPartnerID=cpnameTypeDetailId,
-                    sourcingChannelPartnerTypeDetailCode=sourcingChannelPartID)
+                    sourcingChannelPartnerTypeDetailID=sourcingChannelPartID)
         }
 }

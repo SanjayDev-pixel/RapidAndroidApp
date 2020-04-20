@@ -50,7 +50,7 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
 
     fun attachActivity(activity: FragmentActivity,loanData: LoanInfoModel?) {
         this.activity = activity
-     binding = AppUtilExtensions.initCustomViewBinding(context = context,
+        binding = AppUtilExtensions.initCustomViewBinding(context = context,
                 layoutId = R.layout.channelpartnernew, container = this)
 
 
@@ -112,6 +112,11 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
     }
 
     private fun setSourcingPartner(loanData: LoanInfoModel?) {
+
+        if(loanData?.sourcingChannelPartnerTypeDetailID == null) {
+            val sourcingCPTDid = LeadMetaData.getLeadData()?.sourcingChannelPartnerTypeDetailID
+            sourcingPartner!!.setSelection(sourcingCPTDid.toString())
+        }
         loanData?.let {
             sourcingPartner!!.setSelection(loanData.sourcingChannelPartnerTypeDetailID.toString())
         }
@@ -135,15 +140,20 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
             if (value.responseCode == Constants.SUCCESS) {
                 binding.layoutPartnerName.removeAllViews()
                 setChannelPartnerNameDropDown(value.responseObj)
+                val editor: SharedPreferences.Editor = preferences.edit();
+                editor.remove("branchID")
+                editor.apply()
             }
         }
 
         private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
             partnerName = CustomSpinnerView(mContext = context, dropDowns = channelPartners, label = "Channel Partner Name")
-            binding.layoutPartnerName.addView(partnerName)
+            if(!channelPartners.isNullOrEmpty() && channelPartners.size >0) {
+                binding.layoutPartnerName.addView(partnerName)
 
-            loanData?.let {
-                partnerName?.setSelection(loanData.channelPartnerDsaID.toString())
+                loanData?.let {
+                    partnerName?.setSelection(loanData.channelPartnerDsaID.toString())
+                }
             }
         }
     }

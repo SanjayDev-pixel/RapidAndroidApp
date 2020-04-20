@@ -101,6 +101,11 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
 
     private fun setSourcingPartner(loanData: LoanInfoModel?) {
         var leadStatus= LeadMetaData.getLeadData()?.status
+        if(loanData?.sourcingChannelPartnerTypeDetailID == null) {
+            val sourcingCPTDid = LeadMetaData.getLeadData()?.sourcingChannelPartnerTypeDetailID
+            sourcingPartner!!.setSelection(sourcingCPTDid.toString())
+        }
+
         loanData?.let {
             sourcingPartner!!.setSelection(loanData.sourcingChannelPartnerTypeDetailID.toString())
             if (leadStatus=="Submitted"){
@@ -143,15 +148,17 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
 
         private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
             partnerName = CustomSpinnerView(mContext = context, dropDowns = channelPartners, label = "Channel Partner Name")
-            binding.layoutPartnerName.addView(partnerName)
-            var leadStatus= LeadMetaData.getLeadData()?.status
-            loanData?.let {
-                partnerName?.setSelection(loanData.channelPartnerDsaID.toString())
+           if( loanData?.channelPartnerDsaID != null) {
+               binding.layoutPartnerName.addView(partnerName)
+               var leadStatus = LeadMetaData.getLeadData()?.status
+               loanData?.let {
+                   partnerName?.setSelection(loanData.channelPartnerDsaID.toString())
 
-                if (leadStatus=="Submitted"){
-                    partnerName?.disableSelf()
-                }
-            }
+                   if (leadStatus == "Submitted") {
+                       partnerName?.disableSelf()
+                   }
+               }
+           }
         }
     }
 }

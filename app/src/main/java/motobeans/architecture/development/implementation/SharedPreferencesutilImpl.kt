@@ -185,4 +185,9 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
     override fun getPasswordChangeRequired(): Boolean {
         return getLoginData()?.responseObj?.userDetails?.userBasicDetails!!.passwordChangeRequired
     }
+
+    override  fun getEmployeeName(): String?{
+
+        return getLoginData()?.responseObj?.userDetails?.userBasicDetails?.employeeName
+    }
 }

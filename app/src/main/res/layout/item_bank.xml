@@ -189,9 +189,10 @@
                     android:drawableLeft="@drawable/ic_file_upload_white_24dp"
                     android:drawablePadding="10dp"
                     android:padding="5sp"
-                    android:text="Upload Document"
+                    android:text="Upload "
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:alpha=".75"/>
 
 
             </LinearLayout>

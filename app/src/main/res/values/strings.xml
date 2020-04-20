@@ -41,7 +41,7 @@
     <string name="you_have_no_pending_activities">You have no pending activities</string>
     <string name="add_task">Add Task</string>
     <string name="loan_information">Loan Information</string>
-    <string name="tenure_months">Tenure(Months)</string>
+    <string name="tenure_months">Tenor(Months)</string>
     <string name="create_task">Create Task</string>
     <string name="pending_task">Pending Task</string>
     <string name="completed_task">Completed Task</string>
@@ -119,8 +119,8 @@
     <string name="num_of_check_bounces_in_last_6_months">Number of check bounces in last 6 months</string>
     <string name="num_of_check_bounces_in_last_9_months">Number of check bounces in last 9 months</string>
     <string name="emi_amount">EMI Amount</string>
-    <string name="balance_tenure">Balance Tenure</string>
-    <string name="tenure">Tenure</string>
+    <string name="balance_tenure">Balance Tenor</string>
+    <string name="tenure">Tenor</string>
     <string name="financier_name">Financier Name</string>
     <string name="loan_amount">Loan Amount</string>
     <string name="disbursement_date">Disbursement Date</string>
@@ -241,7 +241,7 @@
     <string name="performKyc">Perform KYC</string>
     <string name="lead_id">Lead Number :</string>
     <string name="rulebased_status">Rule Based Status :</string>
-    <string name="eligibity_text">Your Eligibility for Loan, Emi,Tenure and Interest Rate</string>
+    <string name="eligibity_text">Your Eligibility for Loan, Emi,Tenor and Interest Rate</string>
     <string name="interest_rate">Interest Rate</string>
     <string name="emi">Emi</string>
     <string name="current_status">Current Status</string>
@@ -260,7 +260,7 @@
     <string name="preview_loan_purpose">Loan Purpose*</string>
     <string name="preview_loan_product">Loan Product*</string>
     <string name="preview_loan_amount">Loan Amount Request*</string>
-    <string name="preview_tenure">Tenure*</string>
+    <string name="preview_tenure">Tenor*</string>
     <string name="preview_interest_type">Interest Type*</string>
     <string name="preview_affordable_emi">Affordable EMI*</string>
     <string name="Preview_source_channel_partner">Source Channel Partner*</string>
@@ -370,7 +370,7 @@
     <string name="preview_loan_type">Loan Type*</string>
     <string name="preview_financer_name">Financier Name*</string>
     <string name="preview_loan_account_num">Loan Account Num*</string>
-    <string name="preview_balance_tenure">Balance Tenure*</string>
+    <string name="preview_balance_tenure">Balance Tenor*</string>
     <string name="preview_repayment_bank">Repayment Bank*</string>
     <string name="preview_emi_amount">Emi Amount*</string>
     <string name="preview_check_bounces_in_last_6_months">Check Bounces in last 6 months</string>

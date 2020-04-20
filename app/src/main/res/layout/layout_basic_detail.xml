@@ -157,10 +157,11 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
+                        android:alpha=".75"
                         android:drawableLeft="@drawable/ic_file_upload_white_24dp"
                         android:drawablePadding="10dp"
                         android:padding="5sp"
-                        android:text="Upload DOB Proof Document"
+                        android:text="DOB Proof"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
