@@ -132,8 +132,8 @@
                         app:ms_arrowColor="@color/black"
                         app:ms_arrowSize="@dimen/text_size"
                         app:ms_floatingLabelColor="@color/hint_color"
-                        app:ms_floatingLabelText="Ownership* "
-                        app:ms_hint="Ownership* "
+                        app:ms_floatingLabelText="Nature of Property* "
+                        app:ms_hint="Nature of Property* "
                         app:ms_hintColor="@color/hint_color"
                         app:ms_hintTextSize="@dimen/hint_size"
                         app:ms_multiline="false" />
@@ -221,11 +221,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_tenant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:baselineAligned="true"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_no_of_tenants"

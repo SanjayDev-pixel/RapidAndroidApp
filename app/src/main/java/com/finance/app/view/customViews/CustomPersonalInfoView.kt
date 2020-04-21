@@ -112,7 +112,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         binding.btnAddKYC.setOnClickListener { KYCActivity.start(context , applicant.leadApplicantNumber) }
 
         binding.basicInfoLayout.btnGetOTP.setOnClickListener {
-            if (binding.basicInfoLayout.etMobile.text.toString() != "") {
+            if (binding.basicInfoLayout.etMobile.text.toString() != "" &&  binding.basicInfoLayout.etMobile.text?.length==10) {
                 showVerifyOTPDialog(leadId , applicant)
             } else {
                 Toast.makeText(context , "Please enter mobile number" , Toast.LENGTH_SHORT).show()
