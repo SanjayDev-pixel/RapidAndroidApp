@@ -64,6 +64,7 @@ class DisablePersonalForm(binding: LayoutCustomViewPersonalBinding,
 //        binding.basicInfoLayout.ivUploadDobProof.isClickable = false
         binding.basicInfoLayout.btnUploadDob.isClickable = false
         binding.basicInfoLayout.cbIncomeConsidered.isClickable = false
+        binding.basicInfoLayout.btnUploadProfileImage.isClickable =false
         binding.btnAddKYC.isClickable = false
         binding.btnKyclist.isClickable= false
 

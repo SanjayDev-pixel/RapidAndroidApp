@@ -1,10 +1,12 @@
 package motobeans.architecture.development.implementation
 
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.finance.app.databinding.*
 import com.finance.app.persistence.model.*
 import com.finance.app.utility.CurrencyConversion
+import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.activity.UpdateCallActivity
 import com.finance.app.view.customViews.ChannelPartnerViewCreateLead
 import com.finance.app.view.customViews.CustomChannelPartnerView
@@ -533,6 +535,7 @@ class FormValidationImpl : FormValidation {
         val city = binding.spinnerCity.selectedItem as Response.CityObj?
         val propertyType = binding.spinnerPropertytype.selectedItem as DropdownMaster?
         val transactionType=binding.spinnerTrancactiontype.selectedItem as DropdownMaster?
+        val loanPurposeId = LeadMetaData.getLeadData()?.loanData?.loanPurposeID
 
         /*if (unitType == null) {
             errorCount++
@@ -548,10 +551,6 @@ class FormValidationImpl : FormValidation {
             binding.spinnerOccupiedBy.error = "Required Field"
         }
 
-        if (tenantNoc == null) {
-            errorCount++
-            binding.spinnerTenantNocAvailable.error = "Required Field"
-        }
         if (ownership == null) {
             errorCount++
             binding.spinnerOwnership.error = "Required Field"
@@ -583,22 +582,9 @@ class FormValidationImpl : FormValidation {
             binding.spinnerState.error = "Required Field"
         }
 
-        val tenants = binding.etNumOfTenants.text.toString()
-        if (!tenants.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etNumOfTenants.error = "Required Field"
-        }
 
-        val cashOcr = binding.etCashOcr.text.toString()
-        if (!cashOcr.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etCashOcr.error = "Required Field"
-        }
-        val ocr = binding.etOcr.text.toString()
-        if (!ocr.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etOcr.error = "Required Field"
-        }
+
+
         val propertyMv = binding.etMvProperty.text.toString()
 
         if (!propertyMv.exIsNotEmptyOrNullOrBlank()) {
@@ -611,42 +597,83 @@ class FormValidationImpl : FormValidation {
             binding.etPropertyArea.error = "Invalid Value"
         }
 
-        val agreementValue = binding.etAgreementValue.text.toString()
-        if (!agreementValue.exIsNotEmptyOrNullOrBlank()) {
-            errorCount++
-            binding.etAgreementValue.error = "Required Field"
+
+        if(occupiedBy?.typeDetailID !=182){
+
+        }else{
+            val tenants = binding.etNumOfTenants.text.toString()
+            if (!tenants.exIsNotEmptyOrNullOrBlank()) {
+                errorCount++
+                binding.etNumOfTenants.error = "Required Field"
+            }
+
+
+            if (tenantNoc == null) {
+                errorCount++
+                binding.spinnerTenantNocAvailable.error = "Required Field"
+            }
+
         }
 
-        if (ocr.exIsNotEmptyOrNullOrBlank() && cashOcr.exIsNotEmptyOrNullOrBlank()) {
-            if (CurrencyConversion().convertToNormalValue(cashOcr).toDouble() > CurrencyConversion().convertToNormalValue(ocr).toDouble()) {
+        var ocr= ""
+        var cashOcr= ""
+        var agreementValue= ""
+        if((loanPurposeId !=1) && (loanPurposeId !=6) && (loanPurposeId != 9) && (loanPurposeId !=10) && (loanPurposeId != 11) && (loanPurposeId != 12) && (loanPurposeId != 13)) {
+            cashOcr = binding.etCashOcr.text.toString()
+            if (!cashOcr.exIsNotEmptyOrNullOrBlank()) {
                 errorCount++
+                binding.etCashOcr.error = "Required Field"
+            }
 
+            ocr = binding.etOcr.text.toString()
+            if (!ocr.exIsNotEmptyOrNullOrBlank()) {
+                errorCount++
+                binding.etOcr.error = "Required Field"
+            }
+
+            agreementValue = binding.etAgreementValue.text.toString()
+            if (!agreementValue.exIsNotEmptyOrNullOrBlank()) {
+                errorCount++
+                binding.etAgreementValue.error = "Required Field"
+            }
+
+            if (ocr.exIsNotEmptyOrNullOrBlank() && cashOcr.exIsNotEmptyOrNullOrBlank()) {
+                if (CurrencyConversion().convertToNormalValue(cashOcr).toDouble() > CurrencyConversion().convertToNormalValue(ocr).toDouble()) {
+                    errorCount++
+
+                    binding.etCashOcr.error = "Cannot be greater than  OCR"
+                }
+            } else {
+                errorCount++
                 binding.etCashOcr.error = "Cannot be greater than  OCR"
             }
-        } else {
-            errorCount++
-            binding.etCashOcr.error = "Cannot be greater than  OCR"
-        }
 
-        if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
-            if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
-                errorCount++
+            if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
+                if (CurrencyConversion().convertToNormalValue(propertyMv).toDouble() < CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
+                    errorCount++
+                    binding.etAgreementValue.error = "Cannot be greater than MV of property"
+                }
+
+            } else {
                 binding.etAgreementValue.error = "Cannot be greater than MV of property"
             }
 
-        } else {
-            binding.etAgreementValue.error = "Cannot be greater than MV of property"
-        }
-
-        if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
-            if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
-                    CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
-                errorCount++
+            if (propertyMv.exIsNotEmptyOrNullOrBlank() && agreementValue.exIsNotEmptyOrNullOrBlank()) {
+                if (CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(propertyMv).toDouble() ||
+                        CurrencyConversion().convertToNormalValue(ocr).toDouble() > CurrencyConversion().convertToNormalValue(agreementValue).toDouble()) {
+                    errorCount++
+                    binding.etOcr.error = "Cannot be greater than MV of Property or agreement value"
+                }
+            } else {
                 binding.etOcr.error = "Cannot be greater than MV of Property or agreement value"
             }
         } else {
-            binding.etOcr.error = "Cannot be greater than MV of Property or agreement value"
+            Log.e("Tag","Sandeep :")
         }
+
+
+
+
 
         val pin = binding.etPinCode.text.toString()
         if (!pin.exIsNotEmptyOrNullOrBlank()) {

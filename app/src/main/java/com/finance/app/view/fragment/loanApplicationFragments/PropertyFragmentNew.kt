@@ -3,7 +3,9 @@ package com.finance.app.view.fragment.loanApplicationFragments
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -108,6 +110,8 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         SetPropertyMandatoryField(binding)
         fetchLeadDetails()
         getDropDownsFromDB()
+
+
     }
 
     private fun fetchLeadDetails() {
@@ -141,6 +145,10 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
 
     }
     private fun showDataOnView(propertyModel: PropertyModel?) {
+      Log.e("Tag" ,"loan purpose id" +mLead?.loanData?.loanPurposeID)
+        val loanPurposeId= mLead?.loanData?.loanPurposeID
+
+
         if(LeadMetaData.getLeadData()?.loanData?.isPropertySelected==false){
             binding.vmpropertynotselected.visibility = View.VISIBLE
             binding.scrollviewll.visibility = View.GONE
@@ -178,6 +186,15 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
                 binding.etAgreementValue.setText(propertyModel?.agreementValue.toString())
             }
             checkSubmission()
+            if(loanPurposeId==1 || loanPurposeId ==6 || loanPurposeId == 9 || loanPurposeId ==10 || loanPurposeId == 11 || loanPurposeId==12 || loanPurposeId== 13){
+                binding.etCashOcr.isClickable = false
+                binding.etOcr.isClickable =false
+                binding.etAgreementValue.isClickable = false
+                binding.etCashOcr.inputType= InputType.TYPE_NULL
+                binding.etOcr.inputType= InputType.TYPE_NULL
+                binding.etAgreementValue.inputType = InputType.TYPE_NULL
+
+            }
         }
     }
 
@@ -235,6 +252,28 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         setUpOwnership(binding.spinnerOwnership, allMasterDropDown)
         setUpPropertyNature(binding.spinnerPropertyNature, allMasterDropDown)
         fillDropDownValue(propertyModel)
+        setupOccupiedSpinner(binding.spinnerOccupiedBy,allMasterDropDown)
+
+
+
+
+    }
+
+    private fun setupOccupiedSpinner(spinnerOccupiedBy: MaterialSpinner , allMasterDropDown: AllMasterDropDown) {
+
+        spinnerOccupiedBy.adapter =MasterSpinnerAdapter(mContext,allMasterDropDown.PropertyOccupiedBy!!)
+        spinnerOccupiedBy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position == 1) {
+                    val occupiedProperty = parent.selectedItem as DropdownMaster
+                    binding.llTenant.visibility = View.VISIBLE
+                }else{
+                    binding.llTenant.visibility = View.GONE
+                }
+            }
+        }
+
     }
 
     private fun setUpPropertyNature(spinner: Spinner, allMasterDropDown: AllMasterDropDown) {
@@ -310,7 +349,7 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
         if(LeadMetaData.getLeadData()?.loanData!!.isPropertySelected==true){
 
         if (formValidation.validateProperty(binding)) {
-
+            val loanPurposeId = LeadMetaData.getLeadData()?.loanData?.loanPurposeID
 
             val transactionCategory = binding.spinnerTransactionCategory.selectedItem as Response.TransactionCategoryObj?
             val propertyNature = binding.spinnerPropertyNature.selectedItem as DropdownMaster?
@@ -342,12 +381,8 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             propertyModel.landmark = binding.etLandmark.text.toString()
             propertyModel.pinCode = binding.etPinCode.text.toString()
             propertyModel.distanceFromBranch = binding.etDistanceFromBranch.text.toString()
-            propertyModel.numberOfTenants = binding.etNumOfTenants.text.toString().toInt()
-            propertyModel.cashOCRValue = CurrencyConversion().convertToNormalValue(binding.etCashOcr.text.toString()).toDouble()
-            propertyModel.ocrValue = CurrencyConversion().convertToNormalValue(binding.etOcr.text.toString()).toDouble()
-            propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
+           // propertyModel.numberOfTenants = binding.etNumOfTenants.text.toString().toInt()
             propertyModel.mvOfProperty = CurrencyConversion().convertToNormalValue(binding.etMvProperty.text.toString())
-            propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
             propertyModel.leadApplicantNumber = leadIdForApplicant ?: ""
             propertyModel.isFirstProperty = binding.cbIsFirstProperty.isChecked
             propertyModel.distanceFromExistingResidence = binding.etDistanceFromResidence.text.toString()
@@ -357,6 +392,27 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
             propertyModel.propertyNatureOfTransactionCategoryTypeDetailName = transactionCategory?.propertyNatureTransactionCategory
             propertyModel.propertyTypeDetailID = propertyType?.typeDetailID
             propertyModel.transactionTypeDetailID = transactionType?.typeDetailID
+
+            if(occupiedBy?.typeDetailID !=182){
+                propertyModel.numberOfTenants= null
+                propertyModel.tenantNocAvailableTypeDetailID = null
+            }else{
+                propertyModel.numberOfTenants = binding.etNumOfTenants.text.toString().toInt()
+                propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
+
+            }
+            if(loanPurposeId!=1 || loanPurposeId !=6 || loanPurposeId != 9 || loanPurposeId !=10 || loanPurposeId != 11 || loanPurposeId!=12 || loanPurposeId!= 13) {
+                propertyModel.agreementValue = null
+                propertyModel.cashOCRValue = null
+                propertyModel.ocrValue = null
+
+            } else {
+
+                propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
+                propertyModel.cashOCRValue = CurrencyConversion().convertToNormalValue(binding.etCashOcr.text.toString()).toDouble()
+                propertyModel.ocrValue = CurrencyConversion().convertToNormalValue(binding.etOcr.text.toString()).toDouble()
+
+            }
 
 
 
