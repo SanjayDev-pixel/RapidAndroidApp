@@ -197,22 +197,18 @@ class PreviewActivity : BaseAppCompatActivity() {
     inner class CallFinalSubmit : ViewGeneric<Requests.RequestFinalSubmit, Response.ResponseFinalSubmit>(context = this) {
         override val apiRequest: Requests.RequestFinalSubmit?
             get() = getCallUpdateRequest()
-
         override fun getApiSuccess(value: Response.ResponseFinalSubmit) {
-
             if (value.responseCode == Constants.SUCCESS) {
                 Toast.makeText(context, "Submitted Successfully.", Toast.LENGTH_SHORT).show()
-
                 binding.progressBar!!.visibility = View.GONE
-                //Update the status of lead
-                 val leadId = LeadMetaData.getLeadId()
-                 LeadMetaData().updateLeadStatusIntoDB("Submitted",leadId)
                  val submitLoanResponse: ApplicantionSubmitModel? = value.responseObj
                 if (value.responseObj != null) {
+                    //Update the status of lead
+                    val leadId = LeadMetaData.getLeadId()
+                    LeadMetaData().updateLeadStatusIntoDB("Submitted",leadId)
                     val intent = Intent(this@PreviewActivity, LoanSubmitStatusActivity::class.java)
                     intent.putExtra("SubmitResponse", submitLoanResponse)
                     startActivity(intent)
-
                     this@PreviewActivity.finish()
 
                 } else {
