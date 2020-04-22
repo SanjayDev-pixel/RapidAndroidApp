@@ -147,18 +147,30 @@ class CustomChannelPartnerView @JvmOverloads constructor(context: Context, attrs
         }
 
         private fun setChannelPartnerNameDropDown(channelPartners: ArrayList<ChannelPartnerName>?) {
-            partnerName = CustomSpinnerView(mContext = context, dropDowns = channelPartners, label = "Channel Partner Name")
-           if( loanData?.channelPartnerDsaID != null) {
-               binding.layoutPartnerName.addView(partnerName)
-               var leadStatus = LeadMetaData.getLeadData()?.status
-               loanData?.let {
-                   partnerName?.setSelection(loanData.channelPartnerDsaID.toString())
+            partnerName = CustomSpinnerView(mContext = context , dropDowns = channelPartners , label = "Channel Partner Name")
+            if (!channelPartners.isNullOrEmpty() && channelPartners.size > 0) {
+                binding.layoutPartnerName.addView(partnerName)
+                var leadStatus = LeadMetaData.getLeadData()?.status
 
-                   if (leadStatus == "Submitted") {
-                       partnerName?.disableSelf()
-                   }
-               }
-           }
+                if (loanData?.channelPartnerDsaID == null) {
+                    val channelPartnerIDid = LeadMetaData.getLeadData()?.dsaID
+
+                    LeadMetaData.getLeadData()?.dsaID?.let {
+                        partnerName?.setSelection(LeadMetaData.getLeadData()?.dsaID)
+                    }
+                }
+
+
+
+                loanData?.channelPartnerDsaID?.let {
+                    partnerName?.setSelection(loanData?.channelPartnerDsaID.toString())
+
+                    if (leadStatus == "Submitted") {
+                        partnerName?.disableSelf()
+                    }
+
+                }
+            }
         }
     }
 }

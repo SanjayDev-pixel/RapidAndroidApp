@@ -152,6 +152,14 @@ class ChannelPartnerViewCreateLead @JvmOverloads constructor(context: Context, a
             partnerName = CustomSpinnerView(mContext = context, dropDowns = channelPartners, label = "Channel Partner Name")
             if(!channelPartners.isNullOrEmpty() && channelPartners.size >0) {
                 binding.layoutPartnerName.addView(partnerName)
+                if( binding.layoutPartnerName.isAttachedToWindow== true) {
+
+                    if (loanData?.channelPartnerDsaID == null) {
+                        val chanelPartnerId = LeadMetaData.getLeadData()?.dsaID
+                        partnerName?.setSelection(chanelPartnerId)
+                    }
+                }
+
 
                 loanData?.let {
                     partnerName?.setSelection(loanData.channelPartnerDsaID.toString())
