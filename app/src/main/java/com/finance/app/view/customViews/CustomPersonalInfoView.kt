@@ -100,6 +100,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         setUpCustomViews()
         proceedFurther(applicant)
 
+        if(applicant.isMainApplicant==true){
+        binding.basicInfoLayout.btnUploadProfileImage.setText("Applicant Pic")}else{ binding.basicInfoLayout.btnUploadProfileImage.setText("CoApplicant Pic")}
+
     }
 
     private fun setDatePicker() {

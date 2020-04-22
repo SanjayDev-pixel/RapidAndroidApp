@@ -401,16 +401,18 @@ class PropertyFragmentNew : BaseFragment(), DistrictCityConnector.District, PinC
                 propertyModel.tenantNocAvailableTypeDetailID = tenantNoc?.typeDetailID
 
             }
-            if(loanPurposeId!=1 || loanPurposeId !=6 || loanPurposeId != 9 || loanPurposeId !=10 || loanPurposeId != 11 || loanPurposeId!=12 || loanPurposeId!= 13) {
-                propertyModel.agreementValue = null
-                propertyModel.cashOCRValue = null
-                propertyModel.ocrValue = null
+            if(loanPurposeId!=1 && loanPurposeId !=6 && loanPurposeId != 9 && loanPurposeId !=10 && loanPurposeId != 11 && loanPurposeId!=12 && loanPurposeId!= 13) {
 
-            } else {
 
                 propertyModel.agreementValue = CurrencyConversion().convertToNormalValue(binding.etAgreementValue.text.toString()).toDouble()
                 propertyModel.cashOCRValue = CurrencyConversion().convertToNormalValue(binding.etCashOcr.text.toString()).toDouble()
                 propertyModel.ocrValue = CurrencyConversion().convertToNormalValue(binding.etOcr.text.toString()).toDouble()
+
+
+            } else {
+                propertyModel.agreementValue = null
+                propertyModel.cashOCRValue = null
+                propertyModel.ocrValue = null
 
             }
 
