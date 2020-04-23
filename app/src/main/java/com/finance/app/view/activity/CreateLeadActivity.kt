@@ -228,6 +228,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
             val sourcingChannelPartID :Int?=sPartner?.typeDetailID
+            val channelPartnerDSAID = channelPartnerID?.dsaID
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
                     applicantContactNumber = binding.etContactNum.text.toString(),
@@ -239,7 +240,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     loanProductID = lProductDD?.productID,
                     channelPartnerID=cpnameTypeDetailId,
                     sourcingChannelPartnerTypeDetailID=sourcingChannelPartID,
-                    amountRequest=loanAmount)
+                    amountRequest=loanAmount,
+                    dsaID= channelPartnerDSAID)
         }
 
 
@@ -285,6 +287,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
             val sourcingChannelPartID :Int?=sPartner?.typeDetailID
+            val channelPartnerDSAID = channelPartnerID?.dsaID
             return Requests.RequestEditLead(leadID=leadId,applicantFirstName = binding.etApplicantFirstName.text.toString(),
                     applicantMiddleName = binding.etApplicantMiddleName.text.toString(),
                     applicantLastName = binding.etApplicantLastName.text.toString(),
@@ -296,6 +299,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     loanProductID = lProductDD?.productID,amountRequest=loanAmount,
                     branchID = branchDD?.branchID,
                     channelPartnerID=cpnameTypeDetailId,
-                    sourcingChannelPartnerTypeDetailID=sourcingChannelPartID)
+                    sourcingChannelPartnerTypeDetailID=sourcingChannelPartID,
+                    dsaID= channelPartnerDSAID)
         }
 }
