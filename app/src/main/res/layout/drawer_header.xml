@@ -4,7 +4,7 @@
     <LinearLayout
         android:id="@+id/nav_header"
         android:layout_width="400dp"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
@@ -12,11 +12,36 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:background="@drawable/nav_header_background">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="4dp">
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:id="@+id/verionname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Version 1.0"
+                    android:textColor="@color/black"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivProfile"
@@ -29,7 +54,7 @@
 
             <com.finance.app.view.utils.TextViewNormal
                 android:id="@+id/tvProfileName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:gravity="left"
