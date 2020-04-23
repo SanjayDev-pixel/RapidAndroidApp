@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import com.finance.app.R
 import com.finance.app.databinding.ActivityKycBinding
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
+import com.google.zxing.integration.android.IntentIntegrator
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.API.URL.URL_KYC
 import motobeans.architecture.constants.ConstantsApi
@@ -44,9 +46,36 @@ class KYCActivity : BaseAppCompatActivity() {
         hideSecondaryToolbar()
         setClickListeners()
         proceedFurther()
+        //SAcn Adhar QR
+        //scanNow()
     }
 
     private fun setClickListeners() {
+    }
+    private fun scanNow(){
+        val integrator = IntentIntegrator(this)
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+        integrator.setPrompt("Scan a Aadharcard QR Code")
+        integrator.setResultDisplayDuration(500)
+        integrator.setCameraId(0) // Use a specific camera of the device
+        integrator.initiateScan()
+    }
+
+    override fun onActivityResult(requestCode: Int , resultCode: Int , data: Intent?) {
+        super.onActivityResult(requestCode , resultCode , data)
+        //Reterive Scan Result
+        val scanningResult = IntentIntegrator.parseActivityResult(requestCode,resultCode,data)
+        if(scanningResult != null){
+            //we have a result
+            //we have a result
+            val scanContent = scanningResult.contents
+            val scanFormat = scanningResult.formatName
+
+            print("Scanned data>>>$scanContent")
+            print("Scanned Type>>>>$scanFormat")
+            Toast.makeText(this, scanContent + "   type:" + scanFormat, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private fun proceedFurther() {
