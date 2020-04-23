@@ -11,6 +11,7 @@ import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import com.finance.app.BuildConfig
 import com.finance.app.R
 import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.persistence.dao.AllMasterDropDownDao
@@ -190,6 +191,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     headerLayout.setOnClickListener {
           ProfileActivity.start(this)
       }
+
+    headerLayout.verionname.setText("Version "+BuildConfig.VERSION_NAME)
   }
 
   private fun showToolbar() {
