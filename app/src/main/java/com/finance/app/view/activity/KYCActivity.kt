@@ -70,10 +70,14 @@ class KYCActivity : BaseAppCompatActivity() {
             //we have a result
             val scanContent = scanningResult.contents
             val scanFormat = scanningResult.formatName
+            val byteData = scanningResult.rawBytes.toString()
+            val extradTa = data.toString()
+            System.out.println("byteData>>>>"+scanningResult.toString())
 
             print("Scanned data>>>$scanContent")
             print("Scanned Type>>>>$scanFormat")
-            Toast.makeText(this, scanContent + "   type:" + scanFormat, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, scanContent + "   type:" + scanFormat, Toast.LENGTH_SHORT).show()
+            System.out.println("Scanned data >>>>"+scanContent+"Type>>>>"+scanFormat)
         }
 
     }

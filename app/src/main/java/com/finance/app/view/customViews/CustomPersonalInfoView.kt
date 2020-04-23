@@ -1,5 +1,6 @@
 package com.finance.app.view.customViews
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -25,6 +26,7 @@ import com.finance.app.utility.*
 import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.activity.KYCActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
