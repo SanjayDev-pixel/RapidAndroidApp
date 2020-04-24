@@ -116,8 +116,8 @@
     <string name="staying_in_years">Staying(In Years)</string>
     <string name="landmark">Landmark</string>
     <string name="add_obligation">Add Obligation</string>
-    <string name="num_of_check_bounces_in_last_6_months">Number of check bounces in last 6 months</string>
-    <string name="num_of_check_bounces_in_last_9_months">Number of check bounces in last 9 months</string>
+    <string name="num_of_check_bounces_in_last_6_months">Bounces in last 6 months</string>
+    <string name="num_of_check_bounces_in_last_9_months">Bounces in last 9 months</string>
     <string name="emi_amount">EMI Amount</string>
     <string name="balance_tenure">Balance Tenor</string>
     <string name="tenure">Tenor</string>
@@ -393,6 +393,7 @@
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="fcm_message">DMI Rapid</string>
     <string name="copyright"> 2020 DMI.All Rights Reserved</string>
+    <string name="lead_information">Lead Information</string>
 
 
 </resources>

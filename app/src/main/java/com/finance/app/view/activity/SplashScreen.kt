@@ -149,11 +149,9 @@ class SplashScreen : BaseAppCompatActivity() {
 
 
                             ) {
-                        Log.d(TAG, "sms & location services permission granted")
+                        Log.d(TAG, " permission granted")
                         // process the normal flow
-                      /*  val i = Intent(this@SplashScreen, WelcomeActivity::class.java)
-                        startActivity(i)
-                        finish()*/
+
                         //else any one or both the permissions are not granted
                     } else {
                         Log.d(TAG, "Some permissions are not granted ask again ")
