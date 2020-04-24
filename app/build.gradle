@@ -221,5 +221,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.google.firebase:firebase-core:17.3.0'
 
+    //QR CODE LIBRARY Added BY Sanjay
+    implementation 'com.journeyapps:zxing-android-embedded:2.0.1@aar'
+    implementation 'com.journeyapps:zxing-android-legacy:2.0.1@aar'
+    implementation 'com.journeyapps:zxing-android-integration:2.0.1@aar'
+    implementation  'com.google.zxing:core:3.0.1'
+
 
 }

@@ -105,7 +105,6 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
     inner class DownloadableDocumentLinkRequest(private val documentId: Int) : ViewGeneric<Requests.RequestDocumentDownloadableLink , Response.ResponseDocumentDownloadableLink>(context = this) {
         override val apiRequest: Requests.RequestDocumentDownloadableLink?
             get() = Requests.RequestDocumentDownloadableLink(documentId)
-
         override fun getApiSuccess(value: Response.ResponseDocumentDownloadableLink) {
             value.responseObj?.let { response ->
                 response.documentPath?.let { url ->
