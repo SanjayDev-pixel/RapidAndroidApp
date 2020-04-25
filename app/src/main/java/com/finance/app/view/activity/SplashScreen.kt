@@ -152,6 +152,26 @@ class SplashScreen : BaseAppCompatActivity() {
                         Log.d(TAG, " permission granted")
                         // process the normal flow
 
+                        Handler().postDelayed({
+
+                            if (sharedPreferences.isLogin()) {
+                                if (sharedPreferences.getPasswordChangeRequired() == true) {
+                                    ResetPasswordActivity.start(this)
+                                } else {
+                                    DashboardActivity.start(this)
+                                }
+
+                            } else {
+                                val nextActivity = Intent(
+                                        this ,
+                                        LoginActivity::class.java
+                                )
+                                startActivity(nextActivity)
+                            }
+                            finish()
+                        } , SPLASH_SCREEN_TIME_OUT)
+
+
                         //else any one or both the permissions are not granted
                     } else {
                         Log.d(TAG, "Some permissions are not granted ask again ")
