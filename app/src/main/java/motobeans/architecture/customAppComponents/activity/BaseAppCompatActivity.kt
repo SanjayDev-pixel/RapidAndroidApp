@@ -19,6 +19,7 @@ import com.finance.app.persistence.db.MasterDB
 import com.finance.app.presenter.connector.ReusableView
 import com.finance.app.view.activity.*
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_base.view.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -109,6 +110,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         AllLeadActivity.start(this)
       }
     }
+
     bindingParent.drawerLayout.closeDrawer(GravityCompat.START)
   }
 
@@ -176,6 +178,8 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     bindingParent.appBarWithLayout.tvBackSecondary.setOnClickListener {
       onBackPressed()
     }
+
+    bindingParent.navView.versionNumber.setText("Version "+BuildConfig.VERSION_NAME)
   }
 
   fun setLeadNum(leadNum: String?) {
@@ -191,8 +195,6 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     headerLayout.setOnClickListener {
           ProfileActivity.start(this)
       }
-
-    headerLayout.verionname.setText("Version "+BuildConfig.VERSION_NAME)
   }
 
   private fun showToolbar() {
