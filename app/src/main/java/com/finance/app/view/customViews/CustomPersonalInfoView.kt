@@ -3,6 +3,8 @@ package com.finance.app.view.customViews
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.AttributeSet
@@ -49,6 +51,9 @@ import motobeans.architecture.util.AppUtilExtensions
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import motobeans.architecture.util.exVisible
+import java.io.File
+import java.lang.Byte.decode
+import java.lang.Integer.decode
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -690,7 +695,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             val leadId: Int? = LeadMetaData.getLeadId()
             val leadApplicantNumber: String = selectedApplicantNumber
 
-            return Requests.RequestKycDetail(leadID = leadId!! , leadApplicantNumber = leadApplicantNumber) //return Requests.RequestKycDetail(leadID = 2,leadApplicantNumber= "2001")
+            //return Requests.RequestKycDetail(leadID = leadId!! , leadApplicantNumber = leadApplicantNumber)
+            return Requests.RequestKycDetail(leadID = 2,leadApplicantNumber= "2001")
 
         }
     }
@@ -718,6 +724,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         var address: String? = ""
         var careOf: String? = ""
         var addressNew: String? = ""
+        var matchPercentage : String?=""
 
         for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
 
@@ -728,6 +735,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
                 address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
                 careOf = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
+                matchPercentage= kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthScore
 
 
                 bindingDialog.tvName.text = name
@@ -735,7 +743,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
                 bindingDialog.tvAddress.text = address
                 bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
-            }
+                bindingDialog.matchpercentage.text =matchPercentage
+
+                }
+
         }
 
         bindingDialog?.btnClose?.setOnClickListener() {
@@ -789,5 +800,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         val difference = todayDate.year - date.year
         differenceField.text = difference.toString()
     }
+
+
 
 }

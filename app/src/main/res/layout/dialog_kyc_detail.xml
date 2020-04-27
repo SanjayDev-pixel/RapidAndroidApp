@@ -11,7 +11,7 @@
         android:padding="@dimen/_10sdp">
         <LinearLayout
             android:id="@+id/llouter"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -32,6 +32,7 @@
 
 
             <com.finance.app.view.utils.TextViewBold
+                android:id="@+id/headingtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -42,7 +43,22 @@
                 android:textSize="23sp"
                 android:textStyle="bold" />
 
+
         </RelativeLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circle_drawable"
+            android:padding="@dimen/margin5dp"
+            android:src="@drawable/hfc"
+            android:layout_below="@+id/headingtext"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin10dp"
+                android:visibility="gone"/>
+
+
 
 
         <LinearLayout
@@ -51,8 +67,7 @@
             android:layout_margin="@dimen/margin_10"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:weightSum="2"
-            >
+            android:weightSum="2">
 
             <com.finance.app.view.utils.TextViewBold
                 android:layout_width="0dp"
@@ -180,6 +195,32 @@
 
         </LinearLayout>
         <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_margin="@dimen/margin_10">
+
+                <com.finance.app.view.utils.TextViewBold
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Face Match :"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/button_text_size"
+                    />
+
+                <com.finance.app.view.utils.TextViewNormal
+                    android:id="@+id/matchpercentage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="@dimen/text_size" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
