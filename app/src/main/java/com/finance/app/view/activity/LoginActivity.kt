@@ -2,10 +2,13 @@ package com.finance.app.view.activity
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
@@ -41,7 +44,9 @@ class LoginActivity : BaseAppCompatActivity() {
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
+        addFirebase()
         setClickListeners()
+
     }
 
     private fun setClickListeners() {
@@ -80,7 +85,7 @@ class LoginActivity : BaseAppCompatActivity() {
         override fun getApiSuccess(value: ResponseLogin) {
 
             if (value.responseCode == Constants.SUCCESS) {
-                System.out.println("loginValue>>>>"+value)
+               // System.out.println("loginValue>>>>"+value)
                 sharedPreferences.saveLoginData(value)
                 //SyncActivity.start(this@LoginActivity)
 
@@ -99,5 +104,19 @@ class LoginActivity : BaseAppCompatActivity() {
         override fun getApiFailure(msg: String) {
             showToast(msg)
         }
+    }
+
+    private fun addFirebase() {
+        FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+               //         Log.w("TAG", "getInstanceId failed", task.exception)
+                        return@OnCompleteListener
+                    }
+
+                    // Get new Instance ID token
+                    val token = task.result?.token
+
+                })
     }
 }

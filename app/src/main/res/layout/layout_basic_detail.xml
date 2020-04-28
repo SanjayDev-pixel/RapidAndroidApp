@@ -94,9 +94,10 @@
                     android:drawableLeft="@drawable/ic_file_upload_white_24dp"
                     android:drawablePadding="10dp"
                     android:padding="5sp"
-                    android:text="Upload Profile Picture"
+                    android:text="Profile Picture"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:alpha="0.75"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -107,14 +108,14 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_dob"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+
                         android:textColorHint="@color/hint_color">
 
                         <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etDOB"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableEnd="@drawable/ic_calender"
                             android:editable="false"
@@ -127,14 +128,14 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_age"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+
                         android:textColorHint="@color/hint_color">
 
                         <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etAge"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:clickable="false"
                             android:focusable="false"
@@ -172,10 +173,11 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
+                        android:alpha=".75"
                         android:drawableLeft="@drawable/ic_file_upload_white_24dp"
                         android:drawablePadding="10dp"
                         android:padding="5sp"
-                        android:text="Upload DOB Proof Document"
+                        android:text="DOB Proof"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -188,15 +190,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:baselineAligned="false"
-                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_mobile"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:textColorHint="@color/hint_color">
+                        android:textColorHint="@color/hint_color"
+                        android:layout_weight="1">
 
                         <com.finance.app.view.utils.EditTexNormal
                             android:id="@+id/etMobile"
@@ -205,33 +206,35 @@
                             android:hint="@string/mobile"
                             android:inputType="number"
                             android:maxLength="10"
-                            android:minWidth="200dp"
+                            android:minWidth="160dp"
                             android:singleLine="true"
                             app:ms_hintTextSize="@dimen/hint_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <ImageView
-                        android:id="@+id/ivVerifiedStatus"
-                        android:layout_width="50sp"
-                        android:layout_height="50sp"
-                        android:layout_weight="1"
-                        android:src="@drawable/verified_icon"
-                        android:textSize="@dimen/button_text_size"
-                        android:visibility="gone" />
+
 
                     <Button
                         android:id="@+id/btnGetOTP"
-                        android:layout_width="50sp"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="85sp"
-                        android:layout_weight="1"
+                        android:layout_marginStart="50sp"
                         android:background="@color/app_bkg"
                         android:paddingStart="@dimen/margin_10"
                         android:paddingEnd="@dimen/margin_10"
                         android:text="@string/get_otp"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/button_text_size" />
+                        android:textSize="@dimen/button_text_size"
+                        android:layout_weight="1"
+                        />
+                    <ImageView
+                        android:id="@+id/ivVerifiedStatus"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/verified_icon"
+                        android:textSize="@dimen/button_text_size"
+                        android:visibility="gone"
+                        android:layout_marginRight="@dimen/margin20dp"/>
 
                 </LinearLayout>
 

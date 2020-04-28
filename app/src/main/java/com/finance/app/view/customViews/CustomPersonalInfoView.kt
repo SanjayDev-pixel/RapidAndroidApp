@@ -1,7 +1,10 @@
 package com.finance.app.view.customViews
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.AttributeSet
@@ -25,6 +28,7 @@ import com.finance.app.utility.*
 import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.activity.KYCActivity
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
@@ -47,6 +51,9 @@ import motobeans.architecture.util.AppUtilExtensions
 import motobeans.architecture.util.exGone
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import motobeans.architecture.util.exVisible
+import java.io.File
+import java.lang.Byte.decode
+import java.lang.Integer.decode
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -100,6 +107,9 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         setUpCustomViews()
         proceedFurther(applicant)
 
+        if(applicant.isMainApplicant==true){
+        binding.basicInfoLayout.btnUploadProfileImage.setText("Applicant Pic")}else{ binding.basicInfoLayout.btnUploadProfileImage.setText("CoApplicant Pic")}
+
     }
 
     private fun setDatePicker() {
@@ -112,7 +122,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         binding.btnAddKYC.setOnClickListener { KYCActivity.start(context , applicant.leadApplicantNumber) }
 
         binding.basicInfoLayout.btnGetOTP.setOnClickListener {
-            if (binding.basicInfoLayout.etMobile.text.toString() != "") {
+            if (binding.basicInfoLayout.etMobile.text.toString() != "" &&  binding.basicInfoLayout.etMobile.text?.length==10) {
                 showVerifyOTPDialog(leadId , applicant)
             } else {
                 Toast.makeText(context , "Please enter mobile number" , Toast.LENGTH_SHORT).show()
@@ -713,6 +723,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         var address: String? = ""
         var careOf: String? = ""
         var addressNew: String? = ""
+        var matchPercentage : String?=""
 
         for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
 
@@ -723,6 +734,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
                 address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
                 careOf = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
+                matchPercentage= kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthScore
 
 
                 bindingDialog.tvName.text = name
@@ -730,7 +742,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
                 bindingDialog.tvAddress.text = address
                 bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
-            }
+                bindingDialog.matchpercentage.text =matchPercentage
+
+                }
+
         }
 
         bindingDialog?.btnClose?.setOnClickListener() {
@@ -784,5 +799,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         val difference = todayDate.year - date.year
         differenceField.text = difference.toString()
     }
+
+
 
 }

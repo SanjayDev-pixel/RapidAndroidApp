@@ -85,6 +85,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                     useLeadData(it)
                     syncLeadMetaData(it.leadID)
                     leadDataViewModel.getLeadData(it)
+
                 }
             }
         }
@@ -109,6 +110,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         //setUpRecyclerView()
         setClickListeners(lead)
         fillColor(lead)
+
     }
 
     private fun fillLeadDetail(lead: AllLeadMaster) {
@@ -122,6 +124,10 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.tvLeadStatus.text = lead.status
         leadContact = if (lead.applicantAlternativeContactNumber.isNullOrBlank().not()) lead.applicantContactNumber?.toLong() else null
         setLeadNum(lead.leadNumber)
+
+        if(lead.status == "Submitted"){
+            binding.btnUpdateApplication.setText("VIEW APPLICATION")
+        }
 
     }
     private fun fillColor(lead: AllLeadMaster) {

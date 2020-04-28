@@ -24,7 +24,40 @@
             app:menu="@menu/navigation_menu"
             android:background="@color/md_grey_200"
             app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:itemTextColor="@color/black" />
+            app:itemTextColor="@color/black"
+            android:layout_above="@+id/copyright">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/versionNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:paddingLeft="10dp"
+                    android:text="Version"
+                     android:layout_marginStart="@dimen/margin10dp"
+                    />
+                <TextView
+                    android:id="@+id/copyright"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/copyright"
+                    android:paddingLeft="10dp"
+                    android:drawableLeft="@drawable/ic_copyright"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:gravity="left|center"/>
+            </LinearLayout>
+        </com.google.android.material.navigation.NavigationView>
+
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

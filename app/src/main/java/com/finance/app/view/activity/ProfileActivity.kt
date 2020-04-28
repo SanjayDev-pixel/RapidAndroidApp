@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.view.View
 import com.finance.app.R
 import com.finance.app.databinding.ActivityProfileBinding
+import kotlinx.android.synthetic.main.layout_header_with_back_btn.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
@@ -59,7 +60,8 @@ class ProfileActivity : BaseAppCompatActivity() {
 
 
     private fun setDataOnView() {
-        val name:String = sharedPreferencesUtil.getUserName().toString()
+        val name:String = sharedPreferencesUtil.getEmployeeName().toString()
+
         val role:String= sharedPreferencesUtil.getRoleName().toString()
         binding.tvProfileName.setText(name)
         binding.tvDesignation.setText(role)

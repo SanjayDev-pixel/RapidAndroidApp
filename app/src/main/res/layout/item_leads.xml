@@ -135,7 +135,6 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <LinearLayout
@@ -157,7 +156,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/grey_585858"
-                                    tools:text=": 12 Dec 10:15" />
+                                    tools:text=": 12 Dec 10:15"
+                                    android:textSize="14sp"/>
 
                             </LinearLayout>
 
@@ -189,7 +189,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:orientation="vertical"
-                            android:layout_weight="1">
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="wrap_content"

@@ -4,7 +4,7 @@
     <LinearLayout
         android:id="@+id/nav_header"
         android:layout_width="400dp"
-        android:layout_height="250dp"
+        android:layout_height="220dp"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
@@ -12,32 +12,33 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:background="@drawable/nav_header_background">
 
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="305dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="45dp">
+            android:orientation="vertical">
+
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivProfile"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:background="@drawable/circle_drawable"
+                android:gravity="center"
                 android:padding="@dimen/margin5dp"
-                android:src="@drawable/hfc"
-                android:gravity="center" />
+                android:src="@drawable/hfc" />
 
             <com.finance.app.view.utils.TextViewNormal
                 android:id="@+id/tvProfileName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin5dp"
                 android:gravity="left"
-                android:text="Erik Manglam"
-                android:textSize="@dimen/margin_20"
-                android:textStyle="bold"
                 android:paddingLeft="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin5dp" />
+                android:text="Erik Manglam"
+                android:textColor="@color/black"
+                android:textSize="@dimen/margin_20"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvDesignation"
@@ -45,10 +46,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin5dp"
                 android:gravity="center"
+                android:paddingLeft="@dimen/margin_10"
                 android:text="RM"
                 android:textColor="@color/black"
                 android:textSize="@dimen/button_text_size"
-                android:paddingLeft="@dimen/margin_10"
                 android:visibility="gone" />
 
 

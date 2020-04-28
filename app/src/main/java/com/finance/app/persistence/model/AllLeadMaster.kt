@@ -47,4 +47,7 @@ class AllLeadMaster : Serializable {
     var documentData: DocumentDetailList = DocumentDetailList()
     var isDetailAlreadySync: Boolean = false
     var isSyncWithServer: Boolean = true
+    var channelPartnerID:Int? =null
+    var sourcingChannelPartnerTypeDetailCode:String?=null
+    var sourcingChannelPartnerTypeDetailID:Int=0
 }

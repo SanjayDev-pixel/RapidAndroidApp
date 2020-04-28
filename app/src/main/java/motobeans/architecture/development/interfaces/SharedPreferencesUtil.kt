@@ -32,4 +32,5 @@ interface SharedPreferencesUtil {
     fun clearAll()
     fun getRoleName():String?
     fun getPasswordChangeRequired():Boolean
+    fun getEmployeeName():String?
 }

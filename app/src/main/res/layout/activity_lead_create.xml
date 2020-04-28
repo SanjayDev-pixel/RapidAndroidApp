@@ -31,7 +31,7 @@
                 android:id="@+id/heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_lead"
+                android:text="@string/lead_information"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:layout_marginTop="@dimen/margin_20"
                 android:gravity="center"

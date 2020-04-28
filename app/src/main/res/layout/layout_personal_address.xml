@@ -26,9 +26,10 @@
             android:padding="5sp"
             android:background="@color/colorPrimary"
             android:drawableLeft="@drawable/ic_file_upload_white_24dp"
-            android:text="Upload Address Proof Document"
+            android:text="Address Proof"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:alpha=".75"/>
 
         <LinearLayout
             android:id="@+id/llCurrentAddress"
@@ -189,9 +190,10 @@
                 android:drawableLeft="@drawable/ic_file_upload_white_24dp"
                 android:drawablePadding="10dp"
                 android:padding="5sp"
-                android:text="Upload Address Proof Document"
+                android:text="Address Proof"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:alpha=".75"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

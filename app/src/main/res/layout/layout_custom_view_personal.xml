@@ -41,7 +41,9 @@
                     android:layout_weight="1"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
+                    android:textSize="@dimen/button_text_size"
+                    android:alpha=".75"
+                    />
                 <Button
                     android:id="@+id/btnKyclist"
                     android:layout_width="match_parent"
@@ -51,10 +53,12 @@
                     android:visibility="visible"
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
-                    android:text="KYC List"
+                    android:text="Fetch KYC"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/button_text_size" />
+                    android:textSize="@dimen/button_text_size"
+                    android:alpha=".75"/>
+
                 </LinearLayout>
 
 
