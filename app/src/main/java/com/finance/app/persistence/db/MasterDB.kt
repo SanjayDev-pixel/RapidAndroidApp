@@ -12,10 +12,12 @@ import com.finance.app.persistence.model.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
-@Database(entities = [AllMasterDropDown::class, LoanProductMaster::class, AllLeadMaster::class, StatesMaster::class,
-    CoApplicantsMaster::class, KycDocumentModel::class,AllDocumentCheckListMaster::class], version = 1)
+@Database(
+        entities = [AllMasterDropDown::class , LoanProductMaster::class , AllLeadMaster::class , StatesMaster::class ,
+            CoApplicantsMaster::class , KycDocumentModel::class , AllDocumentCheckListMaster::class , LocationTrackerModel::class] , version = 1
+)
 
-@TypeConverters(value = [Converters::class, ConverterArrayList::class])
+@TypeConverters(value = [Converters::class , ConverterArrayList::class])
 abstract class MasterDB : RoomDatabase() {
 
     companion object {
@@ -33,7 +35,8 @@ abstract class MasterDB : RoomDatabase() {
                 INSTANCE ?: synchronized(this) {
                     INSTANCE
                             ?: buildDatabase(
-                                    context).also { INSTANCE = it }
+                                    context
+                            ).also { INSTANCE = it }
                 }
 
         /**
@@ -42,8 +45,10 @@ abstract class MasterDB : RoomDatabase() {
          * @param context The context.
          */
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext,
-                        MasterDB::class.java, "MasterOPT.db")
+                Room.databaseBuilder(
+                        context.applicationContext ,
+                        MasterDB::class.java , "MasterOPT.db"
+                )
                         .build()
     }
 
@@ -63,10 +68,13 @@ abstract class MasterDB : RoomDatabase() {
     abstract fun coApplicantsDao(): CoApplicantDao
 
     @SuppressWarnings("WeakerAccess")
-    abstract fun allDocumentDao() : DocumentCheckListDao
+    abstract fun allDocumentDao(): DocumentCheckListDao
 
     @SuppressWarnings("WeakerAccess")
     abstract fun kycDocumentDao(): KycDocumentDao
+
+    @SuppressWarnings("WeakerAccess")
+    abstract fun locationTrackerDao(): LocationTrackerDao
 
     fun reconfigDataFromDBASync() {
 
