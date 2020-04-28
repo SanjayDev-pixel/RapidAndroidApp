@@ -2,6 +2,7 @@ package motobeans.architecture.development.components
 
 import android.app.Application
 import com.finance.app.TestActivity
+import com.finance.app.locationTracker.ForegroundLocationTrackerService
 import com.finance.app.presenter.presenter.*
 import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.utility.LeadMetaData
@@ -15,7 +16,10 @@ import com.finance.app.view.dialogs.ReferenceDetailDialogFragment
 import com.finance.app.view.fragment.LeadsListingFragment
 import com.finance.app.view.fragment.NavMenuFragment
 import com.finance.app.view.fragment.PersonalFormFragment
-import com.finance.app.view.fragment.loanApplicationFragments.*
+import com.finance.app.view.fragment.loanApplicationFragments.FragmentPreview
+import com.finance.app.view.fragment.loanApplicationFragments.LoanInfoFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.PropertyFragmentNew
+import com.finance.app.view.fragment.loanApplicationFragments.ReferenceFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentForm
 import com.finance.app.view.fragment.loanApplicationFragments.assets_liability.AssetLiabilityFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFormFragment
@@ -31,6 +35,7 @@ import com.finance.app.viewModel.LeadDataViewModel
 import com.finance.app.viewModel.SyncDataViewModel
 import com.finance.app.viewModel.TempViewModel
 import com.finance.app.workers.document.UploadDocumentWorker
+import com.finance.app.workers.location.UploadLocationWorker
 import com.optcrm.optreporting.AppModule
 import com.optcrm.optreporting.app.workers.UtilWorkersTask
 import dagger.Component
@@ -46,9 +51,11 @@ import com.finance.app.presenter.presenter.Presenter as Presenter1
  * Created by munishkumarthakur on 04/11/17.
  */
 @Singleton
-@Component(modules = arrayOf(
-        AppModule::class, NetworkModule::class, UtilityModule::class, PrimitivesModule::class
-))
+@Component(
+        modules = arrayOf(
+                AppModule::class , NetworkModule::class , UtilityModule::class , PrimitivesModule::class
+        )
+)
 interface ApplicationComponent {
 
     fun inject(app: Application)
@@ -70,7 +77,7 @@ interface ApplicationComponent {
     fun inject(activity: UpdateCallActivity)
     fun inject(activity: DocumentUploadingActivity)
     fun inject(activity: ForgetPasswordActivity)
-    fun inject(activity : SetPasswordActivity)
+    fun inject(activity: SetPasswordActivity)
 
     /**
      * Fragment
@@ -129,6 +136,7 @@ interface ApplicationComponent {
      * View Model
      */
     fun inject(viewModel: TempViewModel)
+
     fun inject(viewModel: SyncDataViewModel)
     fun inject(viewModel: LeadDataViewModel)
     fun inject(viewModel: AppDataViewModel)
@@ -151,6 +159,7 @@ interface ApplicationComponent {
 
     fun inject(other: UtilWorkersTask)
     fun inject(other: UploadDocumentWorker)
+    fun inject(other: UploadLocationWorker)
 
     fun inject(other: LeadAndLoanDetail)
     fun inject(other: CustomEmploymentInfoView)
@@ -164,5 +173,8 @@ interface ApplicationComponent {
     fun inject(other: CustomChromeTab)
     fun inject(other: KycFormView)
     fun inject(other: ChannelPartnerViewCreateLead)
+
+    //Service
+    fun inject(other: ForegroundLocationTrackerService)
 
 }

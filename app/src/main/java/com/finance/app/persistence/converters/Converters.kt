@@ -38,7 +38,7 @@ class Converters {
         val listType = object : TypeToken<AllMasterDropDown>() {
 
         }.type
-        return Gson().fromJson<AllMasterDropDown>(value, listType)
+        return Gson().fromJson<AllMasterDropDown>(value , listType)
     }
 
     @TypeConverter
@@ -58,7 +58,7 @@ class Converters {
         val listType = object : TypeToken<DropdownMaster>() {
 
         }.type
-        return Gson().fromJson<DropdownMaster>(value, listType)
+        return Gson().fromJson<DropdownMaster>(value , listType)
     }
 
     @TypeConverter
@@ -78,7 +78,7 @@ class Converters {
         val listType = object : TypeToken<AllLeadMaster>() {
 
         }.type
-        return Gson().fromJson<AllLeadMaster>(value, listType)
+        return Gson().fromJson<AllLeadMaster>(value , listType)
     }
 
     @TypeConverter
@@ -98,7 +98,7 @@ class Converters {
         val listType = object : TypeToken<CoApplicantsMaster>() {
 
         }.type
-        return Gson().fromJson<CoApplicantsMaster>(value, listType)
+        return Gson().fromJson<CoApplicantsMaster>(value , listType)
     }
 
     @TypeConverter
@@ -119,7 +119,7 @@ class Converters {
         val listType = object : TypeToken<LoanInfoModel>() {
 
         }.type
-        return Gson().fromJson<LoanInfoModel>(value, listType)
+        return Gson().fromJson<LoanInfoModel>(value , listType)
     }
 
     @TypeConverter
@@ -140,7 +140,7 @@ class Converters {
                 >() {
 
         }.type
-        return Gson().fromJson<BankDetailList>(value, listType)
+        return Gson().fromJson<BankDetailList>(value , listType)
     }
 
     @TypeConverter
@@ -170,7 +170,7 @@ class Converters {
         val listType = object : TypeToken<PersonalApplicantList>() {
 
         }.type
-        return Gson().fromJson<PersonalApplicantList>(value, listType)
+        return Gson().fromJson<PersonalApplicantList>(value , listType)
     }
 
     @TypeConverter
@@ -190,7 +190,7 @@ class Converters {
         val listType = object : TypeToken<AssetLiabilityList>() {
 
         }.type
-        return Gson().fromJson<AssetLiabilityList>(value, listType)
+        return Gson().fromJson<AssetLiabilityList>(value , listType)
     }
 
     @TypeConverter
@@ -210,7 +210,7 @@ class Converters {
         val listType = object : TypeToken<ReferencesList>() {
 
         }.type
-        return Gson().fromJson<ReferencesList>(value, listType)
+        return Gson().fromJson<ReferencesList>(value , listType)
     }
 
     @TypeConverter
@@ -230,7 +230,7 @@ class Converters {
         val listType = object : TypeToken<EmploymentApplicantList>() {
 
         }.type
-        return Gson().fromJson<EmploymentApplicantList>(value, listType)
+        return Gson().fromJson<EmploymentApplicantList>(value , listType)
     }
 
     @TypeConverter
@@ -250,7 +250,7 @@ class Converters {
         val listType = object : TypeToken<StatesMaster>() {
 
         }.type
-        return Gson().fromJson<StatesMaster>(value, listType)
+        return Gson().fromJson<StatesMaster>(value , listType)
     }
 
     @TypeConverter
@@ -270,7 +270,7 @@ class Converters {
         val listType = object : TypeToken<PropertyModel>() {
 
         }.type
-        return Gson().fromJson<PropertyModel>(value, listType)
+        return Gson().fromJson<PropertyModel>(value , listType)
     }
 
     @TypeConverter
@@ -290,7 +290,7 @@ class Converters {
         val listType = object : TypeToken<LoanPurpose>() {
 
         }.type
-        return Gson().fromJson<LoanPurpose>(value, listType)
+        return Gson().fromJson<LoanPurpose>(value , listType)
     }
 
     @TypeConverter
@@ -310,7 +310,7 @@ class Converters {
         }
 
         val listType = object : TypeToken<KycDocumentModel>() {}.type
-        return Gson().fromJson<KycDocumentModel>(value, listType)
+        return Gson().fromJson<KycDocumentModel>(value , listType)
     }
 
     @TypeConverter
@@ -321,23 +321,25 @@ class Converters {
         }
         return null
     }
+
     @TypeConverter
-    fun fromStringToDocumentChecklistModel(value : String?): AllDocumentCheckListMaster?
-    {
-        if(!value.exIsNotEmptyOrNullOrBlank()){
+    fun fromStringToDocumentChecklistModel(value: String?): AllDocumentCheckListMaster? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
             return null
         }
         val listType = object : TypeToken<AllDocumentCheckListMaster>() {}.type
-        return Gson().fromJson<AllDocumentCheckListMaster>(value, listType)
+        return Gson().fromJson<AllDocumentCheckListMaster>(value , listType)
     }
+
     @TypeConverter
-    fun fromDocumentChecklistModelToString(documentCheckListMaster: AllDocumentCheckListMaster) : String ?{
+    fun fromDocumentChecklistModelToString(documentCheckListMaster: AllDocumentCheckListMaster): String? {
         documentCheckListMaster?.let {
             val gson = Gson()
             return gson.toJson(documentCheckListMaster)
         }
         return null
     }
+
     @TypeConverter
     fun fromStringToDocumentInfoObj(value: String?): DocumentDetailList? {
         if (!value.exIsNotEmptyOrNullOrBlank()) {
@@ -346,7 +348,7 @@ class Converters {
         val listType = object : TypeToken<DocumentDetailList>() {
 
         }.type
-        return Gson().fromJson<DocumentDetailList>(value, listType)
+        return Gson().fromJson<DocumentDetailList>(value , listType)
     }
 
     @TypeConverter
@@ -354,6 +356,25 @@ class Converters {
         documentCheckList?.let {
             val gson = Gson()
             return gson.toJson(documentCheckList)
+        }
+        return null
+    }
+
+    @TypeConverter
+    fun fromStringToLocationTrackerModel(value: String?): LocationTrackerModel? {
+        if (!value.exIsNotEmptyOrNullOrBlank()) {
+            return null
+        }
+
+        val listType = object : TypeToken<LocationTrackerModel>() {}.type
+        return Gson().fromJson<LocationTrackerModel>(value , listType)
+    }
+
+    @TypeConverter
+    fun fromLocationTrackerToString(locationTrackerModel: LocationTrackerModel?): String? {
+        locationTrackerModel?.let {
+            val gson = Gson()
+            return gson.toJson(locationTrackerModel)
         }
         return null
     }

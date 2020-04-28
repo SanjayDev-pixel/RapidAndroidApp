@@ -3,20 +3,21 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.assent.Assent
+import com.afollestad.assent.AssentCallback
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardNewBinding
 import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.persistence.model.DashboardData
+import com.finance.app.locationTracker.ForegroundLocationTrackerService
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.DashboardChartAdapter
 import com.finance.app.viewModel.SyncDataViewModel
 import com.finance.app.workers.UtilWorkManager
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.gson.Gson
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.appDelegates.viewModelProvider
 import motobeans.architecture.application.ArchitectureApp
@@ -31,7 +32,6 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -44,14 +44,16 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     private var adapterChart: DashboardChartAdapter? = null
     private val presenter = Presenter()
-    private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(this, R.layout.activity_dashboard_new)
-    private val viewModel: SyncDataViewModel by viewModelProvider(activity = this,
-            viewModelType = ViewModelType.WITH_DAO)
+    private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(this , R.layout.activity_dashboard_new)
+    private val viewModel: SyncDataViewModel by viewModelProvider(
+            activity = this ,
+            viewModelType = ViewModelType.WITH_DAO
+    )
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     companion object {
         fun start(context: Context) {
-            val intent = Intent(context, DashboardActivity::class.java)
+            val intent = Intent(context , DashboardActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
@@ -62,16 +64,21 @@ class DashboardActivity : BaseAppCompatActivity() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         UtilWorkManager.globalWorkManagerPeriodically()
         viewModel.getUpdatedDataFromServer()
-
         hideSecondaryToolbar()
+
         setVersionName()
 
-        initializeChartData()
+        initChartData()
+    }
+
+    private fun startLocationTrackerService() {
+        val intent = Intent(applicationContext , ForegroundLocationTrackerService::class.java)
+        ContextCompat.startForegroundService(applicationContext , intent)
     }
 
     private fun setVersionName() {
         try {
-            val pInfo = this.packageManager.getPackageInfo(this.packageName, 0)
+            val pInfo = this.packageManager.getPackageInfo(this.packageName , 0)
             val version = pInfo.versionName
             binding.tvVersionName.text = version
         } catch (e: PackageManager.NameNotFoundException) {
@@ -79,18 +86,18 @@ class DashboardActivity : BaseAppCompatActivity() {
         }
     }
 
-    fun initializeChartData() {
+    fun initChartData() {
 
-        presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
+        presenter.callNetwork(ConstantsApi.CALL_DASBOARD , CallDasboardData())
 
-       /* val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
-        initChartAdapter(dashboardResponse = dashboardResponse)*/
+        /* val dashboardResponse = Gson().fromJson(Constants.TEMP_DATA.apiChartResult, Response.DashboardResponse::class.java)
+         initChartAdapter(dashboardResponse = dashboardResponse)*/
     }
 
     private fun initChartAdapter(dashboardResponse: Response.ResponseDashboard) {
-        adapterChart = DashboardChartAdapter(mActivity = this, dashboardChartData = dashboardResponse)
+        adapterChart = DashboardChartAdapter(mActivity = this , dashboardChartData = dashboardResponse)
         binding.rvDashboardCharts.adapter = adapterChart
-        binding.rvDashboardCharts.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        binding.rvDashboardCharts.addItemDecoration(DividerItemDecoration(this , LinearLayoutManager.VERTICAL))
 
     }
 
@@ -99,6 +106,16 @@ class DashboardActivity : BaseAppCompatActivity() {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Assent.requestPermissions(AssentCallback { result ->
+            //start location tracker service
+//            if (result.allPermissionsGranted())
+//                startLocationTrackerService() //TODO un-comment when required...
+        } , 1 , Assent.ACCESS_COARSE_LOCATION , Assent.ACCESS_FINE_LOCATION)
+
     }
 
     override fun onDestroy() {
@@ -119,12 +136,12 @@ class DashboardActivity : BaseAppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseDashboard) {
             if (value.responseCode == Constants.SUCCESS) {
-               // binding.progressBar!!.visibility =View.GONE
+                // binding.progressBar!!.visibility =View.GONE
                 initChartAdapter(dashboardResponse = value)
 
             } else {
                 showToast(value.responseMsg)
-               // binding.progressBar!!.visibility =View.GONE
+                // binding.progressBar!!.visibility =View.GONE
             }
         }
 
@@ -132,10 +149,10 @@ class DashboardActivity : BaseAppCompatActivity() {
 
             if (msg.exIsNotEmptyOrNullOrBlank()) {
                 super.getApiFailure(msg)
-               // binding.progressBar!!.visibility = View.GONE
+                // binding.progressBar!!.visibility = View.GONE
             } else {
                 super.getApiFailure("Time out Error")
-               // binding.progressBar!!.visibility = View.GONE
+                // binding.progressBar!!.visibility = View.GONE
             }
 
         }
@@ -144,7 +161,7 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     private val dasboardRequest: Requests.RequestDashBoard
         get() {
-            val userName =""
+            val userName = ""
             return Requests.RequestDashBoard(userName = userName)
         }
 }

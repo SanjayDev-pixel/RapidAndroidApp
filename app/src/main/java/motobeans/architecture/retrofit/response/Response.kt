@@ -92,6 +92,7 @@ object Response {
     data class ResponseVerifyOTP(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
     data class ResponseSubmitPassword(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
     data class ResponseDashboard(val responseCode: String, val responseMsg: String, val responseObj: ResponseObj?, val timeStamp: Long)
+    data class ResponseUploadLocation(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
 
 
 }
