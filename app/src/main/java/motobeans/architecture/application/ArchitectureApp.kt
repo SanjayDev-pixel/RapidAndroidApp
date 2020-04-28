@@ -1,7 +1,10 @@
 package motobeans.architecture.application
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 //import com.crashlytics.android.Crashlytics
 import com.optcrm.optreporting.AppModule
 //import io.fabric.sdk.android.Fabric
@@ -19,6 +22,7 @@ import motobeans.architecture.util.FontsOverride
 class ArchitectureApp : Application() {
 
     companion object {
+        val LOCATION_NOTIFICATION_CHANNEL_ID = "locationNotificationChannel"
         lateinit var instance: ArchitectureApp
             private set
     }
@@ -38,14 +42,24 @@ class ArchitectureApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/Raleway-Regular.ttf");
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Raleway-Regular.ttf");
-        FontsOverride.setDefaultFont(this, "SERIF", "fonts/Raleway-Regular.ttf");
-        FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/Raleway-Regular.ttf");
+        FontsOverride.setDefaultFont(this , "DEFAULT" , "fonts/Raleway-Regular.ttf");
+        FontsOverride.setDefaultFont(this , "MONOSPACE" , "fonts/Raleway-Regular.ttf");
+        FontsOverride.setDefaultFont(this , "SERIF" , "fonts/Raleway-Regular.ttf");
+        FontsOverride.setDefaultFont(this , "SANS_SERIF" , "fonts/Raleway-Regular.ttf");
         instance = this
         component.inject(this)
 
-       // Fabric.with(this, Crashlytics())
+        createNotificationChannel()
+
+        // Fabric.with(this, Crashlytics())
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val serviceChannel = NotificationChannel(LOCATION_NOTIFICATION_CHANNEL_ID , "Location" , NotificationManager.IMPORTANCE_DEFAULT)
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(serviceChannel)
+        }
     }
 
     override fun onTerminate() {

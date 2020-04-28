@@ -2,14 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.finance.app">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -34,6 +40,11 @@
         <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
         <!-- android:resource="@xml/file_paths" /> -->
         <!-- </provider> -->
+
+        <service
+            android:name=".locationTracker.ForegroundLocationTrackerService"
+            android:enabled="true"
+            android:exported="false" />
 
         <activity android:name=".view.activity.DocumentUploadingActivity"></activity>
         <activity android:name=".view.activity.KYCActivity" />
@@ -93,15 +104,16 @@
         <activity
             android:name=".view.activity.CreateLeadActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".view.activity.UploadDocumentActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.SetPasswordActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.SetPasswordActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".view.activity.SyncActivity" />
         <activity android:name=".view.activity.TempActivity" />
         <activity android:name=".view.activity.PreviewActivity" />

@@ -3,14 +3,17 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.assent.Assent
+import com.afollestad.assent.AssentCallback
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDashboardNewBinding
 import com.finance.app.eventBusModel.AppEvents
-import com.finance.app.persistence.model.DashboardData
+import com.finance.app.locationTracker.ForegroundLocationTrackerService
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.view.adapters.recycler.adapter.DashboardChartAdapter
@@ -34,7 +37,6 @@ import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -69,7 +71,12 @@ class DashboardActivity : BaseAppCompatActivity() {
         hideSecondaryToolbar()
         setVersionName()
 
-        initializeChartData()
+        initChartData()
+    }
+
+    private fun startLocationTrackerService() {
+        val intent = Intent(applicationContext , ForegroundLocationTrackerService::class.java)
+        ContextCompat.startForegroundService(applicationContext , intent)
     }
 
     private fun setVersionName() {
@@ -82,7 +89,7 @@ class DashboardActivity : BaseAppCompatActivity() {
         }
     }
 
-    fun initializeChartData() {
+    fun initChartData() {
 
         presenter.callNetwork(ConstantsApi.CALL_DASBOARD, CallDasboardData())
 
@@ -102,6 +109,16 @@ class DashboardActivity : BaseAppCompatActivity() {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Assent.requestPermissions(AssentCallback { result ->
+            //start location tracker service
+//            if (result.allPermissionsGranted())
+//                startLocationTrackerService() //TODO un-comment when required...
+        } , 1 , Assent.ACCESS_COARSE_LOCATION , Assent.ACCESS_FINE_LOCATION)
+
     }
 
     override fun onDestroy() {
