@@ -84,15 +84,15 @@
 
     <com.finance.app.view.utils.TextViewBold
         android:id="@+id/copyright"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/copyright"
-        android:paddingLeft="10dp"
         android:drawableLeft="@drawable/ic_copyright"
         android:textSize="14sp"
         android:textColor="@color/black"
         android:layout_alignParentBottom="true"
-       android:layout_marginStart="@dimen/_35sdp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
         />
 </RelativeLayout>
 </layout>
