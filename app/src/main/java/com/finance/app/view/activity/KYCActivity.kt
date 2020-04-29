@@ -43,6 +43,7 @@ class KYCActivity : BaseAppCompatActivity() {
     var kyCID: String? = null
     private var kycOptionDialog: Dialog? = null
     var encodedStringScanned=""
+    var  leadIDnumber:String?= null
 
     companion object {
         fun start(context: Context, leadApplicantNum: String?) {
@@ -73,6 +74,7 @@ class KYCActivity : BaseAppCompatActivity() {
         integrator.setResultDisplayDuration(500)
         integrator.setCameraId(0) // Use a specific camera of the device
         integrator.initiateScan()
+
     }
 
     override fun onActivityResult(requestCode: Int , resultCode: Int , data: Intent?) {
@@ -84,34 +86,33 @@ class KYCActivity : BaseAppCompatActivity() {
 
             val scanContent = scanningResult.contents
             val scanFormat = scanningResult.formatName
-            val byteData = scanningResult.rawBytes.toString()
-            val extradTa = data.toString()
-            System.out.println("byteData>>>>"+scanningResult.toString())
+           // val byteData = scanningResult.rawBytes.toString()
+            if(data !=null) {
+                val extradTa = data.toString()
+                System.out.println("byteData>>>>" + scanningResult.toString())
 
-            print("Scanned data>>>$scanContent")
-            print("Scanned Type>>>>$scanFormat")
-           // Toast.makeText(this, scanContent + "   type:" + scanFormat, Toast.LENGTH_SHORT).show()
-            System.out.println("Scanned data >>>>"+scanContent+"Type>>>>"+scanFormat)
-            Log.e("Tag"," sandeep scan data:: "+ scanFormat + " scan content;;;;;;;;;;;;;;;;" +scanContent)
-            val encodedString: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Base64.getEncoder().encodeToString(scanContent.toByteArray())
-            } else {
-                val data = scanContent.toByteArray(charset("UTF-8"))
-                android.util.Base64.encodeToString(data,android.util.Base64.DEFAULT)
+                print("Scanned data>>>$scanContent")
+                print("Scanned Type>>>>$scanFormat")
+                // Toast.makeText(this, scanContent + "   type:" + scanFormat, Toast.LENGTH_SHORT).show()
+                System.out.println("Scanned data >>>>" + scanContent + "Type>>>>" + scanFormat)
+                Log.e("Tag" , " sandeep scan data:: " + scanFormat + " scan content;;;;;;;;;;;;;;;;" + scanContent)
+                val encodedString: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Base64.getEncoder().encodeToString(scanContent.toByteArray())
+                } else {
+                    val data = scanContent.toByteArray(charset("UTF-8"))
+                    android.util.Base64.encodeToString(data , android.util.Base64.DEFAULT)
+                }
+
+
+                encodedStringScanned = encodedString
+                kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber))
             }
-
-           Log.e("Tag","base 64 data:::: "+encodedString)
-            encodedStringScanned=encodedString
-
 
 
         }
 
     }
 
-    fun String.encode(): String {
-        return android.util.Base64.encodeToString(this.toByteArray(charset("UTF-8")), android.util.Base64.DEFAULT)
-    }
 
     private fun proceedFurther() {
 
@@ -120,9 +121,10 @@ class KYCActivity : BaseAppCompatActivity() {
         bundle = intent.extras
         bundle?.let {
 
-            val leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
+           val  leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
             leadAppNum?.let {
                 showKycDialog(leadAppNum)
+                leadIDnumber= leadAppNum
               //  kycPresenter.callNetwork(ConstantsApi.CALL_KYC, dmiConnector = KYCApiCall(leadAppNum))
             }
         }
@@ -140,6 +142,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
         bindingDialog?.btnClose?.setOnClickListener() {
             kycOptionDialog?.dismiss()
+            finish()
         }
 
         bindingDialog?.groupRadioButton?.setOnCheckedChangeListener(
@@ -152,7 +155,7 @@ class KYCActivity : BaseAppCompatActivity() {
                         }*/
 
                     } else if (checkedId == R.id.codeand_pan) {
-                        scanNow()
+
 
                     } else if (checkedId == R.id.codeand_dl) {
                         Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
@@ -173,8 +176,7 @@ class KYCActivity : BaseAppCompatActivity() {
                     kycPresenter.callNetwork(ConstantsApi.CALL_KYC , dmiConnector = KYCApiCall(leadAppNum))
                 }
             }else if (radioButtonselect == R.id.codeand_pan) {
-
-                kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadAppNum))
+                       scanNow()
             } else {
                 Toast.makeText(this , "Please select KYC type" , Toast.LENGTH_SHORT).show()
             }
@@ -272,6 +274,19 @@ class KYCActivity : BaseAppCompatActivity() {
         override fun getApiFailure(msg: String) {
             showToast(msg)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }
 

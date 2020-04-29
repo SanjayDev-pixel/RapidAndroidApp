@@ -47,7 +47,9 @@
             android:exported="false" />
 
         <activity android:name=".view.activity.DocumentUploadingActivity"></activity>
-        <activity android:name=".view.activity.KYCActivity" />
+        <activity android:name=".view.activity.KYCActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".view.activity.FinalSubmitActivity"
             android:label="@string/title_activity_final_submit"
@@ -128,6 +130,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="dfe6623ccb337c9b9f15d5cc201177c9c4baa0aa" />
+
 
 
       <!--  <service
