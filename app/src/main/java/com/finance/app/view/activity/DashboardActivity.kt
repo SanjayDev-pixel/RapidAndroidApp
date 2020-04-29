@@ -115,11 +115,6 @@ class DashboardActivity : BaseAppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         if (EventBus.getDefault().isRegistered(this)) {
