@@ -68,6 +68,8 @@ class Presenter {
             ConstantsApi.CALL_VERIFY_FORGOT_OTP-> apiProject.api.verifyOTP(dmiConnector.apiRequest as Requests.RequestVerifyOTPforForgetPassword)
             ConstantsApi.CALL_SUBMIT_PASSWORD -> apiProject.api.submitPassword(dmiConnector.apiRequest as Requests.RequestSubmitPassword)
             ConstantsApi.CALL_DASBOARD -> apiProject.api.getDasboardData()
+            ConstantsApi.CALL_KYC_PREPARE -> apiProject.api.prepareCallKYC(dmiConnector.apiRequest as Requests.RequestKYCID)
+
             else -> return
         }
 

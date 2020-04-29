@@ -27,4 +27,5 @@ object Requests {
     data class RequestVerifyOTPforForgetPassword(val otpValue: String,val company: Company)
     data class RequestSubmitPassword(val userName: String,val newPassword: String,val company: Company)
     data class RequestDashBoard(val userName:String?)
+    data class RequestKYCID(val leadID: Int?, val leadApplicantNumber: String?, val qrCodeData: String, val kycType: String )
 }

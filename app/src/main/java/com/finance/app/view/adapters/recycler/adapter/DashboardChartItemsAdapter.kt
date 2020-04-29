@@ -18,23 +18,25 @@ import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.LargeValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import motobeans.architecture.retrofit.response.Response
 
-class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, private val chartDataItems: ArrayList<Response.ChartData>) :
-    RecyclerView.Adapter<DashboardChartItemsAdapter.DashboardChartItemsHolder>() {
+class DashboardChartItemsAdapter(private val mActivity: FragmentActivity , private val chartDataItems: ArrayList<Response.ChartData>) :
+        RecyclerView.Adapter<DashboardChartItemsAdapter.DashboardChartItemsHolder>() {
 
     private lateinit var binding: ItemDashboardChartDataBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardChartItemsHolder {
+    override fun onCreateViewHolder(parent: ViewGroup , viewType: Int): DashboardChartItemsHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_dashboard_chart_data, parent, false)
+        binding = DataBindingUtil.inflate(layoutInflater , R.layout.item_dashboard_chart_data , parent , false)
         return DashboardChartItemsHolder(binding)
     }
 
     override fun getItemCount(): Int = chartDataItems.size
 
-    override fun onBindViewHolder(holder: DashboardChartItemsHolder, position: Int) {
+    override fun onBindViewHolder(holder: DashboardChartItemsHolder , position: Int) {
         holder.bindItems(chartDataItems[position])
     }
 
@@ -71,7 +73,7 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
 //            binding.chartData.setCenterTextOffset(0f, -20f)
             binding.chartData.setDrawEntryLabels(false)
             setData()
-            binding.chartData.animateY(1400, Easing.EaseInOutQuad)
+            binding.chartData.animateY(1400 , Easing.EaseInOutQuad)
             binding.chartData.legend.textSize = 15f
             val l: Legend = binding.chartData.legend
             l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
@@ -90,17 +92,22 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
             val values = ArrayList<PieEntry>()
 
             itemChartData.data.forEach { chartData ->
-                values.add(PieEntry(chartData.value, chartData.label))
+                values.add(PieEntry(chartData.value , chartData.label))
             }
-            val dataSet = PieDataSet(values, "")
+            val dataSet = PieDataSet(values , "")
             dataSet.sliceSpace = 3f
             dataSet.selectionShift = 5f
             dataSet.setColors(*ColorTemplate.MATERIAL_COLORS)
             //dataSet.setSelectionShift(0f);
             val data = PieData(dataSet)
-//            data.setValueFormatter(PercentFormatter())
+//            data.setValueFormatter(LargeValueFormatter())
             data.setValueTextSize(13f)
             data.setValueTextColor(Color.BLACK)
+            data.setValueFormatter(object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return "${value.toInt()}"
+                }
+            })
             //data.setValueTypeface(tfLight)
             binding.chartData.data = data
             binding.chartData.invalidate()
@@ -108,12 +115,12 @@ class DashboardChartItemsAdapter(private val mActivity: FragmentActivity, privat
 
         private fun generateCenterSpannableText(): SpannableString? {
             val s = SpannableString("MPAndroidChart\ndeveloped by Philipp Jahoda")
-            s.setSpan(RelativeSizeSpan(1.7f), 0, 14, 0)
-            s.setSpan(StyleSpan(Typeface.NORMAL), 14, s.length - 15, 0)
-            s.setSpan(ForegroundColorSpan(Color.GRAY), 14, s.length - 15, 0)
-            s.setSpan(RelativeSizeSpan(.8f), 14, s.length - 15, 0)
-            s.setSpan(StyleSpan(Typeface.ITALIC), s.length - 14, s.length, 0)
-            s.setSpan(ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length - 14, s.length, 0)
+            s.setSpan(RelativeSizeSpan(1.7f) , 0 , 14 , 0)
+            s.setSpan(StyleSpan(Typeface.NORMAL) , 14 , s.length - 15 , 0)
+            s.setSpan(ForegroundColorSpan(Color.GRAY) , 14 , s.length - 15 , 0)
+            s.setSpan(RelativeSizeSpan(.8f) , 14 , s.length - 15 , 0)
+            s.setSpan(StyleSpan(Typeface.ITALIC) , s.length - 14 , s.length , 0)
+            s.setSpan(ForegroundColorSpan(ColorTemplate.getHoloBlue()) , s.length - 14 , s.length , 0)
             return s
         }
 

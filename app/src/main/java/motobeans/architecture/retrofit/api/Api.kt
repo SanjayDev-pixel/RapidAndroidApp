@@ -129,4 +129,7 @@ interface Api {
 
     @POST("api/v1/user/userLocationHistory/")
     fun postTrackerLocation(@Body requestPost: UploadLocationRequest): Call<Response.ResponseUploadLocation>
+
+    @POST("api/v1/kyc/user/data/prepare/")
+    fun prepareCallKYC(@Body requestPost: Requests.RequestKYCID): Observable<Response.ResponseKYC>
 }
