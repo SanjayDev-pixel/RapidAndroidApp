@@ -51,7 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textColorHint="@color/hint_color">
+                    android:textColorHint="@color/hint_color"
+                    >
 
                     <com.finance.app.view.utils.EditTexNormal
                         android:id="@+id/etDocumentName"
@@ -59,7 +60,13 @@
                         android:layout_height="wrap_content"
                         android:hint="Document Name"
                         android:singleLine="true"
-                        app:ms_hintTextSize="@dimen/hint_size" />
+                        app:ms_hintTextSize="@dimen/hint_size"
+                        android:inputType="none"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                       />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

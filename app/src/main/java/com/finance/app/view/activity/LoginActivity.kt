@@ -44,7 +44,7 @@ class LoginActivity : BaseAppCompatActivity() {
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
-        addFirebase()
+       // addFirebase()    // open when google json file change and open  services.MyFirebaseMessagingService in manifest
         setClickListeners()
 
     }
@@ -106,7 +106,7 @@ class LoginActivity : BaseAppCompatActivity() {
         }
     }
 
-    private fun addFirebase() {
+    /*private fun addFirebase() {
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
                     if (!task.isSuccessful) {
@@ -118,5 +118,5 @@ class LoginActivity : BaseAppCompatActivity() {
                     val token = task.result?.token
 
                 })
-    }
+    }*/
 }

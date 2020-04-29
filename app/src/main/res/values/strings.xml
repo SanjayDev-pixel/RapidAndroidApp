@@ -394,6 +394,13 @@
     <string name="fcm_message">DMI Rapid</string>
     <string name="copyright"> 2020 DMI.All Rights Reserved</string>
     <string name="lead_information">Lead Information</string>
+    <string name="kyc_verification"> KYC Verification</string>
+    <string name="qrcode_pan">  QR code and PAN</string>
+    <string name="qrcode_dl">  QR code and DL</string>
+    <string name="pan_dl">  PAN and DL</string>
+    <string name="aadhaar_otp">  Aadhaar Otp</string>
+    <string name="selectkyctype">Please select your KYC type</string>
+    <string name="systemsupportmsg">*Currently system support Aadhaar Verification only</string>
 
 
 </resources>

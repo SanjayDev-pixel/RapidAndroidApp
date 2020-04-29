@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -160,6 +161,20 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         val adapter = ArrayAdapter<DocumentTypeModel>(this , android.R.layout.simple_spinner_item , documentTypes)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerDocumentType.adapter = adapter
+        binding.spinnerDocumentType.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>,
+                                        view: View, position: Int, id: Long) {
+                if(position==0) {
+                    var str = parent.getItemAtPosition(position).toString()
+                    binding.etDocumentName.setText(str + "_" + applicantNumber)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+
+        }
+
+
 
     }
 
