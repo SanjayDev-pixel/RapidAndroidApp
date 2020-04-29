@@ -34,7 +34,7 @@
                 android:layout_gravity="bottom"
                 android:orientation="vertical">
 
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:id="@+id/versionNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                     android:text="Version"
                      android:layout_marginStart="@dimen/margin10dp"
                     />
-                <TextView
+                <com.finance.app.view.utils.TextViewBold
                     android:id="@+id/copyright"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

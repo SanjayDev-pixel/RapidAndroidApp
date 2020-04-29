@@ -27,6 +27,7 @@ class UploadLocationWorker(context: Context , workerParams: WorkerParameters) : 
             val locationRequestModel = UploadLocationRequest().apply { userLocationHistoryList = it }
             val uploadCall = apiProject.api.postTrackerLocation(locationRequestModel)
             val response = uploadCall.execute()
+            System.out.println("Response>>>>"+response)
             if (response.isSuccessful) {
                 database.provideDataBaseSource().locationTrackerDao().truncate()
             }

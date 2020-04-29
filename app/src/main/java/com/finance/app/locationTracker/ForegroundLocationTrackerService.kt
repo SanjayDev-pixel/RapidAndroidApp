@@ -94,7 +94,7 @@ class ForegroundLocationTrackerService : Service() { //TODO develop start and st
         val pendingIntent = PendingIntent.getActivity(this , 0 , intent , 0) //TODO set clear stack flag...
 
         val notification = NotificationCompat.Builder(this , ArchitectureApp.LOCATION_NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("Location Tracker")
+                .setContentTitle("REAL-TIME AGILE PRODUCTIVE IMPROVISED DIGITAL")
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .build()

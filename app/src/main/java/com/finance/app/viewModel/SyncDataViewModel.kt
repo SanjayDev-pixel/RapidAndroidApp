@@ -126,6 +126,7 @@ class SyncDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
              }
             else
              {
+                 System.out.println("responseMsg>>>>"+value.responseMsg)
                  showToast(value.responseMsg)
              }
         }
