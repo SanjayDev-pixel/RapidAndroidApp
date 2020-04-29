@@ -94,7 +94,7 @@
                     android:drawableLeft="@drawable/ic_file_upload_white_24dp"
                     android:drawablePadding="10dp"
                     android:padding="5sp"
-                    android:text="Profile Picture"
+                    android:text="Applicant Pic"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:alpha="0.75"/>
