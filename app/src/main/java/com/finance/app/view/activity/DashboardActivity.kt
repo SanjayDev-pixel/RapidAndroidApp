@@ -113,11 +113,11 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Assent.requestPermissions(AssentCallback { result ->
+        /*Assent.requestPermissions(AssentCallback { result ->
             //start location tracker service
-//            if (result.allPermissionsGranted())
-//                startLocationTrackerService() //TODO un-comment when required...
-        } , 1 , Assent.ACCESS_COARSE_LOCATION , Assent.ACCESS_FINE_LOCATION)
+          if (result.allPermissionsGranted())
+              startLocationTrackerService() //TODO un-comment when required...
+        } , 1 , Assent.ACCESS_COARSE_LOCATION , Assent.ACCESS_FINE_LOCATION)*/
 
     }
 
