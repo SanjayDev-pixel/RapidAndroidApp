@@ -236,6 +236,12 @@
                         android:visibility="gone"
                         android:layout_marginRight="@dimen/margin20dp"/>
 
+                    <TextView
+                        android:id="@+id/mobileverified_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

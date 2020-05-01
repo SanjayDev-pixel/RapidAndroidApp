@@ -374,6 +374,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         currentApplicant.contactDetail?.let {
             binding.basicInfoLayout.etEmail.setText(currentApplicant.contactDetail?.email)
             binding.basicInfoLayout.etMobile.setText(currentApplicant.contactDetail?.mobile)
+            binding.basicInfoLayout.mobileverifiedStatus.setText(currentApplicant.contactDetail?.isMobileVerified.toString())
             if (currentApplicant.contactDetail!!.isMobileVerified!!) {
                 binding.basicInfoLayout.etMobile.isEnabled = false
                 binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
@@ -495,6 +496,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         val contactDetail = ContactDetail()
         contactDetail.email = binding.basicInfoLayout.etEmail.text.toString()
         contactDetail.mobile = binding.basicInfoLayout.etMobile.text.toString()
+        contactDetail.isMobileVerified= if(binding.basicInfoLayout.mobileverifiedStatus.text.toString().equals("true")) true else  false
         return contactDetail
     }
 
@@ -660,6 +662,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 binding.basicInfoLayout.etMobile.isEnabled = false
                 binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
                 binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
+                binding.basicInfoLayout.mobileverifiedStatus.setText("true")
             }
         }
     }
