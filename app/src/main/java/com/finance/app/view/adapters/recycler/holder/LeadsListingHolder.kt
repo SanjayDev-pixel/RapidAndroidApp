@@ -22,8 +22,8 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
         binding.tvLeadName.text = lead.applicantFirstName
         binding.tvLeadID.text = ": ${lead.leadID.toString()}"
         binding.tvLoanType.text = ": ${lead.loanProductName}"
-        binding.tvCreatedDate.text = ": ${ConvertDate().convertDate(lead.createdOn!!)}"
-        binding.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
+        binding.tvCreatedDate.text = ": ${lead.createdOn}"
+        binding.tvUpdatedDate.text = lead.lastModifiedOn
         binding.tvLeadnumber.text = ": ${lead.leadNumber}"
         binding.tvAmountValue.text = lead.amountRequest?.let { ": Rs. $it" } ?: kotlin.run { ": Rs. N/A" }
         when (lead.status) {

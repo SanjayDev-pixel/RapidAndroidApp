@@ -199,6 +199,7 @@ class LoanInfoFragmentNew : BaseFragment() {
         interestType = CustomSpinnerView(mContext = activity!! , isMandatory = true , dropDowns = allMasterDropDown.LoanInformationInterestType!! , label = "Interest Type *")
         binding.layoutInterestType.addView(interestType)
         interestType.setSelection(allMasterDropDown.LoanInformationInterestType!![1].typeDetailID.toString())
+        interestType.disableSelf()
 
         loanScheme = CustomSpinnerView(mContext = activity!! , isMandatory = true , dropDowns = allMasterDropDown.LoanScheme!! , label = "Loan Scheme *")
         binding.layoutLoanScheme.addView(loanScheme)

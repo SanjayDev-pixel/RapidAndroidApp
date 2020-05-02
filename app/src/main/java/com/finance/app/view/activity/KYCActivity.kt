@@ -218,7 +218,7 @@ class KYCActivity : BaseAppCompatActivity() {
                 builder.setShowTitle(false)
 
                 val customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(this@KYCActivity, Uri.parse(URL_KYC + kycID))
+                customTabsIntent.launchUrl(context , Uri.parse(Constants.API.URL.URL_KYC + kycID + "&qrCode=true"))
             }
         }
 

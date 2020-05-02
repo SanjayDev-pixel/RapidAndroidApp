@@ -199,7 +199,7 @@ class PreviewActivity : BaseAppCompatActivity() {
             get() = getCallUpdateRequest()
         override fun getApiSuccess(value: Response.ResponseFinalSubmit) {
             if (value.responseCode == Constants.SUCCESS) {
-                Toast.makeText(context, "Submitted Successfully.", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "Submitted Successfully.", Toast.LENGTH_SHORT).show()
                 binding.progressBar!!.visibility = View.GONE
                  val submitLoanResponse: ApplicantionSubmitModel? = value.responseObj
                 if (value.responseObj != null) {
