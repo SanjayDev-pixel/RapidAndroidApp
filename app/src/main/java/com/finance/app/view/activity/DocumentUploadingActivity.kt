@@ -164,7 +164,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         binding.spinnerDocumentType.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>,
                                         view: View, position: Int, id: Long) {
-                if(position==0) {
+                if(position>=0) {
                     var str = parent.getItemAtPosition(position).toString()
                     binding.etDocumentName.setText(str + "_" + applicantNumber)
                 }
