@@ -25,7 +25,7 @@ class Constants {
     object API {
         object URL {
             const val URL_DEVELOPMENT = "https://rapidservices-dev.dmihousingfinance.in/dmi/"
-            //
+            // testing url
             // "https://rapidservices-dev.dmihousingfinance.in/dmi/"
             //http://13.235.28.32:8080/dmi/ use this jrl for previous
             //            const val URL_DEVELOPMENT = "http://13.232.224.66:8080/dmi/"
