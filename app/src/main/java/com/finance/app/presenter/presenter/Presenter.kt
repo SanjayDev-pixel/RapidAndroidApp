@@ -94,7 +94,7 @@ class Presenter {
     }
 
     private fun <RequestApi, ResponseApi> apiFailure(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, e: Throwable?) {
-        viewOpt.getApiFailure(e?.message ?: "")
+        viewOpt.getApiFailure("Please coordinate with IT team  for support")
     }
 }
 

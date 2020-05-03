@@ -82,14 +82,14 @@
 
     </LinearLayout>
 
-    <com.finance.app.view.utils.TextViewBold
+    <com.finance.app.view.utils.TextViewNormal
         android:id="@+id/copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/copyright"
         android:drawableLeft="@drawable/ic_copyright"
         android:textSize="14sp"
-        android:textColor="@color/black"
+        android:textColor="@color/grey_585858"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:gravity="center"
