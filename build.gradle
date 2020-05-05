@@ -46,7 +46,7 @@ ext {
 
   // Application Versions
   versionCode = 1
-  versionName = "0.0.9"
+  versionName = "1.0"
 
   // App dependencies
   supportLibraryVersion = '28.0.0'

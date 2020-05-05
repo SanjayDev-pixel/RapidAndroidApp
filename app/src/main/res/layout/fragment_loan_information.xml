@@ -77,13 +77,13 @@
                     android:focusable="true"
                     android:layout_marginTop="@dimen/fields_margin"
                     android:focusableInTouchMode="true"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_amount_request"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+
                         android:textColorHint="@color/hint_color">
 
                         <com.finance.app.view.utils.EditTexNormal
@@ -95,16 +95,16 @@
                             android:maxLength="9"
                             android:layout_height="wrap_content"
                             android:hint="@string/loan_amount_request"
-                            android:minWidth="200dp"
+
                             android:textSize="@dimen/text_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_tenure"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/fields_margin"
                         android:textColorHint="@color/hint_color">
 
                         <com.finance.app.view.utils.EditTexNormal
@@ -117,7 +117,7 @@
                             android:singleLine="true"
                             android:maxLength="3"
                             android:hint="@string/tenure_months"
-                            android:minWidth="150dp"
+
                             android:textSize="@dimen/text_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>

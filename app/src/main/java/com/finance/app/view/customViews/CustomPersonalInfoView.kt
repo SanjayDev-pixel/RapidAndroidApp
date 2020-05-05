@@ -691,7 +691,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         }
 
         override fun getApiFailure(msg: String) {
-
+                System.out.println("Api Failure>>>>"+msg)
             if (msg.exIsNotEmptyOrNullOrBlank()) {
                 super.getApiFailure(msg)
                 binding.progressBar!!.visibility = View.GONE

@@ -105,7 +105,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
 
                 encodedStringScanned = encodedString
-                kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber))
+                kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber,"QRCODE_PAN_REQUEST"))
             }
 
 
@@ -163,18 +163,19 @@ class KYCActivity : BaseAppCompatActivity() {
                         Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
                     }
                 })
-
-
-
-
         bindingDialog?.btnProceed?.setOnClickListener() {
             val leadAppNum = leadApplicantNumber
             val radioButtonselect = bindingDialog.groupRadioButton.checkedRadioButtonId
             if (radioButtonselect == R.id.adharotp) {
 
-                leadAppNum?.let {
+               /* leadAppNum?.let {
                     kycPresenter.callNetwork(ConstantsApi.CALL_KYC , dmiConnector = KYCApiCall(leadAppNum))
-                }
+                }*/
+                /*
+                * AADHAAR_ZIP_INLINE,QRCODE_PAN_REQUEST,QRCODE_DL_REQUEST,PAN_DL_REQUEST
+                * */
+                encodedStringScanned = ""
+                kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber,"AADHAAR_ZIP_INLINE"))
             }else if (radioButtonselect == R.id.codeand_pan) {
                        scanNow()
             } else {
@@ -230,7 +231,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
 
 
-    inner class KYCidApiCall(private val leadAppNum: String?) : ViewGeneric<Requests.RequestKYCID ,
+    inner class KYCidApiCall(private val leadAppNum: String?,val kycType : String) : ViewGeneric<Requests.RequestKYCID ,
             Response.ResponseKYC>(context = this) {
         val qrCodeString = ""
         override val apiRequest: Requests.RequestKYCID
@@ -239,7 +240,8 @@ class KYCActivity : BaseAppCompatActivity() {
         private val mRequestKyc: Requests.RequestKYCID
             get() {
                 val leadId = LeadMetaData.getLeadId()
-                return Requests.RequestKYCID(leadID = leadId , leadApplicantNumber = leadAppNum , qrCodeData = encodedStringScanned , kycType = "QRCODE_PAN_REQUEST")
+                //QRCODE_PAN_REQUEST
+                return Requests.RequestKYCID(leadID = leadId , leadApplicantNumber = leadAppNum , qrCodeData = encodedStringScanned , kycType = kycType)
 
             }
 
@@ -266,7 +268,8 @@ class KYCActivity : BaseAppCompatActivity() {
                 builder.setShowTitle(false)
 
                 val customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(context , Uri.parse(Constants.API.URL.URL_KYC + kycID + "&qrCode=true"))
+                //customTabsIntent.launchUrl(context , Uri.parse(Constants.API.URL.URL_KYC + kycID + "&qrCode=true"))
+                customTabsIntent.launchUrl(context , Uri.parse(Constants.API.URL.URL_KYC + kycID))
             }
         }
 
