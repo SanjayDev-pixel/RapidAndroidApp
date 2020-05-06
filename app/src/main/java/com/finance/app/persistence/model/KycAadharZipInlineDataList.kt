@@ -7,13 +7,14 @@ class KycAadharZipInlineDataList: Serializable {
     var kycType: String?=null
     var name: String? = null
     var careOf: String? = null
-   var  maskedAadhaarNumber: String?=""
+    var  maskedAadhaarNumber: String?=""
     var address: String?= null
     var photo : String? =null
     var dob : String?=null
     var gender : String?=null
     var verifiedMobileNumber : String?=null
     var verifiedEmailId : String?=null
+ var maskedMobile : String ? = ""
     var faceAuthStatus : String?=null
     var faceAuthScore : String?=null
     var faceAuthImage : String?=null
@@ -23,7 +24,6 @@ class KycAadharZipInlineDataList: Serializable {
     var kycTimestamp : String?=null
     var transactionTimestamp : String?=null
     var transactionReferenceNumber : String?=null
-
     var version : String?=null
     var eKYCStatus : String?=null
     var state : String?=null

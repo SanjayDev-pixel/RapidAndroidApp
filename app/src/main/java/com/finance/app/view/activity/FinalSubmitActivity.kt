@@ -92,11 +92,10 @@ class FinalSubmitActivity : AppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseFinalSubmit) {
             if (value.responseCode == Constants.SUCCESS) {
-                Toast.makeText(context,"Submitted Successfully.",Toast.LENGTH_SHORT).show()
-                progressBar!!.visibility = View.GONE
-
                 val submitLoanResponse: ApplicantionSubmitModel?=value.responseObj
                 if(value.responseObj !=null) {
+                    Toast.makeText(context,"Submitted Successfully.",Toast.LENGTH_SHORT).show()
+                    progressBar!!.visibility = View.GONE
                     val intent = Intent(this@FinalSubmitActivity, LoanSubmitStatusActivity::class.java)
                     intent.putExtra("SubmitResponse", submitLoanResponse)
                     startActivity(intent)
