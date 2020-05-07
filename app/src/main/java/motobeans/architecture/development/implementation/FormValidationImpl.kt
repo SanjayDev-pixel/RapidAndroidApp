@@ -51,7 +51,7 @@ class FormValidationImpl : FormValidation {
             errorCount++
             religion.showError(true)
         }
-        religion.getSelectedValue()
+        //religion.getSelectedValue()
 
         if (age.exIsNotEmptyOrNullOrBlank()) {
             if (age.toInt() !in 99 downTo 14) {

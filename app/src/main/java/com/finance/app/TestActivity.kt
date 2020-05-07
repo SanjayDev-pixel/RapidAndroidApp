@@ -13,6 +13,7 @@ import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.FormValidation
+
 import motobeans.architecture.retrofit.request.Requests.RequestSample
 import motobeans.architecture.retrofit.response.Response.ResponseSample
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate

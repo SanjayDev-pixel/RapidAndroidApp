@@ -79,8 +79,6 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         getLoanProductFromDB()
         setBranchesDropDownValue()
         setupCustomView()
-
-
         if( leadId !=null && leadId != 0){
             setValuesonView(LeadMetaData.getLeadData())
         }

@@ -662,7 +662,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 binding.basicInfoLayout.etMobile.isEnabled = false
                 binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
                 binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
-                binding.basicInfoLayout.mobileverifiedStatus.setText("true")
+                //binding.basicInfoLayout.mobileverifiedStatus.setText("true")
             }
         }
     }

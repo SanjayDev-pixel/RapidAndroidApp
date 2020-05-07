@@ -3,6 +3,8 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.widget.EditText
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +46,7 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     private var adapterChart: DashboardChartAdapter? = null
     private val presenter = Presenter()
+
     private val binding: ActivityDashboardNewBinding by ActivityBindingProviderDelegate(this , R.layout.activity_dashboard_new)
     private val viewModel: SyncDataViewModel by viewModelProvider(
             activity = this ,
@@ -62,6 +65,8 @@ class DashboardActivity : BaseAppCompatActivity() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
+
         UtilWorkManager.globalWorkManagerPeriodically()
         viewModel.getUpdatedDataFromServer()
 
