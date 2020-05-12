@@ -73,7 +73,9 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         }catch(e: Exception){
             e.printStackTrace()
         }
-
+       /* var id = ""
+        var intId = Integer.parseInt(id)*/
+        //System.out.println("ID>>>"+intId)
         hideSecondaryToolbar()
         SetCreateLeadMandatoryField(binding)
         getLoanProductFromDB()
@@ -95,10 +97,10 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                         binding.progressBar!!.visibility = View.VISIBLE
                     }
                 }else{
-                    Toast.makeText(this,"Please fill maindatory fields",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
                 }
             }else{
-                Toast.makeText(this,"Please fill maindatory fields",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
             }
         }
     }

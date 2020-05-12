@@ -95,6 +95,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private fun addApplicant() {
         pagerAdapterApplicants?.let { adapter ->
             if (adapter.isApplicantDetailsValid()) {
+                System.out.println("value>>>>"+adapter.getApplicantDetails().get(0).contactDetail?.isMobileVerified.toString())
                 LeadMetaData().savePersonalData(adapter.getApplicantDetails())
                 AppEvents.fireEventLoanAppChangeNavFragmentNext()
             }

@@ -188,7 +188,8 @@ class UpdateCallActivity : BaseAppCompatActivity() {
         binding.leadDetails.tvLoanType.text = ": ${lead.loanProductName}"
         binding.leadDetails.tvLeadnumber.text = ": ${lead.leadNumber}"
         binding.leadDetails.tvAmountValue.text = lead.amountRequest?.let { ": Rs. $it" } ?: kotlin.run { ": Rs. N/A" }
-        binding.leadDetails.tvCreatedDate.text = ": ${ConvertDate().convertDate(lead.createdOn!!)}"
+        binding.leadDetails.tvCreatedDate.text = ": ${lead.createdOn}"
+        //binding.leadDetails.tvCreatedDate.text = ": ${ConvertDate().convertDate(lead.createdOn!!)}"
         binding.leadDetails.tvUpdatedDate.text = ConvertDate().convertDate(lead.lastModifiedOn!!)
 
         when (lead.status) {

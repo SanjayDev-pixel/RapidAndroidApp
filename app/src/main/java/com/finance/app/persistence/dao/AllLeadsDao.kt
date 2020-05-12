@@ -40,7 +40,7 @@ interface AllLeadsDao {
     @Query("SELECT * FROM AllLeadMaster WHERE leadNumber LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
     fun getAllLeads(searchParam: String): LiveData<List<AllLeadMaster>?>
 
-    @Query("SELECT * FROM AllLeadMaster WHERE status=:leadStatus AND leadNumber LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%'")
+    @Query("SELECT * FROM AllLeadMaster WHERE  leadNumber LIKE '%' || :searchParam || '%' OR applicantFirstName LIKE '%' || :searchParam || '%' AND status=:leadStatus")
     fun getLeadsByStatus(leadStatus: String, searchParam: String): LiveData<List<AllLeadMaster>?>
     /**
      * Updating only status

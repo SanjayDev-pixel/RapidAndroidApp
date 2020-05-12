@@ -44,6 +44,7 @@ class KYCActivity : BaseAppCompatActivity() {
     private var kycOptionDialog: Dialog? = null
     var encodedStringScanned=""
     var  leadIDnumber:String?= null
+    var kycTypeValue : String ? = null
 
     companion object {
         fun start(context: Context, leadApplicantNum: String?) {
@@ -91,11 +92,7 @@ class KYCActivity : BaseAppCompatActivity() {
                 val extradTa = data.toString()
                 System.out.println("byteData>>>>" + scanningResult.toString())
 
-                print("Scanned data>>>$scanContent")
-                print("Scanned Type>>>>$scanFormat")
-                // Toast.makeText(this, scanContent + "   type:" + scanFormat, Toast.LENGTH_SHORT).show()
-                System.out.println("Scanned data >>>>" + scanContent + "Type>>>>" + scanFormat)
-                Log.e("Tag" , " sandeep scan data:: " + scanFormat + " scan content;;;;;;;;;;;;;;;;" + scanContent)
+
                 val encodedString: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Base64.getEncoder().encodeToString(scanContent.toByteArray())
                 } else {
@@ -105,7 +102,12 @@ class KYCActivity : BaseAppCompatActivity() {
 
 
                 encodedStringScanned = encodedString
-                kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber,"QRCODE_PAN_REQUEST"))
+                if(kycTypeValue.equals("QRCODE_PAN_REQUEST")) {
+                    kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber , "QRCODE_PAN_REQUEST"))
+                }
+                else if(kycTypeValue.equals("QRCODE_DL_REQUEST")){
+                    kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber , "QRCODE_DL_REQUEST"))
+                }
             }
 
 
@@ -149,16 +151,17 @@ class KYCActivity : BaseAppCompatActivity() {
                 RadioGroup.OnCheckedChangeListener { group , checkedId ->
 
                     if (checkedId == R.id.adharotp) {
+                        kycTypeValue = "AADHAAR_ZIP_INLINE"
                         val leadAppNum = leadApplicantNumber
                        /* leadAppNum?.let {
                             kycPresenter.callNetwork(ConstantsApi.CALL_KYC , dmiConnector = KYCApiCall(leadAppNum))
                         }*/
 
                     } else if (checkedId == R.id.codeand_pan) {
-
+                           kycTypeValue = "QRCODE_PAN_REQUEST"
 
                     } else if (checkedId == R.id.codeand_dl) {
-                        Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
+                        kycTypeValue = "QRCODE_DL_REQUEST"
                     } else {
                         Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
                     }
@@ -178,7 +181,10 @@ class KYCActivity : BaseAppCompatActivity() {
                 kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber,"AADHAAR_ZIP_INLINE"))
             }else if (radioButtonselect == R.id.codeand_pan) {
                        scanNow()
-            } else {
+            } else if(radioButtonselect == R.id.codeand_dl){
+                      scanNow()
+            }
+            else {
                 Toast.makeText(this , "Please select KYC type" , Toast.LENGTH_SHORT).show()
             }
         }

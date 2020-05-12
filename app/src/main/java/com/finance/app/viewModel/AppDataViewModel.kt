@@ -35,7 +35,10 @@ class AppDataViewModel(val activity: FragmentActivity, private val masterDB: Mas
     }
     fun searchLeadByStatus(status : String) : LiveData<List<AllLeadMaster>?>{
         var searchParam = liveSearchParam?.value?:""
-        return masterDB.allLeadsDao().getLeadsByStatus(leadStatus = status,searchParam = searchParam)
+        System.out.println("searchParam>>>"+searchParam)
+        System.out.println("leadStatus>>>"+status)
+
+        return masterDB.allLeadsDao().getLeadsByStatus(status,searchParam)
     }
        fun getAllStates(): LiveData<List<StatesMaster>?> {
         return masterDB.statesDao().getAllStates()
@@ -150,7 +153,7 @@ class AppDataViewModel(val activity: FragmentActivity, private val masterDB: Mas
 
 
     fun setSearch(searchParam: String,pagerPosition : Int) {
-
+          System.out.println("Position Pager>>>"+pagerPosition)
         liveSearchParam.value = searchParam
         if(pagerPosition==0) {
             observeAllLeadsByStatus(activity = activity, leadStatus = AppEnums.LEAD_TYPE.PENDING, leadLiveData = leadsPending)
@@ -180,6 +183,7 @@ class AppDataViewModel(val activity: FragmentActivity, private val masterDB: Mas
     private fun observeAllLeadsByStatus(activity: FragmentActivity, leadStatus: AppEnums.LEAD_TYPE, leadLiveData: MutableLiveData<List<AllLeadMaster>>) {
 
         searchLeadByStatus(leadStatus.type).observe(activity, Observer { itemsFromDB ->
+            System.out.println("itemsFromDB>>>"+itemsFromDB?.size)
             itemsFromDB?.let {
                 leadLiveData.value = itemsFromDB
             }

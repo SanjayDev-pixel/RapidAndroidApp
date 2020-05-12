@@ -78,8 +78,10 @@ class AllLeadActivity : BaseAppCompatActivity() {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-
-                viewModelLeadData.setSearch(newText!!,binding.viewPager.currentItem)
+                System.out.println("Search>>>>"+newText)
+                if(!(newText.equals(""))) {
+                    viewModelLeadData.setSearch(newText!! , binding.viewPager.currentItem)
+                }
 
                 return true
             }

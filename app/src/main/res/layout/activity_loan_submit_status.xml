@@ -177,7 +177,7 @@
             <LinearLayout
                 android:id="@+id/llstatus"
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
+                android:layout_height="@dimen/_210sdp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="30dp"
 
@@ -307,7 +307,7 @@
                 <Button
                     android:id="@+id/bttn_dashboard"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin20dp"
                     android:background="@drawable/button_theme_style"

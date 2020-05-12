@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.assent.Assent
+import com.afollestad.assent.AssentCallback
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLeadDetailBinding
 import com.finance.app.others.AppEnums
@@ -70,7 +72,9 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         fetchSpinnerDataFromDB()
         getLead()
 
+
     }
+
 
 
     private fun getLead() {
@@ -160,12 +164,17 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             checkAndStartLoanApplicationActivity(lead)
             }
         }
-        binding.ivCall.setOnClickListener {
-            leadContact?.let {
-                val callIntent = Intent(Intent.ACTION_CALL)
-                callIntent.data = Uri.parse("tel: +91${leadContact}")
-                startActivity(callIntent)
-            }
+        binding.ivPhone.setOnClickListener {
+            Assent.requestPermissions(AssentCallback { result ->
+                //start location tracker service
+                if (result.allPermissionsGranted()) {
+                    val callIntent = Intent(Intent.ACTION_CALL)
+                    callIntent.data = Uri.parse("tel: +91${lead.applicantContactNumber}")
+                    startActivity(callIntent)
+                }
+            } , 1 , Assent.CALL_PHONE)
+
+
         }
         binding.btnUpdateCall.setOnClickListener {
             if(LeadMetaData.getLeadData()?.status == "Rejected"){

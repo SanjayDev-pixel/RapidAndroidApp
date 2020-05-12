@@ -193,7 +193,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
       val headerLayout = bindingParent.navView.getHeaderView(0)
     headerLayout.tvProfileName.setText(sharedPreferencesUtil.getEmployeeName())
     headerLayout.setOnClickListener {
-          ProfileActivity.start(this)
+          //ProfileActivity.start(this)
       }
   }
 

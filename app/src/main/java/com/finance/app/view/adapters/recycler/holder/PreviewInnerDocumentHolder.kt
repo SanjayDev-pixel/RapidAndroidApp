@@ -12,15 +12,16 @@ import com.finance.app.viewModel.AppDataViewModel
 class PreviewInnerDocumentHolder (val binding:PreviewDocumentChecklistItemBinding,val mContext: Context):RecyclerView.ViewHolder(binding.root){
    fun bindItems(list: ArrayList<DocumentCheckListDetailModel>?, pos:Int, viewModel: AppDataViewModel){
        if (!list.isNullOrEmpty()) {
-           setValueInCard(list[pos], viewModel)
+           System.out.println("position>>>>"+pos)
+           setValueInCard(list[pos], viewModel,pos)
        }
    }
 
-    private fun setValueInCard(data: DocumentCheckListDetailModel, viewModel: AppDataViewModel) {
+    private fun setValueInCard(data: DocumentCheckListDetailModel, viewModel: AppDataViewModel,position : Int) {
 
         binding.questiontext.text =data.description
         binding.qAns.text= data.typeDetailDisplayText
-        binding.serialNo.text =data.checklistDetailId.toString()
+        binding.serialNo.text =""+(position+1)
 
     }
 
