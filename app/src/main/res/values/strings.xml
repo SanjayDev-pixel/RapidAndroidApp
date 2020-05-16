@@ -400,7 +400,7 @@
     <string name="pan_dl">  PAN and DL</string>
     <string name="aadhaar_otp">  Aadhaar Otp</string>
     <string name="selectkyctype">Please select your KYC type</string>
-    <string name="systemsupportmsg">*Currently system support Aadhaar Verification only</string>
+    <string name="systemsupportmsg">*Currently system support Aadhaar Otp and QR code and PAN</string>
 
 
 </resources>

@@ -162,6 +162,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
                     } else if (checkedId == R.id.codeand_dl) {
                         kycTypeValue = "QRCODE_DL_REQUEST"
+                        Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
                     }
@@ -182,10 +183,12 @@ class KYCActivity : BaseAppCompatActivity() {
             }else if (radioButtonselect == R.id.codeand_pan) {
                        scanNow()
             } else if(radioButtonselect == R.id.codeand_dl){
-                      scanNow()
+                      //scanNow()
+                Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
             }
             else {
-                Toast.makeText(this , "Please select KYC type" , Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this , "Please select KYC type" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
             }
         }
     }

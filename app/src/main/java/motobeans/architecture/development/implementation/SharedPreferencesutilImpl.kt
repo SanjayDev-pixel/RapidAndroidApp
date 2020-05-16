@@ -1,6 +1,7 @@
 package motobeans.architecture.development.implementation
 
 import android.content.Context
+import android.content.pm.PackageManager
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoModel
@@ -26,6 +27,18 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
         }
 
         return uuid
+    }
+
+    override fun getApplicationVersion(): String? {
+        var version : String ? = ""
+        try {
+            val pInfo = context.packageManager.getPackageInfo(context.packageName , 0)
+             version = pInfo.versionName
+
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+        return version
     }
 
     override fun setUUID(uuid: String) {
