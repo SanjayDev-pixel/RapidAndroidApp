@@ -28,11 +28,11 @@ class Constants {
             //const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmi/"
 
             //Production URL
-            const val URL_DEVELOPMENT = "https://rapidservices.dmihousingfinance.in/dmi/"
+            //const val URL_DEVELOPMENT = "https://rapidservices.dmihousingfinance.in/dmi/"
             //Development URL
             //const val URL_DEVELOPMENT = "https://rapidservices-dev.dmihousingfinance.in/dmi/"
             //UAT URL
-            //const val URL_DEVELOPMENT = "https://rapidservices-uat.dmihousingfinance.in/dmi/"
+            const val URL_DEVELOPMENT = "https://rapidservices-uat.dmihousingfinance.in/dmi/"
             // testing url
             // "https://rapidservices-dev.dmihousingfinance.in/dmi/"
             //http://13.235.28.32:8080/dmi/ use this jrl for previous
