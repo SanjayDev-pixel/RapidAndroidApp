@@ -1,5 +1,6 @@
 package com.finance.app.view.activity
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -22,6 +23,7 @@ import com.finance.app.view.adapters.recycler.spinner.MasterSpinnerAdapter
 import com.finance.app.view.customViews.ChannelPartnerViewCreateLead
 import com.finance.app.view.customViews.CustomSpinnerView
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
+import com.finance.app.view.dialogs.CustomProgressDialog
 import com.finance.app.viewModel.AppDataViewModel
 import fr.ganfra.materialspinner.MaterialSpinner
 import motobeans.architecture.appDelegates.ViewModelType
@@ -34,6 +36,7 @@ import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
+import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import java.lang.Exception
@@ -58,6 +61,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     private var bundle: Bundle? = null
     private var lead: AllLeadMaster? = null
     var leadId:Any? = 0
+    private val progressDialog = CustomProgressDialog()
 
     companion object {
         fun start(context: Context,lead: AllLeadMaster) {
@@ -73,9 +77,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
         }catch(e: Exception){
             e.printStackTrace()
         }
-       /* var id = ""
-        var intId = Integer.parseInt(id)*/
-        //System.out.println("ID>>>"+intId)
+
         hideSecondaryToolbar()
         SetCreateLeadMandatoryField(binding)
         getLoanProductFromDB()
@@ -93,8 +95,9 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     if(leadId!=null && leadId !=0){
                         editLead(leadId)
                     }else {
+                        progressDialog.show(this,"Please Wait!!")
                         presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
-                        binding.progressBar!!.visibility = View.VISIBLE
+
                     }
                 }else{
                     Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
@@ -123,6 +126,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             binding.viewChannelPartnernew.attachActivity(activity = this,loanData= LoanInfoModel())
         }
     }
+
     private fun getLoanProductFromDB() {
         appDataViewModel.getLoanProductMaster().observe(this, Observer { loanProductValue ->
             loanProductValue?.let {
@@ -184,8 +188,9 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     }
 
     private fun editLead(leadId: Any?) {
+        progressDialog.show(this,"Please Wait!!")
         presenter.callNetwork(ConstantsApi.CALL_EDIT_LEAD, CallEditLead())
-        binding.progressBar!!.visibility = View.VISIBLE
+
     }
 
     inner class CallCreateLead : ViewGeneric<Requests.RequestAddLead, Response.ResponseAddLead>(context = this) {
@@ -194,14 +199,14 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseAddLead) {
             if (value.responseCode == Constants.SUCCESS) {
-                binding.progressBar!!.visibility =View.GONE
+                progressDialog?.dismiss()
                 AllLeadActivity.start(this@CreateLeadActivity)
                 this@CreateLeadActivity.finish()
 
 
             } else {
                 showToast(value.responseMsg)
-                binding.progressBar!!.visibility =View.GONE
+                progressDialog?.dismiss()
             }
         }
 
@@ -209,10 +214,10 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
             if (msg.exIsNotEmptyOrNullOrBlank()) {
                 super.getApiFailure(msg)
-                binding.progressBar!!.visibility = View.GONE
+                progressDialog?.dismiss()
             } else {
                 super.getApiFailure("Time out Error")
-                binding.progressBar!!.visibility = View.GONE
+                progressDialog?.dismiss()
             }
 
         }
@@ -252,7 +257,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseEditLead) {
             if (value.responseCode == Constants.SUCCESS) {
-                binding.progressBar!!.visibility =View.GONE
+                progressDialog?.dismiss()
                 showToast(value.responseMsg)
                 AllLeadActivity.start(this@CreateLeadActivity)
                 this@CreateLeadActivity.finish()
@@ -260,7 +265,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
             } else {
                 showToast(value.responseMsg)
-                binding.progressBar!!.visibility =View.GONE
+                progressDialog?.dismiss()
             }
         }
 
@@ -268,10 +273,12 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
             if (msg.exIsNotEmptyOrNullOrBlank()) {
                 super.getApiFailure(msg)
-                binding.progressBar!!.visibility = View.GONE
+                progressDialog?.dismiss()
+                
             } else {
                 super.getApiFailure("Time out Error")
-                binding.progressBar!!.visibility = View.GONE
+                progressDialog?.dismiss()
+                
             }
 
         }

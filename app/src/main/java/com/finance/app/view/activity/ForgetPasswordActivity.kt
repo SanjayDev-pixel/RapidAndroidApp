@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.finance.app.R
 import com.finance.app.databinding.ActivityForgetPasswordBinding
 import com.finance.app.presenter.presenter.Presenter
@@ -91,6 +92,22 @@ class ForgetPasswordActivity : BaseAppCompatActivity() {
             return Requests.Company(1, "DMI_HFC")
         }
 
+    override fun onBackPressed() = showDialog()
 
+    private fun showDialog() {
+        runOnUiThread {
+            if (!isFinishing) {
+                AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.warning_msg))
+                        .setMessage("Do you want to cancel ?")
+                        .setCancelable(false)
+                        .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                        .setPositiveButton("Ok") { _, _ ->
+                            this.finish()
+                            super.onBackPressed()
+                        }.show()
+            }
+        }
+    }
 
 }

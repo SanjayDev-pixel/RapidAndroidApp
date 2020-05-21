@@ -19,6 +19,8 @@ import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.request.Requests.RequestLogin
 import motobeans.architecture.retrofit.response.Response.ResponseLogin
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
+import retrofit2.HttpException
+import retrofit2.http.HTTP
 import javax.inject.Inject
 
 class LoginActivity : BaseAppCompatActivity() {
@@ -95,13 +97,14 @@ class LoginActivity : BaseAppCompatActivity() {
                     DashboardActivity.start(this@LoginActivity)
                 }
 
-            } else {
+            } else if(value.responseCode == "400"){
                 showToast(value.responseMsg)
                 System.out.println("ResponseMsg>>>"+value.responseMsg)
             }
         }
 
         override fun getApiFailure(msg: String) {
+
             showToast(msg)
         }
     }

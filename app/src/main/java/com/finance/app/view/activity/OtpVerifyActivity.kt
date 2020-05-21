@@ -1,5 +1,6 @@
 package com.finance.app.view.activity
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -78,6 +79,13 @@ class OtpVerifyActivity : BaseAppCompatActivity() {
             }
         }
 
+        /*override fun getApiValidationFail(value: Response.ResponseVerifyOTP) {
+            if (value.responseCode == Constants.FAILURE) {
+                binding.progressBar.visibility = View.GONE
+                showToast(value.responseMsg)
+            }
+        }*/
+
         override fun getApiFailure(msg: String) {
             if (msg.exIsNotEmptyOrNullOrBlank()) {
                 super.getApiFailure(msg)
@@ -108,4 +116,21 @@ class OtpVerifyActivity : BaseAppCompatActivity() {
         get() {
             return Requests.Company(1, "DMI_HFC")
         }
+    override fun onBackPressed() = showDialog()
+
+    private fun showDialog() {
+        runOnUiThread {
+            if (!isFinishing) {
+                AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.warning_msg))
+                        .setMessage("Do you want to cancel ?")
+                        .setCancelable(false)
+                        .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                        .setPositiveButton("Ok") { _, _ ->
+                            this.finish()
+                            super.onBackPressed()
+                        }.show()
+            }
+        }
+    }
 }

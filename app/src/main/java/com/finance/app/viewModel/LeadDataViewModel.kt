@@ -135,6 +135,8 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
             }
         }
 
+
+
         private fun handleResponse(responseObj: Response.LoanApplicationGetObj?) {
             val apiResponseObject = LeadRequestResponseConversion().getResponseObject(form = form,
                     response = responseObj)

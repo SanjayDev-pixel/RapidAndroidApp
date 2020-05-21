@@ -2,9 +2,11 @@ package com.finance.app.presenter.presenter
 
 import android.app.ProgressDialog
 import android.content.Context
+import com.fasterxml.jackson.core.JsonParser
 import com.finance.app.R
 import com.finance.app.persistence.model.LoanApplicationRequest
 import com.finance.app.presenter.connector.Connector
+import com.google.gson.JsonObject
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -16,6 +18,8 @@ import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.util.DialogFactory
 import motobeans.architecture.util.exShowToast
+import org.json.JSONObject
+import retrofit2.HttpException
 import javax.inject.Inject
 
 /**
@@ -84,8 +88,16 @@ class Presenter {
                 .doFinally { viewOpt.hideProgressDialog() }
                 .subscribe({ response ->
                     response?.let { apiSuccess(viewOpt, response as ResponseApi) }
-                },
-                        { e -> apiFailure(viewOpt, e) })
+                }, { e -> if(e != null){
+                    val errorMessage  = ApiError(e).message
+                    apiFailure(viewOpt , errorMessage)
+
+                }else {
+                    apiFailure(viewOpt , e)
+                }
+                }
+                )
+
 
     }
 
@@ -93,9 +105,11 @@ class Presenter {
         viewOpt.getApiSuccess(value = response)
     }
 
-    private fun <RequestApi, ResponseApi> apiFailure(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, e: Throwable?) {
-        viewOpt.getApiFailure("Please coordinate with IT team  for support")
+    private fun <RequestApi, ResponseApi> apiFailure(viewOpt: Connector.ViewOpt<RequestApi, ResponseApi>, e: String?) {
+        viewOpt.getApiFailure(e.toString())
     }
+
+
 }
 
 abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context) : Connector.ViewOpt<RequestApi, ResponseApi> {
@@ -118,7 +132,23 @@ abstract class ViewGeneric<RequestApi, ResponseApi>(val context: Context) : Conn
     }
 
     override fun getApiFailure(msg: String) {
-       // showToast(msg)
-        showToast(context.getString(R.string.error_api_failure))
+       showToast(msg)
+        //showToast(context.getString(R.string.error_api_failure))
     }
 }
+class ApiError constructor(error : Throwable){
+    var message = "An error occured"
+    init {
+        if(error is HttpException){
+            val errorJsonString = error.response().errorBody()?.string()
+            System.out.println("errorJsonString"+errorJsonString)
+            val responseMessage:JSONObject = JSONObject(errorJsonString)
+            message = responseMessage.getString("responseMsg")
+            System.out.println("Message" +message)
+        }
+        else{
+            this.message = error.message ?: this.message
+        }
+    }
+}
+

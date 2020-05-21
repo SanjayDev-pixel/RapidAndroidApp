@@ -46,5 +46,8 @@
         <item name="android:dividerHeight">2dp</item>
         <item name="android:dropDownSelector">@color/colorPrimary</item>
     </style>
+    <style name="CustomDialogTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 </resources>
