@@ -61,7 +61,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     private var bundle: Bundle? = null
     private var lead: AllLeadMaster? = null
     var leadId:Any? = 0
-    private val progressDialog = CustomProgressDialog()
+    private val customProgressDialog = CustomProgressDialog()
 
     companion object {
         fun start(context: Context,lead: AllLeadMaster) {
@@ -95,16 +95,16 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     if(leadId!=null && leadId !=0){
                         editLead(leadId)
                     }else {
-                        progressDialog.show(this,"Please Wait!!")
+                        customProgressDialog.show(this,"Please Wait!!")
                         presenter.callNetwork(ConstantsApi.CALL_ADD_LEAD, CallCreateLead())
 
                     }
                 }else{
                     Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
                 }
-            }else{
-                Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
-            }
+            }else
+        }{
+            Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -188,7 +188,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
     }
 
     private fun editLead(leadId: Any?) {
-        progressDialog.show(this,"Please Wait!!")
+        customProgressDialog.show(this,"Please Wait!!")
         presenter.callNetwork(ConstantsApi.CALL_EDIT_LEAD, CallEditLead())
 
     }
@@ -199,25 +199,23 @@ class CreateLeadActivity : BaseAppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseAddLead) {
             if (value.responseCode == Constants.SUCCESS) {
-                progressDialog?.dismiss()
+                customProgressDialog?.hide(context)
                 AllLeadActivity.start(this@CreateLeadActivity)
                 this@CreateLeadActivity.finish()
 
 
             } else {
                 showToast(value.responseMsg)
-                progressDialog?.dismiss()
+                customProgressDialog?.hide(context)
             }
         }
-
         override fun getApiFailure(msg: String) {
-
             if (msg.exIsNotEmptyOrNullOrBlank()) {
                 super.getApiFailure(msg)
-                progressDialog?.dismiss()
+                customProgressDialog?.hide(context)
             } else {
                 super.getApiFailure("Time out Error")
-                progressDialog?.dismiss()
+                customProgressDialog?.hide(context)
             }
 
         }

@@ -26,10 +26,10 @@ class Constants {
         object URL {
             //Staging URL
 
-            const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmi/"
+            //const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmi/"
 
             //Production URL
-            //const val URL_DEVELOPMENT = "https://rapidservices.dmihousingfinance.in/dmi/"
+            const val URL_DEVELOPMENT = "https://rapidservices.dmihousingfinance.in/dmi/"
             //Development URL
             //const val URL_DEVELOPMENT = "https://rapidservices-dev.dmihousingfinance.in/dmi/"
             //UAT URL
