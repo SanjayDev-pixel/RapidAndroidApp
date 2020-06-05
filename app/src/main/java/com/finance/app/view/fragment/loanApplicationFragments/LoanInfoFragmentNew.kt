@@ -84,10 +84,6 @@ class LoanInfoFragmentNew : BaseFragment() {
     private fun setLeadInformation() {
         LeadMetaData.getLeadData()?.amountRequest?.let { binding.etAmountRequest.setText(it.toString()) }
         //System.out.println("Loan Amount Requested>>>>>" + loanInfo.loanAmountRequest)
-
-
-
-
     }
 
     private fun setUpCustomViews(loanInfo: LoanInfoModel?) {

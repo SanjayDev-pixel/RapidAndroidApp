@@ -11,6 +11,7 @@ import com.finance.app.databinding.FragmentPersonalInfoNewBinding
 import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.PersonalApplicantsModel
+import com.finance.app.utility.LeadAndLoanDetail
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.pager.PersonalPagerAdapter
 import motobeans.architecture.application.ArchitectureApp
@@ -23,10 +24,10 @@ class PersonalInfoFragmentNew : BaseFragment() {
     @Inject
     lateinit var formValidation: FormValidation
 
-    private var pagerAdapterApplicants: PersonalPagerAdapter? = null
+    private var  pagerAdapterApplicants: PersonalPagerAdapter? = null
 
     private lateinit var binding: FragmentPersonalInfoNewBinding
-
+    private lateinit var selectedApplicantNumber: String
 
     companion object {
         fun newInstance(): PersonalInfoFragmentNew {
@@ -45,7 +46,6 @@ class PersonalInfoFragmentNew : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initBinding(inflater, container, R.layout.fragment_personal_info_new)
         binding.lifecycleOwner = this
-
         setOnClickListeners()
         LeadMetaData.getLeadData()?.let {
             if (it.status.equals(AppEnums.LEAD_TYPE.SUBMITTED.type, true)) {
@@ -58,10 +58,17 @@ class PersonalInfoFragmentNew : BaseFragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         //Now fetch applicants from database.....
         fetchLeadApplicantDetails()
+
+
+
     }
 
     private fun fetchLeadApplicantDetails() {
@@ -71,6 +78,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
                 setApplicantTabLayout(ArrayList(it.personalData.applicantDetails))
             }
         })
+
     }
 
     private fun setApplicantTabLayout(applicantList: ArrayList<PersonalApplicantsModel>) {
@@ -78,6 +86,7 @@ class PersonalInfoFragmentNew : BaseFragment() {
         binding.viewPager.offscreenPageLimit = 5 //Must be called before setting adapter
         binding.viewPager.adapter = pagerAdapterApplicants
         binding.tabLead.setupWithViewPager(binding.viewPager)
+        System.out.println("Selected Applicant Number>>>111>>2")
     }
 
 
@@ -95,7 +104,6 @@ class PersonalInfoFragmentNew : BaseFragment() {
     private fun addApplicant() {
         pagerAdapterApplicants?.let { adapter ->
             if (adapter.isApplicantDetailsValid()) {
-                System.out.println("value>>>>"+adapter.getApplicantDetails().get(0).contactDetail?.isMobileVerified.toString())
                 LeadMetaData().savePersonalData(adapter.getApplicantDetails())
                 AppEvents.fireEventLoanAppChangeNavFragmentNext()
             }

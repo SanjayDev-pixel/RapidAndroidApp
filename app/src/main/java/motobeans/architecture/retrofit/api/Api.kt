@@ -132,4 +132,6 @@ interface Api {
 
     @POST("api/v1/kyc/user/data/prepare/")
     fun prepareCallKYC(@Body requestPost: Requests.RequestKYCID): Observable<Response.ResponseKYC>
+    @POST("api/v1/kyc/user/data/prepare/")
+    fun prepareCallKYCMobile(@Body requestPost: Requests.RequestKYCOnMobileId): Observable<Response.ResponseKYC>
 }

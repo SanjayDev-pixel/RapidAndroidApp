@@ -73,6 +73,7 @@ class Presenter {
             ConstantsApi.CALL_SUBMIT_PASSWORD -> apiProject.api.submitPassword(dmiConnector.apiRequest as Requests.RequestSubmitPassword)
             ConstantsApi.CALL_DASBOARD -> apiProject.api.getDasboardData()
             ConstantsApi.CALL_KYC_PREPARE -> apiProject.api.prepareCallKYC(dmiConnector.apiRequest as Requests.RequestKYCID)
+            ConstantsApi.CALL_KYC_MOBILE_PREPARE -> apiProject.api.prepareCallKYCMobile(dmiConnector.apiRequest as Requests.RequestKYCOnMobileId)
 
             else -> return
         }

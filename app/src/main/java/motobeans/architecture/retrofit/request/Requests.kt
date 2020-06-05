@@ -28,4 +28,5 @@ object Requests {
     data class RequestSubmitPassword(val userName: String,val newPassword: String,val company: Company)
     data class RequestDashBoard(val userName:String?)
     data class RequestKYCID(val leadID: Int?, val leadApplicantNumber: String?, val qrCodeData: String, val kycType: String )
+    data class RequestKYCOnMobileId(val leadID: Int?, val leadApplicantNumber: String?, val qrCodeData: String, val kycType: String ,val mobileNumber : String, val isSmsSend : String)
 }

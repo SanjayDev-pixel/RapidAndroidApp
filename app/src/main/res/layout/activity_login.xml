@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/forgot_password"
-                android:textColor="@color/black"
+                android:textColor="@color/black_242424"
                 android:layout_marginTop="@dimen/margin_20"
                 android:layout_weight="1"/>
 
@@ -81,6 +81,19 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.finance.app.view.utils.TextViewNormal
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtVersion"
+        android:text="Version"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/grey_585858"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_above="@+id/copyright"
+        android:gravity="center"
+      />
 
     <com.finance.app.view.utils.TextViewNormal
         android:id="@+id/copyright"

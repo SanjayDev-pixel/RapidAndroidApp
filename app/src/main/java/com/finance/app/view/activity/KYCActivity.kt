@@ -9,9 +9,10 @@ import android.os.Bundle
 import android.util.Base64.DEFAULT
 import android.util.Base64.encodeToString
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.view.Window
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.DataBindingUtil
@@ -21,7 +22,10 @@ import com.finance.app.databinding.KycoptiondialogBinding
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
+import com.finance.app.view.utils.EditTexNormal
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.dialogekyconmobile.*
+
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.API.URL.URL_KYC
 import motobeans.architecture.constants.ConstantsApi
@@ -42,6 +46,7 @@ class KYCActivity : BaseAppCompatActivity() {
     private var bundle: Bundle? = null
     var kyCID: String? = null
     private var kycOptionDialog: Dialog? = null
+    private var kycOptionMobileDialoge : Dialog ? = null
     var encodedStringScanned=""
     var  leadIDnumber:String?= null
     var kycTypeValue : String ? = null
@@ -61,7 +66,8 @@ class KYCActivity : BaseAppCompatActivity() {
         hideToolbar()
         hideSecondaryToolbar()
         setClickListeners()
-        proceedFurther()
+        //proceedFurther()
+        performKycAlert()
         //SAcn Adhar QR
        // scanNow()
     }
@@ -91,16 +97,12 @@ class KYCActivity : BaseAppCompatActivity() {
             if(data !=null) {
                 val extradTa = data.toString()
                 System.out.println("byteData>>>>" + scanningResult.toString())
-
-
                 val encodedString: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Base64.getEncoder().encodeToString(scanContent.toByteArray())
                 } else {
                     val data = scanContent.toByteArray(charset("UTF-8"))
                     android.util.Base64.encodeToString(data , android.util.Base64.DEFAULT)
                 }
-
-
                 encodedStringScanned = encodedString
                 if(kycTypeValue.equals("QRCODE_PAN_REQUEST")) {
                     kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber , "QRCODE_PAN_REQUEST"))
@@ -109,8 +111,6 @@ class KYCActivity : BaseAppCompatActivity() {
                     kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber , "QRCODE_DL_REQUEST"))
                 }
             }
-
-
         }
 
     }
@@ -130,6 +130,42 @@ class KYCActivity : BaseAppCompatActivity() {
               //  kycPresenter.callNetwork(ConstantsApi.CALL_KYC, dmiConnector = KYCApiCall(leadAppNum))
             }
         }
+    }
+
+    private fun showKycMobileoption(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialogekyconmobile)
+        val mobileNo = dialog.findViewById(R.id.etMobileNo) as EditTexNormal
+
+        val btnClose = dialog.findViewById(R.id.btnClose) as Button
+        val btnProceedMobile = dialog.findViewById(R.id.btnProceedMobile) as Button
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+        btnProceedMobile.setOnClickListener { if(mobileNo.text?.length!! < 10)
+        {
+            showToast("Please Enter 10 digit mobile no")
+        }
+        else
+        {
+            bundle = intent.extras
+            bundle?.let {
+                val  leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
+                leadAppNum?.let {
+                    //showKycDialog(leadAppNum)
+                    leadIDnumber= leadAppNum
+                    encodedStringScanned = ""
+                    kycPresenter.callNetwork(ConstantsApi.CALL_KYC_MOBILE_PREPARE , dmiConnector = KYCMobileApiCall(leadIDnumber,"AADHAAR_ZIP_INLINE",mobileNo.text.toString(),"true"))
+
+                }
+            }
+        }
+        }
+        dialog.show()
+
     }
 
 
@@ -162,7 +198,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
                     } else if (checkedId == R.id.codeand_dl) {
                         kycTypeValue = "QRCODE_DL_REQUEST"
-                        Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
                     }
@@ -183,8 +219,8 @@ class KYCActivity : BaseAppCompatActivity() {
             }else if (radioButtonselect == R.id.codeand_pan) {
                        scanNow()
             } else if(radioButtonselect == R.id.codeand_dl){
-                      //scanNow()
-                Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
+                      scanNow()
+                //Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
             }
             else {
                 //Toast.makeText(this , "Please select KYC type" , Toast.LENGTH_SHORT).show()
@@ -193,7 +229,25 @@ class KYCActivity : BaseAppCompatActivity() {
         }
     }
 
+    private fun performKycAlert() {
+        AlertDialog.Builder(this)
+                .setTitle("Perform KYC")
+                .setMessage("Do you want to send KYC link to Customer or Face-to-Face?")
+                .setCancelable(false)
+                .setNegativeButton("Customer") { _,_ ->
+                   showKycMobileoption()
 
+                }
+
+                .setPositiveButton("Face-to-Face") { _, _ ->
+                   // Show fae to face dialoge
+                    proceedFurther()
+                }.show()
+
+
+
+
+    }
 
     inner class KYCApiCall(private val leadAppNum: String) : ViewGeneric<Requests.RequestKYC,
             Response.ResponseKYC>(context = this) {
@@ -238,7 +292,47 @@ class KYCActivity : BaseAppCompatActivity() {
     }
 
 
+    inner class KYCMobileApiCall(private val leadAppNum: String?,val kycType : String,val mobileNo : String,val isSmsSend : String) : ViewGeneric<Requests.RequestKYCOnMobileId ,
+            Response.ResponseKYC>(context = this) {
+        val qrCodeString = ""
+        override val apiRequest: Requests.RequestKYCOnMobileId
+            get() = mRequestKyc
 
+        private val mRequestKyc: Requests.RequestKYCOnMobileId
+            get() {
+                val leadId = LeadMetaData.getLeadId()
+                //QRCODE_PAN_REQUEST
+                return Requests.RequestKYCOnMobileId(leadID = leadId , leadApplicantNumber = leadAppNum , qrCodeData = encodedStringScanned , kycType = kycType,mobileNumber = mobileNo,isSmsSend = isSmsSend)
+
+            }
+
+        override fun getApiSuccess(value: Response.ResponseKYC) {
+            if (value.responseCode == Constants.SUCCESS) {
+                showToast(value.responseMsg)
+                finish()
+            } else {
+                getApiFailure(value.responseMsg)
+            }
+        }
+
+        private fun openWebViewForPAN(kycID: String?) {
+            kycID?.let {
+                //                CustomChromeTab().openUrl(activity = this@KYCActivity, url = (URL_KYC + kycID))
+                val builder = CustomTabsIntent.Builder()
+                builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+                builder.setShowTitle(false)
+
+                val customTabsIntent = builder.build()
+                //customTabsIntent.launchUrl(context , Uri.parse(Constants.API.URL.URL_KYC + kycID + "&qrCode=true"))
+                customTabsIntent.launchUrl(context , Uri.parse(Constants.API.URL.URL_KYC + kycID))
+            }
+        }
+
+
+        override fun getApiFailure(msg: String) {
+            showToast(msg)
+        }
+    }
 
     inner class KYCidApiCall(private val leadAppNum: String?,val kycType : String) : ViewGeneric<Requests.RequestKYCID ,
             Response.ResponseKYC>(context = this) {
@@ -301,5 +395,6 @@ class KYCActivity : BaseAppCompatActivity() {
         super.onBackPressed()
     }
 }
+
 
 

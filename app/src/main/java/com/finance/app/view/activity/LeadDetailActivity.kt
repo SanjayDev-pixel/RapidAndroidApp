@@ -157,12 +157,13 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private fun setClickListeners(lead: AllLeadMaster) {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
         binding.btnUpdateApplication.setOnClickListener {
-            if (LeadMetaData.getLeadData()?.status == "Rejected") {
+           if (LeadMetaData.getLeadData()?.status == "Rejected") {
                 showAlert()
             }
             else{
             checkAndStartLoanApplicationActivity(lead)
             }
+
         }
         binding.ivPhone.setOnClickListener {
             Assent.requestPermissions(AssentCallback { result ->

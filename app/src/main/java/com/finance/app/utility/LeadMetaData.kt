@@ -62,6 +62,7 @@ class LeadMetaData : Observable() {
         }
     }
 
+
     fun saveEmploymentData(applicants: ArrayList<EmploymentApplicantsModel>) {
         val lead = getLeadData()
         lead?.let {

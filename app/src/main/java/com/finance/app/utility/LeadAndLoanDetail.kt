@@ -19,6 +19,9 @@ class LeadAndLoanDetail {
         return "${leadNum}_${Date().time}"
 //        return "${leadNum}00${applicantNum + 1}"
     }
+    fun getLeadApplicantNumber(leadId : String ,leadNum: String,index : Int) : String{
+        return "${leadId}_${leadNum}_${index}"
+    }
 
     fun getApplicant(leadNum: String?): PersonalApplicantsModel {
         val dApplicant = PersonalApplicantsModel()

@@ -280,7 +280,7 @@ class PreviewActivity : BaseAppCompatActivity() {
                     isIncomeConsideredMaindatory = lead?.personalData?.applicantDetails[i].incomeConsidered
                     if(isIncomeConsideredMaindatory == false){
                         errorCount++
-                        Toast.makeText(this@PreviewActivity,"Income Consider is maindatory ",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@PreviewActivity,"Income Consider is mandatory ",Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -332,7 +332,7 @@ class PreviewActivity : BaseAppCompatActivity() {
         }
 
         if(lead.referenceData.loanApplicationObj.size > 0){}else{
-                Toast.makeText(this@PreviewActivity,"Please check Refrence Detail",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PreviewActivity,"Please check Reference  Detail",Toast.LENGTH_SHORT).show()
                 errorCount++
             }
 

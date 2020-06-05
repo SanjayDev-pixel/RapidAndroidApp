@@ -5,4 +5,6 @@ import java.io.Serializable
 class KycApplicantDetailsList: Serializable {
     var leadApplicantNumber: String? =null
     var kycAadharZipInlineDataList: ArrayList<KycAadharZipInlineDataList> = ArrayList()
+    var kycPanQrCodeDataList: ArrayList<KycAadharZipInlineDataList> = ArrayList()
+    var kycDLQrCodeDataList: ArrayList<KycAadharZipInlineDataList> = ArrayList()
 }

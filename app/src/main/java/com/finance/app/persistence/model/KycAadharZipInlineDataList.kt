@@ -29,6 +29,7 @@ class KycAadharZipInlineDataList: Serializable {
     var state : String?=null
     var district : String?=null
     var pinCode : String?=null
+    var pincode : String ? = null
     var typeC : String?=null
     var faceAuthC : String?=null
 

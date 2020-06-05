@@ -76,11 +76,12 @@ class ReferenceFragmentNew : BaseFragment(), ReferenceDetailDialogFragment.OnRef
         binding.vwAdd.setOnClickListener { showReferenceDetailFormDialog(ReferenceDetailDialogFragment.Action.NEW) }
         binding.btnNext.setOnClickListener {
 
+
             leadDetails?.let { it.referenceData.loanApplicationObj.let {
                 referenceDetails -> LeadMetaData().saveReferenceData(referenceDetails)
                 if(it.referenceData.loanApplicationObj.size > 0){
                     AppEvents.fireEventLoanAppChangeNavFragmentNext()}else{
-                    Toast.makeText(mContext,"Please fill refrence detail", Toast.LENGTH_SHORT).show()}} }
+                    Toast.makeText(mContext,"Please fill reference detail", Toast.LENGTH_SHORT).show()}} }
 
 
         }

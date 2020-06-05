@@ -22,6 +22,7 @@ import com.finance.app.R
 import com.finance.app.databinding.DialogKycDetailBinding
 import com.finance.app.databinding.KycoptiondialogBinding
 import com.finance.app.databinding.LayoutCustomViewPersonalBinding
+import com.finance.app.eventBusModel.AppEvents
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.*
 import com.finance.app.presenter.presenter.Presenter
@@ -29,8 +30,10 @@ import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.*
 import com.finance.app.view.activity.DocumentUploadingActivity
 import com.finance.app.view.activity.KYCActivity
+import com.finance.app.view.adapters.pager.PersonalPagerAdapter
 import com.finance.app.view.customViews.interfaces.IspinnerMainView
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.dialog_kyc_detail.view.*
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.*
 import kotlinx.android.synthetic.main.pop_up_verify_otp.view.*
@@ -93,8 +96,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
     private val kycPresenter = Presenter()
     private lateinit var mContext: Context
 
+
     //This id is generated at client side so make sure this id must be created before any operation...
     private lateinit var selectedApplicantNumber: String
+
 
     fun attachView(activity: FragmentActivity , index: Int , applicant: PersonalApplicantsModel , leadId: Int?) {
         mContext = context!!
@@ -102,6 +107,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         this.index = index
         binding = AppUtilExtensions.initCustomViewBinding(context = context , layoutId = R.layout.layout_custom_view_personal , container = this)
         initializeViews(applicant , leadId)
+
     }
 
     private fun initializeViews(applicant: PersonalApplicantsModel , leadId: Int?) {
@@ -110,6 +116,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         setClickListeners(leadId , applicant)
         setUpCustomViews()
         proceedFurther(applicant)
+        System.out.println("Applicant numbr>>>>"+selectedApplicantNumber)
 
         if (applicant.isMainApplicant == true) {
             binding.basicInfoLayout.btnUploadProfileImage.setText("Applicant Pic")
@@ -126,10 +133,16 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
     }
 
     private fun setClickListeners(leadId: Int? , applicant: PersonalApplicantsModel) {
-         binding.btnAddKYC.setOnClickListener { KYCActivity.start(context , applicant.leadApplicantNumber) }
+         binding.btnAddKYC.setOnClickListener {
+
+             KYCActivity.start(context , applicant.leadApplicantNumber)
+         }
         binding.basicInfoLayout.btnGetOTP.setOnClickListener {
             if (binding.basicInfoLayout.etMobile.text.toString() != "" && binding.basicInfoLayout.etMobile.text?.length == 10) {
-                showVerifyOTPDialog(leadId , applicant)
+                val leadMaster = LeadMetaData.getLeadData()
+                leadMaster?.let {
+                    presenter.callNetwork(ConstantsApi.CALL_SEND_OTP , CallSendOTP(leadMaster , applicant))
+                }
             } else {
                 Toast.makeText(context , "Please enter mobile number" , Toast.LENGTH_SHORT).show()
             }
@@ -213,6 +226,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
     private fun generateLeadApplicantId(applicant: PersonalApplicantsModel) {
         if (applicant.leadApplicantNumber.isNullOrEmpty()) //if applicant id is not generated...
+            //applicant.leadApplicantNumber = LeadMetaData.getLeadData()?.leadNumber?.let { LeadAndLoanDetail().getLeadApplicantNumber(LeadMetaData.getLeadId().toString(), it ,this.index) }
             applicant.leadApplicantNumber = LeadAndLoanDetail().getLeadApplicantNum(LeadMetaData.getLeadId().toString() , index)
         //To use same lead applicant number for later...
         selectedApplicantNumber = applicant.leadApplicantNumber!! //will always have a value
@@ -586,11 +600,12 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             handleResendOtpEvent(verifyOTPDialogView , applicant)
         }
         verifyOTPDialogView.ivCross?.setOnClickListener { dismissOtpVerificationDialog() }
-        verifyOTPDialogView.tvResendOTP?.callOnClick()
+        //verifyOTPDialogView.tvResendOTP?.callOnClick()
         timerOtpResend.start()
     }
 
     private fun handleResendOtpEvent(verifyOTPDialogView: View , applicant: PersonalApplicantsModel) {
+        System.out.println("Sanjay Sawan Rawat")
         verifyOTPDialogView.lllayout_resend?.exGone()
         verifyOTPDialogView.tvResendOTPTimeLeftInfo?.exVisible()
         timerOtpResend.start()
@@ -638,9 +653,27 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             }
 
         override fun getApiSuccess(value: Response.ResponseOTP) {
-            value.responseMsg?.let {
-                showToast(value.responseMsg)
+            if(value.responseCode == Constants.SUCCESS){
+                 var otpResponse : OtpTypeResponse ? = value.responseObj
+                value.responseMsg?.let { showToast(it) }
+                if(otpResponse?.isVerified.equals("true"))
+                {
+                    applicant.contactDetail!!.isMobileVerified = true
+                    binding.basicInfoLayout.etMobile.isEnabled = false
+                    binding.basicInfoLayout.btnGetOTP.visibility = View.GONE
+                    binding.basicInfoLayout.ivVerifiedStatus.visibility = View.VISIBLE
+                    binding.basicInfoLayout.mobileverifiedStatus.setText("true")
+                }
+                else
+                {
+                    value.responseMsg?.let { showToast(it) }
+                    val leadId = leadMaster.leadID!!.toInt()
+                    showVerifyOTPDialog(leadId , applicant)
+                }
             }
+           /* value.responseMsg?.let {
+                showToast(value.responseMsg)
+            }*/
         }
     }
 
@@ -738,25 +771,64 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
         for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
 
-            for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size) {
-                pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
-                name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
-                genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
-                dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
-                address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
-                careOf = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
-                matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthScore
+              if(kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size>0) {
+                  for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size) {
+                      pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
+                      name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
+                      genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
+                      dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
+                      address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
+                      careOf = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
+                      matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthScore
+                      bindingDialog.tvName.text = name
+                      bindingDialog.tvcareof.text = careOf
+                      bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
+                      bindingDialog.tvAddress.text = address
+                      bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
+                      bindingDialog.matchpercentage.text = matchPercentage
+                  }
+              }
+            else  if(kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList.size>0) {
+                  for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList.size) {
+                      pincode = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].pincode
+                      name = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].name
+                      genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].gender
+                      dob = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].dob
+                      address = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].address
+                      careOf = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].careOf
+                      matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthScore
+                      System.out.println("Name>>>>>>"+name)
+                      bindingDialog.tvName.text = name
+                      bindingDialog.tvcareof.text = careOf
+                      bindingDialog.tvGender.text = if (genderValue.equals("male")) "Male" else if (genderValue.equals("female")) "Female" else "TransGender"
+                      bindingDialog.tvAddress.text = address
+                      bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
+                      dob = bindingDialog.tvdob.text.toString()
+                      bindingDialog.matchpercentage.text = matchPercentage
+                  }
+              }
+            else if(kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList.size>0) {
+                  for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList.size) {
+                      pincode = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].pincode
+                      name = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].name
+                      genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].gender
+                      dob = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].dob
+                      address = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].address
+                      careOf = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].careOf
+                      matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthScore
+                      System.out.println("Name>>>>>>"+name)
+                      bindingDialog.tvName.text = name
+                      bindingDialog.tvcareof.text = careOf
+                      bindingDialog.tvGender.text = if (genderValue.equals("male")) "Male" else if (genderValue.equals("female")) "Female" else "TransGender"
+                      bindingDialog.tvAddress.text = address
+                      bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
+                      dob = bindingDialog.tvdob.text.toString()
+                      bindingDialog.matchpercentage.text = matchPercentage
 
 
-                bindingDialog.tvName.text = name
-                bindingDialog.tvcareof.text = careOf
-                bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
-                bindingDialog.tvAddress.text = address
-                bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
-                bindingDialog.matchpercentage.text = matchPercentage
+                  }
 
-
-            }
+              }
 
         }
 
@@ -795,11 +867,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             binding.personalAddressLayout.customPermanentZipAddressView.pinCode
             addressNew = address!!.substring(0 , address.length - 7)
             binding.personalAddressLayout.etCurrentAddress.setText(address)
-            val pattern = "dd-MM-yyyy"
+            val pattern = "dd-MMM-yyyy"
             val sdf = SimpleDateFormat(pattern , Locale.US)
             val date = sdf.parse(dob)
             setDifferenceInField(date , binding.basicInfoLayout.etAge)
-
             detailKycDialog?.dismiss()
 
         }

@@ -3,6 +3,7 @@ package com.finance.app.view.activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.finance.app.BuildConfig
 import com.finance.app.R
 import com.finance.app.databinding.ActivityLoginBinding
 import com.finance.app.presenter.presenter.Presenter
@@ -49,6 +50,7 @@ class LoginActivity : BaseAppCompatActivity() {
        // addFirebase()    // open when google json file change and open  services.MyFirebaseMessagingService in manifest
         setClickListeners()
 
+        binding.txtVersion.setText("Version "+ BuildConfig.VERSION_NAME)
     }
 
     private fun setClickListeners() {

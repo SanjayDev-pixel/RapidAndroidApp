@@ -102,9 +102,9 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                 }else{
                     Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
                 }
-            }else
-        }{
-            Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this,"Please fill mandatory fields",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
