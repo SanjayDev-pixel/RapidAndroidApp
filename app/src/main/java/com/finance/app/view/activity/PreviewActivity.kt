@@ -249,7 +249,7 @@ class PreviewActivity : BaseAppCompatActivity() {
         var isIncomeConsidered:Boolean?=false
         var isMainApplicant: Boolean?=false
         var checkEmpBankDetail_other:Boolean?=false // if
-        var iskycdata : Int = 0
+        //var iskycdata : Int = 0
         var isIncomeConsideredMaindatory:Boolean? = false
         var maindateIncomeFlag: Boolean? =false
 
@@ -288,12 +288,12 @@ class PreviewActivity : BaseAppCompatActivity() {
             for (i in 0 until lead?.personalData?.applicantDetails.size) {
                 isIncomeConsidered= lead?.personalData?.applicantDetails[i].incomeConsidered
                 isMainApplicant= lead?.personalData?.applicantDetails[i].isMainApplicant
-                iskycdata =lead?.personalData?.applicantDetails[i].applicantKycList!!.size
+                //iskycdata =lead?.personalData?.applicantDetails[i].applicantKycList!!.size
 
-                if(lead?.personalData?.applicantDetails[i].applicantKycList!!.size>0){}else{
+                /*if(lead?.personalData?.applicantDetails[i].applicantKycList!!.size>0){}else{
                     errorCount++
                     Toast.makeText(this@PreviewActivity,"Please complete your KYC",Toast.LENGTH_SHORT).show()
-                }
+                }*/
                 if(isIncomeConsidered == true ){
                     checkEmpBankDetail_other= true
                     if(lead?.employmentData?.applicantDetails!!.size >0 &&  lead?.employmentData?.applicantDetails[i].profileSegmentTypeDetailID !=null){
@@ -308,7 +308,8 @@ class PreviewActivity : BaseAppCompatActivity() {
                         errorCount++
                     }
 
-                }else if(isIncomeConsidered == false && iskycdata >0){
+                }
+                /*else if(isIncomeConsidered == false && iskycdata >0){
                     checkEmpBankDetail_other= false
                 }else if(isIncomeConsidered == false && iskycdata ==0){
                     errorCount++
@@ -316,7 +317,8 @@ class PreviewActivity : BaseAppCompatActivity() {
                 }else if(isIncomeConsidered == false && iskycdata ==0){
                     errorCount++
                     Toast.makeText(this@PreviewActivity,"Please complete your KYC",Toast.LENGTH_SHORT).show()
-                }else if(isIncomeConsidered==true && lead?.employmentData?.applicantDetails.size==0){
+                }*/
+                else if(isIncomeConsidered==true && lead?.employmentData?.applicantDetails.size==0){
                     errorCount++
                     Toast.makeText(this@PreviewActivity,"Please check Employement Details",Toast.LENGTH_SHORT).show()
                 }else if(isIncomeConsidered==true && lead.bankData.bankDetailList.size==0){
@@ -357,7 +359,7 @@ class PreviewActivity : BaseAppCompatActivity() {
             val lead: AllLeadMaster? = LeadMetaData.getLeadData()
              checkAndStartLoanApplicationActivity(lead)
         }else{
-            Toast.makeText(this@PreviewActivity,"Please fill maindatory fields.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@PreviewActivity,"Please fill mandatory fields.",Toast.LENGTH_SHORT).show()
         }
     }
 

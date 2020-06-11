@@ -984,6 +984,7 @@ class FormValidationImpl : FormValidation {
 
     override fun validateKycDetail(binding: LayoutKycFormBinding): Boolean {
         var errorCount = 0
+        var checkIskycdata = 0
 
         val idNum = binding.etIdNum.text.toString()
         if (!idNum.exIsNotEmptyOrNullOrBlank()) {
@@ -1002,6 +1003,7 @@ class FormValidationImpl : FormValidation {
             errorCount++
             binding.spinnerVerifiedStatus.error = "Required Field"
         }
+
 
         if(identificationType != null  && identificationType.typeDetailCode.equals("PAN")){
             val patternPan: Pattern = Pattern.compile("([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}")
@@ -1041,6 +1043,8 @@ class FormValidationImpl : FormValidation {
                 binding.etIdNum.error = "Please enter valid VoterId number."
             }
         }
+        //Check Duplicate Value
+
 
 
         return isValidForm(errorCount)

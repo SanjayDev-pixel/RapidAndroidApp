@@ -163,7 +163,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             else{
             checkAndStartLoanApplicationActivity(lead)
             }
-
+            //checkAndStartLoanApplicationActivity(lead)
         }
         binding.ivPhone.setOnClickListener {
             Assent.requestPermissions(AssentCallback { result ->

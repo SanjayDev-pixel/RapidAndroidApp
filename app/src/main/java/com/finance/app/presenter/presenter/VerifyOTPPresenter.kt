@@ -39,7 +39,7 @@ class VerifyOTPPresenter(private val verifyOTP: OTPConnector.VerifyOTP) : OTPCon
                         { e -> verifyOTP.getVerifyOTPFailure(e?.message ?: "") })
     }
 
-    private fun onVerifyOTP(response: Response.ResponseOTP) {
+    private fun onVerifyOTP(response: Response.ResponseVerifyOTP) {
         if (response.responseCode == "200") {
             verifyOTP.getVerifyOTPSuccess(response)
         } else {

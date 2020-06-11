@@ -13,7 +13,7 @@ interface OTPConnector {
 
     interface VerifyOTP : ReusableView {
         val verifyOTPRequest: Requests.RequestVerifyOTP
-        fun getVerifyOTPSuccess(value: Response.ResponseOTP)
+        fun getVerifyOTPSuccess(value: Response.ResponseVerifyOTP)
         fun getVerifyOTPFailure(msg: String?)
     }
 

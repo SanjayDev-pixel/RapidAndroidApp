@@ -200,7 +200,8 @@ class KYCActivity : BaseAppCompatActivity() {
                         kycTypeValue = "QRCODE_DL_REQUEST"
                         //Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
+                        kycTypeValue = "PAN_DL_REQUEST"
+                        Toast.makeText(this , "Currently System not supporting this request." , Toast.LENGTH_SHORT).show()
                     }
                 })
         bindingDialog?.btnProceed?.setOnClickListener() {
@@ -208,12 +209,7 @@ class KYCActivity : BaseAppCompatActivity() {
             val radioButtonselect = bindingDialog.groupRadioButton.checkedRadioButtonId
             if (radioButtonselect == R.id.adharotp) {
 
-               /* leadAppNum?.let {
-                    kycPresenter.callNetwork(ConstantsApi.CALL_KYC , dmiConnector = KYCApiCall(leadAppNum))
-                }*/
-                /*
-                * AADHAAR_ZIP_INLINE,QRCODE_PAN_REQUEST,QRCODE_DL_REQUEST,PAN_DL_REQUEST
-                * */
+
                 encodedStringScanned = ""
                 kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber,"AADHAAR_ZIP_INLINE"))
             }else if (radioButtonselect == R.id.codeand_pan) {
@@ -223,8 +219,19 @@ class KYCActivity : BaseAppCompatActivity() {
                 //Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
             }
             else {
-                //Toast.makeText(this , "Please select KYC type" , Toast.LENGTH_SHORT).show()
-                Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
+                /*bundle = intent.extras
+                bundle?.let {
+                    val  leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
+                   *//* leadAppNum?.let {
+                        //showKycDialog(leadAppNum)
+                        leadIDnumber= leadAppNum
+                        encodedStringScanned = ""
+                        kycPresenter.callNetwork(ConstantsApi.CALL_KYC_MOBILE_PREPARE , dmiConnector = KYCMobileApiCall(leadIDnumber,"PAN_DL_REQUEST","","false"))
+
+                    }*//*
+                    encodedStringScanned = ""
+                    kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadAppNum,"PAN_DL_REQUEST"))
+                }*/
             }
         }
     }

@@ -6,6 +6,8 @@ import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -60,15 +62,42 @@ class KycFormView @JvmOverloads constructor(context: Context , attrs: AttributeS
 
         initViews()
 
-        setOnClickListener()
+
         //Set Kyc Adapter..
         setKycDetailListAdapter(kycDetailList)
         //fetch spinners data from db...
         fetchSpinnersDataFromDB()
         //Check whether kyc list has items or not....
         shouldDisplayKycListViews()
+        setOnClickListener(kycDetailList)
         //For submited record
         disableView()
+
+      /*  rootBinding.spinnerIdentificationType.onItemSelectedListener = object :  AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>? , view: View? , position: Int , id: Long) {
+                if(position>=0)
+                {
+                    val identificationTypeSelected = parent?.selectedItem as DropdownMaster
+
+                    System.out.println("Sanjay>>>>"+identificationTypeSelected)
+                   *//* val lead = LeadMetaData.getLeadData()
+                    for (i in 0 until lead?.personalData?.applicantDetails!!.size) {
+                           val selectedIdentificationTypeMain = lead.personalData.applicantDetails[i].applicantKycList!![i].identificationTypeDetailID
+                        System.out.println("selectedIdentificationTypeMain>>>"+selectedIdentificationTypeMain)
+
+                    }*//*
+
+                    *//*allMasterDropDown?.IdentificationType?.let { list -> kycDetailList[position].identificationTypeDetailID?.let { id -> rootBinding.spinnerIdentificationType.setSelectionFromList(list , id) } }*//*
+                }
+            }
+
+
+
+        }*/
 
     }
 
@@ -88,19 +117,48 @@ class KycFormView @JvmOverloads constructor(context: Context , attrs: AttributeS
         rootBinding.etIdNum.filters = arrayOf<InputFilter>(InputFilter.AllCaps())
     }
 
-    private fun setOnClickListener() {
+    private fun setOnClickListener(list: ArrayList<KYCDetail>) {
         rootBinding.vwAdd.setOnClickListener {
             generatedKycDocumentId = Date().time.toString()
             showKycForm(true)
         }
         rootBinding.btnAddKYC.setOnClickListener {
-            if (isKycDetailsValid()) {
-                addOrUpdateKycDetails();showKycForm(false)
-            }
+
+            var checkError = 0
+
+
+                if (isKycDetailsValid()) {
+                    for(i in 0 until list.size)
+                    {
+                        if((rootBinding.etIdNum.text.toString()).equals(list[i].identificationNumber))
+                        {
+                            System.out.println("Sanjay Matched>>>"+list[i].identificationNumber)
+                            rootBinding.etIdNum.error = "Identification number is duplicate"
+                            checkError =1
+                        }
+                    }
+                    if(checkError ==0) {
+                        addOrUpdateKycDetails();showKycForm(false)
+                    }
+                }
+
         }
         rootBinding.btnUpdateKYC.setOnClickListener {
+            var checkError = 0
             if (isKycDetailsValid()) {
-                addOrUpdateKycDetails(true);showKycForm(false)
+                for(i in 0 until list.size)
+                {
+                    if((rootBinding.etIdNum.text.toString()).equals(list[i].identificationNumber))
+                    {
+                        System.out.println("Sanjay Matched>>>"+list[i].identificationNumber)
+                        rootBinding.etIdNum.error = "Identification number is duplicate"
+                        checkError =1
+                    }
+                }
+                if(checkError ==0) {
+                    addOrUpdateKycDetails(true);showKycForm(false)
+                }
+
             }
         }
         rootBinding.btnCancel.setOnClickListener { showKycForm(false) }
@@ -142,7 +200,13 @@ class KycFormView @JvmOverloads constructor(context: Context , attrs: AttributeS
         rootBinding.spinnerVerifiedStatus.adapter = MasterSpinnerAdapter(context , allMasterDropDown.VerifiedStatus!!)
         rootBinding.spinnerVerifiedStatus.setSelection(2)
         rootBinding.spinnerVerifiedStatus.isEnabled = false
-    }
+        //Click Listner for SpinnerIdentificationType
+        // binding.spinnerSalaryCredit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+
+        }
+
+
 
     private fun showKycForm(show: Boolean , isUpdateKycForm: Boolean = false) {
         rootBinding.vwKycForm.visibility = if (show) View.VISIBLE else View.GONE
@@ -217,7 +281,11 @@ class KycFormView @JvmOverloads constructor(context: Context , attrs: AttributeS
         kycDetail.verifiedStatusTypeDetailID = (rootBinding.spinnerVerifiedStatus.selectedItem as DropdownMaster?)?.typeDetailID
         kycDetail.verifiedStatusTypeDetail = (rootBinding.spinnerVerifiedStatus.selectedItem as DropdownMaster?)?.typeDetailDisplayText
 
-        if (shouldUpdate.not()) kycListAdapter?.addItem(kycDetail)
+        if (shouldUpdate.not())
+        {
+
+            kycListAdapter?.addItem(kycDetail)
+        }
         else kycListAdapter?.updateItem(selectedKycDetailPosition , kycDetail)
     }
 

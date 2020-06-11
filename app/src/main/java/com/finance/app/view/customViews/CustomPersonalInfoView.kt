@@ -404,7 +404,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         //Checking these values for not overriding values, if set before in empty case...
         if (currentApplicant.firstName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etFirstName.setText(currentApplicant.firstName)
         if (currentApplicant.middleName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etMiddleName.setText(currentApplicant.middleName)
-        if (currentApplicant.lastName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etNumOfDependent.setText(currentApplicant.numberOfDependents.toString())
+        if (currentApplicant.lastName.exIsNotEmptyOrNullOrBlank()) binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
+        currentApplicant.numberOfDependents?.let { binding.basicInfoLayout.etNumOfDependent.setText(it.toString()) }
+        //binding.basicInfoLayout.etNumOfDependent.setText(currentApplicant.numberOfDependents.toString())
+
         currentApplicant.numberOfEarningMembers?.let { binding.basicInfoLayout.etNumOfEarningMember.setText(it.toString()) }
         currentApplicant.numberOfFamilyMembersOthers?.let { binding.basicInfoLayout.etNoOffamilymembers.setText(it.toString()) }
         //binding.basicInfoLayout.etLastName.setText(currentApplicant.lastName)
@@ -677,7 +680,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         }
     }
 
-    inner class CallVerifyOTP(private val leadId: Int? , val applicant: PersonalApplicantsModel) : ViewGeneric<Requests.RequestVerifyOTP , Response.ResponseOTP>(context = activity) {
+    inner class CallVerifyOTP(private val leadId: Int? , val applicant: PersonalApplicantsModel) : ViewGeneric<Requests.RequestVerifyOTP , Response.ResponseVerifyOTP>(context = activity) {
         override val apiRequest: Requests.RequestVerifyOTP
             get() = otpVerifyRequest
 
@@ -688,7 +691,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                 return Requests.RequestVerifyOTP(leadID = leadId , mobile = mobile , otpValue = otp!!)
             }
 
-        override fun getApiSuccess(value: Response.ResponseOTP) {
+        override fun getApiSuccess(value: Response.ResponseVerifyOTP) {
             if (value.responseCode == Constants.SUCCESS) {
                 dismissOtpVerificationDialog()
                 applicant.contactDetail!!.isMobileVerified = true
@@ -785,6 +788,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                       bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
                       bindingDialog.tvAddress.text = address
                       bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
+                      dob = bindingDialog.tvdob.text.toString()
                       bindingDialog.matchpercentage.text = matchPercentage
                   }
               }
@@ -863,14 +867,17 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
             }
 
             binding.personalAddressLayout.customCurrentZipAddressView.etCurrentPinCode.setText(pincode.toString())
-            binding.basicInfoLayout.etDOB.setText(ConvertDate().convertToAppFormatNew(dob))
+            binding.basicInfoLayout.etDOB.setText(dob)
             binding.personalAddressLayout.customPermanentZipAddressView.pinCode
-            addressNew = address!!.substring(0 , address.length - 7)
+
+            //addressNew = address!!.substring(0 , address.length - 7)
             binding.personalAddressLayout.etCurrentAddress.setText(address)
-            val pattern = "dd-MMM-yyyy"
-            val sdf = SimpleDateFormat(pattern , Locale.US)
-            val date = sdf.parse(dob)
-            setDifferenceInField(date , binding.basicInfoLayout.etAge)
+            if(!(dob.equals(""))) {
+                val pattern = "dd-MMM-yyyy"
+                val sdf = SimpleDateFormat(pattern , Locale.US)
+                val date = sdf.parse(dob)
+                setDifferenceInField(date , binding.basicInfoLayout.etAge)
+            }
             detailKycDialog?.dismiss()
 
         }
