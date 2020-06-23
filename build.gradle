@@ -11,7 +11,7 @@ buildscript {
   dependencies {
 
     classpath 'android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha05'
-    classpath 'com.android.tools.build:gradle:3.5.3'
+    classpath 'com.android.tools.build:gradle:3.6.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
    // classpath 'io.fabric.tools:gradle:1.+'
     classpath 'com.google.gms:google-services:4.3.3'
@@ -48,7 +48,7 @@ ext {
   versionCode = 1
   versionName = "p_v_1.2"
 //p_v_1.0
-  //p_v_1.1
+  //p_v_1.2
   // App dependencies
   supportLibraryVersion = '28.0.0'
 

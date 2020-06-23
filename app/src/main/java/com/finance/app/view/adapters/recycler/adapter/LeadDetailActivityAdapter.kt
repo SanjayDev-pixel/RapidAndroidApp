@@ -20,23 +20,16 @@ class LeadDetailActivityAdapter(private val mContext: Context, private val follo
     private val name = arrayOf("ChamanLal", "Sanat bhagel", " bhagel", "Sanat ")
     private val timeStamp = arrayOf(6541313L, 54684981L, 3216546L, 6461313L)
     private var allMasterDropDown: AllMasterDropDown? = allMasterDropDown
-
-
-
     override fun onBindViewHolder(holder: LeadDetailActivityHolder, position: Int) {
         holder.bindItems(position, followUp[position])
     }
-
     override fun getItemCount() = followUp.size
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeadDetailActivityHolder {
-
         val layoutInflater = LayoutInflater.from(parent.context)
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.lead_detail_activities_item,
                 parent, false)
         return LeadDetailActivityHolder(binding, mContext)
     }
-
     inner class LeadDetailActivityHolder(val binding: LeadDetailActivitiesItemBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
         fun bindItems(position: Int, followup: FollowUpResponse) {
             followup.customerFollowUpStatusTypeDetailId?.let { status ->

@@ -134,8 +134,14 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
     private fun setClickListeners(leadId: Int? , applicant: PersonalApplicantsModel) {
          binding.btnAddKYC.setOnClickListener {
-
-             KYCActivity.start(context , applicant.leadApplicantNumber)
+             if(applicant.incomeConsidered == true) {
+                 KYCActivity.start(context , applicant.leadApplicantNumber,0)
+                 System.out.println("isIncomeConsider>>>>"+applicant.incomeConsidered)
+             }
+             else
+             {
+                 KYCActivity.start(context , applicant.leadApplicantNumber,1)
+             }
          }
         binding.basicInfoLayout.btnGetOTP.setOnClickListener {
             if (binding.basicInfoLayout.etMobile.text.toString() != "" && binding.basicInfoLayout.etMobile.text?.length == 10) {
@@ -771,6 +777,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         var careOf: String? = ""
         var addressNew: String? = ""
         var matchPercentage: String? = ""
+        var faceAuthStatus : String ? = ""
 
         for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
 
@@ -783,6 +790,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                       address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
                       careOf = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
                       matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthScore
+                      faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthStatus
                       bindingDialog.tvName.text = name
                       bindingDialog.tvcareof.text = careOf
                       bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
@@ -790,6 +798,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                       bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
                       dob = bindingDialog.tvdob.text.toString()
                       bindingDialog.matchpercentage.text = matchPercentage
+                      bindingDialog.faceAuthStatus.text = faceAuthStatus
                   }
               }
             else  if(kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList.size>0) {
@@ -801,6 +810,8 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                       address = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].address
                       careOf = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].careOf
                       matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthScore
+                      faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthStatus
+
                       System.out.println("Name>>>>>>"+name)
                       bindingDialog.tvName.text = name
                       bindingDialog.tvcareof.text = careOf
@@ -809,6 +820,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                       bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
                       dob = bindingDialog.tvdob.text.toString()
                       bindingDialog.matchpercentage.text = matchPercentage
+                      bindingDialog.faceAuthStatus.text = faceAuthStatus
                   }
               }
             else if(kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList.size>0) {
@@ -820,6 +832,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                       address = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].address
                       careOf = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].careOf
                       matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthScore
+                      faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthStatus
                       System.out.println("Name>>>>>>"+name)
                       bindingDialog.tvName.text = name
                       bindingDialog.tvcareof.text = careOf
@@ -828,6 +841,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
                       bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
                       dob = bindingDialog.tvdob.text.toString()
                       bindingDialog.matchpercentage.text = matchPercentage
+                      bindingDialog.faceAuthStatus.text = faceAuthStatus
 
 
                   }

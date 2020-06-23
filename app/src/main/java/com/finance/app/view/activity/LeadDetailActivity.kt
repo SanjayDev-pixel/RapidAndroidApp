@@ -36,9 +36,7 @@ import javax.inject.Inject
 @Suppress("DEPRECATION")
 class LeadDetailActivity : BaseAppCompatActivity() {
     private val UPDATE_CALL_REQUEST = 1000
-
     private val presenter = Presenter()
-
     private val binding: ActivityLeadDetailBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_lead_detail
     )
@@ -51,7 +49,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
     private var leadContact: Long? = null
     private var allMasterDropDown: AllMasterDropDown? = null
     private var followupResponse : ArrayList<FollowUpResponse> ? = null
-
     companion object {
         private const val KEY_LEAD = "leadApplicant"
         fun start(context: Context, lead: AllLeadMaster) {
@@ -62,7 +59,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             context.startActivity(intent)
         }
     }
-
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
@@ -71,18 +67,11 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         //Initilise
         fetchSpinnerDataFromDB()
         getLead()
-
-
     }
-
-
-
     private fun getLead() {
         bundle = intent.extras
         bundle?.let {
             val leadBundleData = bundle?.getSerializable(KEY_LEAD)
-
-
             leadBundleData?.let {
                 lead = leadBundleData as AllLeadMaster
                 lead?.let {
@@ -94,7 +83,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             }
         }
     }
-
     private fun syncLeadMetaData(id: Int?) {
         id?.let {
             dataBase.provideDataBaseSource().allLeadsDao().getLead(it).observeForever { lead ->
@@ -108,15 +96,12 @@ class LeadDetailActivity : BaseAppCompatActivity() {
 //            LeadMetaData().getAndPopulateLeadData(id)
 //        }
     }
-
     private fun useLeadData(lead: AllLeadMaster) {
         fillLeadDetail(lead)
         //setUpRecyclerView()
         setClickListeners(lead)
         fillColor(lead)
-
     }
-
     private fun fillLeadDetail(lead: AllLeadMaster) {
         val leadName = lead.applicantFirstName + " " + lead.applicantLastName
         binding.header.tvLeadNumber.text = lead.leadNumber
@@ -128,11 +113,9 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.tvLeadStatus.text = lead.status
         leadContact = if (lead.applicantAlternativeContactNumber.isNullOrBlank().not()) lead.applicantContactNumber?.toLong() else null
         setLeadNum(lead.leadNumber)
-
         if(lead.status == "Submitted"){
             binding.btnUpdateApplication.setText("VIEW APPLICATION")
         }
-
     }
     private fun fillColor(lead: AllLeadMaster) {
         when (lead.status) {
@@ -153,7 +136,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                             this.startActivity(intent)
                         }.show()
     }
-
     private fun setClickListeners(lead: AllLeadMaster) {
         binding.header.lytBack.setOnClickListener { onBackPressed() }
         binding.btnUpdateApplication.setOnClickListener {
@@ -174,8 +156,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                     startActivity(callIntent)
                 }
             } , 1 , Assent.CALL_PHONE)
-
-
         }
         binding.btnUpdateCall.setOnClickListener {
             if(LeadMetaData.getLeadData()?.status == "Rejected"){
@@ -183,7 +163,6 @@ class LeadDetailActivity : BaseAppCompatActivity() {
             }else{
                 UpdateCallActivity.startActivityForResult(this, lead, UPDATE_CALL_REQUEST)
             }
-
         }
         binding.btnAddTask.setOnClickListener {
             AddTaskActivity.start(this)
@@ -200,38 +179,28 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                 intent.putExtra("key_id", LeadMetaData.getLeadId())
                 this.startActivity(intent)
             }
-
         }
     }
-
     private fun checkAndStartLoanApplicationActivity(lead: AllLeadMaster) {
         val isLeadInfoAlreadySync = leadDataViewModel.isAllApiCallCompleted.value ?: false
         val isLeadOfflineDataSync = lead.isDetailAlreadySync
-
         when (isSelectedLeadSynced && (isLeadInfoAlreadySync || isLeadOfflineDataSync)) {
             true -> checkAndGoToNextScreen(lead)
             false -> showToast("We are trying to sync...")
         }
     }
-
     private fun checkAndGoToNextScreen(lead: AllLeadMaster) {
         lead.leadID?.let {
             LoanApplicationActivity.start(this)
         }
     }
-
     private fun getFollowUpData() {
-
-
         lead?.leadID?.let { presenter.callNetwork(ConstantsApi.CALL_FOLLOWUP, CallFollowUP(it)) }
     }
-
     private fun setUpRecyclerView(list: ArrayList<FollowUpResponse>) {
         binding.rcActivities.layoutManager = LinearLayoutManager(this)
-
         binding.rcActivities.adapter = LeadDetailActivityAdapter(this, list, allMasterDropDown)
     }
-
     private fun fetchSpinnerDataFromDB() {
         binding.progressBar.visibility = View.VISIBLE
         dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(this, Observer { masterDrownDownValues ->
@@ -240,32 +209,22 @@ class LeadDetailActivity : BaseAppCompatActivity() {
                 getFollowUpData()
             }
         })
-
     }
-
     inner class CallFollowUP(val leadId: Int) : ViewGeneric<Requests.RequestFollowUp, Response.ResponseFollowUp>(context = this) {
         override val apiRequest: Requests.RequestFollowUp?
             get() = Requests.RequestFollowUp(leadId)
-
         override fun getApiSuccess(value: Response.ResponseFollowUp) {
-                  followupResponse?.clear()
-
+            followupResponse?.clear()
             value.responseObj?.let { list ->
                 binding.progressBar.visibility = View.GONE
                 followupResponse = list
                 setUpRecyclerView(list)
             }
-
         }
-
-
     }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == UPDATE_CALL_REQUEST && resultCode == Activity.RESULT_OK) {
             getFollowUpData()
         }
     }
-
 }

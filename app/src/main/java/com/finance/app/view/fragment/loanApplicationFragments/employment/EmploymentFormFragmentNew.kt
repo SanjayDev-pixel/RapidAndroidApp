@@ -473,7 +473,6 @@ class EmploymentFormFragmentNew : BaseFragment() {
         employmentDetails.incomeDetail = getSalaryIncomeDetail(binding.lytSalaryDetail)
         employmentDetails.employerContactNumber = binding.lytSalaryDetail.layoutAddress.etContactNum.text.toString()
         employmentDetails.employeeID = binding.lytSalaryDetail.etEmployeeId.text.toString()
-
         return employmentDetails
     }
 
@@ -482,16 +481,13 @@ class EmploymentFormFragmentNew : BaseFragment() {
         employmentDetails.constitutionTypeDetailID = (binding.lytBusinessDetail.spinnerConstitution.selectedItem as DropdownMaster?)?.typeDetailID
         employmentDetails.businessSetupTypeDetailID = (binding.lytBusinessDetail.spinnerBusinessSetupType.selectedItem as DropdownMaster?)?.typeDetailID
         employmentDetails.industryTypeDetailID = (binding.lytBusinessDetail.spinnerIndustry.selectedItem as DropdownMaster?)?.typeDetailID
-
         employmentDetails.dateOfIncorporation = ConvertDate().convertToApiFormat(binding.lytBusinessDetail.etIncorporationDate.text.toString())
-
         employmentDetails.gstRegistration = binding.lytBusinessDetail.etGstRegistration.text.toString()
         employmentDetails.businessVinatgeInYear = binding.lytBusinessDetail.etBusinessVintage.text.toString().toInt()
         employmentDetails.addressBean = getAddressDetails(binding.lytBusinessDetail.layoutAddress)
         employmentDetails.employerContactNumber = binding.lytBusinessDetail.layoutAddress.etContactNum.text.toString()
         employmentDetails.allEarningMembers = binding.lytBusinessDetail.cbAllEarningMember.isChecked
         employmentDetails.incomeDetail = getBusinessIncomeDetail(binding.lytBusinessDetail)
-
         return employmentDetails
     }
 
@@ -516,7 +512,6 @@ class EmploymentFormFragmentNew : BaseFragment() {
         incomeDetail.salariedGrossIncome = CurrencyConversion().convertToNormalValue(binding.etGrossIncome.text.toString()).toFloatOrNull()
         incomeDetail.salariedDeduction = CurrencyConversion().convertToNormalValue(binding.etDeduction.text.toString()).toFloatOrNull()
         incomeDetail.salariedNetIncome = CurrencyConversion().convertToNormalValue(binding.etNetIncome.text.toString()).toFloatOrNull()
-
         return incomeDetail
     }
 
@@ -526,7 +521,6 @@ class EmploymentFormFragmentNew : BaseFragment() {
         incomeDetail.itrAverageMonthlyIncome = CurrencyConversion().convertToNormalValue(binding.etAverageMonthlyIncome.text.toString()).toFloatOrNull()
         incomeDetail.itrLastYearIncome = CurrencyConversion().convertToNormalValue(binding.etLastYearIncome.text.toString()).toFloatOrNull()
         incomeDetail.itrCurrentYearIncome = CurrencyConversion().convertToNormalValue(binding.etCurrentYearIncome.text.toString()).toFloatOrNull()
-
         return incomeDetail
     }
 }

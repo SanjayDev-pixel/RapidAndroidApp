@@ -2,6 +2,8 @@ package com.finance.app.view.adapters.recycler.holder
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.ItemLeadsBinding
@@ -9,6 +11,7 @@ import com.finance.app.others.AppEnums
 import com.finance.app.others.setTextVertically
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.utility.ConvertDate
+import com.finance.app.view.activity.ApplicantKycListActivity
 import com.finance.app.view.activity.LeadDetailActivity
 
 class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) : RecyclerView.ViewHolder(binding.root) {
@@ -33,8 +36,22 @@ class LeadsListingHolder(val binding: ItemLeadsBinding, val mContext: Context) :
             AppEnums.LEAD_TYPE.REJECTED.type -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_rejected))
             else -> binding.tvStatusLine.setBackgroundColor(mContext.resources.getColor(R.color.lead_status_extra))
         }
+        if(lead.status == "Submitted"){
+            binding.btnperformKyc.visibility = View.VISIBLE
+        }
+        else
+        {
+            binding.btnperformKyc.visibility = View.GONE
+        }
         binding.leadCard.setOnClickListener {
             LeadDetailActivity.start(mContext, lead)
+        }
+        binding.btnperformKyc.setOnClickListener{
+            val intent = Intent(mContext,ApplicantKycListActivity::class.java)
+            intent.putExtra("leadId",""+lead.leadID)
+            mContext.startActivity(intent)
+
+
         }
     }
 }

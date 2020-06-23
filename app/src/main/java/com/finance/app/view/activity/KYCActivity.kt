@@ -11,6 +11,7 @@ import android.util.Base64.encodeToString
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -19,26 +20,34 @@ import androidx.databinding.DataBindingUtil
 import com.finance.app.R
 import com.finance.app.databinding.ActivityKycBinding
 import com.finance.app.databinding.KycoptiondialogBinding
+import com.finance.app.persistence.model.AllMasterDropDown
+import com.finance.app.persistence.model.PersonalApplicantsModel
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.utils.EditTexNormal
+import com.finance.app.viewModel.AppDataViewModel
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.dialogekyconmobile.*
+import motobeans.architecture.appDelegates.ViewModelType
+import motobeans.architecture.application.ArchitectureApp
 
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.Constants.API.URL.URL_KYC
 import motobeans.architecture.constants.ConstantsApi
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.delegates.ActivityBindingProviderDelegate
 import java.nio.charset.StandardCharsets
 import java.util.*
+import javax.inject.Inject
 
 
 class KYCActivity : BaseAppCompatActivity() {
-
+    @Inject
+    lateinit var dataBase: DataBaseUtil
     private val binding: ActivityKycBinding by ActivityBindingProviderDelegate(
             this, R.layout.activity_kyc)
 
@@ -50,27 +59,37 @@ class KYCActivity : BaseAppCompatActivity() {
     var encodedStringScanned=""
     var  leadIDnumber:String?= null
     var kycTypeValue : String ? = null
+    val lead = LeadMetaData.getLeadData()
+    private var allMasterDropdown: AllMasterDropDown? = null
+    private val appDataViewModel: AppDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
+    //var IncomeConsider : Int ? = 0
 
     companion object {
-        fun start(context: Context, leadApplicantNum: String?) {
+        fun start(context: Context, leadApplicantNum: String?,isIncomeConsider : Int) {
             val intent = Intent(context, KYCActivity::class.java)
             val bundle = Bundle()
             bundle.putString(Constants.KEY_LEAD_APP_NUM, leadApplicantNum)
+            bundle.putInt("isIncomeConsider",isIncomeConsider)
             intent.putExtras(bundle)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
+
         }
+
     }
 
-    override fun init() {
+     override fun init() {
+        ArchitectureApp.instance.component.inject(this)
         hideToolbar()
         hideSecondaryToolbar()
         setClickListeners()
         //proceedFurther()
         performKycAlert()
+
         //SAcn Adhar QR
        // scanNow()
     }
+
 
     private fun setClickListeners() {
     }
@@ -83,6 +102,7 @@ class KYCActivity : BaseAppCompatActivity() {
         integrator.initiateScan()
 
     }
+
 
     override fun onActivityResult(requestCode: Int , resultCode: Int , data: Intent?) {
         super.onActivityResult(requestCode , resultCode , data)
@@ -124,9 +144,14 @@ class KYCActivity : BaseAppCompatActivity() {
         bundle?.let {
 
            val  leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
+            val isIncomeConsider = bundle?.getInt("isIncomeConsider")
+            System.out.println("IsIncomeConsider>>>>"+isIncomeConsider)
             leadAppNum?.let {
-                showKycDialog(leadAppNum)
+                if (isIncomeConsider != null) {
+                    showKycDialog(leadAppNum,isIncomeConsider)
+                }
                 leadIDnumber= leadAppNum
+                System.out.println("Lead Id numer>>>"+leadIDnumber)
               //  kycPresenter.callNetwork(ConstantsApi.CALL_KYC, dmiConnector = KYCApiCall(leadAppNum))
             }
         }
@@ -138,7 +163,6 @@ class KYCActivity : BaseAppCompatActivity() {
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialogekyconmobile)
         val mobileNo = dialog.findViewById(R.id.etMobileNo) as EditTexNormal
-
         val btnClose = dialog.findViewById(R.id.btnClose) as Button
         val btnProceedMobile = dialog.findViewById(R.id.btnProceedMobile) as Button
         btnClose.setOnClickListener {
@@ -154,11 +178,15 @@ class KYCActivity : BaseAppCompatActivity() {
             bundle = intent.extras
             bundle?.let {
                 val  leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
+                System.out.println("LeadApp Number>>>"+leadAppNum)
                 leadAppNum?.let {
                     //showKycDialog(leadAppNum)
                     leadIDnumber= leadAppNum
+                    System.out.println("Leadidumber>>>"+leadIDnumber)
+                    val splitLeadId = leadIDnumber!!.split("_".toRegex())[0]
+                    System.out.println("SplitleadId>>>"+splitLeadId)
                     encodedStringScanned = ""
-                    kycPresenter.callNetwork(ConstantsApi.CALL_KYC_MOBILE_PREPARE , dmiConnector = KYCMobileApiCall(leadIDnumber,"AADHAAR_ZIP_INLINE",mobileNo.text.toString(),"true"))
+                    kycPresenter.callNetwork(ConstantsApi.CALL_KYC_MOBILE_PREPARE , dmiConnector = KYCMobileApiCall(leadIDnumber,"AADHAAR_ZIP_INLINE",mobileNo.text.toString(),"true",splitLeadId))
 
                 }
             }
@@ -169,7 +197,7 @@ class KYCActivity : BaseAppCompatActivity() {
     }
 
 
-    private fun showKycDialog(leadApplicantNumber: String?) {
+    private fun showKycDialog(leadApplicantNumber: String?,isIncomeConsider: Int) {
 
         val bindingDialog = DataBindingUtil.inflate<KycoptiondialogBinding>(LayoutInflater.from(this) , R.layout.kycoptiondialog , null , false)
         val mBuilder = AlertDialog.Builder(this)
@@ -182,7 +210,14 @@ class KYCActivity : BaseAppCompatActivity() {
             kycOptionDialog?.dismiss()
             finish()
         }
-
+        if(isIncomeConsider == 1)
+        {
+            bindingDialog.selfDeclartion.visibility = View.VISIBLE
+        }
+        else
+        {
+            bindingDialog.selfDeclartion.visibility = View.GONE
+        }
         bindingDialog?.groupRadioButton?.setOnCheckedChangeListener(
                 RadioGroup.OnCheckedChangeListener { group , checkedId ->
 
@@ -199,7 +234,11 @@ class KYCActivity : BaseAppCompatActivity() {
                     } else if (checkedId == R.id.codeand_dl) {
                         kycTypeValue = "QRCODE_DL_REQUEST"
                         //Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
-                    } else {
+                    } else if( checkedId == R.id.selfDeclartion)
+                    {
+                        kycTypeValue = "Self Declaration"
+                    }
+                    else {
                         kycTypeValue = "PAN_DL_REQUEST"
                         Toast.makeText(this , "Currently System not supporting this request." , Toast.LENGTH_SHORT).show()
                     }
@@ -208,8 +247,6 @@ class KYCActivity : BaseAppCompatActivity() {
             val leadAppNum = leadApplicantNumber
             val radioButtonselect = bindingDialog.groupRadioButton.checkedRadioButtonId
             if (radioButtonselect == R.id.adharotp) {
-
-
                 encodedStringScanned = ""
                 kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber,"AADHAAR_ZIP_INLINE"))
             }else if (radioButtonselect == R.id.codeand_pan) {
@@ -218,7 +255,7 @@ class KYCActivity : BaseAppCompatActivity() {
                       scanNow()
                 //Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
             }
-            else {
+            else if(radioButtonselect == R.id.pan_dl) {
                 /*bundle = intent.extras
                 bundle?.let {
                     val  leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
@@ -233,7 +270,63 @@ class KYCActivity : BaseAppCompatActivity() {
                     kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadAppNum,"PAN_DL_REQUEST"))
                 }*/
             }
+            else if(radioButtonselect == R.id.selfDeclartion)
+            {
+                kycOptionDialog?.dismiss()
+                showConfiramationDialog()
+            }
+            else
+            {
+                showToast("Please Select one option")
+            }
         }
+    }
+    private fun showConfiramationDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialoge_self_declaration)
+        val checkBoxConfirm = dialog.findViewById(R.id.checkboxConfirmation) as CheckBox
+        val yesBtn = dialog.findViewById(R.id.buttonOk) as Button
+        val btnClose = dialog.findViewById(R.id.btnClose) as Button
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(this, androidx.lifecycle.Observer { masterDrownDownValues ->
+            masterDrownDownValues?.let {
+                allMasterDropdown = it
+
+            }
+        })
+
+        yesBtn.setOnClickListener {
+            var leadAppNum : String ? = null
+            if(checkBoxConfirm.isChecked)
+            {
+                bundle = intent.extras
+                bundle?.let {
+                    leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
+                    System.out.println("leadAppNum>>>" + leadAppNum)
+                }
+                    allMasterDropdown?.let {
+                        val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                        val bundle = Bundle()
+                        bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                        bundle.putString(Constants.KEY_TITLE , this.getString(R.string.face_auth_image))
+                        bundle.putString(Constants.KEY_APPLICANT_NUMBER , leadAppNum)
+                        SelfDeclarationUploadDocumentActivity.startActivity(this , bundle)
+                        finish()
+                    }
+                dialog.dismiss()
+
+            }
+            else{
+                Toast.makeText(this,"Please accept the declaration",Toast.LENGTH_LONG).show()
+            }
+
+        }
+        btnClose.setOnClickListener{
+            dialog.dismiss()
+            finish()
+        }
+        dialog.show()
     }
 
     private fun performKycAlert() {
@@ -255,6 +348,7 @@ class KYCActivity : BaseAppCompatActivity() {
 
 
     }
+
 
     inner class KYCApiCall(private val leadAppNum: String) : ViewGeneric<Requests.RequestKYC,
             Response.ResponseKYC>(context = this) {
@@ -299,7 +393,7 @@ class KYCActivity : BaseAppCompatActivity() {
     }
 
 
-    inner class KYCMobileApiCall(private val leadAppNum: String?,val kycType : String,val mobileNo : String,val isSmsSend : String) : ViewGeneric<Requests.RequestKYCOnMobileId ,
+    inner class KYCMobileApiCall(private val leadAppNum: String?,val kycType : String,val mobileNo : String,val isSmsSend : String,val leadId : String) : ViewGeneric<Requests.RequestKYCOnMobileId ,
             Response.ResponseKYC>(context = this) {
         val qrCodeString = ""
         override val apiRequest: Requests.RequestKYCOnMobileId
@@ -307,7 +401,8 @@ class KYCActivity : BaseAppCompatActivity() {
 
         private val mRequestKyc: Requests.RequestKYCOnMobileId
             get() {
-                val leadId = LeadMetaData.getLeadId()
+                //val leadId = LeadMetaData.getLeadId()
+                System.out.println("LeadId>>>>"+leadId)
                 //QRCODE_PAN_REQUEST
                 return Requests.RequestKYCOnMobileId(leadID = leadId , leadApplicantNumber = leadAppNum , qrCodeData = encodedStringScanned , kycType = kycType,mobileNumber = mobileNo,isSmsSend = isSmsSend)
 

@@ -134,4 +134,7 @@ interface Api {
     fun prepareCallKYC(@Body requestPost: Requests.RequestKYCID): Observable<Response.ResponseKYC>
     @POST("api/v1/kyc/user/data/prepare/")
     fun prepareCallKYCMobile(@Body requestPost: Requests.RequestKYCOnMobileId): Observable<Response.ResponseKYC>
+    @GET("api/v1/loan/application/applicant/personal/detail/{leadID}")
+    fun getApplicantKycList(@Path("leadID") leadId: String) : Observable<Response.ResponseApplicantKycList>
+
 }

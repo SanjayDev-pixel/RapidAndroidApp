@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,6 +77,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pan_dl"
                 android:layout_marginTop="@dimen/margin5dp"/>
+            <RadioButton
+                android:id="@+id/selfDeclartion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="Self Declartion"
+                android:layout_marginTop="@dimen/margin5dp"/>
 
         </RadioGroup>
 
@@ -83,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/group_radioButton"
+            android:visibility="invisible"
             android:text="@string/systemsupportmsg"
             android:textSize="12sp"
             android:layout_marginStart="@dimen/margin10dp"
@@ -119,4 +129,5 @@
 
 
     </RelativeLayout>
+</ScrollView>
 </layout>

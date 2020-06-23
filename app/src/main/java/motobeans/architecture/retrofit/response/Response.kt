@@ -15,6 +15,9 @@ object Response {
         val userBranches: ArrayList<UserBranches>,
         val userSpecialPermissions: ArrayList<Any>
     )
+    data class ApplicantKycObj(val leadID: Int, val applicantDetails : ArrayList<Any>)
+    data class AddedCoapplicantList(val applicantDetails : ArrayList<Any>)
+    data class ApplicantDataList( val firstName: String? = null)
 
     data class Role(val isActive: Boolean, val roleId: Int, val roleName: String, val rolePrivilegesCollection: Any, val rolePrivilegesList: Any, val userRoleCollection: Any)
     data class RolePrivileges(val moduleId: Int, val moduleName: String, val subModuleList: ArrayList<SubModule>)
@@ -93,6 +96,7 @@ object Response {
     data class ResponseSubmitPassword(val responseCode: String, val responseMsg: String, val responseObj: Any?, val timeStamp: Long)
     data class ResponseDashboard(val responseCode: String, val responseMsg: String, val responseObj: ResponseObj?, val timeStamp: Long)
     data class ResponseUploadLocation(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
+    data class ResponseApplicantKycList(val responseCode: String, val responseMsg: String, val responseObj: PersonalApplicantKycList?, val timeStamp: Long)
 
 
 }

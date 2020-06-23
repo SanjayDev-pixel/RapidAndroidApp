@@ -74,7 +74,9 @@ class Presenter {
             ConstantsApi.CALL_DASBOARD -> apiProject.api.getDasboardData()
             ConstantsApi.CALL_KYC_PREPARE -> apiProject.api.prepareCallKYC(dmiConnector.apiRequest as Requests.RequestKYCID)
             ConstantsApi.CALL_KYC_MOBILE_PREPARE -> apiProject.api.prepareCallKYCMobile(dmiConnector.apiRequest as Requests.RequestKYCOnMobileId)
-
+            //
+            ConstantsApi.CALL_KYC_APPLICANT_DETAILS -> apiProject.api.getApplicantKycList((dmiConnector.apiRequest as Requests.RequestKYCApplicantList).leadID)
+            //ConstantsApi.CALL_FINAL_SUBMIT -> apiProject.api.finalSubmit((dmiConnector.apiRequest as Requests.RequestFinalSubmit).leadID)
             else -> return
         }
 

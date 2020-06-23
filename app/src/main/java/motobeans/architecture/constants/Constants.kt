@@ -42,7 +42,6 @@ class Constants {
             //Development Url
             //const val URL_KYC = "http://13.235.28.32/kyc/oKyc.html?kycID="
             //New URL https://rapid-dev.dmihousingfinance.in/kyc/kyc.html?kycID=
-
             //production Url https://rapidservices.dmihousingfinance.in
             // Development URL https://rapidservices-dev.dmihousingfinance.in/dmi/
             //Staging URL http://13.235.28.32:8080/dmi/
@@ -85,11 +84,14 @@ class Constants {
 
         const val KYC_DOCUMENT="KycDocument"
         const val PERSONAL = "Personal"
+        const val FACEAUTHIMAGE = "FaceAuthImageWithID"
         const val DOB = "DOB"
         const val ADDRESS_PROOF = "AddressProof"
         const val EMPLOYMENT_PROOF = "EmploymentProof"
         const val BANK_STATEMENT = "BankStatement"
         const val FILE_SIZE_ALLOWED = 5000000
+        var backPressed = 0
+
 
     }
 

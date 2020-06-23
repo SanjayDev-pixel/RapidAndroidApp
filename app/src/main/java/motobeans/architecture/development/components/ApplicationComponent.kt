@@ -78,6 +78,8 @@ interface ApplicationComponent {
     fun inject(activity: DocumentUploadingActivity)
     fun inject(activity: ForgetPasswordActivity)
     fun inject(activity: SetPasswordActivity)
+    fun inject(activity : KYCActivity)
+    fun inject(activity : SelfDeclarationUploadDocumentActivity)
 
     /**
      * Fragment

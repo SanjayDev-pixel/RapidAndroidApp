@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.drawer_header.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.customAppComponents.fragment.CommonDialogFragment
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
@@ -62,6 +63,7 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
     showToolbar()
     setUpHeaderView()
     initializeViewBindingTemp()
+    System.out.println("backHandlePressed>>>>"+Constants.APP.backPressed)
   }
 
   private fun initializeViewBindingTemp() {

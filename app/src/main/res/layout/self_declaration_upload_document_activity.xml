@@ -7,7 +7,7 @@
         android:id="@+id/swipeLayoutDocument"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.finance.app.view.activity.DocumentUploadingActivity">
+        tools:context="com.finance.app.view.activity.SelfDeclarationUploadDocumentActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,7 +17,7 @@
 
             <include
                 android:id="@+id/header"
-                layout="@layout/layout_header_with_back_btn"
+                layout="@layout/layout_back_self_declaration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true" />
@@ -66,7 +66,7 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                       />
+                        />
 
                 </com.google.android.material.textfield.TextInputLayout>
                 <ProgressBar
@@ -90,10 +90,10 @@
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
-                        android:drawableStart="@drawable/ic_file_upload_white_24dp"
+
                         android:drawablePadding="10dp"
                         android:padding="5sp"
-                        android:text="Choose File"
+                        android:text="Take Photo"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -105,6 +105,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
+                        android:drawableStart="@drawable/ic_file_upload_white_24dp"
                         android:drawablePadding="10dp"
                         android:padding="5sp"
                         android:text="Upload Now"

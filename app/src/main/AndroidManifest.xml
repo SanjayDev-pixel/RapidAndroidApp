@@ -72,6 +72,7 @@
         <activity
             android:name=".view.activity.ProfileActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.SelfDeclarationUploadDocumentActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.UploadedFormDataActivity"
             android:screenOrientation="portrait" />
@@ -122,6 +123,9 @@
         <activity
             android:name=".view.activity.LoanSubmitStatusActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".view.activity.ApplicantKycListActivity"
+            android:screenOrientation="portrait"/>
         <!-- <activity -->
         <!-- android:name="com.thefinestartist.finestwebview.FinestWebViewActivity" -->
         <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->

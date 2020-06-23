@@ -2,6 +2,7 @@ package com.finance.app.workers.document
 
 import android.content.Context
 import android.net.Uri
+import android.widget.ProgressBar
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.finance.app.persistence.model.KycDocumentModel
@@ -28,6 +29,9 @@ class UploadDocumentWorker(context: Context , workerParams: WorkerParameters) : 
 
     override fun doWork(): Result {
         val documentList = database.provideDataBaseSource().kycDocumentDao().get()
+        //get Input Data back using "inputData" variable
+
+
         documentList.forEach { document ->
             document?.let {
                 val uploadCall = apiProject.api.postUploadDocument(prepareMultipartFile(it) , prepareMultipartBody(it))
