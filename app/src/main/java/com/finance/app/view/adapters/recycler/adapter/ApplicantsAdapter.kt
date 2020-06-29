@@ -56,6 +56,7 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
         mClickListener?.onApplicantClick(position, coApplicant)
     }
 
+
     fun onLongClickItem(position: Int) {
         selectedPosition = position
         mLongClickListener?.onApplicantLongClick(position)
@@ -71,7 +72,8 @@ class ApplicantsAdapter(private val mContext: Context, private val applicants: A
                 binding.tvApplicants.text="Co-Applicant".plus(position)
             }
            // binding.tvApplicants.text = coApplicant.firstName
-            binding.tvApplicants.setOnClickListener { onClickItem(position, coApplicant) }
+            binding.tvApplicants.setOnClickListener { onClickItem(position, coApplicant)
+            }
             itemView.setOnLongClickListener {
                 onLongClickItem(position)
                 false

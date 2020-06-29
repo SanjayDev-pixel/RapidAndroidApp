@@ -783,65 +783,71 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
               if(kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size>0) {
                   for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size) {
-                      pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
-                      name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
-                      genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
-                      dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
-                      address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
-                      careOf = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
-                      matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthScore
-                      faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthStatus
-                      bindingDialog.tvName.text = name
-                      bindingDialog.tvcareof.text = careOf
-                      bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
-                      bindingDialog.tvAddress.text = address
-                      bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
-                      dob = bindingDialog.tvdob.text.toString()
-                      bindingDialog.matchpercentage.text = matchPercentage
-                      bindingDialog.faceAuthStatus.text = faceAuthStatus
+                      if(j ==0) {
+                          pincode = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].pinCode
+                          name = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].name
+                          genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].gender
+                          dob = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].dob
+                          address = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].address
+                          careOf = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].careOf
+                          matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthScore
+                          faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthStatus
+                          bindingDialog.tvName.text = name
+                          bindingDialog.tvcareof.text = careOf
+                          bindingDialog.tvGender.text = if (genderValue.equals("M")) "Male" else if (genderValue.equals("F")) "Female" else "TransGender"
+                          bindingDialog.tvAddress.text = address
+                          bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
+                          dob = bindingDialog.tvdob.text.toString()
+                          bindingDialog.matchpercentage.text = matchPercentage
+                          bindingDialog.faceAuthStatus.text = faceAuthStatus
+                      }
                   }
               }
             else  if(kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList.size>0) {
                   for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList.size) {
-                      pincode = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].pincode
-                      name = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].name
-                      genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].gender
-                      dob = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].dob
-                      address = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].address
-                      careOf = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].careOf
-                      matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthScore
-                      faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthStatus
+                      if(j ==0) {
+                          pincode = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].pincode
+                          name = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].name
+                          genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].gender
+                          dob = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].dob
+                          address = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].address
+                          careOf = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].careOf
+                          matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthScore
+                          faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthStatus
 
-                      System.out.println("Name>>>>>>"+name)
-                      bindingDialog.tvName.text = name
-                      bindingDialog.tvcareof.text = careOf
-                      bindingDialog.tvGender.text = if (genderValue.equals("male")) "Male" else if (genderValue.equals("female")) "Female" else "TransGender"
-                      bindingDialog.tvAddress.text = address
-                      bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
-                      dob = bindingDialog.tvdob.text.toString()
-                      bindingDialog.matchpercentage.text = matchPercentage
-                      bindingDialog.faceAuthStatus.text = faceAuthStatus
+                          System.out.println("Name>>>>>>" + name)
+                          bindingDialog.tvName.text = name
+                          bindingDialog.tvcareof.text = careOf
+                          bindingDialog.tvGender.text = if (genderValue.equals("male")) "Male" else if (genderValue.equals("female")) "Female" else "TransGender"
+                          bindingDialog.tvAddress.text = address
+                          bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
+                          dob = bindingDialog.tvdob.text.toString()
+                          bindingDialog.matchpercentage.text = matchPercentage
+                          bindingDialog.faceAuthStatus.text = faceAuthStatus
+                      }
                   }
               }
             else if(kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList.size>0) {
                   for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList.size) {
-                      pincode = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].pincode
-                      name = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].name
-                      genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].gender
-                      dob = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].dob
-                      address = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].address
-                      careOf = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].careOf
-                      matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthScore
-                      faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthStatus
-                      System.out.println("Name>>>>>>"+name)
-                      bindingDialog.tvName.text = name
-                      bindingDialog.tvcareof.text = careOf
-                      bindingDialog.tvGender.text = if (genderValue.equals("male")) "Male" else if (genderValue.equals("female")) "Female" else "TransGender"
-                      bindingDialog.tvAddress.text = address
-                      bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
-                      dob = bindingDialog.tvdob.text.toString()
-                      bindingDialog.matchpercentage.text = matchPercentage
-                      bindingDialog.faceAuthStatus.text = faceAuthStatus
+                      if(j ==0) {
+                          pincode = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].pincode
+                          name = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].name
+                          genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].gender
+                          dob = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].dob
+                          address = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].address
+                          careOf = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].careOf
+                          matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthScore
+                          faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthStatus
+                          System.out.println("Name>>>>>>" + name)
+                          bindingDialog.tvName.text = name
+                          bindingDialog.tvcareof.text = careOf
+                          bindingDialog.tvGender.text = if (genderValue.equals("male")) "Male" else if (genderValue.equals("female")) "Female" else "TransGender"
+                          bindingDialog.tvAddress.text = address
+                          bindingDialog.tvdob.text = ConvertDate().convertToAppFormatNew(dob)
+                          dob = bindingDialog.tvdob.text.toString()
+                          bindingDialog.matchpercentage.text = matchPercentage
+                          bindingDialog.faceAuthStatus.text = faceAuthStatus
+                      }
 
 
                   }

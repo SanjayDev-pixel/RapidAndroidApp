@@ -108,6 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:weightSum="2.0"
                     android:orientation="horizontal">
 
                     <Button
@@ -117,6 +118,20 @@
                         android:background="@color/greenbutton"
                         android:maxWidth="90dp"
                         android:text="Perform KYC"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:textColor="@color/white"
+                        android:layout_weight="1.0"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnFetchKyc"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:background="@color/greenbutton"
+                        android:maxWidth="90dp"
+                        android:text="Fetch KYC"
+                        android:layout_weight="1.0"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="bold" />

@@ -671,10 +671,6 @@ class FormValidationImpl : FormValidation {
             Log.e("Tag","Sandeep :")
         }
 
-
-
-
-
         val pin = binding.etPinCode.text.toString()
         if (!pin.exIsNotEmptyOrNullOrBlank()) {
             errorCount++

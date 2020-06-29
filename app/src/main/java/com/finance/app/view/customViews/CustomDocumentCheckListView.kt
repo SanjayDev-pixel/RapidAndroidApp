@@ -70,6 +70,7 @@ class CustomDocumentCheckListView @JvmOverloads constructor(context: Context, at
                         it?.let { documentMaster ->
                             setDocumentCheckListAdapter(documentMaster.checklistDetails)
                             documentDetail = documentMaster
+                            System.out.println("DocumentCheckliSt>>>>"+documentDetail!!.checklistDetails[0].typeDetailId)
                         }
                     }
                 }

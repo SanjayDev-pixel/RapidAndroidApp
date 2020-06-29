@@ -240,7 +240,7 @@ class KYCActivity : BaseAppCompatActivity() {
                     }
                     else {
                         kycTypeValue = "PAN_DL_REQUEST"
-                        Toast.makeText(this , "Currently System not supporting this request." , Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this , "Currently System not supporting this request." , Toast.LENGTH_SHORT).show()
                     }
                 })
         bindingDialog?.btnProceed?.setOnClickListener() {
@@ -256,19 +256,19 @@ class KYCActivity : BaseAppCompatActivity() {
                 //Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
             }
             else if(radioButtonselect == R.id.pan_dl) {
-                /*bundle = intent.extras
+                bundle = intent.extras
                 bundle?.let {
                     val  leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
-                   *//* leadAppNum?.let {
+                    leadAppNum?.let {
                         //showKycDialog(leadAppNum)
                         leadIDnumber= leadAppNum
-                        encodedStringScanned = ""
-                        kycPresenter.callNetwork(ConstantsApi.CALL_KYC_MOBILE_PREPARE , dmiConnector = KYCMobileApiCall(leadIDnumber,"PAN_DL_REQUEST","","false"))
+                        //encodedStringScanned = ""
+                        //kycPresenter.callNetwork(ConstantsApi.CALL_KYC_MOBILE_PREPARE , dmiConnector = KYCMobileApiCall(leadIDnumber,"PAN_DL_REQUEST","","false"))
 
-                    }*//*
+                    }
                     encodedStringScanned = ""
                     kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadAppNum,"PAN_DL_REQUEST"))
-                }*/
+                }
             }
             else if(radioButtonselect == R.id.selfDeclartion)
             {
@@ -439,15 +439,32 @@ class KYCActivity : BaseAppCompatActivity() {
     inner class KYCidApiCall(private val leadAppNum: String?,val kycType : String) : ViewGeneric<Requests.RequestKYCID ,
             Response.ResponseKYC>(context = this) {
         val qrCodeString = ""
+        var splitLeadId = "0"
         override val apiRequest: Requests.RequestKYCID
             get() = mRequestKyc
 
         private val mRequestKyc: Requests.RequestKYCID
             get() {
-                val leadId = LeadMetaData.getLeadId()
-                //QRCODE_PAN_REQUEST
-                return Requests.RequestKYCID(leadID = leadId , leadApplicantNumber = leadAppNum , qrCodeData = encodedStringScanned , kycType = kycType)
+                System.out.println("leadAppNum>>>>"+leadAppNum)
+                bundle = intent.extras
+                bundle?.let {
+                    val leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
+                    System.out.println("LeadApp Number>>>" + leadAppNum)
+                    leadAppNum?.let {
 
+                        leadIDnumber = leadAppNum
+                        System.out.println("Leadidumber>>>" + leadIDnumber)
+                        splitLeadId = leadIDnumber!!.split("_".toRegex())[0]
+
+                        System.out.println("SplitleadId>>>" + splitLeadId)
+
+
+                    }
+                }
+                //val leadId = LeadMetaData.getLeadId()
+                //QRCODE_PAN_REQUEST
+
+                return Requests.RequestKYCID(leadID = splitLeadId.toInt() , leadApplicantNumber = leadAppNum , qrCodeData = encodedStringScanned , kycType = kycType)
             }
 
         override fun getApiSuccess(value: Response.ResponseKYC) {

@@ -77,11 +77,11 @@ class CheckListAdapter(private val c: Context, private val documentCheckList: Ar
         }
 
         private fun addClickListener(position: Int, documentCheck: DocumentCheckListDetailModel) {
-
             binding.radiogroup.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
                 override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-
+                    System.out.println("TypeDetailCode>>>>"+documentCheck.typeDetailId)
                     when (checkedId) {
+
                         binding.rbYes.id -> documentCheck.selectedCheckListValue = ChecklistAnswerType.YES
                         binding.rbNo.id -> documentCheck.selectedCheckListValue = ChecklistAnswerType.NO
                         binding.rbNa.id -> documentCheck.selectedCheckListValue = ChecklistAnswerType.NA

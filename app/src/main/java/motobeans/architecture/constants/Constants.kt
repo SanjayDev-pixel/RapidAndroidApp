@@ -89,7 +89,7 @@ class Constants {
         const val ADDRESS_PROOF = "AddressProof"
         const val EMPLOYMENT_PROOF = "EmploymentProof"
         const val BANK_STATEMENT = "BankStatement"
-        const val FILE_SIZE_ALLOWED = 5000000
+        const val FILE_SIZE_ALLOWED = 10000000
         var backPressed = 0
 
 

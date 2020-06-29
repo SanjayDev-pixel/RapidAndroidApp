@@ -82,7 +82,7 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
 
         override fun getApiSuccess(value: Response.ResponseDocumentList) {
             hideProgressDialog()
-            if(value.responseObj!= null)
+            /*if(value.responseObj!= null)
             {
                 var documentTypestemp : ArrayList<DocumentTypeModel> = ArrayList()
                 for(i in 0 until value.responseObj?.documentTypes!!.size)
@@ -101,10 +101,8 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
 
                 }
                 setDocumentTypeSpinner(documentTypes = documentTypestemp)
-            }
-
-
-            /*value.responseObj?.let { setDocumentTypeSpinner(it.documentTypes) } ?: kotlin.run {}*/
+            }*/
+            value.responseObj?.let { setDocumentTypeSpinner(it.documentTypes) } ?: kotlin.run {}
         }
 
         override fun getApiFailure(msg: String) {
