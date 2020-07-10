@@ -37,4 +37,5 @@ class PersonalApplicantsModel : Serializable {
     var incomeConsidered: Boolean? = null
     var livingStandardTypeDetailId: Int? = null
     var numberOfFamilyMembersOthers :Int? = null
+    var isActive: Boolean = true
 }

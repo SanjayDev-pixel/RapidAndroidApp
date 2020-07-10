@@ -120,8 +120,10 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
 
         if (applicant.isMainApplicant == true) {
             binding.basicInfoLayout.btnUploadProfileImage.setText("Applicant Pic")
+            //binding.btnDeleteCoApplicant.visibility = View.GONE
         } else {
             binding.basicInfoLayout.btnUploadProfileImage.setText("CoApplicant Pic")
+            //binding.btnDeleteCoApplicant.visibility = View.VISIBLE
         }
 
     }
@@ -135,12 +137,12 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
     private fun setClickListeners(leadId: Int? , applicant: PersonalApplicantsModel) {
          binding.btnAddKYC.setOnClickListener {
              if(applicant.incomeConsidered == true) {
-                 KYCActivity.start(context , applicant.leadApplicantNumber,0)
+                 KYCActivity.start(context , applicant.leadApplicantNumber,0,0)
                  System.out.println("isIncomeConsider>>>>"+applicant.incomeConsidered)
              }
              else
              {
-                 KYCActivity.start(context , applicant.leadApplicantNumber,1)
+                 KYCActivity.start(context , applicant.leadApplicantNumber,1,0)
              }
          }
         binding.basicInfoLayout.btnGetOTP.setOnClickListener {
@@ -209,6 +211,7 @@ class CustomPersonalInfoView @JvmOverloads constructor(context: Context , attrs:
         }
         CurrencyConversion().convertToCurrencyType(binding.personalAddressLayout.etPermanentRentAmount)
         CurrencyConversion().convertToCurrencyType(binding.personalAddressLayout.etCurrentRentAmount)
+
     }
 
 

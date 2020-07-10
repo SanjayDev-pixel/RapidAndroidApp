@@ -55,11 +55,11 @@ class ApplicantKycListAdapter(private val mContext : Context , private val appli
                 System.out.println("lead Id DataBase>>>>"+leadId)
                 if(applicantDetail[position].incomeConsidered == true)
                 {
-                    KYCActivity.start(c ,applicantDetail[position].leadApplicantNumber,0)
+                    KYCActivity.start(c ,applicantDetail[position].leadApplicantNumber,0,1)
                 }
                 else
                 {
-                    KYCActivity.start(c ,applicantDetail[position].leadApplicantNumber,1)
+                    KYCActivity.start(c ,applicantDetail[position].leadApplicantNumber,1,1)
                 }
 
             }

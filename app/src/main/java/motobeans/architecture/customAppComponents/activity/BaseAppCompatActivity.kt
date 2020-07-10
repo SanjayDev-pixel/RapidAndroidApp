@@ -102,9 +102,11 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
       }
       R.id.logout -> {
         sharedPreferencesUtil.clearAll()
+
         GlobalScope.launch {
            mDataBase.provideDataBaseSource().allMasterDropDownDao().deleteAllMasterDropdownValue()
          }
+        this.cacheDir.deleteRecursively()
         this.finish()
         LoginActivity.start(this)
       }

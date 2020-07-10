@@ -26,13 +26,24 @@ class PersonalPagerAdapter internal constructor(fm: FragmentManager, val applica
             return fragmentList[position]
 
         val fragment = PersonalFormFragmentNew.newInstance(applicantsList[position], position)
-        fragmentList.add(fragment)
+
+            fragmentList.add(fragment)
+
         return fragment
     }
 
     fun addItem() {
         applicantsList.add(PersonalApplicantsModel())
         notifyDataSetChanged()
+    }
+    fun deleteItem(position: Int) {
+        System.out.println("ApplucantListSize>>>>"+applicantsList.size)
+        if (position >= 0) {
+            applicantsList.removeAt(position)
+            fragmentList.removeAt(position)
+            notifyDataSetChanged()
+        }
+        System.out.println("ApplucantListSize>>>>"+applicantsList.size)
     }
 
     fun isApplicantDetailsValid(): Boolean {
@@ -47,6 +58,7 @@ class PersonalPagerAdapter internal constructor(fm: FragmentManager, val applica
         val list = ArrayList<PersonalApplicantsModel>()
         fragmentList.forEach { item ->
             list.add(item.getApplicant())
+
         }
         return list
     }

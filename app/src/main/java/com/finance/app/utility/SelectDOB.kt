@@ -14,8 +14,6 @@ class SelectDOB(mContext: Context, dateField: TextView, private val differenceFi
         val year = calender.get(Calendar.YEAR)
         val month = calender.get(Calendar.MONTH)
         val day = calender.get(Calendar.DAY_OF_MONTH)
-
-
         val dialog = DatePickerDialog(mContext, DatePickerDialog.OnDateSetListener { _, dYear, dMonth, dDay ->
             val date = "$dDay-${dMonth + 1}-$dYear"
             convertToDesirableFormat(date, dateField)

@@ -34,8 +34,12 @@ class UploadDocumentWorker(context: Context , workerParams: WorkerParameters) : 
 
         documentList.forEach { document ->
             document?.let {
+                System.out.println("document LeadId>>>"+document.leadID)
+                System.out.println("document LeadId>>>"+document.leadApplicantNumber)
                 val uploadCall = apiProject.api.postUploadDocument(prepareMultipartFile(it) , prepareMultipartBody(it))
                 val response = uploadCall.execute()
+                System.out.println("Response from documrnt>>>>"+response.isSuccessful)
+                System.out.println("Response from documrnt>>>>"+response.body())
                 if (response.isSuccessful) {
                     database.provideDataBaseSource().kycDocumentDao().delete(it.id)
                 }
@@ -52,8 +56,20 @@ class UploadDocumentWorker(context: Context , workerParams: WorkerParameters) : 
     }
 
     private fun prepareMultipartBody(documentModel: KycDocumentModel): HashMap<String , RequestBody> {
+        var splitLeadId : String = ""
+        if(documentModel.leadID == null)
+        {
+            splitLeadId = documentModel.leadApplicantNumber!!.split("_".toRegex())[0]
+            System.out.println("leadId>>>If>>>>"+splitLeadId)
+        }
+        else
+        {
+            splitLeadId = documentModel.leadID.toString()
+            System.out.println("leadId>>>else>>>>"+splitLeadId)
+        }
         val body = HashMap<String , RequestBody>()
-        body["leadID"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.leadID.toString())
+
+        body["leadID"] = RequestBody.create(MediaType.parse("text/plain") , splitLeadId)
         body["rowIdentifier"] = if (documentModel.applicationDocumentID.isNullOrEmpty().not()) RequestBody.create(MediaType.parse("text/plain") , documentModel.applicationDocumentID.toString()) else RequestBody.create(MediaType.parse("text/plain") , "")
         body["documentID"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.documentID.toString())
         body["documentName"] = RequestBody.create(MediaType.parse("text/plain") , documentModel.documentName.toString())

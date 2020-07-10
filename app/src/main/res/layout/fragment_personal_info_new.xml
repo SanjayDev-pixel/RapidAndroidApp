@@ -33,20 +33,36 @@
                 android:id="@+id/btnAddApplicantTab"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:background="@color/app_bkg"
                 android:text="@string/add_icon"
                 android:textColor="@color/black"
                 android:textSize="@dimen/button_text_size"
-                android:background="@color/app_bkg"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btnDeleteCoApplicant"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/llApplicantTab"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:visibility="visible"
+            android:text="Delete Coapplicant"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/button_text_size"
+            android:alpha=".75"
+            />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/llApplicantTab" />
+
 
         <RelativeLayout
             android:id="@+id/layoutBottomNav"

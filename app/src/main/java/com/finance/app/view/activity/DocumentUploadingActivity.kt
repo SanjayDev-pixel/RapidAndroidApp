@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.afollestad.assent.Assent
 import com.afollestad.assent.AssentCallback
@@ -330,7 +331,6 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         val mWorkManager = WorkManager.getInstance()
         val mRequest = OneTimeWorkRequest.Builder(UploadDocumentWorker::class.java).build()
         val data = Data.Builder()
-
         mWorkManager.enqueue(mRequest)
     }
 

@@ -65,11 +65,12 @@ class KYCActivity : BaseAppCompatActivity() {
     //var IncomeConsider : Int ? = 0
 
     companion object {
-        fun start(context: Context, leadApplicantNum: String?,isIncomeConsider : Int) {
+        fun start(context: Context, leadApplicantNum: String?,isIncomeConsider : Int,isLeadSubmitted : Int) {
             val intent = Intent(context, KYCActivity::class.java)
             val bundle = Bundle()
             bundle.putString(Constants.KEY_LEAD_APP_NUM, leadApplicantNum)
             bundle.putInt("isIncomeConsider",isIncomeConsider)
+            bundle.putInt("isLeadSubmitted",isLeadSubmitted)
             intent.putExtras(bundle)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -137,18 +138,17 @@ class KYCActivity : BaseAppCompatActivity() {
 
 
     private fun proceedFurther() {
-
-
-
         bundle = intent.extras
         bundle?.let {
 
            val  leadAppNum = bundle?.getString(Constants.KEY_LEAD_APP_NUM)
             val isIncomeConsider = bundle?.getInt("isIncomeConsider")
-            System.out.println("IsIncomeConsider>>>>"+isIncomeConsider)
+            val isLeadSubmitted = bundle?.getInt("isLeadSubmitted")
+
+            System.out.println("IsIncomeConsider>>>>"+isLeadSubmitted)
             leadAppNum?.let {
                 if (isIncomeConsider != null) {
-                    showKycDialog(leadAppNum,isIncomeConsider)
+                    showKycDialog(leadAppNum,isIncomeConsider,isLeadSubmitted)
                 }
                 leadIDnumber= leadAppNum
                 System.out.println("Lead Id numer>>>"+leadIDnumber)
@@ -197,7 +197,7 @@ class KYCActivity : BaseAppCompatActivity() {
     }
 
 
-    private fun showKycDialog(leadApplicantNumber: String?,isIncomeConsider: Int) {
+    private fun showKycDialog(leadApplicantNumber: String?,isIncomeConsider: Int,isLeadSubmitted: Int?) {
 
         val bindingDialog = DataBindingUtil.inflate<KycoptiondialogBinding>(LayoutInflater.from(this) , R.layout.kycoptiondialog , null , false)
         val mBuilder = AlertDialog.Builder(this)
@@ -214,9 +214,19 @@ class KYCActivity : BaseAppCompatActivity() {
         {
             bindingDialog.selfDeclartion.visibility = View.VISIBLE
         }
+
         else
         {
             bindingDialog.selfDeclartion.visibility = View.GONE
+        }
+
+        if(isLeadSubmitted == 1)
+        {
+            bindingDialog.selfDeclartion.visibility = View.GONE
+        }
+        else if(isIncomeConsider == 1)
+        {
+            bindingDialog.selfDeclartion.visibility = View.VISIBLE
         }
         bindingDialog?.groupRadioButton?.setOnCheckedChangeListener(
                 RadioGroup.OnCheckedChangeListener { group , checkedId ->
