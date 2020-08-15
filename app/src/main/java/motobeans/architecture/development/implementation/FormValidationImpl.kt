@@ -15,6 +15,7 @@ import com.finance.app.view.utils.EditTexNormal
 import com.google.android.material.textfield.TextInputEditText
 import fr.ganfra.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.layout_zip_address.view.*
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
@@ -378,12 +379,19 @@ class FormValidationImpl : FormValidation {
             spinnerError++
             salaryBinding.spinnerEmploymentType.error = "Required Field"
         }
+        if(sector?.typeDetailID == Constants.SECTOR_GOVERMENT)
+        {
 
-        val industry = salaryBinding.spinnerIndustry.selectedItem as DropdownMaster?
-        if (industry == null) {
-            spinnerError++
-            salaryBinding.spinnerIndustry.error = "Required Field"
         }
+        else
+        {
+            val industry = salaryBinding.spinnerIndustry.selectedItem as DropdownMaster?
+            if (industry == null) {
+                spinnerError++
+                salaryBinding.spinnerIndustry.error = "Required Field"
+            }
+        }
+
 
         val addressError = validateAddress(salaryBinding.layoutAddress)
         val totalError = spinnerError + fieldError + addressError
@@ -778,7 +786,7 @@ class FormValidationImpl : FormValidation {
     override fun validateObligationDialog(binding: AddObligationDialogBinding): Boolean {
         val obligate = binding.spinnerObligate.selectedItem as DropdownMaster?
         val loanType = binding.spinnerLoanType.selectedItem as DropdownMaster?
-        val repaymentBank = binding.spinnerRepaymentBank.tag as DropdownMaster?
+        var repaymentBank = binding.spinnerRepaymentBank.tag as DropdownMaster?
         val ownership = binding.spinnerLoanOwnership.selectedItem as DropdownMaster?
         val financierName = binding.etFinancierName.text.toString()
         val accountNum = binding.etAccountNum.text.toString()
@@ -790,12 +798,20 @@ class FormValidationImpl : FormValidation {
         val loanAmount=binding.etLoanAmount.text.toString()
 
         var errorBank:Int=0
-
-        if (repaymentBank==null){
-            errorBank++
-            binding.spinnerRepaymentBank.error = "Required Field"
-
+        if(loanType?.typeDetailID == Constants.KCC_LOAN || loanType?.typeDetailID == Constants.GOLD_LOAN || loanType?.typeDetailID == Constants.EMPLOYER_LOAN)
+        {
+            repaymentBank = null
         }
+        else
+        {
+            if (repaymentBank==null){
+                errorBank++
+                binding.spinnerRepaymentBank.error = "Required Field"
+
+            }
+        }
+
+
 
         val spinnerError = when {
             loanType == null -> setSpinnerError(binding.spinnerLoanType)
@@ -1065,6 +1081,24 @@ class FormValidationImpl : FormValidation {
     }
 
     override fun validateKycDocumentDetailSelf(binding: SelfDeclarationUploadDocumentActivityBinding): Boolean {
+        var errorCount = 0
+
+        val idNum = binding.etDocumentName.text.toString()
+        if (!idNum.exIsNotEmptyOrNullOrBlank()) {
+            errorCount++
+            binding.etDocumentName.error = "Required Field"
+        }
+
+        val documentType = binding.spinnerDocumentType.selectedItem as DocumentTypeModel?
+        if (documentType == null) {
+            errorCount++
+            binding.spinnerDocumentType.error = "Required Field"
+        }
+
+        return isValidForm(errorCount)
+    }
+
+    override fun validateUploadKycDocumentDetail(binding: PerformKycDocumentUploadActivityBinding): Boolean {
         var errorCount = 0
 
         val idNum = binding.etDocumentName.text.toString()

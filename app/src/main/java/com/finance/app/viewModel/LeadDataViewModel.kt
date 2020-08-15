@@ -149,6 +149,7 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
                 AppEnums.FormType.PROPERTY -> handlePropertyResponse(apiResponseObject)
                 AppEnums.FormType.REFERENCE -> handleReferenceResponse(apiResponseObject)
                 AppEnums.FormType.DOCUMENT -> handleDocumentResponse(apiResponseObject)
+
             }
         }
 
@@ -190,6 +191,11 @@ class LeadDataViewModel(private val activity: FragmentActivity) : BaseViewModel(
             apiResponseObject?.let { leadData.documentData = apiResponseObject as DocumentDetailList }
             setObservableValueTrue(isLeadSyncDocument)
         }
+        private fun handleDocumentResponseDummy(apiResponseObject: Serializable?){
+            apiResponseObject?.let { leadData.documentData = apiResponseObject as DocumentDetailList }
+            setObservableValueTrue(isLeadSyncDocument)
+        }
+
 
         private fun setObservableValueTrue(observableSync: MutableLiveData<Boolean>) {
             observableSync.value = true

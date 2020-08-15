@@ -136,6 +136,30 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_10sdp">
+                    <Button
+                        android:id="@+id/btnUploadKycDocument"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                       android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_marginTop="10dp"
+
+                        android:layout_marginRight="10dp"
+                        android:background="@color/greenbutton"
+                        android:drawableLeft="@drawable/ic_file_upload_white_24dp"
+                        android:drawablePadding="10dp"
+                        android:padding="5sp"
+                        android:text="KYC Document"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        />
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

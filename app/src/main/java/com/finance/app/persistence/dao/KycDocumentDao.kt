@@ -13,8 +13,9 @@ interface KycDocumentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(kycDocumentModel: KycDocumentModel)
 
-    @Query("SELECT * FROM KycDocumentModel WHERE leadID=:leadID LIMIT 1")
-    fun get(leadID: Int): LiveData<KycDocumentModel?>
+   /* @Query("SELECT * FROM KycDocumentModel WHERE Active=:activeStatus")
+    //fun get(activeStatus: Int): LiveData<KycDocumentModel?>
+    fun get(activeStatus : Int) :List<KycDocumentModel?>*/
 
     @Query("SELECT * FROM KycDocumentModel")
     fun get(): List<KycDocumentModel?>
@@ -36,5 +37,12 @@ interface KycDocumentDao {
 
     @Query("DELETE FROM KycDocumentModel")
     fun truncate()
+    /**
+     * Updating only Sync status
+     * By lead id
+     */
+    /*@Query("UPDATE KycDocumentModel SET Active = :status WHERE leadApplicantNumber =:leadApplicantNumber")
+    fun updateKycSyncStatus(status: Int? , leadApplicantNumber: String?)*/
 
 }
+

@@ -77,6 +77,7 @@
                     app:ms_hint="Industry *"
                     app:ms_arrowColor="@color/black"
                     app:ms_arrowSize="16dp"
+                    android:visibility="gone"
                     app:ms_floatingLabelColor="@color/hint_color"
                     app:ms_hintColor="@color/hint_color"
                     app:ms_hintTextSize="@dimen/hint_size"

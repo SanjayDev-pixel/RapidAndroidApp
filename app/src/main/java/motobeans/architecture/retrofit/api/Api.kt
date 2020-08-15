@@ -92,7 +92,7 @@ interface Api {
     fun postCallFollowUp(@Path("leadID") leadId: Int): Observable<Response.ResponseFollowUp>
 
     @GET("api/v1/document/")
-    fun getDocumentList(@Query("codeID") codeId: Int , @Query("lead") leadId: Int): Observable<Response.ResponseUploadedDocumentList>
+    fun getDocumentList(@Query("codeID") codeId: Int , @Query("lead") leadId: Int,@Query("applicantNumber") leadApplicantNumber: String): Observable<Response.ResponseUploadedDocumentList>
 
     @Multipart
     @POST("api/v1/document/upload")

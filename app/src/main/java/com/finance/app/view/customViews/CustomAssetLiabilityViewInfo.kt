@@ -6,10 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
@@ -39,6 +36,7 @@ import kotlinx.android.synthetic.main.layout_credit_card_details_new.etLastPayme
 import kotlinx.android.synthetic.main.layout_credit_card_details_new.spinnerObligate
 import kotlinx.android.synthetic.main.obligation_item_dialog.*
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.development.interfaces.FormValidation
 import motobeans.architecture.util.AppUtilExtensions
@@ -349,10 +347,32 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
         addObligationDialog?.spinnerObligate?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.Obligate!!)
         addObligationDialog?.spinnerLoanOwnership?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.LoanOwnership!!)
         addObligationDialog?.spinnerLoanType?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.LoanType!!)
+        val adapter = ArrayAdapter(context!! , android.R.layout.simple_list_item_1 , allMasterDropDown?.RepaymentBank!!)
+        addObligationDialog?.spinnerLoanType?.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>? , view: View? , position: Int , id: Long) {
+              val loanType = parent?.selectedItem as DropdownMaster?
+                loanType.let { loan->
+                    if(loan?.typeDetailID == Constants.GOLD_LOAN || loan?.typeDetailID ==Constants.EMPLOYER_LOAN || loan?.typeDetailID == Constants.KCC_LOAN)
+                    {
+                        addObligationDialog?.spinnerRepaymentBank?.visibility = View.GONE
+                        addObligationDialog?.spinnerRepaymentBank?.setAdapter(adapter)
+                    }
+                    else
+                    {
+                        addObligationDialog?.spinnerRepaymentBank?.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+        }
         // addObligationDialog?.spinnerRepaymentBank?.adapter = MasterSpinnerAdapter(context, allMasterDropDown?.RepaymentBank!!)
         addObligationDialog?.spinnerEmiPaidInSameMonth?.adapter = MasterSpinnerAdapter(context , allMasterDropDown?.BounceEmiPaidInSameMonth!!)
 
-        val adapter = ArrayAdapter(context!! , android.R.layout.simple_list_item_1 , allMasterDropDown?.RepaymentBank!!)
+
         addObligationDialog?.spinnerRepaymentBank?.setAdapter(adapter)
         addObligationDialog?.spinnerRepaymentBank?.setOnItemClickListener { parent , view , position , id ->
             addObligationDialog?.spinnerRepaymentBank?.tag = parent.getItemAtPosition(position) as DropdownMaster
@@ -388,7 +408,13 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
                 currentObligation.loanOwnershipTypeDetailID = loanOwnership?.typeDetailID
                 currentObligation.obligateTypeDetailID = obligate?.typeDetailID
                 currentObligation.loanTypeTypeDetailID = loanType?.typeDetailID
-                currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
+                if(loanType?.typeDetailID == Constants.KCC_LOAN || loanType?.typeDetailID == Constants.EMPLOYER_LOAN ||loanType?.typeDetailID == Constants.GOLD_LOAN)
+                {
+
+                }
+                else {
+                    currentObligation.repaymentBankTypeDetailID = repaymentBank?.typeDetailID
+                }
                 currentObligation.bounseEmiPaidInSameMonth = emiPaidInSameMonth?.typeDetailID
                 currentObligation.loanDisbursementDate = dateUtil.getFormattedDate(DateUtil.dateFormattingType.TYPE_NORMAL_1 , DateUtil.dateFormattingType.TYPE_API_REQUEST_2 , addObligationDialog!!.etDisbursementDate?.text.toString())
 
@@ -591,6 +617,7 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
 
 
 
+
         for (i in 0 until allMasterDropDown?.RepaymentBank!!.size) {
 
             if (obligation.repaymentBankTypeDetailID == allMasterDropDown!!.RepaymentBank?.get(i)?.typeDetailID) {
@@ -613,6 +640,10 @@ class CustomAssetLiabilityViewInfo @JvmOverloads constructor(context: Context , 
         for (i in 0 until allMasterDropDown?.LoanType!!.size) {
 
             if (obligation.loanTypeTypeDetailID == allMasterDropDown!!.LoanType?.get(i)?.typeDetailID) {
+                if(allMasterDropDown!!.LoanType?.get(i)?.typeDetailID == Constants.GOLD_LOAN || allMasterDropDown!!.LoanType?.get(i)?.typeDetailID == Constants.EMPLOYER_LOAN || allMasterDropDown!!.LoanType?.get(i)?.typeDetailID == Constants.KCC_LOAN)
+                {
+                    obligationItemDetailDialog.tvRepaymentBank.text = "N/A"
+                }
                 obligationItemDetailDialog.tvLoanType.setText(allMasterDropDown!!.LoanType?.get(i)?.typeDetailCode)
 
             }

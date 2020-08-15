@@ -30,21 +30,10 @@ class Constants {
             const val URL_DEVELOPMENT = "https://rapidservices.dmihousingfinance.in/dmi/"
             //Development URL
             //const val URL_DEVELOPMENT = "https://rapidservices-dev.dmihousingfinance.in/dmi/"
-            //UAT URL
-            //const val URL_DEVELOPMENT = "https://rapidservices-uat.dmihousingfinance.in/dmi/"
-            // testing url
-            // "https://rapidservices-dev.dmihousingfinance.in/dmi/"
-            //http://13.235.28.32:8080/dmi/ use this jrl for previous
-            //
-            // const val URL_DEVELOPMENT = "http://13.232.224.66:8080/dmi/"
             //Production URL for KYC
             const val URL_KYC = "https://rapid.dmihousingfinance.in/kyc/oKyc.html?kycID="
             //Development Url
-            //const val URL_KYC = "http://13.235.28.32/kyc/oKyc.html?kycID="
-            //New URL https://rapid-dev.dmihousingfinance.in/kyc/kyc.html?kycID=
-            //production Url https://rapidservices.dmihousingfinance.in
-            // Development URL https://rapidservices-dev.dmihousingfinance.in/dmi/
-            //Staging URL http://13.235.28.32:8080/dmi/
+            //const val URL_KYC = "https://rapid-dev.dmihousingfinance.in/kyc/oKyc.html?kycID="
             const val URL_TESTING = ""
             const val URL_LIVE = ""
             const val URL_PRODUCTION = ""
@@ -78,6 +67,10 @@ class Constants {
         const val ITR = 117
         const val CASH_SALARY = 118
         const val BANK_SALARY = 119
+        const val SECTOR_GOVERMENT = 597
+        const val GOLD_LOAN = 526
+        const val KCC_LOAN = 531
+        const val EMPLOYER_LOAN = 530
 
         const val ACTION_PICK_FILE = "Pick File"
         const val ACTION_TAKE_IMAGE = "Take Image"
@@ -90,6 +83,9 @@ class Constants {
         const val EMPLOYMENT_PROOF = "EmploymentProof"
         const val BANK_STATEMENT = "BankStatement"
         const val FILE_SIZE_ALLOWED = 10000000
+        const val SELF_DECLARATION ="self_declaration"
+        const val ALL_MODULE="all_module"
+        const val PERFORMANCE_KYC_DOC="perform_kyc"
         var backPressed = 0
 
 

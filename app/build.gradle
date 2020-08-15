@@ -225,5 +225,7 @@ dependencies {
 
     //Location API
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+   /* //Dotted Progress bar
+    implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'*/
 
 }

@@ -26,6 +26,8 @@ import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFor
 import com.finance.app.view.fragment.loanApplicationFragments.bank.BankDetailFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.document_checklist.DocumentCheckListFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.document_checklist.DocumentChecklistForm
+import com.finance.app.view.fragment.loanApplicationFragments.document_upload_kyc.DocumentFormFragment
+import com.finance.app.view.fragment.loanApplicationFragments.document_upload_kyc.DocumentUploadFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentFormFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.employment.EmploymentInfoFragmentNew
 import com.finance.app.view.fragment.loanApplicationFragments.personal.PersonalFormFragmentNew
@@ -44,6 +46,7 @@ import motobeans.architecture.customAppComponents.jetpack.SuperWorker
 import motobeans.architecture.development.modules.NetworkModule
 import motobeans.architecture.development.modules.PrimitivesModule
 import motobeans.architecture.development.modules.UtilityModule
+import org.w3c.dom.DocumentFragment
 import javax.inject.Singleton
 import com.finance.app.presenter.presenter.Presenter as Presenter1
 
@@ -80,6 +83,9 @@ interface ApplicationComponent {
     fun inject(activity: SetPasswordActivity)
     fun inject(activity : KYCActivity)
     fun inject(activity : SelfDeclarationUploadDocumentActivity)
+    fun inject(activity : PerformKycDocumentUploadActivity)
+    fun inject(activity : ApplicantKycListActivity)
+
 
     /**
      * Fragment
@@ -106,6 +112,8 @@ interface ApplicationComponent {
     fun inject(dialogFragment: BankDetailDialogFragment)
     fun inject(dialogFragment: ReferenceDetailDialogFragment)
     fun inject(dialogFragment: KycDetailDialog)
+    fun inject(fragment : DocumentUploadFragmentNew)
+    fun inject(fragment : DocumentFormFragment)
 
     fun inject(fragment: FragmentPreview)
     /**
@@ -175,6 +183,7 @@ interface ApplicationComponent {
     fun inject(other: CustomChromeTab)
     fun inject(other: KycFormView)
     fun inject(other: ChannelPartnerViewCreateLead)
+    fun inject(other: CustomKycDocumentUploadViewInfo)
 
     //Service
     fun inject(other: ForegroundLocationTrackerService)

@@ -20,6 +20,7 @@ class AppEnums {
         REFERENCE("Reference", R.drawable.reffrence_white),
         PROPERTY("Property", R.drawable.property_icon_white),
         DOCUMENT_CHECKLIST("Document Checklist", R.drawable.checklist),
+
         DEFAULT("Default", R.drawable.app_logo);
 
         companion object {
@@ -32,7 +33,9 @@ class AppEnums {
                     LIABILITY_AND_ASSET.screenName -> LIABILITY_AND_ASSET
                     REFERENCE.screenName -> REFERENCE
                     PROPERTY.screenName -> PROPERTY
+                    //
                     DOCUMENT_CHECKLIST.screenName -> DOCUMENT_CHECKLIST
+
                     else -> DEFAULT
                 }
             }

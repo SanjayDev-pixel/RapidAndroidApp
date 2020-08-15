@@ -62,7 +62,7 @@ class Presenter {
             ConstantsApi.CALL_FOLLOWUP -> apiProject.api.postCallFollowUp((dmiConnector.apiRequest as Requests.RequestFollowUp).leadID)
             ConstantsApi.CALL_KYC -> apiProject.api.postCallKYC(dmiConnector.apiRequest as Requests.RequestKYC)
             ConstantsApi.CALL_DOC_TYPE -> apiProject.api.getDocumentType((dmiConnector.apiRequest as Requests.RequestDocumentList).codeId)
-            ConstantsApi.CALL_UPLOADED_DOC -> apiProject.api.getDocumentList((dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).codeId, (dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).leadId)
+            ConstantsApi.CALL_UPLOADED_DOC -> apiProject.api.getDocumentList((dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).codeId, (dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).leadId, (dmiConnector.apiRequest as Requests.RequestUploadedDocumentList).applicantNumber)
             ConstantsApi.CALL_DOWNLOAD_DOCUMENT -> apiProject.api.getDocumentDownloadableLink((dmiConnector.apiRequest as Requests.RequestDocumentDownloadableLink).DocumentId)
             ConstantsApi.Call_FINAL_RESPONSE ->apiProject.api.finalSubmittedResponse((dmiConnector.apiRequest as Requests.RequestSubmittedLead).leadID)
             ConstantsApi.CALL_EDIT_LEAD -> apiProject.api.editLead(dmiConnector.apiRequest as Requests.RequestEditLead)

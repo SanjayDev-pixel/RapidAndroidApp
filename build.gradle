@@ -46,7 +46,7 @@ ext {
 
   // Application Versions
   versionCode = 1
-  versionName = "p_v_1.3"
+  versionName = "p_v_1.5"
 //p_v_1.0
   //p_v_1.2
   // App dependencies
@@ -55,7 +55,7 @@ ext {
   runnerVersion = "1.0.1"
   rulesVersion = "1.0.1"
   espressoVersion = "3.0.1"
-  room_version = "1.1.1"
+  room_version = "1.1.2"
   lifecycle_version = "1.1.1"
   nav_version = '1.0.0-alpha05'
 

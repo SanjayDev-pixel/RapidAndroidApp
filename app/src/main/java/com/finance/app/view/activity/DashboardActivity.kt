@@ -85,6 +85,8 @@ class DashboardActivity : BaseAppCompatActivity() {
 
     private fun startLocationTrackerService() {
         val intent = Intent(applicationContext , ForegroundLocationTrackerService::class.java)
+        intent.action = "DashBoardActivity"
+        intent.putExtra("LEADID",0)
         ContextCompat.startForegroundService(applicationContext , intent)
     }
 

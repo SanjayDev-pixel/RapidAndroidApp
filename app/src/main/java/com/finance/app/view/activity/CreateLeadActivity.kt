@@ -231,6 +231,8 @@ class CreateLeadActivity : BaseAppCompatActivity() {
             val channelPartnerID = binding.viewChannelPartnernew.getPartnerName()
             val cpnameTypeDetailId: Int?= channelPartnerID?.channelTypeTypeDetailID
             val sourcingChannelPartID :Int?=sPartner?.typeDetailID
+
+
             val channelPartnerDSAID = channelPartnerID?.dsaID
 
             return Requests.RequestAddLead(applicantAddress = binding.etArea.text.toString(),
@@ -241,7 +243,7 @@ class CreateLeadActivity : BaseAppCompatActivity() {
                     applicantLastName = binding.etApplicantLastName.text.toString(),
                     branchID = branchDD?.branchID,
                     loanProductID = lProductDD?.productID,
-                    channelPartnerID=cpnameTypeDetailId,
+                    channelPartnerID=channelPartnerDSAID,
                     sourcingChannelPartnerTypeDetailID=sourcingChannelPartID,
                     amountRequest=loanAmount,
                     dsaID= channelPartnerDSAID)

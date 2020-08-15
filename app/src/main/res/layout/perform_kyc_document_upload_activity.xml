@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.finance.app.view.activity.PerformKycDocumentUploadActivity">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayoutDocument"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.finance.app.view.activity.SelfDeclarationUploadDocumentActivity">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,7 +17,7 @@
 
             <include
                 android:id="@+id/header"
-                layout="@layout/layout_back_self_declaration"
+                layout="@layout/layout_back_kyc_document_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true" />

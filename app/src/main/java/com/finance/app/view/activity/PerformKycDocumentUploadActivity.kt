@@ -20,8 +20,7 @@ import androidx.work.WorkManager
 import com.afollestad.assent.Assent
 import com.afollestad.assent.AssentCallback
 import com.finance.app.R
-import com.finance.app.databinding.ActivityDocumentUploadingBinding
-import com.finance.app.databinding.SelfDeclarationUploadDocumentActivityBinding
+import com.finance.app.databinding.PerformKycDocumentUploadActivityBinding
 import com.finance.app.locationTracker.ForegroundLocationTrackerService
 import com.finance.app.persistence.model.DocumentTypeModel
 import com.finance.app.persistence.model.KycDocumentModel
@@ -48,8 +47,7 @@ import java.io.FileNotFoundException
 import java.util.*
 import javax.inject.Inject
 
-class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
-
+class PerformKycDocumentUploadActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var dataBase: DataBaseUtil
     @Inject
@@ -62,88 +60,7 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
     private var applicationDocumentID: String? = null
 
     private val presenter = Presenter()
-
-    private val binding: SelfDeclarationUploadDocumentActivityBinding by ActivityBindingProviderDelegate(this , R.layout.self_declaration_upload_document_activity)
-
-    companion object {
-        const val DOCUMENT_REQ_CODE = 1000
-        const val DOCUMENT_IMAGE_REQ_CODE = 1001
-        const val DOCUMENT_UPLOAD_BUNDLE = "document_upload_bundle"
-
-        fun startActivity(context: Context , bundle: Bundle) {
-            val intent = Intent(context , SelfDeclarationUploadDocumentActivity::class.java)
-            intent.putExtra(DOCUMENT_UPLOAD_BUNDLE , bundle)
-            context.startActivity(intent)
-        }
-    }
-
-    inner class DocumentTypeListRequest : ViewGeneric<Requests.RequestDocumentList , Response.ResponseDocumentList>(context = this) {
-        override val apiRequest: Requests.RequestDocumentList?
-            get() = getDocumentTypeListRequest()
-
-        override fun getApiSuccess(value: Response.ResponseDocumentList) {
-            hideProgressDialog()
-            if(value.responseObj!= null)
-            {
-                var documentTypestemp : ArrayList<DocumentTypeModel> = ArrayList()
-                for(i in 0 until value.responseObj?.documentTypes!!.size)
-                {
-
-                    System.out.println("document Name>>>"+value.responseObj.documentTypes[i])
-                    if(i ==1)
-                    {
-                        documentTypestemp.add(value.responseObj.documentTypes[i])
-
-                    }
-                    else if( i == 7)
-                    {
-                        documentTypestemp.add(value.responseObj.documentTypes[i])
-                    }
-
-                }
-                setDocumentTypeSpinner(documentTypes = documentTypestemp)
-            }
-
-
-            /*value.responseObj?.let { setDocumentTypeSpinner(it.documentTypes) } ?: kotlin.run {}*/
-        }
-
-        override fun getApiFailure(msg: String) {
-            hideProgressDialog()
-            Toast.makeText(this@SelfDeclarationUploadDocumentActivity , msg , Toast.LENGTH_LONG).show()
-        }
-    }
-
-    inner class UploadedDocumentListRequest : ViewGeneric<Requests.RequestUploadedDocumentList , Response.ResponseUploadedDocumentList>(context = this) {
-        override val apiRequest: Requests.RequestUploadedDocumentList?
-            get() = getUploadedDocumentListRequest()
-
-        override fun getApiSuccess(value: Response.ResponseUploadedDocumentList) {
-            binding.swipeLayoutDocument.isRefreshing = false
-            value.responseObj?.let { response ->
-                response.documents?.let { documentList ->
-                    setUploadedDocumentListAdapter(documentList)
-                }
-            }
-        }
-    }
-
-    inner class DownloadableDocumentLinkRequest(private val documentId: Int) : ViewGeneric<Requests.RequestDocumentDownloadableLink , Response.ResponseDocumentDownloadableLink>(context = this) {
-        override val apiRequest: Requests.RequestDocumentDownloadableLink?
-            get() = Requests.RequestDocumentDownloadableLink(documentId)
-        override fun getApiSuccess(value: Response.ResponseDocumentDownloadableLink) {
-            value.responseObj?.let { response ->
-                response.documentPath?.let { url ->
-                    val builder = CustomTabsIntent.Builder()
-                    builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
-                    builder.setShowTitle(false)
-                    val customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(this@SelfDeclarationUploadDocumentActivity , Uri.parse(url))
-                }
-            }
-        }
-    }
-
+    private val binding : PerformKycDocumentUploadActivityBinding by ActivityBindingProviderDelegate(this , R.layout.perform_kyc_document_upload_activity)
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         hideToolbar()
@@ -155,6 +72,17 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
         fetchDocumentTypeList()
         fetchUploadedDocumentList()
     }
+    companion object {
+        const val DOCUMENT_REQ_CODE = 1000
+        const val DOCUMENT_IMAGE_REQ_CODE = 1001
+        const val DOCUMENT_UPLOAD_BUNDLE = "document_upload_bundle"
+
+        fun startActivity(context: Context , bundle: Bundle) {
+            val intent = Intent(context , PerformKycDocumentUploadActivity::class.java)
+            intent.putExtra(DOCUMENT_UPLOAD_BUNDLE , bundle)
+            context.startActivity(intent)
+        }
+    }
     private fun startLocationTrackerService(screenName : String?) {
         val leadId = LeadMetaData.getLeadId()
         val intent = Intent(applicationContext , ForegroundLocationTrackerService::class.java)
@@ -162,29 +90,25 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
         intent.putExtra("LEADID",leadId)
         ContextCompat.startForegroundService(applicationContext , intent)
     }
-
     private fun setLeadNumber() {
         binding.header.tvLeadNumber.text = "${LeadMetaData.getLeadData()?.leadNumber}"
     }
 
     private fun setScreenTitle() {
         binding.tvLabelTitle.text = screenTitle?.let { title -> "$title Uploaded Document" } ?: run { "Uploaded Document" }
-        startLocationTrackerService("Self-Declaration KYC")
     }
 
     private fun setOnClickListener() {
         binding.swipeLayoutDocument.setOnRefreshListener { fetchUploadedDocumentList() }
-        binding.header.linearBack.setOnClickListener {
-          //KYCActivity.start(applicationContext,applicantNumber,2)
-               onBackPressed()
-        }
+
+        binding.header.linearBack.setOnClickListener { this.finish() }
         binding.btnPickFile.setOnClickListener {
             Assent.requestPermissions(AssentCallback { result ->
                 if (result.allPermissionsGranted())
-                    //showFileTypeChooserDialog()
-                    selectedDocumentUri = this@SelfDeclarationUploadDocumentActivity.getImageUriForImagePicker("doc_image_${Date().time}")
-                    selectedDocumentUri?.let { uri ->
-                    this@SelfDeclarationUploadDocumentActivity.startImagePickerActivity(DOCUMENT_IMAGE_REQ_CODE , uri)
+                //showFileTypeChooserDialog()
+                    selectedDocumentUri = this@PerformKycDocumentUploadActivity.getImageUriForImagePicker("doc_image_${Date().time}")
+                selectedDocumentUri?.let { uri ->
+                    this@PerformKycDocumentUploadActivity.startImagePickerActivity(DOCUMENT_IMAGE_REQ_CODE , uri)
                 }
             } , 1 , Assent.WRITE_EXTERNAL_STORAGE , Assent.CAMERA)
 
@@ -202,12 +126,16 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
                 if(position>=0) {
                     var str = parent.getItemAtPosition(position).toString()
                     binding.etDocumentName.setText(str + "_" + applicantNumber)
+
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
 
         }
+
+
+
     }
 
     private fun setUploadedDocumentListAdapter(documentList: ArrayList<DocumentTypeModel>) {
@@ -226,7 +154,7 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
     }
 
     private fun getBundleData() {
-        val bundle = intent.getBundleExtra(DOCUMENT_UPLOAD_BUNDLE)
+        val bundle = intent.getBundleExtra(DocumentUploadingActivity.DOCUMENT_UPLOAD_BUNDLE)
         bundle?.let {
             screenTitle = it.getString(Constants.KEY_TITLE)
             docCodeId = it.getInt(Constants.KEY_DOC_ID)
@@ -234,6 +162,7 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
             if (it.containsKey(Constants.KEY_FORM_ID)) {
                 applicationDocumentID = it.getString(Constants.KEY_FORM_ID)
             }
+            startLocationTrackerService(screenTitle)
         }
     }
 
@@ -253,10 +182,23 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
     }
 
     private fun getUploadedDocumentListRequest(): Requests.RequestUploadedDocumentList? {
-           val leadId = LeadMetaData.getLeadId()
-        System.out.println("LeadId>>>>>"+leadId)
+        val leadId = LeadMetaData.getLeadId()
+       /* var splitLeadId : String = ""
+        if(LeadMetaData.getLeadId() == null)
+        {
+            splitLeadId = leadApplicantNumber!!.split("_".toRegex())[0]
+            System.out.println("leadId>>>If>>>>"+splitLeadId)
+        }
+        else
+        {
+            splitLeadId = documentModel.leadID.toString()
+            System.out.println("leadId>>>else>>>>"+splitLeadId)
+        }
+        System.out.println("LeadId>>>>>"+leadId)*/
         return docCodeId?.let { leadId?.let { it1 -> applicantNumber?.let { it2 -> Requests.RequestUploadedDocumentList(it , it1 , it2) } } }
+        //return docCodeId?.let { LeadMetaData.getLeadId()?.let { it1 -> applicantNumber?.let { it2 -> Requests.RequestUploadedDocumentList(it , it1 , it2) } } }
         //return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> Requests.RequestUploadedDocumentList(codeId , it) } }
+        //return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> applicantNumber?.let { it1 -> Requests.RequestUploadedDocumentList(codeId , it, it1) } } }
     }
 
     private fun onClearSelectedDocumentDetails() {
@@ -268,15 +210,15 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
 
     private fun showFileTypeChooserDialog() {
         val actionList = arrayOf(Constants.ACTION_PICK_FILE , Constants.ACTION_TAKE_IMAGE)
-        val builder = AlertDialog.Builder(this@SelfDeclarationUploadDocumentActivity)
+        val builder = AlertDialog.Builder(this@PerformKycDocumentUploadActivity)
         builder.setTitle("Choose Action!")
         builder.setItems(actionList) { _ , which ->
             when (actionList[which]) {
-                Constants.ACTION_PICK_FILE -> this@SelfDeclarationUploadDocumentActivity.startFilePickerActivity(DOCUMENT_REQ_CODE)
+                Constants.ACTION_PICK_FILE -> this@PerformKycDocumentUploadActivity.startFilePickerActivity(DocumentUploadingActivity.DOCUMENT_REQ_CODE)
                 Constants.ACTION_TAKE_IMAGE -> {
-                    selectedDocumentUri = this@SelfDeclarationUploadDocumentActivity.getImageUriForImagePicker("doc_image_${Date().time}")
+                    selectedDocumentUri = this@PerformKycDocumentUploadActivity.getImageUriForImagePicker("doc_image_${Date().time}")
                     selectedDocumentUri?.let { uri ->
-                        this@SelfDeclarationUploadDocumentActivity.startImagePickerActivity(DOCUMENT_IMAGE_REQ_CODE , uri)
+                        this@PerformKycDocumentUploadActivity.startImagePickerActivity(DocumentUploadingActivity.DOCUMENT_IMAGE_REQ_CODE , uri)
                     }
                 }
             }
@@ -315,7 +257,7 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
             return false
         }
 
-        return formValidation.validateKycDocumentDetailSelf(binding)
+        return formValidation.validateUploadKycDocumentDetail(binding)
     }
 
     private fun saveKycDocumentIntoDatabase() {
@@ -327,16 +269,19 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
         kycDocumentModel.documentName = binding.etDocumentName.text.toString()
         kycDocumentModel.document = selectedDocumentUri.toString()
         //kycDocumentModel.Active = 1
-        kycDocumentModel.moduleName =Constants.SELF_DECLARATION
+        kycDocumentModel.moduleName = Constants.PERFORMANCE_KYC_DOC
+
         //Now Save data into database,then start worker...
         val handler = Handler(Looper.getMainLooper())
+
         GlobalScope.launch {
             dataBase.provideDataBaseSource().kycDocumentDao().add(kycDocumentModel)
             startDocumentWorkerTask()
             handler.post {
-                Toast.makeText(this@SelfDeclarationUploadDocumentActivity , "Document Saved Successfully" , Toast.LENGTH_LONG).show()
+                Toast.makeText(this@PerformKycDocumentUploadActivity , "Document Saved Successfully" , Toast.LENGTH_LONG).show()
             }
         }
+
         //Now Clear the screen...
         onClearSelectedDocumentDetails()
     }
@@ -347,16 +292,82 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
         val mWorkManager = WorkManager.getInstance()
         val mRequest = OneTimeWorkRequest.Builder(UploadDocumentWorker::class.java).build()
         val data = Data.Builder()
-
         mWorkManager.enqueue(mRequest)
     }
 
     override fun onActivityResult(requestCode: Int , resultCode: Int , data: Intent?) {
         when (requestCode) {
-            DOCUMENT_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onDocumentSelected(data) else selectedDocumentUri = null
-            DOCUMENT_IMAGE_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onImageSelected(selectedDocumentUri) else selectedDocumentUri = null
-            else -> Toast.makeText(this@SelfDeclarationUploadDocumentActivity , "Did not pick image, please try again!" , Toast.LENGTH_LONG).show()
+            DocumentUploadingActivity.DOCUMENT_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onDocumentSelected(data) else selectedDocumentUri = null
+            DocumentUploadingActivity.DOCUMENT_IMAGE_REQ_CODE -> if (resultCode == Activity.RESULT_OK) onImageSelected(selectedDocumentUri) else selectedDocumentUri = null
+            else -> Toast.makeText(this@PerformKycDocumentUploadActivity , "Did not pick image, please try again!" , Toast.LENGTH_LONG).show()
+        }
+    }
+    inner class DocumentTypeListRequest : ViewGeneric<Requests.RequestDocumentList , Response.ResponseDocumentList>(context = this) {
+        override val apiRequest: Requests.RequestDocumentList?
+            get() = getDocumentTypeListRequest()
+
+        override fun getApiSuccess(value: Response.ResponseDocumentList) {
+            hideProgressDialog()
+            if(value.responseObj!= null)
+            {
+                var documentTypestemp : ArrayList<DocumentTypeModel> = ArrayList()
+                for(i in 0 until value.responseObj?.documentTypes!!.size)
+                {
+
+                    System.out.println("document Name>>>"+value.responseObj.documentTypes[i])
+                    if(value.responseObj?.documentTypes[i].documentID == 93)
+                    {
+                        documentTypestemp.add(value.responseObj.documentTypes[i])
+
+                    }
+                    else if(value.responseObj?.documentTypes[i].documentID == 94)
+                    {
+                        documentTypestemp.add(value.responseObj.documentTypes[i])
+                    }
+                    else if(value.responseObj?.documentTypes[i].documentID == 95)
+                    {
+                        documentTypestemp.add(value.responseObj.documentTypes[i])
+                    }
+
+                }
+                setDocumentTypeSpinner(documentTypes = documentTypestemp)
+            }
+            //value.responseObj?.let { setDocumentTypeSpinner(it.documentTypes) } ?: kotlin.run {}
+        }
+
+        override fun getApiFailure(msg: String) {
+            hideProgressDialog()
+            Toast.makeText(this@PerformKycDocumentUploadActivity , msg , Toast.LENGTH_LONG).show()
         }
     }
 
+    inner class UploadedDocumentListRequest : ViewGeneric<Requests.RequestUploadedDocumentList , Response.ResponseUploadedDocumentList>(context = this) {
+        override val apiRequest: Requests.RequestUploadedDocumentList?
+            get() = getUploadedDocumentListRequest()
+
+        override fun getApiSuccess(value: Response.ResponseUploadedDocumentList) {
+            binding.swipeLayoutDocument.isRefreshing = false
+            value.responseObj?.let { response ->
+                response.documents?.let { documentList ->
+                    setUploadedDocumentListAdapter(documentList)
+                }
+            }
+        }
+    }
+
+    inner class DownloadableDocumentLinkRequest(private val documentId: Int) : ViewGeneric<Requests.RequestDocumentDownloadableLink , Response.ResponseDocumentDownloadableLink>(context = this) {
+        override val apiRequest: Requests.RequestDocumentDownloadableLink?
+            get() = Requests.RequestDocumentDownloadableLink(documentId)
+        override fun getApiSuccess(value: Response.ResponseDocumentDownloadableLink) {
+            value.responseObj?.let { response ->
+                response.documentPath?.let { url ->
+                    val builder = CustomTabsIntent.Builder()
+                    builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+                    builder.setShowTitle(false)
+                    val customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(this@PerformKycDocumentUploadActivity , Uri.parse(url))
+                }
+            }
+        }
+    }
 }

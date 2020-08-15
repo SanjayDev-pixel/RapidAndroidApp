@@ -20,7 +20,7 @@ class ApplicantKycListAdapter(private val mContext : Context , private val appli
         return ViewHolder(v,mContext,leadId)
     }
     interface CardClickListener {
-        fun onCardFetchKycClicked(position: Int,leadId: String,leadApplicantNumber : String?)
+        fun onCardFetchKycClicked(position: Int,leadId: String,leadApplicantNumber : String,callType : Int)
 
     }
     fun setOnCardClickListener(listener: CardClickListener) {
@@ -40,31 +40,44 @@ class ApplicantKycListAdapter(private val mContext : Context , private val appli
     //the class is hodling the list view
     inner class ViewHolder(itemView: View,val c: Context,val leadId : String) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindItems(applicantDetail : ArrayList<PersonalApplicantsModel> , position : Int) {
+        fun bindItems(applicantDetail: ArrayList<PersonalApplicantsModel> , position: Int) {
             val tvfirstName = itemView.findViewById(R.id.tvfirstName) as TextView
-            val tvILastName  = itemView.findViewById(R.id.tvILastName) as TextView
-            val tvLeadId  = itemView.findViewById(R.id.tvLeadId) as TextView
-            val btnPerformKyc =  itemView.findViewById(R.id.btnPerformKyc) as Button
-            val btnFetchKyc =  itemView.findViewById(R.id.btnFetchKyc) as Button
+            val tvILastName = itemView.findViewById(R.id.tvILastName) as TextView
+            val tvLeadId = itemView.findViewById(R.id.tvLeadId) as TextView
+            val btnPerformKyc = itemView.findViewById(R.id.btnPerformKyc) as Button
+            val btnFetchKyc = itemView.findViewById(R.id.btnFetchKyc) as Button
+            val btnUploadKycDocument = itemView.findViewById(R.id.btnUploadKycDocument) as Button
             tvfirstName.text = applicantDetail[position].firstName
             tvILastName.text = applicantDetail[position].lastName
             tvLeadId.text = applicantDetail[position].leadApplicantNumber
-            System.out.println("inComeConsider>>>>"+applicantDetail[position].incomeConsidered)
-            btnPerformKyc.setOnClickListener{
+            System.out.println("inComeConsider>>>>" + applicantDetail[position].incomeConsidered)
+            if(applicantDetail[position].incomeConsidered == true)
+            {
+                btnUploadKycDocument.visibility = View.VISIBLE
+            }
+            else{
+                btnUploadKycDocument.visibility = View.GONE
+            }
 
-                System.out.println("lead Id DataBase>>>>"+leadId)
-                if(applicantDetail[position].incomeConsidered == true)
-                {
-                    KYCActivity.start(c ,applicantDetail[position].leadApplicantNumber,0,1)
-                }
-                else
-                {
-                    KYCActivity.start(c ,applicantDetail[position].leadApplicantNumber,1,1)
+            btnPerformKyc.setOnClickListener {
+
+                System.out.println("lead Id DataBase>>>>" + leadId)
+                if (applicantDetail[position].incomeConsidered == true) {
+                    KYCActivity.start(c , applicantDetail[position].leadApplicantNumber , 0 , 1)
+
+
+                } else {
+                    KYCActivity.start(c , applicantDetail[position].leadApplicantNumber , 1 , 1)
+
+
                 }
 
             }
-            btnFetchKyc.setOnClickListener{
-                mOnCardClickListener!!.onCardFetchKycClicked(position,leadId,applicantDetail[position].leadApplicantNumber)
+            btnFetchKyc.setOnClickListener {
+                mOnCardClickListener!!.onCardFetchKycClicked(position , leadId , applicantDetail[position].leadApplicantNumber!! , 0)
+            }
+            btnUploadKycDocument.setOnClickListener {
+                mOnCardClickListener!!.onCardFetchKycClicked(position , leadId , applicantDetail[position].leadApplicantNumber!! , 1)
             }
         }
     }

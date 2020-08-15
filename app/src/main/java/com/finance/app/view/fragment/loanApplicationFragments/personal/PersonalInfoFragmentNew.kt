@@ -82,17 +82,15 @@ class PersonalInfoFragmentNew : BaseFragment() {
             binding.btnDeleteCoApplicant.visibility =  View.GONE
 
         }
-       
+
 
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
 
             }
-
             override fun onPageScrolled(position: Int , positionOffset: Float , positionOffsetPixels: Int) {
 
             }
-
             override fun onPageSelected(position: Int) {
                 pagerPosition = position
                 if(pagerPosition>0 && checkLeadIsSubmitted ==0)
@@ -135,10 +133,26 @@ class PersonalInfoFragmentNew : BaseFragment() {
                     //setApplicantTabLayout(ArrayList(it.personalData.applicantDetails))
                     //it.personalData.applicantDetails[pagerPosition].isActive = false
                     //setApplicantTabLayout(ArrayList(it.personalData.applicantDetails))
+
                     pagerAdapterApplicants?.deleteItem(pagerPosition)
-                    it.bankData.bankDetailList.removeAt(pagerPosition)
-                    it.employmentData.applicantDetails.removeAt(pagerPosition)
-                    it.documentData.documentDetailList.removeAt(pagerPosition)
+                    if (it.bankData.bankDetailList.size > 0) {
+                            if(pagerPosition < it.bankData.bankDetailList.size) {
+                                it.bankData.bankDetailList.removeAt(pagerPosition)
+                            }
+                        }
+                    if(it.employmentData.applicantDetails.size > 0) {
+                       if(pagerPosition < it.employmentData.applicantDetails.size) {
+                           it.employmentData.applicantDetails.removeAt(pagerPosition)
+                       }
+                    }
+
+                        if(it.documentData.documentDetailList.size > 0) {
+                            if(pagerPosition < it.documentData.documentDetailList.size) {
+                                it.documentData.documentDetailList.removeAt(pagerPosition)
+                            }
+                        }
+
+
                     /*pagerAdapterApplicants?.let { adapter ->
                         if (adapter.isApplicantDetailsValid()) {
                             LeadMetaData().savePersonalData(adapter.getApplicantDetails())

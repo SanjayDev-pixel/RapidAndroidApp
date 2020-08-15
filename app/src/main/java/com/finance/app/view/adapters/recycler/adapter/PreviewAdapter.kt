@@ -66,6 +66,7 @@ class PreviewAdapter(private val mContext: FragmentActivity, private val lead: A
                 propertyPreviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.preview_layout_property, parent, false)
                 PreviewPropertyHolder(propertyPreviewBinding, mContext)
             }
+
             AppEnums.ScreenLoanApp.DOCUMENT_CHECKLIST -> {
                 documentsPreviewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.preview_layout_document_checklist, parent, false)
                 PreviewDocumentsHolder(documentsPreviewBinding, mContext)

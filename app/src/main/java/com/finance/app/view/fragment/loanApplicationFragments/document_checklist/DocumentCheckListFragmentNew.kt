@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.finance.app.R
 import com.finance.app.databinding.FragmentAssetliabilityNewBinding
 import com.finance.app.databinding.FragmentDocumentChecklistBinding
@@ -20,6 +22,8 @@ import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.activity.*
 import com.finance.app.view.adapters.recycler.adapter.DocumentCheckLIstPagerAdapter
+import com.finance.app.view.adapters.recycler.adapter.NavMenuAdapter
+import com.finance.app.view.fragment.loanApplicationFragments.document_upload_kyc.DocumentUploadFragmentNew
 import kotlinx.android.synthetic.main.activity_update_call.*
 import kotlinx.android.synthetic.main.layout_fixed_meeting.view.*
 import kotlinx.android.synthetic.main.layout_follow_up.view.*
@@ -90,6 +94,12 @@ class DocumentCheckListFragmentNew : BaseFragment(){
                     if(adapter.isDocumentDetailsValid()){
                         LeadMetaData().saveDocumentData(adapter.getAllChecklistDetail())
                         PreviewActivity.start(mContext)
+                       /* var fragment: Fragment? = DocumentUploadFragmentNew.newInstance()
+                        val ft = (mContext as AppCompatActivity).supportFragmentManager.beginTransaction().apply {
+                            replace(R.id.secondaryFragmentContainer, fragment!!)
+                            addToBackStack(null)
+                        }
+                        ft.commit()*/
                     }
                     else
                     {

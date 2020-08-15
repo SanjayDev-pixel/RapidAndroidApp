@@ -73,6 +73,7 @@
             android:name=".view.activity.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.SelfDeclarationUploadDocumentActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.activity.PerformKycDocumentUploadActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.UploadedFormDataActivity"
             android:screenOrientation="portrait" />

@@ -39,6 +39,7 @@ class PersonalPagerAdapter internal constructor(fm: FragmentManager, val applica
     fun deleteItem(position: Int) {
         System.out.println("ApplucantListSize>>>>"+applicantsList.size)
         if (position >= 0) {
+
             applicantsList.removeAt(position)
             fragmentList.removeAt(position)
             notifyDataSetChanged()

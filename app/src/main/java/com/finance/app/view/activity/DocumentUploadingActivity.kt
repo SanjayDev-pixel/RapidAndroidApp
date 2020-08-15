@@ -14,6 +14,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
@@ -22,6 +23,7 @@ import com.afollestad.assent.Assent
 import com.afollestad.assent.AssentCallback
 import com.finance.app.R
 import com.finance.app.databinding.ActivityDocumentUploadingBinding
+import com.finance.app.locationTracker.ForegroundLocationTrackerService
 import com.finance.app.persistence.model.DocumentTypeModel
 import com.finance.app.persistence.model.KycDocumentModel
 import com.finance.app.presenter.presenter.Presenter
@@ -220,9 +222,17 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
             if (it.containsKey(Constants.KEY_FORM_ID)) {
                 applicationDocumentID = it.getString(Constants.KEY_FORM_ID)
             }
+            startLocationTrackerService(screenTitle)
         }
-    }
 
+    }
+    private fun startLocationTrackerService(screenName : String?) {
+        val leadId = LeadMetaData.getLeadId()
+        val intent = Intent(applicationContext , ForegroundLocationTrackerService::class.java)
+        intent.action = screenName
+        intent.putExtra("LEADID",leadId)
+        ContextCompat.startForegroundService(applicationContext , intent)
+    }
     private fun fetchDocumentTypeList() {
         showProgressDialog()
         if (docCodeId != null)
@@ -239,7 +249,12 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
     }
 
     private fun getUploadedDocumentListRequest(): Requests.RequestUploadedDocumentList? {
-        return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> Requests.RequestUploadedDocumentList(codeId , it) } }
+        //val leadId = LeadMetaData.getLeadId()
+        //return leadId?.let { docCodeId?.let { it1 -> applicantNumber?.let { it2 -> Requests.RequestUploadedDocumentList(it1 , it , it2) } } }
+        //return LeadMetaData.getLeadId()?.let { docCodeId?.let { codeId -> Requests.RequestUploadedDocumentList(codeId , it) } }
+        //return docCodeId?.let { LeadMetaData.getLeadId()?.let { it1 -> applicantNumber?.let { it2 -> Requests.RequestUploadedDocumentList(it , it1 , it2) } } }
+        val leadId = LeadMetaData.getLeadId()
+        return docCodeId?.let { leadId?.let { it1 -> applicantNumber?.let { it2 -> Requests.RequestUploadedDocumentList(it , it1 , it2) } } }
     }
 
     private fun onClearSelectedDocumentDetails() {
@@ -271,6 +286,9 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         data?.let {
             selectedDocumentUri = it.data
             binding.btnPickFile.error = null
+            val path = selectedDocumentUri?.path.toString()
+            System.out.println("Path of image>>>>"+path)
+
         }
     }
 
@@ -309,6 +327,8 @@ class DocumentUploadingActivity : BaseAppCompatActivity() {
         kycDocumentModel.documentID = (binding.spinnerDocumentType.selectedItem as DocumentTypeModel?)?.documentID
         kycDocumentModel.documentName = binding.etDocumentName.text.toString()
         kycDocumentModel.document = selectedDocumentUri.toString()
+        //kycDocumentModel.Active = 1
+        kycDocumentModel.moduleName = Constants.ALL_MODULE
 
         //Now Save data into database,then start worker...
         val handler = Handler(Looper.getMainLooper())

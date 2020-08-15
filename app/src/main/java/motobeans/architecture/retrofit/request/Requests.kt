@@ -17,7 +17,7 @@ object Requests {
     data class RequestFollowUp(val leadID: Int)
     data class RequestKYC(val leadID: Int?, val leadApplicantNumber: String?)
     data class RequestDocumentList(val codeId: Int)
-    data class RequestUploadedDocumentList(val codeId: Int, val leadId: Int)
+    data class RequestUploadedDocumentList(val codeId: Int, val leadId: Int,val applicantNumber:String)
     data class RequestDocumentDownloadableLink(val DocumentId: Int)
     data class RequestSubmittedLead(val leadID: Int)
     data class RequestEditLead(val leadID:Int?,val applicantFirstName: String,val applicantMiddleName:String,val applicantLastName : String,val applicantContactNumber:String, val applicantAlternativeContactNumber:String?,val applicantEmail:String,val applicantAddress:String,val remarks:String?,val loanProductID:Int?,val branchID: Int?,val amountRequest:Float?,val channelPartnerID:Int?, val sourcingChannelPartnerTypeDetailID: Int?,val dsaID: Int?)

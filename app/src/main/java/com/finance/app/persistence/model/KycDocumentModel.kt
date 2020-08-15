@@ -12,10 +12,12 @@ class KycDocumentModel : Serializable {
 
     var leadID: Int? = null
     var applicationDocumentID: String? = null
+    //var formId: String? = null
     var documentID: Int? = null
     var documentName: String? = null
     var leadApplicantNumber: String? = null
     var document: String? = null
-//    var isSyncWithServer: Boolean = true
+    //var Active: Int ? = null
+    var moduleName : String ? = null
 
 }

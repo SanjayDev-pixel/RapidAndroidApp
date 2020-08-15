@@ -220,14 +220,14 @@ class KYCActivity : BaseAppCompatActivity() {
             bindingDialog.selfDeclartion.visibility = View.GONE
         }
 
-        if(isLeadSubmitted == 1)
+       /* if(isLeadSubmitted == 1)
         {
             bindingDialog.selfDeclartion.visibility = View.GONE
         }
         else if(isIncomeConsider == 1)
         {
             bindingDialog.selfDeclartion.visibility = View.VISIBLE
-        }
+        }*/
         bindingDialog?.groupRadioButton?.setOnCheckedChangeListener(
                 RadioGroup.OnCheckedChangeListener { group , checkedId ->
 

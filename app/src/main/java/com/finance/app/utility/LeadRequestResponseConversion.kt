@@ -22,6 +22,7 @@ class LeadRequestResponseConversion {
                 PROPERTY -> gson.fromJson(response.draftData, PropertyModel::class.java)
                 REFERENCE -> gson.fromJson(response.draftData, ReferencesList::class.java)
                 DOCUMENT ->gson.fromJson(response.draftData,DocumentDetailList::class.java)
+
             }
         }
         return null
@@ -45,6 +46,7 @@ class LeadRequestResponseConversion {
                     PROPERTY -> gson.toJson(response.propertyData)
                     REFERENCE -> gson.toJson(response.referenceData)
                     DOCUMENT ->gson.toJson(response.documentData)
+
                 }
             }
         }

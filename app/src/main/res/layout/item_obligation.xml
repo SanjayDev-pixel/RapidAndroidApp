@@ -330,7 +330,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5sp"
                         android:gravity="left"
-                        android:text="Bank of India"
+                        android:text="N/A"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1" />
                 </LinearLayout>

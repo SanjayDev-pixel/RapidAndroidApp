@@ -49,7 +49,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:background="@color/colorPrimary"
-            android:visibility="visible"
+            android:visibility="gone"
             android:text="Delete Coapplicant"
             android:textAllCaps="false"
             android:textColor="@color/white"

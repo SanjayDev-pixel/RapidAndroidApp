@@ -141,6 +141,7 @@ class LeadDetailActivity : BaseAppCompatActivity() {
         binding.btnUpdateApplication.setOnClickListener {
            if (LeadMetaData.getLeadData()?.status == "Rejected") {
                 showAlert()
+               //checkAndStartLoanApplicationActivity(lead)
             }
             else{
             checkAndStartLoanApplicationActivity(lead)

@@ -220,6 +220,7 @@ class EmploymentFormFragmentNew : BaseFragment() {
                 handler.postDelayed({
                     selectedApplicant?.let { applicant -> fetchApplicantEmploymentDetails(applicant) }
                 } , 1000)
+
             }
         })
     }
@@ -296,6 +297,30 @@ class EmploymentFormFragmentNew : BaseFragment() {
 
     private fun bindSalarySpinnersData() {
         binding.lytSalaryDetail.spinnerSector.adapter = MasterSpinnerAdapter(mContext , allMasterDropDown?.Sector)
+        binding.lytSalaryDetail.spinnerSector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>? , view: View? , position: Int , id: Long) {
+                //Check here
+
+               val sectorSelected = parent?.selectedItem as DropdownMaster?
+                sectorSelected.let { sector ->
+                    if(sector?.typeDetailID == Constants.SECTOR_GOVERMENT)
+                    {
+                        binding.lytSalaryDetail.spinnerIndustry.visibility = View.GONE
+                        binding.lytSalaryDetail.spinnerIndustry.adapter = MasterSpinnerAdapter(mContext , allMasterDropDown?.Industry)
+                    }
+                    else
+                    {
+                        binding.lytSalaryDetail.spinnerIndustry.visibility = View.VISIBLE
+
+                    }
+                }
+            }
+
+        }
         binding.lytSalaryDetail.spinnerIndustry.adapter = MasterSpinnerAdapter(mContext , allMasterDropDown?.Industry)
         binding.lytSalaryDetail.spinnerEmploymentType.adapter = MasterSpinnerAdapter(mContext , allMasterDropDown?.EmploymentType)
     }

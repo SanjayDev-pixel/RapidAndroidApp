@@ -2,7 +2,6 @@ package com.finance.app.view.activity
 
 import android.app.Dialog
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ProgressBar
@@ -10,31 +9,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.finance.app.R
 import com.finance.app.databinding.DialogKycDetailBinding
 import com.finance.app.persistence.model.*
-import com.finance.app.presenter.connector.CoApplicantsConnector
-import com.finance.app.presenter.presenter.CoApplicantsPresenter
 import com.finance.app.presenter.presenter.Presenter
 import com.finance.app.presenter.presenter.ViewGeneric
 import com.finance.app.utility.ConvertDate
-import com.finance.app.utility.LeadMetaData
 import com.finance.app.view.adapters.recycler.adapter.ApplicantKycListAdapter
-import com.finance.app.view.adapters.recycler.adapter.CardDetailAdapter
 import com.finance.app.viewModel.LeadDataViewModel
-import kotlinx.android.synthetic.main.layout_zip_address.view.*
 import motobeans.architecture.appDelegates.ViewModelType
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.constants.Constants
 import motobeans.architecture.constants.ConstantsApi
-import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
+import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.retrofit.request.Requests
 import motobeans.architecture.retrofit.response.Response
 import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
-import java.text.SimpleDateFormat
-import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.CardClickListener{
@@ -45,6 +39,9 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
     private val leadDataViewModel: LeadDataViewModel by motobeans.architecture.appDelegates.viewModelProvider(this, ViewModelType.WITH_DAO)
     private var leadData :AllLeadMaster?=null
     private var detailKycDialog: Dialog? = null
+    private var allMasterDropdown: AllMasterDropDown? = null
+    @Inject
+    lateinit var dataBase: DataBaseUtil
     //private val coApplicantPresenter = CoApplicantsPresenter(CoApplicantsConnector.CoApplicants)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +54,15 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
             presenter.callNetwork(ConstantsApi.CALL_KYC_APPLICANT_DETAILS,CallFinalSubmit())
         }
 
+        ArchitectureApp.instance.component.inject(this)
+
+        dataBase.provideDataBaseSource().allMasterDropDownDao().getMasterDropdownValue().observe(this ,
+                Observer { allMasterDropdown ->
+                    allMasterDropdown?.let {
+                        this@ApplicantKycListActivity.allMasterDropdown = allMasterDropdown
+                        //setMasterDropDownValue(allMasterDropdown , applicant)
+                    }
+                })
 
     }
     inner class CallFinalSubmit : ViewGeneric<Requests.RequestKYCApplicantList, Response.ResponseApplicantKycList>(context = this) {
@@ -67,6 +73,7 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
                 //val submitLoanResponse: AppK?=value.responseObj
                 System.out.println("ResponseObject>>>>"+value.responseObj?.applicantDetails?.size)
                 System.out.println("Name>>>>"+value.responseObj!!.applicantDetails[0].firstName)
+
                 if(value.responseObj !=null) {
 
                     progressBar!!.visibility = View.GONE
@@ -118,18 +125,26 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
 
     }
 
-    override fun onCardFetchKycClicked(position: Int,leadId: String,leadApplicantNumber : String?) {
+    override fun onCardFetchKycClicked(position: Int,leadId: String,leadApplicantNumber : String,callType : Int) {
         System.out.println("Position>>>>"+position+"lead Id>>>>"+leadId+"number>>>"+leadApplicantNumber)
         this.leadApplicantNumber = leadApplicantNumber
         this.leadId = leadId
-        callApiKycList(Integer.parseInt(leadId))
+        callApiKycList(Integer.parseInt(leadId),callType)
     }
-    private fun callApiKycList(leadId: Int?) {
+    private fun callApiKycList(leadId: Int?,callingStatus : Int) {
 
-        presenter.callNetwork(ConstantsApi.CALL_KYC_DETAIL , CallKYCDetail())
-        progressBar!!.visibility = View.VISIBLE
+        if(callingStatus == 0) {
+            presenter.callNetwork(ConstantsApi.CALL_KYC_DETAIL , CallKYCDetail(0))
+            progressBar!!.visibility = View.VISIBLE
+        }
+        else
+        {
+            presenter.callNetwork(ConstantsApi.CALL_KYC_DETAIL , CallKYCDetail(1))
+            progressBar!!.visibility = View.VISIBLE
+        }
     }
-    inner class CallKYCDetail : ViewGeneric<Requests.RequestKycDetail , Response.ResponseKycDetail>(context = this) {
+    inner class CallKYCDetail(callingType: Int) : ViewGeneric<Requests.RequestKycDetail , Response.ResponseKycDetail>(context = this) {
+        val getCallType = callingType
         override val apiRequest: Requests.RequestKycDetail
             get() = getKycDetail()
 
@@ -141,7 +156,13 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
                     val kycDetailResponse: KycListModel = value.responseObj
 
                     // open Fragment Dilaog here
-                    showKYCDetailDialog(kycDetailResponse)
+                    if(getCallType ==0) {
+                        showKYCDetailDialog(kycDetailResponse)
+                    }
+                    else
+                    {
+                       setMatchPercentage(kycDetailResponse)
+                    }
                 } else {
                     showToast("KYC is not available now.")  //value.responseMsg
                     progressBar!!.visibility = View.GONE
@@ -172,6 +193,7 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
 
         }
     }
+
     private fun showKYCDetailDialog(kycDetailResponse: KycListModel) {
 
         val bindingDialog = DataBindingUtil.inflate<DialogKycDetailBinding>(LayoutInflater.from(this) , R.layout.dialog_kyc_detail , null , false)
@@ -279,5 +301,144 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
         }
 
     }
+    private fun setMatchPercentage(kycDetailResponse: KycListModel){
+        var matchPercentage: String? = ""
+        var name : String ? = ""
+        var faceAuthStatus : String ? = ""
+        for (i in 0 until kycDetailResponse.kycApplicantDetailsList.size) {
+            if(kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size>0) {
+                for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList.size) {
+                    if(j == 0) {
+                        matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthScore
+                        faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycAadharZipInlineDataList[j].faceAuthStatus
+                        var matchPercentageScore = matchPercentage?.replace("%","")?.toInt()
+                        System.out.println("Match Percentage>>>>"+matchPercentage)
+                        System.out.println("Match Percentage>>>>"+faceAuthStatus)
+                        if (matchPercentageScore != null) {
+                            if(matchPercentageScore>=90 ) {
+                                if(matchPercentageScore == 100)
+                                {
+                                    //Perform document Upload process
+                                    allMasterDropdown?.let {
+                                        val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                                        val bundle = Bundle()
+                                        bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                                        bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
+                                        bundle.putString(Constants.KEY_APPLICANT_NUMBER , this.leadApplicantNumber)
+                                        PerformKycDocumentUploadActivity.startActivity(this , bundle)
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(this,"Your Kyc has been completed. No need to upload KYC document",Toast.LENGTH_LONG).show()
+                                }
 
+                            } else if(matchPercentageScore<90){
+                                //Perform document Upload process
+                                allMasterDropdown?.let {
+                                    val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                                    val bundle = Bundle()
+                                    bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                                    bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
+                                    bundle.putString(Constants.KEY_APPLICANT_NUMBER , this.leadApplicantNumber)
+                                    PerformKycDocumentUploadActivity.startActivity(this , bundle)
+
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+            }
+            else  if(kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList.size>0) {
+                for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList.size) {
+                    if(j == 0) {
+                        name = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].name
+                        matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthScore
+                        faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycPanQrCodeDataList[j].faceAuthStatus
+                        System.out.println("Match Percentage>>>>"+matchPercentage)
+                        System.out.println("Match Percentage>>>>"+faceAuthStatus)
+                        var matchPercentageScore = matchPercentage?.replace("%","")?.toInt()
+                        if (matchPercentageScore != null) {
+                            if(matchPercentageScore>=90 ) {
+                                if(matchPercentageScore == 100)
+                                {
+                                    //Perform document Upload process
+                                    allMasterDropdown?.let {
+                                        val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                                        val bundle = Bundle()
+                                        bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                                        bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
+                                        bundle.putString(Constants.KEY_APPLICANT_NUMBER , this.leadApplicantNumber)
+                                        PerformKycDocumentUploadActivity.startActivity(this , bundle)
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(this,"Your Kyc has been completed. No need to upload KYC document",Toast.LENGTH_LONG).show()
+                                }
+
+                            } else if(matchPercentageScore<90){
+                                //Perform document Upload process
+                                allMasterDropdown?.let {
+                                    val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                                    val bundle = Bundle()
+                                    bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                                    bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
+                                    bundle.putString(Constants.KEY_APPLICANT_NUMBER , this.leadApplicantNumber)
+                                    PerformKycDocumentUploadActivity.startActivity(this , bundle)
+
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            else if(kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList.size>0) {
+                for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList.size) {
+                    if(j == 0) {
+                        matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthScore
+                        faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycDLQrCodeDataList[j].faceAuthStatus
+                        System.out.println("Match Percentage>>>>"+matchPercentage)
+                        System.out.println("Match Percentage>>>>"+faceAuthStatus)
+                        var matchPercentageScore = matchPercentage?.replace("%","")?.toInt()
+                        if (matchPercentageScore != null) {
+                            if(matchPercentageScore>=90 ) {
+                                if(matchPercentageScore == 100)
+                                {
+                                    //Perform document Upload process
+                                    allMasterDropdown?.let {
+                                        val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                                        val bundle = Bundle()
+                                        bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                                        bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
+                                        bundle.putString(Constants.KEY_APPLICANT_NUMBER , this.leadApplicantNumber)
+                                        PerformKycDocumentUploadActivity.startActivity(this , bundle)
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(this,"Your Kyc has been completed. No need to upload KYC document",Toast.LENGTH_LONG).show()
+                                }
+
+                            } else if(matchPercentageScore<90){
+                                //Perform document Upload process
+                                allMasterDropdown?.let {
+                                    val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                                    val bundle = Bundle()
+                                    bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                                    bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
+                                    bundle.putString(Constants.KEY_APPLICANT_NUMBER , this.leadApplicantNumber)
+                                    PerformKycDocumentUploadActivity.startActivity(this , bundle)
+
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
 }
