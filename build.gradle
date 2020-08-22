@@ -46,7 +46,7 @@ ext {
 
   // Application Versions
   versionCode = 1
-  versionName = "p_v_1.5"
+  versionName = "p_v_1.6"
 //p_v_1.0
   //p_v_1.2
   // App dependencies

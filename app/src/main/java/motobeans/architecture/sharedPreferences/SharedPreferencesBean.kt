@@ -1,7 +1,7 @@
 package motobeans.architecture.sharedPreferences
 
 /**
- * Created by munishkumarthakur on 04/11/17.
+ * Created by Sanjay on 04/11/202-.
  */
 
 object SharedPreferencesBean {
