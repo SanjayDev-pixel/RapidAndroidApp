@@ -33,15 +33,17 @@ class SelectDOB(mContext: Context, dateField: TextView, private val differenceFi
         val desiredSdf = SimpleDateFormat(desirablePattern, Locale.US)
         val dateToShow = desiredSdf.format(date)
         dateField.text = dateToShow
-        setDifferenceInField(date, differenceField,mContext,dateField)
+        val ageInYears = calculateAgeFromDob(mDate,"dd-MM-yyyy")
+        setDifferenceInField(date, differenceField,mContext,dateField,ageInYears)
+
+
     }
 
-    private fun setDifferenceInField(date: Date, differenceField: TextView,mContext: Context,dateField: TextView) {
+    private fun setDifferenceInField(date: Date, differenceField: TextView,mContext: Context,dateField: TextView,ageInYears : Int) {
         val todayDate = Date()
-        val difference = todayDate.year - date.year
-        System.out.println("difference>>>>"+difference)
-        if(difference <=100) {
-            differenceField.text = difference.toString()
+
+        if(ageInYears <=100) {
+            differenceField.text = ageInYears.toString()
 
         }
         else
@@ -51,5 +53,38 @@ class SelectDOB(mContext: Context, dateField: TextView, private val differenceFi
              //differenceField.error = "Age should be less then equal to  100 years"
              //differenceField.text = ""
         }
+    }
+    private fun calculateAgeFromDob(birthDate: String , dateFormat:String): Int {
+
+        val sdf = SimpleDateFormat(dateFormat)
+        val dob = Calendar.getInstance()
+        dob.time = sdf.parse(birthDate)
+
+        val today = Calendar.getInstance()
+
+        val curYear = today.get(Calendar.YEAR)
+        val dobYear = dob.get(Calendar.YEAR)
+
+        var age = curYear - dobYear
+
+        try {
+            // if dob is month or day is behind today's month or day
+            // reduce age by 1
+            val curMonth = today.get(Calendar.MONTH+1)
+            val dobMonth = dob.get(Calendar.MONTH+1)
+            if (dobMonth >curMonth) { // this year can't be counted!
+                age--
+            } else if (dobMonth == curMonth) { // same month? check for day
+                val curDay = today.get(Calendar.DAY_OF_MONTH)
+                val dobDay = dob.get(Calendar.DAY_OF_MONTH)
+                if (dobDay > curDay) { // this year can't be counted!
+                    age--
+                }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+
+        return age
     }
 }
