@@ -10,11 +10,9 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -32,7 +30,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="lollipop">
-
+        <activity android:name=".Report"></activity>
         <!-- <provider -->
         <!-- android:name="androidx.core.content.FileProvider" -->
         <!-- android:authorities="android.support.v4.content.FileProvider"> -->
@@ -40,16 +38,16 @@
         <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
         <!-- android:resource="@xml/file_paths" /> -->
         <!-- </provider> -->
-
         <service
             android:name=".locationTracker.ForegroundLocationTrackerService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".view.activity.DocumentUploadingActivity"></activity>
-        <activity android:name=".view.activity.KYCActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".view.activity.DocumentUploadingActivity" />
+        <activity
+            android:name=".view.activity.KYCActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.FinalSubmitActivity"
             android:label="@string/title_activity_final_submit"
@@ -72,8 +70,12 @@
         <activity
             android:name=".view.activity.ProfileActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.SelfDeclarationUploadDocumentActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".view.activity.PerformKycDocumentUploadActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.SelfDeclarationUploadDocumentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PerformKycDocumentUploadActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.UploadedFormDataActivity"
             android:screenOrientation="portrait" />
@@ -124,26 +126,9 @@
         <activity
             android:name=".view.activity.LoanSubmitStatusActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".view.activity.ApplicantKycListActivity"
-            android:screenOrientation="portrait"/>
-        <!-- <activity -->
-        <!-- android:name="com.thefinestartist.finestwebview.FinestWebViewActivity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:screenOrientation="sensor" -->
-        <!-- android:theme="@style/FinestWebViewTheme.Light" /> -->
-
-
-
-
-       <!--<service
-            android:name="services.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>-->
-
+        <activity
+            android:name=".view.activity.ApplicantKycListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

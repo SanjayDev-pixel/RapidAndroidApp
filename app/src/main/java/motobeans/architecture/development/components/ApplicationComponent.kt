@@ -1,6 +1,7 @@
 package motobeans.architecture.development.components
 
 import android.app.Application
+import com.finance.app.Report
 import com.finance.app.TestActivity
 import com.finance.app.locationTracker.ForegroundLocationTrackerService
 import com.finance.app.presenter.presenter.*
@@ -85,6 +86,7 @@ interface ApplicationComponent {
     fun inject(activity : SelfDeclarationUploadDocumentActivity)
     fun inject(activity : PerformKycDocumentUploadActivity)
     fun inject(activity : ApplicantKycListActivity)
+    fun inject(activity : Report)
 
 
     /**

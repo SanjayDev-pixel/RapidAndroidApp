@@ -22,6 +22,10 @@
             android:icon="@drawable/ic_notification"
             android:visible="false"
             android:title="@string/notification" />
+        <item
+            android:id="@+id/Reports"
+            android:title="Reports"
+            android:icon="@drawable/ic_assigned_lead" />
 
         <item
             android:id="@+id/logout"

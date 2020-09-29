@@ -1,5 +1,6 @@
 package motobeans.architecture.retrofit.response
 
+import com.finance.app.ResponseReportData
 import com.finance.app.persistence.model.*
 
 object Response {
@@ -94,6 +95,6 @@ object Response {
     data class ResponseDashboard(val responseCode: String, val responseMsg: String, val responseObj: ResponseObj?, val timeStamp: Long)
     data class ResponseUploadLocation(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: Any?, val timeStamp: Long?)
     data class ResponseApplicantKycList(val responseCode: String, val responseMsg: String, val responseObj: PersonalApplicantList?, val timeStamp: Long)
-
+    data class ResponseApplicationReport(val errorStack: Any?, val responseCode: String?, val responseMsg: String?, val responseObj: ArrayList<ResponseReportData>, val timeStamp: Long?)
 
 }
