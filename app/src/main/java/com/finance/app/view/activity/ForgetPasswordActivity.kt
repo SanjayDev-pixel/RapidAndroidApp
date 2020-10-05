@@ -55,8 +55,8 @@ class ForgetPasswordActivity : BaseAppCompatActivity() {
                 binding.progressBar.visibility = View.GONE
                 showToast(value.responseMsg)
                 //OtpVerifyActivity.start(context = getContext())
-                val intent = Intent(context, OtpVerifyActivity::class.java)
-                intent.putExtra("userName", binding.etMobile.text.toString())
+                val intent = Intent(context, SetPasswordActivity::class.java)
+                //intent.putExtra("userName", userName)
                 startActivity(intent)
                 finish()
 

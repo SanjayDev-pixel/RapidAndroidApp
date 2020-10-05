@@ -24,16 +24,14 @@ class Constants {
 
     object API {
         object URL {
-            //Staging URL
-            //const val URL_DEVELOPMENT = "http://13.235.28.32:8080/dmi/"
             //Production URL
-            const val URL_DEVELOPMENT = "https://rapidservices.dmihousingfinance.in/dmi/"
+            //const val URL_DEVELOPMENT = "https://rapidservices.dmihousingfinance.in/dmi/"
             //Development URL
-            //const val URL_DEVELOPMENT = "https://rapidservices-dev.dmihousingfinance.in/dmi/"
+            const val URL_DEVELOPMENT = "https://rapidservices-dev.dmihousingfinance.in/dmi/"
             //Production URL for KYC
-            const val URL_KYC = "https://rapid.dmihousingfinance.in/kyc/oKyc.html?kycID="
+            //const val URL_KYC = "https://rapid.dmihousingfinance.in/kyc/oKyc.html?kycID="
             //Development Url
-            //const val URL_KYC = "https://rapid-dev.dmihousingfinance.in/kyc/oKyc.html?kycID="
+            const val URL_KYC = "https://rapid-dev.dmihousingfinance.in/kyc/oKyc.html?kycID="
             const val URL_TESTING = ""
             const val URL_LIVE = ""
             const val URL_PRODUCTION = ""

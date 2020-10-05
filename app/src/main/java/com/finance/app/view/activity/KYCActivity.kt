@@ -131,6 +131,9 @@ class KYCActivity : BaseAppCompatActivity() {
                 else if(kycTypeValue.equals("QRCODE_DL_REQUEST")){
                     kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber , "QRCODE_DL_REQUEST"))
                 }
+                else if(kycTypeValue.equals("QRCODE_VC_REQUEST")){
+                    kycPresenter.callNetwork(ConstantsApi.CALL_KYC_PREPARE , dmiConnector = KYCidApiCall(leadIDnumber , "QRCODE_VC_REQUEST"))
+                }
             }
         }
 
@@ -248,6 +251,9 @@ class KYCActivity : BaseAppCompatActivity() {
                     {
                         kycTypeValue = "Self Declaration"
                     }
+                    else if( checkedId == R.id.codeand_voter){
+                        kycTypeValue = "QRCODE_VC_REQUEST"
+                    }
                     else {
                         kycTypeValue = "PAN_DL_REQUEST"
                         //Toast.makeText(this , "Currently System not supporting this request." , Toast.LENGTH_SHORT).show()
@@ -264,6 +270,9 @@ class KYCActivity : BaseAppCompatActivity() {
             } else if(radioButtonselect == R.id.codeand_dl){
                       scanNow()
                 //Toast.makeText(this , "Currently System working on Aadhar Otp and QR Code and PAN." , Toast.LENGTH_SHORT).show()
+            }
+            else if(radioButtonselect == R.id.codeand_voter){
+                scanNow()
             }
             else if(radioButtonselect == R.id.pan_dl) {
                 bundle = intent.extras
@@ -475,6 +484,8 @@ class KYCActivity : BaseAppCompatActivity() {
                 //QRCODE_PAN_REQUEST
 
                 return Requests.RequestKYCID(leadID = splitLeadId.toInt() , leadApplicantNumber = leadAppNum , qrCodeData = encodedStringScanned , kycType = kycType)
+
+                //return Requests.RequestKYCOnMobileId(leadID = splitLeadId , leadApplicantNumber = leadAppNum , qrCodeData = encodedStringScanned , kycType = kycType,mobileNumber = "",isSmsSend = "false")
             }
 
         override fun getApiSuccess(value: Response.ResponseKYC) {
