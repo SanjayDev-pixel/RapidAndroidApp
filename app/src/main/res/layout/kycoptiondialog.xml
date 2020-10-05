@@ -72,6 +72,12 @@
                 android:text="@string/qrcode_dl"
                 android:layout_marginTop="@dimen/margin5dp"/>
             <RadioButton
+                android:id="@+id/codeand_voter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/qrcode_vote"
+                android:layout_marginTop="@dimen/margin5dp"/>
+            <RadioButton
                 android:id="@+id/pan_dl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

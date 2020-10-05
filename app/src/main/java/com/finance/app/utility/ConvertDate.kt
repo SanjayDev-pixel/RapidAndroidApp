@@ -78,7 +78,7 @@ class ConvertDate {
         return try {
             if (mDate.exIsNotEmptyOrNullOrBlank()) {
                 val pattern = "dd/MM/yyyy"
-                val desirablePattern = "dd-MM-yyyy"
+                val desirablePattern = "dd-MMM-yyyy"
                 val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
                 val date = sdf.parse(mDate)
                 val desiredSdf = SimpleDateFormat(desirablePattern, Locale.ENGLISH)

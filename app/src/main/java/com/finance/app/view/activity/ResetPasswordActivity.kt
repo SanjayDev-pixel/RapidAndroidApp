@@ -94,9 +94,10 @@ class ResetPasswordActivity : BaseAppCompatActivity() {
         get() {
             val oldpassword = binding.etOldPassword.text.toString()
             val newpassword = binding.etNewPassword.text.toString()
+            val confirmpassword = binding.etConfirmNewPassword.text.toString()
             val username:String = sharedPreferencesUtil.getUserName().toString()
             return Requests.RequestResetPassword(
-                    userName=username.toString(),newPassword =newpassword, oldPassword = oldpassword, changeType = "reset"
+                    confirmPassword=confirmpassword,newPassword =newpassword, oldPassword = oldpassword, changeType = "reset"
                     )
         }
 }

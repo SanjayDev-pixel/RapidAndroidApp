@@ -42,8 +42,8 @@ class SetPasswordActivity : BaseAppCompatActivity() {
     override fun init() {
         ArchitectureApp.instance.component.inject(this)
         try {
-            userName = intent!!.extras["userName"].toString()
-            binding.etUserName.setText(userName)
+            //userName = intent!!.extras["userName"].toString()
+            //binding.etUserName.setText(userName)
         }catch(e: Exception){
             e.printStackTrace()
         }
@@ -87,10 +87,9 @@ class SetPasswordActivity : BaseAppCompatActivity() {
     private val requestPassword: Requests.RequestSubmitPassword
         get() {
             val company = mCompany
-            return this.userName?.let {
-                Requests.RequestSubmitPassword(userName = it ,newPassword =binding.etNewPassword.text.toString(), company = company
-                )
-            }!!
+            return Requests.RequestSubmitPassword(otpValue = binding.otpView.text.toString(),newPassword =binding.etNewPassword.text.toString(),confirmPassword = binding.etConfirmNewPassword.text.toString(), company = company
+            )
+
         }
     private val mCompany: Requests.Company
         get() {

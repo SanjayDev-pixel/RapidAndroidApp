@@ -10,6 +10,7 @@ import androidx.work.WorkerParameters
 import com.finance.app.persistence.model.KycDocumentModel
 import com.finance.app.view.utils.FileUtils
 import motobeans.architecture.application.ArchitectureApp
+import motobeans.architecture.constants.Constants
 import motobeans.architecture.development.interfaces.ApiProject
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import okhttp3.MediaType
@@ -29,6 +30,8 @@ class UploadDocumentWorker(context: Context , workerParams: WorkerParameters) : 
     }
 
     override fun doWork(): Result {
+
+
         val documentList = database.provideDataBaseSource().kycDocumentDao().get()
         System.out.println("Size>>>>"+documentList.size)
 
@@ -38,16 +41,21 @@ class UploadDocumentWorker(context: Context , workerParams: WorkerParameters) : 
                 val uploadCall = apiProject.api.postUploadDocument(prepareMultipartFile(it) , prepareMultipartBody(it))
                 val response = uploadCall.execute()
                 if (response.isSuccessful) {
+                    System.out.println("Response document>>>>"+response.body()?.responseMsg)
                    /* val leadApplicantNumber = response.body()?.responseObj?.leadApplicantNumber
                     System.out.println("Response Object>>>"+response.body()?.responseObj?.leadApplicantNumber)
                     System.out.println("Response Object>>>"+response.body()?.responseObj?.documentID)*/
                     database.provideDataBaseSource().kycDocumentDao().delete(it.id)
-                    val handler = Handler(Looper.getMainLooper())
-                    handler.postDelayed({
-                        // Run your task here
-                        Toast.makeText(applicationContext , "Your document has been uploaded successfully" , Toast.LENGTH_SHORT).show()
-                    } , 1000)
-                    //Toast.makeText(applicationContext,"Your document has been submitted successfully",Toast.LENGTH_LONG).show()
+                    if(response.body()?.responseCode == Constants.SUCCESS) {
+                        val handler = Handler(Looper.getMainLooper())
+                        handler.postDelayed({
+                            // Run your task here
+                            Toast.makeText(applicationContext , "Your document has been uploaded successfully" , Toast.LENGTH_SHORT).show()
+                        } , 1000)
+                    }else{
+                        Toast.makeText(applicationContext , response.body()?.responseMsg , Toast.LENGTH_SHORT).show()
+                    }
+
 
                 }
             }

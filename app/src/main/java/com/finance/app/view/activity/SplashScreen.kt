@@ -61,6 +61,7 @@ class SplashScreen : BaseAppCompatActivity() {
                         ResetPasswordActivity.start(this)
                     } else {
                         DashboardActivity.start(this)
+                        //ResetPasswordActivity.start(this)
                     }
 
                 } else {

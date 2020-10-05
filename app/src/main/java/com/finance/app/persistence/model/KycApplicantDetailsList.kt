@@ -7,4 +7,7 @@ class KycApplicantDetailsList: Serializable {
     var kycAadharZipInlineDataList: ArrayList<KycAadharZipInlineDataList> = ArrayList()
     var kycPanQrCodeDataList: ArrayList<KycAadharZipInlineDataList> = ArrayList()
     var kycDLQrCodeDataList: ArrayList<KycAadharZipInlineDataList> = ArrayList()
+    var kycPanDLDataList: ArrayList<KycAadharZipInlineDataList> = ArrayList()
+    var kycVoterCardQrCodeDataList: ArrayList<KycAadharZipInlineDataList> = ArrayList()
+
 }

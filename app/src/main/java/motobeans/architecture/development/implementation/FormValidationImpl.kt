@@ -1208,6 +1208,7 @@ class FormValidationImpl : FormValidation {
     }
  override fun validatePassword(binding: ActivitySetPasswordBinding) : Boolean{
      val strPassword = binding.etNewPassword.text.toString()
+     val strConfirmPassword = binding.etConfirmNewPassword.text.toString()
      var errorCount = 0
      val fieldError = (when {
          !strPassword.exIsNotEmptyOrNullOrBlank() -> setFieldError(binding.etNewPassword)
@@ -1216,7 +1217,12 @@ class FormValidationImpl : FormValidation {
      if(strPassword.length < 8){
          binding.etNewPassword.error= "Password length must have 8"
          errorCount++
-     } else if(!isValidPassword(strPassword)){
+     } else if (!(strPassword.equals(strConfirmPassword)))
+     {
+         errorCount++
+         binding.etConfirmNewPassword.error = "New password and confirm password not matched"
+     }
+     else if(!isValidPassword(strPassword)){
          binding.etNewPassword.error= "Password must have alphanumeric, 1 caps and at least one special character"
          errorCount++
      }

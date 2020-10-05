@@ -287,6 +287,30 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
                 }
 
             }
+            else if(kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList.size > 0){
+
+                for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList.size) {
+                    if(j ==0) {
+                        //pincode = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].pincode
+                        name = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].name
+                        genderValue = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].gender
+                        dob = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].dob
+                        address = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].address
+                        //careOf = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].careOf
+                        matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].faceAuthScore
+                        faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].faceAuthStatus
+                        System.out.println("Name>>>>>>" + name)
+                        bindingDialog.tvName.text = name
+                        //bindingDialog.tvcareof.text = careOf
+                        bindingDialog.tvGender.text = if (genderValue.equals("male")) "Male" else if (genderValue.equals("female")) "Female" else "TransGender"
+                        bindingDialog.tvAddress.text = address
+                        bindingDialog.tvdob.text = ConvertDate().convertToPANQRFormat(dob)
+                        dob = bindingDialog.tvdob.text.toString()
+                        bindingDialog.matchpercentage.text = matchPercentage
+                        bindingDialog.faceAuthStatus.text = faceAuthStatus
+                    }
+                }
+            }
 
         }
 
@@ -428,6 +452,50 @@ class ApplicantKycListActivity : AppCompatActivity(),ApplicantKycListAdapter.Car
                                     bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
                                     bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
                                     bundle.putString(Constants.KEY_APPLICANT_NUMBER , this.leadApplicantNumber)
+                                    PerformKycDocumentUploadActivity.startActivity(this , bundle)
+
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
+            else if(kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList.size>0) {
+                for (j in 0 until kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList.size) {
+                    if(j == 0) {
+                        matchPercentage = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].faceAuthScore
+                        faceAuthStatus = kycDetailResponse.kycApplicantDetailsList[i].kycVoterCardQrCodeDataList[j].faceAuthStatus
+                        System.out.println("Match Percentage>>>>"+matchPercentage)
+                        System.out.println("Match Percentage>>>>"+faceAuthStatus)
+                        var matchPercentageScore = matchPercentage?.replace("%","")?.toInt()
+                        if (matchPercentageScore != null) {
+                            if(matchPercentageScore>=90 ) {
+                                if(matchPercentageScore == 100)
+                                {
+                                    //Perform document Upload process
+                                    allMasterDropdown?.let {
+                                        val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                                        val bundle = Bundle()
+                                        bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                                        bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
+                                        bundle.putString(Constants.KEY_APPLICANT_NUMBER , leadApplicantNumber)
+                                        PerformKycDocumentUploadActivity.startActivity(this , bundle)
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(this,"Your Kyc has been completed. No need to upload KYC document",Toast.LENGTH_LONG).show()
+                                }
+
+                            } else if(matchPercentageScore<90){
+                                //Perform document Upload process
+                                allMasterDropdown?.let {
+                                    val docCodeID = it.DocumentCode?.find { item -> item.typeDetailCode.equals(Constants.KYC_DOCUMENT , true) }
+                                    val bundle = Bundle()
+                                    bundle.putInt(Constants.KEY_DOC_ID , docCodeID!!.typeDetailID)
+                                    bundle.putString(Constants.KEY_TITLE , this.getString(R.string.kyc_auth_image))
+                                    bundle.putString(Constants.KEY_APPLICANT_NUMBER , leadApplicantNumber)
                                     PerformKycDocumentUploadActivity.startActivity(this , bundle)
 
                                 }
