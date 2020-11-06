@@ -54,6 +54,7 @@ class CheckListAdapter(private val c: Context, private val documentCheckList: Ar
     inner class CheckListDetailViewHolder(val binding: ItemDocumentChecklistBinding, val c: Context) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindItems(position: Int, documentCheck: DocumentCheckListDetailModel) {
+            System.out.println("TypeIDDDDocument>>>>"+documentCheck.typeDetailId)
             //  binding.tvValue.text = documentCheck.assetValue.toString()
 
             binding.questionNo.text = (position + 1).toString()
@@ -79,7 +80,7 @@ class CheckListAdapter(private val c: Context, private val documentCheckList: Ar
         private fun addClickListener(position: Int, documentCheck: DocumentCheckListDetailModel) {
             binding.radiogroup.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
                 override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-                    System.out.println("TypeDetailCode>>>>"+documentCheck.typeDetailId)
+
                     when (checkedId) {
 
                         binding.rbYes.id -> documentCheck.selectedCheckListValue = ChecklistAnswerType.YES
@@ -88,6 +89,7 @@ class CheckListAdapter(private val c: Context, private val documentCheckList: Ar
                     }
                 }
             })
+            System.out.println("SelctedValue>>>>"+documentCheck.selectedCheckListValue)
 
         }
     }

@@ -24,6 +24,11 @@
             android:title="@string/notification" />
 
         <item
+            android:id="@+id/Reports"
+            android:title="Status Check"
+            android:icon="@drawable/ic_assigned_lead" />
+
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="@string/logout" />

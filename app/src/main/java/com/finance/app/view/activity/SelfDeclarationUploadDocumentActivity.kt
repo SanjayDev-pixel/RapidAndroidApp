@@ -182,7 +182,7 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
             Assent.requestPermissions(AssentCallback { result ->
                 if (result.allPermissionsGranted())
                     //showFileTypeChooserDialog()
-                    selectedDocumentUri = this@SelfDeclarationUploadDocumentActivity.getImageUriForImagePicker("doc_image_${Date().time}")
+                   selectedDocumentUri = this@SelfDeclarationUploadDocumentActivity.getImageUriForImagePicker("doc_image_${Date().time}")
                     selectedDocumentUri?.let { uri ->
                     this@SelfDeclarationUploadDocumentActivity.startImagePickerActivity(DOCUMENT_IMAGE_REQ_CODE , uri)
                 }
@@ -191,6 +191,7 @@ class SelfDeclarationUploadDocumentActivity : BaseAppCompatActivity() {
         }
         binding.btnUpload.setOnClickListener { if (isKycDocumentDetailValid()) saveKycDocumentIntoDatabase() }
     }
+
 
     private fun setDocumentTypeSpinner(documentTypes: ArrayList<DocumentTypeModel>) {
         val adapter = ArrayAdapter<DocumentTypeModel>(this , android.R.layout.simple_spinner_item , documentTypes)

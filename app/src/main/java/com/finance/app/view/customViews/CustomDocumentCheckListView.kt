@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_update_call.view.*
 import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.development.interfaces.DataBaseUtil
 import motobeans.architecture.util.AppUtilExtensions
+import motobeans.architecture.util.exIsNotEmptyOrNullOrBlank
 import javax.inject.Inject
 
 class CustomDocumentCheckListView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs), CheckListAdapter.CheckListClickListener {
@@ -32,6 +33,7 @@ class CustomDocumentCheckListView @JvmOverloads constructor(context: Context, at
     //private var leadDetail: AllDocumentCheckListMaster? = null
     private var documentDetail: AllDocumentCheckListMaster? = null
     private var allMasterDropDown: AllMasterDropDown? = null
+
 
     init {
         ArchitectureApp.instance.component.inject(this)
@@ -102,27 +104,53 @@ class CustomDocumentCheckListView @JvmOverloads constructor(context: Context, at
 
         documentCheckList.leadApplicantNumber = selectedApplicant?.leadApplicantNumber
         val updatedList = checklistAdapter?.getItemList()?.map { item ->
-            if (item.selectedCheckListValue == ChecklistAnswerType.YES) {
+            if (item.selectedCheckListValue == ChecklistAnswerType.YES ) {
                 item.typeDetailId = allMasterDropDown?.ReviewerResponseType?.getTypeDetailId(item?.selectedCheckListValue.toString())
+                System.out.println("typeDetailId>>>>Yes"+item.typeDetailId)
+
                 item.typeDetailDisplayText = item?.selectedCheckListValue.toString()
             } else if (item.selectedCheckListValue == ChecklistAnswerType.NO) {
                 item.typeDetailId = allMasterDropDown?.ReviewerResponseType?.getTypeDetailId(item?.selectedCheckListValue.toString())
+                System.out.println("typeDetailId>>>>No"+item.typeDetailId)
                 item.typeDetailDisplayText = item?.selectedCheckListValue.toString()
             } else if (item.selectedCheckListValue == ChecklistAnswerType.NA) {
                 item.typeDetailId = allMasterDropDown?.ReviewerResponseType?.getTypeDetailId(item?.selectedCheckListValue.toString())
+                System.out.println("typeDetailId>>>>NA"+item.typeDetailId)
                 item.typeDetailDisplayText = item?.selectedCheckListValue.toString()
             }
             item
         }
 
-        documentCheckList.checklistDetails = if (updatedList.isNullOrEmpty()) ArrayList() else ArrayList(updatedList)
+        documentCheckList.checklistDetails = if(updatedList.isNullOrEmpty()) ArrayList() else ArrayList(updatedList)
+        System.out.println("documentCheckList"+documentCheckList.checklistDetails.size)
+                //if (updatedList.isNullOrEmpty()) ArrayList() else ArrayList(updatedList)
         return documentCheckList
     }
     fun isDocumentDetailsValid() : Boolean{
         var checkedError = false
-        for (i in 0 until getDocumentChecklist()?.checklistDetails?.size!!){
-            checkedError = getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText != null
+        var errorCount = 0
+
+        for (i in 0 until getDocumentChecklist()?.checklistDetails.size){
+            System.out.println("Checked error>>>value"+getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText)
+
+            if(getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText.exIsNotEmptyOrNullOrBlank()){
+
+            }
+            else
+            {
+                errorCount++
+            }
+
+            //checkedError = !getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText.equals("null")
+            System.out.println("Checked error>>>"+checkedError)
+
+            //checkedError = getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText != null
+
+            //checkedError = getDocumentChecklist()?.checklistDetails?.get(i)?.typeDetailDisplayText != null
         }
+        checkedError = errorCount == 0
+        System.out.println("Checked error>>>Final"+checkedError)
+
         return checkedError
     }
 

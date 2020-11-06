@@ -1,7 +1,17 @@
 package motobeans.architecture.development.implementation
 
+import android.Manifest
+import android.Manifest.*
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
+import android.provider.Settings
+import android.telephony.TelephonyManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat.getSystemService
 import com.finance.app.others.AppEnums
 import com.finance.app.persistence.model.AllLeadMaster
 import com.finance.app.persistence.model.LoanInfoModel
@@ -28,6 +38,38 @@ class SharedPreferencesUtilImpl(private var context: Context) : SharedPreference
 
         return uuid
     }
+
+    override fun getDeviceUniqueId(): String? {
+
+            var imei = ""
+            val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (context.checkSelfPermission(permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                    if (telephonyManager != null) {
+                        imei = try {
+                            Settings.Secure.getString(context.contentResolver , Settings.Secure.ANDROID_ID)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Settings.Secure.getString(context.contentResolver , Settings.Secure.ANDROID_ID)
+                        }
+                    }
+                } else {
+                    ActivityCompat.requestPermissions(context as Activity , arrayOf(permission.READ_PHONE_STATE) , 1010)
+                }
+            } else {
+                if (ActivityCompat.checkSelfPermission(context , permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                    if (telephonyManager != null) {
+                        imei = telephonyManager.deviceId
+                    }
+                } else {
+                    ActivityCompat.requestPermissions(context as Activity , arrayOf(permission.READ_PHONE_STATE) , 1010)
+                }
+            }
+            return imei
+
+    }
+
+
 
     override fun getApplicationVersion(): String? {
         var version : String ? = ""

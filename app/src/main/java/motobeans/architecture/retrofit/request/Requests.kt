@@ -30,4 +30,5 @@ object Requests {
     data class RequestKYCID(val leadID: Int?, val leadApplicantNumber: String?, val qrCodeData: String, val kycType: String )
     data class RequestKYCOnMobileId(val leadID: String?, val leadApplicantNumber: String?, val qrCodeData: String, val kycType: String ,val mobileNumber : String, val isSmsSend : String)
     data class RequestKYCApplicantList(val leadID : String)
+    data class RequestReport(val screenName : String ,val searchKey : String)
 }

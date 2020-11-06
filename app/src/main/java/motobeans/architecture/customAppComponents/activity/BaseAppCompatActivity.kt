@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import com.finance.app.BuildConfig
 import com.finance.app.R
+import com.finance.app.Report
 import com.finance.app.databinding.ActivityBaseBinding
 import com.finance.app.persistence.dao.AllMasterDropDownDao
 import com.finance.app.persistence.db.MasterDB
@@ -100,6 +101,10 @@ abstract class BaseAppCompatActivity : BaseAppActivityImpl(), ReusableView {
         val intent = Intent(this, CreateLeadActivity::class.java)
         this.startActivity(intent)
       }
+        R.id.Reports ->{
+            val intent= Intent(this,  Report::class.java)
+            this.startActivity(intent)
+        }
       R.id.logout -> {
         sharedPreferencesUtil.clearAll()
 

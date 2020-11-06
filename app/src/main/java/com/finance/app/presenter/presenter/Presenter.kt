@@ -77,6 +77,7 @@ class Presenter {
             //
             ConstantsApi.CALL_KYC_APPLICANT_DETAILS -> apiProject.api.getApplicantKycList((dmiConnector.apiRequest as Requests.RequestKYCApplicantList).leadID)
             //ConstantsApi.CALL_FINAL_SUBMIT -> apiProject.api.finalSubmit((dmiConnector.apiRequest as Requests.RequestFinalSubmit).leadID)
+            ConstantsApi.CALL_REPORT ->apiProject.api.getReport((dmiConnector.apiRequest as Requests.RequestReport).screenName,(dmiConnector.apiRequest as Requests.RequestReport).searchKey)
             else -> return
         }
 

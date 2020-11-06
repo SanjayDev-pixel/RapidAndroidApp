@@ -2,9 +2,9 @@ package com.finance.app.view.activity
 
 import android.Manifest
 import android.Manifest.permission.ACCESS_WIFI_STATE
-
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,6 +12,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
@@ -22,6 +24,7 @@ import motobeans.architecture.application.ArchitectureApp
 import motobeans.architecture.customAppComponents.activity.BaseAppCompatActivity
 import motobeans.architecture.development.interfaces.SharedPreferencesUtil
 import javax.inject.Inject
+
 
 @SuppressLint("ByteOrderMark")
 class SplashScreen : BaseAppCompatActivity() {
@@ -57,6 +60,8 @@ class SplashScreen : BaseAppCompatActivity() {
             Handler().postDelayed({
 
                 if (sharedPreferences.isLogin()) {
+
+
                     if (sharedPreferences.getPasswordChangeRequired() == true) {
                         ResetPasswordActivity.start(this)
                     } else {
@@ -156,6 +161,7 @@ class SplashScreen : BaseAppCompatActivity() {
                         Handler().postDelayed({
 
                             if (sharedPreferences.isLogin()) {
+
                                 if (sharedPreferences.getPasswordChangeRequired() == true) {
                                     ResetPasswordActivity.start(this)
                                 } else {
@@ -229,4 +235,5 @@ class SplashScreen : BaseAppCompatActivity() {
                 .setNegativeButton("Cancel") { paramDialogInterface, paramInt -> finish() }
         dialog.show()
     }
+
 }

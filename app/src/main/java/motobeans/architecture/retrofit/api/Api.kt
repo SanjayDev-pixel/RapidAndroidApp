@@ -138,4 +138,8 @@ interface Api {
     @GET("api/v1/loan/application/applicant/personal/detail/{leadID}")
     fun getApplicantKycList(@Path("leadID") leadId: String) : Observable<Response.ResponseApplicantKycList>
 
+    @GET("api/v1/loan/application/search/")
+    fun getReport(@Query("screenName") screenName: String , @Query("searchKey") searchKey: String) : Observable<Response.ResponseApplicationReport>
+
+
 }
